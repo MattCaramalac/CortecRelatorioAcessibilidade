@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Relatorio Acessibilidade Cortec</string>
+    <string name="header">Cadastro Instituição</string>
+    <string name="label_school">Nome da Instituição</string>
+    <string name="label_city_school">Nome da Cidade</string>
+    <string name="label_responsible">Nome do(a) Diretor(a) ou Responsável</string>
+    <string name="label_total_students">Total de Estudantes</string>
+    <string name="label_total_students_pcd">Estudantes PcD</string>
+    <string name="label_total_workers">Total de Funcionários</string>
+    <string name="label_total_workers_pcd">Funcionários PcD</string>
+    <string name="label_total_workers_libras">Funcionários Capacitados Libras</string>
+    <string name="label_date_inspection">Data de Inspeção</string>
+</resources>
