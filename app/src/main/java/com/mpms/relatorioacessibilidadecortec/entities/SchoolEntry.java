@@ -5,8 +5,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.sql.Date;
-
 @Entity
 public class SchoolEntry {
 
@@ -23,7 +21,7 @@ public class SchoolEntry {
     private String nameCity;
 
     @NonNull
-    private Date dateInspection;
+    private Long dateInspection;
 
     @NonNull
     private Integer numberStudents;
@@ -76,11 +74,11 @@ public class SchoolEntry {
     }
 
     @NonNull
-    public Date getDateInspection() {
+    public Long getDateInspection() {
         return dateInspection;
     }
 
-    public void setDateInspection(@NonNull Date dateInspection) {
+    public void setDateInspection(@NonNull Long dateInspection) {
         this.dateInspection = dateInspection;
     }
 
@@ -130,12 +128,12 @@ public class SchoolEntry {
     }
 
     public SchoolEntry(@NonNull String schoolName, @NonNull String nameDirector, @NonNull String nameCity,
-                       @NonNull Date dateInspection, @NonNull Integer numberStudents, @NonNull Integer numberStudentsPcd,
+                       @NonNull Long dateInspection, @NonNull Integer numberStudents, @NonNull Integer numberStudentsPcd,
                        @NonNull Integer numberWorkers, @NonNull Integer numberWorkersLibras, @NonNull Integer numberWorkersPcd) {
         this.schoolName = schoolName;
         this.nameDirector = nameDirector;
-        this.dateInspection = dateInspection;
         this.nameCity = nameCity;
+        this.dateInspection = dateInspection;
         this.numberStudents = numberStudents;
         this.numberStudentsPcd = numberStudentsPcd;
         this.numberWorkers = numberWorkers;
