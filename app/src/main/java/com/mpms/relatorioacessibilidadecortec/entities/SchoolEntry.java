@@ -20,6 +20,9 @@ public class SchoolEntry {
     private String nameDirector;
 
     @NonNull
+    private String nameCity;
+
+    @NonNull
     private Date dateInspection;
 
     @NonNull
@@ -61,6 +64,15 @@ public class SchoolEntry {
 
     public void setNameDirector(@NonNull String nameDirector) {
         this.nameDirector = nameDirector;
+    }
+
+    @NonNull
+    public String getNameCity() {
+        return nameCity;
+    }
+
+    public void setNameCity(@NonNull String nameCity) {
+        this.nameCity = nameCity;
     }
 
     @NonNull
@@ -117,16 +129,13 @@ public class SchoolEntry {
         this.numberWorkersPcd = numberWorkersPcd;
     }
 
-    public SchoolEntry() {
-    }
-
-    public SchoolEntry(Integer cadID, @NonNull String schoolName, @NonNull String nameDirector,
+    public SchoolEntry(@NonNull String schoolName, @NonNull String nameDirector, @NonNull String nameCity,
                        @NonNull Date dateInspection, @NonNull Integer numberStudents, @NonNull Integer numberStudentsPcd,
                        @NonNull Integer numberWorkers, @NonNull Integer numberWorkersLibras, @NonNull Integer numberWorkersPcd) {
-        this.cadID = cadID;
         this.schoolName = schoolName;
         this.nameDirector = nameDirector;
         this.dateInspection = dateInspection;
+        this.nameCity = nameCity;
         this.numberStudents = numberStudents;
         this.numberStudentsPcd = numberStudentsPcd;
         this.numberWorkers = numberWorkers;
