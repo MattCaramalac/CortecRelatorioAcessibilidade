@@ -21,7 +21,7 @@ public class SchoolEntry {
     private String nameCity;
 
     @NonNull
-    private Long dateInspection;
+    private String dateInspection;
 
     @NonNull
     private Integer numberStudents;
@@ -44,6 +44,10 @@ public class SchoolEntry {
     @NonNull
     public Integer getCadID() {
         return cadID;
+    }
+
+    public void setCadID(@NonNull Integer cadID) {
+        this.cadID = cadID;
     }
 
     @NonNull
@@ -74,11 +78,11 @@ public class SchoolEntry {
     }
 
     @NonNull
-    public Long getDateInspection() {
+    public String getDateInspection() {
         return dateInspection;
     }
 
-    public void setDateInspection(@NonNull Long dateInspection) {
+    public void setDateInspection(@NonNull String dateInspection) {
         this.dateInspection = dateInspection;
     }
 
@@ -128,7 +132,7 @@ public class SchoolEntry {
     }
 
     public SchoolEntry(@NonNull String schoolName, @NonNull String nameDirector, @NonNull String nameCity,
-                       @NonNull Long dateInspection, @NonNull Integer numberStudents, @NonNull Integer numberStudentsPcd,
+                       @NonNull String dateInspection, @NonNull Integer numberStudents, @NonNull Integer numberStudentsPcd,
                        @NonNull Integer numberWorkers, @NonNull Integer numberWorkersLibras, @NonNull Integer numberWorkersPcd) {
         this.schoolName = schoolName;
         this.nameDirector = nameDirector;

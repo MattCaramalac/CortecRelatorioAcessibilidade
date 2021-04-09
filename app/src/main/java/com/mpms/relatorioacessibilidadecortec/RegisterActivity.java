@@ -1,23 +1,27 @@
 package com.mpms.relatorioacessibilidadecortec;
 
 import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
+import java.time.*;
+import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    TextInputEditText chosenDate = findViewById(R.id.date_inspection_value);
+    public LocalDate chosenDate = null;
+    public String chosenDateOldVersion = null;
+
+    TextInputEditText dateInspectionText = findViewById(R.id.date_inspection_value);
     TextInputEditText nameSchool = findViewById(R.id.name_school_text);
     TextInputEditText nameCity = findViewById(R.id.name_city_text);
     TextInputEditText nameResponsible = findViewById(R.id.name_responsible_text);
@@ -46,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         saveButton = findViewById(R.id.saveButton);
 
-        chosenDate.setOnClickListener(v -> showDatePicker());
+        dateInspectionText.setOnClickListener(v -> showDatePicker());
 
         saveButton.setOnClickListener(v -> {
             int correctEntry = verifyErrors();
@@ -61,8 +65,14 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds()).build();
         datePickerDialog.show(getSupportFragmentManager(), "DATE_PICKER");
 
-        datePickerDialog.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener)
-                selection -> chosenDate.setText(datePickerDialog.getHeaderText()));
+        datePickerDialog.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @Override
+            public void onPositiveButtonClick(Long selection) {
+                dateInspectionText.setText(dateToString(selection));
+            }
+        });
+//        datePickerDialog.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener)
+//                selection -> chosenDate.setText(datePickerDialog.getHeaderText()));
     }
 
     @Override
@@ -85,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             responsibleField.setError(getString(R.string.blank_field_error));
             i++;
         }
-        if (TextUtils.isEmpty(chosenDate.getText())) {
+        if (TextUtils.isEmpty(dateInspectionText.getText())) {
             dateField.setError(getString(R.string.blank_field_error));
             i++;
         }
@@ -113,5 +123,24 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         totWorkersPcd.setError(null);
         totWorkersLibras.setError(null);
         dateField.setError(null);
+    }
+
+    public String dateToString(Long dateLong) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            chosenDate = Instant.ofEpochMilli(dateLong).atZone(ZoneId.systemDefault()).toLocalDate();
+            return chosenDate.getDayOfMonth() +"/"+ chosenDate.getMonthValue() +"/"+ chosenDate.getYear();
+        } else {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(dateLong);
+            chosenDateOldVersion = calendar.YEAR +"-"+ lessThanTen((calendar.MONTH + 1))  +"-"+ lessThanTen(calendar.DAY_OF_MONTH);
+            return calendar.DAY_OF_MONTH + "/" + calendar.MONTH + 1 + "/" + calendar.YEAR;
+        }
+    }
+
+    public String lessThanTen(int number){
+        if (number < 10)
+            return "0"+number;
+        else
+            return Integer.toString(number);
     }
 }
