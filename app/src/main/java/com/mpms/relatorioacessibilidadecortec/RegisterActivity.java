@@ -7,33 +7,35 @@ import android.widget.Button;
 import android.widget.DatePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    TextInputEditText chosenDate;
-    TextInputEditText nameSchool;
-    TextInputEditText nameCity;
-    TextInputEditText nameResponsible;
-    TextInputEditText totalStudents;
-    TextInputEditText totalStudentsPcd;
-    TextInputEditText totalWorkers;
-    TextInputEditText totalWorkersPcd;
-    TextInputEditText totalWorkersLibras;
+    TextInputEditText chosenDate = findViewById(R.id.date_inspection_value);
+    TextInputEditText nameSchool = findViewById(R.id.name_school_text);
+    TextInputEditText nameCity = findViewById(R.id.name_city_text);
+    TextInputEditText nameResponsible = findViewById(R.id.name_responsible_text);
+    TextInputEditText totalStudents = findViewById(R.id.total_students_text);
+    TextInputEditText totalStudentsPcd = findViewById(R.id.students_pcd_text);
+    TextInputEditText totalWorkers = findViewById(R.id.total_workers_text);
+    TextInputEditText totalWorkersPcd = findViewById(R.id.workers_pcd_text);
+    TextInputEditText totalWorkersLibras = findViewById(R.id.workers_libras_text);
 
-    TextInputLayout schoolField;
-    TextInputLayout cityField;
-    TextInputLayout responsibleField;
-    TextInputLayout totStudentsField;
-    TextInputLayout totStudentsPcd;
-    TextInputLayout totWorkersField;
-    TextInputLayout totWorkersPcd;
-    TextInputLayout totWorkersLibras;
-    TextInputLayout dateField;
+    TextInputLayout schoolField = findViewById(R.id.name_school);
+    TextInputLayout cityField = findViewById(R.id.name_city_school);
+    TextInputLayout responsibleField = findViewById(R.id.name_responsible);
+    TextInputLayout totStudentsField = findViewById(R.id.total_students);
+    TextInputLayout totStudentsPcd = findViewById(R.id.total_students_pcd);
+    TextInputLayout totWorkersField = findViewById(R.id.total_workers);
+    TextInputLayout totWorkersPcd = findViewById(R.id.total_workers_pcd);
+    TextInputLayout totWorkersLibras = findViewById(R.id.total_workers_libras);
+    TextInputLayout dateField = findViewById(R.id.date_inspection);
 
     Button saveButton;
 
@@ -41,26 +43,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_register);
-
-        chosenDate = findViewById(R.id.date_inspection_value);
-        nameSchool = findViewById(R.id.name_school_text);
-        nameCity = findViewById(R.id.name_city_text);
-        nameResponsible = findViewById(R.id.name_responsible_text);
-        totalStudents = findViewById(R.id.total_students_text);
-        totalStudentsPcd = findViewById(R.id.students_pcd_text);
-        totalWorkers = findViewById(R.id.total_workers_text);
-        totalWorkersPcd = findViewById(R.id.workers_pcd_text);
-        totalWorkersLibras = findViewById(R.id.workers_libras_text);
-
-        schoolField = findViewById(R.id.name_school);
-        cityField = findViewById(R.id.name_city_school);
-        responsibleField = findViewById(R.id.name_responsible);
-        totStudentsField = findViewById(R.id.total_students);
-        totStudentsPcd = findViewById(R.id.total_students_pcd);
-        totWorkersField = findViewById(R.id.total_workers);
-        totWorkersPcd = findViewById(R.id.total_workers_pcd);
-        totWorkersLibras = findViewById(R.id.total_workers_libras);
-        dateField = findViewById(R.id.date_inspection);
 
         saveButton = findViewById(R.id.saveButton);
 
@@ -111,31 +93,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         if (TextUtils.isEmpty(totalStudents.getText())) {
             totStudentsField.setError(getString(R.string.blank_field_error));
             i++;
-        } else if (!TextUtils.isDigitsOnly(totalStudents.getText().toString())) {
-            totStudentsField.setError(getString(R.string.wrong_input_error));
-            i++;
-        }
-
-        if (!TextUtils.isDigitsOnly(totalStudentsPcd.getText().toString())) {
-            totStudentsPcd.setError(getString(R.string.wrong_input_error));
-            i++;
         }
 
         if (TextUtils.isEmpty(totalWorkers.getText())) {
             totWorkersField.setError(getString(R.string.blank_field_error));
-            i++;
-        } else if (!TextUtils.isDigitsOnly(totalWorkers.getText().toString())) {
-            totStudentsField.setError(getString(R.string.wrong_input_error));
-            i++;
-        }
-
-        if (!TextUtils.isDigitsOnly(totalWorkersPcd.getText().toString())) {
-            totWorkersPcd.setError(getString(R.string.wrong_input_error));
-            i++;
-        }
-
-        if (!TextUtils.isDigitsOnly(totalWorkersLibras.getText().toString())) {
-            totWorkersLibras.setError(getString(R.string.wrong_input_error));
             i++;
         }
 
@@ -143,7 +104,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     }
 
     public void clearErrors() {
-
         schoolField.setError(null);
         cityField.setError(null);
         responsibleField.setError(null);

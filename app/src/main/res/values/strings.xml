@@ -10,4 +10,9 @@
     <string name="label_total_workers_pcd">Funcionários PcD</string>
     <string name="label_total_workers_libras">Funcionários Capacitados Libras</string>
     <string name="label_date_inspection">Data de Inspeção</string>
+
+    <string name="label_save_button">Salvar Cadastro</string>
+
+    <string name="blank_field_error">Este campo não pode ser vazio</string>
+    <string name="wrong_input_error">Este campo só aceita números</string>
 </resources>
