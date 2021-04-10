@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.data.ReportDatabase;
 
 import java.util.List;
 

@@ -14,15 +14,20 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public LocalDate chosenDate = null;
     public String chosenDateOldVersion = null;
+
+    private ViewModelEntry viewModelEntry;
 
     TextInputEditText dateInspectionText;
     TextInputEditText nameSchool;
@@ -50,6 +55,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_register);
+
+        viewModelEntry = new ViewModelProvider.AndroidViewModelFactory(RegisterActivity.this.getApplication()).create(ViewModelEntry.class);
 
         //Só podem ser iniciados DENTRO do onCreate, caso contrário não foi selecionada ainda a View
         //E acaba causando um apontamento para algo nulo (já que não tem View selecioada para ser achada
@@ -80,8 +87,14 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         saveButton.setOnClickListener(v -> {
             int correctEntry = verifyErrors();
-            if (correctEntry == 0)
+            if (correctEntry == 0) {
+                SchoolEntry newEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
+                        nameCity.getText().toString(), chosenDate.toString(), Integer.parseInt(totalStudents.getText().toString()),
+                        Integer.parseInt(totalStudentsPcd.getText().toString()),Integer.parseInt(totalWorkers.getText().toString()),
+                        Integer.parseInt(totalStudentsPcd.getText().toString()),Integer.parseInt(totalWorkersLibras.getText().toString()));
+                viewModelEntry.insert(newEntry);
                 finish();
+            }
         });
     }
 
