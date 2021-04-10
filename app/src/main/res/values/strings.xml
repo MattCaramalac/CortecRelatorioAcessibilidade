@@ -13,6 +13,6 @@
 
     <string name="label_save_button">Salvar Cadastro</string>
 
-    <string name="blank_field_error">Este campo não pode ser vazio</string>
+    <string name="blank_field_error">Este campo não pode ficar em branco</string>
     <string name="wrong_input_error">Este campo só aceita números</string>
 </resources>
