@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Relatorio Acessibilidade Cortec</string>
+    <string name="app_name">Relatório Acessibilidade Cortec</string>
     <string name="header">Cadastro Instituição</string>
     <string name="label_school">Nome da Instituição</string>
     <string name="label_city_school">Nome da Cidade</string>
@@ -11,8 +11,12 @@
     <string name="label_total_workers_libras">Funcionários Capacitados Libras</string>
     <string name="label_date_inspection">Data de Inspeção</string>
 
-    <string name="label_save_button">Salvar Cadastro</string>
+    <string name="label_save_close_button">Finalizar Cadastro</string>
+    <string name="label_save_continue_button">Salvar e Continuar</string>
+    <string name="label_cancel_button">Cancelar</string>
 
     <string name="blank_field_error">Este campo não pode ficar em branco</string>
     <string name="wrong_input_error">Este campo só aceita números</string>
+
+    <string name="reg_activity_label">Cadastro da Instituição</string>
 </resources>

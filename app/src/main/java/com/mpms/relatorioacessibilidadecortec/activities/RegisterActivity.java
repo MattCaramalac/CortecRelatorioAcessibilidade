@@ -1,17 +1,13 @@
-package com.mpms.relatorioacessibilidadecortec;
+package com.mpms.relatorioacessibilidadecortec.activities;
 
 import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.DatePicker;
 import java.time.*;
-import java.time.zone.ZoneRules;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,15 +15,17 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    public LocalDate chosenDate = null;
-    public String chosenDateOldVersion = null;
+    public LocalDate chosenDate;
+    public String chosenDateOldVersion;
 
-    private ViewModelEntry viewModelEntry;
+//    private ViewModelEntry viewModelEntry;
+//    Como insert é um método static, não precisa ser criado um objeto ViewModelEntry para acessar
 
     TextInputEditText dateInspectionText;
     TextInputEditText nameSchool;
@@ -49,17 +47,16 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     TextInputLayout totWorkersLibras;
     TextInputLayout dateField;
 
-    Button saveButton;
+    Button saveCloseButton;
+    Button saveContinueButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_register);
 
-        viewModelEntry = new ViewModelProvider.AndroidViewModelFactory(RegisterActivity.this.getApplication()).create(ViewModelEntry.class);
-
         //Só podem ser iniciados DENTRO do onCreate, caso contrário não foi selecionada ainda a View
-        //E acaba causando um apontamento para algo nulo (já que não tem View selecioada para ser achada
+        //E acaba causando um apontamento para algo nulo (já que não tem View selecioada para ser achada)
 
         dateInspectionText = findViewById(R.id.date_inspection_value);
         nameSchool = findViewById(R.id.name_school_text);
@@ -81,19 +78,29 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         totWorkersLibras = findViewById(R.id.total_workers_libras);
         dateField = findViewById(R.id.date_inspection);
 
-        saveButton = findViewById(R.id.saveButton);
+        saveCloseButton = findViewById(R.id.saveCloseButton);
+        saveContinueButton = findViewById(R.id.saveContinueButton);
 
         dateInspectionText.setOnClickListener(v -> showDatePicker());
 
-        saveButton.setOnClickListener(v -> {
+        saveCloseButton.setOnClickListener(v -> {
             int correctEntry = verifyErrors();
             if (correctEntry == 0) {
-                SchoolEntry newEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
-                        nameCity.getText().toString(), chosenDate.toString(), Integer.parseInt(totalStudents.getText().toString()),
-                        Integer.parseInt(totalStudentsPcd.getText().toString()),Integer.parseInt(totalWorkers.getText().toString()),
-                        Integer.parseInt(totalStudentsPcd.getText().toString()),Integer.parseInt(totalWorkersLibras.getText().toString()));
-                viewModelEntry.insert(newEntry);
+                SchoolEntry newEntry;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    newEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
+                            nameCity.getText().toString(), chosenDate.toString(), Integer.parseInt(totalStudents.getText().toString()),
+                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkers.getText().toString()),
+                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkersLibras.getText().toString()));
+                } else {
+                    newEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
+                            nameCity.getText().toString(), chosenDateOldVersion, Integer.parseInt(totalStudents.getText().toString()),
+                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkers.getText().toString()),
+                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkersLibras.getText().toString()));
+                }
+                ViewModelEntry.insert(newEntry);
                 finish();
+
             }
         });
     }
@@ -153,15 +160,15 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     }
 
     public void clearErrors() {
-        schoolField.setError(null);
-        cityField.setError(null);
-        responsibleField.setError(null);
-        totStudentsField.setError(null);
-        totStudentsPcd.setError(null);
-        totWorkersField.setError(null);
-        totWorkersPcd.setError(null);
-        totWorkersLibras.setError(null);
-        dateField.setError(null);
+        schoolField.setErrorEnabled(false);
+        cityField.setErrorEnabled(false);
+        responsibleField.setErrorEnabled(false);
+        totStudentsField.setErrorEnabled(false);
+        totStudentsPcd.setErrorEnabled(false);
+        totWorkersField.setErrorEnabled(false);
+        totWorkersPcd.setErrorEnabled(false);
+        totWorkersLibras.setErrorEnabled(false);
+        dateField.setErrorEnabled(false);
     }
 
     public String dateToString(Long dateLong) {

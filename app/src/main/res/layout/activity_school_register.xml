@@ -4,33 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".activities.RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/header"
-            android:textAlignment="center"
-            android:textSize="36sp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/header"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textSize="36sp"-->
+<!--            android:layout_marginTop="16dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.0"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.0" />-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_school"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:layout_constraintTop_toBottomOf="@id/textView"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:hint="@string/label_school"
@@ -219,16 +220,27 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+
+
         <Button
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
+            android:id="@+id/saveCloseButton"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/date_inspection"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_margin="16dp"
+            android:text="@string/label_save_close_button"/>
+
+        <Button
+            android:id="@+id/saveContinueButton"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@id/saveCloseButton"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:text="@string/label_save_button"/>
-
+            android:layout_margin="16dp"
+            android:text="@string/label_save_continue_button"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
