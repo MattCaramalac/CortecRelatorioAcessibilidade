@@ -16,6 +16,6 @@ public interface SchoolEntryDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     void insertEntry(SchoolEntry schoolEntry);
 
-    @Query("SELECT * FROM SchoolEntry ORDER BY schoolName ASC")
+    @Query("SELECT * FROM SchoolEntry ORDER BY cadID DESC")
     LiveData<List<SchoolEntry>> getAllEntries();
 }
