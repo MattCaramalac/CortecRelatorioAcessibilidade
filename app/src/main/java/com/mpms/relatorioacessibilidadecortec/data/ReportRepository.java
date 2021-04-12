@@ -12,6 +12,7 @@ import java.util.List;
 public class ReportRepository {
     private SchoolEntryDao schoolEntryDao;
     private LiveData<List<SchoolEntry>> allEntries;
+    private LiveData<SchoolEntry> getEntry;
 
     public ReportRepository(Application application) {
         ReportDatabase db = ReportDatabase.getDatabase(application);
@@ -21,10 +22,24 @@ public class ReportRepository {
     }
 
     public LiveData<List<SchoolEntry>> getAllEntries() {
-        return allEntries;
+        return schoolEntryDao.getAllEntries();
     }
+
+    public LiveData<SchoolEntry> getEntry(int cadID) { return schoolEntryDao.getEntry(cadID); }
 
     public void insert(SchoolEntry schoolEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.insertEntry(schoolEntry));
+    }
+
+    public void update(SchoolEntry schoolEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.update(schoolEntry));
+    }
+
+    public void deleteOne(SchoolEntry schoolEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.deleteOne(schoolEntry));
+    }
+
+    public void deleteAll() {
+        ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.deleteAll());
     }
 }
