@@ -15,6 +15,7 @@
     <string name="label_save_continue_button">Salvar e Continuar</string>
     <string name="label_cancel_button">Cancelar</string>
     <string name="label_add_description">Adicionar Cadastro</string>
+    <string name="label_update_register">Atualizar Cadastro</string>
 
     <string name="blank_field_error">Este campo não pode ficar em branco</string>
     <string name="wrong_input_error">Este campo só aceita números</string>

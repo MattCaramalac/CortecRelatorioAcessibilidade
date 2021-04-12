@@ -24,6 +24,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnEntryClickListener {
 
+    public static final String UPDATE_REQUEST = "UPDATE_REQUEST";
     //    private static final int MAIN_ACTIVITY_REQ_CODE = 1;
     private ViewModelEntry viewModelEntry;
     private RecyclerView recyclerView;
@@ -60,6 +61,10 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
     @Override
     public void OnEntryClick(int position) {
         SchoolEntry schoolEntry = viewModelEntry.getAllEntries().getValue().get(position);
-        Log.d("TAG", "onClick: "+ schoolEntry.getSchoolName());
+
+        Intent updateIntent = new Intent(MainActivity.this, RegisterActivity.class);
+        updateIntent.putExtra(UPDATE_REQUEST, schoolEntry.getCadID());
+        startActivity(updateIntent);
+//        Log.d("TAG", "onClick: "+ schoolEntry.getSchoolName());
     }
 }

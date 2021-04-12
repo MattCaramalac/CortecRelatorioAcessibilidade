@@ -4,13 +4,13 @@ import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import java.time.*;
 import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
@@ -19,10 +19,12 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
+//      TODO - Estudar para usar Fragments no lugar de Activities - Garante melhor Design em Tablets + diminui gasto de memória
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public LocalDate chosenDate;
     public String chosenDateOldVersion;
+    private int cadID = 0;
 
 //    private ViewModelEntry viewModelEntry;
 //    Como insert é um método static, não precisa ser criado um objeto ViewModelEntry para acessar
@@ -49,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     Button saveCloseButton;
     Button saveContinueButton;
+    Button updateEntryButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +83,34 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         saveCloseButton = findViewById(R.id.saveCloseButton);
         saveContinueButton = findViewById(R.id.saveContinueButton);
+        updateEntryButton = findViewById(R.id.updateButton);
+
+        //Usar mesmo Activity para cadastro e update. Preenche os campos com as informações da DB
+        if (getIntent().hasExtra(MainActivity.UPDATE_REQUEST)) {
+            saveCloseButton.setVisibility(View.GONE);
+            saveContinueButton.setVisibility(View.GONE);
+
+            cadID = getIntent().getIntExtra(MainActivity.UPDATE_REQUEST, 0);
+            ViewModelEntry gatherInfo = new ViewModelEntry(RegisterActivity.this.getApplication());
+            gatherInfo.getEntry(cadID).observe(this, schoolEntry -> {
+                nameSchool.setText(schoolEntry.getSchoolName());
+                nameResponsible.setText(schoolEntry.getNameDirector());
+                nameCity.setText(schoolEntry.getNameCity());
+                totalStudents.setText(Integer.toString(schoolEntry.getNumberStudents()));
+                totalStudentsPcd.setText(Integer.toString(schoolEntry.getNumberStudentsPcd()));
+                totalWorkers.setText(Integer.toString(schoolEntry.getNumberWorkers()));
+                totalWorkersPcd.setText(Integer.toString(schoolEntry.getNumberWorkersPcd()));
+                totalWorkersLibras.setText(Integer.toString(schoolEntry.getNumberWorkersLibras()));
+                dateInspectionText.setText(schoolEntry.getDateInspection());
+            });
+        } else {
+            updateEntryButton.setVisibility(View.GONE);
+        }
 
         dateInspectionText.setOnClickListener(v -> showDatePicker());
 
         saveCloseButton.setOnClickListener(v -> {
-            int correctEntry = verifyErrors();
-            if (correctEntry == 0) {
+            if (verifyErrors()) {
                 SchoolEntry newEntry;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     newEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
@@ -103,8 +128,31 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
             }
         });
+
+        updateEntryButton.setOnClickListener( v -> {
+            if (verifyErrors()) {
+                SchoolEntry updateEntry;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    updateEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
+                            nameCity.getText().toString(), chosenDate.toString(), Integer.parseInt(totalStudents.getText().toString()),
+                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkers.getText().toString()),
+                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkersLibras.getText().toString()));
+                } else {
+                    updateEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
+                            nameCity.getText().toString(), chosenDateOldVersion, Integer.parseInt(totalStudents.getText().toString()),
+                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkers.getText().toString()),
+                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkersLibras.getText().toString()));
+                }
+                updateEntry.setCadID(cadID);
+                ViewModelEntry.update(updateEntry);
+                finish();
+
+            }
+
+        });
     }
 
+//  TODO - Refazer a forma de captar e armazenar datas para manter integridade
     private void showDatePicker (){
         MaterialDatePicker<Long> datePickerDialog = MaterialDatePicker.Builder
                 .datePicker().setTitleText("Data de Inspeção").setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
@@ -126,7 +174,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     }
 
-    public int verifyErrors() {
+    public boolean verifyErrors() {
         clearErrors();
         int i = 0;
         if (TextUtils.isEmpty(nameSchool.getText())) {
@@ -156,7 +204,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             i++;
         }
 
-        return i;
+        return i <= 0;
     }
 
     public void clearErrors() {

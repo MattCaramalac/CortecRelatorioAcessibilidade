@@ -27,6 +27,7 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<SchoolEntry> getEntry(int cadID) { return repository.getEntry(cadID); }
 
     public static void insert(SchoolEntry schoolEntry) { repository.insert(schoolEntry); }
+    public static void update(SchoolEntry schoolEntry) { repository.update(schoolEntry); }
     public static void deleteOne(SchoolEntry schoolEntry) { repository.deleteOne(schoolEntry); }
     public static void deleteAll() { repository.deleteAll(); }
 }
