@@ -4,9 +4,13 @@ import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Toast;
+
 import java.time.*;
 import java.util.Calendar;
 
@@ -23,7 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public LocalDate chosenDate;
-    public String chosenDateOldVersion;
+//    public String chosenDateOldVersion;
     private int cadID = 0;
 
 //    private ViewModelEntry viewModelEntry;
@@ -101,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 totalWorkers.setText(Integer.toString(schoolEntry.getNumberWorkers()));
                 totalWorkersPcd.setText(Integer.toString(schoolEntry.getNumberWorkersPcd()));
                 totalWorkersLibras.setText(Integer.toString(schoolEntry.getNumberWorkersLibras()));
-                dateInspectionText.setText(schoolEntry.getDateInspection());
+                dateInspectionText.setText(dateDatabaseToRegister(schoolEntry.getDateInspection()));
             });
         } else {
             updateEntryButton.setVisibility(View.GONE);
@@ -111,42 +115,33 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         saveCloseButton.setOnClickListener(v -> {
             if (verifyErrors()) {
-                SchoolEntry newEntry;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    newEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
-                            nameCity.getText().toString(), chosenDate.toString(), Integer.parseInt(totalStudents.getText().toString()),
-                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkers.getText().toString()),
-                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkersLibras.getText().toString()));
-                } else {
-                    newEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
-                            nameCity.getText().toString(), chosenDateOldVersion, Integer.parseInt(totalStudents.getText().toString()),
-                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkers.getText().toString()),
-                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkersLibras.getText().toString()));
-                }
+                setEmptyAmountToZero();
+                  SchoolEntry newEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
+                            nameCity.getText().toString(), stringToDate(dateInspectionText.getText().toString()),
+                            Integer.parseInt(totalStudents.getText().toString()), Integer.parseInt(totalStudentsPcd.getText().toString()),
+                            Integer.parseInt(totalWorkers.getText().toString()), Integer.parseInt(totalWorkersLibras.getText().toString()),
+                            Integer.parseInt(totalWorkersPcd.getText().toString()));
                 ViewModelEntry.insert(newEntry);
                 finish();
 
             }
         });
 
+        saveContinueButton.setOnClickListener(v -> {
+            Toast.makeText(this, "Função a ser Implementada", Toast.LENGTH_LONG).show();
+        });
+
         updateEntryButton.setOnClickListener( v -> {
             if (verifyErrors()) {
-                SchoolEntry updateEntry;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    updateEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
-                            nameCity.getText().toString(), chosenDate.toString(), Integer.parseInt(totalStudents.getText().toString()),
+                setEmptyAmountToZero();
+                SchoolEntry updateEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
+                            nameCity.getText().toString(), stringToDate(dateInspectionText.getText().toString()),
+                            Integer.parseInt(totalStudents.getText().toString()),
                             Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkers.getText().toString()),
-                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkersLibras.getText().toString()));
-                } else {
-                    updateEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
-                            nameCity.getText().toString(), chosenDateOldVersion, Integer.parseInt(totalStudents.getText().toString()),
-                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkers.getText().toString()),
-                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkersLibras.getText().toString()));
-                }
+                            Integer.parseInt(totalWorkersLibras.getText().toString()), Integer.parseInt(totalWorkersPcd.getText().toString()));
                 updateEntry.setCadID(cadID);
                 ViewModelEntry.update(updateEntry);
                 finish();
-
             }
 
         });
@@ -189,10 +184,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             responsibleField.setError(getString(R.string.blank_field_error));
             i++;
         }
-        if (TextUtils.isEmpty(dateInspectionText.getText())) {
-            dateField.setError(getString(R.string.blank_field_error));
-            i++;
-        }
+//        if (TextUtils.isEmpty(dateInspectionText.getText())) {
+//            dateField.setError(getString(R.string.blank_field_error));
+//            i++;
+//        }
 
         if (TextUtils.isEmpty(totalStudents.getText())) {
             totStudentsField.setError(getString(R.string.blank_field_error));
@@ -221,15 +216,23 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     public String dateToString(Long dateLong) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            systemDefault()
             chosenDate = Instant.ofEpochMilli(dateLong).atZone(ZoneId.of("Z")).toLocalDate();
             return lessThanTen(chosenDate.getDayOfMonth()) +"/"+ lessThanTen(chosenDate.getMonthValue()) +"/"+ chosenDate.getYear();
         } else {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(dateLong);
-            chosenDateOldVersion = calendar.YEAR +"-"+ lessThanTen((calendar.MONTH + 1))  +"-"+ lessThanTen(calendar.DAY_OF_MONTH);
             return lessThanTen(calendar.DAY_OF_MONTH) + "/" + lessThanTen((calendar.MONTH + 1)) + "/" + calendar.YEAR;
         }
+    }
+
+    public String stringToDate(String date) {
+        String[] dividedString = date.split("/");
+        return dividedString[2] + "-" + dividedString[1] + "-" + dividedString[0];
+    }
+
+    public String dateDatabaseToRegister (String date) {
+        String[] dividedString = date.split("-");
+        return dividedString[2] + "/" + dividedString[1] + "/" + dividedString[0];
     }
 
     public String lessThanTen(int number){
@@ -239,5 +242,15 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             return Integer.toString(number);
     }
 
-
+    public void setEmptyAmountToZero () {
+        Log.d("TAG", "setEmptyAmountToZero: " + totalStudentsPcd.getText().toString());
+        if (TextUtils.isEmpty(dateInspectionText.getText()))
+            dateInspectionText.setText("");
+        if (TextUtils.isEmpty(totalStudentsPcd.getText()))
+            totalStudentsPcd.setText("0");
+        if (TextUtils.isEmpty(totalWorkersPcd.getText()))
+            totalWorkersPcd.setText("0");
+        if (TextUtils.isEmpty(totalWorkersLibras.getText()))
+            totalWorkersLibras.setText("0");
+    }
 }
