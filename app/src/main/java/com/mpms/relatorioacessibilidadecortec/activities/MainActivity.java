@@ -39,13 +39,13 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        recyclerViewAdapter = new RecyclerViewAdapter(schoolEntryList,MainActivity.this);
+//        recyclerViewAdapter = new RecyclerViewAdapter(schoolEntryList,MainActivity.this, this);
 
         viewModelEntry = new ViewModelProvider.AndroidViewModelFactory(MainActivity.this.getApplication()).create(ViewModelEntry.class);
 
         viewModelEntry.getAllEntries().observe(this, schoolEntries -> {
 
-            recyclerViewAdapter = new RecyclerViewAdapter(schoolEntries,MainActivity.this, this::OnEntryClick);
+            recyclerViewAdapter = new RecyclerViewAdapter(schoolEntries,MainActivity.this, this);
             recyclerView.setAdapter(recyclerViewAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
             dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(MainActivity.this, R.drawable.abc_list_divider_material)));
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
 
     @Override
     public void OnEntryClick(int position) {
-        Log.d("TAG", "onClick: "+ position);
+        SchoolEntry schoolEntry = viewModelEntry.getAllEntries().getValue().get(position);
+        Log.d("TAG", "onClick: "+ schoolEntry.getSchoolName());
     }
 }

@@ -51,15 +51,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        OnEntryClickListener entryClickListener;
+        public OnEntryClickListener entryClickListener;
         public TextView nameSchool;
         public TextView nameCity;
 
         public ViewHolder(@NonNull View itemView, OnEntryClickListener entryClickListener) {
             super(itemView);
-            this.entryClickListener = entryClickListener;
             nameSchool = itemView.findViewById(R.id.schoolNameLayout);
             nameCity = itemView.findViewById(R.id.cityNameLayout);
+            this.entryClickListener = entryClickListener;
 
 
             itemView.setOnClickListener(this);
