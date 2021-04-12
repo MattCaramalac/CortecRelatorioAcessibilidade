@@ -1,6 +1,7 @@
 package com.mpms.relatorioacessibilidadecortec.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,17 +21,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<SchoolEntry> schoolEntryList;
     private Context context;
+    private OnEntryClickListener entryClickListener;
 
-    public RecyclerViewAdapter(List<SchoolEntry> schoolEntryList, Context context) {
+    public RecyclerViewAdapter(List<SchoolEntry> schoolEntryList, Context context, OnEntryClickListener entryClickListener) {
         this.schoolEntryList = schoolEntryList;
         this.context = context;
+        this.entryClickListener = entryClickListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.entries_layout, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, entryClickListener);
     }
 
     @Override
@@ -46,15 +49,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return Objects.requireNonNull(schoolEntryList).size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        OnEntryClickListener entryClickListener;
         public TextView nameSchool;
         public TextView nameCity;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnEntryClickListener entryClickListener) {
             super(itemView);
+            this.entryClickListener = entryClickListener;
             nameSchool = itemView.findViewById(R.id.schoolNameLayout);
             nameCity = itemView.findViewById(R.id.cityNameLayout);
+
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            entryClickListener.OnEntryClick(getAdapterPosition());
+
         }
     }
 }

@@ -2,6 +2,7 @@ package com.mpms.relatorioacessibilidadecortec.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RecyclerViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -20,7 +22,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnEntryClickListener {
 
     //    private static final int MAIN_ACTIVITY_REQ_CODE = 1;
     private ViewModelEntry viewModelEntry;
@@ -37,13 +39,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        recyclerViewAdapter = new RecyclerViewAdapter(schoolEntryList,MainActivity.this);
+//        recyclerViewAdapter = new RecyclerViewAdapter(schoolEntryList,MainActivity.this);
 
         viewModelEntry = new ViewModelProvider.AndroidViewModelFactory(MainActivity.this.getApplication()).create(ViewModelEntry.class);
 
         viewModelEntry.getAllEntries().observe(this, schoolEntries -> {
 
-            recyclerViewAdapter = new RecyclerViewAdapter(schoolEntries,MainActivity.this);
+            recyclerViewAdapter = new RecyclerViewAdapter(schoolEntries,MainActivity.this, this::OnEntryClick);
             recyclerView.setAdapter(recyclerViewAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
             dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(MainActivity.this, R.drawable.abc_list_divider_material)));
@@ -53,13 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab_register);
         fab.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RegisterActivity.class)));
+    }
 
-
-
-//        {
-//            startActivityForResult(new Intent(MainActivity.this, RegisterActivity.class), MAIN_ACTIVITY_REQ_CODE);
-//                });
-
-
+    @Override
+    public void OnEntryClick(int position) {
+        Log.d("TAG", "onClick: "+ position);
     }
 }
