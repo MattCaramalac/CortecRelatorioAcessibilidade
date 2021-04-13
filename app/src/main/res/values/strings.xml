@@ -1,24 +1,44 @@
 <resources>
     <string name="app_name">Relatório Acessibilidade Cortec</string>
-    <string name="header">Cadastro Instituição</string>
+
+    <string name="header">Cadastro da Instituição</string>
+
     <string name="label_school">Nome da Instituição</string>
     <string name="label_city_school">Nome da Cidade</string>
-    <string name="label_responsible">Nome do(a) Diretor(a) ou Responsável</string>
+    <string name="label_contact_phone1">Telefone Contato 1</string>
+    <string name="label_contact_phone2">Telefone Contato 2</string>
+    <string name="label_name_principal">Nome do(a) Diretor(a)</string>
+    <string name="label_name_responsible_visit">Nome do Acompanhante da Visita</string>
     <string name="label_total_students">Total de Estudantes</string>
     <string name="label_total_students_pcd">Estudantes PcD</string>
     <string name="label_total_workers">Total de Funcionários</string>
     <string name="label_total_workers_pcd">Funcionários PcD</string>
     <string name="label_total_workers_libras">Funcionários Capacitados Libras</string>
     <string name="label_date_inspection">Data de Inspeção</string>
+    <string name="label_adress">Endereço da Instituição</string>
+    <string name="label_neighborhood">Bairro</string>
+    <string name="label_number">Número</string>
+    <string name="label_complements">Complemento</string>
 
     <string name="label_save_close_button">Finalizar Cadastro</string>
     <string name="label_save_continue_button">Salvar e Continuar</string>
     <string name="label_cancel_button">Cancelar</string>
-    <string name="label_add_description">Adicionar Cadastro</string>
-    <string name="label_update_register">Atualizar Cadastro</string>
+    <string name="label_add_register_button">Adicionar Cadastro</string>
+    <string name="label_update_button">Atualizar Cadastro</string>
 
     <string name="blank_field_error">Este campo não pode ficar em branco</string>
     <string name="wrong_input_error">Este campo só aceita números</string>
 
-    <string name="reg_activity_label">Cadastro da Instituição</string>
+    <string name="working_hours">Horário de Funcionamento:</string>
+    <string name="offered_services">Serviços Prestados</string>
+    <string name="morning">Matutino: Das</string>
+    <string name="afternoon">Vespertino: Das</string>
+    <string name="evening">Noturno: Das</string>
+    <string name="to">às</string>
+    <string name="school_level1">Maternal</string>
+    <string name="school_level2">Pré-Escola</string>
+    <string name="school_level3">Fundamental I</string>
+    <string name="school_level4">Fundamental II</string>
+    <string name="school_level5">Ensino Médio</string>
+    <string name="students_ages">Idades Atendidas pela Instituição:</string>
 </resources>

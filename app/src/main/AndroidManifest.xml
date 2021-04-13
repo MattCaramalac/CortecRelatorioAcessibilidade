@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.RegisterActivity"
-            android:label="@string/reg_activity_label"/>
+            android:label="@string/header"/>
     </application>
 
 </manifest>

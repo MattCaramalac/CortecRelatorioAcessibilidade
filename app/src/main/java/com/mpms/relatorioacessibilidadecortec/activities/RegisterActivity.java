@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -68,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         dateInspectionText = findViewById(R.id.date_inspection_value);
         nameSchool = findViewById(R.id.name_school_text);
         nameCity = findViewById(R.id.name_city_text);
-        nameResponsible = findViewById(R.id.name_responsible_text);
+        nameResponsible = findViewById(R.id.name_principal_text);
         totalStudents = findViewById(R.id.total_students_text);
         totalStudentsPcd = findViewById(R.id.students_pcd_text);
         totalWorkers = findViewById(R.id.total_workers_text);
@@ -76,8 +75,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         totalWorkersLibras = findViewById(R.id.workers_libras_text);
 
         schoolField = findViewById(R.id.name_school);
-        cityField = findViewById(R.id.name_city_school);
-        responsibleField = findViewById(R.id.name_responsible);
+        cityField = findViewById(R.id.name_city);
+        responsibleField = findViewById(R.id.name_principal);
         totStudentsField = findViewById(R.id.total_students);
         totStudentsPcd = findViewById(R.id.total_students_pcd);
         totWorkersField = findViewById(R.id.total_workers);
