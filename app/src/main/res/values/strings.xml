@@ -38,10 +38,13 @@
     <string name="afternoon">Vespert.: Das</string>
     <string name="evening">Noturno: Das</string>
     <string name="to">às</string>
-    <string name="school_level1">Maternal</string>
-    <string name="school_level2">Pré-Escola</string>
-    <string name="school_level3">Fundamental I</string>
-    <string name="school_level4">Fundamental II</string>
-    <string name="school_level5">Ensino Médio</string>
+    <string name="school_level1">Maternal: Nível</string>
+    <string name="school_level2">Pré-Escola: Nível</string>
+    <string name="school_level3">Fundamental I:</string>
+    <string name="school_level4">Fundamental II:</string>
+    <string name="school_level5">Ensino Médio:</string>
+    <string name="school_EJA">E.J.A.: Nível</string>
+    <string name="school_grade">ano</string>
+    <string name="grade_o">º</string>
     <string name="students_ages">Idades Atendidas pela Instituição:</string>
 </resources>
