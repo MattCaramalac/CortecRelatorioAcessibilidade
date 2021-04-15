@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="time_field">75dp</dimen>
+    <dimen name="age_field">60dp</dimen>
+    <dimen name="margins">8dp</dimen>
+    <dimen name="top_margins">16dp</dimen>
+
+    <integer name="max_lenght_age">3</integer>
+    <integer name="max_lenght_hour">4</integer>
+    <integer name="max_length_date">8</integer>
+</resources>

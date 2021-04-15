@@ -13,12 +13,15 @@
     <string name="label_total_students_pcd">Estudantes PcD</string>
     <string name="label_total_workers">Total de Funcionários</string>
     <string name="label_total_workers_pcd">Funcionários PcD</string>
-    <string name="label_total_workers_libras">Funcionários Capacitados Libras</string>
-    <string name="label_date_inspection">Data de Inspeção</string>
+    <string name="label_total_workers_libras">Funcionários Libras</string>
+    <string name="label_date_inspection">Data Inspeção</string>
     <string name="label_adress">Endereço da Instituição</string>
+    <string name="label_visit_team">Membros da Equipe de Inspeção</string>
     <string name="label_neighborhood">Bairro</string>
     <string name="label_number">Número</string>
     <string name="label_complements">Complemento</string>
+    <string name="label_students_pcd_description">Deficiênicas e Impedimentos dos Alunos</string>
+    <string name="label_workers_pcd_description">Deficiênicas e Impedimentos Funcionários</string>
 
     <string name="label_save_close_button">Finalizar Cadastro</string>
     <string name="label_save_continue_button">Salvar e Continuar</string>
@@ -32,7 +35,7 @@
     <string name="working_hours">Horário de Funcionamento:</string>
     <string name="offered_services">Serviços Prestados</string>
     <string name="morning">Matutino: Das</string>
-    <string name="afternoon">Vespertino: Das</string>
+    <string name="afternoon">Vespert.: Das</string>
     <string name="evening">Noturno: Das</string>
     <string name="to">às</string>
     <string name="school_level1">Maternal</string>

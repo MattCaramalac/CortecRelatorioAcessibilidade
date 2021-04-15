@@ -8,14 +8,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margins">
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/name_school"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_marginTop="16dp"
             android:hint="@string/label_school"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,10 +29,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/school_adress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/label_adress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +50,7 @@
             android:id="@+id/linearlayout_adress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:baselineAligned="false"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,6 +58,7 @@
             app:layout_constraintTop_toBottomOf="@id/school_adress">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:id="@+id/complement"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -74,6 +76,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:id="@+id/number_building"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -92,10 +95,11 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/neighborhood"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/label_neighborhood"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -109,10 +113,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/name_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/label_city_school"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -126,10 +131,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/name_principal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/label_name_principal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -146,7 +152,7 @@
             android:id="@+id/linearlayout_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:baselineAligned="false"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -154,6 +160,7 @@
             app:layout_constraintTop_toBottomOf="@id/name_principal">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:id="@+id/contact_phone1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -166,11 +173,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/contact_phone1_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:id="@+id/contact_phone2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -189,10 +198,11 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/name_responsible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/label_name_responsible_visit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -205,16 +215,34 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/name_team_visit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/label_visit_team"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name_responsible">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/name_team_visit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <LinearLayout
             android:id="@+id/linearlayout_working_hours"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:baselineAligned="false"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_responsible">
+            app:layout_constraintTop_toBottomOf="@id/name_team_visit">
 
             <TextView
                 android:layout_width="match_parent"
@@ -248,8 +276,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:id="@+id/morning_start"
-                    android:layout_width="75dp"
+                    android:layout_width="@dimen/time_field"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:enabled="false"
@@ -261,7 +290,9 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/morning_start_hour"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="@integer/max_lenght_hour"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -277,8 +308,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:id="@+id/morning_end"
-                    android:layout_width="75dp"
+                    android:layout_width="@dimen/time_field"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:enabled="false"
@@ -290,7 +322,10 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/morning_end_hour"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="@integer/max_lenght_hour"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -321,8 +356,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:id="@+id/afternoon_start"
-                    android:layout_width="75dp"
+                    android:layout_width="@dimen/time_field"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:enabled="false"
@@ -334,7 +370,9 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/afternoon_start_hour"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="@integer/max_lenght_hour"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -350,8 +388,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:id="@+id/afternoon_end"
-                    android:layout_width="75dp"
+                    android:layout_width="@dimen/time_field"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:enabled="false"
@@ -363,7 +402,9 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/afternoon_end_hour"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="@integer/max_lenght_hour"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -394,8 +435,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:id="@+id/evening_start"
-                    android:layout_width="75dp"
+                    android:layout_width="@dimen/time_field"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:enabled="false"
@@ -407,7 +449,9 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/evening_start_hour"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="@integer/max_lenght_hour"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -423,8 +467,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                     android:id="@+id/evening_end"
-                    android:layout_width="75dp"
+                    android:layout_width="@dimen/time_field"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:enabled="false"
@@ -436,7 +481,10 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/evening_end_hour"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="@integer/max_lenght_hour" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -454,7 +502,7 @@
             android:id="@+id/offered_services_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:text="@string/offered_services"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -597,7 +645,7 @@
             android:id="@+id/offered_ages_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:text="@string/students_ages"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -607,10 +655,9 @@
         android:id="@+id/constraintlayout_offered_ages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/offered_ages_textView"
         app:layout_constraintTop_toBottomOf="@id/offered_ages_textView"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+>
 
         <TextView
             android:id="@+id/de"
@@ -624,10 +671,11 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/starting_age"
-            android:layout_width="50dp"
+            android:layout_width="@dimen/age_field"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/margins"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/de"
             app:layout_constraintTop_toTopOf="parent">
@@ -635,7 +683,11 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/starting_age_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/max_lenght_age"
+                android:textAlignment="center"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -652,10 +704,11 @@
             app:layout_constraintStart_toEndOf="@id/starting_age"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/last_age"
-            android:layout_width="50dp"
+            android:layout_width="@dimen/age_field"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/a"
             app:layout_constraintTop_toTopOf="parent">
@@ -663,7 +716,10 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/last_age_text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/max_lenght_age"
+                android:textAlignment="center"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -689,10 +745,11 @@
             app:layout_constraintTop_toBottomOf="@id/constraintlayout_offered_ages"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:baselineAligned="false">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:id="@+id/total_students"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -713,6 +770,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:id="@+id/total_students_pcd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -732,25 +790,43 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/description_pcd_students"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/linearlayout_students"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="@string/label_students_pcd_description"
+            android:layout_marginTop="@dimen/top_margins"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/description_pcd_students_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <LinearLayout
             android:id="@+id/linearlayout_workers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/linearlayout_students"
+            app:layout_constraintTop_toBottomOf="@id/description_pcd_students"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:baselineAligned="false">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:id="@+id/total_workers"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:layout_constraintTop_toBottomOf="@id/name_principal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/total_students_pcd"
                 android:hint="@string/label_total_workers"
                 android:layout_marginEnd="8dp"
                 >
@@ -764,6 +840,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:id="@+id/total_workers_pcd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -784,42 +861,72 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/total_workers_libras"
-            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/description_pcd_workers"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             app:layout_constraintTop_toBottomOf="@id/linearlayout_workers"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="@string/label_total_workers_libras"
+            android:hint="@string/label_workers_pcd_description"
+            android:layout_marginTop="@dimen/top_margins"
             >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/workers_libras_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/date_inspection"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/description_pcd_workers_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:layout_constraintTop_toBottomOf="@id/total_workers_libras"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayout_libras_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/description_pcd_workers"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="@string/label_date_inspection"
-            app:startIconDrawable="@drawable/ic_calendar"
-            >
+            android:layout_marginTop="@dimen/top_margins"
+            android:baselineAligned="false">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/date_inspection_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:id="@+id/total_workers_libras"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/label_total_workers_libras"
+                android:layout_marginEnd="8dp"
+                >
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/workers_libras_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:id="@+id/date_inspection"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/label_date_inspection"
+                app:startIconDrawable="@drawable/ic_calendar"
+                android:layout_marginStart="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/date_inspection_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="@integer/max_length_date"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
 
 
@@ -827,10 +934,11 @@
             android:id="@+id/saveCloseButton"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/date_inspection"
+            app:layout_constraintTop_toBottomOf="@id/linearlayout_libras_data"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp"
-            android:layout_margin="16dp"
+            android:layout_marginBottom="@dimen/top_margins"
             android:text="@string/label_save_close_button"/>
 
         <Button
@@ -840,18 +948,20 @@
             app:layout_constraintBaseline_toBaselineOf="@id/saveCloseButton"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:layout_margin="16dp"
+            android:layout_marginBottom="@dimen/top_margins"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:text="@string/label_save_continue_button"/>
 
         <Button
             android:id="@+id/updateButton"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/date_inspection"
+            app:layout_constraintTop_toBottomOf="@id/linearlayout_libras_data"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:layout_margin="16dp"
+            android:layout_marginBottom="@dimen/top_margins"
             android:text="@string/label_update_button"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
