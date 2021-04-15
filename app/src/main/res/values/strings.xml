@@ -29,7 +29,7 @@
     <string name="label_add_register_button">Adicionar Cadastro</string>
     <string name="label_update_button">Atualizar Cadastro</string>
 
-    <string name="blank_field_error">Este campo não pode ficar em branco</string>
+    <string name="blank_field_error">Campo Obrigatório</string>
     <string name="wrong_input_error">Este campo só aceita números</string>
 
     <string name="working_hours">Horário de Funcionamento:</string>

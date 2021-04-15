@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -26,35 +27,103 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public LocalDate chosenDate;
-//    public String chosenDateOldVersion;
     private int cadID = 0;
 
 //    private ViewModelEntry viewModelEntry;
 //    Como insert é um método static, não precisa ser criado um objeto ViewModelEntry para acessar
-
-    TextInputEditText dateInspectionText;
     TextInputEditText nameSchool;
+    TextInputEditText addressSchool;
+    TextInputEditText addressComplement;
+    TextInputEditText addressNumber;
+    TextInputEditText addressNeighborhood;
     TextInputEditText nameCity;
-    TextInputEditText nameResponsible;
+    TextInputEditText nameDirector;
+    TextInputEditText contactPhone1;
+    TextInputEditText contactPhone2;
+    TextInputEditText nameResponsibleVisit;
+    TextInputEditText nameInspectionTeamMembers;
+    TextInputEditText morningStartTime;
+    TextInputEditText morningEndTime;
+    TextInputEditText afternoonStartTime;
+    TextInputEditText afternoonEndTime;
+    TextInputEditText eveningStartTime;
+    TextInputEditText eveningEndTime;
+    TextInputEditText maternalFirstGrade;
+    TextInputEditText maternalLastGrade;
+    TextInputEditText preschoolFirstGrade;
+    TextInputEditText preschoolLastGrade;
+    TextInputEditText elementaryFirstGrade;
+    TextInputEditText elementaryLastGrade;
+    TextInputEditText middleFirstGrade;
+    TextInputEditText middleLastGrade;
+    TextInputEditText highFirstGrade;
+    TextInputEditText highLastGrade;
+    TextInputEditText ejaFirstGrade;
+    TextInputEditText ejaLastGrade;
+    TextInputEditText youngestStudentAge;
+    TextInputEditText oldestStudentAge;
     TextInputEditText totalStudents;
     TextInputEditText totalStudentsPcd;
+    TextInputEditText studentsImpairments;
     TextInputEditText totalWorkers;
     TextInputEditText totalWorkersPcd;
+    TextInputEditText workersImpairments;
     TextInputEditText totalWorkersLibras;
+    TextInputEditText dateInspectionText;
 
     TextInputLayout schoolField;
+    TextInputLayout addressField;
+    TextInputLayout addressComplementField;
+    TextInputLayout addressNumberField;
+    TextInputLayout addressNeighborhoodField;
     TextInputLayout cityField;
-    TextInputLayout responsibleField;
+    TextInputLayout directorField;
+    TextInputLayout contactPhone1Field;
+    TextInputLayout contactPhone2Field;
+    TextInputLayout nameResponsibleVisitField;
+    TextInputLayout nameInspectionTeamMembersField;
+    TextInputLayout morningStartTimeField;
+    TextInputLayout morningEndTimeField;
+    TextInputLayout afternoonStartTimeField;
+    TextInputLayout afternoonEndTimeField;
+    TextInputLayout eveningStartTimeField;
+    TextInputLayout eveningEndTimeField;
+    TextInputLayout maternalFirstGradeField;
+    TextInputLayout maternalLastGradeField;
+    TextInputLayout preschoolFirstGradeField;
+    TextInputLayout preschoolLastGradeField;
+    TextInputLayout elementaryFirstGradeField;
+    TextInputLayout elementaryLastGradeField;
+    TextInputLayout middleFirstGradeField;
+    TextInputLayout middleLastGradeField;
+    TextInputLayout highFirstGradeField;
+    TextInputLayout highLastGradeField;
+    TextInputLayout ejaFirstGradeField;
+    TextInputLayout ejaLastGradeField;
+    TextInputLayout youngestStudentAgeField;
+    TextInputLayout oldestStudentAgeField;
     TextInputLayout totStudentsField;
     TextInputLayout totStudentsPcd;
+    TextInputLayout studentsPcdDescription;
     TextInputLayout totWorkersField;
     TextInputLayout totWorkersPcd;
+    TextInputLayout workersPcdDescription;
     TextInputLayout totWorkersLibras;
     TextInputLayout dateField;
 
     Button saveCloseButton;
     Button saveContinueButton;
     Button updateEntryButton;
+
+    CheckBox hasMorningClasses;
+    CheckBox hasAfternoonClasses;
+    CheckBox hasEveningClasses;
+    CheckBox hasMaternal;
+    CheckBox hasPreschool;
+    CheckBox hasElementary;
+    CheckBox hasMiddle;
+    CheckBox hasHigh;
+    CheckBox hasEJA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,32 +132,122 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         //Só podem ser iniciados DENTRO do onCreate, caso contrário não foi selecionada ainda a View
         //E acaba causando um apontamento para algo nulo (já que não tem View selecioada para ser achada)
-
-        dateInspectionText = findViewById(R.id.date_inspection_value);
         nameSchool = findViewById(R.id.name_school_text);
+        addressSchool = findViewById(R.id.school_address_text);
+        addressComplement = findViewById(R.id.complement_text);
+        addressNumber = findViewById(R.id.numberAddress_text);
+        addressNeighborhood = findViewById(R.id.neighborhood_text);
         nameCity = findViewById(R.id.name_city_text);
-        nameResponsible = findViewById(R.id.name_principal_text);
+        nameDirector = findViewById(R.id.name_principal_text);
+        contactPhone1 = findViewById(R.id.contact_phone1_text);
+        contactPhone2 = findViewById(R.id.contact_phone2_text);
+        nameResponsibleVisit = findViewById(R.id.name_responsible_text);
+        nameInspectionTeamMembers = findViewById(R.id.name_team_visit_text);
+        morningStartTime = findViewById(R.id.morning_start_hour);
+        morningEndTime = findViewById(R.id.morning_end_hour);
+        afternoonStartTime = findViewById(R.id.afternoon_start_hour);
+        afternoonEndTime = findViewById(R.id.afternoon_end_hour);
+        eveningStartTime = findViewById(R.id.evening_start_hour);
+        eveningEndTime = findViewById(R.id.evening_end_hour);
+        maternalFirstGrade = findViewById(R.id.maternal_start_text);
+        maternalLastGrade = findViewById(R.id.maternal_end_text);
+        preschoolFirstGrade = findViewById(R.id.preschool_start_text);
+        preschoolLastGrade = findViewById(R.id.preschool_end_text);
+        elementaryFirstGrade = findViewById(R.id.elementary_start_text);
+        elementaryLastGrade = findViewById(R.id.elementary_end_text);
+        middleFirstGrade = findViewById(R.id.middleschool_start_text);
+        middleLastGrade = findViewById(R.id.middleschool_end_text);
+        highFirstGrade = findViewById(R.id.highschool_start_text);
+        highLastGrade = findViewById(R.id.highschool_end_text);
+        ejaFirstGrade = findViewById(R.id.eja_start_text);
+        ejaLastGrade = findViewById(R.id.eja_end_text);
+        youngestStudentAge = findViewById(R.id.starting_age_text);
+        oldestStudentAge = findViewById(R.id.last_age_text);
         totalStudents = findViewById(R.id.total_students_text);
         totalStudentsPcd = findViewById(R.id.students_pcd_text);
+        studentsImpairments = findViewById(R.id.description_pcd_students_text);
         totalWorkers = findViewById(R.id.total_workers_text);
         totalWorkersPcd = findViewById(R.id.workers_pcd_text);
+        workersImpairments = findViewById(R.id.description_pcd_workers_text);
         totalWorkersLibras = findViewById(R.id.workers_libras_text);
+        dateInspectionText = findViewById(R.id.date_inspection_value);
 
         schoolField = findViewById(R.id.name_school);
         cityField = findViewById(R.id.name_city);
-        responsibleField = findViewById(R.id.name_principal);
+        directorField = findViewById(R.id.name_principal);
         totStudentsField = findViewById(R.id.total_students);
         totStudentsPcd = findViewById(R.id.total_students_pcd);
         totWorkersField = findViewById(R.id.total_workers);
         totWorkersPcd = findViewById(R.id.total_workers_pcd);
         totWorkersLibras = findViewById(R.id.total_workers_libras);
         dateField = findViewById(R.id.date_inspection);
+        addressField = findViewById(R.id.school_adress);
+        addressComplementField = findViewById(R.id.complementAddress);
+        addressNumberField = findViewById(R.id.numberAddress);
+        addressNeighborhoodField = findViewById(R.id.neighborhood);
+        contactPhone1Field = findViewById(R.id.contact_phone1);
+        contactPhone2Field = findViewById(R.id.contact_phone2);
+        nameResponsibleVisitField = findViewById(R.id.name_responsible);
+        nameInspectionTeamMembersField = findViewById(R.id.name_team_visit);
+        youngestStudentAgeField = findViewById(R.id.starting_age);
+        oldestStudentAgeField = findViewById(R.id.last_age);
+        studentsPcdDescription = findViewById(R.id.description_pcd_students);
+        workersPcdDescription = findViewById(R.id.description_pcd_workers);
+        morningStartTimeField = findViewById(R.id.morning_start);
+        morningEndTimeField = findViewById(R.id.morning_end);
+        afternoonStartTimeField = findViewById(R.id.afternoon_start);
+        afternoonEndTimeField = findViewById(R.id.afternoon_end);
+        eveningStartTimeField = findViewById(R.id.evening_start);
+        eveningEndTimeField = findViewById(R.id.evening_end);
+        maternalFirstGradeField = findViewById(R.id.maternal_start);
+        maternalLastGradeField = findViewById(R.id.maternal_end);
+        preschoolFirstGradeField = findViewById(R.id.preschool_start);
+        preschoolLastGradeField = findViewById(R.id.preschool_end);
+        elementaryFirstGradeField = findViewById(R.id.elementary_start);
+        elementaryLastGradeField = findViewById(R.id.elementary_end);
+        middleFirstGradeField = findViewById(R.id.middleschool_start);
+        middleLastGradeField = findViewById(R.id.middleschool_end);
+        highFirstGradeField = findViewById(R.id.highschool_start);
+        highLastGradeField = findViewById(R.id.highschool_end);
+        ejaFirstGradeField = findViewById(R.id.eja_start);
+        ejaLastGradeField = findViewById(R.id.eja_end);
+
+        hasMorningClasses = findViewById(R.id.checkbox_morning);
+        hasAfternoonClasses = findViewById(R.id.checkbox_afternoon);
+        hasEveningClasses = findViewById(R.id.checkbox_evening);
+        hasMaternal = findViewById(R.id.checkbox_school1);
+        hasPreschool = findViewById(R.id.checkbox_school2);
+        hasElementary = findViewById(R.id.checkbox_school3);
+        hasMiddle = findViewById(R.id.checkbox_school4);
+        hasHigh = findViewById(R.id.checkbox_school5);
+        hasEJA = findViewById(R.id.checkbox_school6);
 
         saveCloseButton = findViewById(R.id.saveCloseButton);
         saveContinueButton = findViewById(R.id.saveContinueButton);
         updateEntryButton = findViewById(R.id.updateButton);
 
         //Usar mesmo Activity para cadastro e update. Preenche os campos com as informações da DB
+
+        morningStartTimeField.setEnabled(false);
+        morningEndTimeField.setEnabled(false);
+        afternoonStartTimeField.setEnabled(false);
+        afternoonEndTimeField.setEnabled(false);
+        eveningStartTimeField.setEnabled(false);
+        eveningEndTimeField.setEnabled(false);
+        maternalFirstGradeField.setEnabled(false);
+        maternalLastGradeField.setEnabled(false);
+        preschoolFirstGradeField.setEnabled(false);
+        preschoolLastGradeField.setEnabled(false);
+        elementaryFirstGradeField.setEnabled(false);
+        elementaryLastGradeField.setEnabled(false);
+        middleFirstGradeField.setEnabled(false);
+        middleLastGradeField.setEnabled(false);
+        highFirstGradeField.setEnabled(false);
+        highLastGradeField.setEnabled(false);
+        ejaFirstGradeField.setEnabled(false);
+        ejaLastGradeField.setEnabled(false);
+
+
         if (getIntent().hasExtra(MainActivity.UPDATE_REQUEST)) {
             saveCloseButton.setVisibility(View.GONE);
             saveContinueButton.setVisibility(View.GONE);
@@ -97,7 +256,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             ViewModelEntry gatherInfo = new ViewModelEntry(RegisterActivity.this.getApplication());
             gatherInfo.getEntry(cadID).observe(this, schoolEntry -> {
                 nameSchool.setText(schoolEntry.getSchoolName());
-                nameResponsible.setText(schoolEntry.getNameDirector());
+                nameDirector.setText(schoolEntry.getNameDirector());
                 nameCity.setText(schoolEntry.getNameCity());
                 totalStudents.setText(Integer.toString(schoolEntry.getNumberStudents()));
                 totalStudentsPcd.setText(Integer.toString(schoolEntry.getNumberStudentsPcd()));
@@ -110,12 +269,14 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             updateEntryButton.setVisibility(View.GONE);
         }
 
+        checkboxListener();
+
         dateInspectionText.setOnClickListener(v -> showDatePicker());
 
         saveCloseButton.setOnClickListener(v -> {
             if (verifyErrors()) {
                 setEmptyAmountToZero();
-                  SchoolEntry newEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
+                  SchoolEntry newEntry = new SchoolEntry(nameSchool.getText().toString(), nameDirector.getText().toString(),
                             nameCity.getText().toString(), stringToDate(dateInspectionText.getText().toString()),
                             Integer.parseInt(totalStudents.getText().toString()), Integer.parseInt(totalStudentsPcd.getText().toString()),
                             Integer.parseInt(totalWorkers.getText().toString()), Integer.parseInt(totalWorkersLibras.getText().toString()),
@@ -133,7 +294,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         updateEntryButton.setOnClickListener( v -> {
             if (verifyErrors()) {
                 setEmptyAmountToZero();
-                SchoolEntry updateEntry = new SchoolEntry(nameSchool.getText().toString(), nameResponsible.getText().toString(),
+                SchoolEntry updateEntry = new SchoolEntry(nameSchool.getText().toString(), nameDirector.getText().toString(),
                             nameCity.getText().toString(), stringToDate(dateInspectionText.getText().toString()),
                             Integer.parseInt(totalStudents.getText().toString()),
                             Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkers.getText().toString()),
@@ -168,6 +329,109 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
     }
 
+    public void checkboxListener() {
+
+        hasMorningClasses.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                morningStartTimeField.setEnabled(true);
+                morningEndTimeField.setEnabled(true);
+            } else {
+                morningStartTimeField.setEnabled(false);
+                morningEndTimeField.setEnabled(false);
+            }
+
+        });
+
+        hasAfternoonClasses.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                afternoonStartTimeField.setEnabled(true);
+                afternoonEndTimeField.setEnabled(true);
+            } else {
+                afternoonStartTimeField.setEnabled(false);
+                afternoonEndTimeField.setEnabled(false);
+            }
+
+        });
+
+        hasEveningClasses.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                eveningStartTimeField.setEnabled(true);
+                eveningEndTimeField.setEnabled(true);
+            } else {
+                eveningStartTimeField.setEnabled(false);
+                eveningEndTimeField.setEnabled(false);
+            }
+
+        });
+
+        hasMaternal.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                maternalFirstGradeField.setEnabled(true);
+                maternalLastGradeField.setEnabled(true);
+            } else {
+                maternalFirstGradeField.setEnabled(false);
+                maternalLastGradeField.setEnabled(false);
+            }
+
+        });
+
+        hasPreschool.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                preschoolFirstGradeField.setEnabled(true);
+                preschoolLastGradeField.setEnabled(true);
+            } else {
+                preschoolFirstGradeField.setEnabled(false);
+                preschoolLastGradeField.setEnabled(false);
+            }
+
+        });
+
+        hasElementary.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                elementaryFirstGradeField.setEnabled(true);
+                elementaryLastGradeField.setEnabled(true);
+            } else {
+                elementaryFirstGradeField.setEnabled(false);
+                elementaryLastGradeField.setEnabled(false);
+            }
+
+        });
+
+        hasMiddle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                middleFirstGradeField.setEnabled(true);
+                middleLastGradeField.setEnabled(true);
+            } else {
+                middleFirstGradeField.setEnabled(false);
+                middleLastGradeField.setEnabled(false);
+            }
+
+        });
+
+        hasHigh.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                highFirstGradeField.setEnabled(true);
+                highLastGradeField.setEnabled(true);
+            } else {
+                highFirstGradeField.setEnabled(false);
+                highLastGradeField.setEnabled(false);
+            }
+
+        });
+
+        hasEJA.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked) {
+                ejaFirstGradeField.setEnabled(true);
+                ejaLastGradeField.setEnabled(true);
+            } else {
+                ejaFirstGradeField.setEnabled(false);
+                ejaLastGradeField.setEnabled(false);
+            }
+
+        });
+    }
+
+//TODO - Dar Update nos métodos seguintes para acrescentar todos os novos campos da Register Activity (socorr)
     public boolean verifyErrors() {
         clearErrors();
         int i = 0;
@@ -175,39 +439,78 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             schoolField.setError(getString(R.string.blank_field_error));
             i++;
         }
+        if (TextUtils.isEmpty(addressSchool.getText())) {
+            addressField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+        if (TextUtils.isEmpty(addressNumber.getText())) {
+            addressNumberField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+        if (TextUtils.isEmpty(addressNeighborhood.getText())) {
+            addressNeighborhoodField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
         if (TextUtils.isEmpty(nameCity.getText())) {
             cityField.setError(getString(R.string.blank_field_error));
             i++;
         }
-        if (TextUtils.isEmpty(nameResponsible.getText())) {
-            responsibleField.setError(getString(R.string.blank_field_error));
+        if (TextUtils.isEmpty(nameDirector.getText())) {
+            directorField.setError(getString(R.string.blank_field_error));
             i++;
         }
-//        if (TextUtils.isEmpty(dateInspectionText.getText())) {
-//            dateField.setError(getString(R.string.blank_field_error));
-//            i++;
-//        }
-
+        if (TextUtils.isEmpty(contactPhone1.getText())) {
+            contactPhone1Field.setError(getString(R.string.blank_field_error));
+            i++;
+//            TODO - Inserir método para verificar se o número inserido é válido
+        }
+        if (TextUtils.isEmpty(nameResponsibleVisit.getText())) {
+            nameResponsibleVisitField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+        if (TextUtils.isEmpty(nameInspectionTeamMembers.getText())) {
+            nameInspectionTeamMembersField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+//        TODO - Inserir Método para verificação dos Campos dependentes de Checkbox
         if (TextUtils.isEmpty(totalStudents.getText())) {
             totStudentsField.setError(getString(R.string.blank_field_error));
             i++;
         }
-
+        if (!TextUtils.isEmpty(totalStudentsPcd.getText()) && !TextUtils.equals(totalStudentsPcd.getText().toString(), "0")) {
+            if (TextUtils.isEmpty(studentsImpairments.getText())) {
+                studentsPcdDescription.setError(getString(R.string.blank_field_error));
+                i++;
+            }
+        }
         if (TextUtils.isEmpty(totalWorkers.getText())) {
             totWorkersField.setError(getString(R.string.blank_field_error));
             i++;
         }
-
+        if (!TextUtils.isEmpty(totalWorkersPcd.getText()) && !TextUtils.equals(totalWorkersPcd.getText().toString(), "0")) {
+            if (TextUtils.isEmpty(workersImpairments.getText())) {
+                workersPcdDescription.setError(getString(R.string.blank_field_error));
+                i++;
+            }
+        }
         return i <= 0;
     }
 
     public void clearErrors() {
         schoolField.setErrorEnabled(false);
+        addressField.setErrorEnabled(false);
+        addressNumberField.setErrorEnabled(false);
+        addressNeighborhoodField.setErrorEnabled(false);
         cityField.setErrorEnabled(false);
-        responsibleField.setErrorEnabled(false);
+        directorField.setErrorEnabled(false);
+        contactPhone1Field.setErrorEnabled(false);
+        nameResponsibleVisitField.setErrorEnabled(false);
+        nameInspectionTeamMembersField.setErrorEnabled(false);
         totStudentsField.setErrorEnabled(false);
         totStudentsPcd.setErrorEnabled(false);
+        studentsPcdDescription.setErrorEnabled(false);
         totWorkersField.setErrorEnabled(false);
+        workersPcdDescription.setErrorEnabled(false);
         totWorkersPcd.setErrorEnabled(false);
         totWorkersLibras.setErrorEnabled(false);
         dateField.setErrorEnabled(false);
