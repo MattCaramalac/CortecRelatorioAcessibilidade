@@ -53,12 +53,12 @@ public class SchoolEntry {
     private Integer oldestStudent;
     private Integer numberStudents;
     private Integer numberStudentsPcd;
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     private String studentsPcdDescription;
     private Integer numberWorkers;
     private Integer numberWorkersLibras;
     private Integer numberWorkersPcd;
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+//    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     private String workersPcdDescription;
     private String dateInspection;
 
@@ -270,7 +270,7 @@ public class SchoolEntry {
                        Integer numberStudentsPcd, String studentsPcdDescription, Integer numberWorkers, Integer numberWorkersPcd,
                        String workersPcdDescription, Integer numberWorkersLibras, String dateInspection) {
 
-        this.cadID =  cadID;
+//        this.cadID = cadID;
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
         this.addressComplement = addressComplement;

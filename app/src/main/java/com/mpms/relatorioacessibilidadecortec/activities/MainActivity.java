@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        recyclerViewAdapter = new RecyclerViewAdapter(schoolEntryList,MainActivity.this, this);
-
         viewModelEntry = new ViewModelProvider.AndroidViewModelFactory(MainActivity.this.getApplication()).create(ViewModelEntry.class);
 
         viewModelEntry.getAllEntries().observe(this, schoolEntries -> {
@@ -50,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
             dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(MainActivity.this, R.drawable.abc_list_divider_material)));
             recyclerView.addItemDecoration(dividerItemDecoration);
-
         });
 
         FloatingActionButton fab = findViewById(R.id.fab_register);
