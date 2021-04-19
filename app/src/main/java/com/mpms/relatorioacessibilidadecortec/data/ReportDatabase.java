@@ -16,11 +16,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {SchoolEntry.class}, version = 1, exportSchema = false)
+@Database(entities = {SchoolEntry.class}, version = 2)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
-//    public abstract SchoolEntryDao schoolEntryDao();
     private static volatile ReportDatabase INSTANCE;
     public static final ExecutorService dbWriteExecutor = Executors.newFixedThreadPool(NUMBER_THREADS);
 
@@ -32,15 +31,6 @@ public abstract class ReportDatabase extends RoomDatabase {
 
                     dbWriteExecutor.execute(() -> {
                         SchoolEntryDao schoolEntryDao = INSTANCE.schoolEntryDao();
-
-//                        SchoolEntry schoolEntry = new SchoolEntry("E.E.Zélia Quevedo Chaves", "Maria das Couves",
-//                                "Campo Grande", Long.parseLong("452255555"), 1524, 23, 125,
-//                                15, 12);
-//                        schoolEntryDao.insertEntry(schoolEntry);
-//                        List<SchoolEntry> entry = (List<SchoolEntry>) INSTANCE.schoolEntryDao().getAllEntries();
-//                        for (int i = 0; i < entry.size(); i++) {
-//                            schoolEntryDao.insertEntry(entry.get(i));
-//                        }
                     });
                 }
             };

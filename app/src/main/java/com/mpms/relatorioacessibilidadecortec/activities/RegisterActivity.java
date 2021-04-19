@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -64,10 +63,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     TextInputEditText oldestStudentAge;
     TextInputEditText totalStudents;
     TextInputEditText totalStudentsPcd;
-    TextInputEditText studentsImpairments;
+    TextInputEditText studentsPcdDescription;
     TextInputEditText totalWorkers;
     TextInputEditText totalWorkersPcd;
-    TextInputEditText workersImpairments;
+    TextInputEditText workersPcdDescription;
     TextInputEditText totalWorkersLibras;
     TextInputEditText dateInspectionText;
 
@@ -104,10 +103,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     TextInputLayout oldestStudentAgeField;
     TextInputLayout totStudentsField;
     TextInputLayout totStudentsPcd;
-    TextInputLayout studentsPcdDescription;
+    TextInputLayout studentsPcdDescriptionField;
     TextInputLayout totWorkersField;
     TextInputLayout totWorkersPcd;
-    TextInputLayout workersPcdDescription;
+    TextInputLayout workersPcdDescriptionField;
     TextInputLayout totWorkersLibras;
     TextInputLayout dateField;
 
@@ -165,10 +164,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         oldestStudentAge = findViewById(R.id.last_age_text);
         totalStudents = findViewById(R.id.total_students_text);
         totalStudentsPcd = findViewById(R.id.students_pcd_text);
-        studentsImpairments = findViewById(R.id.description_pcd_students_text);
+        studentsPcdDescription = findViewById(R.id.description_pcd_students_text);
         totalWorkers = findViewById(R.id.total_workers_text);
         totalWorkersPcd = findViewById(R.id.workers_pcd_text);
-        workersImpairments = findViewById(R.id.description_pcd_workers_text);
+        workersPcdDescription = findViewById(R.id.description_pcd_workers_text);
         totalWorkersLibras = findViewById(R.id.workers_libras_text);
         dateInspectionText = findViewById(R.id.date_inspection_value);
 
@@ -191,8 +190,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         nameInspectionTeamMembersField = findViewById(R.id.name_team_visit);
         youngestStudentAgeField = findViewById(R.id.starting_age);
         oldestStudentAgeField = findViewById(R.id.last_age);
-        studentsPcdDescription = findViewById(R.id.description_pcd_students);
-        workersPcdDescription = findViewById(R.id.description_pcd_workers);
+        studentsPcdDescriptionField = findViewById(R.id.description_pcd_students);
+        workersPcdDescriptionField = findViewById(R.id.description_pcd_workers);
         morningStartTimeField = findViewById(R.id.morning_start);
         morningEndTimeField = findViewById(R.id.morning_end);
         afternoonStartTimeField = findViewById(R.id.afternoon_start);
@@ -247,7 +246,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         ejaFirstGradeField.setEnabled(false);
         ejaLastGradeField.setEnabled(false);
 
-
         if (getIntent().hasExtra(MainActivity.UPDATE_REQUEST)) {
             saveCloseButton.setVisibility(View.GONE);
             saveContinueButton.setVisibility(View.GONE);
@@ -275,12 +273,25 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         saveCloseButton.setOnClickListener(v -> {
             if (verifyErrors()) {
-                setEmptyAmountToZero();
-                  SchoolEntry newEntry = new SchoolEntry(nameSchool.getText().toString(), nameDirector.getText().toString(),
-                            nameCity.getText().toString(), stringToDate(dateInspectionText.getText().toString()),
-                            Integer.parseInt(totalStudents.getText().toString()), Integer.parseInt(totalStudentsPcd.getText().toString()),
-                            Integer.parseInt(totalWorkers.getText().toString()), Integer.parseInt(totalWorkersLibras.getText().toString()),
-                            Integer.parseInt(totalWorkersPcd.getText().toString()));
+                  SchoolEntry newEntry = createEntry();
+//                          new SchoolEntry(nameSchool.getText().toString(), addressSchool.getText().toString(),
+//                          addressComplement.getText().toString(), addressNumber.getText().toString(), addressNeighborhood.getText().toString(),
+//                          nameCity.getText().toString(), nameDirector.getText().toString(), contactPhone1.getText().toString(),
+//                          contactPhone2.getText().toString(), nameResponsibleVisit.getText().toString(), nameInspectionTeamMembers.getText().toString(),
+//                          checkValueCheckbox(hasMorningClasses),morningStartTime.getText().toString(), morningEndTime.getText().toString(),
+//                          checkValueCheckbox(hasAfternoonClasses), afternoonStartTime.getText().toString(), afternoonEndTime.getText().toString(),
+//                          checkValueCheckbox(hasEveningClasses), eveningStartTime.getText().toString(), eveningEndTime.getText().toString(),
+//                          checkValueCheckbox(hasMaternal), maternalFirstGrade.getText().toString(), maternalLastGrade.getText().toString(),
+//                          checkValueCheckbox(hasPreschool), preschoolFirstGrade.getText().toString(), preschoolLastGrade.getText().toString(),
+//                          checkValueCheckbox(hasElementary), elementaryFirstGrade.getText().toString(), elementaryLastGrade.getText().toString(),
+//                          checkValueCheckbox(hasMiddle), middleFirstGrade.getText().toString(), middleLastGrade.getText().toString(),
+//                          checkValueCheckbox(hasHigh), highFirstGrade.getText().toString(), highLastGrade.getText().toString(),
+//                          checkValueCheckbox(hasEJA), ejaFirstGrade.getText().toString(), ejaLastGrade.getText().toString(),
+//                          Integer.parseInt(youngestStudentAge.getText().toString()), Integer.parseInt(oldestStudentAge.getText().toString()),
+//                          Integer.parseInt(totalStudents.getText().toString()), Integer.parseInt(totalStudentsPcd.getText().toString()),
+//                          studentsPcdDescription.getText().toString(), Integer.parseInt(totalWorkers.getText().toString()),
+//                          Integer.parseInt(totalWorkersPcd.getText().toString()), workersPcdDescription.getText().toString(),
+//                          Integer.parseInt(totalWorkersLibras.getText().toString()), stringToDate(dateInspectionText.getText().toString()));
                 ViewModelEntry.insert(newEntry);
                 finish();
 
@@ -293,12 +304,25 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         updateEntryButton.setOnClickListener( v -> {
             if (verifyErrors()) {
-                setEmptyAmountToZero();
-                SchoolEntry updateEntry = new SchoolEntry(nameSchool.getText().toString(), nameDirector.getText().toString(),
-                            nameCity.getText().toString(), stringToDate(dateInspectionText.getText().toString()),
-                            Integer.parseInt(totalStudents.getText().toString()),
-                            Integer.parseInt(totalStudentsPcd.getText().toString()), Integer.parseInt(totalWorkers.getText().toString()),
-                            Integer.parseInt(totalWorkersLibras.getText().toString()), Integer.parseInt(totalWorkersPcd.getText().toString()));
+                SchoolEntry updateEntry = createEntry();
+//                        new SchoolEntry(nameSchool.getText().toString(), addressSchool.getText().toString(),
+//                        addressComplement.getText().toString(), addressNumber.getText().toString(), addressNeighborhood.getText().toString(),
+//                        nameCity.getText().toString(), nameDirector.getText().toString(), contactPhone1.getText().toString(),
+//                        contactPhone2.getText().toString(), nameResponsibleVisit.getText().toString(), nameInspectionTeamMembers.getText().toString(),
+//                        checkValueCheckbox(hasMorningClasses),morningStartTime.getText().toString(), morningEndTime.getText().toString(),
+//                        checkValueCheckbox(hasAfternoonClasses), afternoonStartTime.getText().toString(), afternoonEndTime.getText().toString(),
+//                        checkValueCheckbox(hasEveningClasses), eveningStartTime.getText().toString(), eveningEndTime.getText().toString(),
+//                        checkValueCheckbox(hasMaternal), maternalFirstGrade.getText().toString(), maternalLastGrade.getText().toString(),
+//                        checkValueCheckbox(hasPreschool), preschoolFirstGrade.getText().toString(), preschoolLastGrade.getText().toString(),
+//                        checkValueCheckbox(hasElementary), elementaryFirstGrade.getText().toString(), elementaryLastGrade.getText().toString(),
+//                        checkValueCheckbox(hasMiddle), middleFirstGrade.getText().toString(), middleLastGrade.getText().toString(),
+//                        checkValueCheckbox(hasHigh), highFirstGrade.getText().toString(), highLastGrade.getText().toString(),
+//                        checkValueCheckbox(hasEJA), ejaFirstGrade.getText().toString(), ejaLastGrade.getText().toString(),
+//                        Integer.parseInt(youngestStudentAge.getText().toString()), Integer.parseInt(oldestStudentAge.getText().toString()),
+//                        Integer.parseInt(totalStudents.getText().toString()), Integer.parseInt(totalStudentsPcd.getText().toString()),
+//                        studentsPcdDescription.getText().toString(), Integer.parseInt(totalWorkers.getText().toString()),
+//                        Integer.parseInt(totalWorkersPcd.getText().toString()), workersPcdDescription.getText().toString(),
+//                        Integer.parseInt(totalWorkersLibras.getText().toString()), stringToDate(dateInspectionText.getText().toString()));
                 updateEntry.setCadID(cadID);
                 ViewModelEntry.update(updateEntry);
                 finish();
@@ -431,6 +455,13 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         });
     }
 
+    public Integer checkValueCheckbox (CheckBox checkBox) {
+        if (checkBox.isChecked())
+            return 1;
+        else
+            return 0;
+    }
+
 //TODO - Dar Update nos métodos seguintes para acrescentar todos os novos campos da Register Activity (socorr)
     public boolean verifyErrors() {
         clearErrors();
@@ -478,8 +509,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             i++;
         }
         if (!TextUtils.isEmpty(totalStudentsPcd.getText()) && !TextUtils.equals(totalStudentsPcd.getText().toString(), "0")) {
-            if (TextUtils.isEmpty(studentsImpairments.getText())) {
-                studentsPcdDescription.setError(getString(R.string.blank_field_error));
+            if (TextUtils.isEmpty(studentsPcdDescription.getText())) {
+                studentsPcdDescriptionField.setError(getString(R.string.blank_field_error));
                 i++;
             }
         }
@@ -488,8 +519,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             i++;
         }
         if (!TextUtils.isEmpty(totalWorkersPcd.getText()) && !TextUtils.equals(totalWorkersPcd.getText().toString(), "0")) {
-            if (TextUtils.isEmpty(workersImpairments.getText())) {
-                workersPcdDescription.setError(getString(R.string.blank_field_error));
+            if (TextUtils.isEmpty(workersPcdDescription.getText())) {
+                workersPcdDescriptionField.setError(getString(R.string.blank_field_error));
                 i++;
             }
         }
@@ -508,9 +539,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         nameInspectionTeamMembersField.setErrorEnabled(false);
         totStudentsField.setErrorEnabled(false);
         totStudentsPcd.setErrorEnabled(false);
-        studentsPcdDescription.setErrorEnabled(false);
+        studentsPcdDescriptionField.setErrorEnabled(false);
         totWorkersField.setErrorEnabled(false);
-        workersPcdDescription.setErrorEnabled(false);
+        workersPcdDescriptionField.setErrorEnabled(false);
         totWorkersPcd.setErrorEnabled(false);
         totWorkersLibras.setErrorEnabled(false);
         dateField.setErrorEnabled(false);
@@ -544,15 +575,24 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             return Integer.toString(number);
     }
 
-    public void setEmptyAmountToZero () {
-        Log.d("TAG", "setEmptyAmountToZero: " + totalStudentsPcd.getText().toString());
-        if (TextUtils.isEmpty(dateInspectionText.getText()))
-            dateInspectionText.setText("");
-        if (TextUtils.isEmpty(totalStudentsPcd.getText()))
-            totalStudentsPcd.setText("0");
-        if (TextUtils.isEmpty(totalWorkersPcd.getText()))
-            totalWorkersPcd.setText("0");
-        if (TextUtils.isEmpty(totalWorkersLibras.getText()))
-            totalWorkersLibras.setText("0");
+    public SchoolEntry createEntry() {
+        return new SchoolEntry(nameSchool.getText().toString(), addressSchool.getText().toString(),
+                addressComplement.getText().toString(), addressNumber.getText().toString(), addressNeighborhood.getText().toString(),
+                nameCity.getText().toString(), nameDirector.getText().toString(), contactPhone1.getText().toString(),
+                contactPhone2.getText().toString(), nameResponsibleVisit.getText().toString(), nameInspectionTeamMembers.getText().toString(),
+                checkValueCheckbox(hasMorningClasses),morningStartTime.getText().toString(), morningEndTime.getText().toString(),
+                checkValueCheckbox(hasAfternoonClasses), afternoonStartTime.getText().toString(), afternoonEndTime.getText().toString(),
+                checkValueCheckbox(hasEveningClasses), eveningStartTime.getText().toString(), eveningEndTime.getText().toString(),
+                checkValueCheckbox(hasMaternal), maternalFirstGrade.getText().toString(), maternalLastGrade.getText().toString(),
+                checkValueCheckbox(hasPreschool), preschoolFirstGrade.getText().toString(), preschoolLastGrade.getText().toString(),
+                checkValueCheckbox(hasElementary), elementaryFirstGrade.getText().toString(), elementaryLastGrade.getText().toString(),
+                checkValueCheckbox(hasMiddle), middleFirstGrade.getText().toString(), middleLastGrade.getText().toString(),
+                checkValueCheckbox(hasHigh), highFirstGrade.getText().toString(), highLastGrade.getText().toString(),
+                checkValueCheckbox(hasEJA), ejaFirstGrade.getText().toString(), ejaLastGrade.getText().toString(),
+                Integer.parseInt(youngestStudentAge.getText().toString()), Integer.parseInt(oldestStudentAge.getText().toString()),
+                Integer.parseInt(totalStudents.getText().toString()), Integer.parseInt(totalStudentsPcd.getText().toString()),
+                studentsPcdDescription.getText().toString(), Integer.parseInt(totalWorkers.getText().toString()),
+                Integer.parseInt(totalWorkersPcd.getText().toString()), workersPcdDescription.getText().toString(),
+                Integer.parseInt(totalWorkersLibras.getText().toString()), stringToDate(dateInspectionText.getText().toString()));
     }
 }
