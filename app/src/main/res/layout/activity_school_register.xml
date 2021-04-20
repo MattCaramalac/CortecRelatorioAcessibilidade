@@ -248,7 +248,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/working_hours"
-                android:textSize="18sp" />
+                android:textSize="@dimen/section_header" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintlayout_morning"
@@ -480,6 +480,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/time_schedule_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textSize="14sp"
+                android:textColor="@color/error_message"
+                android:visibility="gone"
+                />
+
         </LinearLayout>
 
         <LinearLayout
@@ -499,7 +509,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/offered_services"
-                android:textSize="18sp" />
+                android:textSize="@dimen/section_header" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintlayout_services1"
@@ -552,7 +562,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="ao"
+                    android:text="@string/ao"
                     android:textSize="18sp"
                     android:layout_marginStart="@dimen/margins"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -632,7 +642,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="ao"
+                    android:text="@string/ao"
                     android:textSize="18sp"
                     android:layout_marginStart="@dimen/margins"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -713,7 +723,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="ao"
+                    android:text="@string/ao"
                     android:textSize="18sp"
                     android:layout_marginStart="@dimen/margins"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -808,7 +818,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="ao"
+                    android:text="@string/ao"
                     android:textSize="18sp"
                     android:layout_marginStart="@dimen/margins"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -903,7 +913,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="ao"
+                    android:text="@string/ao"
                     android:textSize="18sp"
                     android:layout_marginStart="@dimen/margins"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -998,7 +1008,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="ao"
+                    android:text="@string/ao"
                     android:textSize="18sp"
                     android:layout_marginStart="@dimen/margins"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -1028,6 +1038,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:id="@+id/services_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textSize="14sp"
+                android:textColor="@color/error_message"
+                android:visibility="gone"
+                />
+
         </LinearLayout>
 
         <TextView
@@ -1036,7 +1056,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
             android:text="@string/students_ages"
-            android:textSize="18sp"
+            android:textSize="@dimen/section_header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/linearlayout_offered_services" />
 
@@ -1045,8 +1065,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/offered_ages_textView"
-        app:layout_constraintTop_toBottomOf="@id/offered_ages_textView"
->
+        app:layout_constraintTop_toBottomOf="@id/offered_ages_textView">
 
         <TextView
             android:id="@+id/de"
@@ -1078,6 +1097,7 @@
                 android:textAlignment="center"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <TextView
             android:id="@+id/a"
@@ -1125,13 +1145,25 @@
             app:layout_constraintStart_toEndOf="@id/last_age"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/min_max_ages_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/constraintlayout_offered_ages"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            />
 
         <LinearLayout
             android:id="@+id/linearlayout_students"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/constraintlayout_offered_ages"
+            app:layout_constraintTop_toBottomOf="@id/min_max_ages_error"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/top_margins"
@@ -1326,7 +1358,7 @@
             app:layout_constraintTop_toBottomOf="@id/linearlayout_libras_data"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:layout_marginBottom="@dimen/top_margins"
             android:text="@string/label_save_close_button"/>
 
@@ -1336,7 +1368,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBaseline_toBaselineOf="@id/saveCloseButton"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:layout_marginBottom="@dimen/top_margins"
             app:layout_constraintBottom_toBottomOf="parent"
             android:text="@string/label_save_continue_button"/>
@@ -1348,10 +1380,22 @@
             app:layout_constraintTop_toBottomOf="@id/linearlayout_libras_data"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/top_margins"
             android:layout_marginBottom="@dimen/top_margins"
+            android:textSize="13sp"
             android:text="@string/label_update_button"/>
+
+        <Button
+            android:id="@+id/updateContinueButton"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/linearlayout_libras_data"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginBottom="@dimen/top_margins"
+            android:textSize="13sp"
+            android:text="@string/label_update_continue_button"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

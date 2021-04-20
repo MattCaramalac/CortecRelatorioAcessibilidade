@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.time.*;
 import java.util.Calendar;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 //      TODO - Estudar para usar Fragments no lugar de Activities - Garante melhor Design em Tablets + diminui gasto de memória
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    private static final int MIN_NUMBER_LENGTH = 13;
     public LocalDate chosenDate;
     private int cadID = 0;
 
@@ -46,7 +49,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             oldestStudentAgeField, totStudentsField, totStudentsPcd, studentsPcdDescriptionField, totWorkersField, totWorkersPcd,
             workersPcdDescriptionField, totWorkersLibras, dateField;
 
-    Button saveCloseButton, saveContinueButton, updateEntryButton;
+    TextView timeScheduleError, schoolServicesError, agesError;
+
+    Button saveCloseButton, saveContinueButton, updateEntryButton, updateContinueButton;
 
     CheckBox hasMorningClasses, hasAfternoonClasses, hasEveningClasses, hasMaternal, hasPreschool, hasElementary, hasMiddle, hasHigh, hasEJA;
 
@@ -58,6 +63,11 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         //Só podem ser iniciados DENTRO do onCreate, caso contrário não foi selecionada ainda a View
         //E acaba causando um apontamento para algo nulo (já que não tem View selecioada para ser achada)
+
+        timeScheduleError = findViewById(R.id.time_schedule_error);
+        agesError = findViewById(R.id.min_max_ages_error);
+        schoolServicesError = findViewById(R.id.services_error);
+
         nameSchool = findViewById(R.id.name_school_text);
         addressSchool = findViewById(R.id.school_address_text);
         addressComplement = findViewById(R.id.complement_text);
@@ -152,27 +162,11 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         saveCloseButton = findViewById(R.id.saveCloseButton);
         saveContinueButton = findViewById(R.id.saveContinueButton);
         updateEntryButton = findViewById(R.id.updateButton);
+        updateContinueButton = findViewById(R.id.updateContinueButton);
 
         //Usar mesmo Activity para cadastro e update. Preenche os campos com as informações da DB
 
-        morningStartTimeField.setEnabled(false);
-        morningEndTimeField.setEnabled(false);
-        afternoonStartTimeField.setEnabled(false);
-        afternoonEndTimeField.setEnabled(false);
-        eveningStartTimeField.setEnabled(false);
-        eveningEndTimeField.setEnabled(false);
-        maternalFirstGradeField.setEnabled(false);
-        maternalLastGradeField.setEnabled(false);
-        preschoolFirstGradeField.setEnabled(false);
-        preschoolLastGradeField.setEnabled(false);
-        elementaryFirstGradeField.setEnabled(false);
-        elementaryLastGradeField.setEnabled(false);
-        middleFirstGradeField.setEnabled(false);
-        middleLastGradeField.setEnabled(false);
-        highFirstGradeField.setEnabled(false);
-        highLastGradeField.setEnabled(false);
-        ejaFirstGradeField.setEnabled(false);
-        ejaLastGradeField.setEnabled(false);
+        disableAllCheckboxFields();
 
         if (getIntent().hasExtra(MainActivity.UPDATE_REQUEST)) {
             saveCloseButton.setVisibility(View.GONE);
@@ -183,6 +177,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             gatherInfo.getEntry(cadID).observe(this, this::gatherEntry);
         } else {
             updateEntryButton.setVisibility(View.GONE);
+            updateContinueButton.setVisibility(View.GONE);
         }
 
         checkboxListener();
@@ -217,13 +212,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         datePickerDialog.show(getSupportFragmentManager(), "DATE_PICKER");
 
         datePickerDialog.addOnPositiveButtonClickListener(selection -> dateInspectionText.setText(dateToString(selection)));
-//          Sem expressão lambda fica assim:
-//        datePickerDialog.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
-//            @Override
-//            public void onPositiveButtonClick(Long selection) {
-//             dateInspectionText.setText(dateToString(selection));
-//            }
-//        });
     }
 
     @Override
@@ -238,6 +226,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 morningStartTimeField.setEnabled(true);
                 morningEndTimeField.setEnabled(true);
             } else {
+                morningStartTime.setText(null);
+                morningEndTime.setText(null);
                 morningStartTimeField.setEnabled(false);
                 morningEndTimeField.setEnabled(false);
             }
@@ -249,6 +239,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 afternoonStartTimeField.setEnabled(true);
                 afternoonEndTimeField.setEnabled(true);
             } else {
+                afternoonStartTime.setText(null);
+                afternoonEndTime.setText(null);
                 afternoonStartTimeField.setEnabled(false);
                 afternoonEndTimeField.setEnabled(false);
             }
@@ -260,6 +252,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 eveningStartTimeField.setEnabled(true);
                 eveningEndTimeField.setEnabled(true);
             } else {
+                eveningStartTime.setText(null);
+                eveningEndTime.setText(null);
                 eveningStartTimeField.setEnabled(false);
                 eveningEndTimeField.setEnabled(false);
             }
@@ -271,6 +265,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 maternalFirstGradeField.setEnabled(true);
                 maternalLastGradeField.setEnabled(true);
             } else {
+                maternalFirstGrade.setText(null);
+                maternalLastGrade.setText(null);
                 maternalFirstGradeField.setEnabled(false);
                 maternalLastGradeField.setEnabled(false);
             }
@@ -282,6 +278,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 preschoolFirstGradeField.setEnabled(true);
                 preschoolLastGradeField.setEnabled(true);
             } else {
+                preschoolFirstGrade.setText(null);
+                preschoolLastGrade.setText(null);
                 preschoolFirstGradeField.setEnabled(false);
                 preschoolLastGradeField.setEnabled(false);
             }
@@ -293,6 +291,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 elementaryFirstGradeField.setEnabled(true);
                 elementaryLastGradeField.setEnabled(true);
             } else {
+                elementaryFirstGrade.setText(null);
+                elementaryLastGrade.setText(null);
                 elementaryFirstGradeField.setEnabled(false);
                 elementaryLastGradeField.setEnabled(false);
             }
@@ -304,6 +304,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 middleFirstGradeField.setEnabled(true);
                 middleLastGradeField.setEnabled(true);
             } else {
+                middleFirstGrade.setText(null);
+                middleLastGrade.setText(null);
                 middleFirstGradeField.setEnabled(false);
                 middleLastGradeField.setEnabled(false);
             }
@@ -315,6 +317,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 highFirstGradeField.setEnabled(true);
                 highLastGradeField.setEnabled(true);
             } else {
+                highFirstGrade.setText(null);
+                highLastGrade.setText(null);
                 highFirstGradeField.setEnabled(false);
                 highLastGradeField.setEnabled(false);
             }
@@ -326,6 +330,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 ejaFirstGradeField.setEnabled(true);
                 ejaLastGradeField.setEnabled(true);
             } else {
+                ejaFirstGrade.setText(null);
+                ejaLastGrade.setText(null);
                 ejaFirstGradeField.setEnabled(false);
                 ejaLastGradeField.setEnabled(false);
             }
@@ -340,7 +346,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             return 0;
     }
 
-//TODO - Dar Update nos métodos seguintes para acrescentar todos os novos campos da Register Activity (socorr)
     public boolean verifyErrors() {
         clearErrors();
         int i = 0;
@@ -371,22 +376,85 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         if (TextUtils.isEmpty(contactPhone1.getText())) {
             contactPhone1Field.setError(getString(R.string.blank_field_error));
             i++;
-//            TODO - Inserir método para verificar se o número inserido é válido
+        } else if (Objects.requireNonNull(contactPhone1.getText()).toString().length() < MIN_NUMBER_LENGTH) {
+            nameResponsibleVisitField.setError(getString(R.string.invalid_input_error));
+            i++;
         }
-        if (TextUtils.isEmpty(nameResponsibleVisit.getText())) {
-            nameResponsibleVisitField.setError(getString(R.string.blank_field_error));
+        if (Objects.requireNonNull(contactPhone2.getText()).toString().length() < MIN_NUMBER_LENGTH) {
+            nameResponsibleVisitField.setError(getString(R.string.invalid_input_error));
             i++;
         }
         if (TextUtils.isEmpty(nameInspectionTeamMembers.getText())) {
             nameInspectionTeamMembersField.setError(getString(R.string.blank_field_error));
             i++;
         }
-//        TODO - Inserir Método para verificação dos Campos dependentes de Checkbox
+        if (hasMorningClasses.isChecked()) {
+            if (TextUtils.isEmpty(morningStartTime.getText()) || TextUtils.isEmpty(morningEndTime.getText())) {
+                timeScheduleError.setVisibility(View.VISIBLE);
+                i++;
+            }
+        }
+        if (hasAfternoonClasses.isChecked()) {
+            if (TextUtils.isEmpty(afternoonStartTime.getText()) || TextUtils.isEmpty(afternoonEndTime.getText())) {
+                timeScheduleError.setVisibility(View.VISIBLE);
+                i++;
+            }
+        }
+        if (hasEveningClasses.isChecked()) {
+            if (TextUtils.isEmpty(eveningStartTime.getText()) || TextUtils.isEmpty(eveningEndTime.getText())) {
+                timeScheduleError.setVisibility(View.VISIBLE);
+                i++;
+            }
+        }
+        if (hasMaternal.isChecked()) {
+            if (TextUtils.isEmpty(maternalFirstGrade.getText()) || TextUtils.isEmpty(maternalLastGrade.getText())) {
+                schoolServicesError.setVisibility(View.VISIBLE);
+                i++;
+            }
+        }
+        if (hasPreschool.isChecked()) {
+            if (TextUtils.isEmpty(preschoolFirstGrade.getText()) || TextUtils.isEmpty(preschoolLastGrade.getText())) {
+                schoolServicesError.setVisibility(View.VISIBLE);
+                i++;
+            }
+        }
+        if (hasElementary.isChecked()) {
+            if (TextUtils.isEmpty(elementaryFirstGrade.getText()) || TextUtils.isEmpty(elementaryLastGrade.getText())) {
+                schoolServicesError.setVisibility(View.VISIBLE);
+                i++;
+            }
+        }
+        if (hasMiddle.isChecked()) {
+            if (TextUtils.isEmpty(middleFirstGrade.getText()) || TextUtils.isEmpty(middleLastGrade.getText())) {
+                schoolServicesError.setVisibility(View.VISIBLE);
+                i++;
+            }
+        }
+        if (hasHigh.isChecked()) {
+            if (TextUtils.isEmpty(highFirstGrade.getText()) || TextUtils.isEmpty(highLastGrade.getText())) {
+                schoolServicesError.setVisibility(View.VISIBLE);
+                i++;
+            }
+        }
+        if (hasEJA.isChecked()) {
+            if (TextUtils.isEmpty(ejaFirstGrade.getText()) || TextUtils.isEmpty(ejaLastGrade.getText())) {
+                schoolServicesError.setVisibility(View.VISIBLE);
+                i++;
+            }
+        }
+        if (TextUtils.isEmpty(youngestStudentAge.getText())) {
+            agesError.setVisibility(View.VISIBLE);
+            i++;
+        }
+        if (TextUtils.isEmpty(oldestStudentAge.getText())) {
+            agesError.setVisibility(View.VISIBLE);
+            i++;
+        }
         if (TextUtils.isEmpty(totalStudents.getText())) {
             totStudentsField.setError(getString(R.string.blank_field_error));
             i++;
         }
-        if (!TextUtils.isEmpty(totalStudentsPcd.getText()) && !TextUtils.equals(totalStudentsPcd.getText().toString(), "0")) {
+        if (!TextUtils.isEmpty(totalStudentsPcd.getText()) && !TextUtils.equals(Objects.requireNonNull(totalStudentsPcd.getText()).toString(), "0")) {
             if (TextUtils.isEmpty(studentsPcdDescription.getText())) {
                 studentsPcdDescriptionField.setError(getString(R.string.blank_field_error));
                 i++;
@@ -396,7 +464,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             totWorkersField.setError(getString(R.string.blank_field_error));
             i++;
         }
-        if (!TextUtils.isEmpty(totalWorkersPcd.getText()) && !TextUtils.equals(totalWorkersPcd.getText().toString(), "0")) {
+        if (!TextUtils.isEmpty(totalWorkersPcd.getText()) && !TextUtils.equals(Objects.requireNonNull(totalWorkersPcd.getText()).toString(), "0")) {
             if (TextUtils.isEmpty(workersPcdDescription.getText())) {
                 workersPcdDescriptionField.setError(getString(R.string.blank_field_error));
                 i++;
@@ -423,6 +491,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         totWorkersPcd.setErrorEnabled(false);
         totWorkersLibras.setErrorEnabled(false);
         dateField.setErrorEnabled(false);
+        timeScheduleError.setVisibility(View.GONE);
+        schoolServicesError.setVisibility(View.GONE);
+        agesError.setVisibility(View.GONE);
+
     }
 
     public String dateToString(Long dateLong) {
@@ -487,33 +559,69 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         contactPhone2.setText(schoolEntry.getContactPhone2());
         nameResponsibleVisit.setText(schoolEntry.getNameResponsibleVisit());
         nameInspectionTeamMembers.setText(schoolEntry.getNameInspectionTeam());
-//        hasMorningClasses
-        morningStartTime.setText(schoolEntry.getMorningStart());
-        morningEndTime.setText(schoolEntry.getMorningEnd());
-//        hasAfternoonClasses
-        afternoonStartTime.setText(schoolEntry.getAfternoonStart());
-        afternoonEndTime.setText(schoolEntry.getAfternoonEnd());
-//        hasEveningClasses
-        eveningStartTime.setText(schoolEntry.getEveningStart());
-        eveningEndTime.setText(schoolEntry.getEveningEnd());
-//        hasMaternal
-        maternalFirstGrade.setText(schoolEntry.getMaternalFirstGrade());
-        maternalLastGrade.setText(schoolEntry.getMaternalLastGrade());
-//        hasPre
-        preschoolFirstGrade.setText(schoolEntry.getPreschoolFirstGrade());
-        preschoolLastGrade.setText(schoolEntry.getPreschoolLastGrade());
-//        hasElem
-        elementaryFirstGrade.setText(schoolEntry.getElementaryFirstGrade());
-        elementaryLastGrade.setText(schoolEntry.getElementaryLastGrade());
-//        hasMiddle
-        middleFirstGrade.setText(schoolEntry.getMiddleFirstGrade());
-        middleLastGrade.setText(schoolEntry.getMiddleLastGrade());
-//        hasHigh
-        highFirstGrade.setText(schoolEntry.getHighFirstGrade());
-        highLastGrade.setText(schoolEntry.getHighLastGrade());
-//        hasEJA
-        ejaFirstGrade.setText(schoolEntry.getEjaFirstGrade());
-        ejaLastGrade.setText(schoolEntry.getEjaLastGrade());
+        if (schoolEntry.getHasMorningClasses() == 1) {
+            hasMorningClasses.setChecked(true);
+            morningStartTimeField.setEnabled(true);
+            morningEndTimeField.setEnabled(true);
+            morningStartTime.setText(schoolEntry.getMorningStart());
+            morningEndTime.setText(schoolEntry.getMorningEnd());
+        }
+        if (schoolEntry.getHasAfternoonClasses() == 1) {
+            hasAfternoonClasses.setChecked(true);
+            afternoonStartTimeField.setEnabled(true);
+            afternoonEndTimeField.setEnabled(true);
+            afternoonStartTime.setText(schoolEntry.getAfternoonStart());
+            afternoonEndTime.setText(schoolEntry.getAfternoonEnd());
+        }
+        if (schoolEntry.getHasEveningClasses() == 1) {
+            hasEveningClasses.setChecked(true);
+            eveningStartTimeField.setEnabled(true);
+            eveningEndTimeField.setEnabled(true);
+            eveningStartTime.setText(schoolEntry.getEveningStart());
+            eveningEndTime.setText(schoolEntry.getEveningEnd());
+        }
+        if (schoolEntry.getHasMaternal() == 1) {
+            hasMaternal.setChecked(true);
+            maternalFirstGradeField.setEnabled(true);
+            maternalLastGradeField.setEnabled(true);
+            maternalFirstGrade.setText(schoolEntry.getMaternalFirstGrade());
+            maternalLastGrade.setText(schoolEntry.getMaternalLastGrade());
+        }
+        if (schoolEntry.getHasPreschool() == 1) {
+            hasPreschool.setChecked(true);
+            preschoolFirstGradeField.setEnabled(true);
+            preschoolLastGradeField.setEnabled(true);
+            preschoolFirstGrade.setText(schoolEntry.getPreschoolFirstGrade());
+            preschoolLastGrade.setText(schoolEntry.getPreschoolLastGrade());
+        }
+        if (schoolEntry.getHasElementarySchool() == 1) {
+            hasElementary.setChecked(true);
+            elementaryFirstGradeField.setEnabled(true);
+            elementaryLastGradeField.setEnabled(true);
+            elementaryFirstGrade.setText(schoolEntry.getElementaryFirstGrade());
+            elementaryLastGrade.setText(schoolEntry.getElementaryLastGrade());
+        }
+        if (schoolEntry.getHasMiddleSchool() == 1) {
+            hasMiddle.setChecked(true);
+            middleFirstGradeField.setEnabled(true);
+            middleLastGradeField.setEnabled(true);
+            middleFirstGrade.setText(schoolEntry.getMiddleFirstGrade());
+            middleLastGrade.setText(schoolEntry.getMiddleLastGrade());
+        }
+        if (schoolEntry.getHasHighSchool() == 1) {
+            hasHigh.setChecked(true);
+            highFirstGradeField.setEnabled(true);
+            highLastGradeField.setEnabled(true);
+            highFirstGrade.setText(schoolEntry.getHighFirstGrade());
+            highLastGrade.setText(schoolEntry.getHighLastGrade());
+        }
+        if (schoolEntry.getHasEja() == 1) {
+            hasEJA.setChecked(true);
+            ejaFirstGradeField.setEnabled(true);
+            ejaLastGradeField.setEnabled(true);
+            ejaFirstGrade.setText(schoolEntry.getEjaFirstGrade());
+            ejaLastGrade.setText(schoolEntry.getEjaLastGrade());
+        }
         youngestStudentAge.setText(Integer.toString(schoolEntry.getYoungestStudent()));
         oldestStudentAge.setText(Integer.toString(schoolEntry.getOldestStudent()));
         totalStudents.setText(Integer.toString(schoolEntry.getNumberStudents()));
@@ -524,5 +632,26 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         workersPcdDescription.setText(schoolEntry.getWorkersPcdDescription());
         totalWorkersLibras.setText(Integer.toString(schoolEntry.getNumberWorkersLibras()));
         dateInspectionText.setText(dateDatabaseToRegister(schoolEntry.getDateInspection()));
+    }
+
+    public void disableAllCheckboxFields() {
+        morningStartTimeField.setEnabled(false);
+        morningEndTimeField.setEnabled(false);
+        afternoonStartTimeField.setEnabled(false);
+        afternoonEndTimeField.setEnabled(false);
+        eveningStartTimeField.setEnabled(false);
+        eveningEndTimeField.setEnabled(false);
+        maternalFirstGradeField.setEnabled(false);
+        maternalLastGradeField.setEnabled(false);
+        preschoolFirstGradeField.setEnabled(false);
+        preschoolLastGradeField.setEnabled(false);
+        elementaryFirstGradeField.setEnabled(false);
+        elementaryLastGradeField.setEnabled(false);
+        middleFirstGradeField.setEnabled(false);
+        middleLastGradeField.setEnabled(false);
+        highFirstGradeField.setEnabled(false);
+        highLastGradeField.setEnabled(false);
+        ejaFirstGradeField.setEnabled(false);
+        ejaLastGradeField.setEnabled(false);
     }
 }
