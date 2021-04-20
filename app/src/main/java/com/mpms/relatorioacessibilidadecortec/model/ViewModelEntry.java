@@ -25,6 +25,7 @@ public class ViewModelEntry extends AndroidViewModel {
     //Quando vou retornar o valor, preciso colocar a variável com o valor, NÃO o método.
     public LiveData<List<SchoolEntry>> getAllEntries() { return allEntries; }
     public LiveData<SchoolEntry> getEntry(int cadID) { return repository.getEntry(cadID); }
+    public SchoolEntry getLastEntry() {return repository.getLastEntry(); }
 
     public static void insert(SchoolEntry schoolEntry) { repository.insert(schoolEntry); }
     public static void update(SchoolEntry schoolEntry) { repository.update(schoolEntry); }

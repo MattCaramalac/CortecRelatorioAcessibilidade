@@ -27,6 +27,8 @@ public class ReportRepository {
 
     public LiveData<SchoolEntry> getEntry(int cadID) { return schoolEntryDao.getEntry(cadID); }
 
+    public SchoolEntry getLastEntry() { return schoolEntryDao.getLastEntry(); }
+
     public void insert(SchoolEntry schoolEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.insertEntry(schoolEntry));
     }

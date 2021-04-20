@@ -23,6 +23,7 @@
     <string name="label_complements">Complemento</string>
     <string name="label_students_pcd_description">Deficiênicas e Impedimentos dos Alunos</string>
     <string name="label_workers_pcd_description">Deficiênicas e Impedimentos Funcionários</string>
+    <string name="label_pick_memorial_option">Local Vistoriado</string>
 
     <string name="label_save_close_button">Salvar Cadastro</string>
     <string name="label_save_continue_button">Salvar e Continuar</string>
@@ -30,6 +31,8 @@
     <string name="label_add_register_button">Adicionar Cadastro</string>
     <string name="label_update_button">Atualizar Cadastro</string>
     <string name="label_update_continue_button">Atualizar e Continuar</string>
+    <string name="label_save_quit_button">Salvar e Sair</string>
+    <string name="label_save_finish_button">Salvar e Finalizar</string>
 
     <string name="blank_field_error">Campo Obrigatório</string>
     <string name="wrong_input_error">Este campo só aceita números</string>
@@ -55,4 +58,22 @@
     <string name="ao">ao</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string-array name="memorial_items">
+        <item>Acesso externo</item>
+        <item>Bebedouro</item>
+        <item>Biblioteca</item>
+        <item>Calçada</item>
+        <item>Coordenação</item>
+        <item>Diretoria</item>
+        <item>Escada</item>
+        <item>Estacionamento</item>
+        <item>Rampa</item>
+        <item>Refeitório</item>
+        <item>Sala de Aula</item>
+        <item>Sala de Informática</item>
+        <item>Sala de Recursos</item>
+        <item>Sala dos Professores</item>
+        <item>Secretaria</item>
+    </string-array>
 </resources>

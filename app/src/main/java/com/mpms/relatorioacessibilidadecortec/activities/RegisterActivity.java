@@ -2,6 +2,7 @@ package com.mpms.relatorioacessibilidadecortec.activities;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,11 +11,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.time.*;
-import java.util.Calendar;
-import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,22 +21,24 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Objects;
+
 //      TODO - Estudar para usar Fragments no lugar de Activities - Garante melhor Design em Tablets + diminui gasto de memória
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private static final int MIN_NUMBER_LENGTH = 13;
+    private static final String MEMORIAL_ITEM_ENTRY = "MEMORIAL_ITEM_ENTRY";
     public LocalDate chosenDate;
-    private int cadID = 0;
-
-//    private ViewModelEntry viewModelEntry;
-//    Como insert é um método static, não precisa ser criado um objeto ViewModelEntry para acessar
     TextInputEditText nameSchool, addressSchool, addressComplement, addressNumber, addressNeighborhood, nameCity, nameDirector, contactPhone1,
-        contactPhone2, nameResponsibleVisit, nameInspectionTeamMembers, morningStartTime, morningEndTime, afternoonStartTime, afternoonEndTime,
-        eveningStartTime, eveningEndTime, maternalFirstGrade, maternalLastGrade, preschoolFirstGrade, preschoolLastGrade, elementaryFirstGrade,
-        elementaryLastGrade, middleFirstGrade, middleLastGrade, highFirstGrade, highLastGrade, ejaFirstGrade, ejaLastGrade, youngestStudentAge,
-        oldestStudentAge, totalStudents, totalStudentsPcd, studentsPcdDescription, totalWorkers, totalWorkersPcd, workersPcdDescription,
-        totalWorkersLibras, dateInspectionText;
-
+            contactPhone2, nameResponsibleVisit, nameInspectionTeamMembers, morningStartTime, morningEndTime, afternoonStartTime, afternoonEndTime,
+            eveningStartTime, eveningEndTime, maternalFirstGrade, maternalLastGrade, preschoolFirstGrade, preschoolLastGrade, elementaryFirstGrade,
+            elementaryLastGrade, middleFirstGrade, middleLastGrade, highFirstGrade, highLastGrade, ejaFirstGrade, ejaLastGrade, youngestStudentAge,
+            oldestStudentAge, totalStudents, totalStudentsPcd, studentsPcdDescription, totalWorkers, totalWorkersPcd, workersPcdDescription,
+            totalWorkersLibras, dateInspectionText;
     TextInputLayout schoolField, addressField, addressComplementField, addressNumberField, addressNeighborhoodField, cityField, directorField,
             contactPhone1Field, contactPhone2Field, nameResponsibleVisitField, nameInspectionTeamMembersField, morningStartTimeField, morningEndTimeField,
             afternoonStartTimeField, afternoonEndTimeField, eveningStartTimeField, eveningEndTimeField, maternalFirstGradeField, maternalLastGradeField,
@@ -48,12 +46,11 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             middleLastGradeField, highFirstGradeField, highLastGradeField, ejaFirstGradeField, ejaLastGradeField, youngestStudentAgeField,
             oldestStudentAgeField, totStudentsField, totStudentsPcd, studentsPcdDescriptionField, totWorkersField, totWorkersPcd,
             workersPcdDescriptionField, totWorkersLibras, dateField;
-
     TextView timeScheduleError, schoolServicesError, agesError;
-
     Button saveCloseButton, saveContinueButton, updateEntryButton, updateContinueButton;
-
     CheckBox hasMorningClasses, hasAfternoonClasses, hasEveningClasses, hasMaternal, hasPreschool, hasElementary, hasMiddle, hasHigh, hasEJA;
+    private ViewModelEntry viewModelEntry;
+    private int cadID = 0;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -192,9 +189,19 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             }
         });
 
-        saveContinueButton.setOnClickListener(v -> Toast.makeText(this, "Função a ser Implementada", Toast.LENGTH_LONG).show());
+        saveContinueButton.setOnClickListener(v -> {
+            if (verifyErrors()) {
+                SchoolEntry newEntry = createEntry();
+                ViewModelEntry.insert(newEntry);
+                ViewModelEntry recentEntry = new ViewModelEntry(RegisterActivity.this.getApplication());
+                int lastCadID = recentEntry.getLastEntry().getCadID();
+                Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
+                itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, lastCadID);
+                startActivity(itemInspectionIntent);
+            }
+        });
 
-        updateEntryButton.setOnClickListener( v -> {
+        updateEntryButton.setOnClickListener(v -> {
             if (verifyErrors()) {
                 SchoolEntry updateEntry = createEntry();
                 updateEntry.setCadID(cadID);
@@ -202,10 +209,22 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 finish();
             }
         });
+
+        updateContinueButton.setOnClickListener(v -> {
+            if (verifyErrors()) {
+                SchoolEntry updateEntry = createEntry();
+                updateEntry.setCadID(cadID);
+                ViewModelEntry.update(updateEntry);
+                Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
+                itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, cadID);
+                startActivity(itemInspectionIntent);
+            }
+
+        });
     }
 
-//  TODO - Refazer a forma de captar e armazenar datas para manter integridade
-    private void showDatePicker (){
+    //  TODO - Refazer a forma de captar e armazenar datas para manter integridade
+    private void showDatePicker() {
         MaterialDatePicker<Long> datePickerDialog = MaterialDatePicker.Builder
                 .datePicker().setTitleText("Data de Inspeção").setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds()).build();
@@ -222,7 +241,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     public void checkboxListener() {
 
         hasMorningClasses.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 morningStartTimeField.setEnabled(true);
                 morningEndTimeField.setEnabled(true);
             } else {
@@ -235,7 +254,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         });
 
         hasAfternoonClasses.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 afternoonStartTimeField.setEnabled(true);
                 afternoonEndTimeField.setEnabled(true);
             } else {
@@ -248,7 +267,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         });
 
         hasEveningClasses.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 eveningStartTimeField.setEnabled(true);
                 eveningEndTimeField.setEnabled(true);
             } else {
@@ -261,7 +280,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         });
 
         hasMaternal.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 maternalFirstGradeField.setEnabled(true);
                 maternalLastGradeField.setEnabled(true);
             } else {
@@ -274,7 +293,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         });
 
         hasPreschool.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 preschoolFirstGradeField.setEnabled(true);
                 preschoolLastGradeField.setEnabled(true);
             } else {
@@ -287,7 +306,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         });
 
         hasElementary.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 elementaryFirstGradeField.setEnabled(true);
                 elementaryLastGradeField.setEnabled(true);
             } else {
@@ -300,7 +319,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         });
 
         hasMiddle.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 middleFirstGradeField.setEnabled(true);
                 middleLastGradeField.setEnabled(true);
             } else {
@@ -313,7 +332,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         });
 
         hasHigh.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 highFirstGradeField.setEnabled(true);
                 highLastGradeField.setEnabled(true);
             } else {
@@ -326,7 +345,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         });
 
         hasEJA.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 ejaFirstGradeField.setEnabled(true);
                 ejaLastGradeField.setEnabled(true);
             } else {
@@ -339,7 +358,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         });
     }
 
-    public Integer checkValueCheckbox (CheckBox checkBox) {
+    public Integer checkValueCheckbox(CheckBox checkBox) {
         if (checkBox.isChecked())
             return 1;
         else
@@ -500,7 +519,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     public String dateToString(Long dateLong) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             chosenDate = Instant.ofEpochMilli(dateLong).atZone(ZoneId.of("Z")).toLocalDate();
-            return lessThanTen(chosenDate.getDayOfMonth()) +"/"+ lessThanTen(chosenDate.getMonthValue()) +"/"+ chosenDate.getYear();
+            return lessThanTen(chosenDate.getDayOfMonth()) + "/" + lessThanTen(chosenDate.getMonthValue()) + "/" + chosenDate.getYear();
         } else {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(dateLong);
@@ -513,14 +532,14 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         return dividedString[2] + "-" + dividedString[1] + "-" + dividedString[0];
     }
 
-    public String dateDatabaseToRegister (String date) {
+    public String dateDatabaseToRegister(String date) {
         String[] dividedString = date.split("-");
         return dividedString[2] + "/" + dividedString[1] + "/" + dividedString[0];
     }
 
-    public String lessThanTen(int number){
+    public String lessThanTen(int number) {
         if (number < 10)
-            return "0"+number;
+            return "0" + number;
         else
             return Integer.toString(number);
     }
@@ -530,7 +549,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 addressComplement.getText().toString(), addressNumber.getText().toString(), addressNeighborhood.getText().toString(),
                 nameCity.getText().toString(), nameDirector.getText().toString(), contactPhone1.getText().toString(),
                 contactPhone2.getText().toString(), nameResponsibleVisit.getText().toString(), nameInspectionTeamMembers.getText().toString(),
-                checkValueCheckbox(hasMorningClasses),morningStartTime.getText().toString(), morningEndTime.getText().toString(),
+                checkValueCheckbox(hasMorningClasses), morningStartTime.getText().toString(), morningEndTime.getText().toString(),
                 checkValueCheckbox(hasAfternoonClasses), afternoonStartTime.getText().toString(), afternoonEndTime.getText().toString(),
                 checkValueCheckbox(hasEveningClasses), eveningStartTime.getText().toString(), eveningEndTime.getText().toString(),
                 checkValueCheckbox(hasMaternal), maternalFirstGrade.getText().toString(), maternalLastGrade.getText().toString(),

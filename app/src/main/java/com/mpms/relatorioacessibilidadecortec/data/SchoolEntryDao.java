@@ -24,6 +24,9 @@ public interface SchoolEntryDao {
     @Query("SELECT * FROM SchoolEntry WHERE SchoolEntry.cadID == :cadID")
     LiveData<SchoolEntry> getEntry(int cadID);
 
+    @Query("SELECT * FROM SchoolEntry WHERE cadID = (SELECT MAX(cadID) from SchoolEntry)")
+    SchoolEntry getLastEntry();
+
     @Update
     void update(SchoolEntry schoolEntry);
 
