@@ -16,8 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.RegisterActivity"
-            android:label="@string/header"/>
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:label="@string/header" />
+        <activity
+            android:name=".activities.InspectionActivity"
+            android:label="@string/headerInspection" />
     </application>
 
 </manifest>

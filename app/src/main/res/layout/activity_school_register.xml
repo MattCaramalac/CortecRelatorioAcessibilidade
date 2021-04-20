@@ -173,7 +173,8 @@
                     android:id="@+id/contact_phone1_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"/>
+                    android:inputType="number"
+                    android:maxLength="11"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -191,7 +192,8 @@
                     android:id="@+id/contact_phone2_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:maxLength="11"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

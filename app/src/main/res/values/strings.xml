@@ -2,6 +2,7 @@
     <string name="app_name">Relatório Acessibilidade Cortec</string>
 
     <string name="header">Cadastro da Instituição</string>
+    <string name="headerInspection">Memorial Descritivo</string>
 
     <string name="label_school">Nome da Instituição</string>
     <string name="label_city_school">Nome da Cidade</string>
@@ -47,4 +48,6 @@
     <string name="school_grade">ano</string>
     <string name="grade_o">º</string>
     <string name="students_ages">Idades Atendidas pela Instituição:</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
