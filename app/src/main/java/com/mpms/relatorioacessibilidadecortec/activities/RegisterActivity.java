@@ -30,7 +30,7 @@ import java.util.Objects;
 //      TODO - Estudar para usar Fragments no lugar de Activities - Garante melhor Design em Tablets + diminui gasto de memória
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private static final int MIN_NUMBER_LENGTH = 13;
+    private static final int MIN_NUMBER_LENGTH = 10;
     private static final String MEMORIAL_ITEM_ENTRY = "MEMORIAL_ITEM_ENTRY";
     public LocalDate chosenDate;
     TextInputEditText nameSchool, addressSchool, addressComplement, addressNumber, addressNeighborhood, nameCity, nameDirector, contactPhone1,
@@ -218,6 +218,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
                 itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, cadID);
                 startActivity(itemInspectionIntent);
+                releaseInstance();
             }
 
         });
@@ -396,11 +397,15 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             contactPhone1Field.setError(getString(R.string.blank_field_error));
             i++;
         } else if (Objects.requireNonNull(contactPhone1.getText()).toString().length() < MIN_NUMBER_LENGTH) {
-            nameResponsibleVisitField.setError(getString(R.string.invalid_input_error));
+            contactPhone1Field.setError(getString(R.string.invalid_input_error));
             i++;
         }
-        if (Objects.requireNonNull(contactPhone2.getText()).toString().length() < MIN_NUMBER_LENGTH) {
-            nameResponsibleVisitField.setError(getString(R.string.invalid_input_error));
+        if (!TextUtils.isEmpty(contactPhone2.getText()) && Objects.requireNonNull(contactPhone2.getText()).toString().length() < MIN_NUMBER_LENGTH) {
+            contactPhone2Field.setError(getString(R.string.invalid_input_error));
+            i++;
+        }
+        if (TextUtils.isEmpty(nameResponsibleVisit.getText())) {
+            nameResponsibleVisitField.setError(getString(R.string.blank_field_error));
             i++;
         }
         if (TextUtils.isEmpty(nameInspectionTeamMembers.getText())) {

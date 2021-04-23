@@ -25,6 +25,8 @@
     <string name="label_workers_pcd_description">Deficiênicas e Impedimentos Funcionários</string>
     <string name="label_pick_memorial_option">Local Vistoriado</string>
 
+    <string name="hint_external_floor">Tipo do Piso</string>
+
     <string name="label_save_close_button">Salvar Cadastro</string>
     <string name="label_save_continue_button">Salvar e Continuar</string>
     <string name="label_cancel_button">Cancelar</string>
@@ -56,9 +58,24 @@
     <string name="students_ages">Idades Atendidas pela Instituição:</string>
 
     <string name="ao">ao</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    
+
+    <string name="label_exp_dropdown">Escolha um item</string>
+
+    <string name="frag_ext_sia">SIA</string>
+    <string name="radio_button_yes">SIM</string>
+    <string name="radio_button_no">NÃO</string>
+    <string name="frag_ext_gate">Portão</string>
+    <string name="hint_ext_gate_width">Largura do Portão</string>
+    <string name="hint_ext_trail_height">Altura do Trilho</string>
+    <string name="frag_ext_trail_ledge">Rampa do Trilho do Portão</string>
+    <string name="radio_button_has_it">POSSUI</string>
+    <string name="radio_button_dont_has_it">NÃO POSSUI</string>
+    <string name="radio_button_unecessary">DESNECESSÁRIO</string>
+    <string name="frag_ext_gate_obstacles">Entrada Possui Cancelas ou Catracas?</string>
+    <string name="label_add_frag_entry">+ Adicionar</string>
+    <string name="frag_ent_gate_payphone">Entrada possui orelhões?</string>
+
+
     <string-array name="memorial_items">
         <item>Acesso externo</item>
         <item>Bebedouro</item>
@@ -76,4 +93,10 @@
         <item>Sala dos Professores</item>
         <item>Secretaria</item>
     </string-array>
+
+    <string name="label_waterfountain_height">Altura do Bebedouro</string>
+    <string name="label_cupholder_height">Altura do Porta-copos</string>
+    <string name="label_distance_waterfountain">Aproximação</string>
+    <string name="label_button_save">GRAVAR</string>
+    <string name="label_button_cancel">CANCELAR</string>
 </resources>

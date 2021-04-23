@@ -17,7 +17,7 @@
         class="com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial"/>
 
     <FrameLayout
-        android:id="@+id/show_option_selected"
+        android:id="@+id/show_fragment_selected"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"

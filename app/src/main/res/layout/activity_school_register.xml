@@ -65,8 +65,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="2"
                 android:hint="@string/label_complements"
-                app:layout_constraintEnd_toStartOf="@id/numberAddress"
-                app:layout_constraintStart_toStartOf="parent">
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/complement_text"
@@ -83,8 +82,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:hint="@string/label_number"
-                app:layout_constraintBaseline_toBaselineOf="@id/complementAddress"
-                app:layout_constraintEnd_toEndOf="parent">
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/numberAddress_text"
