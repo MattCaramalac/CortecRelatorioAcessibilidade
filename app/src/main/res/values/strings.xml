@@ -72,7 +72,7 @@
     <string name="radio_button_dont_has_it">NÃO POSSUI</string>
     <string name="radio_button_unecessary">DESNECESSÁRIO</string>
     <string name="frag_ext_gate_obstacles">Entrada Possui Cancelas ou Catracas?</string>
-    <string name="label_add_frag_entry">+ Adicionar</string>
+    <string name="label_add_frag_entry">Adicionar</string>
     <string name="frag_ent_gate_payphone">Entrada possui orelhões?</string>
 
 
@@ -99,4 +99,25 @@
     <string name="label_distance_waterfountain">Aproximação</string>
     <string name="label_button_save">GRAVAR</string>
     <string name="label_button_cancel">CANCELAR</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_sidewalk_address">Rua Localização da Calçada</string>
+    <string name="hint_sidewalk_status">Estado Conservação da Calçada</string>
+    <string name="hint_sidewalk_width">Largura da Calçada</string>
+    <string name="label_has_special_floor">Esta calçada possui piso tátil?</string>
+    <string name="hint_sidewalk_ramp">Esta calçada possui rampa?</string>
+    <string name="hint_ramp_width">Largura da Rampa</string>
+    <string name="hint_ramp_slope">Inclinação da Rampa</string>
+    <string name="hint_visual_signal">Sinalização Visual</string>
+    <string name="hint_visual_signals">Sinalização Visual</string>
+    <string name="label_coord_entrance_door">Dimensões da Porta de Entrada</string>
+    <string name="hint_door_width">Largura da Porta</string>
+    <string name="hint_uneven_door">Desvível da Porta</string>
+    <string name="label_door_ramp">Porta com rampa?</string>
+    <string name="hint_window_height">Altura da Janela</string>
+    <string name="hint_interruptor_height">Altura do Interruptor</string>
+    <string name="hint_room_carpet">Capacho da Sala</string>
+    <string name="hint_circulation_room">Espaço de circulação da sala</string>
+    <string name="label_table_register">Cadastro de Mesas e Suas Dimensões</string>
+    <string name="hint_handle_height">Altura da maçaneta</string>
 </resources>
