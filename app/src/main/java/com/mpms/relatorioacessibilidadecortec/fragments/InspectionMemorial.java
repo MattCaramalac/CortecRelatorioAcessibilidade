@@ -17,6 +17,7 @@ import android.widget.AutoCompleteTextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,6 @@ public class InspectionMemorial extends Fragment {
 
     TextInputLayout dropdownMenuLocations;
     AutoCompleteTextView listItemsMemorial;
-    String[] memorialLocations;
     ArrayAdapter<String> adapterLocations;
 
     private static final int NO_CHOICE = -1;
@@ -74,8 +74,7 @@ public class InspectionMemorial extends Fragment {
 
     @Override
     public void onResume() {
-        memorialLocations = getResources().getStringArray(R.array.memorial_items);
-        adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, memorialLocations);
+        adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, HeaderNames.headerNames);
         listItemsMemorial.setAdapter(adapterLocations);
 
         listItemsMemorial.setOnItemClickListener((parent, view, position, id) -> {

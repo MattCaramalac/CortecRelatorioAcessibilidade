@@ -46,7 +46,7 @@ public class LibraryFragment extends Fragment {
 
     public void setHeaderText(View v) {
         TextView headerText = v.findViewById(R.id.library_header);
-        HeaderNames headerNames = HeaderNames.headerNames[chosenOption];
-        headerText.setText(headerNames.getName());
+        String headerNames = HeaderNames.headerNames[chosenOption];
+        headerText.setText(headerNames);
     }
 }

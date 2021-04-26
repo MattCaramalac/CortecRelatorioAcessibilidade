@@ -46,7 +46,7 @@ public class WaterFountainFragment extends Fragment {
 
     public void setHeaderText(View v) {
         TextView headerText = v.findViewById(R.id.waterfountain_header);
-        HeaderNames headerNames = HeaderNames.headerNames[chosenOption];
-        headerText.setText(headerNames.getName());
+        String headerNames = HeaderNames.headerNames[chosenOption];
+        headerText.setText(headerNames);
     }
 }
