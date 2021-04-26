@@ -4,11 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.CoordinationFragment">
+    tools:context=".fragments.RoomsRegisterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/room_register_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/section_header"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/coord_visual_signal_field"
@@ -17,7 +27,8 @@
             android:hint="@string/hint_visual_signals"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/room_register_name"
+            android:layout_marginTop="@dimen/top_margins">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/coord_visual_signal_value"

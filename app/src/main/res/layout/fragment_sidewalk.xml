@@ -11,6 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/sidewalk_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/section_header"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sidewalk_address_field"
             android:layout_width="match_parent"
@@ -18,7 +28,8 @@
             android:hint="@string/hint_sidewalk_address"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_header"
+            android:layout_marginTop="@dimen/top_margins">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sidewalk_address_value"

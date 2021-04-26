@@ -5,8 +5,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
-import com.mpms.relatorioacessibilidadecortec.fragments.CoordinationFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
@@ -25,33 +26,36 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspection);
-
     }
 
     @Override
     public void onDropdownChoice(int choice) {
         switch (choice) {
             case 0:
-                displayExternalAccessFragment();
+                displayExternalAccessFragment(choice);
                 break;
             case 1:
-                displayWaterFountainFragment();
+                displayWaterFountainFragment(choice);
                 break;
             case 2:
-                displayLibraryFragment();
+                displayLibraryFragment(choice);
                 break;
             case 3:
-                displaySidewalkFragment();
+                displaySidewalkFragment(choice);
                 break;
             case 4:
-                displayCoordinationFragment();
+            case 5:
+            case 11:
+            case 12:
+            case 13:
+                displayRoomsRegisterFragment(choice);
                 break;
         }
 
     }
 
-    public void displayExternalAccessFragment() {
-        ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance();
+    public void displayExternalAccessFragment(int chosenItem) {
+        ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance(chosenItem);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected,externalAccessFragment).addToBackStack(null).commit();
     }
@@ -64,8 +68,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-    public void displayWaterFountainFragment() {
-        WaterFountainFragment waterFountainFragment = WaterFountainFragment.newInstance();
+    public void displayWaterFountainFragment(int chosenItem) {
+        WaterFountainFragment waterFountainFragment = WaterFountainFragment.newInstance(chosenItem);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected,waterFountainFragment).addToBackStack(null).commit();
     }
@@ -78,8 +82,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-    public void displayLibraryFragment() {
-        LibraryFragment libraryFragment = LibraryFragment.newInstance();
+    public void displayLibraryFragment(int chosenItem) {
+        LibraryFragment libraryFragment = LibraryFragment.newInstance(chosenItem);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected,libraryFragment).addToBackStack(null).commit();
     }
@@ -92,8 +96,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-    public void displaySidewalkFragment() {
-        SidewalkFragment sidewalkFragment = SidewalkFragment.newInstance();
+    public void displaySidewalkFragment(int chosenItem) {
+        SidewalkFragment sidewalkFragment = SidewalkFragment.newInstance(chosenItem);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected,sidewalkFragment).addToBackStack(null).commit();
     }
@@ -106,17 +110,18 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-    public void displayCoordinationFragment() {
-        CoordinationFragment coordinationFragment = CoordinationFragment.newInstance();
+    public void displayRoomsRegisterFragment(int chosenItem) {
+        RoomsRegisterFragment roomsRegisterFragment = RoomsRegisterFragment.newInstance(chosenItem);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected,coordinationFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.show_fragment_selected, roomsRegisterFragment).addToBackStack(null).commit();
     }
 
-    public void closeCoordinationFragment() {
-        CoordinationFragment coordinationFragment = (CoordinationFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (coordinationFragment != null) {
+    public void closeRoomsRegisterFragment() {
+        RoomsRegisterFragment roomsRegisterFragment = (RoomsRegisterFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
+        if (roomsRegisterFragment != null) {
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(coordinationFragment).commit();
+            fragmentTransaction.remove(roomsRegisterFragment).commit();
         }
     }
+
 }

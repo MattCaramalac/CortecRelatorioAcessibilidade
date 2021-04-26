@@ -11,13 +11,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/waterfountain_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/section_header"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/waterfountain_height_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/waterfountain_header"
+            android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/label_waterfountain_height">
 
             <com.google.android.material.textfield.TextInputEditText

@@ -7,17 +7,27 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 
 public class WaterFountainFragment extends Fragment {
+
+    private static int chosenOption;
 
     public WaterFountainFragment() {
         // Required empty public constructor
     }
 
-    public static WaterFountainFragment newInstance() {
-        return new WaterFountainFragment();
+    public void setChosenOption(int choice) {
+        WaterFountainFragment.chosenOption = choice;
+    }
+
+    public static WaterFountainFragment newInstance(int dropdownChoice) {
+        WaterFountainFragment waterFountainFragment = new WaterFountainFragment();
+        waterFountainFragment.setChosenOption(dropdownChoice);
+        return waterFountainFragment;
     }
 
     @Override
@@ -29,6 +39,14 @@ public class WaterFountainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_water_fountain, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_water_fountain, container, false);
+        setHeaderText(rootView);
+        return rootView;
+    }
+
+    public void setHeaderText(View v) {
+        TextView headerText = v.findViewById(R.id.waterfountain_header);
+        HeaderNames headerNames = HeaderNames.headerNames[chosenOption];
+        headerText.setText(headerNames.getName());
     }
 }
