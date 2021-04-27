@@ -41,6 +41,21 @@ public class RoomsRegisterFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_rooms_register, container, false);
         setHeaderText(rootView);
+
+        switch (chosenOption){
+            case 3:
+                getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new LibraryFragment()).commit();
+                break;
+            case 10:
+                getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new CafeteriaFragment()).commit();
+                break;
+            case 11:
+                getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new ClassroomFragment()).commit();
+                break;
+            default:
+                break;
+        }
+
         return rootView;
     }
 

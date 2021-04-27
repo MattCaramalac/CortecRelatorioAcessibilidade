@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
@@ -30,6 +31,7 @@ import java.util.Objects;
 //      TODO - Estudar para usar Fragments no lugar de Activities - Garante melhor Design em Tablets + diminui gasto de memória
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    private static int LAST_CAD_ID;
     private static final int MIN_NUMBER_LENGTH = 10;
     private static final String MEMORIAL_ITEM_ENTRY = "MEMORIAL_ITEM_ENTRY";
     public LocalDate chosenDate;
@@ -194,10 +196,12 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 SchoolEntry newEntry = createEntry();
                 ViewModelEntry.insert(newEntry);
                 ViewModelEntry recentEntry = new ViewModelEntry(RegisterActivity.this.getApplication());
-                int lastCadID = recentEntry.getLastEntry().getCadID();
+                //LiveData PRECISA ser observado para poder obter os dados
+                recentEntry.getLastEntry().observe(this, lastEntry -> LAST_CAD_ID = lastEntry.getCadID());
                 Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
-                itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, lastCadID);
+                itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, LAST_CAD_ID);
                 startActivity(itemInspectionIntent);
+
             }
         });
 
@@ -478,6 +482,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             totStudentsField.setError(getString(R.string.blank_field_error));
             i++;
         }
+        if (TextUtils.isEmpty(totalStudentsPcd.getText())) {
+            totStudentsPcd.setError(getString(R.string.blank_field_error));
+            i++;
+        }
         if (!TextUtils.isEmpty(totalStudentsPcd.getText()) && !TextUtils.equals(Objects.requireNonNull(totalStudentsPcd.getText()).toString(), "0")) {
             if (TextUtils.isEmpty(studentsPcdDescription.getText())) {
                 studentsPcdDescriptionField.setError(getString(R.string.blank_field_error));
@@ -486,6 +494,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         }
         if (TextUtils.isEmpty(totalWorkers.getText())) {
             totWorkersField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+        if (TextUtils.isEmpty(totalWorkersPcd.getText())) {
+            totWorkersPcd.setError(getString(R.string.blank_field_error));
             i++;
         }
         if (!TextUtils.isEmpty(totalWorkersPcd.getText()) && !TextUtils.equals(Objects.requireNonNull(totalWorkersPcd.getText()).toString(), "0")) {

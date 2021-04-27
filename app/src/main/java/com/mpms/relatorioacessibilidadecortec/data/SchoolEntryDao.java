@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface SchoolEntryDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert()
     void insertEntry(SchoolEntry schoolEntry);
 
     @Query("SELECT * FROM SchoolEntry ORDER BY cadID DESC")
@@ -25,7 +25,7 @@ public interface SchoolEntryDao {
     LiveData<SchoolEntry> getEntry(int cadID);
 
     @Query("SELECT * FROM SchoolEntry WHERE cadID = (SELECT MAX(cadID) from SchoolEntry)")
-    SchoolEntry getLastEntry();
+    LiveData<SchoolEntry> getLastEntry();
 
     @Update
     void update(SchoolEntry schoolEntry);
