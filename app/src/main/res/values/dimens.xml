@@ -15,7 +15,7 @@
     <integer name="min_lenght_grade">2</integer>
     <integer name="max_lenght_grade">3</integer>
     <integer name="max_lenght_hour">5</integer>
-    <integer name="max_length_date">8</integer>
+    <integer name="max_length_date">10</integer>
 
     <integer name="weight_one">1</integer>
 </resources>

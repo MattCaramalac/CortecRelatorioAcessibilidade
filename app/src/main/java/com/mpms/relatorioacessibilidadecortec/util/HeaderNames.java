@@ -10,6 +10,7 @@ public class HeaderNames {
 
     public static final String[] headerNames = {
             "Acesso externo",
+            "Banheiro",
             "Bebedouro",
             "Biblioteca",
             "Calçada",

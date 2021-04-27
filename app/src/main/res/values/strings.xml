@@ -105,4 +105,25 @@
     <string name="helping_desk_width">Profundidade do Balcão</string>
     <string name="spin_180_degrees">Giro de 180 graus</string>
     <string name="secretary_seats">Número assentos fixos Sala de Espera</string>
+    <string name="total_vacancy">Vagas Totais</string>
+    <string name="floor_type">Tipo de Piso</string>
+    <string name="parking_lot_signal">Sinalização do Estacionamento</string>
+    <string name="hint_stairs_width">Largura da Escadaria</string>
+    <string name="hint_handrail_height">Altura do Corrimão</string>
+    <string name="hint_handrail_extensions">Prolongamento Corrrimão</string>
+    <string name="hint_handrail_grip">Empunhadura Corrimão</string>
+    <string name="hint_railing">Guarda-Corpo</string>
+    <string name="hint_tactile_signal">Sinalização Tátil</string>
+
+    <string name="hint_ramp_acclivity">Inclinação da Rampa</string>
+    <string name="label_counter_cafeteria_measurements">Dimensões do Balcão</string>
+    <string name="hint_counter_height">Altura Balcão</string>
+    <string name="hint_counter_circ">Circ. Balcão</string>
+    <string name="hint_PCR_spaces">Espaço PCR</string>
+
+    <string name="hint_blackboard_height">Altura da Lousa</string>
+    <string name="label_distance_shelves">Distância entre as estantes é igual ou maior que 90 centímetros?</string>
+    <string name="label_PCR_maneuver">Existem bolsões para manobras de PCR à cada 15 metros?</string>
+    <string name="label_computer_accessibility">Ao menos 5% dos terminais de consulta por computadores e acesso à Internet são acessíveis para PCR e PMR?</string>
+    <string name="hint_total_vacancy_PDMR">Vagas PDMR</string>
 </resources>

@@ -7,19 +7,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 
-public class LibraryFragment extends Fragment {
+public class ClassroomFragment extends Fragment {
 
-    public LibraryFragment() {
+    public ClassroomFragment() {
         // Required empty public constructor
     }
 
-    public static LibraryFragment newInstance() {
-        return new LibraryFragment();
+    public static ClassroomFragment newInstance() {
+        return new ClassroomFragment();
     }
 
     @Override
@@ -31,8 +29,6 @@ public class LibraryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_library, container, false);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_classroom, container, false);
     }
 }
-
