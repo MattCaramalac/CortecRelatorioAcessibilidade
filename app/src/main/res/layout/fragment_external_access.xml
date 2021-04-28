@@ -218,6 +218,7 @@
                 android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/radiogroup_gate_obstacle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -248,10 +249,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="@string/label_add_frag_entry"
-                    android:visibility="gone"/>
-<!--                    android:visibility="gone" -->
+                    android:visibility="gone"
+                    android:backgroundTint="@color/purple_200"
+                    android:textColor="@color/black"/>
+
 
 
             </LinearLayout>
@@ -279,6 +282,7 @@
                 android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/radiogroup_gate_payphone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -309,9 +313,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="@string/label_add_frag_entry"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:backgroundTint="@color/purple_200"
+                    android:textColor="@color/black"/>
 
             </LinearLayout>
 

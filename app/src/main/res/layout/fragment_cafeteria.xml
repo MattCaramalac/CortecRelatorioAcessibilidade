@@ -65,21 +65,43 @@
 
         </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/PCR_space_field"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/counter_measurements_layout"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_PCR_spaces">
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/PCR_space_value"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:text="@string/label_possible_180_turn"
+                android:textSize="@dimen/section_header"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_option_size"/>
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_option_size"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

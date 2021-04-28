@@ -54,9 +54,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
             case 9:
                 displayRampFragment(choice);
                 break;
-            case 15:
-                displaySecretaryFragment(choice);
-                break;
             default:
                 displayRoomsRegisterFragment(choice);
                 break;
@@ -117,20 +114,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         if (roomsRegisterFragment != null) {
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.remove(roomsRegisterFragment).commit();
-        }
-    }
-
-    public void displaySecretaryFragment(int chosenItem) {
-        SecretaryFragment secretaryFragment = SecretaryFragment.newInstance(chosenItem);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, secretaryFragment).addToBackStack(null).commit();
-    }
-
-    public void closeSecretaryFragment() {
-        SecretaryFragment secretaryFragment = (SecretaryFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (secretaryFragment != null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(secretaryFragment).commit();
         }
     }
 

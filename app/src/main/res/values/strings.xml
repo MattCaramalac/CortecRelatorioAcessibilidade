@@ -126,4 +126,9 @@
     <string name="label_PCR_maneuver">Existem bolsões para manobras de PCR à cada 15 metros?</string>
     <string name="label_computer_accessibility">Ao menos 5% dos terminais de consulta por computadores e acesso à Internet são acessíveis para PCR e PMR?</string>
     <string name="hint_total_vacancy_PDMR">Vagas PDMR</string>
+    <string name="hint_PCR_space">Espaço PCR</string>
+    <string name="label_possible_180_turn">É possível realizar um giro de 180º?</string>
+    <string name="label_has_PCR_space">Secretaria possui Espaço para PCR?</string>
+    <string name="hint_PCR_space_width">Largura Espaço PCR</string>
+    <string name="hint_PCR_space_depth">Profund. Espaço PCR</string>
 </resources>

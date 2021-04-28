@@ -129,6 +129,7 @@
                         android:textSize="14sp" />
 
                     <RadioGroup
+                        android:id="@+id/door_has_ramp_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -153,13 +154,14 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/rooms_door_ramp_layout"
                 android:baselineAligned="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/rooms_door_ramp_field"
+                    android:id="@+id/door_ramp_width_field"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margins"
@@ -168,7 +170,7 @@
                     android:hint="@string/hint_ramp_width">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/rooms_door_ramp_value"
+                        android:id="@+id/door_ramp_width_value"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="numberDecimal" />
@@ -176,7 +178,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/rooms_door_slope_field"
+                    android:id="@+id/door_ramp_slope_field"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margins"
@@ -185,7 +187,7 @@
                     android:hint="@string/hint_ramp_slope">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/roooms_door_slope_value"
+                        android:id="@+id/door_ramp_slope_value"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:inputType="numberDecimal" />
