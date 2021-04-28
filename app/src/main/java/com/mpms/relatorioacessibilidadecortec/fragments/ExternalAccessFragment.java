@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -58,8 +57,8 @@ public class ExternalAccessFragment extends Fragment {
         Button addGateObstacle = view.findViewById(R.id.add_gate_obstacles);
         Button addPayPhone = view.findViewById(R.id.add_gate_payphone);
 
-        radioGroupActtivation(hasGateObstacle, addGateObstacle);
-        radioGroupActtivation(hasPayPhone, addPayPhone);
+        radioGroupActivation(hasGateObstacle, addGateObstacle);
+        radioGroupActivation(hasPayPhone, addPayPhone);
 
     }
 
@@ -69,7 +68,7 @@ public class ExternalAccessFragment extends Fragment {
         headerText.setText(headerNames);
     }
 
-    public void radioGroupActtivation (RadioGroup radioGroup, Button button) {
+    public void radioGroupActivation(RadioGroup radioGroup, Button button) {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             View radioButton = radioGroup.findViewById(checkedId);
             int index = radioGroup.indexOfChild(radioButton);

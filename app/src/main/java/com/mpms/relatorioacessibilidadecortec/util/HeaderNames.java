@@ -39,4 +39,13 @@ public class HeaderNames {
     public String toString(){
         return this.name;
     }
+
+    public static Integer indexPosition(String name) {
+        for (int j = 0; j < headerNames.length; j++) {
+            boolean isEqual = name.equals(headerNames[j]);
+            if (isEqual)
+                return j;
+        }
+        return null;
+    }
 }

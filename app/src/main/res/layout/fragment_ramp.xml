@@ -10,21 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/ramp_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="@dimen/section_header"/>
-
         <LinearLayout
             android:id="@+id/ramp_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ramp_header"
-            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintTop_toTopOf="parent"
             android:baselineAligned="false">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -60,135 +51,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ramp_visual_signal_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ramp_info_layout"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_visual_signal">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ramp_visual_signal_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ramp_tactile_signal_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ramp_visual_signal_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_tactile_signal">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ramp_tactile_signal_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ramp_railing_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ramp_tactile_signal_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_railing">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ramp_railing_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ramp_handrail_height_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ramp_railing_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_handrail_height">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ramp_handrail_height_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:id="@+id/ramp_handrail_info_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ramp_handrail_height_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:baselineAligned="false">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/handrail_extensions_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="@integer/weight_one"
-            android:layout_marginEnd="@dimen/margins"
-            android:hint="@string/hint_handrail_extensions">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/handrail_extensions_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ramp_handrail_grip_field"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:layout_marginEnd="@dimen/margins"
-                android:hint="@string/hint_handrail_grip">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ramp_handrail_grip_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="numberDecimal"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_ramp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/top_margins"
-            android:text="@string/label_button_save"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ramp_handrail_info_layout" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_ramp"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/top_margins"
-            android:text="@string/label_button_cancel"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@id/save_ramp"
-            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

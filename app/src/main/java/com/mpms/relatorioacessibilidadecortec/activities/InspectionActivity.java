@@ -5,19 +5,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
-import com.mpms.relatorioacessibilidadecortec.fragments.CafeteriaFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RampFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
-import com.mpms.relatorioacessibilidadecortec.fragments.LibraryFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.SecretaryFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.StairsFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.StairsRampFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
@@ -46,13 +41,11 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 displaySidewalkFragment(choice);
                 break;
             case 7:
-                displayStairsFragment(choice);
+            case 9:
+                displayStairsRampFragment(choice);
                 break;
             case 8:
                 displayParkingLotFragment(choice);
-                break;
-            case 9:
-                displayRampFragment(choice);
                 break;
             default:
                 displayRoomsRegisterFragment(choice);
@@ -131,31 +124,17 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-    public void displayStairsFragment(int chosenItem) {
-        StairsFragment stairsFragment = StairsFragment.newInstance(chosenItem);
+    public void displayStairsRampFragment(int chosenItem) {
+        StairsRampFragment stairsRampFragment = StairsRampFragment.newInstance(chosenItem);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, stairsFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.show_fragment_selected, stairsRampFragment).addToBackStack(null).commit();
     }
 
-    public void closeStairsFragment() {
-        StairsFragment stairsFragment = (StairsFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (stairsFragment != null) {
+    public void closeStairsRampFragment() {
+        StairsRampFragment stairsRampFragment = (StairsRampFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
+        if (stairsRampFragment != null) {
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(stairsFragment).commit();
-        }
-    }
-
-    public void displayRampFragment(int chosenItem) {
-        RampFragment rampFragment = RampFragment.newInstance(chosenItem);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, rampFragment).addToBackStack(null).commit();
-    }
-
-    public void closeRampFragment() {
-        RampFragment rampFragment = (RampFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (rampFragment != null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(rampFragment).commit();
+            fragmentTransaction.remove(stairsRampFragment).commit();
         }
     }
 
