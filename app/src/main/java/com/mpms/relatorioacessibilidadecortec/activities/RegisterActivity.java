@@ -26,12 +26,13 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 
 //      TODO - Estudar para usar Fragments no lugar de Activities - Garante melhor Design em Tablets + diminui gasto de memória
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private static int LAST_CAD_ID;
+        private static int LAST_CAD_ID;
     private static final int MIN_NUMBER_LENGTH = 10;
     private static final String MEMORIAL_ITEM_ENTRY = "MEMORIAL_ITEM_ENTRY";
     public LocalDate chosenDate;
@@ -59,6 +60,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_register);
+        Locale aLocale = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
+        Locale.setDefault(aLocale);
 
         //Só podem ser iniciados DENTRO do onCreate, caso contrário não foi selecionada ainda a View
         //E acaba causando um apontamento para algo nulo (já que não tem View selecioada para ser achada)

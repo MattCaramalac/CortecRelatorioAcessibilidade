@@ -15,9 +15,13 @@ import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.StairsRampFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
 
+import java.util.Locale;
+
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
     private int dropdownChoice = -1;
+
+
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction;
@@ -26,7 +30,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspection);
-    }
+        }
 
     @Override
     public void onDropdownChoice(int choice) {
