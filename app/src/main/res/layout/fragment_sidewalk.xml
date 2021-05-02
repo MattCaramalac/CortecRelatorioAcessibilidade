@@ -221,7 +221,7 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_waterfountain"
+            android:id="@+id/save_sidewalk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/sidewalk_ramp_linLayout"
@@ -232,10 +232,10 @@
             />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_waterfountain"
+            android:id="@+id/cancel_sidewalk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@id/save_waterfountain"
+            app:layout_constraintBaseline_toBaselineOf="@id/save_sidewalk"
             app:layout_constraintStart_toStartOf="parent"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:textStyle="bold"

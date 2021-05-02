@@ -9,7 +9,15 @@ import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subscribers.*;
+
 public class ReportRepository {
+
+    private ReportDatabase db;
+
     private SchoolEntryDao schoolEntryDao;
     private LiveData<List<SchoolEntry>> allSchoolEntries;
     private LiveData<SchoolEntry> getEntry;
@@ -19,7 +27,7 @@ public class ReportRepository {
     private LiveData<WaterFountainEntry> waterFountain;
 
     public ReportRepository(Application application) {
-        ReportDatabase db = ReportDatabase.getDatabase(application);
+        db = ReportDatabase.getDatabase(application);
         schoolEntryDao = db.schoolEntryDao();
         waterFountainDao = db.waterFountainDao();
 

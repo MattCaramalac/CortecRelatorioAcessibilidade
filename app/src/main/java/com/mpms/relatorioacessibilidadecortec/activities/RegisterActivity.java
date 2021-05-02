@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,13 +28,21 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Observer;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 //      TODO - Estudar para usar Fragments no lugar de Activities - Garante melhor Design em Tablets + diminui gasto de memória
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-        private static int LAST_CAD_ID;
+
     private static final int MIN_NUMBER_LENGTH = 10;
-    private static final String MEMORIAL_ITEM_ENTRY = "MEMORIAL_ITEM_ENTRY";
+    public static final String MEMORIAL_ITEM_ENTRY = "MEMORIAL_ITEM_ENTRY";
     public LocalDate chosenDate;
     TextInputEditText nameSchool, addressSchool, addressComplement, addressNumber, addressNeighborhood, nameCity, nameDirector, contactPhone1,
             contactPhone2, nameResponsibleVisit, nameInspectionTeamMembers, morningStartTime, morningEndTime, afternoonStartTime, afternoonEndTime,
@@ -53,9 +61,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     Button saveCloseButton, saveContinueButton, updateEntryButton, updateContinueButton;
     CheckBox hasMorningClasses, hasAfternoonClasses, hasEveningClasses, hasMaternal, hasPreschool, hasElementary, hasMiddle, hasHigh, hasEJA;
     private ViewModelEntry viewModelEntry;
-    private int cadID = 0;
+    private int cadID = -1;
+    private int lastCadID;
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "CheckResult"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,12 +206,27 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         saveContinueButton.setOnClickListener(v -> {
             if (verifyErrors()) {
                 SchoolEntry newEntry = createEntry();
-                ViewModelEntry.insert(newEntry);
                 ViewModelEntry recentEntry = new ViewModelEntry(RegisterActivity.this.getApplication());
-                //LiveData PRECISA ser observado para poder obter os dados
-                recentEntry.getLastEntry().observe(this, lastEntry -> LAST_CAD_ID = lastEntry.getCadID());
+                Completable.fromAction(() -> ViewModelEntry.insert(newEntry))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new DisposableCompletableObserver() {
+                            @Override
+                            public void onComplete() {
+                                lastCadID = recentEntry.getLastEntry().getValue().getCadID();
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable e) {
+
+                            }
+                        });
+                //                ViewModelEntry recentEntry = new ViewModelEntry(RegisterActivity.this.getApplication());
+//                //LiveData PRECISA ser observado para poder obter os dados
+//                recentEntry.getLastEntry().observe(this, lastEntry -> lastCadID = lastEntry.getCadID());
+                Toast.makeText(this, "lastCadID = " + lastCadID, Toast.LENGTH_LONG).show();
                 Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
-                itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, LAST_CAD_ID);
+                itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, lastCadID);
                 startActivity(itemInspectionIntent);
 
             }

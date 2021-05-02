@@ -1,27 +1,39 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
+
+import java.util.Objects;
 
 public class WaterFountainFragment extends Fragment {
 
     private static int chosenOption;
 
+    TextInputLayout waterFountainHeightField, cupHolderHeightField, approximationField;
+    TextInputEditText waterFountainHeightValue, cupHolderHeightValue, approximationValue;
+
+    public static int schoolID;
+
     public WaterFountainFragment() {
         // Required empty public constructor
-    }
-
-    public void setChosenOption(int choice) {
-        WaterFountainFragment.chosenOption = choice;
     }
 
     public static WaterFountainFragment newInstance(int dropdownChoice) {
@@ -30,19 +42,51 @@ public class WaterFountainFragment extends Fragment {
         return waterFountainFragment;
     }
 
+    public void setChosenOption(int choice) {
+        WaterFountainFragment.chosenOption = choice;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        }
+        Bundle schoolBundle = this.getArguments();
+        if (schoolBundle != null)
+            schoolID = schoolBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_water_fountain, container, false);
-        setHeaderText(rootView);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_water_fountain, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setHeaderText(view);
+
+        Button cancelWaterfountain = view.findViewById(R.id.cancel_waterfountain);
+        Button saveWaterFountain = view.findViewById(R.id.save_waterfountain);
+
+        waterFountainHeightField = view.findViewById(R.id.waterfountain_height_field);
+        cupHolderHeightField = view.findViewById(R.id.cupholder_height_field);
+        approximationField = view.findViewById(R.id.approximation_waterfountain_field);
+
+        waterFountainHeightValue = view.findViewById(R.id.waterfountain_height_value);
+        cupHolderHeightValue = view.findViewById(R.id.cupholder_height_value);
+        approximationValue = view.findViewById(R.id.approximation_waterfountain_value);
+
+        saveWaterFountain.setOnClickListener(v -> {
+            if(verifyWaterFountainErrors()) {
+                WaterFountainEntry newWaterFountain = createWaterFountainEntry(schoolID);
+                ViewModelEntry.insertWaterFountain(newWaterFountain);
+                clearTextFields();
+            }
+        });
+
+        cancelWaterfountain.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                .beginTransaction().remove(this).commit());
     }
 
     public void setHeaderText(View v) {
@@ -50,4 +94,41 @@ public class WaterFountainFragment extends Fragment {
         String headerNames = HeaderNames.headerNames[chosenOption];
         headerText.setText(headerNames);
     }
+
+    public boolean verifyWaterFountainErrors() {
+        clearWaterFountainErrors();
+        int i = 0;
+        if(TextUtils.isEmpty(waterFountainHeightValue.getText())){
+            waterFountainHeightField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+        if(TextUtils.isEmpty(cupHolderHeightValue.getText())){
+            cupHolderHeightField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+        if(TextUtils.isEmpty(approximationValue.getText())){
+            approximationField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+        return i <= 0;
+    }
+
+    public void clearWaterFountainErrors(){
+        waterFountainHeightField.setErrorEnabled(false);
+        cupHolderHeightField.setErrorEnabled(false);
+        approximationField.setErrorEnabled(false);
+    }
+
+    public void clearTextFields() {
+        waterFountainHeightValue.setText(null);
+        cupHolderHeightValue.setText(null);
+        approximationValue.setText(null);
+    }
+
+    public WaterFountainEntry createWaterFountainEntry(int schoolID) {
+        return new WaterFountainEntry(schoolID, Double.parseDouble(Objects.requireNonNull(waterFountainHeightValue.getText()).toString()),
+                Double.parseDouble(Objects.requireNonNull(cupHolderHeightValue.getText()).toString()),
+                Double.parseDouble(Objects.requireNonNull(approximationValue.getText()).toString()));
+    }
+
 }

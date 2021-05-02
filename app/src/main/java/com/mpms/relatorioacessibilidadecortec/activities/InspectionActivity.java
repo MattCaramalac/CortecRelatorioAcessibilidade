@@ -19,9 +19,10 @@ import java.util.Locale;
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
-    private int dropdownChoice = -1;
-
-
+//    private int dropdownChoice = -1;
+    public int schoolEntryID;
+    public static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
+    Bundle fragmentSchoolID = new Bundle();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction;
@@ -30,7 +31,11 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspection);
+        schoolEntryID = getIntent().getIntExtra(RegisterActivity.MEMORIAL_ITEM_ENTRY,0);
+        fragmentSchoolID.putInt(SCHOOL_ID_VALUE, schoolEntryID);
         }
+
+
 
     @Override
     public void onDropdownChoice(int choice) {
@@ -62,6 +67,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance(chosenItem);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected,externalAccessFragment).addToBackStack(null).commit();
+        externalAccessFragment.setArguments(fragmentSchoolID);
     }
 
     public void closeExternalAccessFragment() {
@@ -74,17 +80,13 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public void displayWaterFountainFragment(int chosenItem) {
         WaterFountainFragment waterFountainFragment = WaterFountainFragment.newInstance(chosenItem);
+        waterFountainFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected,waterFountainFragment).addToBackStack(null).commit();
+
     }
 
-    public void closeWaterFountainFragment() {
-        WaterFountainFragment waterFountainFragment = (WaterFountainFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (waterFountainFragment != null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(waterFountainFragment).commit();
-        }
-    }
+
 
     public void displaySidewalkFragment(int chosenItem) {
         SidewalkFragment sidewalkFragment = SidewalkFragment.newInstance(chosenItem);

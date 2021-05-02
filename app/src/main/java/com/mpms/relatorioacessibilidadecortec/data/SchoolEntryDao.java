@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+import io.reactivex.Completable;
 
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface SchoolEntryDao {
 
-    @Insert()
+    @Insert
     void insertEntry(SchoolEntry schoolEntry);
 
     @Query("SELECT * FROM SchoolEntry ORDER BY cadID DESC")
@@ -24,7 +24,7 @@ public interface SchoolEntryDao {
     @Query("SELECT * FROM SchoolEntry WHERE SchoolEntry.cadID == :cadID")
     LiveData<SchoolEntry> getEntry(int cadID);
 
-    @Query("SELECT * FROM SchoolEntry WHERE cadID = (SELECT MAX(cadID) from SchoolEntry)")
+    @Query("SELECT * FROM SchoolEntry WHERE cadID == (SELECT MAX(cadID) from SchoolEntry)")
     LiveData<SchoolEntry> getLastEntry();
 
     @Update

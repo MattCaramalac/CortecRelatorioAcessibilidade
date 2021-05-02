@@ -58,7 +58,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/distance_waterfountain_field"
+            android:id="@+id/approximation_waterfountain_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,7 @@
             android:hint="@string/label_distance_waterfountain">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/distance_waterfountain_value"
+                android:id="@+id/approximation_waterfountain_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="numberDecimal" />
@@ -79,7 +79,7 @@
             android:id="@+id/save_waterfountain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/distance_waterfountain_field"
+            app:layout_constraintTop_toBottomOf="@id/approximation_waterfountain_field"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="@dimen/top_margins"
             android:text="@string/label_button_save"
