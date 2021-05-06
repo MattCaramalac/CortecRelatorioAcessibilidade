@@ -69,13 +69,13 @@ public class WaterFountainFragment extends Fragment {
         Button cancelWaterfountain = view.findViewById(R.id.cancel_waterfountain);
         Button saveWaterFountain = view.findViewById(R.id.save_waterfountain);
 
-        waterFountainHeightField = view.findViewById(R.id.waterfountain_height_field);
-        cupHolderHeightField = view.findViewById(R.id.cupholder_height_field);
-        approximationField = view.findViewById(R.id.approximation_waterfountain_field);
-
-        waterFountainHeightValue = view.findViewById(R.id.waterfountain_height_value);
-        cupHolderHeightValue = view.findViewById(R.id.cupholder_height_value);
-        approximationValue = view.findViewById(R.id.approximation_waterfountain_value);
+//        waterFountainHeightField = view.findViewById(R.id.waterfountain_height_field);
+//        cupHolderHeightField = view.findViewById(R.id.cupholder_height_field);
+//        approximationField = view.findViewById(R.id.approximation_waterfountain_field);
+//
+//        waterFountainHeightValue = view.findViewById(R.id.waterfountain_height_value);
+//        cupHolderHeightValue = view.findViewById(R.id.cupholder_height_value);
+//        approximationValue = view.findViewById(R.id.approximation_waterfountain_value);
 
         saveWaterFountain.setOnClickListener(v -> {
             if(verifyWaterFountainErrors()) {
@@ -90,7 +90,7 @@ public class WaterFountainFragment extends Fragment {
     }
 
     public void setHeaderText(View v) {
-        TextView headerText = v.findViewById(R.id.waterfountain_header);
+        TextView headerText = v.findViewById(R.id.water_fountain_header);
         String headerNames = HeaderNames.headerNames[chosenOption];
         headerText.setText(headerNames);
     }
@@ -125,10 +125,15 @@ public class WaterFountainFragment extends Fragment {
         approximationValue.setText(null);
     }
 
-    public WaterFountainEntry createWaterFountainEntry(int schoolID) {
-        return new WaterFountainEntry(schoolID, Double.parseDouble(Objects.requireNonNull(waterFountainHeightValue.getText()).toString()),
-                Double.parseDouble(Objects.requireNonNull(cupHolderHeightValue.getText()).toString()),
-                Double.parseDouble(Objects.requireNonNull(approximationValue.getText()).toString()));
+    public WaterFountainEntry createWaterFountainEntry(Integer schoolID) {
+        return new WaterFountainEntry(schoolID, 0, 0, 0.00,
+                0, 0.00, 0, 0.00,
+                0.01, 0.02);
     }
+
+//    (@NonNull Integer schoolEntryID, @NonNull Integer typeWaterFountain, Integer otherAllowSideApproximation,
+//    Double otherFaucetHeight, Integer otherHasCupHolder, Double otherCupHolderHeight,
+//    Integer spoutAllowFrontalApproximation, Double highestSpoutHeight, Double lowestSpoutHeight,
+//    Double freeSpaceLowestSpout) {
 
 }

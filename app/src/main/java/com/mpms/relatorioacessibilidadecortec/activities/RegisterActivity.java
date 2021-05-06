@@ -13,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -28,12 +29,9 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Observer;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -60,9 +58,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     TextView timeScheduleError, schoolServicesError, agesError;
     Button saveCloseButton, saveContinueButton, updateEntryButton, updateContinueButton;
     CheckBox hasMorningClasses, hasAfternoonClasses, hasEveningClasses, hasMaternal, hasPreschool, hasElementary, hasMiddle, hasHigh, hasEJA;
-    private ViewModelEntry viewModelEntry;
     private int cadID = -1;
     private int lastCadID;
+    private SchoolEntry lastEntry;
 
     @SuppressLint({"SetTextI18n", "CheckResult"})
     @Override
@@ -207,13 +205,17 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             if (verifyErrors()) {
                 SchoolEntry newEntry = createEntry();
                 ViewModelEntry recentEntry = new ViewModelEntry(RegisterActivity.this.getApplication());
-                Completable.fromAction(() -> ViewModelEntry.insert(newEntry))
+//                //LiveData PRECISA ser observado para poder obter os dados
+//                recentEntry.getLastEntry().observe(this, lastEntry -> lastCadID = lastEntry.getCadID());
+                Completable.fromAction(() -> ViewModelEntry.insert(newEntry) )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new DisposableCompletableObserver() {
                             @Override
                             public void onComplete() {
-                                lastCadID = recentEntry.getLastEntry().getValue().getCadID();
+                                lastEntry = recentEntry.getLastEntry().getValue();
+                                assert lastEntry != null;
+                                lastCadID = lastEntry.getCadID();
                             }
 
                             @Override
@@ -221,9 +223,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
                             }
                         });
-                //                ViewModelEntry recentEntry = new ViewModelEntry(RegisterActivity.this.getApplication());
-//                //LiveData PRECISA ser observado para poder obter os dados
-//                recentEntry.getLastEntry().observe(this, lastEntry -> lastCadID = lastEntry.getCadID());
+
                 Toast.makeText(this, "lastCadID = " + lastCadID, Toast.LENGTH_LONG).show();
                 Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
                 itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, lastCadID);
@@ -589,24 +589,45 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     }
 
     public SchoolEntry createEntry() {
-        return new SchoolEntry(nameSchool.getText().toString(), addressSchool.getText().toString(),
-                addressComplement.getText().toString(), addressNumber.getText().toString(), addressNeighborhood.getText().toString(),
-                nameCity.getText().toString(), nameDirector.getText().toString(), contactPhone1.getText().toString(),
-                contactPhone2.getText().toString(), nameResponsibleVisit.getText().toString(), nameInspectionTeamMembers.getText().toString(),
-                checkValueCheckbox(hasMorningClasses), morningStartTime.getText().toString(), morningEndTime.getText().toString(),
-                checkValueCheckbox(hasAfternoonClasses), afternoonStartTime.getText().toString(), afternoonEndTime.getText().toString(),
-                checkValueCheckbox(hasEveningClasses), eveningStartTime.getText().toString(), eveningEndTime.getText().toString(),
-                checkValueCheckbox(hasMaternal), maternalFirstGrade.getText().toString(), maternalLastGrade.getText().toString(),
-                checkValueCheckbox(hasPreschool), preschoolFirstGrade.getText().toString(), preschoolLastGrade.getText().toString(),
-                checkValueCheckbox(hasElementary), elementaryFirstGrade.getText().toString(), elementaryLastGrade.getText().toString(),
-                checkValueCheckbox(hasMiddle), middleFirstGrade.getText().toString(), middleLastGrade.getText().toString(),
-                checkValueCheckbox(hasHigh), highFirstGrade.getText().toString(), highLastGrade.getText().toString(),
-                checkValueCheckbox(hasEJA), ejaFirstGrade.getText().toString(), ejaLastGrade.getText().toString(),
-                Integer.parseInt(youngestStudentAge.getText().toString()), Integer.parseInt(oldestStudentAge.getText().toString()),
-                Integer.parseInt(totalStudents.getText().toString()), Integer.parseInt(totalStudentsPcd.getText().toString()),
-                studentsPcdDescription.getText().toString(), Integer.parseInt(totalWorkers.getText().toString()),
-                Integer.parseInt(totalWorkersPcd.getText().toString()), workersPcdDescription.getText().toString(),
-                Integer.parseInt(totalWorkersLibras.getText().toString()), stringToDate(dateInspectionText.getText().toString()));
+        return new SchoolEntry(Objects.requireNonNull(nameSchool.getText()).toString(),
+                Objects.requireNonNull(addressSchool.getText()).toString(),
+                Objects.requireNonNull(addressComplement.getText()).toString(),
+                Objects.requireNonNull(addressNumber.getText()).toString(),
+                Objects.requireNonNull(addressNeighborhood.getText()).toString(),
+                Objects.requireNonNull(nameCity.getText()).toString(),
+                Objects.requireNonNull(nameDirector.getText()).toString(),
+                Objects.requireNonNull(contactPhone1.getText()).toString(),
+                Objects.requireNonNull(contactPhone2.getText()).toString(),
+                Objects.requireNonNull(nameResponsibleVisit.getText()).toString(),
+                Objects.requireNonNull(nameInspectionTeamMembers.getText()).toString(),
+                checkValueCheckbox(hasMorningClasses), Objects.requireNonNull(morningStartTime.getText()).toString(),
+                Objects.requireNonNull(morningEndTime.getText()).toString(),
+                checkValueCheckbox(hasAfternoonClasses), Objects.requireNonNull(afternoonStartTime.getText()).toString(),
+                Objects.requireNonNull(afternoonEndTime.getText()).toString(),
+                checkValueCheckbox(hasEveningClasses), Objects.requireNonNull(eveningStartTime.getText()).toString(),
+                Objects.requireNonNull(eveningEndTime.getText()).toString(),
+                checkValueCheckbox(hasMaternal), Objects.requireNonNull(maternalFirstGrade.getText()).toString(),
+                Objects.requireNonNull(maternalLastGrade.getText()).toString(),
+                checkValueCheckbox(hasPreschool), Objects.requireNonNull(preschoolFirstGrade.getText()).toString(),
+                Objects.requireNonNull(preschoolLastGrade.getText()).toString(),
+                checkValueCheckbox(hasElementary), Objects.requireNonNull(elementaryFirstGrade.getText()).toString(),
+                Objects.requireNonNull(elementaryLastGrade.getText()).toString(),
+                checkValueCheckbox(hasMiddle), Objects.requireNonNull(middleFirstGrade.getText()).toString(),
+                Objects.requireNonNull(middleLastGrade.getText()).toString(),
+                checkValueCheckbox(hasHigh), Objects.requireNonNull(highFirstGrade.getText()).toString(),
+                Objects.requireNonNull(highLastGrade.getText()).toString(),
+                checkValueCheckbox(hasEJA), Objects.requireNonNull(ejaFirstGrade.getText()).toString(),
+                Objects.requireNonNull(ejaLastGrade.getText()).toString(),
+                Integer.parseInt(Objects.requireNonNull(youngestStudentAge.getText()).toString()),
+                Integer.parseInt(Objects.requireNonNull(oldestStudentAge.getText()).toString()),
+                Integer.parseInt(Objects.requireNonNull(totalStudents.getText()).toString()),
+                Integer.parseInt(Objects.requireNonNull(totalStudentsPcd.getText()).toString()),
+                Objects.requireNonNull(studentsPcdDescription.getText()).toString(),
+                Integer.parseInt(Objects.requireNonNull(totalWorkers.getText()).toString()),
+                Integer.parseInt(Objects.requireNonNull(totalWorkersPcd.getText()).toString()),
+                Objects.requireNonNull(workersPcdDescription.getText()).toString(),
+                Integer.parseInt(Objects.requireNonNull(totalWorkersLibras.getText()).toString()),
+                stringToDate(Objects.requireNonNull(dateInspectionText.getText()).toString()));
     }
 
     @SuppressLint("SetTextI18n")

@@ -131,4 +131,7 @@
     <string name="label_has_PCR_space">Secretaria possui Espaço para PCR?</string>
     <string name="hint_PCR_space_width">Largura Espaço PCR</string>
     <string name="hint_PCR_space_depth">Profund. Espaço PCR</string>
+    <string name="label_water_fountain_type">Tipo de Bebedouro</string>
+    <string name="radio_option_bica_type">Tipo Bica</string>
+    <string name="radio_option_other_type">Outro Tipo</string>
 </resources>
