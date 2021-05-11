@@ -205,25 +205,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             if (verifyErrors()) {
                 SchoolEntry newEntry = createEntry();
                 ViewModelEntry recentEntry = new ViewModelEntry(RegisterActivity.this.getApplication());
+                ViewModelEntry.insert(newEntry);
 //                //LiveData PRECISA ser observado para poder obter os dados
-//                recentEntry.getLastEntry().observe(this, lastEntry -> lastCadID = lastEntry.getCadID());
-                Completable.fromAction(() -> ViewModelEntry.insert(newEntry) )
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new DisposableCompletableObserver() {
-                            @Override
-                            public void onComplete() {
-                                lastEntry = recentEntry.getLastEntry().getValue();
-                                assert lastEntry != null;
-                                lastCadID = lastEntry.getCadID();
-                            }
-
-                            @Override
-                            public void onError(@NonNull Throwable e) {
-
-                            }
-                        });
-
+                recentEntry.getLastEntry().observe(this, lastEntry -> lastCadID = lastEntry.getCadID());
                 Toast.makeText(this, "lastCadID = " + lastCadID, Toast.LENGTH_LONG).show();
                 Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
                 itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, lastCadID);

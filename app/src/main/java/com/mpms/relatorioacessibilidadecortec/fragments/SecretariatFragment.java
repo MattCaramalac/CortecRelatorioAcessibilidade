@@ -15,14 +15,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 
-public class SecretaryFragment extends Fragment {
+public class SecretariatFragment extends Fragment {
 
-    public SecretaryFragment() {
+    public SecretariatFragment() {
         // Required empty public constructor
     }
 
-    public static SecretaryFragment newInstance(int dropdownChoice) {
-        return new SecretaryFragment();
+    public static SecretariatFragment newInstance(int dropdownChoice) {
+        return new SecretariatFragment();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SecretaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_secretary, container, false);
+        return inflater.inflate(R.layout.fragment_secretariat, container, false);
     }
 
     @Override

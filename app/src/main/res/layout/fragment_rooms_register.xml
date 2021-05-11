@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <TextView
             android:id="@+id/room_register_header"
@@ -20,271 +21,239 @@
             android:textSize="@dimen/section_header"
             />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/rooms_visual_signal_field"
+        <LinearLayout
+            android:id="@+id/rooms_visual_sign_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_visual_signals"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/room_register_header"
-            android:layout_marginTop="@dimen/top_margins">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/rooms_visual_signal_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:id="@+id/rooms_door_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rooms_visual_signal_field">
+            >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/label_room_entrance_door"
-                android:textSize="@dimen/section_header" />
+                android:textSize="@dimen/section_header"
+                android:text="@string/label_room_has_visual_signal" />
 
-            <LinearLayout
-                android:baselineAligned="false"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/rooms_door_width_field"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margins"
-                    android:layout_weight="@integer/weight_one"
-                    android:hint="@string/hint_door_width">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/rooms_door_width_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/rooms_door_uneven_field"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:hint="@string/hint_uneven_door">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/rooms_door_uneven_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:baselineAligned="false"
+            <RadioGroup
+                android:id="@+id/room_has_visual_sign_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins">
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/rooms_door_handle_field"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:hint="@string/hint_handle_height"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/rooms_door_handle_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <LinearLayout
+                <RadioButton
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margins"
+                    android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:orientation="vertical">
+                    android:text="@string/radio_button_yes"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_door_ramp"
-                        android:textSize="14sp" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"/>
 
-                    <RadioGroup
-                        android:id="@+id/door_has_ramp_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+            </RadioGroup>
 
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="@integer/weight_one"
-                            android:text="@string/radio_button_yes" />
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="@integer/weight_one"
-                            android:text="@string/radio_button_no" />
-
-                    </RadioGroup>
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/rooms_door_ramp_layout"
-                android:baselineAligned="false"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/visual_sign_obs_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/door_ramp_width_field"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margins"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:hint="@string/hint_ramp_width">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/door_ramp_width_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:inputType="numberDecimal" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/door_ramp_slope_field"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margins"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:hint="@string/hint_ramp_slope">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/door_ramp_slope_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:inputType="numberDecimal" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:baselineAligned="false"
-            android:id="@+id/room_height_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rooms_door_layout">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/rooms_window_height_field"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margins"
-                android:layout_weight="1"
-                android:hint="@string/hint_window_height">
+                android:hint="@string/hint_sign_observations"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/rooms_window_height_value"
+                    android:id="@+id/visual_sign_obs_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="numberDecimal" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/rooms_interruptor_field"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margins"
-                android:layout_weight="1"
-                android:hint="@string/hint_interruptor_height">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/rooms_interruptor_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="numberDecimal" />
+                    android:inputType="textAutoCorrect"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/rooms_carpet_field"
+        <LinearLayout
+            android:id="@+id/rooms_tactile_sign_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_room_carpet"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/room_height_layout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/rooms_carpet_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/room_circulation_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/rooms_visual_sign_layout"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_circulation_room"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rooms_carpet_field">
+            android:orientation="vertical"
+            >
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/room_circulation_value"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/section_header"
+                android:text="@string/label_room_has_tactile_sign" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <RadioGroup
+                android:id="@+id/room_has_tactile_sign_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"/>
+
+            </RadioGroup>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tactile_sign_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_sign_observations"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tactile_sign_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textAutoCorrect"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/room_add_table_layout"
+            android:id="@+id/room_add_door_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/room_circulation_field">
+            app:layout_constraintTop_toBottomOf="@id/rooms_tactile_sign_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_door_register"
+                android:textSize="@dimen/section_header" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_door"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                     />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/room_add_switches_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/room_add_door_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_switch_register"
+                android:textSize="@dimen/section_header" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/room_add_windows_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/room_add_switches_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_window_register"
+                android:textSize="@dimen/section_header" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_window"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/room_add_tables_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/room_add_windows_layout">
 
             <TextView
                 android:layout_width="match_parent"
@@ -297,28 +266,68 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/room_add_table"
+                    android:id="@+id/room_add_tables"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:backgroundTint="@color/purple_200"
                     android:text="@string/label_add_frag_entry"
                     android:textColor="@color/black"
+                    app:cornerRadius="3dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:shapeAppearance="@style/Widget.MaterialComponents.Button.TextButton" />
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/room_add_free_space_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/room_add_tables_layout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_free_spaces"
+                android:textSize="@dimen/section_header" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_free_space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
 
         <FrameLayout
             android:id="@+id/room_child_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/room_add_table_layout"
+            app:layout_constraintTop_toBottomOf="@id/room_add_free_space_layout"
             android:layout_marginTop="@dimen/top_margins"/>
 
         <com.google.android.material.button.MaterialButton

@@ -82,7 +82,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         WaterFountainFragment waterFountainFragment = WaterFountainFragment.newInstance(chosenItem);
         waterFountainFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected,waterFountainFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.show_fragment_selected,waterFountainFragment).commit();
 
     }
 

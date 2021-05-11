@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -16,6 +17,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
+
+import java.util.Objects;
 
 public class RoomsRegisterFragment extends Fragment {
 
@@ -58,7 +61,7 @@ public class RoomsRegisterFragment extends Fragment {
                 getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new ClassroomFragment()).commit();
                 break;
             case 15:
-                getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new SecretaryFragment()).commit();
+                getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new SecretariatFragment()).commit();
                 break;
             default:
                 break;
@@ -71,41 +74,24 @@ public class RoomsRegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RadioGroup radioGroup = view.findViewById(R.id.door_has_ramp_group);
-        TextInputLayout firstField = view.findViewById(R.id.door_ramp_width_field);
-        TextInputLayout secondField = view.findViewById(R.id.door_ramp_slope_field);
-        TextInputEditText firstValue = view.findViewById(R.id.door_ramp_width_value);
-        TextInputEditText secondValue = view.findViewById(R.id.door_ramp_slope_value);
+        Button cancelRoomRegister = view.findViewById(R.id.cancel_room);
+//        Button saveWaterFountain = view.findViewById(R.id.save_waterfountain);
 
-        radioGroupActtivation(radioGroup, firstField, secondField, firstValue, secondValue);
+//        saveWaterFountain.setOnClickListener(v -> {
+//            if(verifyWaterFountainErrors()) {
+//                WaterFountainEntry newWaterFountain = createWaterFountainEntry(schoolID);
+//                ViewModelEntry.insertWaterFountain(newWaterFountain);
+//                clearTextFields();
+//            }
+//        });
+
+        cancelRoomRegister.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                .beginTransaction().remove(this).commit());
     }
 
     public void setHeaderText(View v) {
         TextView headerText = v.findViewById(R.id.room_register_header);
         String headerNames = HeaderNames.headerNames[chosenOption];
         headerText.setText(headerNames);
-    }
-
-    public void radioGroupActtivation (RadioGroup radioGroup, TextInputLayout firstField, TextInputLayout secondField,
-                                       TextInputEditText firstValue, TextInputEditText secondValue) {
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            View radioButton = radioGroup.findViewById(checkedId);
-            int index = radioGroup.indexOfChild(radioButton);
-
-            switch (index) {
-                case 0:
-                    firstField.setEnabled(true);
-                    secondField.setEnabled(true);
-                    break;
-                case 1:
-                    firstField.setEnabled(false);
-                    secondField.setEnabled(false);
-                    firstValue.setText(null);
-                    secondValue.setText(null);
-                    break;
-                default:
-                    break;
-            }
-        });
     }
 }

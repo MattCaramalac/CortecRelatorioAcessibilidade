@@ -10,67 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/cafeteria_counter_header"
+         <LinearLayout
+            android:id="@+id/cafeteria_able_to_turn_around"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="@dimen/section_header"
-            android:text="@string/label_counter_cafeteria_measurements"
-            />
-
-        <LinearLayout
-            android:id="@+id/counter_measurements_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cafeteria_counter_header"
-            android:layout_marginTop="@dimen/top_margins"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/counter_height_field"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:hint="@string/hint_counter_height"
-                android:layout_marginEnd="@dimen/margins">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/counter_height_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="numberDecimal"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/counter_circ_field"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:hint="@string/hint_counter_circ"
-                android:layout_marginStart="@dimen/margins">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/counter_circ_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="numberDecimal"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/counter_measurements_layout"
-            android:layout_marginTop="@dimen/top_margins"
             android:orientation="vertical">
 
             <TextView
@@ -101,6 +46,44 @@
 
             </RadioGroup>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cafeteria_add_counter_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cafeteria_able_to_turn_around">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_counter_register"
+                android:textSize="@dimen/section_header" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cafeteria_add_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

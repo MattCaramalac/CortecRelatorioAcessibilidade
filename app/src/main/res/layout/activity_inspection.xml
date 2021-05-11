@@ -13,13 +13,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.23"
         class="com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial"/>
 
     <FrameLayout
         android:id="@+id/show_fragment_selected"
         android:layout_width="match_parent"
-        android:layout_height="430dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chooseItemMemorial"

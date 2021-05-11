@@ -69,21 +69,13 @@ public class WaterFountainFragment extends Fragment {
         Button cancelWaterfountain = view.findViewById(R.id.cancel_waterfountain);
         Button saveWaterFountain = view.findViewById(R.id.save_waterfountain);
 
-//        waterFountainHeightField = view.findViewById(R.id.waterfountain_height_field);
-//        cupHolderHeightField = view.findViewById(R.id.cupholder_height_field);
-//        approximationField = view.findViewById(R.id.approximation_waterfountain_field);
-//
-//        waterFountainHeightValue = view.findViewById(R.id.waterfountain_height_value);
-//        cupHolderHeightValue = view.findViewById(R.id.cupholder_height_value);
-//        approximationValue = view.findViewById(R.id.approximation_waterfountain_value);
-
-        saveWaterFountain.setOnClickListener(v -> {
-            if(verifyWaterFountainErrors()) {
-                WaterFountainEntry newWaterFountain = createWaterFountainEntry(schoolID);
-                ViewModelEntry.insertWaterFountain(newWaterFountain);
-                clearTextFields();
-            }
-        });
+//        saveWaterFountain.setOnClickListener(v -> {
+//            if(verifyWaterFountainErrors()) {
+//                WaterFountainEntry newWaterFountain = createWaterFountainEntry(schoolID);
+//                ViewModelEntry.insertWaterFountain(newWaterFountain);
+//                clearTextFields();
+//            }
+//        });
 
         cancelWaterfountain.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
@@ -95,29 +87,29 @@ public class WaterFountainFragment extends Fragment {
         headerText.setText(headerNames);
     }
 
-    public boolean verifyWaterFountainErrors() {
-        clearWaterFountainErrors();
-        int i = 0;
-        if(TextUtils.isEmpty(waterFountainHeightValue.getText())){
-            waterFountainHeightField.setError(getString(R.string.blank_field_error));
-            i++;
-        }
-        if(TextUtils.isEmpty(cupHolderHeightValue.getText())){
-            cupHolderHeightField.setError(getString(R.string.blank_field_error));
-            i++;
-        }
-        if(TextUtils.isEmpty(approximationValue.getText())){
-            approximationField.setError(getString(R.string.blank_field_error));
-            i++;
-        }
-        return i <= 0;
-    }
-
-    public void clearWaterFountainErrors(){
-        waterFountainHeightField.setErrorEnabled(false);
-        cupHolderHeightField.setErrorEnabled(false);
-        approximationField.setErrorEnabled(false);
-    }
+//    public boolean verifyWaterFountainErrors() {
+//        clearWaterFountainErrors();
+//        int i = 0;
+//        if(TextUtils.isEmpty(waterFountainHeightValue.getText())){
+//            waterFountainHeightField.setError(getString(R.string.blank_field_error));
+//            i++;
+//        }
+//        if(TextUtils.isEmpty(cupHolderHeightValue.getText())){
+//            cupHolderHeightField.setError(getString(R.string.blank_field_error));
+//            i++;
+//        }
+//        if(TextUtils.isEmpty(approximationValue.getText())){
+//            approximationField.setError(getString(R.string.blank_field_error));
+//            i++;
+//        }
+//        return i <= 0;
+//    }
+//
+//    public void clearWaterFountainErrors(){
+//        waterFountainHeightField.setErrorEnabled(false);
+//        cupHolderHeightField.setErrorEnabled(false);
+//        approximationField.setErrorEnabled(false);
+//    }
 
     public void clearTextFields() {
         waterFountainHeightValue.setText(null);

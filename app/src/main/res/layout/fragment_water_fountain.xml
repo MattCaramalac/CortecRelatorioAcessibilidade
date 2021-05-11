@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/water_fountain_header"
             android:layout_marginTop="@dimen/top_margins"
-            android:textSize="14sp"
+            android:textSize="@dimen/section_header"
             android:text="@string/label_water_fountain_type"/>
 
         <RadioGroup

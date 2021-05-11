@@ -89,7 +89,7 @@
     <string name="hint_ramp_width">Largura da Rampa</string>
     <string name="hint_ramp_slope">Inclinação da Rampa</string>
     <string name="hint_visual_signal">Sinalização Visual</string>
-    <string name="hint_visual_signals">Sinalização Visual</string>
+    <string name="hint_visual_signals">Sinalização Visual Vertical</string>
     <string name="label_room_entrance_door">Dimensões da Porta de Entrada</string>
     <string name="hint_door_width">Largura da Porta</string>
     <string name="hint_uneven_door">Desvível da Porta</string>
@@ -105,7 +105,7 @@
     <string name="helping_desk_width">Profundidade do Balcão</string>
     <string name="spin_180_degrees">Giro de 180 graus</string>
     <string name="secretary_seats">Número assentos fixos Sala de Espera</string>
-    <string name="total_vacancy">Vagas Totais</string>
+    <string name="hint_parking_lot_total_vacancy">Total de Vagas no Estacionamento</string>
     <string name="floor_type">Tipo de Piso</string>
     <string name="parking_lot_signal">Sinalização do Estacionamento</string>
     <string name="hint_stairs_width">Largura da Escadaria</string>
@@ -118,14 +118,14 @@
     <string name="hint_ramp_acclivity">Inclinação da Rampa</string>
     <string name="label_counter_cafeteria_measurements">Dimensões do Balcão</string>
     <string name="hint_counter_height">Altura Balcão</string>
-    <string name="hint_counter_circ">Circ. Balcão</string>
+    <string name="hint_frontal_approx">Aproximação Frontal</string>
     <string name="hint_PCR_spaces">Espaço PCR</string>
 
     <string name="hint_blackboard_height">Altura da Lousa</string>
     <string name="label_distance_shelves">Distância entre as estantes é igual ou maior que 90 centímetros?</string>
     <string name="label_PCR_maneuver">Existem bolsões para manobras de PCR à cada 15 metros?</string>
     <string name="label_computer_accessibility">Ao menos 5% dos terminais de consulta por computadores e acesso à Internet são acessíveis para PCR e PMR?</string>
-    <string name="hint_total_vacancy_PDMR">Vagas PDMR</string>
+    <string name="hint_total_vacancy_PDMR">Total de Vagas para PDMR</string>
     <string name="hint_PCR_space">Espaço PCR</string>
     <string name="label_possible_180_turn">É possível realizar um giro de 180º?</string>
     <string name="label_has_PCR_space">Secretaria possui Espaço para PCR?</string>
@@ -134,4 +134,35 @@
     <string name="label_water_fountain_type">Tipo de Bebedouro</string>
     <string name="radio_option_bica_type">Tipo Bica</string>
     <string name="radio_option_other_type">Outro Tipo</string>
+    <string name="label_window_register">Cadastro de Janelas e Suas Dimensões</string>
+    <string name="label_room_has_visual_signal">Possui Sinalização Visual Vertical?</string>
+    <string name="hint_sign_observations">Observações da Sinalização</string>
+    <string name="label_room_has_tactile_sign">Possui Sinalização Tátil Adjacente à Porta?</string>
+    <string name="label_door_register">Cadastro de Portas e Suas Dimensões</string>
+    <string name="label_switch_register">Cadastro de Interruptores e Suas Informações</string>
+    <string name="label_free_spaces">Cadastro de Faixas Livres</string>
+    <string name="label_counter_register">Cadastro de Balcões e suas Dimensões</string>
+    <string name="label_parking_lot_type">Tipo de Estacionamento</string>
+    <string name="label_radio_button_internal">INTERNO</string>
+    <string name="label_radio_button_external">EXTERNO</string>
+    <string name="label_parking_lot_has_PDMR_vacancy">Estacionamento possui vagas para PDMR?</string>
+    <string name="label_has_Vertical_PDMR_sign">Possui Sinalização Vertical para Vagas PDMR?</string>
+    <string name="hint_PDMR_vertical_sign_obs">Observações Sinalização Vertical</string>
+    <string name="label_has_horizontal_PDMR_sign">Possui sinalização Horizontal para Vagas PDMR?</string>
+    <string name="hint_PDMR_horizontal_sign_width">Largura Sin. Horizontal</string>
+    <string name="hint_PDMR_horizontal_sign_length">Comprimento Sin. Horizontal</string>
+    <string name="hint_PDMR_horizontal_sign_obs">Observações Sinalização Horizontal</string>
+    <string name="label_security_zone_PDMR">As Vagas para PDMR Possuem Faixa de Segurança?</string>
+    <string name="hint_security_zone_PDMR_width">Largura da Faixa de Segurança</string>
+    <string name="hint_security_zone_PDMR_obs">Observações Faixa de Segurança</string>
+    <string name="label_PDMR_SIA">As Vagas Possuem SIA para PDMR?</string>
+    <string name="hint_PDMR_SIA_width">Largura SIA</string>
+    <string name="hint_PDMR_SIA_lenght">Comprimento SIA</string>
+    <string name="label_radio_button_elderly_vacancy">VAGAS PARA IDOSOS</string>
+    <string name="label_radio_button_PDMR_vacancy">VAGAS PARA PDMR</string>
+    <string name="hint_parking_lot_floor_type">Tipo de Piso do Estacionamento</string>
+    <string name="label_button_proceed_register">CONTINUAR</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_frag_parking_lot_PDMR">Estacionamento - Vagas PDMR</string>
 </resources>

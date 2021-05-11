@@ -14,8 +14,9 @@ public class ParkingLotEntity {
     private Integer parkingLotID;
     private Integer schoolEntryID;
     private Integer typeParkingLot;
-
     private Integer totalParkingVacancy;
+    private String parkingLotFloorType;
+
     private Integer hasPdmrVacancy;
     private Integer totalPdmrVacancy;
     private Integer hasVisualPdmrVertSign;
@@ -44,6 +45,8 @@ public class ParkingLotEntity {
     private Double pictogramElderlyWidth;
     private Double pictogramElderlyLength;
     private String pictogramElderlyObs;
+
+
 
     public Integer getParkingLotID() {
         return parkingLotID;
@@ -293,7 +296,15 @@ public class ParkingLotEntity {
         this.pictogramElderlyObs = pictogramElderlyObs;
     }
 
-    public ParkingLotEntity(Integer schoolEntryID, Integer typeParkingLot, Integer totalParkingVacancy, Integer hasPdmrVacancy,
+    public String getParkingLotFloorType() {
+        return parkingLotFloorType;
+    }
+
+    public void setParkingLotFloorType(String parkingLotFloorType) {
+        this.parkingLotFloorType = parkingLotFloorType;
+    }
+
+    public ParkingLotEntity(Integer schoolEntryID, Integer typeParkingLot, Integer totalParkingVacancy, String parkingLotFloorType, Integer hasPdmrVacancy,
                             Integer totalPdmrVacancy, Integer hasVisualPdmrVertSign, String visualPdmrVertSignObs,
                             Integer hasVisualPdmrHorizSign, Double visualPdmrHorizSignWidth, Double visualPdmrHorizSignLength,
                             String visualPdmrHorizSignObs, Integer hasPdmrSecurityZone, Double securityZoneWidth, Double securityZoneObs,
@@ -305,6 +316,7 @@ public class ParkingLotEntity {
         this.schoolEntryID = schoolEntryID;
         this.typeParkingLot = typeParkingLot;
         this.totalParkingVacancy = totalParkingVacancy;
+        this.parkingLotFloorType = parkingLotFloorType;
         this.hasPdmrVacancy = hasPdmrVacancy;
         this.totalPdmrVacancy = totalPdmrVacancy;
         this.hasVisualPdmrVertSign = hasVisualPdmrVertSign;
