@@ -21,21 +21,12 @@ import java.util.Objects;
 
 public class ParkingLotFragment extends Fragment {
 
-    public static int chosenOption;
-
-
-
     public ParkingLotFragment() {
         // Required empty public constructor
     }
 
-    public void setChosenOption(int choice) {
-        ParkingLotFragment.chosenOption = choice;
-    }
-
-    public static ParkingLotFragment newInstance(int dropdownChoice) {
+    public static ParkingLotFragment newInstance() {
         ParkingLotFragment parkingLotFragment = new ParkingLotFragment();
-        parkingLotFragment.setChosenOption(dropdownChoice);
         return parkingLotFragment;
     }
 
@@ -48,9 +39,7 @@ public class ParkingLotFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_parking_lot, container, false);
-        setHeaderText(rootView);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_parking_lot, container, false);
     }
 
     @Override
@@ -64,16 +53,11 @@ public class ParkingLotFragment extends Fragment {
                 .beginTransaction().remove(this).commit());
 
         saveParkingLotRegister.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             ParkingLotPdmrFragment parkingLotPdmrFragment = ParkingLotPdmrFragment.newInstance();
             fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotPdmrFragment).addToBackStack(null).commit();
         });
     }
 
-    public void setHeaderText(View v) {
-        TextView headerText = v.findViewById(R.id.parking_lot_header);
-        String headerNames = HeaderNames.headerNames[chosenOption];
-        headerText.setText(headerNames);
-    }
 }

@@ -175,4 +175,5 @@
     <string name="label_elderly_pictogram_length">Comprimento do Pictograma</string>
     <string name="label_elderly_pictogram_obs">Observações Pictograma</string>
     <string name="hint_PDMR_SIA_obs">Observações sobre SIA</string>
+    <string name="label_parking_lot_header">Estacionamento</string>
 </resources>

@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:textSize="@dimen/section_header"/>
+            android:textSize="@dimen/section_header"
+            android:text="@string/label_parking_lot_header"/>
 
         <LinearLayout
             android:id="@+id/parking_lot_type_layout"

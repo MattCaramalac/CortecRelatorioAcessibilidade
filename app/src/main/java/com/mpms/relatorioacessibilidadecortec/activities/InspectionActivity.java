@@ -54,7 +54,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 displayStairsRampFragment(choice);
                 break;
             case 8:
-                displayParkingLotFragment(choice);
+                displayParkingLotFragment();
                 break;
             default:
                 displayRoomsRegisterFragment(choice);
@@ -86,8 +86,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     }
 
-
-
     public void displaySidewalkFragment(int chosenItem) {
         SidewalkFragment sidewalkFragment = SidewalkFragment.newInstance(chosenItem);
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -116,8 +114,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-    public void displayParkingLotFragment(int chosenItem) {
-        ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance(chosenItem);
+    public void displayParkingLotFragment() {
+        ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
     }

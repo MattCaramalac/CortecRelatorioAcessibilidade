@@ -207,7 +207,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/security_zone_PDMR_header"
+            android:id="@+id/safety_zone_PDMR_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
@@ -217,22 +217,22 @@
             app:layout_constraintTop_toBottomOf="@id/horizontal_sign_PDMR_obs_field" />
 
         <RadioGroup
-            android:id="@+id/security_zone_PDMR_radio"
+            android:id="@+id/safety_zone_PDMR_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/security_zone_PDMR_header">
+            app:layout_constraintTop_toBottomOf="@id/safety_zone_PDMR_header">
 
             <RadioButton
-                android:id="@+id/security_zone_yes"
+                android:id="@+id/safety_zone_yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@integer/weight_one"
                 android:text="@string/radio_button_yes" />
 
             <RadioButton
-                android:id="@+id/security_zone_no"
+                android:id="@+id/safety_zone_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@integer/weight_one"
@@ -241,16 +241,16 @@
         </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/security_zone_PDMR_width_field"
+            android:id="@+id/safety_zone_PDMR_width_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/hint_security_zone_PDMR_width"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/security_zone_PDMR_radio">
+            app:layout_constraintTop_toBottomOf="@id/safety_zone_PDMR_radio">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/security_zone_PDMR_width_value"
+                android:id="@+id/safety_zone_PDMR_width_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textAutoCorrect" />
@@ -258,16 +258,16 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/security_zone_PDMR_obs_field"
+            android:id="@+id/safety_zone_PDMR_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/hint_security_zone_PDMR_obs"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/security_zone_PDMR_width_field">
+            app:layout_constraintTop_toBottomOf="@id/safety_zone_PDMR_width_field">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/security_zone_PDMR_obs_value"
+                android:id="@+id/safety_zone_PDMR_obs_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textAutoCorrect" />
@@ -282,7 +282,7 @@
             android:text="@string/label_PDMR_SIA"
             android:textSize="@dimen/section_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/security_zone_PDMR_obs_field" />
+            app:layout_constraintTop_toBottomOf="@id/safety_zone_PDMR_obs_field" />
 
         <RadioGroup
             android:id="@+id/PDMR_SIA_radio"
