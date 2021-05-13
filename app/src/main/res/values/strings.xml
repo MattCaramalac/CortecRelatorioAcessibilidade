@@ -149,8 +149,8 @@
     <string name="label_has_Vertical_PDMR_sign">Possui Sinalização Vertical para Vagas PDMR?</string>
     <string name="hint_PDMR_vertical_sign_obs">Observações Sinalização Vertical</string>
     <string name="label_has_horizontal_PDMR_sign">Possui sinalização Horizontal para Vagas PDMR?</string>
-    <string name="hint_PDMR_horizontal_sign_width">Largura Sin. Horizontal</string>
-    <string name="hint_PDMR_horizontal_sign_length">Comprimento Sin. Horizontal</string>
+    <string name="hint_PDMR_horizontal_sign_width">Largura Sinalização Horizontal</string>
+    <string name="hint_PDMR_horizontal_sign_length">Comprimento Sinalização Horizontal</string>
     <string name="hint_PDMR_horizontal_sign_obs">Observações Sinalização Horizontal</string>
     <string name="label_security_zone_PDMR">As Vagas para PDMR Possuem Faixa de Segurança?</string>
     <string name="hint_security_zone_PDMR_width">Largura da Faixa de Segurança</string>
@@ -165,4 +165,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_frag_parking_lot_PDMR">Estacionamento - Vagas PDMR</string>
+    <string name="label_frag_parking_lot_elderly">Estacionamento - Vagas para Idosos</string>
+    <string name="label_pictogram_vacancy_elderly">Vagas possuem pictograma para identificação?</string>
+    <string name="label_has_elderly_vacancy">Estacionamento possui vagas para idosos?</string>
+    <string name="hint_total_vacancy_elderly">Total de Vagas para Idosos</string>
+    <string name="label_has_vertical_sign_elderly_vacancy">Possui sinalização vertical para vagas de idosos?</string>
+    <string name="label_horizontal_sign_elderly_vacancy">Possui sinalização horizontal para vaga de idosos?</string>
+    <string name="hint_elderly_pictogram_width">Largura do Pictograma</string>
+    <string name="label_elderly_pictogram_length">Comprimento do Pictograma</string>
+    <string name="label_elderly_pictogram_obs">Observações Pictograma</string>
+    <string name="hint_PDMR_SIA_obs">Observações sobre SIA</string>
 </resources>
