@@ -47,7 +47,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 displayWaterFountainFragment(choice);
                 break;
             case 4:
-                displaySidewalkFragment(choice);
+                displaySidewalkFragment();
                 break;
             case 7:
             case 9:
@@ -86,8 +86,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     }
 
-    public void displaySidewalkFragment(int chosenItem) {
-        SidewalkFragment sidewalkFragment = SidewalkFragment.newInstance(chosenItem);
+    public void displaySidewalkFragment() {
+        SidewalkFragment sidewalkFragment = SidewalkFragment.newInstance();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected,sidewalkFragment).addToBackStack(null).commit();
     }

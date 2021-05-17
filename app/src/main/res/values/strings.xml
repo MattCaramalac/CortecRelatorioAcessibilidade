@@ -85,7 +85,7 @@
     <string name="hint_sidewalk_status">Estado Conservação da Calçada</string>
     <string name="hint_sidewalk_width">Largura da Calçada</string>
     <string name="label_has_special_floor">Esta calçada possui piso tátil?</string>
-    <string name="hint_sidewalk_ramp">Esta calçada possui rampa?</string>
+    <string name="label_sidewalk_slope">Esta calçada possui rebaixamento?</string>
     <string name="hint_ramp_width">Largura da Rampa</string>
     <string name="hint_ramp_slope">Inclinação da Rampa</string>
     <string name="hint_visual_signal">Sinalização Visual</string>
@@ -176,4 +176,9 @@
     <string name="label_elderly_pictogram_obs">Observações Pictograma</string>
     <string name="hint_PDMR_SIA_obs">Observações sobre SIA</string>
     <string name="label_parking_lot_header">Estacionamento</string>
+    <string name="label_sidewalk_header">Calçada</string>
+    <string name="hint_conservation_status_special_floor">Estado de conservação Piso Tátil</string>
+    <string name="label_obligatory_slope_sidewalk">É obrigatório ter rebaixamento nesta calçada?</string>
+    <string name="label_slope_register">Cadastro de rebaixamentos e suas dimensões</string>
+    <string name="label_status_special_floor">O piso tátil está em bom estado de conservação?</string>
 </resources>

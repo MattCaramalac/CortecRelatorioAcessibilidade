@@ -205,14 +205,17 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             if (verifyErrors()) {
                 SchoolEntry newEntry = createEntry();
                 ViewModelEntry recentEntry = new ViewModelEntry(RegisterActivity.this.getApplication());
+//              Crie o observador COM TODOS OS MÉTODOS NECESSÁRIOS E SÓ ENTÃO faça a inserção
+                recentEntry.getLastEntry().observe(this, lastEntry -> {
+                    lastCadID = lastEntry.getCadID();
+//                  LiveData PRECISA ser observado para poder obter os dados
+                    Toast.makeText(this, "lastCadID = " + lastCadID, Toast.LENGTH_LONG).show();
+                    Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
+                    itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, lastCadID);
+                    startActivity(itemInspectionIntent);
+                });
+//              Isto garante que, ao ser inserido, o observador será ativado e receberá os dados solicitados
                 ViewModelEntry.insert(newEntry);
-//                //LiveData PRECISA ser observado para poder obter os dados
-                recentEntry.getLastEntry().observe(this, lastEntry -> lastCadID = lastEntry.getCadID());
-                Toast.makeText(this, "lastCadID = " + lastCadID, Toast.LENGTH_LONG).show();
-                Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
-                itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, lastCadID);
-                startActivity(itemInspectionIntent);
-
             }
         });
 

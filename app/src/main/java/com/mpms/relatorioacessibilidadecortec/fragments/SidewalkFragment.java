@@ -5,34 +5,36 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
+
+import java.util.Objects;
 
 public class SidewalkFragment extends Fragment {
 
-    private static int chosenOption;
+    TextInputLayout sidewalkLocationField, sidewalkStatusField,sidewalkWidthField, sidewalkSpecialFloorObsField;
+    TextInputEditText sidewalkLocationValue, sidewalkStatusValue,sidewalkWidthValue, sidewalkSpecialFloorObsValue;
+    RadioGroup hasSpecialFloor, statusSpecialFloor, obligatorySlope, hasSlope;
+    TextView slopeRegisterLabel;
+    Button saveSidewalk, cancelSidewalk, addSlope;
 
     public SidewalkFragment() {
         // Required empty public constructor
     }
 
-    public void setChosenOption(int choice) {
-        SidewalkFragment.chosenOption = choice;
-    }
-
-    public static SidewalkFragment newInstance(int dropdownChoice) {
-        SidewalkFragment sidewalkFragment = new SidewalkFragment();
-        sidewalkFragment.setChosenOption(dropdownChoice);
-        return sidewalkFragment;
+    public static SidewalkFragment newInstance() {
+        return new SidewalkFragment();
     }
 
     @Override
@@ -44,75 +46,101 @@ public class SidewalkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_sidewalk, container, false);
-        setHeaderText(rootView);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_sidewalk, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RadioGroup hasSpecialFloor = view.findViewById(R.id.radio_sidewalk_special_floor);
-        RadioGroup hasRamp = view.findViewById(R.id.radio_sidewalk_ramp);
-        TextInputLayout conservationSpecialFloorField = view.findViewById(R.id.sidewalk_special_floor_field);
-        TextInputLayout sidewalkRampWidthField = view.findViewById(R.id.sidewalk_ramp_width_field);
-        TextInputLayout sidewalkRampSlopeField = view.findViewById(R.id.sidewalk_ramp_slope_field);
-        TextInputEditText conservationSpecialFloorValue = view.findViewById(R.id.sidewalk_special_floor_value);
-        TextInputEditText sidewalkRampWidthValue = view.findViewById(R.id.sidewalk_ramp_width_value);
-        TextInputEditText sidewalkRampSlopeValue = view.findViewById(R.id.sidewalk_ramp_slope_value);
+        sidewalkLocationField = view.findViewById(R.id.sidewalk_location_field);
+        sidewalkStatusField = view.findViewById(R.id.sidewalk_status_field);
+        sidewalkWidthField = view.findViewById(R.id.sidewalk_width_field);
+        sidewalkSpecialFloorObsField = view.findViewById(R.id.sidewalk_special_floor_obs_field);
 
-        radioGroupActivation(hasSpecialFloor, conservationSpecialFloorField, conservationSpecialFloorValue);
-        radioGroupActivation(hasRamp, sidewalkRampWidthField, sidewalkRampSlopeField, sidewalkRampWidthValue,sidewalkRampSlopeValue);
+        sidewalkLocationValue = view.findViewById(R.id.sidewalk_location_value);
+        sidewalkStatusValue = view.findViewById(R.id.sidewalk_status_value);
+        sidewalkWidthValue = view.findViewById(R.id.sidewalk_width_value);
+        sidewalkSpecialFloorObsValue = view.findViewById(R.id.sidewalk_special_floor_obs_value);
+
+        hasSpecialFloor = view.findViewById(R.id.radio_sidewalk_special_floor);
+        statusSpecialFloor = view.findViewById(R.id.radio_status_special_floor);
+        obligatorySlope = view.findViewById(R.id.radio_obligatory_sidewalk_slope);
+        hasSlope = view.findViewById(R.id.radio_sidewalk_slope);
+
+        slopeRegisterLabel = view.findViewById(R.id.label_sidewalk_slope_register);
+
+        saveSidewalk = view.findViewById(R.id.save_sidewalk);
+        cancelSidewalk = view.findViewById(R.id.cancel_sidewalk);
+        addSlope = view.findViewById(R.id.add_sidewalk_slope);
+
+        firstRegister();
+
+        hasSpecialFloorListener(hasSpecialFloor);
+        hasSlopeListener(hasSlope);
+
+        cancelSidewalk.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+                .beginTransaction().remove(this).commit());
+
+        saveSidewalk.setOnClickListener(v -> {
+            //Método de Salvar calçadas
+            FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
+            fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();} );
+
+
+
     }
 
-    public void setHeaderText(View v) {
-        TextView headerText = v.findViewById(R.id.sidewalk_header);
-        String headerNames = HeaderNames.headerNames[chosenOption];
-        headerText.setText(headerNames);
+    public void firstRegister() {
+        disableRadioGroup(statusSpecialFloor);
+        sidewalkSpecialFloorObsField.setEnabled(false);
     }
 
-    public void radioGroupActivation(RadioGroup radioGroup, TextInputLayout firstField, TextInputEditText firstValue) {
+    public void disableRadioGroup(RadioGroup radioGroup) {
+        for (int j = 0; j < radioGroup.getChildCount(); j++) {
+            radioGroup.getChildAt(j).setEnabled(false);
+        }
+    }
+
+    public void enableRadioGroup(RadioGroup radioGroup) {
+        for (int j = 0; j < radioGroup.getChildCount(); j++) {
+            radioGroup.getChildAt(j).setEnabled(true);
+        }
+    }
+
+    public void hasSpecialFloorListener(RadioGroup radioGroup) {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            View radioButton = radioGroup.findViewById(checkedId);
-            int index = radioGroup.indexOfChild(radioButton);
+            View radioButton = group.findViewById(checkedId);
+            int index = group.indexOfChild(radioButton);
 
-            switch (index) {
-                case 0:
-                    firstField.setEnabled(true);
-                    break;
-                case 1:
-                    firstField.setEnabled(false);
-                    firstValue.setText(null);
-                    break;
-                default:
-                    break;
+            if (index == 0) {
+                enableRadioGroup(statusSpecialFloor);
+                sidewalkSpecialFloorObsField.setEnabled(true);
+            } else {
+                statusSpecialFloor.clearCheck();
+                disableRadioGroup(statusSpecialFloor);
+                sidewalkSpecialFloorObsValue.setText(null);
+                sidewalkSpecialFloorObsField.setEnabled(false);
             }
         });
     }
 
-    public void radioGroupActivation (RadioGroup radioGroup, TextInputLayout firstField, TextInputLayout secondField,
-                                       TextInputEditText firstValue, TextInputEditText secondValue) {
+    public void hasSlopeListener(RadioGroup radioGroup) {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            View radioButton = radioGroup.findViewById(checkedId);
-            int index = radioGroup.indexOfChild(radioButton);
+            View radioButton = group.findViewById(checkedId);
+            int index = group.indexOfChild(radioButton);
 
-            switch (index) {
-                case 0:
-                    firstField.setEnabled(true);
-                    secondField.setEnabled(true);
-                    break;
-                case 1:
-                    firstField.setEnabled(false);
-                    secondField.setEnabled(false);
-                    firstValue.setText(null);
-                    secondValue.setText(null);
-                    break;
-                default:
-                    break;
+            if (index == 0) {
+                slopeRegisterLabel.setVisibility(View.VISIBLE);
+                addSlope.setVisibility(View.VISIBLE);
+            } else {
+                slopeRegisterLabel.setVisibility(View.GONE);
+                addSlope.setVisibility(View.GONE);
+
             }
-        });
-    }
+    });
 
-
+}
 }

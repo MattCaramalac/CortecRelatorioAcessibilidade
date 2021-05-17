@@ -19,10 +19,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textSize="@dimen/section_header"
+            android:text="@string/label_sidewalk_header"
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/sidewalk_address_field"
+            android:id="@+id/sidewalk_location_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_sidewalk_address"
@@ -32,7 +33,7 @@
             android:layout_marginTop="@dimen/top_margins">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/sidewalk_address_value"
+                android:id="@+id/sidewalk_location_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -46,7 +47,7 @@
             android:hint="@string/hint_sidewalk_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sidewalk_address_field">
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_location_field">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sidewalk_status_value"
@@ -74,157 +75,201 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
-            android:id="@+id/special_floor_linLayout"
+        <TextView
+            android:id="@+id/label_has_special_floor_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sidewalk_width_field"
-            android:layout_marginTop="@dimen/top_margins">
+            android:textSize="@dimen/section_header"
+            android:text="@string/label_has_special_floor"
+            android:layout_marginTop="@dimen/top_margins"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/section_header"
-                android:text="@string/label_has_special_floor"/>
-
-                <RadioGroup
-                    android:id="@+id/radio_sidewalk_special_floor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_radio_twoOp"
-                    android:layout_marginEnd="@dimen/margin_radio_twoOp"
-                    android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/radio_special_floor_yes"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="@integer/weight_one"
-                            android:text="@string/radio_button_yes"
-                            android:textSize="@dimen/radio_button_text"
-                            />
-
-                        <RadioButton
-                            android:id="@+id/radio_special_floor_no"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="@integer/weight_one"
-                            android:text="@string/radio_button_no"
-                            android:textSize="@dimen/radio_button_text" />
-
-                </RadioGroup>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/sidewalk_special_floor_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_sidewalk_status"
-                android:enabled="false">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/sidewalk_special_floor_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/sidewalk_ramp_linLayout"
+        <RadioGroup
+            android:id="@+id/radio_sidewalk_special_floor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/special_floor_linLayout"
-            android:layout_marginTop="@dimen/top_margins">
+            app:layout_constraintTop_toBottomOf="@id/label_has_special_floor_header"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_special_floor_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text"
+                />
+
+            <RadioButton
+                android:id="@+id/radio_special_floor_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+        </RadioGroup>
 
         <TextView
+            android:id="@+id/label_status_special_floor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_special_floor"
+            android:textSize="@dimen/section_header"
+            android:text="@string/label_status_special_floor"
+            android:layout_marginTop="@dimen/top_margins"/>
+
+        <RadioGroup
+            android:id="@+id/radio_status_special_floor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_status_special_floor"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_status_special_floor_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text"
+                />
+
+            <RadioButton
+                android:id="@+id/radio_status_special_floor_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+        </RadioGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_special_floor_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_conservation_status_special_floor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_status_special_floor"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_special_floor_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/label_sidewalk_obligatory_slope_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/section_header"
-            android:text="@string/hint_sidewalk_ramp"/>
+            android:text="@string/label_obligatory_slope_sidewalk"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_special_floor_obs_field"
+            android:layout_marginTop="@dimen/top_margins"/>
 
-            <RadioGroup
-                android:id="@+id/radio_sidewalk_ramp"
-                android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/radio_obligatory_sidewalk_slope"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_sidewalk_obligatory_slope_header"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_obligatory_sidewalk_slope_yes"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_radio_twoOp"
-                android:layout_marginEnd="@dimen/margin_radio_twoOp"
-                android:orientation="horizontal">
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text"
+                />
 
-                    <RadioButton
-                        android:id="@+id/radio_sidewalk_ramp_yes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="@integer/weight_one"
-                        android:text="@string/radio_button_yes"
-                        android:textSize="@dimen/radio_button_text"
-                        />
+            <RadioButton
+                android:id="@+id/radio_obligatory_sidewalk_slope_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
 
-                    <RadioButton
-                        android:id="@+id/radio_sidewalk_ramp_no"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="@integer/weight_one"
-                        android:text="@string/radio_button_no"
-                        android:textSize="@dimen/radio_button_text" />
+        </RadioGroup>
 
-            </RadioGroup>
+        <TextView
+            android:id="@+id/label_sidewalk_has_slope_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/section_header"
+            android:text="@string/label_sidewalk_slope"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_obligatory_sidewalk_slope"
+            android:layout_marginTop="@dimen/top_margins"/>
 
-            <LinearLayout
-                android:baselineAligned="false"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+        <RadioGroup
+            android:id="@+id/radio_sidewalk_slope"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_sidewalk_has_slope_header"
+            android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/sidewalk_ramp_width_field"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="@dimen/margins"
-                    android:hint="@string/hint_ramp_width"
-                    android:enabled="false">
+            <RadioButton
+                android:id="@+id/radio_sidewalk_slope_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text"
+                />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/sidewalk_ramp_width_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:inputType="numberDecimal"/>
+            <RadioButton
+                android:id="@+id/radio_sidewalk_slope_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+        </RadioGroup>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/sidewalk_ramp_slope_field"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="@dimen/margins"
-                    android:hint="@string/hint_ramp_slope"
-                    android:enabled="false">
+        <TextView
+            android:id="@+id/label_sidewalk_slope_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/section_header"
+            android:text="@string/label_slope_register"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_slope"
+            android:layout_marginTop="@dimen/top_margins"
+            android:visibility="gone"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/sidewalk_ramp_slope_value"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:inputType="numberDecimal"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_sidewalk_slope"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_sidewalk_slope_register"
+            android:backgroundTint="@color/purple_200"
+            android:textColor="@color/black"
+            app:cornerRadius="3dp"
+            android:text="@string/label_add_frag_entry"
+            android:textStyle="bold"
+            android:visibility="gone"
+            />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_sidewalk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/sidewalk_ramp_linLayout"
+            app:layout_constraintTop_toBottomOf="@id/add_sidewalk_slope"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="@dimen/top_margins"
             android:text="@string/label_button_save"
