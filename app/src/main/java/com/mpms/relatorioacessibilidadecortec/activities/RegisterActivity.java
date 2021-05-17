@@ -13,7 +13,6 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -29,11 +28,6 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
-
-import io.reactivex.Completable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableCompletableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 //      TODO - Estudar para usar Fragments no lugar de Activities - Garante melhor Design em Tablets + diminui gasto de memória
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -58,8 +52,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     TextView timeScheduleError, schoolServicesError, agesError;
     Button saveCloseButton, saveContinueButton, updateEntryButton, updateContinueButton;
     CheckBox hasMorningClasses, hasAfternoonClasses, hasEveningClasses, hasMaternal, hasPreschool, hasElementary, hasMiddle, hasHigh, hasEJA;
-    private int cadID = -1;
-    private int lastCadID;
+    private int cadID, lastCadID;
     private SchoolEntry lastEntry;
 
     @SuppressLint({"SetTextI18n", "CheckResult"})
@@ -181,9 +174,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             saveCloseButton.setVisibility(View.GONE);
             saveContinueButton.setVisibility(View.GONE);
 
-            cadID = getIntent().getIntExtra(MainActivity.UPDATE_REQUEST, 0);
+            cadID = getIntent().getIntExtra(MainActivity.UPDATE_REQUEST, -1);
             ViewModelEntry gatherInfo = new ViewModelEntry(RegisterActivity.this.getApplication());
-            gatherInfo.getEntry(cadID).observe(this, this::gatherEntry);
+            if (cadID != -1)
+                gatherInfo.getEntry(cadID).observe(this, this::gatherEntry);
         } else {
             updateEntryButton.setVisibility(View.GONE);
             updateContinueButton.setVisibility(View.GONE);
@@ -209,7 +203,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 recentEntry.getLastEntry().observe(this, lastEntry -> {
                     lastCadID = lastEntry.getCadID();
 //                  LiveData PRECISA ser observado para poder obter os dados
-                    Toast.makeText(this, "lastCadID = " + lastCadID, Toast.LENGTH_LONG).show();
                     Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
                     itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, lastCadID);
                     startActivity(itemInspectionIntent);
@@ -241,6 +234,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         });
     }
+
+
 
     //  TODO - Refazer a forma de captar e armazenar datas para manter integridade
     private void showDatePicker() {
@@ -550,11 +545,11 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     public String dateToString(Long dateLong) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             chosenDate = Instant.ofEpochMilli(dateLong).atZone(ZoneId.of("Z")).toLocalDate();
-            return lessThanTen(chosenDate.getDayOfMonth()) + "/" + lessThanTen(chosenDate.getMonthValue()) + "/" + chosenDate.getYear();
+            return checkIfLessThanTen(chosenDate.getDayOfMonth()) + "/" + checkIfLessThanTen(chosenDate.getMonthValue()) + "/" + chosenDate.getYear();
         } else {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(dateLong);
-            return lessThanTen(calendar.DAY_OF_MONTH) + "/" + lessThanTen((calendar.MONTH + 1)) + "/" + calendar.YEAR;
+            return checkIfLessThanTen(calendar.DAY_OF_MONTH) + "/" + checkIfLessThanTen((calendar.MONTH + 1)) + "/" + calendar.YEAR;
         }
     }
 
@@ -568,7 +563,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         return dividedString[2] + "/" + dividedString[1] + "/" + dividedString[0];
     }
 
-    public String lessThanTen(int number) {
+    public String checkIfLessThanTen(int number) {
         if (number < 10)
             return "0" + number;
         else

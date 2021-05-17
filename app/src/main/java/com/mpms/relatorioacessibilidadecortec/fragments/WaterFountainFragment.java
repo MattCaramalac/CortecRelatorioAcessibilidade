@@ -1,49 +1,43 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
 
 public class WaterFountainFragment extends Fragment {
 
-    private static int chosenOption;
-
-    TextInputLayout waterFountainHeightField, cupHolderHeightField, approximationField;
-    TextInputEditText waterFountainHeightValue, cupHolderHeightValue, approximationValue;
+    private ViewModelFragments modelFragments;
 
     public static int schoolID;
+
+    RadioGroup typeWaterFountain;
+    TextView typeWaterFountainError;
+    Button cancelWaterfountain, saveWaterFountain;
 
     public WaterFountainFragment() {
         // Required empty public constructor
     }
 
-    public static WaterFountainFragment newInstance(int dropdownChoice) {
-        WaterFountainFragment waterFountainFragment = new WaterFountainFragment();
-        waterFountainFragment.setChosenOption(dropdownChoice);
-        return waterFountainFragment;
-    }
-
-    public void setChosenOption(int choice) {
-        WaterFountainFragment.chosenOption = choice;
+    public static WaterFountainFragment newInstance() {
+        return new WaterFountainFragment();
     }
 
     @Override
@@ -52,6 +46,8 @@ public class WaterFountainFragment extends Fragment {
         Bundle schoolBundle = this.getArguments();
         if (schoolBundle != null)
             schoolID = schoolBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+
     }
 
     @Override
@@ -64,64 +60,74 @@ public class WaterFountainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setHeaderText(view);
 
-        Button cancelWaterfountain = view.findViewById(R.id.cancel_waterfountain);
-        Button saveWaterFountain = view.findViewById(R.id.save_waterfountain);
+        typeWaterFountain = view.findViewById(R.id.fountain_type_radio);
 
-//        saveWaterFountain.setOnClickListener(v -> {
-//            if(verifyWaterFountainErrors()) {
-//                WaterFountainEntry newWaterFountain = createWaterFountainEntry(schoolID);
-//                ViewModelEntry.insertWaterFountain(newWaterFountain);
-//                clearTextFields();
-//            }
-//        });
+        typeWaterFountainError = view.findViewById(R.id.water_fountain_type_error);
+
+        cancelWaterfountain = view.findViewById(R.id.cancel_waterfountain);
+        saveWaterFountain = view.findViewById(R.id.save_waterfountain);
+
+        typeWaterFountain.setOnCheckedChangeListener(this::typeFountainListener);
+
+        modelFragments.getFountainBundle().observe(getViewLifecycleOwner(), bundle -> {
+//            Colocar a recepção de dados aqui para poder salvar nas tabelas
+            if (true) {
+
+            } else {
+
+            }
+        });
+
+        saveWaterFountain.setOnClickListener(v -> {
+            modelFragments.saveAttemptTestWaterFountain(1);
+            modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
+                if (verifyWaterFountainErrors()) {
+//                    WaterFountainEntry newWaterFountain = createWaterFountain();
+//                    ViewModelEntry.insertWaterFountain(newWaterFountain);
+                }
+            });
+        });
 
         cancelWaterfountain.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
     }
 
-    public void setHeaderText(View v) {
-        TextView headerText = v.findViewById(R.id.water_fountain_header);
-        String headerNames = HeaderNames.headerNames[chosenOption];
-        headerText.setText(headerNames);
+    public void typeFountainListener(RadioGroup group, int checkedID) {
+        RadioButton radioButton = group.findViewById(checkedID);
+        int index = group.indexOfChild(radioButton);
+
+        switch (index) {
+            case 0:
+                getChildFragmentManager().beginTransaction().replace(R.id.water_fountain_info, new WaterFountainSpoutFragment()).commit();
+                break;
+            case 1:
+                getChildFragmentManager().beginTransaction().replace(R.id.water_fountain_info, new WaterFountainOtherFragment()).commit();
+                break;
+            default:
+                break;
+        }
     }
 
-//    public boolean verifyWaterFountainErrors() {
-//        clearWaterFountainErrors();
-//        int i = 0;
-//        if(TextUtils.isEmpty(waterFountainHeightValue.getText())){
-//            waterFountainHeightField.setError(getString(R.string.blank_field_error));
-//            i++;
-//        }
-//        if(TextUtils.isEmpty(cupHolderHeightValue.getText())){
-//            cupHolderHeightField.setError(getString(R.string.blank_field_error));
-//            i++;
-//        }
-//        if(TextUtils.isEmpty(approximationValue.getText())){
-//            approximationField.setError(getString(R.string.blank_field_error));
-//            i++;
-//        }
-//        return i <= 0;
+    public boolean verifyWaterFountainErrors() {
+        clearWaterFountainErrors();
+        int errors = 0;
+        if (typeWaterFountain.getCheckedRadioButtonId() == -1) {
+            typeWaterFountainError.setVisibility(View.VISIBLE);
+            errors++;
+        }
+        return errors == 0;
+    }
+
+    public void clearWaterFountainErrors(){
+        typeWaterFountainError.setVisibility(View.GONE);
+    }
+
+
+//    public WaterFountainEntry createWaterFountain() {
+//        bun
+//        return new WaterFountainEntry();
 //    }
-//
-//    public void clearWaterFountainErrors(){
-//        waterFountainHeightField.setErrorEnabled(false);
-//        cupHolderHeightField.setErrorEnabled(false);
-//        approximationField.setErrorEnabled(false);
-//    }
-
-    public void clearTextFields() {
-        waterFountainHeightValue.setText(null);
-        cupHolderHeightValue.setText(null);
-        approximationValue.setText(null);
-    }
-
-    public WaterFountainEntry createWaterFountainEntry(Integer schoolID) {
-        return new WaterFountainEntry(schoolID, 0, 0, 0.00,
-                0, 0.00, 0, 0.00,
-                0.01, 0.02);
-    }
 
 //    (@NonNull Integer schoolEntryID, @NonNull Integer typeWaterFountain, Integer otherAllowSideApproximation,
 //    Double otherFaucetHeight, Integer otherHasCupHolder, Double otherCupHolderHeight,

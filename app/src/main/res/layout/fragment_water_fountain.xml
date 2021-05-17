@@ -12,6 +12,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:text="@string/label_water_fountain_header"
             android:id="@+id/water_fountain_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +33,7 @@
             android:text="@string/label_water_fountain_type"/>
 
         <RadioGroup
-            android:id="@+id/fountain_type_group"
+            android:id="@+id/fountain_type_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toStartOf="parent"
@@ -58,13 +59,25 @@
 
         </RadioGroup>
 
+        <TextView
+            android:id="@+id/water_fountain_type_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/fountain_type_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
         <FrameLayout
             android:id="@+id/water_fountain_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fountain_type_group"
+            app:layout_constraintTop_toBottomOf="@id/water_fountain_type_error"
             android:layout_marginTop="@dimen/top_margins"/>
 
         <com.google.android.material.button.MaterialButton

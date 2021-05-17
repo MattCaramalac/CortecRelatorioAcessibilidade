@@ -19,7 +19,6 @@ import java.util.Locale;
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
-//    private int dropdownChoice = -1;
     public int schoolEntryID;
     public static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
     Bundle fragmentSchoolID = new Bundle();
@@ -44,7 +43,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 displayExternalAccessFragment(choice);
                 break;
             case 2:
-                displayWaterFountainFragment(choice);
+                displayWaterFountainFragment();
                 break;
             case 4:
                 displaySidewalkFragment();
@@ -78,8 +77,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-    public void displayWaterFountainFragment(int chosenItem) {
-        WaterFountainFragment waterFountainFragment = WaterFountainFragment.newInstance(chosenItem);
+    public void displayWaterFountainFragment() {
+        WaterFountainFragment waterFountainFragment = WaterFountainFragment.newInstance();
         waterFountainFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected,waterFountainFragment).commit();

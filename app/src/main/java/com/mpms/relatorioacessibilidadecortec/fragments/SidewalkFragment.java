@@ -23,8 +23,8 @@ import java.util.Objects;
 
 public class SidewalkFragment extends Fragment {
 
-    TextInputLayout sidewalkLocationField, sidewalkStatusField,sidewalkWidthField, sidewalkSpecialFloorObsField;
-    TextInputEditText sidewalkLocationValue, sidewalkStatusValue,sidewalkWidthValue, sidewalkSpecialFloorObsValue;
+    TextInputLayout sidewalkLocationField, sidewalkStatusField, sidewalkWidthField, sidewalkSpecialFloorObsField;
+    TextInputEditText sidewalkLocationValue, sidewalkStatusValue, sidewalkWidthValue, sidewalkSpecialFloorObsValue;
     RadioGroup hasSpecialFloor, statusSpecialFloor, obligatorySlope, hasSlope;
     TextView slopeRegisterLabel;
     Button saveSidewalk, cancelSidewalk, addSlope;
@@ -76,8 +76,8 @@ public class SidewalkFragment extends Fragment {
 
         firstRegister();
 
-        hasSpecialFloorListener(hasSpecialFloor);
-        hasSlopeListener(hasSlope);
+        hasSpecialFloor.setOnCheckedChangeListener(this::hasSpecialFloorListener);
+        hasSlope.setOnCheckedChangeListener(this::hasSlopeListener);
 
         cancelSidewalk.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
@@ -87,8 +87,8 @@ public class SidewalkFragment extends Fragment {
             FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
-            fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();} );
-
+            fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
+        });
 
 
     }
@@ -110,37 +110,32 @@ public class SidewalkFragment extends Fragment {
         }
     }
 
-    public void hasSpecialFloorListener(RadioGroup radioGroup) {
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            View radioButton = group.findViewById(checkedId);
-            int index = group.indexOfChild(radioButton);
+    public void hasSpecialFloorListener(RadioGroup radioGroup, int checkedID) {
+        View radioButton = radioGroup.findViewById(checkedID);
+        int index = radioGroup.indexOfChild(radioButton);
 
-            if (index == 0) {
-                enableRadioGroup(statusSpecialFloor);
-                sidewalkSpecialFloorObsField.setEnabled(true);
-            } else {
-                statusSpecialFloor.clearCheck();
-                disableRadioGroup(statusSpecialFloor);
-                sidewalkSpecialFloorObsValue.setText(null);
-                sidewalkSpecialFloorObsField.setEnabled(false);
-            }
-        });
+        if (index == 0) {
+            enableRadioGroup(statusSpecialFloor);
+            sidewalkSpecialFloorObsField.setEnabled(true);
+        } else {
+            statusSpecialFloor.clearCheck();
+            disableRadioGroup(statusSpecialFloor);
+            sidewalkSpecialFloorObsValue.setText(null);
+            sidewalkSpecialFloorObsField.setEnabled(false);
+        }
     }
 
-    public void hasSlopeListener(RadioGroup radioGroup) {
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            View radioButton = group.findViewById(checkedId);
-            int index = group.indexOfChild(radioButton);
+    public void hasSlopeListener(RadioGroup radioGroup, int checkedID) {
+        View radioButton = radioGroup.findViewById(checkedID);
+        int index = radioGroup.indexOfChild(radioButton);
 
-            if (index == 0) {
-                slopeRegisterLabel.setVisibility(View.VISIBLE);
-                addSlope.setVisibility(View.VISIBLE);
-            } else {
-                slopeRegisterLabel.setVisibility(View.GONE);
-                addSlope.setVisibility(View.GONE);
+        if (index == 0) {
+            slopeRegisterLabel.setVisibility(View.VISIBLE);
+            addSlope.setVisibility(View.VISIBLE);
+        } else {
+            slopeRegisterLabel.setVisibility(View.GONE);
+            addSlope.setVisibility(View.GONE);
 
-            }
-    });
-
-}
+        }
+    }
 }

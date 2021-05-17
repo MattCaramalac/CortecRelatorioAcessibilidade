@@ -132,8 +132,8 @@
     <string name="hint_PCR_space_width">Largura Espaço PCR</string>
     <string name="hint_PCR_space_depth">Profund. Espaço PCR</string>
     <string name="label_water_fountain_type">Tipo de Bebedouro</string>
-    <string name="radio_option_bica_type">Tipo Bica</string>
-    <string name="radio_option_other_type">Outro Tipo</string>
+    <string name="radio_option_bica_type">TIPO BICA</string>
+    <string name="radio_option_other_type">OUTRO TIPO</string>
     <string name="label_window_register">Cadastro de Janelas e Suas Dimensões</string>
     <string name="label_room_has_visual_signal">Possui Sinalização Visual Vertical?</string>
     <string name="hint_sign_observations">Observações da Sinalização</string>
@@ -181,4 +181,9 @@
     <string name="label_obligatory_slope_sidewalk">É obrigatório ter rebaixamento nesta calçada?</string>
     <string name="label_slope_register">Cadastro de rebaixamentos e suas dimensões</string>
     <string name="label_status_special_floor">O piso tátil está em bom estado de conservação?</string>
+    <string name="label_allow_frontal_approx">Bebedouro permite Aproximação Frontal?</string>
+    <string name="hint_highest_spout_height">Altura da Bica Mais Alta</string>
+    <string name="hint_lowest_spout_height">Altura da Bica Mais Baixa</string>
+    <string name="hint_free_space_lowest_spout">Espaço Livre Abaixo da Bica Mais Baixa</string>
+    <string name="label_water_fountain_header">Bebedouros</string>
 </resources>
