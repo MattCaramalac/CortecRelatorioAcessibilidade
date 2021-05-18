@@ -22,11 +22,19 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
 
+
+
 public class WaterFountainFragment extends Fragment {
 
     private ViewModelFragments modelFragments;
 
+    private int chosenFountain = -1;
+
+    private Bundle bundle;
+
     public static int schoolID;
+
+    WaterFountainEntry newFountain;
 
     RadioGroup typeWaterFountain;
     TextView typeWaterFountainError;
@@ -70,23 +78,20 @@ public class WaterFountainFragment extends Fragment {
 
         typeWaterFountain.setOnCheckedChangeListener(this::typeFountainListener);
 
-        modelFragments.getFountainBundle().observe(getViewLifecycleOwner(), bundle -> {
-//            Colocar a recepção de dados aqui para poder salvar nas tabelas
-            if (true) {
 
-            } else {
-
-            }
-        });
 
         saveWaterFountain.setOnClickListener(v -> {
-            modelFragments.saveAttemptTestWaterFountain(1);
-            modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
+            modelFragments.getFountainBundle().observe(getViewLifecycleOwner(), bundle -> {
+//            Colocar a recepção de dados aqui para poder salvar nas tabelas
                 if (verifyWaterFountainErrors()) {
-//                    WaterFountainEntry newWaterFountain = createWaterFountain();
-//                    ViewModelEntry.insertWaterFountain(newWaterFountain);
+                    if (bundle != null) {
+                        newFountain = createFountain(bundle, chosenFountain);
+                        ViewModelEntry.insertWaterFountain(newFountain);
+                    }
                 }
             });
+            modelFragments.saveAttemptTestWaterFountain(1);
+            modelFragments.setFountainBundle(null);
         });
 
         cancelWaterfountain.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
@@ -96,6 +101,7 @@ public class WaterFountainFragment extends Fragment {
     public void typeFountainListener(RadioGroup group, int checkedID) {
         RadioButton radioButton = group.findViewById(checkedID);
         int index = group.indexOfChild(radioButton);
+        chosenFountain = index;
 
         switch (index) {
             case 0:
@@ -106,6 +112,7 @@ public class WaterFountainFragment extends Fragment {
                 break;
             default:
                 break;
+
         }
     }
 
@@ -123,15 +130,18 @@ public class WaterFountainFragment extends Fragment {
         typeWaterFountainError.setVisibility(View.GONE);
     }
 
-
-//    public WaterFountainEntry createWaterFountain() {
-//        bun
-//        return new WaterFountainEntry();
-//    }
-
-//    (@NonNull Integer schoolEntryID, @NonNull Integer typeWaterFountain, Integer otherAllowSideApproximation,
-//    Double otherFaucetHeight, Integer otherHasCupHolder, Double otherCupHolderHeight,
-//    Integer spoutAllowFrontalApproximation, Double highestSpoutHeight, Double lowestSpoutHeight,
-//    Double freeSpaceLowestSpout) {
+    public WaterFountainEntry createFountain(Bundle bundle, int chosenFountain) {
+        WaterFountainEntry newFountain = null;
+        if (chosenFountain == 0) {
+            newFountain = new WaterFountainEntry(schoolID, chosenFountain, null, null, null, null,
+                    bundle.getInt(WaterFountainSpoutFragment.ALLOW_FRONTAL), bundle.getDouble(WaterFountainSpoutFragment.HIGHEST_SPOUT),
+                    bundle.getDouble(WaterFountainSpoutFragment.LOWEST_SPOUT), bundle.getDouble(WaterFountainSpoutFragment.FREE_SPACE_SPOUT));
+        } else if (chosenFountain == 1) {
+            newFountain = new WaterFountainEntry(schoolID, chosenFountain, bundle.getInt(WaterFountainOtherFragment.ALLOW_LATERAL),
+                    bundle.getDouble(WaterFountainOtherFragment.FAUCET_HEIGHT), bundle.getInt(WaterFountainOtherFragment.HAS_CUP_HOLDER),
+                    bundle.getDouble(WaterFountainOtherFragment.CUP_HOLDER_HEIGHT),null, null, null, null);
+        }
+        return newFountain;
+    }
 
 }

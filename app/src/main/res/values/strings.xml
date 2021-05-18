@@ -162,8 +162,6 @@
     <string name="label_radio_button_PDMR_vacancy">VAGAS PARA PDMR</string>
     <string name="hint_parking_lot_floor_type">Tipo de Piso do Estacionamento</string>
     <string name="label_button_proceed_register">CONTINUAR</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_frag_parking_lot_PDMR">Estacionamento - Vagas PDMR</string>
     <string name="label_frag_parking_lot_elderly">Estacionamento - Vagas para Idosos</string>
     <string name="label_pictogram_vacancy_elderly">Vagas possuem pictograma para identificação?</string>
@@ -186,4 +184,8 @@
     <string name="hint_lowest_spout_height">Altura da Bica Mais Baixa</string>
     <string name="hint_free_space_lowest_spout">Espaço Livre Abaixo da Bica Mais Baixa</string>
     <string name="label_water_fountain_header">Bebedouros</string>
+    <string name="label_allow_lateral_approx">Bebedouro permite aproximação lateral?</string>
+    <string name="hint_faucet_height">Altura da torneira do bebedouro</string>
+    <string name="label_fountain_has_cup_holder">Bebedouro possui porta-copos?</string>
+    <string name="hint_cup_holder_height">Altura do porta-copos</string>
 </resources>

@@ -17,13 +17,16 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
 
 public class WaterFountainSpoutFragment extends Fragment {
+
+    static final String ALLOW_FRONTAL = "ALLOW_FRONTAL";
+    static final String HIGHEST_SPOUT = "HIGHEST_SPOUT";
+    static final String LOWEST_SPOUT = "LOWEST_SPOUT";
+    static final String FREE_SPACE_SPOUT = "FREE_SPACE_SPOUT";
 
     ViewModelFragments modelFragments;
     TextView allowApproxError;
@@ -52,7 +55,7 @@ public class WaterFountainSpoutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_spout_water_fountain, container, false);
+        return inflater.inflate(R.layout.fragment_water_fountain_spout, container, false);
     }
 
     @Override
@@ -68,16 +71,16 @@ public class WaterFountainSpoutFragment extends Fragment {
         freeSpaceSpoutField = view.findViewById(R.id.free_space_height_field);
 
         highestSpoutValue = view.findViewById(R.id.highest_spout_height_value);
-        lowestSpoutField = view.findViewById(R.id.lowest_spout_height_value);
+        lowestSpoutValue = view.findViewById(R.id.lowest_spout_height_value);
         freeSpaceSpoutValue = view.findViewById(R.id.free_space_height_value);
 
         modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
             if(hasNoEmptyFields()) {
                 Bundle spoutData = new Bundle();
-                spoutData.putInt("ALLOW_FRONTAL",allowFrontalApprox.getCheckedRadioButtonId());
-                spoutData.putDouble("HIGHEST_SPOUT",Double.parseDouble(Objects.requireNonNull(highestSpoutValue.getText()).toString()));
-                spoutData.putDouble("LOWEST_SPOUT",Double.parseDouble(Objects.requireNonNull(lowestSpoutValue.getText()).toString()));
-                spoutData.putDouble("FREE_SPACE_SPOUT",Double.parseDouble(Objects.requireNonNull(freeSpaceSpoutValue.getText()).toString()));
+                spoutData.putInt(ALLOW_FRONTAL, getCheckedIndex(allowFrontalApprox));
+                spoutData.putDouble(HIGHEST_SPOUT, Double.parseDouble(Objects.requireNonNull(highestSpoutValue.getText()).toString()));
+                spoutData.putDouble(LOWEST_SPOUT, Double.parseDouble(Objects.requireNonNull(lowestSpoutValue.getText()).toString()));
+                spoutData.putDouble(FREE_SPACE_SPOUT, Double.parseDouble(Objects.requireNonNull(freeSpaceSpoutValue.getText()).toString()));
                 modelFragments.setFountainBundle(spoutData);
             }
             modelFragments.saveAttemptTestWaterFountain(0);
@@ -115,6 +118,12 @@ public class WaterFountainSpoutFragment extends Fragment {
         freeSpaceSpoutField.setErrorEnabled(false);
 
 
+    }
+
+    public int getCheckedIndex(RadioGroup group) {
+        int buttonID = group.getCheckedRadioButtonId();
+        View button = group.findViewById(buttonID);
+        return group.indexOfChild(button);
     }
 
 

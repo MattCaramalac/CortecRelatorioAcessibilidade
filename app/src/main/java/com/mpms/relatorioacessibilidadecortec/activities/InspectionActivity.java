@@ -64,9 +64,9 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public void displayExternalAccessFragment(int chosenItem) {
         ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance(chosenItem);
+        externalAccessFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected,externalAccessFragment).addToBackStack(null).commit();
-        externalAccessFragment.setArguments(fragmentSchoolID);
     }
 
     public void closeExternalAccessFragment() {
@@ -87,6 +87,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public void displaySidewalkFragment() {
         SidewalkFragment sidewalkFragment = SidewalkFragment.newInstance();
+        sidewalkFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected,sidewalkFragment).addToBackStack(null).commit();
     }
@@ -101,6 +102,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public void displayRoomsRegisterFragment(int chosenItem) {
         RoomsRegisterFragment roomsRegisterFragment = RoomsRegisterFragment.newInstance(chosenItem);
+        roomsRegisterFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, roomsRegisterFragment).addToBackStack(null).commit();
     }
@@ -115,6 +117,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public void displayParkingLotFragment() {
         ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
+        parkingLotFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
     }
@@ -129,6 +132,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public void displayStairsRampFragment(int chosenItem) {
         StairsRampFragment stairsRampFragment = StairsRampFragment.newInstance(chosenItem);
+        stairsRampFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, stairsRampFragment).addToBackStack(null).commit();
     }
