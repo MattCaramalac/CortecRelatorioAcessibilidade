@@ -61,16 +61,16 @@
 
     <string name="label_exp_dropdown">Escolha um item</string>
 
-    <string name="frag_ext_sia">SIA</string>
+    <string name="frag_ext_sia">Possui SIA?</string>
     <string name="radio_button_yes">SIM</string>
     <string name="radio_button_no">NÃO</string>
     <string name="frag_ext_gate">Portão</string>
-    <string name="hint_ext_gate_width">Largura do Portão</string>
-    <string name="hint_ext_trail_height">Altura do Trilho</string>
-    <string name="frag_ext_trail_ledge">Rampa do Trilho do Portão</string>
+    <string name="hint_ext_gate_width">Largura do Portão de Acesso</string>
+    <string name="hint_ext_trail_height">Altura do Trilho do Portão de Acesso</string>
+    <string name="frag_ext_trail_ledge">O portão possui rampa para o trilho?</string>
     <string name="radio_button_has_it">POSSUI</string>
-    <string name="radio_button_dont_has_it">NÃO POSSUI</string>
-    <string name="radio_button_unecessary">DESNECESSÁRIO</string>
+    <string name="radio_button_doesnt_have_it">NÃO POSSUI</string>
+    <string name="radio_button_unnecessary">DESNECESSÁRIO</string>
     <string name="frag_ext_gate_obstacles">Entrada Possui Cancelas ou Catracas?</string>
     <string name="label_add_frag_entry">Adicionar</string>
     <string name="frag_ent_gate_payphone">Entrada possui orelhões?</string>
@@ -188,4 +188,8 @@
     <string name="hint_faucet_height">Altura da torneira do bebedouro</string>
     <string name="label_fountain_has_cup_holder">Bebedouro possui porta-copos?</string>
     <string name="hint_cup_holder_height">Altura do porta-copos</string>
+    <string name="label_external_access_header">Acesso Externo</string>
+    <string name="label_external_access_type">Tipo de Accesso Externo</string>
+    <string name="label_social_entrance_radio">ENTRADA SOCIAL</string>
+    <string name="label_cars_entrance_radio">ENTRADA VEÍCULOS</string>
 </resources>

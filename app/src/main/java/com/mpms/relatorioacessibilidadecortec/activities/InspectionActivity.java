@@ -40,7 +40,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     public void onDropdownChoice(int choice) {
         switch (choice) {
             case 0:
-                displayExternalAccessFragment(choice);
+                displayExternalAccessFragment();
                 break;
             case 2:
                 displayWaterFountainFragment();
@@ -62,8 +62,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     }
 
-    public void displayExternalAccessFragment(int chosenItem) {
-        ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance(chosenItem);
+    public void displayExternalAccessFragment() {
+        ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance();
         externalAccessFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected,externalAccessFragment).addToBackStack(null).commit();
