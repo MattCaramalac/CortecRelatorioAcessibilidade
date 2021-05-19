@@ -81,17 +81,19 @@ public class WaterFountainFragment extends Fragment {
 
 
         saveWaterFountain.setOnClickListener(v -> {
+            modelFragments.saveAttemptTestWaterFountain(1);
             modelFragments.getFountainBundle().observe(getViewLifecycleOwner(), bundle -> {
 //            Colocar a recepção de dados aqui para poder salvar nas tabelas
-                if (verifyWaterFountainErrors()) {
+//                if (verifyWaterFountainErrors()) {
                     if (bundle != null) {
                         newFountain = createFountain(bundle, chosenFountain);
                         ViewModelEntry.insertWaterFountain(newFountain);
+                        modelFragments.setFountainBundle(null);
                     }
-                }
+//                }
             });
-            modelFragments.saveAttemptTestWaterFountain(1);
-            modelFragments.setFountainBundle(null);
+
+
         });
 
         cancelWaterfountain.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()

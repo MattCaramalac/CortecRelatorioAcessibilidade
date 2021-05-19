@@ -79,10 +79,14 @@ public class WaterFountainOtherFragment extends Fragment {
                 otherData.putInt(ALLOW_LATERAL, getCheckedIndex(allowLateralApprox));
                 otherData.putDouble(FAUCET_HEIGHT, Double.parseDouble(Objects.requireNonNull(faucetHeightValue.getText()).toString()));
                 otherData.putInt(HAS_CUP_HOLDER, getCheckedIndex(hasCupHolder));
-                otherData.putDouble(CUP_HOLDER_HEIGHT, Double.parseDouble(Objects.requireNonNull(cupHolderHeightValue.getText()).toString()));
+                if  (getCheckedIndex(hasCupHolder) == 1) {
+                    otherData.putDouble(CUP_HOLDER_HEIGHT, Double.parseDouble(Objects.requireNonNull(cupHolderHeightValue.getText()).toString()));
+                }
                 modelFragments.setFountainBundle(otherData);
             }
-            modelFragments.saveAttemptTestWaterFountain(0);
+            if (Objects.equals(modelFragments.getSaveAttempt().getValue(),0)){
+                modelFragments.saveAttemptTestWaterFountain(0);
+            }
         });
     }
 

@@ -15,7 +15,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {SchoolEntry.class, WaterFountainEntry.class}, version = 4)
+@Database(entities = {SchoolEntry.class, WaterFountainEntry.class}, version = 5)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -64,6 +64,17 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+//    static final Migration MIGRATION_4_5 = new Migration(4,5) {
+//        @Override
+//        public void migrate(@NonNull SupportSQLiteDatabase database) {
+//            database.execSQL("CREATE TABLE ExternalAccess (externalAccessID INTEGER PRIMARY KEY AUTOINCREMENT," +
+//                    "schoolEntryID INTEGER NOT NULL, hasSIA INTEGER, floorType TEXT, gateWidth REAL, trailHeight REAL," +
+//                    "hasTrailRamp INTEGER, hasGateObstacles INTEGER, hasGatePayphones INTEGER, FOREIGN KEY (schoolEntryID) REFERENCES " +
+//                    "SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+//        }
+//    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null){
             synchronized (ReportDatabase.class) {
@@ -79,4 +90,5 @@ public abstract class ReportDatabase extends RoomDatabase {
 
     public abstract SchoolEntryDao schoolEntryDao();
     public abstract WaterFountainDao waterFountainDao();
+
 }

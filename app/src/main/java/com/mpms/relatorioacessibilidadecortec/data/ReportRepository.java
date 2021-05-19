@@ -21,10 +21,14 @@ public class ReportRepository {
     private LiveData<List<WaterFountainEntry>> allFountainsInSchool;
     private LiveData<WaterFountainEntry> waterFountain;
 
+
+
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
         schoolEntryDao = db.schoolEntryDao();
         waterFountainDao = db.waterFountainDao();
+
+
 
         allSchoolEntries = schoolEntryDao.getAllEntries();
     }
@@ -76,6 +80,10 @@ public class ReportRepository {
     public void deleteAllFountainsFromSchool(int schoolID) {
         ReportDatabase.dbWriteExecutor.execute(() -> waterFountainDao.deleteAllFountainsFromSchool(schoolID));
     }
+
+
+
+
 
     public void deleteAllEntries() {
         ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.deleteAll());
