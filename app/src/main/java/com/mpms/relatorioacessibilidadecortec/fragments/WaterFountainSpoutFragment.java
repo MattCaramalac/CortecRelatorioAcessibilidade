@@ -75,15 +75,21 @@ public class WaterFountainSpoutFragment extends Fragment {
         freeSpaceSpoutValue = view.findViewById(R.id.free_space_height_value);
 
         modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
-            if(hasNoEmptyFields()) {
-                Bundle spoutData = new Bundle();
-                spoutData.putInt(ALLOW_FRONTAL, getCheckedIndex(allowFrontalApprox));
-                spoutData.putDouble(HIGHEST_SPOUT, Double.parseDouble(Objects.requireNonNull(highestSpoutValue.getText()).toString()));
-                spoutData.putDouble(LOWEST_SPOUT, Double.parseDouble(Objects.requireNonNull(lowestSpoutValue.getText()).toString()));
-                spoutData.putDouble(FREE_SPACE_SPOUT, Double.parseDouble(Objects.requireNonNull(freeSpaceSpoutValue.getText()).toString()));
-                modelFragments.setFountainBundle(spoutData);
+            if (Objects.equals(modelFragments.getSaveAttempt().getValue(), 1)) {
+                if (hasNoEmptyFields()) {
+                    Bundle spoutData = new Bundle();
+                    spoutData.putInt(ALLOW_FRONTAL, getCheckedIndex(allowFrontalApprox));
+                    spoutData.putDouble(HIGHEST_SPOUT, Double.parseDouble(Objects.requireNonNull(highestSpoutValue.getText()).toString()));
+                    spoutData.putDouble(LOWEST_SPOUT, Double.parseDouble(Objects.requireNonNull(lowestSpoutValue.getText()).toString()));
+                    spoutData.putDouble(FREE_SPACE_SPOUT, Double.parseDouble(Objects.requireNonNull(freeSpaceSpoutValue.getText()).toString()));
+                    modelFragments.setFountainBundle(spoutData);
+                    clearFields();
+                    Objects.requireNonNull(getParentFragment()).getChildFragmentManager().beginTransaction().remove(this).commit();
+                }
+                modelFragments.saveAttemptTestWaterFountain(0);
+
             }
-            modelFragments.saveAttemptTestWaterFountain(0);
+
         });
 
 
@@ -118,6 +124,13 @@ public class WaterFountainSpoutFragment extends Fragment {
         freeSpaceSpoutField.setErrorEnabled(false);
 
 
+    }
+
+    public void clearFields() {
+        allowFrontalApprox.clearCheck();
+        highestSpoutValue.setText(null);
+        lowestSpoutValue.setText(null);
+        freeSpaceSpoutValue.setText(null);
     }
 
     public int getCheckedIndex(RadioGroup group) {

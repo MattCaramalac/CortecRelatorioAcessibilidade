@@ -74,19 +74,23 @@ public class WaterFountainOtherFragment extends Fragment {
         hasCupHolder.setOnCheckedChangeListener(this::hasCupHolderListener);
 
         modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
-            if(hasNoEmptyFields()) {
-                Bundle otherData = new Bundle();
-                otherData.putInt(ALLOW_LATERAL, getCheckedIndex(allowLateralApprox));
-                otherData.putDouble(FAUCET_HEIGHT, Double.parseDouble(Objects.requireNonNull(faucetHeightValue.getText()).toString()));
-                otherData.putInt(HAS_CUP_HOLDER, getCheckedIndex(hasCupHolder));
-                if  (getCheckedIndex(hasCupHolder) == 1) {
-                    otherData.putDouble(CUP_HOLDER_HEIGHT, Double.parseDouble(Objects.requireNonNull(cupHolderHeightValue.getText()).toString()));
+            if (Objects.equals(modelFragments.getSaveAttempt().getValue(), 1)) {
+                if (hasNoEmptyFields()) {
+                    Bundle otherData = new Bundle();
+                    otherData.putInt(ALLOW_LATERAL, getCheckedIndex(allowLateralApprox));
+                    otherData.putDouble(FAUCET_HEIGHT, Double.parseDouble(Objects.requireNonNull(faucetHeightValue.getText()).toString()));
+                    otherData.putInt(HAS_CUP_HOLDER, getCheckedIndex(hasCupHolder));
+                    if (getCheckedIndex(hasCupHolder) == 1) {
+                        otherData.putDouble(CUP_HOLDER_HEIGHT, Double.parseDouble(Objects.requireNonNull(cupHolderHeightValue.getText()).toString()));
+                    }
+                    modelFragments.setFountainBundle(otherData);
+                    clearFields();
+                    Objects.requireNonNull(getParentFragment()).getChildFragmentManager().beginTransaction().remove(this).commit();
                 }
-                modelFragments.setFountainBundle(otherData);
-            }
-            if (Objects.equals(modelFragments.getSaveAttempt().getValue(),0)){
                 modelFragments.saveAttemptTestWaterFountain(0);
+
             }
+
         });
     }
 
@@ -96,7 +100,7 @@ public class WaterFountainOtherFragment extends Fragment {
 
         switch (index) {
             case 0:
-                cupHolderHeightValue.setText("");
+                cupHolderHeightValue.setText(null);
                 cupHolderHeightField.setEnabled(false);
                 break;
             case 1:
@@ -122,7 +126,7 @@ public class WaterFountainOtherFragment extends Fragment {
             hasCupHolderError.setVisibility(View.VISIBLE);
             errors++;
         }
-        if (cupHolderHeightField.isEnabled()  && TextUtils.isEmpty(cupHolderHeightValue.getText())) {
+        if (cupHolderHeightField.isEnabled() && TextUtils.isEmpty(cupHolderHeightValue.getText())) {
             cupHolderHeightField.setError(getString(R.string.blank_field_error));
             errors++;
         }
@@ -134,7 +138,15 @@ public class WaterFountainOtherFragment extends Fragment {
         hasCupHolderError.setVisibility(View.GONE);
         faucetHeightField.setErrorEnabled(false);
         cupHolderHeightField.setErrorEnabled(false);
-        }
+    }
+
+    public void clearFields() {
+        allowLateralApprox.clearCheck();
+        hasCupHolder.clearCheck();
+        faucetHeightValue.setText(null);
+        cupHolderHeightValue.setText(null);
+        cupHolderHeightField.setEnabled(false);
+    }
 
     public int getCheckedIndex(RadioGroup group) {
         int buttonID = group.getCheckedRadioButtonId();

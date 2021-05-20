@@ -38,7 +38,7 @@ public class WaterFountainFragment extends Fragment {
 
     RadioGroup typeWaterFountain;
     TextView typeWaterFountainError;
-    Button cancelWaterfountain, saveWaterFountain;
+    Button cancelWaterFountain, saveWaterFountain;
 
     public WaterFountainFragment() {
         // Required empty public constructor
@@ -73,30 +73,28 @@ public class WaterFountainFragment extends Fragment {
 
         typeWaterFountainError = view.findViewById(R.id.water_fountain_type_error);
 
-        cancelWaterfountain = view.findViewById(R.id.cancel_waterfountain);
+        cancelWaterFountain = view.findViewById(R.id.cancel_waterfountain);
         saveWaterFountain = view.findViewById(R.id.save_waterfountain);
 
         typeWaterFountain.setOnCheckedChangeListener(this::typeFountainListener);
 
+        modelFragments.getFountainBundle().observe(getViewLifecycleOwner(), bundle -> {
+            if (bundle != null) {
+                newFountain = createFountain(bundle, chosenFountain);
+                ViewModelEntry.insertWaterFountain(newFountain);
+                modelFragments.setFountainBundle(null);
+                typeWaterFountain.clearCheck();
+            }
+        });
+
 
 
         saveWaterFountain.setOnClickListener(v -> {
-            modelFragments.saveAttemptTestWaterFountain(1);
-            modelFragments.getFountainBundle().observe(getViewLifecycleOwner(), bundle -> {
-//            Colocar a recepção de dados aqui para poder salvar nas tabelas
-//                if (verifyWaterFountainErrors()) {
-                    if (bundle != null) {
-                        newFountain = createFountain(bundle, chosenFountain);
-                        ViewModelEntry.insertWaterFountain(newFountain);
-                        modelFragments.setFountainBundle(null);
-                    }
-//                }
-            });
-
-
+            if (verifyWaterFountainErrors())
+                modelFragments.saveAttemptTestWaterFountain(1);
         });
 
-        cancelWaterfountain.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelWaterFountain.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
     }
 
