@@ -114,7 +114,7 @@ public class SidewalkFragment extends Fragment {
         View radioButton = radioGroup.findViewById(checkedID);
         int index = radioGroup.indexOfChild(radioButton);
 
-        if (index == 0) {
+        if (index == 1) {
             enableRadioGroup(statusSpecialFloor);
             sidewalkSpecialFloorObsField.setEnabled(true);
         } else {
@@ -129,7 +129,7 @@ public class SidewalkFragment extends Fragment {
         View radioButton = radioGroup.findViewById(checkedID);
         int index = radioGroup.indexOfChild(radioButton);
 
-        if (index == 0) {
+        if (index == 1) {
             slopeRegisterLabel.setVisibility(View.VISIBLE);
             addSlope.setVisibility(View.VISIBLE);
         } else {

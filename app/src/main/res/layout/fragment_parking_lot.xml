@@ -19,42 +19,37 @@
             android:textSize="@dimen/section_header"
             android:text="@string/label_parking_lot_header"/>
 
-        <LinearLayout
-            android:id="@+id/parking_lot_type_layout"
+        <TextView
+            android:id="@+id/parking_lot_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/label_parking_lot_type"
             app:layout_constraintTop_toBottomOf="@id/parking_lot_header"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/top_margins"
-            android:orientation="vertical">
+            android:textSize="@dimen/section_header"/>
 
-            <TextView
-                android:id="@+id/parking_lot_type"
-                android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/parking_lot_type_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/parking_lot_type"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_parking_lot_type"
-                android:textSize="@dimen/section_header"/>
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/label_radio_button_internal"/>
 
-            <RadioGroup
-                android:id="@+id/parking_lot_type_radio"
-                android:layout_width="match_parent"
+            <RadioButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/label_radio_button_external"/>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/label_radio_button_internal"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/label_radio_button_external"/>
-
-            </RadioGroup>
-        </LinearLayout>
+        </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/parking_lot_vacancy_field"
@@ -62,7 +57,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parking_lot_type_layout"
+            app:layout_constraintTop_toBottomOf="@id/parking_lot_type_radio"
             android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/hint_parking_lot_total_vacancy">
 

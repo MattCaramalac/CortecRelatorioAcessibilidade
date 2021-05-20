@@ -10,129 +10,117 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/distance_shelves_layout"
+        <TextView
+            android:id="@+id/label_distance_shelves"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:orientation="vertical">
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/label_distance_shelves"
+            android:textSize="@dimen/section_header"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_distance_shelves"
-                android:textSize="@dimen/section_header"/>
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"
-                    android:textSize="@dimen/section_header"
-                    android:layout_marginStart="@dimen/margin_radio_twoOp"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no"
-                    android:textSize="@dimen/section_header"
-                    android:layout_marginEnd="@dimen/margin_radio_twoOp"/>
-
-            </RadioGroup>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/maneuver_pocket_layout"
+        <RadioGroup
+            android:id="@+id/distance_shelves_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/distance_shelves_layout"
-            android:layout_marginTop="@dimen/top_margins"
-            android:orientation="vertical">
+            app:layout_constraintTop_toBottomOf="@id/label_distance_shelves"
+            android:orientation="horizontal"
+            android:gravity="center">
 
-            <TextView
-                android:layout_width="match_parent"
+            <RadioButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_PCR_maneuver"
-                android:textSize="@dimen/section_header"/>
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/section_header"
+                />
 
-            <RadioGroup
-                android:layout_width="match_parent"
+            <RadioButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/section_header"
+                />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"
-                    android:textSize="@dimen/section_header"
-                    android:layout_marginStart="@dimen/margin_radio_twoOp"/>
+        </RadioGroup>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no"
-                    android:textSize="@dimen/section_header"
-                    android:layout_marginEnd="@dimen/margin_radio_twoOp"/>
-
-            </RadioGroup>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/adapted_computers_layout"
+        <TextView
+            android:id="@+id/label_PCR_maneuver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/maneuver_pocket_layout"
+            app:layout_constraintTop_toBottomOf="@id/distance_shelves_radio"
             android:layout_marginTop="@dimen/top_margins"
-            android:orientation="vertical">
+            android:text="@string/label_PCR_maneuver"
+            android:textSize="@dimen/section_header"/>
 
-            <TextView
-                android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/PCR_maneuver_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_PCR_maneuver"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <RadioButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_computer_accessibility"
-                android:textSize="@dimen/section_header"/>
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/section_header"
+                />
 
-            <RadioGroup
-                android:layout_width="match_parent"
+            <RadioButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/section_header"
+                />
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"
-                    android:textSize="@dimen/section_header"
-                    android:layout_marginStart="@dimen/margin_radio_twoOp"/>
+        </RadioGroup>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no"
-                    android:textSize="@dimen/section_header"
-                    android:layout_marginEnd="@dimen/margin_radio_twoOp"/>
+        <TextView
+            android:id="@+id/label_computer_accessibility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/PCR_maneuver_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/top_margins"
+            android:text="@string/label_computer_accessibility"
+            android:textSize="@dimen/section_header"/>
 
-            </RadioGroup>
+        <RadioGroup
+            android:id="@+id/computer_accessibility_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_computer_accessibility"
+            android:orientation="horizontal"
+            >
 
-        </LinearLayout>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/section_header"
+                />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/section_header"
+               />
+
+        </RadioGroup>
+
+     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </ScrollView>

@@ -21,313 +21,232 @@
             android:textSize="@dimen/section_header"
             />
 
-        <LinearLayout
-            android:id="@+id/rooms_visual_sign_layout"
+        <TextView
+            android:id="@+id/label_room_has_visual_sign"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/section_header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/room_register_header"
             android:layout_marginTop="@dimen/top_margins"
-            android:orientation="vertical"
+            android:text="@string/label_room_has_visual_signal" />
+
+        <RadioGroup
+            android:id="@+id/room_has_visual_sign_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_room_has_visual_sign"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"/>
+
+        </RadioGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/visual_sign_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/room_has_visual_sign_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            android:hint="@string/hint_sign_observations"
             >
 
-            <TextView
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/visual_sign_obs_value"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/section_header"
-                android:text="@string/label_room_has_visual_signal" />
+                android:layout_height="match_parent"
+                android:inputType="textAutoCorrect"
+                />
 
-            <RadioGroup
-                android:id="@+id/room_has_visual_sign_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no"/>
-
-            </RadioGroup>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/visual_sign_obs_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_sign_observations"
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/visual_sign_obs_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="textAutoCorrect"
-                    />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/rooms_tactile_sign_layout"
+        <TextView
+            android:id="@+id/label_room_has_tactile_sign"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/section_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rooms_visual_sign_layout"
+            app:layout_constraintTop_toBottomOf="@id/visual_sign_obs_field"
             android:layout_marginTop="@dimen/top_margins"
-            android:orientation="vertical"
+            android:text="@string/label_room_has_tactile_sign" />
+
+        <RadioGroup
+            android:id="@+id/room_has_tactile_sign_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_room_has_tactile_sign"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"/>
+
+        </RadioGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tactile_sign_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/room_has_tactile_sign_radio"
+            android:hint="@string/hint_sign_observations"
             >
 
-            <TextView
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tactile_sign_obs_value"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/section_header"
-                android:text="@string/label_room_has_tactile_sign" />
+                android:layout_height="match_parent"
+                android:inputType="textAutoCorrect"
+                />
 
-            <RadioGroup
-                android:id="@+id/room_has_tactile_sign_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no"/>
-
-            </RadioGroup>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tactile_sign_obs_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_sign_observations"
-                >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tactile_sign_obs_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="textAutoCorrect"
-                    />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/room_add_door_layout"
+        <TextView
+            android:id="@+id/label_door_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tactile_sign_obs_field"
             android:layout_marginTop="@dimen/top_margins"
-            android:orientation="vertical"
+            android:text="@string/label_door_register"
+            android:textSize="@dimen/section_header" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/room_add_door_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/purple_200"
+            android:text="@string/label_add_frag_entry"
+            android:textColor="@color/black"
+            app:cornerRadius="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rooms_tactile_sign_layout">
+            app:layout_constraintTop_toBottomOf="@id/label_door_register"
+            />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_door_register"
-                android:textSize="@dimen/section_header" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/room_add_door"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/purple_200"
-                    android:text="@string/label_add_frag_entry"
-                    android:textColor="@color/black"
-                    app:cornerRadius="3dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                     />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/room_add_switches_layout"
+        <TextView
+            android:id="@+id/label_switch_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/room_add_door_button"
             android:layout_marginTop="@dimen/top_margins"
-            android:orientation="vertical"
+            android:text="@string/label_switch_register"
+            android:textSize="@dimen/section_header" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/room_add_switch_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/purple_200"
+            android:text="@string/label_add_frag_entry"
+            android:textColor="@color/black"
+            app:cornerRadius="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/room_add_door_layout">
+            app:layout_constraintTop_toBottomOf="@id/label_switch_register"
+            />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_switch_register"
-                android:textSize="@dimen/section_header" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/room_add_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/purple_200"
-                    android:text="@string/label_add_frag_entry"
-                    android:textColor="@color/black"
-                    app:cornerRadius="3dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/room_add_windows_layout"
+        <TextView
+            android:id="@+id/label_window_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/room_add_switch_button"
             android:layout_marginTop="@dimen/top_margins"
-            android:orientation="vertical"
+            android:text="@string/label_window_register"
+            android:textSize="@dimen/section_header" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/room_add_window_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/purple_200"
+            android:text="@string/label_add_frag_entry"
+            android:textColor="@color/black"
+            app:cornerRadius="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/room_add_switches_layout">
+            app:layout_constraintTop_toBottomOf="@id/label_window_register"
+            />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_window_register"
-                android:textSize="@dimen/section_header" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/room_add_window"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/purple_200"
-                    android:text="@string/label_add_frag_entry"
-                    android:textColor="@color/black"
-                    app:cornerRadius="3dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/room_add_tables_layout"
+        <TextView
+            android:id="@+id/label_table_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/room_add_window_button"
             android:layout_marginTop="@dimen/top_margins"
-            android:orientation="vertical"
+            android:text="@string/label_table_register"
+            android:textSize="@dimen/section_header" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/room_add_tables_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/purple_200"
+            android:text="@string/label_add_frag_entry"
+            android:textColor="@color/black"
+            app:cornerRadius="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/room_add_windows_layout">
+            app:layout_constraintTop_toBottomOf="@id/label_table_register"
+            />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_table_register"
-                android:textSize="@dimen/section_header" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/room_add_tables"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/purple_200"
-                    android:text="@string/label_add_frag_entry"
-                    android:textColor="@color/black"
-                    app:cornerRadius="3dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/room_add_free_space_layout"
+        <TextView
+            android:id="@+id/label_free_spaces"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/room_add_tables_button"
             android:layout_marginTop="@dimen/top_margins"
-            android:orientation="vertical"
+            android:text="@string/label_free_spaces"
+            android:textSize="@dimen/section_header" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/room_add_free_space_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/purple_200"
+            android:text="@string/label_add_frag_entry"
+            android:textColor="@color/black"
+            app:cornerRadius="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/room_add_tables_layout">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_free_spaces"
-                android:textSize="@dimen/section_header" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/room_add_free_space"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/purple_200"
-                    android:text="@string/label_add_frag_entry"
-                    android:textColor="@color/black"
-                    app:cornerRadius="3dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-
+            app:layout_constraintTop_toBottomOf="@id/label_free_spaces"
+            />
 
         <FrameLayout
             android:id="@+id/room_child_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/room_add_free_space_layout"
+            app:layout_constraintTop_toBottomOf="@id/room_add_free_space_button"
             android:layout_marginTop="@dimen/top_margins"/>
 
         <com.google.android.material.button.MaterialButton

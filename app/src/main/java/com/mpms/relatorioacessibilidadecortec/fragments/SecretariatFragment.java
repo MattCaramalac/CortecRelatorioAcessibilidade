@@ -41,7 +41,7 @@ public class SecretariatFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RadioGroup radioGroup = view.findViewById(R.id.radio_has_PCR_space);
+        RadioGroup radioGroup = view.findViewById(R.id.has_PCR_space_radio);
         TextInputLayout firstField = view.findViewById(R.id.PCR_space_width_field);
         TextInputLayout secondField = view.findViewById(R.id.PCR_space_depth_field);
         TextInputEditText firstValue = view.findViewById(R.id.PCR_space_width_value);
@@ -57,11 +57,11 @@ public class SecretariatFragment extends Fragment {
             int index = radioGroup.indexOfChild(radioButton);
 
             switch (index) {
-                case 0:
+                case 1:
                     firstField.setEnabled(true);
                     secondField.setEnabled(true);
                     break;
-                case 1:
+                case 0:
                     firstField.setEnabled(false);
                     secondField.setEnabled(false);
                     firstValue.setText(null);

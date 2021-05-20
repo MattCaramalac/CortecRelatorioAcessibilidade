@@ -1341,8 +1341,8 @@
                     android:id="@+id/date_inspection_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="@integer/max_length_date"/>
+                    android:inputType="date"
+                    android:maxLength="@integer/max_length_date" />
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

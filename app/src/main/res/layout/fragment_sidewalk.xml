@@ -94,6 +94,14 @@
             android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/radio_special_floor_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
                 android:id="@+id/radio_special_floor_yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,13 +110,7 @@
                 android:textSize="@dimen/radio_button_text"
                 />
 
-            <RadioButton
-                android:id="@+id/radio_special_floor_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
+
 
         </RadioGroup>
 
@@ -131,6 +133,14 @@
             android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/radio_status_special_floor_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
                 android:id="@+id/radio_status_special_floor_yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,13 +149,7 @@
                 android:textSize="@dimen/radio_button_text"
                 />
 
-            <RadioButton
-                android:id="@+id/radio_status_special_floor_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
+
 
         </RadioGroup>
 
@@ -184,6 +188,14 @@
             android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/radio_obligatory_sidewalk_slope_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
                 android:id="@+id/radio_obligatory_sidewalk_slope_yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -191,14 +203,6 @@
                 android:text="@string/radio_button_yes"
                 android:textSize="@dimen/radio_button_text"
                 />
-
-            <RadioButton
-                android:id="@+id/radio_obligatory_sidewalk_slope_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
 
         </RadioGroup>
 
@@ -221,6 +225,14 @@
             android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/radio_sidewalk_slope_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
                 android:id="@+id/radio_sidewalk_slope_yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -228,14 +240,6 @@
                 android:text="@string/radio_button_yes"
                 android:textSize="@dimen/radio_button_text"
                 />
-
-            <RadioButton
-                android:id="@+id/radio_sidewalk_slope_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
 
         </RadioGroup>
 
@@ -261,7 +265,6 @@
             android:textColor="@color/black"
             app:cornerRadius="3dp"
             android:text="@string/label_add_frag_entry"
-            android:textStyle="bold"
             android:visibility="gone"
             />
 
