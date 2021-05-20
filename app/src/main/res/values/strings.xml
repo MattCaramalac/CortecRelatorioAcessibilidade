@@ -192,4 +192,8 @@
     <string name="label_external_access_type">Tipo de Accesso Externo</string>
     <string name="label_social_entrance_radio">ENTRADA SOCIAL</string>
     <string name="label_cars_entrance_radio">ENTRADA VEÍCULOS</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="header_other_spaces">Registro de Outros Ambientes</string>
+    <string name="label_in_accordance_with_accessibility">O ambiente está de acordo com as regras de acessibilidade?</string>
 </resources>

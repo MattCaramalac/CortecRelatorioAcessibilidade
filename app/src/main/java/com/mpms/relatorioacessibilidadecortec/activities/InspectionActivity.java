@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
@@ -54,6 +55,9 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 break;
             case 8:
                 displayParkingLotFragment();
+                break;
+            case 16:
+                displayOtherSpacesFragment();
                 break;
             default:
                 displayRoomsRegisterFragment(choice);
@@ -145,4 +149,11 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-}
+    public void displayOtherSpacesFragment() {
+        OtherSpacesFragment otherSpacesFragment = OtherSpacesFragment.newInstance();
+        otherSpacesFragment.setArguments(fragmentSchoolID);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.show_fragment_selected, otherSpacesFragment).addToBackStack(null).commit();
+        }
+    }
+

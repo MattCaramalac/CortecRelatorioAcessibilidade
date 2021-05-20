@@ -24,7 +24,8 @@ public class HeaderNames {
             "Sala de Informática",
             "Sala de Recursos",
             "Sala dos Professores",
-            "Secretaria"
+            "Secretaria",
+            "Outros Ambientes"
     };
 
     private HeaderNames (String location){
