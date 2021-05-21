@@ -20,12 +20,29 @@
             android:textSize="@dimen/section_header"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/other_spaces_name_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_other_spaces_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_other_spaces"
+            android:layout_marginTop="@dimen/top_margins">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/other_spaces_name_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/other_spaces_description_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_other_spaces"
+            app:layout_constraintTop_toBottomOf="@id/other_spaces_name_field"
+            android:hint="@string/hint_space_description"
             android:layout_marginTop="@dimen/top_margins">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -36,6 +53,7 @@
                 android:overScrollMode="always"
                 android:scrollbarStyle="outsideInset"
                 android:scrollbars="vertical"
+                android:gravity="start"
                 android:scrollHorizontally="false"
                 android:lines="10"/>
 
@@ -73,6 +91,18 @@
 
         </RadioGroup>
 
+        <TextView
+            android:id="@+id/other_spaces_radio_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/accordance_with_accessibility_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_other_spaces_button"
             android:layout_width="wrap_content"
@@ -81,7 +111,7 @@
             android:text="@string/label_button_save"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/accordance_with_accessibility_radio" />
+            app:layout_constraintTop_toBottomOf="@id/other_spaces_radio_error" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancel_other_spaces_button"

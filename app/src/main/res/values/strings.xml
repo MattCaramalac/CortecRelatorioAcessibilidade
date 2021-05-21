@@ -196,4 +196,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="header_other_spaces">Registro de Outros Ambientes</string>
     <string name="label_in_accordance_with_accessibility">O ambiente está de acordo com as regras de acessibilidade?</string>
+    <string name="hint_other_spaces_name">Nome do Ambiente</string>
+    <string name="hint_space_description">Descrição do Ambiente</string>
 </resources>

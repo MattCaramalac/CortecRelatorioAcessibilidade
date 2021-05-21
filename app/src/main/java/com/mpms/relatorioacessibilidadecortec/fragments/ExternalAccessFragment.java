@@ -12,11 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.Objects;
 
@@ -26,6 +30,9 @@ public class ExternalAccessFragment extends Fragment {
     TextInputLayout floorTypeField, gateWidthField, gateTrailHeightField;
     TextInputEditText floorTypeValue, gateWidthValue, gateTrailHeightValue;
     Button hasTrailRampButton, hasGateObstaclesButton, hasGatePayphonesButton, saveExternalAccess, cancelExternalAccess;
+    TextView accessTypeError, hasSiaError, hasTrailRampError, hasGateObstaclesError, hasGatePayphonesError;
+
+    private static int schoolID;
 
     public ExternalAccessFragment() {
         // Required empty public constructor
@@ -38,6 +45,10 @@ public class ExternalAccessFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle schoolBundle = this.getArguments();
+        if(schoolBundle != null) {
+            schoolID = schoolBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
+        }
     }
 
     @Override
@@ -71,6 +82,12 @@ public class ExternalAccessFragment extends Fragment {
         saveExternalAccess = view.findViewById(R.id.save_ext_access);
         cancelExternalAccess = view.findViewById(R.id.cancel_ext_access);
 
+        accessTypeError = view.findViewById(R.id.external_access_type_error);
+        hasSiaError = view.findViewById(R.id.has_SIA_error);
+        hasTrailRampError = view.findViewById(R.id.has_trail_ramp_error);
+        hasGateObstaclesError = view.findViewById(R.id.gate_has_obstacles_error);
+        hasGatePayphonesError = view.findViewById(R.id.gate_has_payphones_error);
+
         radioGroupActivation(hasTrailRampRadio, hasTrailRampButton);
         radioGroupActivation(hasGateObstaclesRadio, hasGateObstaclesButton);
         radioGroupActivation(hasGatePayphonesRadio, hasGatePayphonesButton);
@@ -80,9 +97,11 @@ public class ExternalAccessFragment extends Fragment {
 
         saveExternalAccess.setOnClickListener(v -> {
             if(checkEmptyFields()) {
+                ExternalAccess newAccess = createNewAccess();
+                ViewModelEntry.insertExternalAccess(newAccess);
+                clearFields();
+                Toast.makeText(getContext(), "Cadastro Efetuado com Sucesso", Toast.LENGTH_SHORT).show();
 
-            } else {
-                Toast.makeText(getContext(), "Campos em Branco", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -101,48 +120,79 @@ public class ExternalAccessFragment extends Fragment {
     }
 
     public int getCheckedButton(RadioGroup radioGroup) {
-        int checkedButton = radioGroup.getCheckedRadioButtonId();
-        View radioChecked = radioGroup.findViewById(checkedButton);
-        return radioGroup.indexOfChild(radioChecked);
+        return radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()));
     }
 
     public boolean checkEmptyFields() {
+        clearExternalAccessErrors();
         int errors = 0;
         if(entranceType.getCheckedRadioButtonId() == -1) {
+            accessTypeError.setVisibility(View.VISIBLE);
             errors++;
         }
         if(hasSiaRadio.getCheckedRadioButtonId() == -1) {
+            hasSiaError.setVisibility(View.VISIBLE);
             errors++;
         }
         if(hasTrailRampRadio.getCheckedRadioButtonId() == -1) {
+            hasTrailRampError.setVisibility(View.VISIBLE);
             errors++;
         }
         if(hasGateObstaclesRadio.getCheckedRadioButtonId() == -1) {
+            hasGateObstaclesError.setVisibility(View.VISIBLE);
             errors++;
         }
         if(hasGatePayphonesRadio.getCheckedRadioButtonId() == -1) {
+            hasGatePayphonesError.setVisibility(View.VISIBLE);
             errors++;
         }
         if(TextUtils.isEmpty(floorTypeValue.getText())) {
+            floorTypeField.setError(getString(R.string.blank_field_error));
             errors++;
         }
         if(TextUtils.isEmpty(gateWidthValue.getText())) {
+            gateWidthField.setError(getString(R.string.blank_field_error));
             errors++;
         }
         if(TextUtils.isEmpty(gateTrailHeightValue.getText())) {
+            gateTrailHeightField.setError(getString(R.string.blank_field_error));
             errors++;
         }
-
         return errors == 0;
     }
 
-//    public ExternalAccess createExternalAccess() {
-//        //ID para testes!!!
-//        return new ExternalAccess(1, getCheckedButton(entranceType), getCheckedButton(hasSiaRadio),
-//                Objects.requireNonNull(floorTypeValue.getText()).toString(),
-//                Double.parseDouble(Objects.requireNonNull(gateWidthValue.getText()).toString()),
-//                Double.parseDouble(Objects.requireNonNull(gateTrailHeightValue.getText()).toString()),
-//                getCheckedButton(hasTrailRampRadio), getCheckedButton(hasGateObstaclesRadio), getCheckedButton(hasGatePayphonesRadio));
-//    }
+    public void clearExternalAccessErrors() {
+        accessTypeError.setVisibility(View.GONE);
+        hasSiaError.setVisibility(View.GONE);
+        hasTrailRampError.setVisibility(View.GONE);
+        hasGateObstaclesError.setVisibility(View.GONE);
+        hasGatePayphonesError.setVisibility(View.GONE);
+        floorTypeField.setError(null);
+        gateWidthField.setError(null);
+        gateTrailHeightField.setError(null);
+    }
+
+    public ExternalAccess createNewAccess() {
+        return new ExternalAccess(schoolID,
+                getCheckedButton(entranceType),
+                getCheckedButton(hasSiaRadio),
+                Objects.requireNonNull(floorTypeValue.getText()).toString(),
+                Double.parseDouble(Objects.requireNonNull(gateWidthValue.getText()).toString()),
+                Double.parseDouble(Objects.requireNonNull(gateTrailHeightValue.getText()).toString()),
+                getCheckedButton(hasTrailRampRadio),
+                getCheckedButton(hasGateObstaclesRadio),
+                getCheckedButton(hasGatePayphonesRadio));
+    }
+
+    public void clearFields() {
+        entranceType.clearCheck();
+        hasSiaRadio.clearCheck();
+        floorTypeValue.setText(null);
+        gateWidthValue.setText(null);
+        gateTrailHeightValue.setText(null);
+        hasTrailRampRadio.clearCheck();
+        hasGateObstaclesRadio.clearCheck();
+        hasGatePayphonesRadio.clearCheck();
+    }
 
 }
