@@ -2,6 +2,8 @@ package com.mpms.relatorioacessibilidadecortec.data;
 
 import android.content.Context;
 
+import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 
@@ -15,7 +17,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {SchoolEntry.class, WaterFountainEntry.class}, version = 5)
+@Database(entities = {SchoolEntry.class, WaterFountainEntry.class, OtherSpaces.class, ExternalAccess.class}, version = 6)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -30,6 +32,8 @@ public abstract class ReportDatabase extends RoomDatabase {
 
                     dbWriteExecutor.execute(() -> { SchoolEntryDao schoolEntryDao = INSTANCE.schoolEntryDao(); });
                     dbWriteExecutor.execute(() -> { WaterFountainDao waterFountainDao = INSTANCE.waterFountainDao(); });
+                    dbWriteExecutor.execute(() -> { ExternalAccessDao externalAccessDao = INSTANCE.externalAccessDao(); });
+                    dbWriteExecutor.execute(() -> { OtherSpacesDao otherSpacesDao = INSTANCE.otherSpacesDao(); });
                 }
             };
 //    Como Fazer Migrações para outros níveis de DB. Útil para persistência dos dados!
@@ -75,12 +79,28 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_5_6 = new Migration(5,6) {
+
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE ExternalAccess");
+            database.execSQL("CREATE TABLE ExternalAccess (externalAccessID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                    "schoolEntryID INTEGER NOT NULL, entranceType INTEGER, hasSIA INTEGER, floorType TEXT, gateWidth REAL, " +
+                    "gateTrailHeight REAL, gateHasTrailRamp INTEGER, gateHasObstacles INTEGER, gateHasPayphones INTEGER, " +
+                    "FOREIGN KEY (schoolEntryID) REFERENCES SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE OtherSpaces (otherSpacesID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                    "schoolEntryID INTEGER NOT NULL, otherSpaceName TEXT, otherSpaceDescription TEXT, isAccessible INTEGER NOT NULL," +
+                    "FOREIGN KEY (schoolEntryID) REFERENCES SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null){
             synchronized (ReportDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ReportDatabase.class, "ReportDatabase")
-                            .addCallback(roomCallback).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5).build();
+                            .addCallback(roomCallback).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6).build();
                 }
             }
         }
@@ -90,5 +110,7 @@ public abstract class ReportDatabase extends RoomDatabase {
 
     public abstract SchoolEntryDao schoolEntryDao();
     public abstract WaterFountainDao waterFountainDao();
+    public abstract ExternalAccessDao externalAccessDao();
+    public abstract OtherSpacesDao otherSpacesDao();
 
 }
