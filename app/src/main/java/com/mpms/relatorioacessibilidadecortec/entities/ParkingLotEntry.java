@@ -10,7 +10,7 @@ import static androidx.room.ForeignKey.CASCADE;
         parentColumns = "cadID",
         childColumns = "schoolEntryID",
         onDelete = CASCADE, onUpdate = CASCADE))
-public class ParkingLotEntity {
+public class ParkingLotEntry {
 
     @PrimaryKey(autoGenerate = true)
     private Integer parkingLotID;
@@ -18,12 +18,6 @@ public class ParkingLotEntity {
     private Integer typeParkingLot;
     private Integer totalParkingVacancy;
     private String parkingLotFloorType;
-
-
-
-
-
-
 
     public Integer getParkingLotID() {
         return parkingLotID;
@@ -65,7 +59,7 @@ public class ParkingLotEntity {
         this.parkingLotFloorType = parkingLotFloorType;
     }
 
-    public ParkingLotEntity(Integer schoolEntryID, Integer typeParkingLot, Integer totalParkingVacancy, String parkingLotFloorType) {
+    public ParkingLotEntry(Integer schoolEntryID, Integer typeParkingLot, Integer totalParkingVacancy, String parkingLotFloorType) {
         this.schoolEntryID = schoolEntryID;
         this.typeParkingLot = typeParkingLot;
         this.totalParkingVacancy = totalParkingVacancy;

@@ -9,6 +9,7 @@ import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 
@@ -30,12 +31,15 @@ public class ReportRepository {
 
     private OtherSpacesDao otherSpacesDao;
 
+    private ParkingLotEntryDao parkingLotEntryDao;
+
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
         schoolEntryDao = db.schoolEntryDao();
         waterFountainDao = db.waterFountainDao();
         externalAccessDao = db.externalAccessDao();
         otherSpacesDao = db.otherSpacesDao();
+        parkingLotEntryDao = db.parkingLotEntryDao();
 
         allSchoolEntries = schoolEntryDao.getAllEntries();
     }
@@ -135,6 +139,35 @@ public class ReportRepository {
     public void deleteAllSpaces(int schoolID) {
         ReportDatabase.dbWriteExecutor.execute(() -> otherSpacesDao.deleteAllSpaces(schoolID));
     }
+
+    public void insertParkingLot(ParkingLotEntry parkingLotEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotEntryDao.insertParkingLot(parkingLotEntry));
+    }
+
+    public LiveData<List<ParkingLotEntry>> selectEveryParkingLot(int schoolEntryID) {
+        return parkingLotEntryDao.selectEveryParkingLot(schoolEntryID);
+    }
+
+    public LiveData<ParkingLotEntry> selectOneParkingLot(int parkingLotID) {
+        return parkingLotEntryDao.selectOneParkingLot(parkingLotID);
+    }
+
+    public LiveData<ParkingLotEntry> selectLastInsertedParkingLot() {
+        return parkingLotEntryDao.selectLastInsertedParkingLot();
+    }
+
+    public void updateParkingLot(ParkingLotEntry parkingLotEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotEntryDao.updateParkingLot(parkingLotEntry));
+    }
+
+    public void deleteOneParkingLot(int parkingLotID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotEntryDao.deleteOneParkingLot(parkingLotID));
+    }
+
+    public void deleteAllParkingLots(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotEntryDao.deleteAllParkingLots(schoolID));
+    }
+
 
     public void deleteAllEntries() {
         ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.deleteAll());

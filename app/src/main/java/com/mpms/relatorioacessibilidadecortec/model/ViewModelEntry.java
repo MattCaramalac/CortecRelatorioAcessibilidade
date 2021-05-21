@@ -10,6 +10,7 @@ import com.mpms.relatorioacessibilidadecortec.data.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.ReportRepository;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 
@@ -126,6 +127,34 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteAllExternalAccesses(int schoolID) {
         repository.deleteAllExternalAccesses(schoolID);
+    }
+
+    public static void insertParkingLot(ParkingLotEntry parkingLotEntry) {
+        repository.insertParkingLot(parkingLotEntry);
+    }
+
+    public LiveData<List<ParkingLotEntry>> selectEveryParkingLot(int schoolEntryID) {
+        return repository.selectEveryParkingLot(schoolEntryID);
+    }
+
+    public LiveData<ParkingLotEntry> selectOneParkingLot(int parkingLotID) {
+        return repository.selectOneParkingLot(parkingLotID);
+    }
+
+    public LiveData<ParkingLotEntry> selectLastInsertedParkingLot() {
+        return repository.selectLastInsertedParkingLot();
+    }
+
+    public static void updateParkingLot(ParkingLotEntry parkingLotEntry) {
+        repository.updateParkingLot(parkingLotEntry);
+    }
+
+    public static void deleteOneParkingLot(int parkingLotID) {
+        repository.deleteOneParkingLot(parkingLotID);
+    }
+
+    public static void deleteAllParkingLots(int schoolID) {
+        repository.deleteAllParkingLots(schoolID);
     }
 
 

@@ -12,11 +12,11 @@ import static androidx.room.ForeignKey.CASCADE;
                 parentColumns = "cadID",
                 childColumns = "schoolEntryID",
                 onDelete = CASCADE, onUpdate = CASCADE),
-        @ForeignKey(entity = ParkingLotEntity.class,
+        @ForeignKey(entity = ParkingLotEntry.class,
                 parentColumns = "parkingLotID",
                 childColumns = "parkingLotID",
                 onDelete = CASCADE, onUpdate = CASCADE)})
-public class ParkingLotPDMREntity {
+public class ParkingLotPDMREntry {
 
     @PrimaryKey(autoGenerate = true)
     private Integer parkingPdmrID;
@@ -41,11 +41,11 @@ public class ParkingLotPDMREntity {
     private Double pdmrSiaLength;
     private String pdmrSiaObs;
 
-    public ParkingLotPDMREntity(@NonNull Integer schoolEntryID, @NonNull Integer parkingLotID, Integer hasPdmrVacancy,
-                                Integer totalPdmrVacancy, Integer hasVisualPdmrVertSign, String visualPdmrVertSignObs,
-                                Integer hasVisualPdmrHorizSign, Double visualPdmrHorizSignWidth, Double visualPdmrHorizSignLength,
-                                String visualPdmrHorizSignObs, Integer hasPdmrSecurityZone, Double securityZoneWidth, Double securityZoneObs,
-                                Integer hasPdmrSia, Double pdmrSiaWidth, Double pdmrSiaLength, String pdmrSiaObs) {
+    public ParkingLotPDMREntry(@NonNull Integer schoolEntryID, @NonNull Integer parkingLotID, Integer hasPdmrVacancy,
+                               Integer totalPdmrVacancy, Integer hasVisualPdmrVertSign, String visualPdmrVertSignObs,
+                               Integer hasVisualPdmrHorizSign, Double visualPdmrHorizSignWidth, Double visualPdmrHorizSignLength,
+                               String visualPdmrHorizSignObs, Integer hasPdmrSecurityZone, Double securityZoneWidth, Double securityZoneObs,
+                               Integer hasPdmrSia, Double pdmrSiaWidth, Double pdmrSiaLength, String pdmrSiaObs) {
         this.schoolEntryID = schoolEntryID;
         this.parkingLotID = parkingLotID;
         this.hasPdmrVacancy = hasPdmrVacancy;

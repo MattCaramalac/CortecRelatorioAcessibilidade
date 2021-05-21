@@ -12,11 +12,11 @@ import static androidx.room.ForeignKey.CASCADE;
                 parentColumns = "cadID",
                 childColumns = "schoolEntryID",
                 onDelete = CASCADE, onUpdate = CASCADE),
-        @ForeignKey(entity = ParkingLotEntity.class,
+        @ForeignKey(entity = ParkingLotEntry.class,
                 parentColumns = "parkingLotID",
                 childColumns = "parkingLotID",
                 onDelete = CASCADE, onUpdate = CASCADE)})
-public class ParkingLotElderlyEntity {
+public class ParkingLotElderlyEntry {
 
     @PrimaryKey(autoGenerate = true)
     private Integer parkingElderlyID;
@@ -38,11 +38,11 @@ public class ParkingLotElderlyEntity {
     private Double pictogramElderlyLength;
     private String pictogramElderlyObs;
 
-    public ParkingLotElderlyEntity(@NonNull Integer schoolEntryID, @NonNull Integer parkingLotID, Integer hasElderlyVacancy,
-                                   Integer totalElderlyVacancy, Integer hasVisualElderlyVertSign, String visualElderlyVertSignObs,
-                                   Integer hasVisualElderlyHorizSign, Double visualElderlyHorizSignWidth,
-                                   Double visualElderlyHorizSignLength, String visualElderlyHorizSignObs, Integer hasPictogramElderly,
-                                   Double pictogramElderlyWidth, Double pictogramElderlyLength, String pictogramElderlyObs) {
+    public ParkingLotElderlyEntry(@NonNull Integer schoolEntryID, @NonNull Integer parkingLotID, Integer hasElderlyVacancy,
+                                  Integer totalElderlyVacancy, Integer hasVisualElderlyVertSign, String visualElderlyVertSignObs,
+                                  Integer hasVisualElderlyHorizSign, Double visualElderlyHorizSignWidth,
+                                  Double visualElderlyHorizSignLength, String visualElderlyHorizSignObs, Integer hasPictogramElderly,
+                                  Double pictogramElderlyWidth, Double pictogramElderlyLength, String pictogramElderlyObs) {
         this.schoolEntryID = schoolEntryID;
         this.parkingLotID = parkingLotID;
         this.hasElderlyVacancy = hasElderlyVacancy;
