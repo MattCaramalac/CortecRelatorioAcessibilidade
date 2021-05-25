@@ -1,6 +1,7 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
 
     ConstraintLayout layout;
     TextView fragHeader, vacancyHeader, verticalSignHeader, horizontalSignHeader, safetyZoneHeader, siaHeader;
+    TextView pdmrVacancyError, verticalSignError, horizontalSignError, safetyZoneError,siaError;
     RadioGroup hasVacancy, hasVerticalSign, hasHorizontalSign, hasSafetyZone, hasSiaPdmr;
     Button cancelParkingLotPdmr, proceedParkingLotPdmr;
     TextInputLayout totalVacancyField, verticalSignObsField, horizontalSignWidthField, horizontalSignLengthField, horizontalSignObsField,
@@ -71,6 +73,11 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
         horizontalSignHeader = view.findViewById(R.id.horizontal_sign_PDMR_header);
         safetyZoneHeader = view.findViewById(R.id.safety_zone_PDMR_header);
         siaHeader = view.findViewById(R.id.PDMR_SIA_header);
+        pdmrVacancyError = view.findViewById(R.id.PDMR_vacancy_error);
+        verticalSignError = view.findViewById(R.id.vertical_sign_error);
+        horizontalSignError = view.findViewById(R.id.horizontal_sign_error);
+        safetyZoneError = view.findViewById(R.id.safety_zone_error);
+        siaError = view.findViewById(R.id.PDMR_SIA_error);
 
         hasVacancy = view.findViewById(R.id.parking_lot_PDMR_vacancy_radio);
         hasVerticalSign = view.findViewById(R.id.vertical_sign_PDMR_radio);
@@ -117,14 +124,93 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
                 .beginTransaction().remove(this).commit());
 
         proceedParkingLotPdmr.setOnClickListener(v -> {
-            FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            ParkingLotElderlyFragment parkingLotElderlyFragment = ParkingLotElderlyFragment.newInstance();
-            fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotElderlyFragment).addToBackStack(null).commit();
+            if (verifyEmptyFields()) {
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                ParkingLotElderlyFragment parkingLotElderlyFragment = ParkingLotElderlyFragment.newInstance();
+                fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotElderlyFragment).addToBackStack(null).commit();
+            }
         });
 
 
 
+    }
+
+    public void clearErrorMessages() {
+        pdmrVacancyError.setVisibility(View.GONE);
+        verticalSignError.setVisibility(View.GONE);
+        horizontalSignError.setVisibility(View.GONE);
+        safetyZoneError.setVisibility(View.GONE);
+        siaError.setVisibility(View.GONE);
+        totalVacancyField.setError(null);
+        horizontalSignLengthField.setError(null);
+        horizontalSignWidthField.setError(null);
+        safetyZoneWidthField.setError(null);
+        siaWidthField.setError(null);
+        siaLengthField.setError(null);
+    }
+
+    public boolean verifyEmptyFields() {
+        clearErrorMessages();
+        int i = 0;
+        if (hasVacancy.getCheckedRadioButtonId() == -1) {
+            pdmrVacancyError.setEnabled(true);
+            pdmrVacancyError.setVisibility(View.VISIBLE);
+            i++;
+        } else if (getCheckedRadio(hasVacancy) == 1) {
+            if (TextUtils.isEmpty(totalVacancyValue.getText()))  {
+                totalVacancyField.setError(getString(R.string.blank_field_error));
+                i++;
+            }
+            if (hasVerticalSign.getCheckedRadioButtonId() == -1) {
+                verticalSignError.setEnabled(true);
+                verticalSignError.setVisibility(View.VISIBLE);
+                i++;
+            }
+            if (hasHorizontalSign.getCheckedRadioButtonId() == -1) {
+                horizontalSignError.setEnabled(true);
+                horizontalSignError.setVisibility(View.VISIBLE);
+                i++;
+            } else if (getCheckedRadio(hasHorizontalSign) == 1) {
+                if (TextUtils.isEmpty(horizontalSignWidthValue.getText())) {
+                    horizontalSignWidthField.setError(getString(R.string.blank_field_error));
+                    i++;
+                }
+                if (TextUtils.isEmpty(horizontalSignLengthValue.getText())) {
+                    horizontalSignLengthField.setError(getString(R.string.blank_field_error));
+                    i++;
+                }
+            }
+            if (hasSafetyZone.getCheckedRadioButtonId() == -1) {
+                safetyZoneError.setEnabled(true);
+                safetyZoneError.setVisibility(View.VISIBLE);
+                i++;
+            } else if (getCheckedRadio(hasSafetyZone) == 1) {
+                if (TextUtils.isEmpty(safetyZoneWidthValue.getText())) {
+                    safetyZoneWidthField.setError(getString(R.string.blank_field_error));
+                    i++;
+                }
+            }
+            if (hasSiaPdmr.getCheckedRadioButtonId() == -1) {
+                siaError.setEnabled(true);
+                siaError.setVisibility(View.VISIBLE);
+                i++;
+            } else if (getCheckedRadio(hasSiaPdmr) == 1) {
+                if (TextUtils.isEmpty(siaWidthValue.getText())) {
+                    siaWidthField.setError(getString(R.string.blank_field_error));
+                    i++;
+                }
+                if (TextUtils.isEmpty(siaLengthValue.getText())) {
+                    siaLengthField.setError(getString(R.string.blank_field_error));
+                    i++;
+                }
+            }
+        }
+        return i == 0;
+    }
+
+    public int getCheckedRadio(RadioGroup radio) {
+        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
     @Override
@@ -210,7 +296,7 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
         RadioButton radioButton = group.findViewById(checkedID);
         int index = group.indexOfChild(radioButton);
 
-        if (index == 0) {
+        if (index == 1) {
             enableAllRadioGroups(layout);
             totalVacancyField.setEnabled(true);
         } else {
@@ -260,7 +346,7 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
         RadioButton radioButton = group.findViewById(checkedID);
         int index = group.indexOfChild(radioButton);
 
-        if (index == 0) {
+        if (index == 1) {
             if (group == hasVerticalSign) {
                 for (TextInputLayout field : verticalFields) {
                     field.setEnabled(true);
@@ -310,5 +396,7 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
             }
         }
     }
+
+
 
 }

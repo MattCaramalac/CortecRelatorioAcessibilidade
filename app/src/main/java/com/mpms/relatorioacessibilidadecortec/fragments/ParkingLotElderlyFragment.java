@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
 
     ConstraintLayout layout;
     TextView fragHeader, vacancyHeader, verticalSignHeader, horizontalSignHeader, pictogramHeader;
+    TextView vacancyError, verticalSignError, horizontalSignError, pictogramError;
     RadioGroup hasVacancy, hasVerticalSign, hasHorizontalSign, hasPictogram;
     Button cancelParkingLotElderly, saveParkingLotElderly;
     TextInputLayout totalVacancyField, verticalSignObsField, horizontalSignWidthField, horizontalSignLengthField, horizontalSignObsField,
@@ -73,6 +75,10 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         verticalSignHeader = view.findViewById(R.id.vertical_sign_elderly_header);
         horizontalSignHeader = view.findViewById(R.id.horizontal_sign_elderly_header);
         pictogramHeader = view.findViewById(R.id.elderly_pictogram_header);
+        vacancyError = view.findViewById(R.id.elderly_vacancy_error);
+        verticalSignError = view.findViewById(R.id.vertical_sign_error);
+        horizontalSignError = view.findViewById(R.id.horizontal_sign_error);
+        pictogramError = view.findViewById(R.id.elderly_pictogram_error);
 
         hasVacancy = view.findViewById(R.id.parking_lot_elderly_vacancy_radio);
         hasVerticalSign = view.findViewById(R.id.vertical_sign_elderly_radio);
@@ -113,11 +119,78 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
                 .beginTransaction().remove(this).commit());
 
         saveParkingLotElderly.setOnClickListener(v -> {
-            FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
-            fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
+            if (verifyEmptyFields()) {
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
+                fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
+            }
         });
+    }
+
+    public void clearErrorMessages() {
+        vacancyError.setVisibility(View.GONE);
+        verticalSignError.setVisibility(View.GONE);
+        horizontalSignError.setVisibility(View.GONE);
+        pictogramError.setVisibility(View.GONE);
+        totalVacancyField.setError(null);
+        horizontalSignLengthField.setError(null);
+        horizontalSignWidthField.setError(null);
+        pictogramWidthField.setError(null);
+        pictogramLengthField.setError(null);
+    }
+
+    public boolean verifyEmptyFields() {
+        clearErrorMessages();
+        int i = 0;
+        if (hasVacancy.getCheckedRadioButtonId() == -1) {
+            vacancyError.setEnabled(true);
+            vacancyError.setVisibility(View.VISIBLE);
+            i++;
+        } else if (getCheckedRadio(hasVacancy) == 1) {
+            if (TextUtils.isEmpty(totalVacancyValue.getText()))  {
+                totalVacancyField.setError(getString(R.string.blank_field_error));
+                i++;
+            }
+            if (hasVerticalSign.getCheckedRadioButtonId() == -1) {
+                verticalSignError.setEnabled(true);
+                verticalSignError.setVisibility(View.VISIBLE);
+                i++;
+            }
+            if (hasHorizontalSign.getCheckedRadioButtonId() == -1) {
+                horizontalSignError.setEnabled(true);
+                horizontalSignError.setVisibility(View.VISIBLE);
+                i++;
+            } else if (getCheckedRadio(hasHorizontalSign) == 1) {
+                if (TextUtils.isEmpty(horizontalSignWidthValue.getText())) {
+                    horizontalSignWidthField.setError(getString(R.string.blank_field_error));
+                    i++;
+                }
+                if (TextUtils.isEmpty(horizontalSignLengthValue.getText())) {
+                    horizontalSignLengthField.setError(getString(R.string.blank_field_error));
+                    i++;
+                }
+            }
+            if (hasPictogram.getCheckedRadioButtonId() == -1) {
+                pictogramError.setEnabled(true);
+                pictogramError.setVisibility(View.VISIBLE);
+                i++;
+            } else if (getCheckedRadio(hasPictogram) == 1) {
+                if (TextUtils.isEmpty(pictogramLengthValue.getText())) {
+                    pictogramLengthField.setError(getString(R.string.blank_field_error));
+                    i++;
+                }
+                if (TextUtils.isEmpty(pictogramWidthValue.getText())) {
+                    pictogramWidthField.setError(getString(R.string.blank_field_error));
+                    i++;
+                }
+            }
+        }
+        return i == 0;
+    }
+
+    public int getCheckedRadio(RadioGroup radio) {
+        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
     @Override
@@ -194,7 +267,7 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         RadioButton radioButton = group.findViewById(checkedID);
         int index = group.indexOfChild(radioButton);
 
-        if (index == 0) {
+        if (index == 1) {
             enableAllRadioGroups(layout);
             totalVacancyField.setEnabled(true);
         } else {
@@ -237,7 +310,7 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         RadioButton radioButton = group.findViewById(checkedID);
         int index = group.indexOfChild(radioButton);
 
-        if (index == 0) {
+        if (index == 1) {
             if (group == hasVerticalSign) {
                 for (TextInputLayout field : verticalFields) {
                     field.setEnabled(true);

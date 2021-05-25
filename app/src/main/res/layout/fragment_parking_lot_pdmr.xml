@@ -39,28 +39,41 @@
             app:layout_constraintTop_toBottomOf="@id/parking_lot_PDMR_vacancy_header">
 
             <RadioButton
-                android:id="@+id/PDMR_vacancy_radio_button_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes" />
-
-            <RadioButton
                 android:id="@+id/PDMR_vacancy_radio_button_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@integer/weight_one"
                 android:text="@string/radio_button_no" />
 
+            <RadioButton
+                android:id="@+id/PDMR_vacancy_radio_button_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes" />
+
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/PDMR_vacancy_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/parking_lot_PDMR_vacancy_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/parking_lot_PDMR_vacancy_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_total_vacancy_PDMR"
+            android:layout_marginTop="@dimen/top_margins"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parking_lot_PDMR_vacancy_radio">
+            app:layout_constraintTop_toBottomOf="@id/PDMR_vacancy_error">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/parking_lot_PDMR_vacancy_value"
@@ -89,20 +102,32 @@
             app:layout_constraintTop_toBottomOf="@id/vertical_sign_PDMR_header">
 
             <RadioButton
-                android:id="@+id/vertical_sign_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes" />
-
-            <RadioButton
                 android:id="@+id/vertical_sign_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@integer/weight_one"
                 android:text="@string/radio_button_no" />
 
+            <RadioButton
+                android:id="@+id/vertical_sign_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes" />
+
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/vertical_sign_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/vertical_sign_PDMR_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/vertical_sign_PDMR_obs_field"
@@ -110,7 +135,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_PDMR_vertical_sign_obs"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vertical_sign_PDMR_radio">
+            app:layout_constraintTop_toBottomOf="@id/vertical_sign_error"
+            android:layout_marginTop="@dimen/top_margins">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/vertical_sign_PDMR_obs_value"
@@ -139,20 +165,32 @@
             app:layout_constraintTop_toBottomOf="@id/horizontal_sign_PDMR_header">
 
             <RadioButton
-                android:id="@+id/horizontal_sign_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes" />
-
-            <RadioButton
                 android:id="@+id/horizontal_sign_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@integer/weight_one"
                 android:text="@string/radio_button_no" />
 
+            <RadioButton
+                android:id="@+id/horizontal_sign_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes" />
+
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/horizontal_sign_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_sign_PDMR_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/PDMR_horizontal_sign_width_field"
@@ -160,7 +198,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_PDMR_horizontal_sign_width"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontal_sign_PDMR_radio">
+            app:layout_constraintTop_toBottomOf="@id/horizontal_sign_error"
+            android:layout_marginTop="@dimen/top_margins">
 
 
             <com.google.android.material.textfield.TextInputEditText
@@ -225,20 +264,32 @@
             app:layout_constraintTop_toBottomOf="@id/safety_zone_PDMR_header">
 
             <RadioButton
-                android:id="@+id/safety_zone_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes" />
-
-            <RadioButton
                 android:id="@+id/safety_zone_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@integer/weight_one"
                 android:text="@string/radio_button_no" />
 
+            <RadioButton
+                android:id="@+id/safety_zone_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes" />
+
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/safety_zone_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/safety_zone_PDMR_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/safety_zone_PDMR_width_field"
@@ -264,7 +315,7 @@
             android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/hint_security_zone_PDMR_obs"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/safety_zone_PDMR_width_field">
+            app:layout_constraintTop_toBottomOf="@id/safety_zone_error">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/safety_zone_PDMR_obs_value"
@@ -293,20 +344,32 @@
             app:layout_constraintTop_toBottomOf="@id/PDMR_SIA_header">
 
             <RadioButton
-                android:id="@+id/SIA_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes" />
-
-            <RadioButton
                 android:id="@+id/SIA_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@integer/weight_one"
                 android:text="@string/radio_button_no" />
 
+            <RadioButton
+                android:id="@+id/SIA_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes" />
+
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/PDMR_SIA_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/PDMR_SIA_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/PDMR_SIA_width_field"
@@ -314,7 +377,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_PDMR_SIA_width"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/PDMR_SIA_radio">
+            app:layout_constraintTop_toBottomOf="@id/PDMR_SIA_error"
+            android:layout_marginTop="@dimen/top_margins">
 
 
             <com.google.android.material.textfield.TextInputEditText
