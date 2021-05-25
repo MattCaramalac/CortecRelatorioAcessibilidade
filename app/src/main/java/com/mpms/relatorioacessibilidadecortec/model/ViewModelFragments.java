@@ -28,13 +28,4 @@ public class ViewModelFragments extends ViewModel {
         return fountainBundle;
     }
 
-    public final MutableLiveData<Integer> saveAttemptParkingLot = new MutableLiveData<>();
-
-    public void setSaveAttemptParkingLot(Integer integer) {
-        saveAttemptParkingLot.setValue(integer);
-    }
-
-    public LiveData<Integer> getSaveAttemptParkingLot() {
-        return saveAttemptWaterFountain;
-    }
 }

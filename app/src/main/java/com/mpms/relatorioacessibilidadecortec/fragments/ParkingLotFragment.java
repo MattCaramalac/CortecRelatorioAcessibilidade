@@ -1,15 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +9,13 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
@@ -25,24 +23,22 @@ import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
-import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 
 import java.util.Objects;
 
 public class ParkingLotFragment extends Fragment {
 
+    public static int schoolID;
+    public static int parkingLotID;
     RadioGroup parkingLotType;
     TextInputLayout totalVacancyField, parkingLotFloorTypeField;
     TextInputEditText totalVacancyValue, parkingLotFloorTypeValue;
     Button cancelParkingLotRegister, saveParkingLotRegister;
     ViewModelFragments modelFragments;
     TextView parkingLotTypeError;
-
-    public static int schoolID;
-    public static int parkingLotID;
-
     Bundle registerID = new Bundle();
 
+    int saveAttempt = 0;
 
     public ParkingLotFragment() {
         // Required empty public constructor
@@ -74,6 +70,8 @@ public class ParkingLotFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ViewModelEntry recentEntry = new ViewModelEntry(Objects.requireNonNull(getActivity()).getApplication());
+
         cancelParkingLotRegister = view.findViewById(R.id.cancel_parking_lot);
         saveParkingLotRegister = view.findViewById(R.id.save_parking_lot);
 
@@ -87,31 +85,37 @@ public class ParkingLotFragment extends Fragment {
         totalVacancyValue = view.findViewById(R.id.parking_lot_vacancy_value);
         parkingLotFloorTypeValue = view.findViewById(R.id.parking_lot_floor_value);
 
-//        Este Observador não conseguiu colcoar no próximo fragmento
-        modelFragments.getSaveAttemptParkingLot().observe(getViewLifecycleOwner(), saveAttempt -> {
-            ViewModelEntry recentEntry = new ViewModelEntry(Objects.requireNonNull(getActivity()).getApplication());
-            recentEntry.selectLastInsertedParkingLot().observe(getViewLifecycleOwner(), lastEntry -> parkingLotID = lastEntry.getParkingLotID());
-            registerID.putInt("SCHOOL_ID", schoolID);
-            registerID.putInt("PARKING_LOT_ID", parkingLotID);
-            FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            ParkingLotPdmrFragment parkingLotPdmrFragment = ParkingLotPdmrFragment.newInstance();
-            parkingLotPdmrFragment.setArguments(registerID);
-            fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotPdmrFragment).addToBackStack(null).commit();
+        recentEntry.selectEveryParkingLot(schoolID).observe(getViewLifecycleOwner(), parkingLotEntries -> {
+            if (saveAttempt == 1) {
+                int size = parkingLotEntries.size();
+                ParkingLotEntry lastEntry = parkingLotEntries.get(size - 1);
+                parkingLotID = lastEntry.getParkingLotID();
+                registerID.putInt("SCHOOL_ID", schoolID);
+                registerID.putInt("PARKING_LOT_ID", parkingLotID);
+                saveAttempt = 0;
+                clearFields();
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                ParkingLotPdmrFragment parkingLotPdmrFragment = ParkingLotPdmrFragment.newInstance();
+                parkingLotPdmrFragment.setArguments(registerID);
+                fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotPdmrFragment).addToBackStack(null).commit();
+            }
+
         });
 
         cancelParkingLotRegister.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
         saveParkingLotRegister.setOnClickListener(v -> {
-            if(checkEmptyFields()) {
+            if (checkEmptyFields()) {
                 ParkingLotEntry newEntry = newParkingLotEntry();
                 ViewModelEntry.insertParkingLot(newEntry);
-                clearFields();
-                modelFragments.setSaveAttemptParkingLot(1);
+                saveAttempt = 1;
             }
 
         });
+
+
     }
 
     public boolean checkEmptyFields() {
@@ -139,7 +143,7 @@ public class ParkingLotFragment extends Fragment {
 
     }
 
-    public int getCheckedRadio (RadioGroup radio) {
+    public int getCheckedRadio(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
