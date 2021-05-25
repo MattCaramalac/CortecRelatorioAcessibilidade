@@ -443,6 +443,9 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 i++;
             }
         }
+        if (!hasMorningClasses.isChecked() && !hasAfternoonClasses.isChecked() && !hasEveningClasses.isChecked())
+            //PREENCHER ISSO PARA GERAR ERROS DE CAMPOS NÃO PREENCHIDOS!
+
         if (hasMaternal.isChecked()) {
             if (TextUtils.isEmpty(maternalFirstGrade.getText()) || TextUtils.isEmpty(maternalLastGrade.getText())) {
                 schoolServicesError.setVisibility(View.VISIBLE);
@@ -515,6 +518,15 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 i++;
             }
         }
+        if (TextUtils.isEmpty(totalWorkersLibras.getText())) {
+            totWorkersLibras.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+        if (TextUtils.isEmpty(dateInspectionText.getText())) {
+            dateField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+
         return i <= 0;
     }
 
