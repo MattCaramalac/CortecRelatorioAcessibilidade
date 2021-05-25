@@ -6,11 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.mpms.relatorioacessibilidadecortec.data.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.ReportRepository;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 
@@ -25,19 +26,6 @@ public class ViewModelEntry extends AndroidViewModel {
         super(application);
         repository = new ReportRepository(application);
         allEntries = repository.getAllSchoolEntries();
-    }
-
-    //Quando vou retornar o valor, preciso colocar a variável com o valor, NÃO o método.
-    public LiveData<List<SchoolEntry>> getAllEntries() {
-        return allEntries;
-    }
-
-    public LiveData<SchoolEntry> getEntry(int cadID) {
-        return repository.getSchoolEntry(cadID);
-    }
-
-    public LiveData<SchoolEntry> getLastEntry() {
-        return repository.getLastSchoolEntry();
     }
 
     public static void insert(SchoolEntry schoolEntry) {
@@ -56,14 +44,6 @@ public class ViewModelEntry extends AndroidViewModel {
         repository.deleteAllEntries();
     }
 
-    public LiveData<List<WaterFountainEntry>> getAllFountainsInSchool(int schoolEntryID) {
-        return repository.getAllFountainsInSchool(schoolEntryID);
-    }
-
-    public LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountainID) {
-        return repository.getOneWaterFountain(waterFountainID);
-    }
-
     public static void insertWaterFountain(WaterFountainEntry waterFountainEntry) {
         repository.insertWaterFountain(waterFountainEntry);
     }
@@ -80,15 +60,6 @@ public class ViewModelEntry extends AndroidViewModel {
         repository.deleteAllFountainsFromSchool(schoolID);
     }
 
-
-    public LiveData<List<ExternalAccess>> getAllExternalAccessesInSchool(int schoolEntryID) {
-        return repository.getAllExternalAccessesInSchool(schoolEntryID);
-    }
-
-    public LiveData<ExternalAccess> getOneExternalAccess(int externalAccessID) {
-        return repository.getOneExternalAccess(externalAccessID);
-    }
-
     public static void insertExternalAccess(ExternalAccess externalAccess) {
         repository.insertExternalAccess(externalAccess);
     }
@@ -103,14 +74,6 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void insertOtherSpace(OtherSpaces otherSpaces) {
         repository.insertOtherSpace(otherSpaces);
-    }
-
-    public LiveData<List<OtherSpaces>> selectAllSpaces(int schoolEntryID) {
-        return repository.selectAllSpaces(schoolEntryID);
-    }
-
-    public LiveData<OtherSpaces> selectOneSpace(int otherID) {
-        return repository.selectOneSpace(otherID);
     }
 
     public static void updateOtherSpace(OtherSpaces otherSpaces) {
@@ -133,18 +96,6 @@ public class ViewModelEntry extends AndroidViewModel {
         repository.insertParkingLot(parkingLotEntry);
     }
 
-    public LiveData<List<ParkingLotEntry>> selectEveryParkingLot(int schoolEntryID) {
-        return repository.selectEveryParkingLot(schoolEntryID);
-    }
-
-    public LiveData<ParkingLotEntry> selectOneParkingLot(int parkingLotID) {
-        return repository.selectOneParkingLot(parkingLotID);
-    }
-
-    public LiveData<ParkingLotEntry> selectLastInsertedParkingLot() {
-        return repository.selectLastInsertedParkingLot();
-    }
-
     public static void updateParkingLot(ParkingLotEntry parkingLotEntry) {
         repository.updateParkingLot(parkingLotEntry);
     }
@@ -157,5 +108,84 @@ public class ViewModelEntry extends AndroidViewModel {
         repository.deleteAllParkingLots(schoolID);
     }
 
+    public static void insertElderlyParkingLot(ParkingLotElderlyEntry elderlyEntry) {
+        repository.insertElderlyParkingLot(elderlyEntry);
+    }
 
+    public static void updateElderlyParkingLot(ParkingLotElderlyEntry parkingLotElderlyEntry) {
+        repository.updateElderlyParkingLot(parkingLotElderlyEntry);
+    }
+
+    public static void deleteElderlyParkingLot(int parkingLotID) {
+            repository.deleteElderlyParkingLot(parkingLotID);
+    }
+
+    public static void insertPdmrParkingLot(ParkingLotPDMREntry pdmrEntry) {
+        repository.insertPdmrParkingLot(pdmrEntry);
+    }
+
+    public static void updatePdmrParkingLot(ParkingLotPDMREntry pdmrEntry) {
+        repository.updatePdmrParkingLot(pdmrEntry);
+    }
+
+    public static void deletePdmrParkingLot(int parkingLotID) {
+            repository.deletePdmrParkingLot(parkingLotID);
+    }
+
+    //Quando vou retornar o valor, preciso colocar a variável com o valor, NÃO o método.
+    public LiveData<List<SchoolEntry>> getAllEntries() {
+        return allEntries;
+    }
+
+    public LiveData<SchoolEntry> getEntry(int cadID) {
+        return repository.getSchoolEntry(cadID);
+    }
+
+    public LiveData<SchoolEntry> getLastEntry() {
+        return repository.getLastSchoolEntry();
+    }
+
+    public LiveData<List<WaterFountainEntry>> getAllFountainsInSchool(int schoolEntryID) {
+        return repository.getAllFountainsInSchool(schoolEntryID);
+    }
+
+    public LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountainID) {
+        return repository.getOneWaterFountain(waterFountainID);
+    }
+
+    public LiveData<List<ExternalAccess>> getAllExternalAccessesInSchool(int schoolEntryID) {
+        return repository.getAllExternalAccessesInSchool(schoolEntryID);
+    }
+
+    public LiveData<ExternalAccess> getOneExternalAccess(int externalAccessID) {
+        return repository.getOneExternalAccess(externalAccessID);
+    }
+
+    public LiveData<List<OtherSpaces>> selectAllSpaces(int schoolEntryID) {
+        return repository.selectAllSpaces(schoolEntryID);
+    }
+
+    public LiveData<OtherSpaces> selectOneSpace(int otherID) {
+        return repository.selectOneSpace(otherID);
+    }
+
+    public LiveData<List<ParkingLotEntry>> selectEveryParkingLot(int schoolEntryID) {
+        return repository.selectEveryParkingLot(schoolEntryID);
+    }
+
+    public LiveData<ParkingLotEntry> selectOneParkingLot(int parkingLotID) {
+        return repository.selectOneParkingLot(parkingLotID);
+    }
+
+    public LiveData<ParkingLotEntry> selectLastInsertedParkingLot() {
+        return repository.selectLastInsertedParkingLot();
+    }
+
+    public LiveData<ParkingLotElderlyEntry> selectElderlyParkingLot(int parkingLotID) {
+        return repository.selectElderlyParkingLot(parkingLotID);
+    }
+
+    public LiveData<ParkingLotPDMREntry> selectPdmrParkingLot(int parkingLotID) {
+        return repository.selectPdmrParkingLot(parkingLotID);
+    }
 }

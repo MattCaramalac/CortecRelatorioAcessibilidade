@@ -3,13 +3,12 @@ package com.mpms.relatorioacessibilidadecortec.data;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 
@@ -33,6 +32,10 @@ public class ReportRepository {
 
     private ParkingLotEntryDao parkingLotEntryDao;
 
+    private ParkingLotElderlyDao parkingLotElderlyDao;
+
+    private ParkingLotPdmrDao parkingLotPdmrDao;
+
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
         schoolEntryDao = db.schoolEntryDao();
@@ -40,6 +43,8 @@ public class ReportRepository {
         externalAccessDao = db.externalAccessDao();
         otherSpacesDao = db.otherSpacesDao();
         parkingLotEntryDao = db.parkingLotEntryDao();
+        parkingLotPdmrDao = db.parkingLotPdmrDao();
+        parkingLotElderlyDao = db.parkingLotElderlyDao();
 
         allSchoolEntries = schoolEntryDao.getAllEntries();
     }
@@ -168,6 +173,41 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> parkingLotEntryDao.deleteAllParkingLots(schoolID));
     }
 
+    public void insertElderlyParkingLot(ParkingLotElderlyEntry elderlyEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotElderlyDao.insertElderlyParkingLot(elderlyEntry));
+    }
+
+    public LiveData<ParkingLotElderlyEntry> selectElderlyParkingLot(int parkingLotID) {
+        return parkingLotElderlyDao.selectElderlyParkingLot(parkingLotID);
+    }
+
+    public void updateElderlyParkingLot(ParkingLotElderlyEntry parkingLotElderlyEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotElderlyDao.updateElderlyParkingLot(parkingLotElderlyEntry));
+    }
+
+    public void deleteElderlyParkingLot(int parkingLotID) {
+        {
+            ReportDatabase.dbWriteExecutor.execute(() -> parkingLotElderlyDao.deleteOneElderlyParkingLot(parkingLotID));
+        }
+    }
+
+    public void insertPdmrParkingLot(ParkingLotPDMREntry pdmrEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotPdmrDao.insertPdmrParkingLot(pdmrEntry));
+    }
+
+    public LiveData<ParkingLotPDMREntry> selectPdmrParkingLot(int parkingLotID) {
+        return parkingLotPdmrDao.selectPdmrParkingLot(parkingLotID);
+    }
+
+    public void updatePdmrParkingLot(ParkingLotPDMREntry pdmrEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotPdmrDao.updatePdmrParkingLot(pdmrEntry));
+    }
+
+    public void deletePdmrParkingLot(int parkingLotID) {
+        {
+            ReportDatabase.dbWriteExecutor.execute(() -> parkingLotPdmrDao.deleteOnePdmrParkingLot(parkingLotID));
+        }
+    }
 
     public void deleteAllEntries() {
         ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.deleteAll());

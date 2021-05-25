@@ -35,7 +35,7 @@ public class ParkingLotPDMREntry {
     private String visualPdmrHorizSignObs;
     private Integer hasPdmrSecurityZone;
     private Double securityZoneWidth;
-    private Double securityZoneObs;
+    private String securityZoneObs;
     private Integer hasPdmrSia;
     private Double pdmrSiaWidth;
     private Double pdmrSiaLength;
@@ -44,7 +44,7 @@ public class ParkingLotPDMREntry {
     public ParkingLotPDMREntry(@NonNull Integer schoolEntryID, @NonNull Integer parkingLotID, Integer hasPdmrVacancy,
                                Integer totalPdmrVacancy, Integer hasVisualPdmrVertSign, String visualPdmrVertSignObs,
                                Integer hasVisualPdmrHorizSign, Double visualPdmrHorizSignWidth, Double visualPdmrHorizSignLength,
-                               String visualPdmrHorizSignObs, Integer hasPdmrSecurityZone, Double securityZoneWidth, Double securityZoneObs,
+                               String visualPdmrHorizSignObs, Integer hasPdmrSecurityZone, Double securityZoneWidth, String securityZoneObs,
                                Integer hasPdmrSia, Double pdmrSiaWidth, Double pdmrSiaLength, String pdmrSiaObs) {
         this.schoolEntryID = schoolEntryID;
         this.parkingLotID = parkingLotID;
@@ -171,11 +171,11 @@ public class ParkingLotPDMREntry {
         this.securityZoneWidth = securityZoneWidth;
     }
 
-    public Double getSecurityZoneObs() {
+    public String getSecurityZoneObs() {
         return securityZoneObs;
     }
 
-    public void setSecurityZoneObs(Double securityZoneObs) {
+    public void setSecurityZoneObs(String securityZoneObs) {
         this.securityZoneObs = securityZoneObs;
     }
 
