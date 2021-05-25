@@ -28,13 +28,12 @@ import java.util.Objects;
 
 public class ParkingLotFragment extends Fragment {
 
-    public static int schoolID;
-    public static int parkingLotID;
+    public static int schoolID, parkingLotID;
     RadioGroup parkingLotType;
     TextInputLayout totalVacancyField, parkingLotFloorTypeField;
     TextInputEditText totalVacancyValue, parkingLotFloorTypeValue;
     Button cancelParkingLotRegister, saveParkingLotRegister;
-    ViewModelFragments modelFragments;
+//    ViewModelFragments modelFragments;
     TextView parkingLotTypeError;
     Bundle registerID = new Bundle();
 
@@ -54,7 +53,7 @@ public class ParkingLotFragment extends Fragment {
         Bundle schoolBundle = this.getArguments();
         if (schoolBundle != null)
             schoolID = schoolBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+//        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
     }
 
     @Override
@@ -138,8 +137,8 @@ public class ParkingLotFragment extends Fragment {
 
     public void clearErrorsParkingLot() {
         parkingLotTypeError.setVisibility(View.GONE);
-        totalVacancyField.setError(null);
-        parkingLotFloorTypeField.setError(null);
+        totalVacancyField.setErrorEnabled(false);
+        parkingLotFloorTypeField.setErrorEnabled(false);
 
     }
 

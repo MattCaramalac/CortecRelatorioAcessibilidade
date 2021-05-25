@@ -17,10 +17,13 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ParkingLotInterface;
 
 import java.util.ArrayList;
@@ -40,6 +43,13 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
     ArrayList<TextInputLayout> verticalFields, horizontalFields, pictogramFields;
     ArrayList<TextInputEditText> verticalValues, horizontalValues, pictogramValues;
 
+    public int saveAttempt = 0;
+
+    private static int schoolID, parkingLotID;
+
+    public static String PARKING_LOT_ID = "PARKING_LOT_ID";
+    public static String SCHOOL_ID = "SCHOOL_ID";
+
 
     public ParkingLotElderlyFragment() {
         // Required empty public constructor
@@ -55,6 +65,11 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle schoolBundle = this.getArguments();
+        if (schoolBundle != null) {
+            schoolID = schoolBundle.getInt(SCHOOL_ID);
+            parkingLotID = schoolBundle.getInt(PARKING_LOT_ID);
+        }
     }
 
     @Override
@@ -68,6 +83,8 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ViewModelEntry recentEntry = new ViewModelEntry(Objects.requireNonNull(getActivity()).getApplication());
+
         layout = view.findViewById(R.id.parking_lot_elderly_constraint_layout);
 
         fragHeader = view.findViewById(R.id.frag_parking_lot_elderly_header);
@@ -76,8 +93,8 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         horizontalSignHeader = view.findViewById(R.id.horizontal_sign_elderly_header);
         pictogramHeader = view.findViewById(R.id.elderly_pictogram_header);
         vacancyError = view.findViewById(R.id.elderly_vacancy_error);
-        verticalSignError = view.findViewById(R.id.vertical_sign_error);
-        horizontalSignError = view.findViewById(R.id.horizontal_sign_error);
+        verticalSignError = view.findViewById(R.id.elderly_vertical_sign_error);
+        horizontalSignError = view.findViewById(R.id.elderly_horizontal_sign_error);
         pictogramError = view.findViewById(R.id.elderly_pictogram_error);
 
         hasVacancy = view.findViewById(R.id.parking_lot_elderly_vacancy_radio);
@@ -103,7 +120,7 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         pictogramLengthValue = view.findViewById(R.id.elderly_pictogram_length_value);
         pictogramObsValue = view.findViewById(R.id.elderly_pictogram_obs_value);
 
-        cancelParkingLotElderly  = view.findViewById(R.id.cancel_parking_lot_elderly);
+        cancelParkingLotElderly = view.findViewById(R.id.cancel_parking_lot_elderly);
         saveParkingLotElderly = view.findViewById(R.id.save_parking_lot_elderly);
 
         addValuesToArrays();
@@ -115,15 +132,26 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         hasHorizontalSign.setOnCheckedChangeListener(this::enableFields);
         hasPictogram.setOnCheckedChangeListener(this::enableFields);
 
+        recentEntry.selectElderlyParkingLot(parkingLotID).observe(getViewLifecycleOwner(), elderlyEntry -> {
+            if (saveAttempt == 1) {
+                saveAttempt = 0;
+                clearFields();
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
+                fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
+            }
+        });
+
         cancelParkingLotElderly.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
         saveParkingLotElderly.setOnClickListener(v -> {
             if (verifyEmptyFields()) {
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
-                fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
+                ParkingLotElderlyEntry newEntry = newElderlyEntry();
+                ViewModelEntry.insertElderlyParkingLot(newEntry);
+                saveAttempt = 1;
+                Toast.makeText(getContext(), "Informações Salvas com Sucesso!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -133,11 +161,11 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         verticalSignError.setVisibility(View.GONE);
         horizontalSignError.setVisibility(View.GONE);
         pictogramError.setVisibility(View.GONE);
-        totalVacancyField.setError(null);
-        horizontalSignLengthField.setError(null);
-        horizontalSignWidthField.setError(null);
-        pictogramWidthField.setError(null);
-        pictogramLengthField.setError(null);
+        totalVacancyField.setErrorEnabled(false);
+        horizontalSignLengthField.setErrorEnabled(false);
+        horizontalSignWidthField.setErrorEnabled(false);
+        pictogramWidthField.setErrorEnabled(false);
+        pictogramLengthField.setErrorEnabled(false);
     }
 
     public boolean verifyEmptyFields() {
@@ -148,7 +176,7 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
             vacancyError.setVisibility(View.VISIBLE);
             i++;
         } else if (getCheckedRadio(hasVacancy) == 1) {
-            if (TextUtils.isEmpty(totalVacancyValue.getText()))  {
+            if (TextUtils.isEmpty(totalVacancyValue.getText())) {
                 totalVacancyField.setError(getString(R.string.blank_field_error));
                 i++;
             }
@@ -196,6 +224,7 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
     @Override
     public void disableEverything(ConstraintLayout layout) {
         clearFields();
+        clearErrorMessages();
         for (int i = 0; i < layout.getChildCount(); i++) {
             View layoutView = layout.getChildAt(i);
 
@@ -327,26 +356,81 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         } else {
             if (group == hasVerticalSign) {
                 for (TextInputEditText value : verticalValues) {
-                    value.setEnabled(false);
+                    value.setText(null);
                 }
                 for (TextInputLayout field : verticalFields) {
                     field.setEnabled(false);
+                    field.setErrorEnabled(false);
                 }
             } else if (group == hasHorizontalSign) {
                 for (TextInputEditText value : horizontalValues) {
-                    value.setEnabled(false);
+                    value.setText(null);
                 }
                 for (TextInputLayout field : horizontalFields) {
                     field.setEnabled(false);
+                    field.setErrorEnabled(false);
                 }
             } else {
                 for (TextInputEditText value : pictogramValues) {
-                    value.setEnabled(false);
+                    value.setText(null);
                 }
                 for (TextInputLayout field : pictogramFields) {
                     field.setEnabled(false);
+                    field.setErrorEnabled(false);
                 }
             }
         }
+    }
+
+    public ParkingLotElderlyEntry newElderlyEntry() {
+        int totalVacancy;
+        Double horizontalSignWidth, horizontalSignLength, pictogramWidth, pictogramLength;
+        String vertSingObs, horizontalSignObs, pictogramObs;
+        ParkingLotElderlyEntry newEntry;
+        if (getCheckedRadio(hasVacancy) == 0) {
+            newEntry = new ParkingLotElderlyEntry(schoolID, parkingLotID, getCheckedRadio(hasVacancy), null,
+                    null, null, null, null, null, null,
+                    null, null, null, null);
+        } else {
+            totalVacancy = Integer.parseInt(Objects.requireNonNull(totalVacancyValue.getText()).toString());
+            if (getCheckedRadio(hasVerticalSign) == 0)
+                vertSingObs = null;
+            else {
+                if (TextUtils.isEmpty(verticalSignObsValue.getText()))
+                    vertSingObs = null;
+                else
+                    vertSingObs = Objects.requireNonNull(verticalSignObsValue.getText()).toString();
+            }
+            if (getCheckedRadio(hasHorizontalSign) == 0) {
+                horizontalSignWidth = null;
+                horizontalSignLength = null;
+                horizontalSignObs = null;
+            } else {
+                horizontalSignLength = Double.parseDouble(Objects.requireNonNull(horizontalSignLengthValue.getText()).toString());
+                horizontalSignWidth = Double.parseDouble(Objects.requireNonNull(horizontalSignWidthValue.getText()).toString());
+                if (TextUtils.isEmpty(horizontalSignObsValue.getText()))
+                    horizontalSignObs = null;
+                else
+                    horizontalSignObs = Objects.requireNonNull(horizontalSignObsValue.getText()).toString();
+            }
+            if (getCheckedRadio(hasPictogram) == 0) {
+                pictogramLength = null;
+                pictogramWidth = null;
+                pictogramObs = null;
+            } else {
+                pictogramLength = Double.parseDouble(Objects.requireNonNull(pictogramLengthValue.getText()).toString());
+                pictogramWidth = Double.parseDouble(Objects.requireNonNull(pictogramWidthValue.getText()).toString());
+                if (TextUtils.isEmpty(pictogramObsValue.getText()))
+                    pictogramObs = null;
+                else
+                    pictogramObs = Objects.requireNonNull(pictogramObsValue.getText()).toString();
+            }
+
+            newEntry = new ParkingLotElderlyEntry(schoolID, parkingLotID, getCheckedRadio(hasVacancy), totalVacancy, getCheckedRadio(hasVerticalSign), vertSingObs,
+                    getCheckedRadio(hasHorizontalSign), horizontalSignWidth, horizontalSignLength, horizontalSignObs, getCheckedRadio(hasPictogram), pictogramWidth,
+                    pictogramLength, pictogramObs);
+
+        }
+        return newEntry;
     }
 }

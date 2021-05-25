@@ -167,9 +167,9 @@ public class ExternalAccessFragment extends Fragment {
         hasTrailRampError.setVisibility(View.GONE);
         hasGateObstaclesError.setVisibility(View.GONE);
         hasGatePayphonesError.setVisibility(View.GONE);
-        floorTypeField.setError(null);
-        gateWidthField.setError(null);
-        gateTrailHeightField.setError(null);
+        floorTypeField.setErrorEnabled(false);
+        gateWidthField.setErrorEnabled(false);
+        gateTrailHeightField.setErrorEnabled(false);
     }
 
     public ExternalAccess createNewAccess() {

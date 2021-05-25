@@ -40,6 +40,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     @Override
     public void onDropdownChoice(int choice) {
         switch (choice) {
+            //criar o fragmento para os banheiros/sanitários -> case 1
             case 0:
                 displayExternalAccessFragment();
                 break;

@@ -20,6 +20,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ParkingLotInterface;
 
 import java.util.ArrayList;
@@ -40,6 +44,15 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
     ArrayList<TextInputLayout> verticalFields, horizontalFields, safetyFields, siaFields;
     ArrayList<TextInputEditText> verticalValues, horizontalValues, safetyValues, siaValues;
 
+    public static int schoolID, parkingLotID;
+
+    public static String PARKING_LOT_ID = "PARKING_LOT_ID";
+    public static String SCHOOL_ID = "SCHOOL_ID";
+
+    public Bundle registerID = new Bundle();
+
+    public int saveAttempt = 0;
+
     public ParkingLotPdmrFragment() {
         // Required empty public constructor
     }
@@ -51,7 +64,11 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Bundle schoolBundle = this.getArguments();
+        if (schoolBundle != null){
+            parkingLotID = schoolBundle.getInt(PARKING_LOT_ID);
+            schoolID = schoolBundle.getInt(SCHOOL_ID);
+        }
     }
 
     @Override
@@ -64,6 +81,8 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ViewModelEntry recentEntry = new ViewModelEntry(Objects.requireNonNull(getActivity()).getApplication());
 
         layout = view.findViewById(R.id.parking_lot_PDMR_constraint_layout);
 
@@ -120,15 +139,29 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
         hasSafetyZone.setOnCheckedChangeListener(this::enableFields);
         hasSiaPdmr.setOnCheckedChangeListener(this::enableFields);
 
+        recentEntry.selectPdmrParkingLot(parkingLotID).observe(getViewLifecycleOwner(), pdmrEntry -> {
+            if (saveAttempt == 1) {
+                registerID.putInt(SCHOOL_ID, schoolID);
+                registerID.putInt(PARKING_LOT_ID, parkingLotID);
+                saveAttempt = 0;
+                clearFields();
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                ParkingLotElderlyFragment parkingLotElderlyFragment = ParkingLotElderlyFragment.newInstance();
+                parkingLotElderlyFragment.setArguments(registerID);
+                fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotElderlyFragment).addToBackStack(null).commit();
+            }
+
+        });
+
         cancelParkingLotPdmr.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
         proceedParkingLotPdmr.setOnClickListener(v -> {
             if (verifyEmptyFields()) {
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                ParkingLotElderlyFragment parkingLotElderlyFragment = ParkingLotElderlyFragment.newInstance();
-                fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotElderlyFragment).addToBackStack(null).commit();
+                ParkingLotPDMREntry newEntry = newPdmrEntry();
+                ViewModelEntry.insertPdmrParkingLot(newEntry);
+                saveAttempt = 1;
             }
         });
 
@@ -142,12 +175,12 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
         horizontalSignError.setVisibility(View.GONE);
         safetyZoneError.setVisibility(View.GONE);
         siaError.setVisibility(View.GONE);
-        totalVacancyField.setError(null);
-        horizontalSignLengthField.setError(null);
-        horizontalSignWidthField.setError(null);
-        safetyZoneWidthField.setError(null);
-        siaWidthField.setError(null);
-        siaLengthField.setError(null);
+        totalVacancyField.setErrorEnabled(false);
+        horizontalSignLengthField.setErrorEnabled(false);
+        horizontalSignWidthField.setErrorEnabled(false);
+        safetyZoneWidthField.setErrorEnabled(false);
+        siaWidthField.setErrorEnabled(false);
+        siaLengthField.setErrorEnabled(false);
     }
 
     public boolean verifyEmptyFields() {
@@ -234,6 +267,68 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
         }
     }
 
+    public ParkingLotPDMREntry newPdmrEntry() {
+        int totalVacancy;
+        Double horizontalSignWidth, horizontalSignLenght, secZoneWidth, siaWidth, siaLenght;
+        String vertSingObs, horizontalSignObs, secZoneObs, siaObs;
+        ParkingLotPDMREntry newEntry;
+        if (getCheckedRadio(hasVacancy) == 0) {
+            newEntry = new ParkingLotPDMREntry(schoolID, parkingLotID,getCheckedRadio(hasVacancy),null,null,null,
+                    null,null, null, null, null, null,
+                    null, null, null, null, null);
+        } else {
+            totalVacancy = Integer.parseInt(Objects.requireNonNull(totalVacancyValue.getText()).toString());
+            if (getCheckedRadio(hasVerticalSign) == 0)
+                vertSingObs = null;
+             else {
+                if (TextUtils.isEmpty(verticalSignObsValue.getText()))
+                    vertSingObs = null;
+                else
+                    vertSingObs = Objects.requireNonNull(verticalSignObsValue.getText()).toString();
+            }
+            if (getCheckedRadio(hasHorizontalSign) == 0) {
+                horizontalSignWidth = null;
+                horizontalSignLenght = null;
+                horizontalSignObs = null;
+            } else {
+                horizontalSignLenght = Double.parseDouble(Objects.requireNonNull(horizontalSignLengthValue.getText()).toString());
+                horizontalSignWidth = Double.parseDouble(Objects.requireNonNull(horizontalSignWidthValue.getText()).toString());
+                if (TextUtils.isEmpty(horizontalSignObsValue.getText()))
+                    horizontalSignObs = null;
+                 else
+                    horizontalSignObs = Objects.requireNonNull(horizontalSignObsValue.getText()).toString();
+            }
+            if (getCheckedRadio(hasSafetyZone) == 0) {
+                secZoneWidth = null;
+                secZoneObs = null;
+            } else {
+                secZoneWidth = Double.parseDouble(Objects.requireNonNull(safetyZoneWidthValue.getText()).toString());
+                if (TextUtils.isEmpty(safetyZoneObsValue.getText()))
+                    secZoneObs = null;
+                else
+                    secZoneObs = Objects.requireNonNull(safetyZoneObsValue.getText()).toString();
+            }
+            if (getCheckedRadio(hasSiaPdmr) == 0) {
+                siaLenght = null;
+                siaWidth = null;
+                siaObs = null;
+            } else {
+                siaLenght = Double.parseDouble(Objects.requireNonNull(siaLengthValue.getText()).toString());
+                siaWidth = Double.parseDouble(Objects.requireNonNull(siaWidthValue.getText()).toString());
+                if (TextUtils.isEmpty(siaObsValue.getText()))
+                    siaObs = null;
+                else
+                    siaObs = Objects.requireNonNull(siaObsValue.getText()).toString();
+            }
+
+            newEntry = new ParkingLotPDMREntry(schoolID, parkingLotID, getCheckedRadio(hasVacancy), totalVacancy, getCheckedRadio(hasVerticalSign), vertSingObs,
+                    getCheckedRadio(hasHorizontalSign), horizontalSignWidth, horizontalSignLenght, horizontalSignObs, getCheckedRadio(hasSafetyZone), secZoneWidth,
+                    secZoneObs, getCheckedRadio(hasSiaPdmr), siaWidth, siaLenght, siaObs);
+
+        }
+        return newEntry;
+    }
+
     @Override
     public void enableAllRadioGroups(ConstraintLayout layout) {
         for (int i = 0; i < layout.getChildCount(); i++) {
@@ -274,6 +369,7 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
 
     @Override
     public void clearFields() {
+        clearErrorMessages();
         hasVerticalSign.clearCheck();
         hasHorizontalSign.clearCheck();
         hasSafetyZone.clearCheck();
@@ -367,31 +463,35 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
         } else {
             if (group == hasVerticalSign) {
                 for (TextInputEditText value : verticalValues) {
-                    value.setEnabled(false);
+                    value.setText(null);
                 }
                 for (TextInputLayout field : verticalFields) {
                     field.setEnabled(false);
+                    field.setErrorEnabled(false);
                 }
             } else if (group == hasHorizontalSign) {
                 for (TextInputEditText value : horizontalValues) {
-                    value.setEnabled(false);
+                    value.setText(null);
                 }
                 for (TextInputLayout field : horizontalFields) {
                     field.setEnabled(false);
+                    field.setErrorEnabled(false);
                 }
             } else if (group == hasSafetyZone) {
                 for (TextInputEditText value : safetyValues) {
-                    value.setEnabled(false);
+                    value.setText(null);
                 }
                 for (TextInputLayout field : safetyFields) {
                     field.setEnabled(false);
+                    field.setErrorEnabled(false);
                 }
             } else {
                 for (TextInputEditText value : siaValues) {
-                    value.setEnabled(false);
+                    value.setText(null);
                 }
                 for (TextInputLayout field : siaFields) {
                     field.setEnabled(false);
+                    field.setErrorEnabled(false);
                 }
             }
         }
@@ -400,3 +500,4 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
 
 
 }
+
