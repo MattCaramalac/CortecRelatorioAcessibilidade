@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.RestroomFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
@@ -43,6 +44,9 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
             //criar o fragmento para os banheiros/sanitários -> case 1
             case 0:
                 displayExternalAccessFragment();
+                break;
+            case 1:
+                displayRestroomFragment();
                 break;
             case 2:
                 displayWaterFountainFragment();
@@ -80,6 +84,13 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.remove(externalAccessFragment).commit();
         }
+    }
+
+    public void displayRestroomFragment() {
+       RestroomFragment restroomFragment = RestroomFragment.newInstance();
+        restroomFragment.setArguments(fragmentSchoolID);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.show_fragment_selected,restroomFragment).addToBackStack(null).commit();
     }
 
     public void displayWaterFountainFragment() {
