@@ -443,9 +443,10 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 i++;
             }
         }
-        if (!hasMorningClasses.isChecked() && !hasAfternoonClasses.isChecked() && !hasEveningClasses.isChecked())
-            //PREENCHER ISSO PARA GERAR ERROS DE CAMPOS NÃO PREENCHIDOS!
-
+        if (!hasMorningClasses.isChecked() && !hasAfternoonClasses.isChecked() && !hasEveningClasses.isChecked()){
+            timeScheduleError.setVisibility(View.VISIBLE);
+            i++;
+        }
         if (hasMaternal.isChecked()) {
             if (TextUtils.isEmpty(maternalFirstGrade.getText()) || TextUtils.isEmpty(maternalLastGrade.getText())) {
                 schoolServicesError.setVisibility(View.VISIBLE);
@@ -481,6 +482,11 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 schoolServicesError.setVisibility(View.VISIBLE);
                 i++;
             }
+        }
+        if (!hasMaternal.isChecked() && !hasPreschool.isChecked() && !hasElementary.isChecked() && !hasMiddle.isChecked() &&
+            !hasHigh.isChecked() && !hasEJA.isChecked()) {
+            schoolServicesError.setVisibility(View.VISIBLE);
+            i++;
         }
         if (TextUtils.isEmpty(youngestStudentAge.getText())) {
             agesError.setVisibility(View.VISIBLE);
@@ -520,10 +526,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         }
         if (TextUtils.isEmpty(totalWorkersLibras.getText())) {
             totWorkersLibras.setError(getString(R.string.blank_field_error));
-            i++;
-        }
-        if (TextUtils.isEmpty(dateInspectionText.getText())) {
-            dateField.setError(getString(R.string.blank_field_error));
             i++;
         }
 
@@ -583,7 +585,47 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     }
 
     public SchoolEntry createEntry() {
-        return new SchoolEntry(Objects.requireNonNull(nameSchool.getText()).toString(),
+        if (TextUtils.isEmpty(dateInspectionText.getText())) {
+            return new SchoolEntry(Objects.requireNonNull(nameSchool.getText()).toString(),
+                    Objects.requireNonNull(addressSchool.getText()).toString(),
+                    Objects.requireNonNull(addressComplement.getText()).toString(),
+                    Objects.requireNonNull(addressNumber.getText()).toString(),
+                    Objects.requireNonNull(addressNeighborhood.getText()).toString(),
+                    Objects.requireNonNull(nameCity.getText()).toString(),
+                    Objects.requireNonNull(nameDirector.getText()).toString(),
+                    Objects.requireNonNull(contactPhone1.getText()).toString(),
+                    Objects.requireNonNull(contactPhone2.getText()).toString(),
+                    Objects.requireNonNull(nameResponsibleVisit.getText()).toString(),
+                    Objects.requireNonNull(nameInspectionTeamMembers.getText()).toString(),
+                    checkValueCheckbox(hasMorningClasses), Objects.requireNonNull(morningStartTime.getText()).toString(),
+                    Objects.requireNonNull(morningEndTime.getText()).toString(),
+                    checkValueCheckbox(hasAfternoonClasses), Objects.requireNonNull(afternoonStartTime.getText()).toString(),
+                    Objects.requireNonNull(afternoonEndTime.getText()).toString(),
+                    checkValueCheckbox(hasEveningClasses), Objects.requireNonNull(eveningStartTime.getText()).toString(),
+                    Objects.requireNonNull(eveningEndTime.getText()).toString(),
+                    checkValueCheckbox(hasMaternal), Objects.requireNonNull(maternalFirstGrade.getText()).toString(),
+                    Objects.requireNonNull(maternalLastGrade.getText()).toString(),
+                    checkValueCheckbox(hasPreschool), Objects.requireNonNull(preschoolFirstGrade.getText()).toString(),
+                    Objects.requireNonNull(preschoolLastGrade.getText()).toString(),
+                    checkValueCheckbox(hasElementary), Objects.requireNonNull(elementaryFirstGrade.getText()).toString(),
+                    Objects.requireNonNull(elementaryLastGrade.getText()).toString(),
+                    checkValueCheckbox(hasMiddle), Objects.requireNonNull(middleFirstGrade.getText()).toString(),
+                    Objects.requireNonNull(middleLastGrade.getText()).toString(),
+                    checkValueCheckbox(hasHigh), Objects.requireNonNull(highFirstGrade.getText()).toString(),
+                    Objects.requireNonNull(highLastGrade.getText()).toString(),
+                    checkValueCheckbox(hasEJA), Objects.requireNonNull(ejaFirstGrade.getText()).toString(),
+                    Objects.requireNonNull(ejaLastGrade.getText()).toString(),
+                    Integer.parseInt(Objects.requireNonNull(youngestStudentAge.getText()).toString()),
+                    Integer.parseInt(Objects.requireNonNull(oldestStudentAge.getText()).toString()),
+                    Integer.parseInt(Objects.requireNonNull(totalStudents.getText()).toString()),
+                    Integer.parseInt(Objects.requireNonNull(totalStudentsPcd.getText()).toString()),
+                    Objects.requireNonNull(studentsPcdDescription.getText()).toString(),
+                    Integer.parseInt(Objects.requireNonNull(totalWorkers.getText()).toString()),
+                    Integer.parseInt(Objects.requireNonNull(totalWorkersPcd.getText()).toString()),
+                    Objects.requireNonNull(workersPcdDescription.getText()).toString(),
+                    Integer.parseInt(Objects.requireNonNull(totalWorkersLibras.getText()).toString()),
+                    null);
+        } else return new SchoolEntry(Objects.requireNonNull(nameSchool.getText()).toString(),
                 Objects.requireNonNull(addressSchool.getText()).toString(),
                 Objects.requireNonNull(addressComplement.getText()).toString(),
                 Objects.requireNonNull(addressNumber.getText()).toString(),
@@ -622,7 +664,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 Objects.requireNonNull(workersPcdDescription.getText()).toString(),
                 Integer.parseInt(Objects.requireNonNull(totalWorkersLibras.getText()).toString()),
                 stringToDate(Objects.requireNonNull(dateInspectionText.getText()).toString()));
-    }
+        }
+
 
     @SuppressLint("SetTextI18n")
     public void gatherEntry(SchoolEntry schoolEntry) {
