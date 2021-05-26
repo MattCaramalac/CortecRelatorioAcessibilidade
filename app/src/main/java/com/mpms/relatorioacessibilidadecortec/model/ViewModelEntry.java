@@ -6,12 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.mpms.relatorioacessibilidadecortec.data.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.ReportRepository;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 
@@ -21,11 +23,13 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static ReportRepository repository;
     public final LiveData<List<SchoolEntry>> allEntries;
+    public final LiveData<List<RoomEntry>> allRooms;
 
     public ViewModelEntry(@NonNull Application application) {
         super(application);
         repository = new ReportRepository(application);
         allEntries = repository.getAllSchoolEntries();
+        allRooms = repository.getAllRooms();
     }
 
     public static void insert(SchoolEntry schoolEntry) {
@@ -187,5 +191,29 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public LiveData<ParkingLotPDMREntry> selectPdmrParkingLot(int parkingLotID) {
         return repository.selectPdmrParkingLot(parkingLotID);
+    }
+
+    public static void insertRoomEntry(RoomEntry roomEntry) {
+       repository.insertRoomEntry(roomEntry);
+    }
+
+    public LiveData<List<RoomEntry>> getAllRooms() {
+        return  repository.getAllRooms();
+    }
+
+    public LiveData<RoomEntry> getRoomEntry(int roomID) {
+        return repository.getRoomEntry(roomID);
+    }
+
+    public LiveData<RoomEntry> getLastRoomEntry() {
+        return repository.getLastRoomEntry();
+    }
+
+    public void updateRoom(RoomEntry roomEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRoom(roomEntry));
+    }
+
+    public void deleteRoom(RoomEntry roomEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteRoom(roomEntry));
     }
 }

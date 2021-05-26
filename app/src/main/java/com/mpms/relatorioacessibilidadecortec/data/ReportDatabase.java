@@ -7,6 +7,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 
@@ -22,7 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {SchoolEntry.class, WaterFountainEntry.class, OtherSpaces.class, ExternalAccess.class,
-ParkingLotEntry.class, ParkingLotPDMREntry.class, ParkingLotElderlyEntry.class}, version = 8)
+ParkingLotEntry.class, ParkingLotPDMREntry.class, ParkingLotElderlyEntry.class, RoomEntry.class}, version = 9)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -42,6 +43,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                     dbWriteExecutor.execute(() -> { ParkingLotEntryDao parkingLotEntryDao = INSTANCE.parkingLotEntryDao(); });
                     dbWriteExecutor.execute(() -> { ParkingLotPdmrDao parkingLotPdmrDao = INSTANCE.parkingLotPdmrDao(); });
                     dbWriteExecutor.execute(() -> { ParkingLotElderlyDao parkingLotElderlyDao = INSTANCE.parkingLotElderlyDao(); });
+                    dbWriteExecutor.execute(() -> { RoomEntryDao roomEntryDao = INSTANCE.roomEntryDao(); });
                 }
             };
 
@@ -123,13 +125,27 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_8_9 = new Migration(8,9) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE RoomEntry (roomID INTEGER PRIMARY KEY AUTOINCREMENT, schoolEntryID INTEGER, " +
+                    "roomType INTEGER, roomHasVisualVertSing INTEGER, roomObsVisualVertSign TEXT, roomHasTactileSing INTEGER, " +
+                    "roomObsTactileSign TEXT, libraryDistanceShelvesOK INTEGER, libraryPcrManeuversOK INTEGER, " +
+                    "libraryAccessiblePcOK INTEGER, cafeteriaTurnAroundPossible INTEGER, classroomBlackboardHeight REAL, " +
+                    "secretFixedSeats INTEGER, secretHasPcrSpace INTEGER, secretWidthPcrSpace REAL, secretLengthPcrSpace REAL, " +
+                    "secretTurnAroundPossible INTEGER, FOREIGN KEY (schoolEntryID) REFERENCES SchoolEntry (cadID) ON UPDATE " +
+                    "CASCADE ON DELETE CASCADE)");
+
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null){
             synchronized (ReportDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ReportDatabase.class, "ReportDatabase")
                             .addCallback(roomCallback).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6,
-                                    MIGRATION_6_7, MIGRATION_7_8).build();
+                                    MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9).build();
                 }
             }
         }
@@ -144,5 +160,6 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract ParkingLotEntryDao parkingLotEntryDao();
     public abstract ParkingLotElderlyDao parkingLotElderlyDao();
     public abstract ParkingLotPdmrDao parkingLotPdmrDao();
+    public abstract RoomEntryDao roomEntryDao();
 
 }

@@ -9,6 +9,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 
@@ -18,23 +19,25 @@ public class ReportRepository {
 
     private ReportDatabase db;
 
-    private SchoolEntryDao schoolEntryDao;
+    private final SchoolEntryDao schoolEntryDao;
     private LiveData<List<SchoolEntry>> allSchoolEntries;
     private LiveData<SchoolEntry> getEntry;
 
-    private WaterFountainDao waterFountainDao;
+    private final WaterFountainDao waterFountainDao;
     private LiveData<List<WaterFountainEntry>> allFountainsInSchool;
     private LiveData<WaterFountainEntry> waterFountain;
 
-    private ExternalAccessDao externalAccessDao;
+    private final ExternalAccessDao externalAccessDao;
 
-    private OtherSpacesDao otherSpacesDao;
+    private final OtherSpacesDao otherSpacesDao;
 
-    private ParkingLotEntryDao parkingLotEntryDao;
+    private final ParkingLotEntryDao parkingLotEntryDao;
 
-    private ParkingLotElderlyDao parkingLotElderlyDao;
+    private final ParkingLotElderlyDao parkingLotElderlyDao;
 
-    private ParkingLotPdmrDao parkingLotPdmrDao;
+    private final ParkingLotPdmrDao parkingLotPdmrDao;
+
+    private final RoomEntryDao roomEntryDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -45,6 +48,7 @@ public class ReportRepository {
         parkingLotEntryDao = db.parkingLotEntryDao();
         parkingLotPdmrDao = db.parkingLotPdmrDao();
         parkingLotElderlyDao = db.parkingLotElderlyDao();
+        roomEntryDao = db.roomEntryDao();
 
         allSchoolEntries = schoolEntryDao.getAllEntries();
     }
@@ -204,9 +208,31 @@ public class ReportRepository {
     }
 
     public void deletePdmrParkingLot(int parkingLotID) {
-        {
             ReportDatabase.dbWriteExecutor.execute(() -> parkingLotPdmrDao.deleteOnePdmrParkingLot(parkingLotID));
-        }
+    }
+
+    public void insertRoomEntry(RoomEntry roomEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> roomEntryDao.insertRoomEntry(roomEntry));
+    }
+
+    public LiveData<List<RoomEntry>> getAllRooms() {
+        return  roomEntryDao.getAllRooms();
+    }
+
+    public LiveData<RoomEntry> getRoomEntry(int roomID) {
+        return roomEntryDao.getRoomEntry(roomID);
+    }
+
+    public LiveData<RoomEntry> getLastRoomEntry() {
+        return roomEntryDao.getLastRoomEntry();
+    }
+
+    public void updateRoom(RoomEntry roomEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> roomEntryDao.updateRoom(roomEntry));
+    }
+
+    public void deleteRoom(RoomEntry roomEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> roomEntryDao.deleteRoom(roomEntry));
     }
 
     public void deleteAllEntries() {
