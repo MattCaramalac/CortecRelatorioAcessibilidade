@@ -215,4 +215,7 @@
     <string name="hint_window_location">Localização da janela</string>
     <string name="hint_window_obs">Observações sobre a janela</string>
     <string name="dialog_add_window_header">Adicionar Janelas</string>
+    <string name="hint_free_space_obs">Observações sobre a faixa livre</string>
+    <string name="hint_free_space_width">Largura da faixa livre</string>
+    <string name="dialog_add_free_space_header">Adicionar Faixa Livre</string>
 </resources>
