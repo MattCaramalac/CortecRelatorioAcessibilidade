@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.AddDoorDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -37,6 +38,7 @@ public class RoomsRegisterFragment extends Fragment {
     String obsVisSign, obsTactSign;
 
     public static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
+    public static final String ROOM_TYPE = "ROOM_TYPE";
     public static int schoolID;
     private static int chosenOption;
 
@@ -114,28 +116,50 @@ public class RoomsRegisterFragment extends Fragment {
         obsVisualSignValue = view.findViewById(R.id.visual_sign_obs_value);
         obsTactileSignValue = view.findViewById(R.id.tactile_sign_obs_value);
 
-        doorRegister.setOnClickListener(v -> {
-            update++;
+        doorRegister.setOnClickListener(v -> { openDialog();
+//            if (update == 0) {
+//                update++;
+//            } else {
+//
+//            }
+
+
 
         });
 
         switchRegister.setOnClickListener(v -> {
-            update++;
+            if (update == 0) {
+                update++;
+            } else {
+
+            }
 
         });
 
         windowRegister.setOnClickListener(v -> {
-            update++;
+            if (update == 0) {
+                update++;
+            } else {
+
+            }
 
         });
 
         tableRegister.setOnClickListener(v -> {
-            update++;
+            if (update == 0) {
+                update++;
+            } else {
+
+            }
 
         });
 
         freeSpaceRegister.setOnClickListener(v -> {
-            update++;
+            if (update == 0) {
+                update++;
+            } else {
+
+            }
 
         });
 
@@ -192,6 +216,10 @@ public class RoomsRegisterFragment extends Fragment {
         return new RoomEntry(schoolID, chosenOption, hasVisSign, obsVisSign, hasTactSign, obsTactSign, libShelvesDistOK,
                 libPcrManeuverOK, libAccessPcOK, cafeSpinOK, classBoardHeight,secFixedSeat,secHasPcrSpace,secWidthPcrSpace,
                 secLengthPcrSpace, secSpinOK);
+    }
+
+    private void openDialog() {
+        AddDoorDialog.display(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
     }
 
 }

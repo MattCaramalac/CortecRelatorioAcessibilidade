@@ -192,10 +192,20 @@
     <string name="label_external_access_type">Tipo de Accesso Externo</string>
     <string name="label_social_entrance_radio">ENTRADA SOCIAL</string>
     <string name="label_cars_entrance_radio">ENTRADA VEÍCULOS</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="header_other_spaces">Registro de Outros Ambientes</string>
     <string name="label_in_accordance_with_accessibility">O ambiente está de acordo com as regras de acessibilidade?</string>
     <string name="hint_other_spaces_name">Nome do Ambiente</string>
     <string name="hint_space_description">Descrição do Ambiente</string>
+    <string name="dialog_add_door_header">Adicionar Portas</string>
+    <string name="label_radio_inclination_sill">Soleira com Desnível</string>
+    <string name="label_radio_step_sill">Soleira com Degrau</string>
+    <string name="label_radio_slope_sill">Soleira com Rampa</string>
+    <string name="label_radio_no_sill">Sem Soleira</string>
+    <string name="hint_door_location">Localização da Porta</string>
+    <string name="label_sill_type_door">Tipo de Soleira da Porta</string>
+    <string name="hint_sill_type_obs">Observações sobre a soleira</string>
+    <string name="hint_sill_inclination_height">Altura do Desnível da Soleira</string>
+    <string name="hint_sill_step_height">Altura do degrau da soleira</string>
+    <string name="hint_sill_slope_inclination">Inclinação da rampa da soleira</string>
+    <string name="hint_sill_slope_width">Largura da rampa da soleira</string>
 </resources>

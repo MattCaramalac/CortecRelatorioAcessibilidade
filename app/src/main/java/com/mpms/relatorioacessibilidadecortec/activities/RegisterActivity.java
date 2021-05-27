@@ -32,6 +32,7 @@ import java.util.Objects;
 //      TODO - Estudar para usar Fragments no lugar de Activities - Garante melhor Design em Tablets + diminui gasto de memória
 public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    public int saveAttempt = 0;
 
     private static final int MIN_NUMBER_LENGTH = 10;
     public static final String MEMORIAL_ITEM_ENTRY = "MEMORIAL_ITEM_ENTRY";
@@ -62,6 +63,8 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         setContentView(R.layout.activity_school_register);
         Locale aLocale = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
         Locale.setDefault(aLocale);
+
+        ViewModelEntry recentEntry = new ViewModelEntry(RegisterActivity.this.getApplication());
 
         //Só podem ser iniciados DENTRO do onCreate, caso contrário não foi selecionada ainda a View
         //E acaba causando um apontamento para algo nulo (já que não tem View selecioada para ser achada)
@@ -185,6 +188,16 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
 
         checkboxListener();
 
+        recentEntry.getLastEntry().observe(this, lastEntry -> {
+            if (saveAttempt == 1) {
+                lastCadID = lastEntry.getCadID();
+//                  LiveData PRECISA ser observado para poder obter os dados
+                Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
+                itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, lastCadID);
+                startActivity(itemInspectionIntent);
+            }
+        });
+
         dateInspectionText.setOnClickListener(v -> showDatePicker());
 
         saveCloseButton.setOnClickListener(v -> {
@@ -198,17 +211,12 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         saveContinueButton.setOnClickListener(v -> {
             if (verifyErrors()) {
                 SchoolEntry newEntry = createEntry();
-                ViewModelEntry recentEntry = new ViewModelEntry(RegisterActivity.this.getApplication());
-//              Crie o observador COM TODOS OS MÉTODOS NECESSÁRIOS E SÓ ENTÃO faça a inserção
-                recentEntry.getLastEntry().observe(this, lastEntry -> {
-                    lastCadID = lastEntry.getCadID();
-//                  LiveData PRECISA ser observado para poder obter os dados
-                    Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
-                    itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, lastCadID);
-                    startActivity(itemInspectionIntent);
-                });
-//              Isto garante que, ao ser inserido, o observador será ativado e receberá os dados solicitados
                 ViewModelEntry.insert(newEntry);
+                saveAttempt = 1;
+//              Crie o observador COM TODOS OS MÉTODOS NECESSÁRIOS E SÓ ENTÃO faça a inserção
+
+//              Isto garante que, ao ser inserido, o observador será ativado e receberá os dados solicitados
+
             }
         });
 
