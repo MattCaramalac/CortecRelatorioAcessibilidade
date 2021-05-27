@@ -19,6 +19,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddDoorDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSwitchDialog;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddWindowDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -137,12 +138,12 @@ public class RoomsRegisterFragment extends Fragment {
 
         });
 
-        windowRegister.setOnClickListener(v -> {
-            if (update == 0) {
-                update++;
-            } else {
-
-            }
+        windowRegister.setOnClickListener(v -> { addWindowDialog();
+//            if (update == 0) {
+//                update++;
+//            } else {
+//
+//            }
 
         });
 
@@ -225,6 +226,10 @@ public class RoomsRegisterFragment extends Fragment {
 
     private void addSwitchDialog() {
         AddSwitchDialog.displaySwitchDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
+    }
+
+    private void addWindowDialog() {
+        AddWindowDialog.displayWindowDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
     }
 
 

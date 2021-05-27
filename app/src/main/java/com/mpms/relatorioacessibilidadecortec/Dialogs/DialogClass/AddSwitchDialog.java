@@ -38,14 +38,6 @@ public class AddSwitchDialog extends DialogFragment {
         return  addSwitchDialog;
     }
 
-//    public AddSwitchDialog() {
-//        // Required empty public constructor
-//    }
-//
-//    public static AddSwitchDialog newInstance(String param1, String param2) {
-//        return new AddSwitchDialog();
-//    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,8 +85,8 @@ public class AddSwitchDialog extends DialogFragment {
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int lenght = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width,lenght);
+            int length = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setLayout(width,length);
         }
     }
 

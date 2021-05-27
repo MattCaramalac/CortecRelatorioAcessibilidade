@@ -94,8 +94,7 @@
     <string name="hint_door_width">Largura da Porta</string>
     <string name="hint_uneven_door">Desvível da Porta</string>
     <string name="label_door_ramp">Porta com rampa?</string>
-    <string name="hint_window_height">Altura da Janela</string>
-    <string name="hint_interruptor_height">Altura do Interruptor</string>
+    <string name="hint_window_height">Altura do comando da janela</string>
     <string name="hint_room_carpet">Capacho da Sala</string>
     <string name="hint_circulation_room">Espaço de circulação da sala</string>
     <string name="label_table_register">Cadastro de Mesas e Suas Dimensões</string>
@@ -213,4 +212,7 @@
     <string name="hint_switch_height">Altura do Interruptor</string>
     <string name="hint_switch_obs">Observações sobre o interruptor</string>
     <string name="dialog_add_switch_header">Adicionar Interruptores</string>
+    <string name="hint_window_location">Localização da janela</string>
+    <string name="hint_window_obs">Observações sobre a janela</string>
+    <string name="dialog_add_window_header">Adicionar Janelas</string>
 </resources>

@@ -50,15 +50,6 @@ public class AddDoorDialog extends DialogFragment {
         return addDoorDialog;
     }
 
-
-//    public AddDoorFragment() {
-//        // Required empty public constructor
-//    }
-//
-//    public static AddDoorFragment newInstance() {
-//        return new AddDoorFragment();
-//    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,8 +120,8 @@ public class AddDoorDialog extends DialogFragment {
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int lenght = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width,lenght);
+            int length = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setLayout(width,length);
         }
     }
 
