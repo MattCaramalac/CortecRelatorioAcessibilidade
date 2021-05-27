@@ -208,4 +208,9 @@
     <string name="hint_sill_step_height">Altura do degrau da soleira</string>
     <string name="hint_sill_slope_inclination">Inclinação da rampa da soleira</string>
     <string name="hint_sill_slope_width">Largura da rampa da soleira</string>
+    <string name="hint_switch_location">Localização do interruptor</string>
+    <string name="hint_switch_type">Tipo de interruptor</string>
+    <string name="hint_switch_height">Altura do Interruptor</string>
+    <string name="hint_switch_obs">Observações sobre o interruptor</string>
+    <string name="dialog_add_switch_header">Adicionar Interruptores</string>
 </resources>

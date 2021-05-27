@@ -17,7 +17,8 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.AddDoorDialog;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddDoorDialog;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSwitchDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -116,7 +117,7 @@ public class RoomsRegisterFragment extends Fragment {
         obsVisualSignValue = view.findViewById(R.id.visual_sign_obs_value);
         obsTactileSignValue = view.findViewById(R.id.tactile_sign_obs_value);
 
-        doorRegister.setOnClickListener(v -> { openDialog();
+        doorRegister.setOnClickListener(v -> { addDoorDialog();
 //            if (update == 0) {
 //                update++;
 //            } else {
@@ -127,12 +128,12 @@ public class RoomsRegisterFragment extends Fragment {
 
         });
 
-        switchRegister.setOnClickListener(v -> {
-            if (update == 0) {
-                update++;
-            } else {
-
-            }
+        switchRegister.setOnClickListener(v -> { addSwitchDialog();
+//            if (update == 0) {
+//                update++;
+//            } else {
+//
+//            }
 
         });
 
@@ -218,8 +219,14 @@ public class RoomsRegisterFragment extends Fragment {
                 secLengthPcrSpace, secSpinOK);
     }
 
-    private void openDialog() {
-        AddDoorDialog.display(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
+    private void addDoorDialog() {
+        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
     }
+
+    private void addSwitchDialog() {
+        AddSwitchDialog.displaySwitchDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
+    }
+
+
 
 }

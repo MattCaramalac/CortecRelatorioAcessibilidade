@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
+        android:id="@+id/door_app_bar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
@@ -19,7 +19,7 @@
         >
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/door_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:padding="8dp"
@@ -30,21 +30,21 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/appBar"
+        android:layout_below="@id/door_app_bar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp">
+            android:paddingStart="@dimen/usual_padding"
+            android:paddingEnd="@dimen/usual_padding">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/door_placement_field"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/usual_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_door_location">

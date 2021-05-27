@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.Dialogs;
+package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -44,9 +44,9 @@ public class AddDoorDialog extends DialogFragment {
 
     FragmentManager manager;
 
-    public static AddDoorDialog display(FragmentManager fragmentManager) {
+    public static AddDoorDialog displayDoorDialog(FragmentManager fragmentManager) {
         AddDoorDialog addDoorDialog = new AddDoorDialog();
-        addDoorDialog.show(fragmentManager, "Teste");
+        addDoorDialog.show(fragmentManager, "DOOR_DIALOG");
         return addDoorDialog;
     }
 
@@ -70,7 +70,7 @@ public class AddDoorDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_add_door, container, false);
-        toolbar = view.findViewById(R.id.toolbar);
+        toolbar = view.findViewById(R.id.door_toolbar);
 
         return view;
     }

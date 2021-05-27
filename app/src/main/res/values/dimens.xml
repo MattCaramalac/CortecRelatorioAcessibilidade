@@ -11,6 +11,7 @@
     <dimen name="radio_button_text">15sp</dimen>
     <dimen name="error_message">12sp</dimen>
     <dimen name="radio_option_size">15sp</dimen>
+    <dimen name="usual_padding">8dp</dimen>
 
     <integer name="max_lenght_age">3</integer>
     <integer name="min_lenght_grade">2</integer>
