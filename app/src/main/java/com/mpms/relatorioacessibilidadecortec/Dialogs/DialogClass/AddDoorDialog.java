@@ -23,7 +23,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.InclinationSillFragment;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SlopeSillFragment;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.StepSillFragment;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.TableTypeFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.fragments.SecretariatFragment;
 
 import java.util.Objects;
 
@@ -44,9 +46,14 @@ public class AddDoorDialog extends DialogFragment {
 
     FragmentManager manager;
 
-    public static AddDoorDialog displayDoorDialog(FragmentManager fragmentManager) {
+    static int schoolID, roomType;
+
+
+    public static AddDoorDialog displayDoorDialog(FragmentManager fragmentManager, Bundle bundle) {
         AddDoorDialog addDoorDialog = new AddDoorDialog();
         addDoorDialog.show(fragmentManager, "DOOR_DIALOG");
+        schoolID = bundle.getInt(SCHOOL_ID_VALUE);
+        roomType = bundle.getInt(ROOM_TYPE);
         return addDoorDialog;
     }
 
@@ -62,6 +69,8 @@ public class AddDoorDialog extends DialogFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_add_door, container, false);
         toolbar = view.findViewById(R.id.door_toolbar);
+
+
 
         return view;
     }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/free_space_app_bar"
+        android:id="@+id/table_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/free_space_toolbar"
+            android:id="@+id/table_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:padding="8dp"
@@ -28,7 +28,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/free_space_app_bar"
+        android:layout_below="@id/table_app_bar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
 
@@ -38,33 +38,24 @@
             android:paddingStart="@dimen/usual_padding"
             android:paddingEnd="@dimen/usual_padding">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/free_space_placement_field"
+            <FrameLayout
+                android:id="@+id/table_type_child_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/hint_location_free_space"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/free_space_placement_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/usual_padding"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/free_space_width_field"
+                android:id="@+id/table_superior_border_height_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:hint="@string/hint_free_space_width"
+                android:hint="@string/hint_superior_border_table_height"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/free_space_placement_field">
+                app:layout_constraintTop_toBottomOf="@id/table_type_child_fragment">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/free_space_width_value"
+                    android:id="@+id/table_superior_border_height_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal"/>
@@ -72,16 +63,67 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/free_space_obs_field"
+                android:id="@+id/table_inferior_border_height_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins"
-                android:hint="@string/hint_free_space_obs"
+                android:hint="@string/hint_inferior_border_table_height"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/free_space_width_field">
+                app:layout_constraintTop_toBottomOf="@id/table_superior_border_height_field">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/free_space_obs_value"
+                    android:id="@+id/table_inferior_border_height_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/table_width_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:hint="@string/hint_table_width"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/table_inferior_border_height_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/table_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/table_frontal_approx_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:hint="@string/hint_frontal_approx_table"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/table_width_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/table_frontal_approx_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/table_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:hint="@string/hint_table_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/table_frontal_approx_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/table_obs_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal"/>
@@ -89,24 +131,24 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/save_free_space"
+                android:id="@+id/save_table"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/top_margins"
                 android:text="@string/label_button_save"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/free_space_obs_field" />
+                app:layout_constraintTop_toBottomOf="@id/table_obs_field" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancel_free_space"
+                android:id="@+id/cancel_table"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/top_margins"
                 android:text="@string/label_button_cancel"
                 android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@id/save_free_space"
+                app:layout_constraintBaseline_toBaselineOf="@id/save_table"
                 app:layout_constraintStart_toStartOf="parent" />
 
 

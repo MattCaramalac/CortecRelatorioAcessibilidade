@@ -87,7 +87,7 @@ public class WaterFountainOtherFragment extends Fragment {
                     clearFields();
                     Objects.requireNonNull(getParentFragment()).getChildFragmentManager().beginTransaction().remove(this).commit();
                 }
-                modelFragments.saveAttemptTestWaterFountain(0);
+                modelFragments.setSaveAttemptFountain(0);
 
             }
 

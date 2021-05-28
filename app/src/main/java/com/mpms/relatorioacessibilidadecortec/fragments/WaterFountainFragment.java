@@ -91,7 +91,7 @@ public class WaterFountainFragment extends Fragment {
 
         saveWaterFountain.setOnClickListener(v -> {
             if (verifyWaterFountainErrors())
-                modelFragments.saveAttemptTestWaterFountain(1);
+                modelFragments.setSaveAttemptFountain(1);
         });
 
         cancelWaterFountain.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()

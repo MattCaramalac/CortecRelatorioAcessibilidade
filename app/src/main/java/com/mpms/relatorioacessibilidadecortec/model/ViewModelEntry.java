@@ -209,11 +209,11 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastRoomEntry();
     }
 
-    public void updateRoom(RoomEntry roomEntry) {
+    public static void updateRoom(RoomEntry roomEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRoom(roomEntry));
     }
 
-    public void deleteRoom(RoomEntry roomEntry) {
+    public static void deleteRoom(RoomEntry roomEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteRoom(roomEntry));
     }
 }

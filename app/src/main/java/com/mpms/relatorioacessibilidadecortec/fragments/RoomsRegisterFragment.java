@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,10 +21,15 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddDoorDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddFreeSpaceDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSwitchDialog;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddTableDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddWindowDialog;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.InclinationSillFragment;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SlopeSillFragment;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.StepSillFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 
 import java.util.Objects;
@@ -40,12 +46,21 @@ public class RoomsRegisterFragment extends Fragment {
     Double classBoardHeight, secWidthPcrSpace, secLengthPcrSpace;
     String obsVisSign, obsTactSign;
 
+    private ViewModelFragments modelFragments;
+
+    RoomEntry newRoom;
+
     public static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
     public static final String ROOM_TYPE = "ROOM_TYPE";
     public static int schoolID;
     private static int chosenOption;
 
     public int update = 0;
+
+    FragmentManager manager;
+
+    Bundle roomBundle = new Bundle();
+    Bundle fragValues = new Bundle();
 
     public RoomsRegisterFragment() {
         // Required empty public constructor
@@ -77,6 +92,11 @@ public class RoomsRegisterFragment extends Fragment {
         if (schoolBundle != null) {
             schoolID = schoolBundle.getInt(SCHOOL_ID_VALUE);
         }
+
+        roomBundle.putInt(SCHOOL_ID_VALUE, schoolID);
+        roomBundle.putInt(ROOM_TYPE, chosenOption);
+
+        manager = getChildFragmentManager();
 
         switch (chosenOption){
             case 3:
@@ -119,6 +139,16 @@ public class RoomsRegisterFragment extends Fragment {
         obsVisualSignValue = view.findViewById(R.id.visual_sign_obs_value);
         obsTactileSignValue = view.findViewById(R.id.tactile_sign_obs_value);
 
+        modelFragments.getRoomBundle().observe(getViewLifecycleOwner(), room -> {
+            if (room != null)
+                newRoom = newRoomEntry(room);
+            if (update == 0) {
+                ViewModelEntry.insertRoomEntry(newRoom);
+            } else if (update > 0) {
+//                ViewModelEntry.updateRoom(newRoom);
+            }
+        });
+
         doorRegister.setOnClickListener(v -> { addDoorDialog();
 //            if (update == 0) {
 //                update++;
@@ -148,12 +178,12 @@ public class RoomsRegisterFragment extends Fragment {
 
         });
 
-        tableRegister.setOnClickListener(v -> {
-            if (update == 0) {
-                update++;
-            } else {
-
-            }
+        tableRegister.setOnClickListener(v -> { addTableDialog();
+//            if (update == 0) {
+//                update++;
+//            } else {
+//
+//            }
 
         });
 
@@ -170,12 +200,8 @@ public class RoomsRegisterFragment extends Fragment {
                 .beginTransaction().remove(this).commit());
 
         saveRoomRegister.setOnClickListener(v -> {
-            RoomEntry newRoomEntry = newRoomEntry();
-            if (update != 0) {
-                Toast.makeText(getContext(), "Clicou nos outros botões", Toast.LENGTH_SHORT).show();
-            } else {
-                ViewModelEntry.insertRoomEntry(newRoomEntry);
-                Toast.makeText(getContext(), "Salvo com Sucesso", Toast.LENGTH_SHORT).show();
+            if (checkEmptyRoomFields()) {
+                modelFragments.setSaveAttemptRooms(1);
             }
 
         });
@@ -202,7 +228,7 @@ public class RoomsRegisterFragment extends Fragment {
         return i == 0;
     }
 
-    public RoomEntry newRoomEntry() {
+    public RoomEntry newRoomEntry(Bundle bundle) {
         if (hasVisualSign.getCheckedRadioButtonId() != -1) {
             hasVisSign = getCheckedRadioButton(hasVisualSign);
         }
@@ -216,13 +242,19 @@ public class RoomsRegisterFragment extends Fragment {
             obsTactSign = Objects.requireNonNull(obsTactileSignValue.getText()).toString();
         }
 
+        switch (chosenOption) {
+            case 3:
+
+                break;
+        }
+
         return new RoomEntry(schoolID, chosenOption, hasVisSign, obsVisSign, hasTactSign, obsTactSign, libShelvesDistOK,
                 libPcrManeuverOK, libAccessPcOK, cafeSpinOK, classBoardHeight,secFixedSeat,secHasPcrSpace,secWidthPcrSpace,
                 secLengthPcrSpace, secSpinOK);
     }
 
     private void addDoorDialog() {
-        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
+        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundle);
     }
 
     private void addSwitchDialog() {
@@ -237,6 +269,8 @@ public class RoomsRegisterFragment extends Fragment {
         AddFreeSpaceDialog.displayFreeSpaceDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager());
     }
 
-
+    private void addTableDialog() {
+        AddTableDialog.addTableDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundle);
+    }
 
 }

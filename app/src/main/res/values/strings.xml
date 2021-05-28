@@ -218,4 +218,15 @@
     <string name="hint_free_space_obs">Observações sobre a faixa livre</string>
     <string name="hint_free_space_width">Largura da faixa livre</string>
     <string name="dialog_add_free_space_header">Adicionar Faixa Livre</string>
+    <string name="hint_table_obs">Observações sobre a mesa</string>
+    <string name="hint_superior_border_table_height">Altura da borda superior da mesa</string>
+    <string name="hint_inferior_border_table_height">Altura da borda inferior da mesa</string>
+    <string name="hint_table_width">Largura da mesa</string>
+    <string name="hint_frontal_approx_table">Medida da aproximação frontal</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_table_type_header">Tipo de mesa analisada</string>
+    <string name="radio_option_teacher_table">MESA PROFESSOR</string>
+    <string name="radio_option_student_table">MESA ALUNO</string>
+    <string name="hint_location_free_space">Localização da faixa livre</string>
 </resources>

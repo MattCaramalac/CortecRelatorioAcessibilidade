@@ -10,7 +10,7 @@ public class ViewModelFragments extends ViewModel {
 
     private final MutableLiveData<Integer> saveAttemptWaterFountain = new MutableLiveData<>();
 
-    public void saveAttemptTestWaterFountain(Integer integer) {
+    public void setSaveAttemptFountain(Integer integer) {
         saveAttemptWaterFountain.setValue(integer);
     }
 
@@ -25,6 +25,26 @@ public class ViewModelFragments extends ViewModel {
     }
 
     public LiveData<Bundle> getFountainBundle() {
+        return fountainBundle;
+    }
+
+    public final MutableLiveData<Integer> saveAttemptRooms = new MutableLiveData<>();
+
+    public void setSaveAttemptRooms (Integer integer) {
+        saveAttemptRooms.setValue(integer);
+    }
+
+    public LiveData<Integer> getSaveAttemptRoom() {
+        return saveAttemptRooms;
+    }
+
+    private final MutableLiveData<Bundle> roomBundle = new MutableLiveData<>();
+
+    public void setRoomBundle(Bundle bundle) {
+        roomBundle.setValue(bundle);
+    }
+
+    public LiveData<Bundle> getRoomBundle() {
         return fountainBundle;
     }
 

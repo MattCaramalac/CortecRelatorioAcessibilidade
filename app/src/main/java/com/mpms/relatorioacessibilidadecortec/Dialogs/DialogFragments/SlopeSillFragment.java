@@ -18,7 +18,7 @@ public class SlopeSillFragment extends Fragment {
     }
 
 
-    public static SlopeSillFragment newInstance(String param1, String param2) {
+    public static SlopeSillFragment newInstance() {
         return new SlopeSillFragment();
     }
 
@@ -31,6 +31,6 @@ public class SlopeSillFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_slope_sill, container, false);
+        return inflater.inflate(R.layout.fragment_sill_slope, container, false);
     }
 }

@@ -11,27 +11,25 @@ import android.view.ViewGroup;
 import com.mpms.relatorioacessibilidadecortec.R;
 
 
-public class InclinationSillFragment extends Fragment {
+public class TableTypeFragment extends Fragment {
 
-    public InclinationSillFragment() {
+    public TableTypeFragment() {
         // Required empty public constructor
     }
 
-
-    public static InclinationSillFragment newInstance() {
-        return new InclinationSillFragment();
+    public static TableTypeFragment newInstance() {
+        return new TableTypeFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sill_inclination, container, false);
+        return inflater.inflate(R.layout.fragment_table_type, container, false);
     }
 }
