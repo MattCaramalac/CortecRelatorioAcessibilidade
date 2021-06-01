@@ -1,12 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +10,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddDoorDialog;
@@ -23,9 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddFreeSpaceDi
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSwitchDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddTableDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddWindowDialog;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.InclinationSillFragment;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SlopeSillFragment;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.StepSillFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -36,44 +33,37 @@ import java.util.Objects;
 
 public class RoomsRegisterFragment extends Fragment {
 
-    Button cancelRoomRegister, saveRoomRegister, doorRegister, switchRegister, windowRegister, tableRegister, freeSpaceRegister;
-    RadioGroup hasVisualSign, hasTactileSign;
-    TextInputLayout obsVisualSignField, obsTactileSignField;
-    TextInputEditText obsVisualSignValue, obsTactileSignValue;
-
-    Integer hasVisSign, hasTactSign, libShelvesDistOK, libPcrManeuverOK, libAccessPcOK, cafeSpinOK, secFixedSeat, secHasPcrSpace,
-    secSpinOK;
-    Double classBoardHeight, secWidthPcrSpace, secLengthPcrSpace;
-    String obsVisSign, obsTactSign;
-
-    private ViewModelFragments modelFragments;
-
-    RoomEntry newRoom;
-
     public static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
     public static final String ROOM_TYPE = "ROOM_TYPE";
     public static int schoolID;
     private static int chosenOption;
-
     public int update = 0;
-
+    public int recentRoomID = 0;
+    Button cancelRoomRegister, saveRoomRegister, doorRegister, switchRegister, windowRegister, tableRegister, freeSpaceRegister;
+    RadioGroup hasVisualSign, hasTactileSign;
+    TextInputLayout obsVisualSignField, obsTactileSignField;
+    TextInputEditText obsVisualSignValue, obsTactileSignValue;
+    Integer hasVisSign, hasTactSign, libShelvesDistOK, libPcrManeuverOK, libAccessPcOK, cafeSpinOK, secFixedSeat, secHasPcrSpace,
+            secSpinOK;
+    Double classBoardHeight, secWidthPcrSpace, secDepthPcrSpace;
+    String obsVisSign, obsTactSign;
     FragmentManager manager;
-
-    Bundle roomBundle = new Bundle();
-    Bundle fragValues = new Bundle();
+    Bundle roomBundleID = new Bundle();
+    private ViewModelFragments modelFragments;
+    private ViewModelEntry modelEntry;
 
     public RoomsRegisterFragment() {
         // Required empty public constructor
-    }
-
-    public void setChosenOption(int choice) {
-        RoomsRegisterFragment.chosenOption = choice;
     }
 
     public static RoomsRegisterFragment newInstance(int dropdownChoice) {
         RoomsRegisterFragment roomsRegisterFragment = new RoomsRegisterFragment();
         roomsRegisterFragment.setChosenOption(dropdownChoice);
         return roomsRegisterFragment;
+    }
+
+    public void setChosenOption(int choice) {
+        RoomsRegisterFragment.chosenOption = choice;
     }
 
     @Override
@@ -93,12 +83,15 @@ public class RoomsRegisterFragment extends Fragment {
             schoolID = schoolBundle.getInt(SCHOOL_ID_VALUE);
         }
 
-        roomBundle.putInt(SCHOOL_ID_VALUE, schoolID);
-        roomBundle.putInt(ROOM_TYPE, chosenOption);
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+//        modelEntry = new ViewModelProvider(requireActivity()).get(ViewModelEntry.class);
+
+        roomBundleID.putInt(SCHOOL_ID_VALUE, schoolID);
+        roomBundleID.putInt(ROOM_TYPE, chosenOption);
 
         manager = getChildFragmentManager();
 
-        switch (chosenOption){
+        switch (chosenOption) {
             case 3:
                 getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new LibraryFragment()).commit();
                 break;
@@ -139,72 +132,88 @@ public class RoomsRegisterFragment extends Fragment {
         obsVisualSignValue = view.findViewById(R.id.visual_sign_obs_value);
         obsTactileSignValue = view.findViewById(R.id.tactile_sign_obs_value);
 
-        modelFragments.getRoomBundle().observe(getViewLifecycleOwner(), room -> {
-            if (room != null)
-                newRoom = newRoomEntry(room);
-            if (update == 0) {
-                ViewModelEntry.insertRoomEntry(newRoom);
-            } else if (update > 0) {
-//                ViewModelEntry.updateRoom(newRoom);
+//        modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> {
+//            if (update > 0) {
+//                recentRoomID = lastRoom.getRoomID();
+//            }
+//        });
+
+        modelFragments.getRoomBundle().observe(getViewLifecycleOwner(), roomBundle -> {
+            if (roomBundle != null) {
+                if (update == 0) {
+                    RoomEntry newEntry = newRoomEntry(roomBundle);
+                    ViewModelEntry.insertRoomEntry(newEntry);
+                } else {
+                    RoomEntry updateEntry = newRoomEntry(roomBundle);
+                    updateEntry.setRoomID(recentRoomID);
+                    ViewModelEntry.updateRoom(updateEntry);
+                }
+                modelFragments.setRoomBundle(null);
+                update = 0;
             }
         });
 
-        doorRegister.setOnClickListener(v -> { addDoorDialog();
-//            if (update == 0) {
-//                update++;
-//            } else {
-//
-//            }
-
-
-
+        doorRegister.setOnClickListener(v -> {
+            saveRoomData();
+            addDoorDialog();
+            update++;
         });
 
-        switchRegister.setOnClickListener(v -> { addSwitchDialog();
-//            if (update == 0) {
-//                update++;
-//            } else {
-//
-//            }
-
+        switchRegister.setOnClickListener(v -> {
+            saveRoomData();
+            addSwitchDialog();
+            update++;
         });
 
-        windowRegister.setOnClickListener(v -> { addWindowDialog();
-//            if (update == 0) {
-//                update++;
-//            } else {
-//
-//            }
-
+        windowRegister.setOnClickListener(v -> {
+            saveRoomData();
+            addWindowDialog();
+            update++;
         });
 
-        tableRegister.setOnClickListener(v -> { addTableDialog();
-//            if (update == 0) {
-//                update++;
-//            } else {
-//
-//            }
-
+        tableRegister.setOnClickListener(v -> {
+            saveRoomData();
+            addTableDialog();
+            update++;
         });
 
-        freeSpaceRegister.setOnClickListener(v -> { addFreeSpaceDialog();
-//            if (update == 0) {
-//                update++;
-//            } else {
-//
-//            }
-
+        freeSpaceRegister.setOnClickListener(v -> {
+            saveRoomData();
+            addFreeSpaceDialog();
+            update++;
         });
 
         cancelRoomRegister.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
-        saveRoomRegister.setOnClickListener(v -> {
-            if (checkEmptyRoomFields()) {
-                modelFragments.setSaveAttemptRooms(1);
-            }
+        saveRoomRegister.setOnClickListener(v -> saveRoomData());
+    }
 
-        });
+    public void saveRoomData() {
+        checkEmptyRoomFields();
+        if (update == 0) {
+            if (checkEmptyRoomFields()) {
+                if (chosenOption == 3 || chosenOption == 10 || chosenOption == 11 || chosenOption == 15)
+                    modelFragments.setSaveAttemptRooms(1);
+                else {
+                    RoomEntry newEntry = newRoomEntry(roomBundleID);
+                    ViewModelEntry.insertRoomEntry(newEntry);
+                }
+            } else
+                Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+        } else {
+            if (checkEmptyRoomFields()) {
+                if (chosenOption == 3 || chosenOption == 10 || chosenOption == 11 || chosenOption == 15)
+                    modelFragments.setSaveAttemptRooms(1);
+                else {
+                    RoomEntry updateEntry = newRoomEntry(roomBundleID);
+                    updateEntry.setRoomID(recentRoomID);
+                    ViewModelEntry.updateRoom(updateEntry);
+                }
+            } else
+                Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     public void setHeaderText(View v) {
@@ -244,17 +253,34 @@ public class RoomsRegisterFragment extends Fragment {
 
         switch (chosenOption) {
             case 3:
-
+                libShelvesDistOK = bundle.getInt(LibraryFragment.DISTANCE_SHELVES, 0);
+                libPcrManeuverOK = bundle.getInt(LibraryFragment.MANEUVER_PCR, 0);
+                libAccessPcOK = bundle.getInt(LibraryFragment.COMPUTER_ACCESSIBLE, 0);
+                break;
+            case 10:
+                cafeSpinOK = bundle.getInt(CafeteriaFragment.CAFE_SPIN, 0);
+                break;
+            case 11:
+                classBoardHeight = bundle.getDouble(ClassroomFragment.BOARD_HEIGHT, 0.0);
+                break;
+            case 15:
+                secFixedSeat = bundle.getInt(SecretariatFragment.FIXED_SEATS, 0);
+                secHasPcrSpace = bundle.getInt(SecretariatFragment.HAS_PCR_SPACE, 0);
+                secWidthPcrSpace = bundle.getDouble(SecretariatFragment.PCR_WIDTH, 0.0);
+                secDepthPcrSpace = bundle.getDouble(SecretariatFragment.PCR_DEPTH, 0.0);
+                secSpinOK = bundle.getInt(SecretariatFragment.SECRETARIAT_SPIN, 0);
+                break;
+            default:
                 break;
         }
 
         return new RoomEntry(schoolID, chosenOption, hasVisSign, obsVisSign, hasTactSign, obsTactSign, libShelvesDistOK,
-                libPcrManeuverOK, libAccessPcOK, cafeSpinOK, classBoardHeight,secFixedSeat,secHasPcrSpace,secWidthPcrSpace,
-                secLengthPcrSpace, secSpinOK);
+                libPcrManeuverOK, libAccessPcOK, cafeSpinOK, classBoardHeight, secFixedSeat, secHasPcrSpace, secWidthPcrSpace,
+                secDepthPcrSpace, secSpinOK);
     }
 
     private void addDoorDialog() {
-        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundle);
+        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
     }
 
     private void addSwitchDialog() {
@@ -270,7 +296,7 @@ public class RoomsRegisterFragment extends Fragment {
     }
 
     private void addTableDialog() {
-        AddTableDialog.addTableDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundle);
+        AddTableDialog.addTableDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
     }
 
 }
