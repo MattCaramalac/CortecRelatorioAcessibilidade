@@ -19,6 +19,7 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 
 import java.util.Objects;
 
@@ -29,9 +30,14 @@ public class AddFreeSpaceDialog extends DialogFragment {
     Button saveFreeSpace, cancelFreeSpace;
     Toolbar toolbar;
 
-    public static AddFreeSpaceDialog displayFreeSpaceDialog(FragmentManager fragmentManager) {
+    static int schoolID, roomType, roomID;
+
+    public static AddFreeSpaceDialog displayFreeSpaceDialog(FragmentManager fragmentManager, Bundle bundle) {
         AddFreeSpaceDialog freeSpaceDialog = new AddFreeSpaceDialog();
         freeSpaceDialog.show(fragmentManager, "FREE_SPACE_DIALOG");
+        schoolID = bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE);
+        roomType = bundle.getInt(RoomsRegisterFragment.ROOM_TYPE);
+        roomID = bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE);
         return freeSpaceDialog;
     }
 

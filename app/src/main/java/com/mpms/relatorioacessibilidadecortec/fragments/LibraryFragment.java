@@ -15,14 +15,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
+
+import java.util.Objects;
 
 public class LibraryFragment extends Fragment {
 
     RadioGroup distanceShelvesAcceptable, maneuverPcrAcceptable, computersAccessible;
 
     ViewModelFragments modelFragments;
+    ViewModelEntry modelEntry;
 
     public static final String DISTANCE_SHELVES = "DISTANCE_SHELVES";
     public static final String MANEUVER_PCR = "MANEUVER_PCR";
@@ -57,8 +61,9 @@ public class LibraryFragment extends Fragment {
         maneuverPcrAcceptable = view.findViewById(R.id.PCR_maneuver_radio);
         computersAccessible = view.findViewById(R.id.computer_accessibility_radio);
 
-        modelFragments.getSaveAttemptRoom().observe(getViewLifecycleOwner(), saveAttempt -> {
-            if (saveAttempt == 1) {
+
+        modelFragments.getSaveAttemptRoom().observe(getViewLifecycleOwner(), roomAttempt -> {
+            if (Objects.equals(modelFragments.getSaveAttemptRoom().getValue(), 1)) {
                 if (checkEmptyLibraryFields()) {
                    Bundle libraryBundle = new Bundle();
                    libraryBundle.putInt(DISTANCE_SHELVES, getCheckedRadio(distanceShelvesAcceptable));
@@ -73,6 +78,27 @@ public class LibraryFragment extends Fragment {
 
         });
     }
+
+//    modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
+//        if (Objects.equals(modelFragments.getSaveAttempt().getValue(), 1)) {
+//            if (hasNoEmptyFields()) {
+//                Bundle otherData = new Bundle();
+//                otherData.putInt(ALLOW_LATERAL, getCheckedIndex(allowLateralApprox));
+//                otherData.putDouble(FAUCET_HEIGHT, Double.parseDouble(Objects.requireNonNull(faucetHeightValue.getText()).toString()));
+//                otherData.putInt(HAS_CUP_HOLDER, getCheckedIndex(hasCupHolder));
+//                if (getCheckedIndex(hasCupHolder) == 1) {
+//                    otherData.putDouble(CUP_HOLDER_HEIGHT, Double.parseDouble(Objects.requireNonNull(cupHolderHeightValue.getText()).toString()));
+//                }
+//                modelFragments.setFountainBundle(otherData);
+//                clearFields();
+//                Objects.requireNonNull(getParentFragment()).getChildFragmentManager().beginTransaction().remove(this).commit();
+//            }
+//            modelFragments.setSaveAttemptFountain(0);
+//
+//        }
+//
+//    });
+//}
 
     public boolean checkEmptyLibraryFields() {
         int error = 0;

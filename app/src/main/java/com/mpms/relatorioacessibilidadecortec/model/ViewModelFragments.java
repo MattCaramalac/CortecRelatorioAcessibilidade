@@ -45,7 +45,17 @@ public class ViewModelFragments extends ViewModel {
     }
 
     public LiveData<Bundle> getRoomBundle() {
-        return fountainBundle;
+        return roomBundle;
+    }
+
+    public final MutableLiveData<Integer> updateRooms = new MutableLiveData<>();
+
+    public void setUpdateRooms (Integer integer) {
+        updateRooms.setValue(integer);
+    }
+
+    public LiveData<Integer> getUpdateRoom() {
+        return updateRooms;
     }
 
 }

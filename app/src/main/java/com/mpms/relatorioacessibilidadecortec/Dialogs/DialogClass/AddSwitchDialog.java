@@ -18,6 +18,7 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 
 import java.util.Objects;
 
@@ -32,9 +33,14 @@ public class AddSwitchDialog extends DialogFragment {
 
     private Toolbar toolbar;
 
-    public static AddSwitchDialog displaySwitchDialog(FragmentManager fragmentManager) {
+    static int schoolID, roomType, roomID;
+
+    public static AddSwitchDialog displaySwitchDialog(FragmentManager fragmentManager, Bundle bundle) {
         AddSwitchDialog addSwitchDialog = new AddSwitchDialog();
         addSwitchDialog.show(fragmentManager, "SWITCH_DIALOG");
+        schoolID = bundle.getInt(SCHOOL_ID_VALUE);
+        roomType = bundle.getInt(ROOM_TYPE);
+        roomID = bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE);
         return  addSwitchDialog;
     }
 

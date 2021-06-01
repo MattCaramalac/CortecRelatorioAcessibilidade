@@ -25,6 +25,7 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SlopeSillF
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.StepSillFragment;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.TableTypeFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SecretariatFragment;
 
 import java.util.Objects;
@@ -46,7 +47,7 @@ public class AddDoorDialog extends DialogFragment {
 
     FragmentManager manager;
 
-    static int schoolID, roomType;
+    static int schoolID, roomType, roomID;
 
 
     public static AddDoorDialog displayDoorDialog(FragmentManager fragmentManager, Bundle bundle) {
@@ -54,6 +55,7 @@ public class AddDoorDialog extends DialogFragment {
         addDoorDialog.show(fragmentManager, "DOOR_DIALOG");
         schoolID = bundle.getInt(SCHOOL_ID_VALUE);
         roomType = bundle.getInt(ROOM_TYPE);
+        roomID = bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE);
         return addDoorDialog;
     }
 
