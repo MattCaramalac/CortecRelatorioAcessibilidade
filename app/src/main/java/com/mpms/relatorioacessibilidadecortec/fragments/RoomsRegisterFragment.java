@@ -163,6 +163,7 @@ public class RoomsRegisterFragment extends Fragment {
 
         modelFragments.getRoomBundle().observe(getViewLifecycleOwner(), roomBundle -> {
             if (roomBundle != null) {
+                roomBundle.putInt(SCHOOL_ID_VALUE, schoolID);
                 if (update == 0) {
                     RoomEntry newEntry = newRoomEntry(roomBundle);
                     ViewModelEntry.insertRoomEntry(newEntry);
@@ -209,25 +210,9 @@ public class RoomsRegisterFragment extends Fragment {
 
     public void saveRoomEntry() {
         if (update == 0) {
-            if (checkEmptyRoomFields()) {
-                if (chosenOption == 3 || chosenOption == 10 || chosenOption == 11 || chosenOption == 15)
-                    modelFragments.setSaveAttemptRooms(1);
-                else {
-                    RoomEntry newEntry = newRoomEntry(roomBundleID);
-                    ViewModelEntry.insertRoomEntry(newEntry);
-                }
-            } else
-                Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-        } else {
-            if (checkEmptyRoomFields()) {
-                if (chosenOption == 3 || chosenOption == 10 || chosenOption == 11 || chosenOption == 15)
-                    modelFragments.setSaveAttemptRooms(1);
-                else {
-                    RoomEntry updateEntry = newRoomEntry(roomBundleID);
-                    updateEntry.setRoomID(recentRoomID);
-                    ViewModelEntry.updateRoom(updateEntry);
-                }
-            } else
+            if (checkEmptyRoomFields())
+                modelFragments.setSaveAttemptRooms(1);
+            else
                 Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
 
         }
@@ -305,7 +290,7 @@ public class RoomsRegisterFragment extends Fragment {
                 break;
         }
 
-        return new RoomEntry(bundle.getInt(SCHOOL_ID_VALUE), bundle.getInt(ROOM_TYPE), hasVisSign, obsVisSign, hasTactSign, obsTactSign, libShelvesDistOK,
+        return new RoomEntry(bundle.getInt(SCHOOL_ID_VALUE), chosenOption, hasVisSign, obsVisSign, hasTactSign, obsTactSign, libShelvesDistOK,
                 libPcrManeuverOK, libAccessPcOK, cafeSpinOK, classBoardHeight, secFixedSeat, secHasPcrSpace, secWidthPcrSpace,
                 secDepthPcrSpace, secSpinOK);
     }
