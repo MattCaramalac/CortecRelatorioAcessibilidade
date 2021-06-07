@@ -58,6 +58,7 @@ public class ClassroomFragment extends Fragment {
                     Bundle classBundle = new Bundle();
                     classBundle.putDouble(BOARD_HEIGHT, Double.parseDouble(Objects.requireNonNull(boardHeightValue.getText()).toString()));
                     modelFragments.setRoomBundle(classBundle);
+                    clearClassroomField();
                 } else
                     Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
 
@@ -78,5 +79,9 @@ public class ClassroomFragment extends Fragment {
 
     public void clearFieldErrors() {
         boardHeightField.setErrorEnabled(false);
+    }
+
+    public void clearClassroomField() {
+        boardHeightValue.setText(null);
     }
 }

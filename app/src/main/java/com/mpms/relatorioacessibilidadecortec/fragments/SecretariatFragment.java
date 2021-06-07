@@ -87,6 +87,7 @@ public class SecretariatFragment extends Fragment {
                    }
                    secretBundle.putInt(SECRETARIAT_SPIN, getCheckedRadio(turnAroundPossible));
                    modelFragments.setRoomBundle(secretBundle);
+                   clearSecretariatFields();
                } else
                    Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
 
@@ -146,6 +147,14 @@ public class SecretariatFragment extends Fragment {
         fixedSeatsField.setErrorEnabled(false);
         pcrSpaceWidthField.setErrorEnabled(false);
         pcrSpaceDepthField.setErrorEnabled(false);
+    }
+
+    public void clearSecretariatFields() {
+        fixedSeatsValue.setText(null);
+        hasPcrSpace.clearCheck();
+        pcrSpaceWidthValue.setText(null);
+        pcrSpaceDepthValue.setText(null);
+        turnAroundPossible.clearCheck();
     }
 
 //    MÉTODO MAIS GENÉRICO!!!

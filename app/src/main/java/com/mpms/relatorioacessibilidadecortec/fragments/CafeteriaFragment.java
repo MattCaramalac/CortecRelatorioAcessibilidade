@@ -43,8 +43,7 @@ public class CafeteriaFragment extends Fragment {
         public View onCreateView (LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState){
             // Inflate the layout for this fragment
-            View rootView = inflater.inflate(R.layout.fragment_cafeteria, container, false);
-            return rootView;
+            return inflater.inflate(R.layout.fragment_cafeteria, container, false);
         }
 
     @Override
@@ -60,6 +59,7 @@ public class CafeteriaFragment extends Fragment {
                     Bundle cafeBundle = new Bundle();
                     cafeBundle.putInt(CAFE_SPIN, getCheckedRadioCafe(turnAroundPossible));
                     modelFragments.setRoomBundle(cafeBundle);
+                    clearCafeteriaField();
                 } else
                     Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
 
@@ -79,5 +79,9 @@ public class CafeteriaFragment extends Fragment {
 
     public int getCheckedRadioCafe(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
+    }
+
+    public void clearCafeteriaField() {
+        turnAroundPossible.clearCheck();
     }
 }

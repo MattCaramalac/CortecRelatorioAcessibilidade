@@ -167,11 +167,13 @@ public class RoomsRegisterFragment extends Fragment {
                 if (update == 0) {
                     RoomEntry newEntry = newRoomEntry(roomBundle);
                     ViewModelEntry.insertRoomEntry(newEntry);
+
                 } else {
                     RoomEntry updateEntry = newRoomEntry(roomBundle);
                     updateEntry.setRoomID(recentRoomID);
                     ViewModelEntry.updateRoom(updateEntry);
                 }
+                clearRoomFields();
                 modelFragments.setRoomBundle(null);
                 update = 0;
             }
@@ -209,13 +211,35 @@ public class RoomsRegisterFragment extends Fragment {
     }
 
     public void saveRoomEntry() {
-        if (update == 0) {
-            if (checkEmptyRoomFields())
-                modelFragments.setSaveAttemptRooms(1);
-            else
-                Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-
+        if (chosenOption == 3 || chosenOption == 10 || chosenOption == 11 || chosenOption == 15) {
+            if (update >= 0) {
+                if (checkEmptyRoomFields())
+                    modelFragments.setSaveAttemptRooms(1);
+                else
+                    Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Houve um Erro. Favor, recomeçar cadastro", Toast.LENGTH_SHORT).show();
+                clearRoomFields();
+            }
+        } else if (chosenOption > 0) {
+            if (update == 0) {
+                if (checkEmptyRoomFields()) {
+                    RoomEntry newEntry = newRoomEntry(roomBundleID);
+                    ViewModelEntry.insertRoomEntry(newEntry);
+                    clearRoomFields();
+                } else
+                    Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+            } else if (update > 0) {
+                RoomEntry newEntry = newRoomEntry(roomBundleID);
+                newEntry.setRoomID(roomBundleID.getInt(ROOM_ID_VALUE));
+                ViewModelEntry.updateRoom(newEntry);
+                clearRoomFields();
+            } else {
+                Toast.makeText(getContext(), "Houve um Erro. Favor, recomeçar cadastro", Toast.LENGTH_SHORT).show();
+                clearRoomFields();
+            }
         }
+
     }
 
     public void saveUpdateDialogClick() {
@@ -227,7 +251,8 @@ public class RoomsRegisterFragment extends Fragment {
             newEntry.setRoomID(roomBundleID.getInt(ROOM_ID_VALUE));
             ViewModelEntry.updateRoom(newEntry);
         } else {
-//            Limpar tela, recomeçar cadastro
+            Toast.makeText(getContext(), "Houve um Erro. Favor, recomeçar cadastro", Toast.LENGTH_SHORT).show();
+            clearRoomFields();
         }
 
     }
@@ -240,6 +265,13 @@ public class RoomsRegisterFragment extends Fragment {
 
     public int getCheckedRadioButton(RadioGroup radioGroup) {
         return radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()));
+    }
+
+    public void clearRoomFields() {
+        hasTactileSign.clearCheck();
+        hasVisualSign.clearCheck();
+        obsTactileSignValue.setText(null);
+        obsVisualSignValue.setText(null);
     }
 
     public boolean checkEmptyRoomFields() {

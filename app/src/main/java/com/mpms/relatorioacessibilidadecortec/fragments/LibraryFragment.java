@@ -70,6 +70,7 @@ public class LibraryFragment extends Fragment {
                    libraryBundle.putInt(MANEUVER_PCR, getCheckedRadio(maneuverPcrAcceptable));
                    libraryBundle.putInt(COMPUTER_ACCESSIBLE, getCheckedRadio(computersAccessible));
                    modelFragments.setRoomBundle(libraryBundle);
+                   clearLibraryRadio();
                 } else
                     Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
 
@@ -117,6 +118,12 @@ public class LibraryFragment extends Fragment {
 
     public int getCheckedRadio(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
+    }
+
+    public void clearLibraryRadio() {
+        distanceShelvesAcceptable.clearCheck();
+        maneuverPcrAcceptable.clearCheck();
+        computersAccessible.clearCheck();
     }
 }
 
