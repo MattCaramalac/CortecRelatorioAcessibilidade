@@ -3,7 +3,10 @@ package com.mpms.relatorioacessibilidadecortec.data;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Query;
+import androidx.room.Update;
 
+import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
@@ -20,24 +23,14 @@ public class ReportRepository {
     private ReportDatabase db;
 
     private final SchoolEntryDao schoolEntryDao;
-    private LiveData<List<SchoolEntry>> allSchoolEntries;
-    private LiveData<SchoolEntry> getEntry;
-
     private final WaterFountainDao waterFountainDao;
-    private LiveData<List<WaterFountainEntry>> allFountainsInSchool;
-    private LiveData<WaterFountainEntry> waterFountain;
-
     private final ExternalAccessDao externalAccessDao;
-
     private final OtherSpacesDao otherSpacesDao;
-
     private final ParkingLotEntryDao parkingLotEntryDao;
-
     private final ParkingLotElderlyDao parkingLotElderlyDao;
-
     private final ParkingLotPdmrDao parkingLotPdmrDao;
-
     private final RoomEntryDao roomEntryDao;
+    private final DoorEntryDao doorEntryDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -49,8 +42,8 @@ public class ReportRepository {
         parkingLotPdmrDao = db.parkingLotPdmrDao();
         parkingLotElderlyDao = db.parkingLotElderlyDao();
         roomEntryDao = db.roomEntryDao();
+        doorEntryDao = db.doorEntryDao();
 
-        allSchoolEntries = schoolEntryDao.getAllEntries();
     }
 
     public LiveData<List<SchoolEntry>> getAllSchoolEntries() {
@@ -233,6 +226,30 @@ public class ReportRepository {
 
     public void deleteRoom(RoomEntry roomEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> roomEntryDao.deleteRoom(roomEntry));
+    }
+
+    public void insertDoorEntry(DoorEntry doorEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.insertDoor(doorEntry));
+    }
+
+    public  LiveData<List<DoorEntry>> getDoorsFromRoom(int schoolID, int roomID) {
+        return doorEntryDao.getDoorsFromRoom(schoolID, roomID);
+    }
+
+    public LiveData<DoorEntry> getSpecificDoor(int doorId) {
+        return doorEntryDao.getSpecificDoor(doorId);
+    }
+
+    public void updateDoor(DoorEntry doorEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.updateDoor(doorEntry));
+    }
+
+    public void deleteDoor(int doorID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.deleteDoor(doorID));
+    }
+
+    public void deleteAllDoorsFromRoom(int schoolID, int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.deleteAllDoorsFromRoom(schoolID, roomID));
     }
 
     public void deleteAllEntries() {

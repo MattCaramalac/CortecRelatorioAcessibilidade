@@ -17,10 +17,10 @@ public interface DoorEntryDao {
     void insertDoor(DoorEntry door);
 
     @Query("SELECT * FROM DoorEntry WHERE schoolID == :schoolID AND roomID == :roomID")
-    LiveData<List<DoorEntry>> selectDoorsFromRoom(int schoolID, int roomID);
+    LiveData<List<DoorEntry>> getDoorsFromRoom(int schoolID, int roomID);
 
     @Query("SELECT * FROM DoorEntry WHERE doorID == :doorID")
-    LiveData<DoorEntry> selectSpecificDoor(int doorID);
+    LiveData<DoorEntry> getSpecificDoor(int doorID);
 
     @Update
     void updateDoor (DoorEntry door);

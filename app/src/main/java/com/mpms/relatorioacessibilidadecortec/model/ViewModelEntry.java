@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.mpms.relatorioacessibilidadecortec.data.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.ReportRepository;
+import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
@@ -216,4 +217,29 @@ public class ViewModelEntry extends AndroidViewModel {
     public static void deleteRoom(RoomEntry roomEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteRoom(roomEntry));
     }
+
+    public static void insertDoorEntry(DoorEntry doorEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertDoorEntry(doorEntry));
+    }
+
+    public  LiveData<List<DoorEntry>> getDoorsFromRoom(int schoolID, int roomID) {
+        return repository.getDoorsFromRoom(schoolID, roomID);
+    }
+
+    public LiveData<DoorEntry> getSpecificDoor(int doorId) {
+        return repository.getSpecificDoor(doorId);
+    }
+
+    public void updateDoor(DoorEntry doorEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateDoor(doorEntry));
+    }
+
+    public void deleteDoor(int doorID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteDoor(doorID));
+    }
+
+    public void deleteAllDoorsFromRoom(int schoolID, int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllDoorsFromRoom(schoolID, roomID));
+    }
+
 }

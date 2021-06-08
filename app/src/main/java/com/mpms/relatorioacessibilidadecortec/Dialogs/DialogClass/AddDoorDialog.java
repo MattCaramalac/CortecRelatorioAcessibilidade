@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -25,8 +26,12 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SlopeSillF
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.StepSillFragment;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.TableTypeFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SecretariatFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
 
@@ -47,15 +52,25 @@ public class AddDoorDialog extends DialogFragment {
 
     FragmentManager manager;
 
-    static int schoolID, roomType, roomID;
+    static Bundle roomBundle;
+
+    ViewModelDialog modelDialog;
+
+    ViewModelEntry modelEntry;
+
+    Double sillInclinationHeight, sillStepHeight, sillSlopeHeight, sillSlopeWidth;
+    String doorSillObs;
+
+//    static int schoolID, roomType, roomID;
 
 
     public static AddDoorDialog displayDoorDialog(FragmentManager fragmentManager, Bundle bundle) {
         AddDoorDialog addDoorDialog = new AddDoorDialog();
         addDoorDialog.show(fragmentManager, "DOOR_DIALOG");
-        schoolID = bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE);
-        roomType = bundle.getInt(RoomsRegisterFragment.ROOM_TYPE);
-        roomID = bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE);
+        roomBundle = bundle;
+//        schoolID = bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE);
+//        roomType = bundle.getInt(RoomsRegisterFragment.ROOM_TYPE);
+//        roomID = bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE);
         return addDoorDialog;
     }
 
@@ -71,9 +86,6 @@ public class AddDoorDialog extends DialogFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_add_door, container, false);
         toolbar = view.findViewById(R.id.door_toolbar);
-
-
-
         return view;
     }
 
@@ -99,6 +111,21 @@ public class AddDoorDialog extends DialogFragment {
 
         manager = getChildFragmentManager();
 
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+
+        modelDialog.getDoorInfo().observe(getViewLifecycleOwner(), sillBundle -> {
+            if (sillBundle != null) {
+                sillBundle.putInt(RoomsRegisterFragment.SCHOOL_ID_VALUE, roomBundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE));
+                sillBundle.putInt(RoomsRegisterFragment.ROOM_ID_VALUE, roomBundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE));
+                DoorEntry doorEntry = newDoor(sillBundle);
+                ViewModelEntry.insertDoorEntry(doorEntry);
+                clearDoorFields();
+                modelDialog.setDoorInfo(null);
+            }
+        });
+
         sillType.setOnCheckedChangeListener((group, checkedId) -> {
             int index = getCheckedRadio(group);
             switch (index) {
@@ -118,7 +145,19 @@ public class AddDoorDialog extends DialogFragment {
 
         });
 
-        saveDoor.setOnClickListener(v -> checkEmptyFields());
+
+
+        saveDoor.setOnClickListener(v -> {
+            if(checkEmptyFields()){
+                if(getCheckedRadio(sillType) == 0) {
+                    DoorEntry doorEntry = newDoor(roomBundle);
+                    ViewModelEntry.insertDoorEntry(doorEntry);
+                    clearDoorFields();
+                } else {
+                    modelDialog.setSaveDoorAttempt(1);
+                }
+            }
+        });
 
         cancelDoor.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
@@ -185,5 +224,37 @@ public class AddDoorDialog extends DialogFragment {
                 }
             }
         }
+    }
+
+    public DoorEntry newDoor(Bundle bundle) {
+        sillInclinationHeight = null;
+        sillStepHeight = null;
+        sillSlopeHeight = null;
+        sillSlopeWidth = null;
+        doorSillObs = null;
+        if (getCheckedRadio(sillType) == 1)
+            sillInclinationHeight = bundle.getDouble(InclinationSillFragment.HEIGHT_INCLINED_SILL);
+//        else if (getCheckedRadio(sillType) == 2)
+//            sillStepHeight = bundle.getDouble();
+//        else if (getCheckedRadio(sillType) == 3) {
+//            sillSlopeHeight = bundle.getDouble();
+//            sillSlopeWidth = bundle.getDouble();
+//        }
+
+        if (!TextUtils.isEmpty(doorSillObsValue.getText())) {
+            doorSillObs = Objects.requireNonNull(doorSillObsValue.getText()).toString();
+        }
+
+        return new DoorEntry(bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE), bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+                Objects.requireNonNull(doorLocationValue.getText()).toString(), Double.parseDouble(Objects.requireNonNull(doorWidthValue.getText()).toString()),
+                getCheckedRadio(sillType),sillInclinationHeight, sillStepHeight, sillSlopeHeight, sillSlopeWidth, doorSillObs);
+
+    }
+
+    public void clearDoorFields() {
+        doorLocationValue.setText(null);
+        doorWidthValue.setText(null);
+        doorSillObsValue.setText(null);
+        sillType.clearCheck();
     }
 }
