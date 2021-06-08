@@ -53,8 +53,8 @@ public class AddDoorDialog extends DialogFragment {
     public static AddDoorDialog displayDoorDialog(FragmentManager fragmentManager, Bundle bundle) {
         AddDoorDialog addDoorDialog = new AddDoorDialog();
         addDoorDialog.show(fragmentManager, "DOOR_DIALOG");
-        schoolID = bundle.getInt(SCHOOL_ID_VALUE);
-        roomType = bundle.getInt(ROOM_TYPE);
+        schoolID = bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE);
+        roomType = bundle.getInt(RoomsRegisterFragment.ROOM_TYPE);
         roomID = bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE);
         return addDoorDialog;
     }
@@ -102,13 +102,13 @@ public class AddDoorDialog extends DialogFragment {
         sillType.setOnCheckedChangeListener((group, checkedId) -> {
             int index = getCheckedRadio(group);
             switch (index) {
-                case 0:
+                case 1:
                     getChildFragmentManager().beginTransaction().replace(R.id.sill_type_child_fragment, new InclinationSillFragment()).commit();
                     break;
-                case 1:
+                case 2:
                     getChildFragmentManager().beginTransaction().replace(R.id.sill_type_child_fragment, new StepSillFragment()).commit();
                     break;
-                case 2:
+                case 3:
                     getChildFragmentManager().beginTransaction().replace(R.id.sill_type_child_fragment, new SlopeSillFragment()).commit();
                     break;
                 default:

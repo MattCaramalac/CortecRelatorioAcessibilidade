@@ -94,6 +94,12 @@
                 <RadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@string/label_radio_no_sill"
+                    android:textSize="@dimen/radio_button_text"/>
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="@string/label_radio_inclination_sill"
                     android:textSize="@dimen/radio_button_text"/>
 
@@ -109,11 +115,7 @@
                     android:textSize="@dimen/radio_button_text"
                     android:text="@string/label_radio_slope_sill"/>
 
-                <RadioButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_radio_no_sill"
-                    android:textSize="@dimen/radio_button_text"/>
+
 
             </RadioGroup>
 
