@@ -14,7 +14,7 @@ import java.util.List;
 public interface WindowEntryDao {
 
     @Insert
-    void insertFreeSpace(WindowEntry windowEntry);
+    void insertWindow(WindowEntry windowEntry);
 
     @Query("SELECT * FROM WindowEntry WHERE schoolID == :schoolID AND roomID == :roomID")
     LiveData<List<WindowEntry>> selectWindowsFromRoom(int schoolID, int roomID);

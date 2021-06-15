@@ -24,14 +24,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.InclinationSillFragment;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SlopeSillFragment;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.StepSillFragment;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.TableTypeFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.SecretariatFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
 
@@ -58,19 +55,13 @@ public class AddDoorDialog extends DialogFragment {
 
     ViewModelEntry modelEntry;
 
-    Double sillInclinationHeight, sillStepHeight, sillSlopeHeight, sillSlopeWidth;
+    Double sillInclinationHeight, sillStepHeight, sillSlopeInclination, sillSlopeWidth;
     String doorSillObs;
-
-//    static int schoolID, roomType, roomID;
-
 
     public static AddDoorDialog displayDoorDialog(FragmentManager fragmentManager, Bundle bundle) {
         AddDoorDialog addDoorDialog = new AddDoorDialog();
         addDoorDialog.show(fragmentManager, "DOOR_DIALOG");
         roomBundle = bundle;
-//        schoolID = bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE);
-//        roomType = bundle.getInt(RoomsRegisterFragment.ROOM_TYPE);
-//        roomID = bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE);
         return addDoorDialog;
     }
 
@@ -123,6 +114,7 @@ public class AddDoorDialog extends DialogFragment {
                 ViewModelEntry.insertDoorEntry(doorEntry);
                 clearDoorFields();
                 modelDialog.setDoorInfo(null);
+                removeFragments();
             }
         });
 
@@ -229,17 +221,17 @@ public class AddDoorDialog extends DialogFragment {
     public DoorEntry newDoor(Bundle bundle) {
         sillInclinationHeight = null;
         sillStepHeight = null;
-        sillSlopeHeight = null;
+        sillSlopeInclination = null;
         sillSlopeWidth = null;
         doorSillObs = null;
         if (getCheckedRadio(sillType) == 1)
             sillInclinationHeight = bundle.getDouble(InclinationSillFragment.HEIGHT_INCLINED_SILL);
-//        else if (getCheckedRadio(sillType) == 2)
-//            sillStepHeight = bundle.getDouble();
-//        else if (getCheckedRadio(sillType) == 3) {
-//            sillSlopeHeight = bundle.getDouble();
-//            sillSlopeWidth = bundle.getDouble();
-//        }
+        else if (getCheckedRadio(sillType) == 2)
+            sillStepHeight = bundle.getDouble(StepSillFragment.STEP_HEIGHT);
+        else if (getCheckedRadio(sillType) == 3) {
+            sillSlopeInclination = bundle.getDouble(SlopeSillFragment.SLOPE_INCLINATION);
+            sillSlopeWidth = bundle.getDouble(SlopeSillFragment.SLOPE_WIDTH);
+        }
 
         if (!TextUtils.isEmpty(doorSillObsValue.getText())) {
             doorSillObs = Objects.requireNonNull(doorSillObsValue.getText()).toString();
@@ -247,7 +239,7 @@ public class AddDoorDialog extends DialogFragment {
 
         return new DoorEntry(bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE), bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
                 Objects.requireNonNull(doorLocationValue.getText()).toString(), Double.parseDouble(Objects.requireNonNull(doorWidthValue.getText()).toString()),
-                getCheckedRadio(sillType),sillInclinationHeight, sillStepHeight, sillSlopeHeight, sillSlopeWidth, doorSillObs);
+                getCheckedRadio(sillType),sillInclinationHeight, sillStepHeight, sillSlopeInclination, sillSlopeWidth, doorSillObs);
 
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
 public interface TableEntryDao {
 
     @Insert
-    void insertSwitch(TableEntry table);
+    void insertTable(TableEntry table);
 
     @Query("SELECT * FROM TableEntry WHERE schoolID == :schoolID AND roomID == :roomID")
     LiveData<List<TableEntry>> selectTablesFromRoom(int schoolID, int roomID);

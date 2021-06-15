@@ -1,6 +1,7 @@
 package com.mpms.relatorioacessibilidadecortec.model;
 
 import android.app.Application;
+import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,13 +11,17 @@ import com.mpms.relatorioacessibilidadecortec.data.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.ReportRepository;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.WindowEntry;
 
 import java.util.List;
 
@@ -230,16 +235,32 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getSpecificDoor(doorId);
     }
 
-    public void updateDoor(DoorEntry doorEntry) {
+    public static void updateDoor(DoorEntry doorEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateDoor(doorEntry));
     }
 
-    public void deleteDoor(int doorID) {
+    public static void deleteDoor(int doorID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteDoor(doorID));
     }
 
-    public void deleteAllDoorsFromRoom(int schoolID, int roomID) {
+    public static void deleteAllDoorsFromRoom(int schoolID, int roomID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllDoorsFromRoom(schoolID, roomID));
+    }
+
+    public static void insertFreeSpaceEntry(FreeSpaceEntry freeSpace) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertFreeSpace(freeSpace));
+    }
+
+    public static void insertWindowEntry(WindowEntry windowEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertWindow(windowEntry));
+    }
+
+    public static void insertSwitchEntry(SwitchEntry switchEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertSwitch(switchEntry));
+    }
+
+    public static void insertTablesEntry(TableEntry tableEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertTable(tableEntry));
     }
 
 }

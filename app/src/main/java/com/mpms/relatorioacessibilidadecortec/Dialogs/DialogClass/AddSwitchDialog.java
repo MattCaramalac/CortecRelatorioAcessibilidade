@@ -18,7 +18,9 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.Objects;
 
@@ -28,8 +30,10 @@ public class AddSwitchDialog extends DialogFragment {
     TextInputEditText switchPlaceValue, switchTypeValue, switchHeightValue, switchObsValue;
     Button saveSwitch, cancelSwitch;
 
-    private static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
-    private static final String ROOM_TYPE = "ROOM_TYPE";
+    String switchLocation, switchType, switchObs;
+    Double switchHeight;
+
+    private static Bundle roomBundle;
 
     private Toolbar toolbar;
 
@@ -38,9 +42,7 @@ public class AddSwitchDialog extends DialogFragment {
     public static AddSwitchDialog displaySwitchDialog(FragmentManager fragmentManager, Bundle bundle) {
         AddSwitchDialog addSwitchDialog = new AddSwitchDialog();
         addSwitchDialog.show(fragmentManager, "SWITCH_DIALOG");
-        schoolID = bundle.getInt(SCHOOL_ID_VALUE);
-        roomType = bundle.getInt(ROOM_TYPE);
-        roomID = bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE);
+        roomBundle= bundle;
         return  addSwitchDialog;
     }
 
@@ -77,7 +79,11 @@ public class AddSwitchDialog extends DialogFragment {
         cancelSwitch = view.findViewById(R.id.cancel_switch);
 
         saveSwitch.setOnClickListener(v -> {
-            checkEmptySwitchFields();
+            if (checkEmptySwitchFields()) {
+                SwitchEntry newSwitch = newSwitchEntry(roomBundle);
+                ViewModelEntry.insertSwitchEntry(newSwitch);
+                clearSwitchFields();
+            }
         });
 
         cancelSwitch.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
@@ -97,7 +103,7 @@ public class AddSwitchDialog extends DialogFragment {
     }
 
     public boolean checkEmptySwitchFields() {
-        clearEmptySwitchFields();
+        clearErrorsSwitchFields();
         int error = 0;
         if (TextUtils.isEmpty(switchPlaceValue.getText())) {
             switchPlaceField.setError(getString(R.string.blank_field_error));
@@ -114,9 +120,29 @@ public class AddSwitchDialog extends DialogFragment {
         return error == 0;
     }
 
-    public void clearEmptySwitchFields() {
+    public void clearErrorsSwitchFields() {
         switchPlaceField.setErrorEnabled(false);
         switchTypeField.setErrorEnabled(false);
         switchHeightField.setErrorEnabled(false);
+    }
+
+    public SwitchEntry newSwitchEntry(Bundle bundle) {
+        switchLocation = Objects.requireNonNull(switchPlaceValue.getText()).toString();
+        switchType = Objects.requireNonNull(switchTypeValue.getText()).toString();
+        switchHeight = Double.parseDouble(Objects.requireNonNull(switchHeightValue.getText()).toString());
+        if (!TextUtils.isEmpty(switchObsValue.getText()))
+            switchObs = Objects.requireNonNull(switchObsValue.getText()).toString();
+        else
+            switchObs = null;
+
+        return new SwitchEntry(bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE), bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+                switchLocation, switchType,switchHeight,switchObs);
+    }
+
+    public void clearSwitchFields() {
+        switchPlaceValue.setText(null);
+        switchTypeValue.setText(null);
+        switchHeightValue.setText(null);
+        switchObsValue.setText(null);
     }
 }

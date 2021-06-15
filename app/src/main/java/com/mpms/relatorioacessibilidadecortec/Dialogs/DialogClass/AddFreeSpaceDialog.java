@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.text.TextUtils;
@@ -19,7 +18,9 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.Objects;
 
@@ -30,14 +31,15 @@ public class AddFreeSpaceDialog extends DialogFragment {
     Button saveFreeSpace, cancelFreeSpace;
     Toolbar toolbar;
 
-    static int schoolID, roomType, roomID;
+    String freeSpaceLocation, freeSpaceObs;
+    Double freeSpaceWidth;
+
+    static Bundle roomBundle;
 
     public static AddFreeSpaceDialog displayFreeSpaceDialog(FragmentManager fragmentManager, Bundle bundle) {
         AddFreeSpaceDialog freeSpaceDialog = new AddFreeSpaceDialog();
         freeSpaceDialog.show(fragmentManager, "FREE_SPACE_DIALOG");
-        schoolID = bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE);
-        roomType = bundle.getInt(RoomsRegisterFragment.ROOM_TYPE);
-        roomID = bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE);
+        roomBundle = bundle;
         return freeSpaceDialog;
     }
 
@@ -73,7 +75,13 @@ public class AddFreeSpaceDialog extends DialogFragment {
         saveFreeSpace = view.findViewById(R.id.save_free_space);
         cancelFreeSpace = view.findViewById(R.id.cancel_free_space);
 
-        saveFreeSpace.setOnClickListener(v -> {checkEmptySwitchFields();});
+        saveFreeSpace.setOnClickListener(v -> {
+            if (checkEmptyFreeSpaceFields()) {
+                FreeSpaceEntry newFreeSpace = newFreeSpace(roomBundle);
+                ViewModelEntry.insertFreeSpaceEntry(newFreeSpace);
+                clearFreeSpaceFields();
+            }
+        });
 
         cancelFreeSpace.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
@@ -90,8 +98,8 @@ public class AddFreeSpaceDialog extends DialogFragment {
         }
     }
 
-    public boolean checkEmptySwitchFields() {
-        clearEmptyFreeSpaceFields();
+    public boolean checkEmptyFreeSpaceFields() {
+        clearErrorFreeSpaceFields();
         int error = 0;
         if (TextUtils.isEmpty(freeSpaceLocationValue.getText())) {
             freeSpaceLocationField.setError(getString(R.string.blank_field_error));
@@ -105,9 +113,27 @@ public class AddFreeSpaceDialog extends DialogFragment {
         return error == 0;
     }
 
-    public void clearEmptyFreeSpaceFields() {
+    public void clearErrorFreeSpaceFields() {
         freeSpaceLocationField.setErrorEnabled(false);
         freeSpaceWidthField.setErrorEnabled(false);
 
+    }
+
+    public FreeSpaceEntry newFreeSpace(Bundle bundle) {
+        freeSpaceLocation = Objects.requireNonNull(freeSpaceLocationValue.getText()).toString();
+        freeSpaceWidth = Double.parseDouble(Objects.requireNonNull(freeSpaceWidthValue.getText()).toString());
+        if (!TextUtils.isEmpty(freeSpaceObsValue.getText()))
+            freeSpaceObs = Objects.requireNonNull(freeSpaceObsValue.getText()).toString();
+        else
+            freeSpaceObs = null;
+
+        return new FreeSpaceEntry(bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE), bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+                freeSpaceLocation, freeSpaceWidth, freeSpaceObs);
+    }
+
+    public void clearFreeSpaceFields() {
+        freeSpaceLocationValue.setText(null);
+        freeSpaceWidthValue.setText(null);
+        freeSpaceObsValue.setText(null);
     }
 }

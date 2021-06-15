@@ -8,13 +8,17 @@ import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.WindowEntry;
 
 import java.util.List;
 
@@ -31,6 +35,10 @@ public class ReportRepository {
     private final ParkingLotPdmrDao parkingLotPdmrDao;
     private final RoomEntryDao roomEntryDao;
     private final DoorEntryDao doorEntryDao;
+    private final FreeSpaceEntryDao freeSpaceEntryDao;
+    private final SwitchEntryDao switchEntryDao;
+    private final WindowEntryDao windowEntryDao;
+    private final TableEntryDao tableEntryDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -43,7 +51,10 @@ public class ReportRepository {
         parkingLotElderlyDao = db.parkingLotElderlyDao();
         roomEntryDao = db.roomEntryDao();
         doorEntryDao = db.doorEntryDao();
-
+        freeSpaceEntryDao = db.freeSpaceEntryDao();
+        switchEntryDao = db.switchEntryDao();
+        windowEntryDao = db.windowEntryDao();
+        tableEntryDao = db.tableEntryDao();
     }
 
     public LiveData<List<SchoolEntry>> getAllSchoolEntries() {
@@ -250,6 +261,22 @@ public class ReportRepository {
 
     public void deleteAllDoorsFromRoom(int schoolID, int roomID) {
         ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.deleteAllDoorsFromRoom(schoolID, roomID));
+    }
+
+    public void insertFreeSpace(FreeSpaceEntry freeSpace) {
+        ReportDatabase.dbWriteExecutor.execute(() -> freeSpaceEntryDao.insertFreeSpace(freeSpace));
+    }
+
+    public void insertSwitch(SwitchEntry switchEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> switchEntryDao.insertSwitch(switchEntry));
+    }
+
+    public void insertWindow(WindowEntry windowEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> windowEntryDao.insertWindow(windowEntry));
+    }
+
+    public void insertTable(TableEntry table) {
+        ReportDatabase.dbWriteExecutor.execute(() -> tableEntryDao.insertTable(table));
     }
 
     public void deleteAllEntries() {

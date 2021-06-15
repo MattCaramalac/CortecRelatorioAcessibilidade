@@ -15,4 +15,12 @@ public class ViewModelDialog extends ViewModel {
     public final MutableLiveData<Bundle> doorInfo = new MutableLiveData<>();
     public void setDoorInfo(Bundle bundle) {doorInfo.setValue(bundle); }
     public LiveData<Bundle> getDoorInfo() { return doorInfo; }
+
+    private final MutableLiveData<Integer> saveTableAttempt = new MutableLiveData<>();
+    public void setSaveTableAttempt (Integer integer) { saveTableAttempt.setValue(integer); }
+    public LiveData<Integer> getSaveTableAttempt() { return  saveTableAttempt; }
+
+    public final MutableLiveData<Bundle> tableInfo = new MutableLiveData<>();
+    public void setTableInfo(Bundle bundle) {tableInfo.setValue(bundle); }
+    public LiveData<Bundle> getTableInfo() { return tableInfo; }
 }

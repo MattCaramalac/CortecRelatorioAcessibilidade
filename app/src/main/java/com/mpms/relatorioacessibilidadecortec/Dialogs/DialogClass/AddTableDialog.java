@@ -9,17 +9,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.TableTypeFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.Objects;
 
@@ -31,16 +37,18 @@ public class AddTableDialog extends DialogFragment {
     TextInputEditText highestBorderValue, lowestBorderValue, widthValue, frontalApproxValue, tableObsValue;
     Toolbar toolbar;
 
-    private static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
-    private static final String ROOM_TYPE = "ROOM_TYPE";
+    Integer tableType;
+    Double highestBorder, lowestBorder, widthTable, frontalApprox;
+    String tableObs;
 
-    static int schoolID, roomType;
+    static Bundle roomBundle;
+
+    ViewModelDialog modelDialog;
 
     public static AddTableDialog addTableDialog(FragmentManager fragmentManager, Bundle bundle) {
         AddTableDialog tableDialog = new AddTableDialog();
         tableDialog.show(fragmentManager, "TABLE_DIALOG");
-        schoolID = bundle.getInt(SCHOOL_ID_VALUE);
-        roomType = bundle.getInt(ROOM_TYPE);
+        roomBundle = bundle;
         return tableDialog;
     }
 
@@ -56,7 +64,7 @@ public class AddTableDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_add_table_dialog, container, false);
         toolbar = view.findViewById(R.id.table_toolbar);
 
-        if (roomType == 11) {
+        if (roomBundle.getInt(RoomsRegisterFragment.ROOM_TYPE) == 11) {
             getChildFragmentManager().beginTransaction().replace(R.id.table_type_child_fragment, new TableTypeFragment()).commit();
         }
 
@@ -84,7 +92,31 @@ public class AddTableDialog extends DialogFragment {
         saveTable = view.findViewById(R.id.save_table);
         cancelTable = view.findViewById(R.id.cancel_table);
 
-        saveTable.setOnClickListener(v -> checkEmptyTableFields());
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+
+        modelDialog.getTableInfo().observe(getViewLifecycleOwner(), tableBundle -> {
+            if (tableBundle!= null) {
+                roomBundle.putInt(TableTypeFragment.TABLE_TYPE,tableBundle.getInt(TableTypeFragment.TABLE_TYPE));
+                TableEntry newTabEntry = newTableEntry(roomBundle);
+                ViewModelEntry.insertTablesEntry(newTabEntry);
+                clearTableFields();
+                modelDialog.setTableInfo(null);
+            }
+        });
+
+        saveTable.setOnClickListener(v -> {
+            if(checkEmptyTableFields()) {
+                if (roomBundle.getInt(RoomsRegisterFragment.ROOM_TYPE) == 11) {
+                    modelDialog.setSaveTableAttempt(1);
+                } else {
+                    TableEntry newTabEntry = newTableEntry(roomBundle);
+                    ViewModelEntry.insertTablesEntry(newTabEntry);
+                    clearTableFields();
+                }
+            } else {
+                Toast.makeText(getContext(), "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         cancelTable.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
@@ -129,5 +161,36 @@ public class AddTableDialog extends DialogFragment {
         widthField.setErrorEnabled(false);
         frontalApproxField.setErrorEnabled(false);
 
+    }
+
+    public TableEntry newTableEntry(Bundle bundle) {
+        int isClassroom = 0;
+        tableType = null;
+        highestBorder = null;
+        lowestBorder = null;
+        widthTable = null;
+        frontalApprox = null;
+        tableObs = null;
+        if (bundle.getInt(RoomsRegisterFragment.ROOM_TYPE) == 11) {
+            tableType = bundle.getInt(TableTypeFragment.TABLE_TYPE);
+            isClassroom = 1;
+        }
+        highestBorder = Double.parseDouble(Objects.requireNonNull(highestBorderValue.getText()).toString());
+        lowestBorder = Double.parseDouble(Objects.requireNonNull(lowestBorderValue.getText()).toString());
+        widthTable = Double.parseDouble(Objects.requireNonNull(widthValue.getText()).toString());
+        frontalApprox = Double.parseDouble(Objects.requireNonNull(frontalApproxValue.getText()).toString());
+        if (!TextUtils.isEmpty(tableObsValue.getText()))
+            tableObs = Objects.requireNonNull(tableObsValue.getText()).toString();
+
+        return new TableEntry(bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE),bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+                isClassroom, tableType,lowestBorder, highestBorder, widthTable, frontalApprox, tableObs);
+    }
+
+    public void clearTableFields() {
+        highestBorderValue.setText(null);
+        lowestBorderValue.setText(null);
+        widthValue.setText(null);
+        frontalApproxValue.setText(null);
+        tableObsValue.setText(null);
     }
 }

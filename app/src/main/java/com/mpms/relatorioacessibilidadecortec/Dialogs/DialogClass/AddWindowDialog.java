@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.text.TextUtils;
@@ -19,7 +18,9 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.WindowEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.Objects;
 
@@ -30,14 +31,15 @@ public class AddWindowDialog extends DialogFragment {
     Button saveWindow, cancelWindow;
     Toolbar toolbar;
 
-    static int schoolID, roomType, roomID;
+    String windowLocation, windowObs;
+    Double windowSillHeight;
+
+    static Bundle roomBundle;
 
     public static AddWindowDialog displayWindowDialog(FragmentManager fragmentManager, Bundle bundle) {
         AddWindowDialog windowDialog = new AddWindowDialog();
         windowDialog.show(fragmentManager, "WINDOW_DIALOG");
-        schoolID = bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE);
-        roomType = bundle.getInt(RoomsRegisterFragment.ROOM_TYPE);
-        roomID = bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE);
+        roomBundle = bundle;
         return windowDialog;
     }
 
@@ -72,7 +74,13 @@ public class AddWindowDialog extends DialogFragment {
         saveWindow = view.findViewById(R.id.save_window);
         cancelWindow = view.findViewById(R.id.cancel_window);
 
-        saveWindow.setOnClickListener(v -> {checkEmptySwitchFields();});
+        saveWindow.setOnClickListener(v -> {
+            if(checkEmptyWindowFields()) {
+                WindowEntry newWindow = newWindowEntry(roomBundle);
+                ViewModelEntry.insertWindowEntry(newWindow);
+                clearWindowsFields();
+            }
+        });
 
         cancelWindow.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
@@ -89,8 +97,8 @@ public class AddWindowDialog extends DialogFragment {
         }
     }
 
-    public boolean checkEmptySwitchFields() {
-        clearEmptyWindowFields();
+    public boolean checkEmptyWindowFields() {
+        clearErrorsWindowFields();
         int error = 0;
         if (TextUtils.isEmpty(windowPlaceValue.getText())) {
             windowPlaceField.setError(getString(R.string.blank_field_error));
@@ -104,9 +112,27 @@ public class AddWindowDialog extends DialogFragment {
         return error == 0;
     }
 
-    public void clearEmptyWindowFields() {
+    public void clearErrorsWindowFields() {
         windowPlaceField.setErrorEnabled(false);
         windowHeightField.setErrorEnabled(false);
 
+    }
+
+    public WindowEntry newWindowEntry(Bundle bundle) {
+        windowLocation = Objects.requireNonNull(windowPlaceValue.getText()).toString();
+        windowSillHeight = Double.parseDouble(Objects.requireNonNull(windowHeightValue.getText()).toString());
+        if (!TextUtils.isEmpty(windowObsValue.getText()))
+            windowObs = Objects.requireNonNull(windowObsValue.getText()).toString();
+        else
+            windowObs = null;
+
+        return new WindowEntry(bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE),bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+                windowLocation,windowSillHeight,windowObs);
+    }
+
+    public void clearWindowsFields() {
+        windowPlaceValue.setText(null);
+        windowHeightValue.setText(null);
+        windowObsValue.setText(null);
     }
 }

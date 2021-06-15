@@ -65,10 +65,10 @@ public class InclinationSillFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putDouble(HEIGHT_INCLINED_SILL, Double.parseDouble(Objects.requireNonNull(sillInclinationValue.getText()).toString()));
                     modelDialog.setDoorInfo(bundle);
+                    clearInclinationFieldSill();
                 }
                 modelDialog.setSaveDoorAttempt(0);
-                clearInclinationFieldSill();
-                            }
+            }
         });
 
     }
