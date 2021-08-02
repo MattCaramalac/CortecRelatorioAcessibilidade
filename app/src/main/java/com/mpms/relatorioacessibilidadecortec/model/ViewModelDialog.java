@@ -23,4 +23,12 @@ public class ViewModelDialog extends ViewModel {
     public final MutableLiveData<Bundle> tableInfo = new MutableLiveData<>();
     public void setTableInfo(Bundle bundle) {tableInfo.setValue(bundle); }
     public LiveData<Bundle> getTableInfo() { return tableInfo; }
+
+    private final MutableLiveData<Integer> saveGateObsAttempt = new MutableLiveData<>();
+    public void setSaveGateObsAttempt (Integer integer) { saveGateObsAttempt.setValue(integer); }
+    public LiveData<Integer> getSaveGateObsAttempt() { return  saveGateObsAttempt; }
+
+    public final MutableLiveData<Bundle> gateObsInfo = new MutableLiveData<>();
+    public void setGateObsInfo(Bundle bundle) {gateObsInfo.setValue(bundle); }
+    public LiveData<Bundle> getGateObsInfo() { return gateObsInfo; }
 }

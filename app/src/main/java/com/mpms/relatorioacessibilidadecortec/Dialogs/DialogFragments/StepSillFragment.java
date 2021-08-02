@@ -67,7 +67,7 @@ public class StepSillFragment extends Fragment {
                     modelDialog.setDoorInfo(bundle);
                     clearStepField();
                 }
-                modelDialog.setSaveTableAttempt(0);
+                modelDialog.setSaveDoorAttempt(0);
             }
         });
     }

@@ -223,10 +223,18 @@
     <string name="hint_inferior_border_table_height">Altura da borda inferior da mesa</string>
     <string name="hint_table_width">Largura da mesa</string>
     <string name="hint_frontal_approx_table">Medida da aproximação frontal</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_table_type_header">Tipo de mesa analisada</string>
     <string name="radio_option_teacher_table">MESA PROFESSOR</string>
     <string name="radio_option_student_table">MESA ALUNO</string>
     <string name="hint_location_free_space">Localização da faixa livre</string>
+    <string name="gate_obstacle_location_hint">Ponto de Referência Cancela Entrada</string>
+    <string name="label_gate_obstacle_situation">O tipo de acesso está de acordo com a norma?</string>
+    <string name="hint_gate_obstacles_obs">Obserações sobre a cancela</string>
+    <string name="dialog_add_gate_obstacle_header">Adicionar Cancelas</string>
+    <string name="label_gate_obs_type_header">Qual é o tipo de acesso utilizado pela PCD?</string>
+    <string name="radio_option_gate">PORTA DE ACESSO</string>
+    <string name="radio_option_gate_bar">CANCELA</string>
+    <string name="hint_gate_door_width">Largura Portão de Acesso</string>
+    <string name="hint_gate_barrier_height">Altura do Comando da Cancela</string>
+    <string name="hint_gate_barrier_width">Largura da Cancela</string>
 </resources>
