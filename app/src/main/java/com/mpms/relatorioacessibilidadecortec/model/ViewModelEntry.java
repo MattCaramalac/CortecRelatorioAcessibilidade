@@ -1,7 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.model;
 
 import android.app.Application;
-import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -269,8 +268,8 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertGateObs(gateObs));
     }
 
-    public LiveData<List<GateObsEntry>> selectAllGateObsEntries(int SchoolEntryID) {
-        return repository.selectAllGateObsEntries(SchoolEntryID);
+    public LiveData<List<GateObsEntry>> selectAllGateObsEntries(int externalAccessID) {
+        return repository.selectAllGateObsEntries(externalAccessID);
     }
 
     public LiveData<List<GateObsEntry>> selectGateObsEntry(int gateObsID) {
@@ -281,20 +280,20 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateGateObs(gateObs));
     }
 
-    public static void deleteGateObsEntry(int SchoolEntryID, int gateObsID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteGateObsEntry(SchoolEntryID, gateObsID));
+    public static void deleteGateObsEntry(int gateObsID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteGateObsEntry(gateObsID));
     }
 
-    public static void deleteAllGateObsEntries(int SchoolEntryID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllGateObsEntries(SchoolEntryID));
+    public static void deleteAllGateObsEntries(int externalAccessID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllGateObsEntries(externalAccessID));
     }
 
     public static void insertPayPhone (PayPhoneEntry payPhone) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertPayPhone(payPhone));
     }
 
-    public LiveData<List<PayPhoneEntry>> selectAllPayPhones(int SchoolEntryID) {
-        return repository.selectAllPayPhones(SchoolEntryID);
+    public LiveData<List<PayPhoneEntry>> selectAllPayPhones(int externalAccessID) {
+        return repository.selectAllPayPhones(externalAccessID);
     }
 
     public LiveData<List<PayPhoneEntry>> selectPayPhoneEntry(int payPhoneID) {
@@ -305,12 +304,12 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updatePayPhone(payPhone));
     }
 
-    public void deletePayPhoneEntry(int SchoolEntryID, int payPhoneID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deletePayPhoneEntry(SchoolEntryID, payPhoneID));
+    public void deletePayPhoneEntry(int payPhoneID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deletePayPhoneEntry(payPhoneID));
     }
 
-    public void deleteAllPayPhones(int SchoolEntryID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllPayPhones(SchoolEntryID));
+    public void deleteAllPayPhones(int externalAccessID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllPayPhones(externalAccessID));
     }
 
 }

@@ -3,9 +3,6 @@ package com.mpms.relatorioacessibilidadecortec.data;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
@@ -291,8 +288,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> gateObsDao.insertGateObs(gateObs));
     }
 
-    public LiveData<List<GateObsEntry>> selectAllGateObsEntries(int SchoolEntryID) {
-        return gateObsDao.selectAllGateObsEntries(SchoolEntryID);
+    public LiveData<List<GateObsEntry>> selectAllGateObsEntries(int externalAccessID) {
+        return gateObsDao.selectAllGateObsEntries(externalAccessID);
     }
 
     public LiveData<List<GateObsEntry>> selectGateObsEntry(int gateObsID) {
@@ -303,12 +300,12 @@ public class ReportRepository {
        ReportDatabase.dbWriteExecutor.execute(() -> gateObsDao.updateGateObs(gateObs));
    }
 
-    public void deleteGateObsEntry(int SchoolEntryID, int gateObsID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> gateObsDao.deleteGateObsEntry(SchoolEntryID, gateObsID));
+    public void deleteGateObsEntry(int gateObsID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> gateObsDao.deleteGateObsEntry(gateObsID));
     }
 
-   public void deleteAllGateObsEntries(int SchoolEntryID) {
-       ReportDatabase.dbWriteExecutor.execute(() -> gateObsDao.deleteAllGateObsEntries(SchoolEntryID));
+   public void deleteAllGateObsEntries(int externalAccessID) {
+       ReportDatabase.dbWriteExecutor.execute(() -> gateObsDao.deleteAllGateObsEntries(externalAccessID));
    }
 
     public void insertPayPhone (PayPhoneEntry payPhone) {
@@ -327,12 +324,12 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.updatePayPhone(payPhone));
     }
 
-    public void deletePayPhoneEntry(int SchoolEntryID, int payPhoneID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.deletePayPhoneEntry(SchoolEntryID, payPhoneID));
+    public void deletePayPhoneEntry(int payPhoneID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.deletePayPhoneEntry(payPhoneID));
     }
 
-   public void deleteAllPayPhones(int SchoolEntryID) {
-       ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.deleteAllPayPhones(SchoolEntryID));
+   public void deleteAllPayPhones(int externalAccessID) {
+       ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.deleteAllPayPhones(externalAccessID));
    }
 
     public void deleteAllEntries() {

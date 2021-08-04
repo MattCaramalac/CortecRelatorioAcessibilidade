@@ -8,21 +8,24 @@ import io.reactivex.annotations.NonNull;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = @ForeignKey(entity = SchoolEntry.class, parentColumns = "cadID", childColumns = "schoolEntryID",
-        onDelete = CASCADE, onUpdate = CASCADE))
+@Entity (foreignKeys =
+        @ForeignKey(entity = ExternalAccess.class,
+            parentColumns = "externalAccessID",
+            childColumns = "externalAccessID",
+            onDelete = CASCADE, onUpdate = CASCADE))
 public class PayPhoneEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int payPhoneID;
-    private int schoolEntryID;
+    private int externalAccessID;
 
     private String phoneRefPoint;
     private Double phoneOpHeight;
     private Integer hasTactileFloor;
     private String payPhoneObs;
 
-    public PayPhoneEntry(int schoolEntryID, String phoneRefPoint, Double phoneOpHeight, Integer hasTactileFloor, String payPhoneObs) {
-        this.schoolEntryID = schoolEntryID;
+    public PayPhoneEntry(int externalAccessID, String phoneRefPoint, Double phoneOpHeight, Integer hasTactileFloor, String payPhoneObs) {
+        this.externalAccessID = externalAccessID;
         this.phoneRefPoint = phoneRefPoint;
         this.phoneOpHeight = phoneOpHeight;
         this.hasTactileFloor = hasTactileFloor;
@@ -37,12 +40,12 @@ public class PayPhoneEntry {
         this.payPhoneID = payPhoneID;
     }
 
-    public int getSchoolEntryID() {
-        return schoolEntryID;
+    public int getExternalAccessID() {
+        return externalAccessID;
     }
 
-    public void setSchoolEntryID(int schoolEntryID) {
-        this.schoolEntryID = schoolEntryID;
+    public void setExternalAccessID(int externalAccessID) {
+        this.externalAccessID = externalAccessID;
     }
 
     public String getPhoneRefPoint() {

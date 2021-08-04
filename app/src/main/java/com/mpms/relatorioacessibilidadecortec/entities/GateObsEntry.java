@@ -8,13 +8,16 @@ import io.reactivex.annotations.NonNull;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = @ForeignKey(entity = SchoolEntry.class, parentColumns = "cadID", childColumns = "schoolEntryID",
-                onDelete = CASCADE, onUpdate = CASCADE))
+@Entity (foreignKeys =
+        @ForeignKey(entity = ExternalAccess.class,
+            parentColumns = "externalAccessID",
+            childColumns = "externalAccessID",
+            onDelete = CASCADE, onUpdate = CASCADE))
 public class GateObsEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int gateObsID;
-    private int schoolEntryID;
+    private int externalAccessID;
 
     private String accessRefPoint;
     private Integer accessibleEntrance;
@@ -24,9 +27,9 @@ public class GateObsEntry {
     private Double barrierWidth;
     private String gateObstacleObs;
 
-    public GateObsEntry(int schoolEntryID, String accessRefPoint, Integer accessibleEntrance, Integer accessType,
+    public GateObsEntry(int externalAccessID, String accessRefPoint, Integer accessibleEntrance, Integer accessType,
                         Double gateDoorWidth, Double barrierHeight, Double barrierWidth, String gateObstacleObs) {
-        this.schoolEntryID = schoolEntryID;
+        this.externalAccessID = externalAccessID;
         this.accessRefPoint = accessRefPoint;
         this.accessibleEntrance = accessibleEntrance;
         this.accessType = accessType;
@@ -44,12 +47,12 @@ public class GateObsEntry {
         this.gateObsID = gateObsID;
     }
 
-    public int getSchoolEntryID() {
-        return schoolEntryID;
+    public int getExternalAccessID() {
+        return externalAccessID;
     }
 
-    public void setSchoolEntryID(int schoolEntryID) {
-        this.schoolEntryID = schoolEntryID;
+    public void setExternalAccessID(int externalAccessID) {
+        this.externalAccessID = externalAccessID;
     }
 
     public String getAccessRefPoint() {
