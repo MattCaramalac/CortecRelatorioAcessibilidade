@@ -3,16 +3,19 @@ package com.mpms.relatorioacessibilidadecortec.data;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
+import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
@@ -39,6 +42,8 @@ public class ReportRepository {
     private final SwitchEntryDao switchEntryDao;
     private final WindowEntryDao windowEntryDao;
     private final TableEntryDao tableEntryDao;
+    private final GateObsDao gateObsDao;
+    private final PayPhoneDao payPhoneDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -55,6 +60,9 @@ public class ReportRepository {
         switchEntryDao = db.switchEntryDao();
         windowEntryDao = db.windowEntryDao();
         tableEntryDao = db.tableEntryDao();
+        payPhoneDao = db.payPhoneDao();
+        gateObsDao = db.gateObsDao();
+
     }
 
     public LiveData<List<SchoolEntry>> getAllSchoolEntries() {
@@ -279,7 +287,55 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> tableEntryDao.insertTable(table));
     }
 
+    public void insertGateObs (GateObsEntry gateObs) {
+        ReportDatabase.dbWriteExecutor.execute(() -> gateObsDao.insertGateObs(gateObs));
+    }
+
+    public LiveData<List<GateObsEntry>> selectAllGateObsEntries(int SchoolEntryID) {
+        return gateObsDao.selectAllGateObsEntries(SchoolEntryID);
+    }
+
+    public LiveData<List<GateObsEntry>> selectGateObsEntry(int gateObsID) {
+        return gateObsDao.selectGateObsEntry(gateObsID);
+    }
+
+   public void updateGateObs (GateObsEntry gateObs) {
+       ReportDatabase.dbWriteExecutor.execute(() -> gateObsDao.updateGateObs(gateObs));
+   }
+
+    public void deleteGateObsEntry(int SchoolEntryID, int gateObsID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> gateObsDao.deleteGateObsEntry(SchoolEntryID, gateObsID));
+    }
+
+   public void deleteAllGateObsEntries(int SchoolEntryID) {
+       ReportDatabase.dbWriteExecutor.execute(() -> gateObsDao.deleteAllGateObsEntries(SchoolEntryID));
+   }
+
+    public void insertPayPhone (PayPhoneEntry payPhone) {
+        ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.insertPayPhone(payPhone));
+    }
+
+    public LiveData<List<PayPhoneEntry>> selectAllPayPhones(int SchoolEntryID) {
+        return payPhoneDao.selectAllPayPhones(SchoolEntryID);
+    }
+
+    public LiveData<List<PayPhoneEntry>> selectPayPhoneEntry(int payPhoneID) {
+        return payPhoneDao.selectPayPhoneEntry(payPhoneID);
+    }
+
+    public void updatePayPhone (PayPhoneEntry payPhone) {
+        ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.updatePayPhone(payPhone));
+    }
+
+    public void deletePayPhoneEntry(int SchoolEntryID, int payPhoneID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.deletePayPhoneEntry(SchoolEntryID, payPhoneID));
+    }
+
+   public void deleteAllPayPhones(int SchoolEntryID) {
+       ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.deleteAllPayPhones(SchoolEntryID));
+   }
+
     public void deleteAllEntries() {
-        ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.deleteAll());
+        ReportDatabase.dbWriteExecutor.execute(schoolEntryDao::deleteAll);
     }
 }

@@ -12,10 +12,12 @@ import com.mpms.relatorioacessibilidadecortec.data.ReportRepository;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
+import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
@@ -261,6 +263,54 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void insertTablesEntry(TableEntry tableEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertTable(tableEntry));
+    }
+
+    public void insertGateObs (GateObsEntry gateObs) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertGateObs(gateObs));
+    }
+
+    public LiveData<List<GateObsEntry>> selectAllGateObsEntries(int SchoolEntryID) {
+        return repository.selectAllGateObsEntries(SchoolEntryID);
+    }
+
+    public LiveData<List<GateObsEntry>> selectGateObsEntry(int gateObsID) {
+        return repository.selectGateObsEntry(gateObsID);
+    }
+
+    public static void updateGateObs (GateObsEntry gateObs) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateGateObs(gateObs));
+    }
+
+    public static void deleteGateObsEntry(int SchoolEntryID, int gateObsID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteGateObsEntry(SchoolEntryID, gateObsID));
+    }
+
+    public static void deleteAllGateObsEntries(int SchoolEntryID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllGateObsEntries(SchoolEntryID));
+    }
+
+    public static void insertPayPhone (PayPhoneEntry payPhone) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertPayPhone(payPhone));
+    }
+
+    public LiveData<List<PayPhoneEntry>> selectAllPayPhones(int SchoolEntryID) {
+        return repository.selectAllPayPhones(SchoolEntryID);
+    }
+
+    public LiveData<List<PayPhoneEntry>> selectPayPhoneEntry(int payPhoneID) {
+        return repository.selectPayPhoneEntry(payPhoneID);
+    }
+
+    public void updatePayPhone (PayPhoneEntry payPhone) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updatePayPhone(payPhone));
+    }
+
+    public void deletePayPhoneEntry(int SchoolEntryID, int payPhoneID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deletePayPhoneEntry(SchoolEntryID, payPhoneID));
+    }
+
+    public void deleteAllPayPhones(int SchoolEntryID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllPayPhones(SchoolEntryID));
     }
 
 }
