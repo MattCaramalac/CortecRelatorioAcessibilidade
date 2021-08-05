@@ -3,6 +3,7 @@ package com.mpms.relatorioacessibilidadecortec.data;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Query;
 
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
@@ -116,6 +117,10 @@ public class ReportRepository {
 
     public LiveData<ExternalAccess> getOneExternalAccess(int externalAccessID) {
         return externalAccessDao.getOneExternalAccess(externalAccessID);
+    }
+
+    public LiveData<ExternalAccess> getLastExternalAccess() {
+        return externalAccessDao.getLastExternalAccess();
     }
 
     public void insertExternalAccess(ExternalAccess externalAccess) {

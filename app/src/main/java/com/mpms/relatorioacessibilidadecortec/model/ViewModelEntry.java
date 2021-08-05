@@ -172,6 +172,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getOneExternalAccess(externalAccessID);
     }
 
+    public LiveData<ExternalAccess> getLastExternalAccess() {
+        return repository.getLastExternalAccess();
+    }
+
     public LiveData<List<OtherSpaces>> selectAllSpaces(int schoolEntryID) {
         return repository.selectAllSpaces(schoolEntryID);
     }

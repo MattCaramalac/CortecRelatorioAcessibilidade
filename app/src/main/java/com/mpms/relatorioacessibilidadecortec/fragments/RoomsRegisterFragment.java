@@ -132,6 +132,8 @@ public class RoomsRegisterFragment extends Fragment {
         obsVisualSignValue = view.findViewById(R.id.visual_sign_obs_value);
         obsTactileSignValue = view.findViewById(R.id.tactile_sign_obs_value);
 
+//        Este método só funciona para salas recem-criadas. Não será util para atualização de salas.
+//        TODO - Alterar o método de seleção de sala alterada
         modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> {
             if (update == 0 && buttonChoice != -1) {
                 recentRoomID = lastRoom.getRoomID();
@@ -286,18 +288,14 @@ public class RoomsRegisterFragment extends Fragment {
     }
 
     public RoomEntry newRoomEntry(Bundle bundle) {
-        if (hasVisualSign.getCheckedRadioButtonId() != -1) {
+        if (hasVisualSign.getCheckedRadioButtonId() != -1)
             hasVisSign = getCheckedRadioButton(hasVisualSign);
-        }
-        if (!TextUtils.isEmpty(obsVisualSignValue.getText())) {
+        if (!TextUtils.isEmpty(obsVisualSignValue.getText()))
             obsVisSign = Objects.requireNonNull(obsVisualSignValue.getText()).toString();
-        }
-        if (hasTactileSign.getCheckedRadioButtonId() != -1) {
+        if (hasTactileSign.getCheckedRadioButtonId() != -1)
             hasTactSign = getCheckedRadioButton(hasTactileSign);
-        }
-        if (!TextUtils.isEmpty(obsTactileSignValue.getText())) {
+        if (!TextUtils.isEmpty(obsTactileSignValue.getText()))
             obsTactSign = Objects.requireNonNull(obsTactileSignValue.getText()).toString();
-        }
 
         switch (chosenOption) {
             case 3:

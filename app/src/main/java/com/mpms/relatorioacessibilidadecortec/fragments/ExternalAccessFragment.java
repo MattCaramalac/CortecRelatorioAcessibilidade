@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.Objects;
@@ -32,7 +33,24 @@ public class ExternalAccessFragment extends Fragment {
     Button hasTrailRampButton, hasGateObstaclesButton, hasGatePayphonesButton, saveExternalAccess, cancelExternalAccess;
     TextView accessTypeError, hasSiaError, hasTrailRampError, hasGateObstaclesError, hasGatePayphonesError;
 
+    Bundle extBundle = new Bundle();
+
+//    TODO - Será usado para os casos onde a informação já foi cadastrada, está sendo acessada novamente para possível alteração
+    int existingEntry = 0;
+
+    Integer typeExtAccess, hasSia, hasTrailRamp, hasGateObs, hasPayphone;
+//    TODO - Implementar contadores de registros, impedir gravação sem ao menos um registro salvo (quando marcado sim)
+    //Integer trailCounter, obsCounter, payphoneCounter (a implementar)
+    String floorType;
+    Double gateWidth, gateTrailHeight;
+
     private static int schoolID;
+
+    private int extButtonChoice = -1;
+    private int upCounter = 0;
+    private int lastExtAccess;
+
+    private ViewModelEntry modelEntry;
 
     public ExternalAccessFragment() {
         // Required empty public constructor
@@ -45,9 +63,9 @@ public class ExternalAccessFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle schoolBundle = this.getArguments();
-        if(schoolBundle != null) {
-            schoolID = schoolBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
+        extBundle = this.getArguments();
+        if(extBundle != null) {
+            schoolID = extBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
         }
     }
 
@@ -92,17 +110,60 @@ public class ExternalAccessFragment extends Fragment {
         radioGroupActivation(hasGateObstaclesRadio, hasGateObstaclesButton);
         radioGroupActivation(hasGatePayphonesRadio, hasGatePayphonesButton);
 
+//        TODO - Corrigir a referência a um objeto nulo. Verificar como está sendo feito no RoomRegister
+        modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), lastAccess -> {
+            if (upCounter == 0 && extButtonChoice != -1) {
+                lastExtAccess = lastAccess.getExternalAccessID();
+            }
+        });
+
+        hasTrailRampButton.setOnClickListener(v -> {
+            extButtonChoice = 0;
+            saveUpdateDialogClick();
+        });
+
+        hasGateObstaclesButton.setOnClickListener(v -> {
+            extButtonChoice = 1;
+            saveUpdateDialogClick();
+        });
+
+        hasGatePayphonesButton.setOnClickListener(v -> {
+            extButtonChoice = 2;
+            saveUpdateDialogClick();
+        });
+
         cancelExternalAccess.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
-        saveExternalAccess.setOnClickListener(v -> {
-            if(checkEmptyFields()) {
-                ExternalAccess newAccess = createNewAccess();
-                ViewModelEntry.insertExternalAccess(newAccess);
-                clearFields();
-                Toast.makeText(getContext(), "Cadastro Efetuado com Sucesso", Toast.LENGTH_SHORT).show();
+////        TODO - Alterar o método de salvar para garantir gravação de dados ao clicar nos botões
+//        saveExternalAccess.setOnClickListener(v -> {
+//            if(checkEmptyFields()) {
+//                ExternalAccess newAccess = createNewAccess();
+//                ViewModelEntry.insertExternalAccess(newAccess);
+//                clearFields();
+//                Toast.makeText(getContext(), "Cadastro Efetuado com Sucesso", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
 
-            }
+        saveExternalAccess.setOnClickListener(v -> {
+            if (checkEmptyFields()) {
+                if (upCounter == 0) {
+                    ExternalAccess newAccess = newExtAccess();
+                    ViewModelEntry.insertExternalAccess(newAccess);
+                    clearFields();
+                } else if (upCounter > 0) {
+                    ExternalAccess upAccess = newExtAccess();
+                    upAccess.setExternalAccessID(lastExtAccess);
+                    ViewModelEntry.updateExternalAccess(upAccess);
+                    existingEntry = 0;
+                    clearFields();
+                } else {
+                    Toast.makeText(getContext(), "Algo inesperado ocorreu. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                    clearFields();
+                }
+            } else
+                Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
         });
 
     }
@@ -172,18 +233,6 @@ public class ExternalAccessFragment extends Fragment {
         gateTrailHeightField.setErrorEnabled(false);
     }
 
-    public ExternalAccess createNewAccess() {
-        return new ExternalAccess(schoolID,
-                getCheckedButton(entranceType),
-                getCheckedButton(hasSiaRadio),
-                Objects.requireNonNull(floorTypeValue.getText()).toString(),
-                Double.parseDouble(Objects.requireNonNull(gateWidthValue.getText()).toString()),
-                Double.parseDouble(Objects.requireNonNull(gateTrailHeightValue.getText()).toString()),
-                getCheckedButton(hasTrailRampRadio),
-                getCheckedButton(hasGateObstaclesRadio),
-                getCheckedButton(hasGatePayphonesRadio));
-    }
-
     public void clearFields() {
         entranceType.clearCheck();
         hasSiaRadio.clearCheck();
@@ -193,6 +242,78 @@ public class ExternalAccessFragment extends Fragment {
         hasTrailRampRadio.clearCheck();
         hasGateObstaclesRadio.clearCheck();
         hasGatePayphonesRadio.clearCheck();
+    }
+
+    public ExternalAccess newExtAccess() {
+        if (entranceType.getCheckedRadioButtonId() != -1)
+            typeExtAccess = getCheckedButton(entranceType);
+        if (hasSiaRadio.getCheckedRadioButtonId() != -1)
+            hasSia = getCheckedButton(hasSiaRadio);
+        if (!TextUtils.isEmpty(floorTypeValue.getText()))
+            floorType = Objects.requireNonNull(floorTypeValue.getText()).toString();
+        if (!TextUtils.isEmpty(gateWidthValue.getText()))
+            gateWidth = Double.parseDouble(Objects.requireNonNull(gateWidthValue.getText()).toString());
+        if (!TextUtils.isEmpty(gateTrailHeightValue.getText()))
+            gateTrailHeight = Double.parseDouble(Objects.requireNonNull(gateTrailHeightValue.getText()).toString());
+        if (hasTrailRampRadio.getCheckedRadioButtonId() != -1)
+            hasTrailRamp = getCheckedButton(hasTrailRampRadio);
+        if (hasGateObstaclesRadio.getCheckedRadioButtonId() != -1)
+            hasGateObs = getCheckedButton(hasGateObstaclesRadio);
+        if (hasGatePayphonesRadio.getCheckedRadioButtonId() != -1)
+            hasTrailRamp = getCheckedButton(hasGatePayphonesRadio);
+
+        return new ExternalAccess(schoolID, typeExtAccess, hasSia, floorType, gateWidth, gateTrailHeight, hasTrailRamp,
+                hasGateObs, hasPayphone);
+    }
+
+    public void saveUpdateDialogClick() {
+
+        if (upCounter == 0) {
+            upCounter++;
+            ExternalAccess newAccess = newExtAccess();
+            ViewModelEntry.insertExternalAccess(newAccess);
+        } else if (upCounter > 0) {
+            upCounter++;
+            ExternalAccess upAccess = newExtAccess();
+            if (existingEntry == 0) {
+                upAccess.setExternalAccessID(lastExtAccess);
+                ViewModelEntry.updateExternalAccess(upAccess);
+            } else if (existingEntry == 1) {
+// TODO - Inserir método para captar ExternalID
+                ViewModelEntry.updateExternalAccess(upAccess);
+            } else {
+                existingEntry = 0;
+                Toast.makeText(getContext(), "Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            upCounter = 0;
+            Toast.makeText(getContext(), "Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
+        }
+
+        switch (extButtonChoice) {
+            case 0:
+                addTrailRampDialog();
+                break;
+            case 1:
+                addGateObsDialog();
+                break;
+            case 2:
+                addPayPhoneDialog();
+                break;
+        }
+        extButtonChoice = -1;
+    }
+
+    private void addTrailRampDialog() {
+//        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+    }
+
+    private void addGateObsDialog() {
+//        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+    }
+
+    private void addPayPhoneDialog() {
+//        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
     }
 
 }

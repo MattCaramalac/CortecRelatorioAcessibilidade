@@ -23,6 +23,9 @@ public interface ExternalAccessDao {
     @Query("SELECT * FROM ExternalAccess WHERE externalAccessID == :externalAccessID")
     LiveData<ExternalAccess> getOneExternalAccess(int externalAccessID);
 
+    @Query("SELECT * FROM ExternalAccess WHERE externalAccessID == (SELECT MAX(externalAccessID) from ExternalAccess)")
+    LiveData<ExternalAccess> getLastExternalAccess();
+
     @Update
     void updateExternalAccess(ExternalAccess externalAccess);
 

@@ -188,7 +188,7 @@
     <string name="label_fountain_has_cup_holder">Bebedouro possui porta-copos?</string>
     <string name="hint_cup_holder_height">Altura do porta-copos</string>
     <string name="label_external_access_header">Acesso Externo</string>
-    <string name="label_external_access_type">Tipo de Accesso Externo</string>
+    <string name="label_external_access_type">Tipo de Acesso Externo</string>
     <string name="label_social_entrance_radio">ENTRADA SOCIAL</string>
     <string name="label_cars_entrance_radio">ENTRADA VEÍCULOS</string>
     <string name="header_other_spaces">Registro de Outros Ambientes</string>
