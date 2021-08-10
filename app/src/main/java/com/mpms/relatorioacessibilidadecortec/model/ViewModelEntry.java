@@ -268,7 +268,7 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertTable(tableEntry));
     }
 
-    public void insertGateObs (GateObsEntry gateObs) {
+    public static void insertGateObs (GateObsEntry gateObs) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertGateObs(gateObs));
     }
 
