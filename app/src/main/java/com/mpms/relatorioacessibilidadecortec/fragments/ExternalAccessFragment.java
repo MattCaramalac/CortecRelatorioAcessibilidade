@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -34,6 +35,8 @@ public class ExternalAccessFragment extends Fragment {
     TextView accessTypeError, hasSiaError, hasTrailRampError, hasGateObstaclesError, hasGatePayphonesError;
 
     Bundle extBundle = new Bundle();
+
+    int saveAttempt = 0;
 
 //    TODO - Será usado para os casos onde a informação já foi cadastrada, está sendo acessada novamente para possível alteração
     int existingEntry = 0;
@@ -73,6 +76,8 @@ public class ExternalAccessFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+
         return inflater.inflate(R.layout.fragment_external_access, container, false);
     }
 
@@ -110,10 +115,11 @@ public class ExternalAccessFragment extends Fragment {
         radioGroupActivation(hasGateObstaclesRadio, hasGateObstaclesButton);
         radioGroupActivation(hasGatePayphonesRadio, hasGatePayphonesButton);
 
-//        TODO - Corrigir a referência a um objeto nulo. Verificar como está sendo feito no RoomRegister
         modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), lastAccess -> {
-            if (upCounter == 0 && extButtonChoice != -1) {
+            if (saveAttempt == 1) {
                 lastExtAccess = lastAccess.getExternalAccessID();
+                Toast.makeText(getContext(), "Teste Observer" + lastExtAccess, Toast.LENGTH_SHORT).show();
+                saveAttempt = 0;
             }
         });
 
@@ -269,9 +275,10 @@ public class ExternalAccessFragment extends Fragment {
     public void saveUpdateDialogClick() {
 
         if (upCounter == 0) {
-            upCounter++;
             ExternalAccess newAccess = newExtAccess();
             ViewModelEntry.insertExternalAccess(newAccess);
+            upCounter++;
+            saveAttempt = 1;
         } else if (upCounter > 0) {
             upCounter++;
             ExternalAccess upAccess = newExtAccess();

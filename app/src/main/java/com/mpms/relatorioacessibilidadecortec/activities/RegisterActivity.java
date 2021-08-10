@@ -54,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     Button saveCloseButton, saveContinueButton, updateEntryButton, updateContinueButton;
     CheckBox hasMorningClasses, hasAfternoonClasses, hasEveningClasses, hasMaternal, hasPreschool, hasElementary, hasMiddle, hasHigh, hasEJA;
     private int cadID, lastCadID;
-    private SchoolEntry lastEntry;
 
     @SuppressLint({"SetTextI18n", "CheckResult"})
     @Override
@@ -571,7 +570,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         } else {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(dateLong);
-            return checkIfLessThanTen(calendar.DAY_OF_MONTH) + "/" + checkIfLessThanTen((calendar.MONTH + 1)) + "/" + calendar.YEAR;
+            return checkIfLessThanTen(Calendar.DAY_OF_MONTH) + "/" + checkIfLessThanTen((Calendar.MONTH + 1)) + "/" + Calendar.YEAR;
         }
     }
 
