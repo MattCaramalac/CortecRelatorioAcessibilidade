@@ -24,11 +24,19 @@ public class ViewModelDialog extends ViewModel {
     public void setTableInfo(Bundle bundle) {tableInfo.setValue(bundle); }
     public LiveData<Bundle> getTableInfo() { return tableInfo; }
 
-    private final MutableLiveData<Integer> saveGateObsAttempt = new MutableLiveData<>();
-    public void setSaveGateObsAttempt (Integer integer) { saveGateObsAttempt.setValue(integer); }
-    public LiveData<Integer> getSaveGateObsAttempt() { return  saveGateObsAttempt; }
+    private final MutableLiveData<Integer> saveGateObsAttemptOne = new MutableLiveData<>();
+    public void setSaveGateObsAttemptOne(Integer integer) { saveGateObsAttemptOne.setValue(integer); }
+    public LiveData<Integer> getSaveGateObsAttemptOne() { return saveGateObsAttemptOne; }
+
+    private final MutableLiveData<Integer> saveGateObsAttemptTwo = new MutableLiveData<>();
+    public void setSaveGateObsAttemptTwo(Integer integer) { saveGateObsAttemptTwo.setValue(integer); }
+    public LiveData<Integer> getSaveGateObsAttemptTwo() { return saveGateObsAttemptTwo; }
 
     public final MutableLiveData<Bundle> gateObsInfo = new MutableLiveData<>();
     public void setGateObsInfo(Bundle bundle) {gateObsInfo.setValue(bundle); }
     public LiveData<Bundle> getGateObsInfo() { return gateObsInfo; }
+
+    public final MutableLiveData<Bundle> tempGateObsInfo = new MutableLiveData<>();
+    public void setTempGateObsInfo(Bundle bundle) { tempGateObsInfo.setValue(bundle); }
+    public LiveData<Bundle> getTempGateObsInfo() { return tempGateObsInfo; }
 }
