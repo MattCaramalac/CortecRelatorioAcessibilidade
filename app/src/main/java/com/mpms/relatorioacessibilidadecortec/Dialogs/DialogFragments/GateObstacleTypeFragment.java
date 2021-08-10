@@ -15,7 +15,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddDoorDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 
@@ -61,16 +60,21 @@ public class GateObstacleTypeFragment extends Fragment {
 
         modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
 
-        modelDialog.getSaveGateObsAttempt().observe(getViewLifecycleOwner(), gateObsAttempt -> {
-            if (checkEmptyGateTypeRadio()) {
-                if (Objects.equals(modelDialog.getSaveGateObsAttempt().getValue(), 2)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(GATE_OBS_TYPE, getCheckedRadio(gateObsType));
-                    modelDialog.setGateObsInfo(bundle);
-                    clearRadioGateObsType();
-                    modelDialog.setSaveGateObsAttempt(0);
+        modelDialog.getSaveGateObsAttemptOne().observe(getViewLifecycleOwner(), partOne -> {
+            if (Objects.equals(modelDialog.getSaveGateObsAttemptOne().getValue(), 1)) {
+                if(checkEmptyGateTypeRadio()) {
+                   modelDialog.setSaveGateObsAttemptTwo(1);
                 }
+                modelDialog.setSaveGateObsAttemptOne(0);
             }
+        });
+
+        modelDialog.getTempGateObsInfo().observe(getViewLifecycleOwner(), tempBundle -> {
+            if (tempBundle != null) {
+                tempBundle.putInt(GATE_OBS_TYPE, getCheckedRadio(gateObsType));
+                modelDialog.setGateObsInfo(tempBundle);
+            }
+            modelDialog.setTempGateObsInfo(null);
         });
 
         gateObsType.setOnCheckedChangeListener((group, checkedID) -> {

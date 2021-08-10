@@ -2,6 +2,7 @@ package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.GateObsDoorType;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.GateObstacleTypeFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
@@ -40,10 +45,8 @@ public class AddGateObsDialog extends DialogFragment {
 
     ViewModelDialog modelDialog;
 
-    ViewModelEntry modelEntry;
-
     String referencePoint, obstacleObs;
-    Integer accessibleEntrance, entranceObsType;
+    Integer accessibleEntrance, accessType;
     Double entranceGateWidth, gateBarrierHeight, gateBarrierWidth;
 
     public static AddGateObsDialog displayGateDialog(FragmentManager manager, Bundle bundle) {
@@ -86,6 +89,8 @@ public class AddGateObsDialog extends DialogFragment {
 
         manager = getChildFragmentManager();
 
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+
         gateObstacleSituation.setOnCheckedChangeListener(((group, checkedId) -> {
             int index = getCheckedRadio(group);
             if (index == 1)
@@ -95,10 +100,20 @@ public class AddGateObsDialog extends DialogFragment {
             }
         }));
 
+        modelDialog.getGateObsInfo().observe(getViewLifecycleOwner(), gateBundle -> {
+            if (gateBundle != null) {
+                GateObsEntry newObs = newObstacle(gateBundle);
+                ViewModelEntry.insertGateObs(newObs);
+                modelDialog.setGateObsInfo(null);
+            }
+        });
+
         saveGateObs.setOnClickListener(v -> {
             if (checkEmptyFields()) {
                 if(getCheckedRadio(gateObstacleSituation) == 0) {
 
+                } else {
+                    modelDialog.setSaveGateObsAttemptOne(1);
                 }
 
             }
@@ -120,6 +135,29 @@ public class AddGateObsDialog extends DialogFragment {
         }
     }
 
+    public GateObsEntry newObstacle(Bundle bundle) {
+        entranceGateWidth = null;
+        gateBarrierHeight = null;
+        gateBarrierWidth = null;
+        obstacleObs = null;
+
+        referencePoint = Objects.requireNonNull(referencePointValue.getText()).toString();
+        accessibleEntrance = getCheckedRadio(gateObstacleSituation);
+        if(accessibleEntrance == 1)
+            accessType = bundle.getInt(GateObstacleTypeFragment.GATE_OBS_TYPE);
+        if (accessType == 0) {
+
+        } else {
+            entranceGateWidth = bundle.getDouble(GateObsDoorType.OBS_GATE_WIDTH);
+        }
+
+        if (!TextUtils.isEmpty(obsValue.getText()))
+            obstacleObs = Objects.requireNonNull(obsValue.getText()).toString();
+
+        return new GateObsEntry(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID), referencePoint, accessibleEntrance, accessType,
+                gateBarrierWidth, gateBarrierHeight, entranceGateWidth, obstacleObs);
+
+    }
 
     public int getCheckedRadio(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
@@ -141,6 +179,7 @@ public class AddGateObsDialog extends DialogFragment {
 
     public void clearGateObsFields() {
         referencePointValue.setText(null);
+        obsValue.setText(null);
     }
 
     public void removeObsFragment() {

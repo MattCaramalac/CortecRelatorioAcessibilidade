@@ -38,6 +38,7 @@ public class ExternalAccessFragment extends Fragment {
     Bundle extBundle = new Bundle();
 
     public static final String EXT_ACCESS_ID = "EXT_ACCESS_ID";
+    public static final String SCHOOL_ID = "SCHOOL_ID";
 
     int saveAttempt = 0;
 
@@ -138,17 +139,6 @@ public class ExternalAccessFragment extends Fragment {
 
         cancelExternalAccess.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
-
-////        TODO - Alterar o método de salvar para garantir gravação de dados ao clicar nos botões
-//        saveExternalAccess.setOnClickListener(v -> {
-//            if(checkEmptyFields()) {
-//                ExternalAccess newAccess = createNewAccess();
-//                ViewModelEntry.insertExternalAccess(newAccess);
-//                clearFields();
-//                Toast.makeText(getContext(), "Cadastro Efetuado com Sucesso", Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
 
         saveExternalAccess.setOnClickListener(v -> {
             if (checkEmptyFields()) {

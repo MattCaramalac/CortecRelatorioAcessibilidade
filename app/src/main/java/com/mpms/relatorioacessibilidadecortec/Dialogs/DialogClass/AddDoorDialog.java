@@ -137,8 +137,6 @@ public class AddDoorDialog extends DialogFragment {
 
         });
 
-
-
         saveDoor.setOnClickListener(v -> {
             if(checkEmptyFields()){
                 if(getCheckedRadio(sillType) == 0) {
@@ -153,7 +151,6 @@ public class AddDoorDialog extends DialogFragment {
 
         cancelDoor.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
-
     }
 
     @Override
