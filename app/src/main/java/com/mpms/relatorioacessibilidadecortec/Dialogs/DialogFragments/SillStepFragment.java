@@ -20,7 +20,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import java.util.Objects;
 
 
-public class StepSillFragment extends Fragment {
+public class SillStepFragment extends Fragment {
 
     public static final String STEP_HEIGHT = "STEP_HEIGHT";
 
@@ -30,12 +30,12 @@ public class StepSillFragment extends Fragment {
     ViewModelDialog modelDialog;
 
 
-    public StepSillFragment() {
+    public SillStepFragment() {
         // Required empty public constructor
     }
 
-    public static StepSillFragment newInstance() {
-        return new StepSillFragment();
+    public static SillStepFragment newInstance() {
+        return new SillStepFragment();
     }
 
     @Override

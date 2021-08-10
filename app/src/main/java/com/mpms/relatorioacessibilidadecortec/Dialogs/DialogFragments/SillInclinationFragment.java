@@ -20,7 +20,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import java.util.Objects;
 
 
-public class InclinationSillFragment extends Fragment {
+public class SillInclinationFragment extends Fragment {
 
     public static final String HEIGHT_INCLINED_SILL = "HEIGHT_INCLINED_SILL";
 
@@ -29,13 +29,13 @@ public class InclinationSillFragment extends Fragment {
 
     ViewModelDialog modelDialog;
 
-    public InclinationSillFragment() {
+    public SillInclinationFragment() {
         // Required empty public constructor
     }
 
 
-    public static InclinationSillFragment newInstance() {
-        return new InclinationSillFragment();
+    public static SillInclinationFragment newInstance() {
+        return new SillInclinationFragment();
     }
 
     @Override

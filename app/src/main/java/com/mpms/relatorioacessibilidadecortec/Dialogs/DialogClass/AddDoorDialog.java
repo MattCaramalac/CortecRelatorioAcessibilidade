@@ -21,9 +21,9 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.InclinationSillFragment;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SlopeSillFragment;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.StepSillFragment;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillInclinationFragment;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillSlopeFragment;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillStepFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
@@ -122,13 +122,13 @@ public class AddDoorDialog extends DialogFragment {
             int index = getCheckedRadio(group);
             switch (index) {
                 case 1:
-                    getChildFragmentManager().beginTransaction().replace(R.id.sill_type_child_fragment, new InclinationSillFragment()).commit();
+                    getChildFragmentManager().beginTransaction().replace(R.id.sill_type_child_fragment, new SillInclinationFragment()).commit();
                     break;
                 case 2:
-                    getChildFragmentManager().beginTransaction().replace(R.id.sill_type_child_fragment, new StepSillFragment()).commit();
+                    getChildFragmentManager().beginTransaction().replace(R.id.sill_type_child_fragment, new SillStepFragment()).commit();
                     break;
                 case 3:
-                    getChildFragmentManager().beginTransaction().replace(R.id.sill_type_child_fragment, new SlopeSillFragment()).commit();
+                    getChildFragmentManager().beginTransaction().replace(R.id.sill_type_child_fragment, new SillSlopeFragment()).commit();
                     break;
                 default:
                     removeFragments();
@@ -198,17 +198,17 @@ public class AddDoorDialog extends DialogFragment {
 
     public void removeFragments() {
         try {
-            InclinationSillFragment inclination = (InclinationSillFragment) manager.findFragmentById(R.id.sill_type_child_fragment);
+            SillInclinationFragment inclination = (SillInclinationFragment) manager.findFragmentById(R.id.sill_type_child_fragment);
             if (inclination != null)
                 manager.beginTransaction().remove(inclination).commit();
         } catch (Exception e) {
             try {
-                StepSillFragment step = (StepSillFragment) manager.findFragmentById(R.id.sill_type_child_fragment);
+                SillStepFragment step = (SillStepFragment) manager.findFragmentById(R.id.sill_type_child_fragment);
                 if (step != null)
                 manager.beginTransaction().remove(step).commit();
             } catch (Exception f) {
                 try {
-                    SlopeSillFragment slope = (SlopeSillFragment) manager.findFragmentById(R.id.sill_type_child_fragment);
+                    SillSlopeFragment slope = (SillSlopeFragment) manager.findFragmentById(R.id.sill_type_child_fragment);
                     if (slope != null)
                         manager.beginTransaction().remove(slope).commit();
                 } catch (Exception g) {
@@ -225,12 +225,12 @@ public class AddDoorDialog extends DialogFragment {
         sillSlopeWidth = null;
         doorSillObs = null;
         if (getCheckedRadio(sillType) == 1)
-            sillInclinationHeight = bundle.getDouble(InclinationSillFragment.HEIGHT_INCLINED_SILL);
+            sillInclinationHeight = bundle.getDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL);
         else if (getCheckedRadio(sillType) == 2)
-            sillStepHeight = bundle.getDouble(StepSillFragment.STEP_HEIGHT);
+            sillStepHeight = bundle.getDouble(SillStepFragment.STEP_HEIGHT);
         else if (getCheckedRadio(sillType) == 3) {
-            sillSlopeInclination = bundle.getDouble(SlopeSillFragment.SLOPE_INCLINATION);
-            sillSlopeWidth = bundle.getDouble(SlopeSillFragment.SLOPE_WIDTH);
+            sillSlopeInclination = bundle.getDouble(SillSlopeFragment.SLOPE_INCLINATION);
+            sillSlopeWidth = bundle.getDouble(SillSlopeFragment.SLOPE_WIDTH);
         }
 
         if (!TextUtils.isEmpty(doorSillObsValue.getText())) {

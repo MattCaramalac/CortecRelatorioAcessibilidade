@@ -20,7 +20,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import java.util.Objects;
 
 
-public class SlopeSillFragment extends Fragment {
+public class SillSlopeFragment extends Fragment {
 
     public static final String SLOPE_INCLINATION = "SLOPE_INCLINATION";
     public static final String SLOPE_WIDTH = "SLOPE_WIDTH";
@@ -30,13 +30,13 @@ public class SlopeSillFragment extends Fragment {
 
     ViewModelDialog modelDialog;
 
-    public SlopeSillFragment() {
+    public SillSlopeFragment() {
         // Required empty public constructor
     }
 
 
-    public static SlopeSillFragment newInstance() {
-        return new SlopeSillFragment();
+    public static SillSlopeFragment newInstance() {
+        return new SillSlopeFragment();
     }
 
     @Override
