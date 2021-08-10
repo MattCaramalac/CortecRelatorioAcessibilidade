@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddGateObsDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
@@ -36,6 +37,8 @@ public class ExternalAccessFragment extends Fragment {
 
     Bundle extBundle = new Bundle();
 
+    public static final String EXT_ACCESS_ID = "EXT_ACCESS_ID";
+
     int saveAttempt = 0;
 
 //    TODO - Será usado para os casos onde a informação já foi cadastrada, está sendo acessada novamente para possível alteração
@@ -46,8 +49,6 @@ public class ExternalAccessFragment extends Fragment {
     //Integer trailCounter, obsCounter, payphoneCounter (a implementar)
     String floorType;
     Double gateWidth, gateTrailHeight;
-
-    private static int schoolID;
 
     private int extButtonChoice = -1;
     private int upCounter = 0;
@@ -67,9 +68,6 @@ public class ExternalAccessFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         extBundle = this.getArguments();
-        if(extBundle != null) {
-            schoolID = extBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
-        }
     }
 
     @Override
@@ -118,7 +116,7 @@ public class ExternalAccessFragment extends Fragment {
         modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), lastAccess -> {
             if (saveAttempt == 1) {
                 lastExtAccess = lastAccess.getExternalAccessID();
-                Toast.makeText(getContext(), "Teste Observer" + lastExtAccess, Toast.LENGTH_SHORT).show();
+                extBundle.putInt(EXT_ACCESS_ID,lastExtAccess);
                 saveAttempt = 0;
             }
         });
@@ -155,11 +153,11 @@ public class ExternalAccessFragment extends Fragment {
         saveExternalAccess.setOnClickListener(v -> {
             if (checkEmptyFields()) {
                 if (upCounter == 0) {
-                    ExternalAccess newAccess = newExtAccess();
+                    ExternalAccess newAccess = newExtAccess(extBundle);
                     ViewModelEntry.insertExternalAccess(newAccess);
                     clearFields();
                 } else if (upCounter > 0) {
-                    ExternalAccess upAccess = newExtAccess();
+                    ExternalAccess upAccess = newExtAccess(extBundle);
                     upAccess.setExternalAccessID(lastExtAccess);
                     ViewModelEntry.updateExternalAccess(upAccess);
                     existingEntry = 0;
@@ -250,7 +248,7 @@ public class ExternalAccessFragment extends Fragment {
         hasGatePayphonesRadio.clearCheck();
     }
 
-    public ExternalAccess newExtAccess() {
+    public ExternalAccess newExtAccess(Bundle bundle) {
         if (entranceType.getCheckedRadioButtonId() != -1)
             typeExtAccess = getCheckedButton(entranceType);
         if (hasSiaRadio.getCheckedRadioButtonId() != -1)
@@ -268,20 +266,20 @@ public class ExternalAccessFragment extends Fragment {
         if (hasGatePayphonesRadio.getCheckedRadioButtonId() != -1)
             hasTrailRamp = getCheckedButton(hasGatePayphonesRadio);
 
-        return new ExternalAccess(schoolID, typeExtAccess, hasSia, floorType, gateWidth, gateTrailHeight, hasTrailRamp,
-                hasGateObs, hasPayphone);
+        return new ExternalAccess(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), typeExtAccess, hasSia, floorType, gateWidth,
+                gateTrailHeight, hasTrailRamp, hasGateObs, hasPayphone);
     }
 
     public void saveUpdateDialogClick() {
 
         if (upCounter == 0) {
-            ExternalAccess newAccess = newExtAccess();
+            ExternalAccess newAccess = newExtAccess(extBundle);
             ViewModelEntry.insertExternalAccess(newAccess);
             upCounter++;
             saveAttempt = 1;
         } else if (upCounter > 0) {
             upCounter++;
-            ExternalAccess upAccess = newExtAccess();
+            ExternalAccess upAccess = newExtAccess(extBundle);
             if (existingEntry == 0) {
                 upAccess.setExternalAccessID(lastExtAccess);
                 ViewModelEntry.updateExternalAccess(upAccess);
@@ -316,7 +314,7 @@ public class ExternalAccessFragment extends Fragment {
     }
 
     private void addGateObsDialog() {
-//        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+        AddGateObsDialog.displayGateDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), extBundle);
     }
 
     private void addPayPhoneDialog() {

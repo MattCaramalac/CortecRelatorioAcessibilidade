@@ -31,6 +31,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gate_obs_barrier_height_field"
             android:layout_marginTop="@dimen/top_margins"
+            android:paddingBottom="@dimen/top_margins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_gate_barrier_width">
@@ -39,7 +40,7 @@
                 android:id="@+id/gate_obs_barrier_width_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

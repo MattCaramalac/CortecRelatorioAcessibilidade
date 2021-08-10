@@ -32,7 +32,7 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/radio_option_gate"
+                android:text="@string/radio_option_gate_bar"
                 android:layout_weight="@integer/weight_one"
                 android:textSize="@dimen/radio_button_text"/>
 
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_option_gate_bar"
+                android:text="@string/radio_option_gate"
                 android:textSize="@dimen/radio_button_text"/>
 
         </RadioGroup>

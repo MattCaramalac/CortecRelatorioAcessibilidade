@@ -14,6 +14,7 @@
             android:id="@+id/gate_obs_door_width_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:paddingBottom="@dimen/top_margins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_gate_door_width">

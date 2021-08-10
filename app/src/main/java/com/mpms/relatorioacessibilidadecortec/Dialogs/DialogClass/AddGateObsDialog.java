@@ -13,20 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.GateObstacleTypeFragment;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.InclinationSillFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.Objects;
 
 public class AddGateObsDialog extends DialogFragment {
-
-    private static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
 
     private Toolbar toolbar;
 
@@ -38,11 +36,20 @@ public class AddGateObsDialog extends DialogFragment {
 
     FragmentManager manager;
 
-    static Bundle roomBundle;
+    static Bundle extBundle;
 
-    public static AddGateObsDialog displayGateDialog(FragmentManager manager) {
+    ViewModelDialog modelDialog;
+
+    ViewModelEntry modelEntry;
+
+    String referencePoint, obstacleObs;
+    Integer accessibleEntrance, entranceObsType;
+    Double entranceGateWidth, gateBarrierHeight, gateBarrierWidth;
+
+    public static AddGateObsDialog displayGateDialog(FragmentManager manager, Bundle bundle) {
         AddGateObsDialog addGateObstacleDialog = new AddGateObsDialog();
         addGateObstacleDialog.show(manager, "GATE_OBS_DIALOG");
+        extBundle = bundle;
         return addGateObstacleDialog;
     }
 
@@ -76,6 +83,8 @@ public class AddGateObsDialog extends DialogFragment {
         cancelGateObs = view.findViewById(R.id.cancel_gate_obstacle);
 
         gateObsError = view.findViewById(R.id.gate_obstacle_situation_error);
+
+        manager = getChildFragmentManager();
 
         gateObstacleSituation.setOnCheckedChangeListener(((group, checkedId) -> {
             int index = getCheckedRadio(group);
