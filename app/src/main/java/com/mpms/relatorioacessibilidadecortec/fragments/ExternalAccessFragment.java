@@ -114,11 +114,25 @@ public class ExternalAccessFragment extends Fragment {
         radioGroupActivation(hasGateObstaclesRadio, hasGateObstaclesButton);
         radioGroupActivation(hasGatePayphonesRadio, hasGatePayphonesButton);
 
+        //Essa verificação está ocorrendo DEPOIS do dialog ser criado, logo o ID não é transferido para o Dialog
         modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), lastAccess -> {
             if (saveAttempt == 1) {
                 lastExtAccess = lastAccess.getExternalAccessID();
                 extBundle.putInt(EXT_ACCESS_ID,lastExtAccess);
                 saveAttempt = 0;
+
+                switch (extButtonChoice) {
+                    case 0:
+                        addTrailRampDialog();
+                        break;
+                    case 1:
+                        addGateObsDialog();
+                        break;
+                    case 2:
+                        addPayPhoneDialog();
+                        break;
+                }
+                extButtonChoice = -1;
             }
         });
 
@@ -285,18 +299,20 @@ public class ExternalAccessFragment extends Fragment {
             Toast.makeText(getContext(), "Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
         }
 
-        switch (extButtonChoice) {
-            case 0:
-                addTrailRampDialog();
-                break;
-            case 1:
-                addGateObsDialog();
-                break;
-            case 2:
-                addPayPhoneDialog();
-                break;
+        if (existingEntry == 1) {
+            switch (extButtonChoice) {
+                case 0:
+                    addTrailRampDialog();
+                    break;
+                case 1:
+                    addGateObsDialog();
+                    break;
+                case 2:
+                    addPayPhoneDialog();
+                    break;
+            }
+            extButtonChoice = -1;
         }
-        extButtonChoice = -1;
     }
 
     private void addTrailRampDialog() {
