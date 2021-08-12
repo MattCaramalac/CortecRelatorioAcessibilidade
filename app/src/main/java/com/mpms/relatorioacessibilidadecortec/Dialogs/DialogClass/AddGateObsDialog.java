@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.GateObsBarrierType;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.GateObsDoorType;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.GateObstacleTypeFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
@@ -120,7 +121,6 @@ public class AddGateObsDialog extends DialogFragment {
                 } else {
                     modelDialog.setSaveGateObsAttemptOne(1);
                 }
-
             }
         });
 
@@ -156,6 +156,8 @@ public class AddGateObsDialog extends DialogFragment {
         if(accessibleEntrance == 1) {
             accessType = bundle.getInt(GateObstacleTypeFragment.GATE_OBS_TYPE);
             if (accessType == 0) {
+                gateBarrierHeight = bundle.getDouble(GateObsBarrierType.OBS_BARRIER_HEIGHT);
+                gateBarrierWidth = bundle.getDouble(GateObsBarrierType.OBS_BARRIER_WIDTH);
 
             } else if (accessType == 1)
                 entranceGateWidth = bundle.getDouble(GateObsDoorType.OBS_GATE_WIDTH);

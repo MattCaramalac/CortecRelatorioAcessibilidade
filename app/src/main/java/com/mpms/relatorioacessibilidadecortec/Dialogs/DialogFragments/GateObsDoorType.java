@@ -32,7 +32,6 @@ public class GateObsDoorType extends Fragment {
         // Required empty public constructor
     }
 
-
     public static GateObsDoorType newInstance() {
         return new GateObsDoorType();
     }
