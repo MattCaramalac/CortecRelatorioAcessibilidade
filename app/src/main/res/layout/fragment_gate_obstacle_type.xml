@@ -58,7 +58,7 @@
             />
 
         <FrameLayout
-            android:id="@+id/gate_obs_type_child_fragment"
+            android:id="@+id/gate_obs_type_info_child_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"

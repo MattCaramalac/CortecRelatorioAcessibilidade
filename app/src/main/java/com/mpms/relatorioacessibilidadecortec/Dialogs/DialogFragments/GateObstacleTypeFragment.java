@@ -73,18 +73,20 @@ public class GateObstacleTypeFragment extends Fragment {
             if (tempBundle != null) {
                 tempBundle.putInt(GATE_OBS_TYPE, getCheckedRadio(gateObsType));
                 modelDialog.setGateObsInfo(tempBundle);
+//                Teve que ser colocado aqui dentro, caso contrário entra em loop infinito
+//                Por quê isto acontece? Gostaria de saber também
+                modelDialog.setTempGateObsInfo(null);
             }
-            modelDialog.setTempGateObsInfo(null);
         });
 
         gateObsType.setOnCheckedChangeListener((group, checkedID) -> {
             int index = getCheckedRadio(group);
             switch (index) {
                 case 0:
-                    getChildFragmentManager().beginTransaction().replace(R.id.gate_obs_type_child_fragment, new GateObsBarrierType()).commit();
+                    getChildFragmentManager().beginTransaction().replace(R.id.gate_obs_type_info_child_fragment, new GateObsBarrierType()).commit();
                     break;
                 case 1:
-                    getChildFragmentManager().beginTransaction().replace(R.id.gate_obs_type_child_fragment, new GateObsDoorType()).commit();
+                    getChildFragmentManager().beginTransaction().replace(R.id.gate_obs_type_info_child_fragment, new GateObsDoorType()).commit();
                     break;
             }
         });
@@ -114,12 +116,12 @@ public class GateObstacleTypeFragment extends Fragment {
 
     public void removeGateObsFragments() {
         try {
-            GateObsBarrierType barrier = (GateObsBarrierType) manager.findFragmentById(R.id.gate_obs_type_child_fragment);
+            GateObsBarrierType barrier = (GateObsBarrierType) manager.findFragmentById(R.id.gate_obs_type_info_child_fragment);
             if (barrier != null)
                 manager.beginTransaction().remove(barrier).commit();
         } catch (Exception e) {
             try {
-                GateObsDoorType door = (GateObsDoorType) manager.findFragmentById(R.id.gate_obs_type_child_fragment);
+                GateObsDoorType door = (GateObsDoorType) manager.findFragmentById(R.id.gate_obs_type_info_child_fragment);
                 if (door != null)
                     manager.beginTransaction().remove(door).commit();
             } catch (Exception f) {

@@ -114,7 +114,8 @@ public class ExternalAccessFragment extends Fragment {
         radioGroupActivation(hasGateObstaclesRadio, hasGateObstaclesButton);
         radioGroupActivation(hasGatePayphonesRadio, hasGatePayphonesButton);
 
-        //Essa verificação está ocorrendo DEPOIS do dialog ser criado, logo o ID não é transferido para o Dialog
+        //Como a verificação estava ocorrendo depois do dialogo ser criado, coloca-se o chamado do dialogo dentro do observer
+//        Para garantir que o bundle receba o ID necessário. (existe solução mais elegante?)
         modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), lastAccess -> {
             if (saveAttempt == 1) {
                 lastExtAccess = lastAccess.getExternalAccessID();

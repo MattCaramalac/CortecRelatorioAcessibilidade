@@ -106,13 +106,17 @@ public class AddGateObsDialog extends DialogFragment {
                 GateObsEntry newObs = newObstacle(gateBundle);
                 ViewModelEntry.insertGateObs(newObs);
                 modelDialog.setGateObsInfo(null);
+                removeObsFragment();
+                clearGateObsFields();
             }
         });
 
         saveGateObs.setOnClickListener(v -> {
             if (checkEmptyFields()) {
                 if(getCheckedRadio(gateObstacleSituation) == 0) {
-
+                    GateObsEntry newObs = newObstacle(extBundle);
+                    ViewModelEntry.insertGateObs(newObs);
+                    clearGateObsFields();
                 } else {
                     modelDialog.setSaveGateObsAttemptOne(1);
                 }
@@ -137,26 +141,31 @@ public class AddGateObsDialog extends DialogFragment {
     }
 
     public GateObsEntry newObstacle(Bundle bundle) {
-        entranceGateWidth = null;
+        referencePoint = null;
+        accessType = null;
         gateBarrierHeight = null;
         gateBarrierWidth = null;
+        entranceGateWidth = null;
         obstacleObs = null;
 
-        referencePoint = Objects.requireNonNull(referencePointValue.getText()).toString();
-        accessibleEntrance = getCheckedRadio(gateObstacleSituation);
-        if(accessibleEntrance == 1)
-            accessType = bundle.getInt(GateObstacleTypeFragment.GATE_OBS_TYPE);
-        if (accessType == 0) {
+        if (referencePointValue.getText() != null)
+            referencePoint = Objects.requireNonNull(referencePointValue.getText()).toString();
 
-        } else {
-            entranceGateWidth = bundle.getDouble(GateObsDoorType.OBS_GATE_WIDTH);
+        accessibleEntrance = getCheckedRadio(gateObstacleSituation);
+
+        if(accessibleEntrance == 1) {
+            accessType = bundle.getInt(GateObstacleTypeFragment.GATE_OBS_TYPE);
+            if (accessType == 0) {
+
+            } else if (accessType == 1)
+                entranceGateWidth = bundle.getDouble(GateObsDoorType.OBS_GATE_WIDTH);
         }
 
         if (!TextUtils.isEmpty(obsValue.getText()))
             obstacleObs = Objects.requireNonNull(obsValue.getText()).toString();
 
         return new GateObsEntry(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID), referencePoint, accessibleEntrance, accessType,
-                gateBarrierWidth, gateBarrierHeight, entranceGateWidth, obstacleObs);
+                entranceGateWidth, gateBarrierHeight, gateBarrierWidth, obstacleObs);
 
     }
 
@@ -167,6 +176,10 @@ public class AddGateObsDialog extends DialogFragment {
     public boolean checkEmptyFields() {
         clearErrorsGateObs();
         int i = 0;
+        if (TextUtils.isEmpty(referencePointValue.getText())) {
+            referencePointField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
         if (gateObstacleSituation.getCheckedRadioButtonId() == -1) {
             gateObsError.setVisibility(View.VISIBLE);
             i++;
@@ -175,12 +188,14 @@ public class AddGateObsDialog extends DialogFragment {
     }
 
     public void clearErrorsGateObs() {
+        referencePointField.setErrorEnabled(false);
         gateObsError.setVisibility(View.GONE);
     }
 
     public void clearGateObsFields() {
         referencePointValue.setText(null);
         obsValue.setText(null);
+        gateObstacleSituation.clearCheck();
     }
 
     public void removeObsFragment() {
