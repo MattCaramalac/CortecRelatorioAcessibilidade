@@ -44,6 +44,8 @@ public class ExternalAccessFragment extends Fragment {
 
 //    TODO - Será usado para os casos onde a informação já foi cadastrada, está sendo acessada novamente para possível alteração
     int existingEntry = 0;
+//    TODO - Será usado para casos onde a informação foi gravada recentemente, diferente de informações que já existiam na tabela
+    int recentEntry = 0;
 
     Integer typeExtAccess, hasSia, hasTrailRamp, hasGateObs, hasPayphone;
 //    TODO - Implementar contadores de registros, impedir gravação sem ao menos um registro salvo (quando marcado sim)
@@ -114,13 +116,14 @@ public class ExternalAccessFragment extends Fragment {
         radioGroupActivation(hasGateObstaclesRadio, hasGateObstaclesButton);
         radioGroupActivation(hasGatePayphonesRadio, hasGatePayphonesButton);
 
-        //Como a verificação estava ocorrendo depois do dialogo ser criado, coloca-se o chamado do dialogo dentro do observer
-//        Para garantir que o bundle receba o ID necessário. (existe solução mais elegante?)
+//      Como a verificação estava ocorrendo depois do dialogo ser criado, coloca-se o chamado do dialogo dentro do observer
+//      Para garantir que o bundle receba o ID necessário. (existe solução mais elegante?)
+//        TODO - Procurar solução possivelmente mais elegante
         modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), lastAccess -> {
-            if (saveAttempt == 1) {
+            if (recentEntry == 1) {
                 lastExtAccess = lastAccess.getExternalAccessID();
                 extBundle.putInt(EXT_ACCESS_ID,lastExtAccess);
-                saveAttempt = 0;
+                recentEntry = 0;
 
                 switch (extButtonChoice) {
                     case 0:
@@ -275,13 +278,13 @@ public class ExternalAccessFragment extends Fragment {
                 gateTrailHeight, hasTrailRamp, hasGateObs, hasPayphone);
     }
 
+// TODO - Criar Variável específica para separar linhas recém-criadas de linhas já existentes
     public void saveUpdateDialogClick() {
-
         if (upCounter == 0) {
             ExternalAccess newAccess = newExtAccess(extBundle);
             ViewModelEntry.insertExternalAccess(newAccess);
             upCounter++;
-            saveAttempt = 1;
+            recentEntry = 1;
         } else if (upCounter > 0) {
             upCounter++;
             ExternalAccess upAccess = newExtAccess(extBundle);
@@ -300,7 +303,7 @@ public class ExternalAccessFragment extends Fragment {
             Toast.makeText(getContext(), "Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
         }
 
-        if (existingEntry == 1) {
+        if (existingEntry == 1 || recentEntry == 1) {
             switch (extButtonChoice) {
                 case 0:
                     addTrailRampDialog();
