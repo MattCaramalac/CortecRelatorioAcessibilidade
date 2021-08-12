@@ -102,6 +102,7 @@ public class AddGateObsDialog extends DialogFragment {
 
         modelDialog.getGateObsInfo().observe(getViewLifecycleOwner(), gateBundle -> {
             if (gateBundle != null) {
+                gateBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, extBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID));
                 GateObsEntry newObs = newObstacle(gateBundle);
                 ViewModelEntry.insertGateObs(newObs);
                 modelDialog.setGateObsInfo(null);
