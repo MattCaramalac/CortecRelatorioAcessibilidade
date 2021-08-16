@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,10 +18,10 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddGateObsDialog;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddPayPhoneDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
-import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.Objects;
@@ -170,6 +169,7 @@ public class ExternalAccessFragment extends Fragment {
                         recentEntry = 0;
                     }
                     if (existingEntry == 1) {
+                        // TODO - Inserir método para captar ExternalID
 //                        upAccess.setExternalAccessID(lastExtAccess);
                         existingEntry = 0;
                     }
@@ -277,7 +277,7 @@ public class ExternalAccessFragment extends Fragment {
         if (hasGateObstaclesRadio.getCheckedRadioButtonId() != -1)
             hasGateObs = getCheckedButton(hasGateObstaclesRadio);
         if (hasGatePayphonesRadio.getCheckedRadioButtonId() != -1)
-            hasTrailRamp = getCheckedButton(hasGatePayphonesRadio);
+            hasPayphone = getCheckedButton(hasGatePayphonesRadio);
 
         return new ExternalAccess(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), typeExtAccess, hasSia, floorType, gateWidth,
                 gateTrailHeight, hasTrailRamp, hasGateObs, hasPayphone);
@@ -332,7 +332,7 @@ public class ExternalAccessFragment extends Fragment {
     }
 
     private void addPayPhoneDialog() {
-//        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), extBundle);
+        AddPayPhoneDialog.displayPayPhoneDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), extBundle);
     }
 
 }

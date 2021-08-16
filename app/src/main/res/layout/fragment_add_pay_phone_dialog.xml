@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Dialogs.DialogClass.AddGateObsDialog">
+    tools:context=".Dialogs.DialogClass.AddPayPhoneDialog">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/gate_obstacles_app_bar"
+        android:id="@+id/gate_payphone_app_bar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
@@ -16,22 +16,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="10dp"
-        android:backgroundTint="@color/white"
-        >
+        android:backgroundTint="@color/white">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/gate_obstacles_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:padding="8dp"
-            app:contentInsetStartWithNavigation="0dp"/>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/gate_payphone_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:padding="8dp"
+        app:contentInsetStartWithNavigation="0dp"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/gate_obstacles_app_bar"
+        android:layout_below="@id/gate_payphone_app_bar"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
 
@@ -42,44 +41,64 @@
             android:paddingEnd="@dimen/usual_padding">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/gate_obstacle_location_field"
+                android:id="@+id/gate_payphone_ref_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/gate_obstacle_location_hint">
+                android:hint="@string/hint_payphone_ref_location">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/gate_obstacle_location_value"
+                    android:id="@+id/gate_payphone_ref_value"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/gate_payphone_op_height_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/gate_payphone_ref_field"
+                android:layout_marginTop="@dimen/top_margins"
+                android:hint="@string/hint_op_height_payphone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/gate_payphone_op_height_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </com.google.android.material.textfield.TextInputEditText>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/label_gate_obstacle_situation"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gate_obstacle_location_field"
-                android:layout_marginTop="@dimen/top_margins"
+                android:id="@+id/payphone_has_tactile_floor_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/label_gate_obstacle_situation"
+                app:layout_constraintTop_toBottomOf="@id/gate_payphone_op_height_field"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_payphone_has_tactile_floor"
                 android:textSize="@dimen/section_header"/>
 
             <RadioGroup
-                android:id="@+id/gate_obstacle_situation_radio"
+                android:id="@+id/payphone_tactile_floor_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_gate_obstacle_situation"
+                app:layout_constraintTop_toBottomOf="@id/payphone_has_tactile_floor_label"
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/radio_button_no"
                     android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
                     android:textSize="@dimen/radio_button_text"/>
 
                 <RadioButton
@@ -92,35 +111,28 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/gate_obstacle_situation_error"
+                android:id="@+id/gate_payphone_floor_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/empty_fields"
                 android:textSize="14sp"
                 android:textColor="@color/error_message"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/gate_obstacle_situation_radio"
+                app:layout_constraintTop_toBottomOf="@id/payphone_tactile_floor_radio"
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
-            <FrameLayout
-                android:id="@+id/gate_obs_type_child_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gate_obstacle_situation_error"
-                android:layout_marginTop="@dimen/top_margins"/>
-
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/gate_obstacle_obs_field"
+                android:id="@+id/gate_payphone_obs_field"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gate_obs_type_child_fragment"
+                app:layout_constraintTop_toBottomOf="@id/gate_payphone_floor_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_gate_obstacles_obs">
+                android:layout_marginTop="@dimen/top_margins"
+                android:hint="@string/hint_public_phone_obs">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/gate_obstacle_obs_value"
+                    android:id="@+id/gate_payphone_obs_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine"
@@ -134,27 +146,34 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/save_gate_obstacle"
+                android:id="@+id/save_gate_payphone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/top_margins"
                 android:text="@string/label_button_save"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gate_obstacle_obs_field" />
+                app:layout_constraintTop_toBottomOf="@id/gate_payphone_obs_field" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancel_gate_obstacle"
+                android:id="@+id/cancel_gate_payphone"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/top_margins"
                 android:text="@string/label_button_cancel"
                 android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@id/save_gate_obstacle"
+                app:layout_constraintBaseline_toBaselineOf="@id/save_gate_payphone"
                 app:layout_constraintStart_toStartOf="parent" />
 
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
 
     </ScrollView>
 

@@ -237,4 +237,9 @@
     <string name="hint_gate_door_width">Largura Portão de Acesso</string>
     <string name="hint_gate_barrier_height">Altura do Comando da Cancela</string>
     <string name="hint_gate_barrier_width">Largura da Cancela</string>
+    <string name="hint_payphone_ref_location">Ponto de referência telefone público</string>
+    <string name="hint_op_height_payphone">Altura operacional do telefone público</string>
+    <string name="label_payphone_has_tactile_floor">O telefone público possui piso tátil a sua frente?</string>
+    <string name="hint_public_phone_obs">Observações sobre o telefone público</string>
+    <string name="dialog_add_payphone_header">Adicionar Telefones Públicos</string>
 </resources>
