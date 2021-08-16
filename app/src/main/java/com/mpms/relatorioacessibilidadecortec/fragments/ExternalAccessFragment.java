@@ -123,7 +123,6 @@ public class ExternalAccessFragment extends Fragment {
             if (recentEntry == 1) {
                 lastExtAccess = lastAccess.getExternalAccessID();
                 extBundle.putInt(EXT_ACCESS_ID,lastExtAccess);
-                recentEntry = 0;
 
                 switch (extButtonChoice) {
                     case 0:
@@ -166,9 +165,15 @@ public class ExternalAccessFragment extends Fragment {
                     clearFields();
                 } else if (upCounter > 0) {
                     ExternalAccess upAccess = newExtAccess(extBundle);
-                    upAccess.setExternalAccessID(lastExtAccess);
+                    if (recentEntry == 1) {
+                        upAccess.setExternalAccessID(lastExtAccess);
+                        recentEntry = 0;
+                    }
+                    if (existingEntry == 1) {
+//                        upAccess.setExternalAccessID(lastExtAccess);
+                        existingEntry = 0;
+                    }
                     ViewModelEntry.updateExternalAccess(upAccess);
-                    existingEntry = 0;
                     clearFields();
                 } else {
                     Toast.makeText(getContext(), "Algo inesperado ocorreu. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
@@ -278,7 +283,6 @@ public class ExternalAccessFragment extends Fragment {
                 gateTrailHeight, hasTrailRamp, hasGateObs, hasPayphone);
     }
 
-// TODO - Criar Variável específica para separar linhas recém-criadas de linhas já existentes
     public void saveUpdateDialogClick() {
         if (upCounter == 0) {
             ExternalAccess newAccess = newExtAccess(extBundle);
@@ -320,7 +324,7 @@ public class ExternalAccessFragment extends Fragment {
     }
 
     private void addTrailRampDialog() {
-//        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+//        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), extBundle);
     }
 
     private void addGateObsDialog() {
@@ -328,7 +332,7 @@ public class ExternalAccessFragment extends Fragment {
     }
 
     private void addPayPhoneDialog() {
-//        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+//        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), extBundle);
     }
 
 }
