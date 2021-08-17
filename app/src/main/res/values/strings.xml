@@ -248,4 +248,7 @@
     <string name="hint_counter_frontal_approx">Aproximação frontal do balcão</string>
     <string name="hint_counter_obs">Observações sobre o balcão</string>
     <string name="dialog_add_counter_header">Adicionar Balcão</string>
+    <string name="label_stairs_register">Cadastro de Escadarias</string>
+    <string name="hint_staircase_location">Localização da Escadaria</string>
+    <string name="hint_number_flight_stairs">Quantidade de lances da escadaria</string>
 </resources>

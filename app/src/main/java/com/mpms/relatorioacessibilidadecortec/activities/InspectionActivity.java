@@ -14,10 +14,8 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.StairsRampFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.StairsFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
-
-import java.util.Locale;
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
@@ -56,7 +54,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 break;
             case 7:
             case 9:
-                displayStairsRampFragment(choice);
+                displayStairsFragment();
                 break;
             case 8:
                 displayParkingLotFragment();
@@ -146,18 +144,18 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-    public void displayStairsRampFragment(int chosenItem) {
-        StairsRampFragment stairsRampFragment = StairsRampFragment.newInstance(chosenItem);
-        stairsRampFragment.setArguments(fragmentSchoolID);
+    public void displayStairsFragment() {
+        StairsFragment stairsFragment = StairsFragment.newInstance();
+        stairsFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, stairsRampFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.show_fragment_selected, stairsFragment).addToBackStack(null).commit();
     }
 
     public void closeStairsRampFragment() {
-        StairsRampFragment stairsRampFragment = (StairsRampFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (stairsRampFragment != null) {
+        StairsFragment stairsFragment = (StairsFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
+        if (stairsFragment != null) {
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(stairsRampFragment).commit();
+            fragmentTransaction.remove(stairsFragment).commit();
         }
     }
 

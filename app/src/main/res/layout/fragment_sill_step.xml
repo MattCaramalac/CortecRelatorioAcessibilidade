@@ -16,9 +16,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/top_margins"
             android:hint="@string/hint_sill_step_height"
-            app:errorEnabled="true">
+            android:paddingBottom="@dimen/top_margins">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sill_step_height_value"
