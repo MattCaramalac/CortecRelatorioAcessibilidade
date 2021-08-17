@@ -46,4 +46,12 @@ public class ViewModelFragments extends ViewModel {
         return updateRooms;
     }
 
+    public final MutableLiveData<Integer> counterClick = new MutableLiveData<>();
+    public void setCounterClick (Integer integer) {
+        counterClick.setValue(integer);
+    }
+    public LiveData<Integer> getCounterClick() {
+        return counterClick;
+    }
+
 }

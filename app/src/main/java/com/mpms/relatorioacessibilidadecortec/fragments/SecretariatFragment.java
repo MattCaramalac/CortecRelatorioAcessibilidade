@@ -81,7 +81,7 @@ public class SecretariatFragment extends Fragment {
 
         radioGroupActivation(hasPcrSpace);
 
-        addCounter.setOnClickListener( v-> addCounterDialog());
+        addCounter.setOnClickListener( v-> modelFragments.setCounterClick(1));
 
         modelFragments.getSaveAttemptRoom().observe(getViewLifecycleOwner(), saveAttempt -> {
            if (saveAttempt == 1) {
@@ -163,11 +163,6 @@ public class SecretariatFragment extends Fragment {
         pcrSpaceWidthValue.setText(null);
         pcrSpaceDepthValue.setText(null);
         turnAroundPossible.clearCheck();
-    }
-
-//    TODO - Colocar dados no bundle para permitir gravação correta dos balcões
-    private void addCounterDialog() {
-        AddCounterDialog.displayCounterDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), bundle);
     }
 
 //    MÉTODO MAIS GENÉRICO!!!

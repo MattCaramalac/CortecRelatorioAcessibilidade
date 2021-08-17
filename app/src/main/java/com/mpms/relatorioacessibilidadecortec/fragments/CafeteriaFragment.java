@@ -74,7 +74,8 @@ public class CafeteriaFragment extends Fragment {
             }
         });
 
-        addCounter.setOnClickListener( v-> addCounterDialog());
+        addCounter.setOnClickListener(v -> modelFragments.setCounterClick(1));
+
     }
 
     public boolean checkEmptyCafeFields() {
@@ -92,8 +93,4 @@ public class CafeteriaFragment extends Fragment {
         turnAroundPossible.clearCheck();
     }
 
-//    TODO - Colocar dados no bundle para permitir gravação correta dos balcões
-    private void addCounterDialog() {
-        AddCounterDialog.displayCounterDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), bundle);
-    }
 }

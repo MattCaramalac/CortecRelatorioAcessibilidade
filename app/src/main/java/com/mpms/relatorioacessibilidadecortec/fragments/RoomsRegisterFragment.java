@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddCounterDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddDoorDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddFreeSpaceDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSwitchDialog;
@@ -132,6 +133,14 @@ public class RoomsRegisterFragment extends Fragment {
         obsVisualSignValue = view.findViewById(R.id.visual_sign_obs_value);
         obsTactileSignValue = view.findViewById(R.id.tactile_sign_obs_value);
 
+        modelFragments.getCounterClick().observe(getViewLifecycleOwner(), counter -> {
+            if(Objects.equals(modelFragments.counterClick.getValue(), 1)) {
+                buttonChoice = 5;
+                saveUpdateDialogClick();
+                modelFragments.setCounterClick(0);
+            }
+        });
+
 //        Este método só funciona para salas recem-criadas. Não será util para atualização de salas.
 //        TODO - Alterar o método de seleção de sala alterada
         modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> {
@@ -156,6 +165,9 @@ public class RoomsRegisterFragment extends Fragment {
                         break;
                     case 4:
                         addFreeSpaceDialog();
+                        break;
+                    case 5:
+                        addCounterDialog();
                         break;
                     default:
                         break;
@@ -343,6 +355,10 @@ public class RoomsRegisterFragment extends Fragment {
 
     private void addTableDialog() {
         AddTableDialog.addTableDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+    }
+
+    private void addCounterDialog() {
+        AddCounterDialog.displayCounterDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
     }
 
 }

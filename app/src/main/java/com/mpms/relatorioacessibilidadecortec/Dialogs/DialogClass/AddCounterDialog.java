@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
@@ -79,6 +82,14 @@ public class AddCounterDialog extends DialogFragment {
         addCounter = view.findViewById(R.id.save_counter_button);
         cancelCounter = view.findViewById(R.id.cancel_counter_button);
 
+        addCounter.setOnClickListener(v -> {
+            if(checkEmptyCounterFields()) {
+                CounterEntry newCounter = newCounter(counterBundle);
+                ViewModelEntry.insertCounter(newCounter);
+                clearCounterFields();
+            }
+        });
+
         cancelCounter.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
@@ -93,5 +104,63 @@ public class AddCounterDialog extends DialogFragment {
             int length = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, length);
         }
+    }
+
+    public boolean checkEmptyCounterFields() {
+        clearErrorsCounterFields();
+        int error = 0;
+        if (TextUtils.isEmpty(counterLocationValue.getText())) {
+            error++;
+            counterLocationField.setError(getString(R.string.blank_field_error));
+        }
+        if (TextUtils.isEmpty(upperEdgeValue.getText())) {
+            error++;
+            upperEdgeField.setError(getString(R.string.blank_field_error));
+        }
+        if (TextUtils.isEmpty(lowerEdgeValue.getText())) {
+            error++;
+            lowerEdgeField.setError(getString(R.string.blank_field_error));
+        }
+        if (TextUtils.isEmpty(frontalApproxValue.getText())) {
+            error++;
+            frontalApproxField.setError(getString(R.string.blank_field_error));
+        }
+        return error == 0;
+    }
+
+    public void clearErrorsCounterFields() {
+        counterLocationField.setErrorEnabled(false);
+        upperEdgeField.setErrorEnabled(false);
+        lowerEdgeField.setErrorEnabled(false);
+        frontalApproxField.setErrorEnabled(false);
+    }
+
+    public void clearCounterFields() {
+        counterLocationValue.setText(null);
+        upperEdgeValue.setText(null);
+        lowerEdgeValue.setText(null);
+        frontalApproxValue.setText(null);
+        counterObsValue.setText(null);
+    }
+
+    public CounterEntry newCounter(Bundle bundle) {
+        counterLocation = null;
+        counterObs = null;
+        upperEdge = null;
+        lowerEdge = null;
+        frontalApprox = null;
+
+        if (!TextUtils.isEmpty(counterLocationValue.getText()))
+            counterLocation = Objects.requireNonNull(counterLocationValue.getText()).toString();
+        if (!TextUtils.isEmpty(upperEdgeValue.getText()))
+            upperEdge = Double.parseDouble(Objects.requireNonNull(upperEdgeValue.getText()).toString());
+        if (!TextUtils.isEmpty(lowerEdgeValue.getText()))
+            lowerEdge = Double.parseDouble(Objects.requireNonNull(lowerEdgeValue.getText()).toString());
+        if (!TextUtils.isEmpty(frontalApproxValue.getText()))
+            frontalApprox = Double.parseDouble(Objects.requireNonNull(frontalApproxValue.getText()).toString());
+        if (!TextUtils.isEmpty(counterObsValue.getText()))
+            counterObs = Objects.requireNonNull(counterLocationValue.getText()).toString();
+
+        return new CounterEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),counterLocation, upperEdge, lowerEdge, frontalApprox, counterObs);
     }
 }
