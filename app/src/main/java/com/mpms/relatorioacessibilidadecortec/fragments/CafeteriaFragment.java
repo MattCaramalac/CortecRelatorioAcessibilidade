@@ -14,8 +14,11 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddCounterDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+
+import java.util.Objects;
 
 
 public class CafeteriaFragment extends Fragment {
@@ -24,6 +27,8 @@ public class CafeteriaFragment extends Fragment {
     Button addCounter;
 
     ViewModelFragments modelFragments;
+
+    Bundle bundle = new Bundle();
 
     public static final String CAFE_SPIN = "CAFE_SPIN";
 
@@ -69,7 +74,7 @@ public class CafeteriaFragment extends Fragment {
             }
         });
 
-        //TODO - Adicionar funcionalidade botão Balcão!!!!
+        addCounter.setOnClickListener( v-> addCounterDialog());
     }
 
     public boolean checkEmptyCafeFields() {
@@ -85,5 +90,10 @@ public class CafeteriaFragment extends Fragment {
 
     public void clearCafeteriaField() {
         turnAroundPossible.clearCheck();
+    }
+
+//    TODO - Colocar dados no bundle para permitir gravação correta dos balcões
+    private void addCounterDialog() {
+        AddCounterDialog.displayCounterDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), bundle);
     }
 }
