@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 @Database(entities = {SchoolEntry.class, WaterFountainEntry.class, OtherSpaces.class, ExternalAccess.class,
 ParkingLotEntry.class, ParkingLotPDMREntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
 FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
-        CounterEntry.class}, version = 13)
+        CounterEntry.class}, version = 14)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -218,6 +218,17 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+
+    static final Migration MIGRATION_13_14 = new Migration(13,14) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE CounterEntry");
+            database.execSQL("CREATE TABLE CounterEntry(counterID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL, " +
+                    "counterLocation TEXT, counterUpperEdge REAL NOT NULL, counterLowerEdge REAL NOT NULL, counterFrontalApprox REAL NOT NULL, " +
+                    "counterObs TEXT, FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null){
             synchronized (ReportDatabase.class) {
@@ -225,7 +236,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ReportDatabase.class, "ReportDatabase")
                             .addCallback(roomCallback).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6,
                                     MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12,
-                                    MIGRATION_12_13).build();
+                                    MIGRATION_12_13, MIGRATION_13_14).build();
                 }
             }
         }

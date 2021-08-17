@@ -14,18 +14,21 @@ public class CounterEntry {
     private int counterID;
     private int roomID;
 
+    private String counterLocation;
     private double counterUpperEdge;
     private double counterLowerEdge;
     private double counterFrontalApprox;
     private String counterObs;
 
-    public CounterEntry(int roomID, double counterUpperEdge, double counterLowerEdge, double counterFrontalApprox, String counterObs) {
+    public CounterEntry(int roomID, String counterLocation, double counterUpperEdge, double counterLowerEdge, double counterFrontalApprox, String counterObs) {
         this.roomID = roomID;
+        this.counterLocation = counterLocation;
         this.counterUpperEdge = counterUpperEdge;
         this.counterLowerEdge = counterLowerEdge;
         this.counterFrontalApprox = counterFrontalApprox;
         this.counterObs = counterObs;
     }
+
 
     public int getCounterID() {
         return counterID;
@@ -41,6 +44,14 @@ public class CounterEntry {
 
     public void setRoomID(int roomID) {
         this.roomID = roomID;
+    }
+
+    public String getCounterLocation() {
+        return counterLocation;
+    }
+
+    public void setCounterLocation(String counterLocation) {
+        this.counterLocation = counterLocation;
     }
 
     public double getCounterUpperEdge() {
