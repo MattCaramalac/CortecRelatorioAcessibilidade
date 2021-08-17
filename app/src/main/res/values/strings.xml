@@ -242,4 +242,10 @@
     <string name="label_payphone_has_tactile_floor">O telefone público possui piso tátil a sua frente?</string>
     <string name="hint_public_phone_obs">Observações sobre o telefone público</string>
     <string name="dialog_add_payphone_header">Adicionar Telefones Públicos</string>
+    <string name="hint_counter_location">Localização do balcão</string>
+    <string name="hint_counter_upper_edge">Altura da borda superior</string>
+    <string name="hint_counter_lower_edge">Altura da borda inferior</string>
+    <string name="hint_counter_frontal_approx">Aproximação frontal do balcão</string>
+    <string name="hint_counter_obs">Observações sobre o balcão</string>
+    <string name="dialog_add_counter_header">Adicionar Balcão</string>
 </resources>

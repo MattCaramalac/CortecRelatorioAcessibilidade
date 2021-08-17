@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddCounterDialog;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddDoorDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
@@ -30,6 +32,8 @@ public class SecretariatFragment extends Fragment {
     RadioGroup hasPcrSpace, turnAroundPossible;
 
     ViewModelFragments modelFragments;
+
+    Bundle bundle = new Bundle();
 
     public static final String FIXED_SEATS = "FIXED_SEATS";
     public static final String HAS_PCR_SPACE = "HAS_PCR_SPACE";
@@ -76,6 +80,8 @@ public class SecretariatFragment extends Fragment {
         addCounter = view.findViewById(R.id.secretariat_add_counter_button);
 
         radioGroupActivation(hasPcrSpace);
+
+        addCounter.setOnClickListener( v-> addCounterDialog());
 
         modelFragments.getSaveAttemptRoom().observe(getViewLifecycleOwner(), saveAttempt -> {
            if (saveAttempt == 1) {
@@ -157,6 +163,11 @@ public class SecretariatFragment extends Fragment {
         pcrSpaceWidthValue.setText(null);
         pcrSpaceDepthValue.setText(null);
         turnAroundPossible.clearCheck();
+    }
+
+//    TODO - Colocar dados no bundle para permitir gravação correta dos balcões
+    private void addCounterDialog() {
+        AddCounterDialog.displayCounterDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), bundle);
     }
 
 //    MÉTODO MAIS GENÉRICO!!!
