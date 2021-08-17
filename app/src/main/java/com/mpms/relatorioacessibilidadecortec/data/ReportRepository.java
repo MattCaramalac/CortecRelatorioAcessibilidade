@@ -3,8 +3,11 @@ package com.mpms.relatorioacessibilidadecortec.data;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
+import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
@@ -42,6 +45,7 @@ public class ReportRepository {
     private final TableEntryDao tableEntryDao;
     private final GateObsDao gateObsDao;
     private final PayPhoneDao payPhoneDao;
+    private final CounterEntryDao counterEntryDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -60,6 +64,7 @@ public class ReportRepository {
         tableEntryDao = db.tableEntryDao();
         payPhoneDao = db.payPhoneDao();
         gateObsDao = db.gateObsDao();
+        counterEntryDao = db.counterEntryDao();
 
     }
 
@@ -336,6 +341,30 @@ public class ReportRepository {
    public void deleteAllPayPhones(int externalAccessID) {
        ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.deleteAllPayPhones(externalAccessID));
    }
+
+    public void insertCounter(CounterEntry counter) {
+        ReportDatabase.dbWriteExecutor.execute(() -> counterEntryDao.insertCounter(counter));
+    }
+
+   public LiveData<List<CounterEntry>> getCountersFromRoom(int roomID) {
+       return counterEntryDao.getCountersFromRoom(roomID);
+   }
+
+    public LiveData<CounterEntry> getSpecificCounter(int counterID) {
+        return counterEntryDao.getSpecificCounter(counterID);
+    }
+
+    public void updateCounter (CounterEntry counter) {
+        ReportDatabase.dbWriteExecutor.execute(() -> counterEntryDao.updateCounter(counter));
+    }
+
+    public void deleteCounter(int counterID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> counterEntryDao.deleteCounter(counterID));
+    }
+
+    public void deleteAllCounterFromRoom(int counterID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> counterEntryDao.deleteAllCounterFromRoom(counterID));
+    }
 
     public void deleteAllEntries() {
         ReportDatabase.dbWriteExecutor.execute(schoolEntryDao::deleteAll);

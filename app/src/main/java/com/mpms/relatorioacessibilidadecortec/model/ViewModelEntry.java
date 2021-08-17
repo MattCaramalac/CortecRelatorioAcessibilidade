@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.mpms.relatorioacessibilidadecortec.data.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.ReportRepository;
+import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
@@ -304,16 +305,40 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.selectPayPhoneEntry(payPhoneID);
     }
 
-    public void updatePayPhone (PayPhoneEntry payPhone) {
+    public static void updatePayPhone (PayPhoneEntry payPhone) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updatePayPhone(payPhone));
     }
 
-    public void deletePayPhoneEntry(int payPhoneID) {
+    public static void deletePayPhoneEntry(int payPhoneID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deletePayPhoneEntry(payPhoneID));
     }
 
-    public void deleteAllPayPhones(int externalAccessID) {
+    public static void deleteAllPayPhones(int externalAccessID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllPayPhones(externalAccessID));
+    }
+
+    public static void insertCounter(CounterEntry counter) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertCounter(counter));
+    }
+
+    public LiveData<List<CounterEntry>> getCountersFromRoom(int roomID) {
+        return repository.getCountersFromRoom(roomID);
+    }
+
+    public LiveData<CounterEntry> getSpecificCounter(int counterID) {
+        return repository.getSpecificCounter(counterID);
+    }
+
+    public static void updateCounter (CounterEntry counter) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateCounter(counter));
+    }
+
+    public static void deleteCounter(int counterID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteCounter(counterID));
+    }
+
+    public static void deleteAllCounterFromRoom(int counterID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllCounterFromRoom(counterID));
     }
 
 }
