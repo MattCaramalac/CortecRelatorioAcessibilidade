@@ -122,18 +122,7 @@ public class ExternalAccessFragment extends Fragment {
             if (recentEntry == 1) {
                 lastExtAccess = lastAccess.getExternalAccessID();
                 extBundle.putInt(EXT_ACCESS_ID,lastExtAccess);
-
-                switch (extButtonChoice) {
-                    case 0:
-                        addTrailRampDialog();
-                        break;
-                    case 1:
-                        addGateObsDialog();
-                        break;
-                    case 2:
-                        addPayPhoneDialog();
-                        break;
-                }
+                buttonClicked(extButtonChoice);
                 extButtonChoice = -1;
             }
         });
@@ -199,6 +188,20 @@ public class ExternalAccessFragment extends Fragment {
 
     public int getCheckedButton(RadioGroup radioGroup) {
         return radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()));
+    }
+
+    public void buttonClicked (int buttonClicked) {
+        switch (buttonClicked) {
+            case 0:
+                addTrailRampDialog();
+                break;
+            case 1:
+                addGateObsDialog();
+                break;
+            case 2:
+                addPayPhoneDialog();
+                break;
+        }
     }
 
     public boolean checkEmptyFields() {
@@ -308,17 +311,7 @@ public class ExternalAccessFragment extends Fragment {
         }
 
         if (existingEntry == 1 || recentEntry == 1) {
-            switch (extButtonChoice) {
-                case 0:
-                    addTrailRampDialog();
-                    break;
-                case 1:
-                    addGateObsDialog();
-                    break;
-                case 2:
-                    addPayPhoneDialog();
-                    break;
-            }
+            buttonClicked(extButtonChoice);
             extButtonChoice = -1;
         }
     }
