@@ -343,7 +343,7 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllCounterFromRoom(counterID));
     }
 
-    public void insertStairs(StairsEntry stairs) {
+    public static void insertStairs(StairsEntry stairs) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertStairs(stairs));
     }
 
@@ -359,19 +359,19 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastStairsEntry();
     }
 
-    public void deleteOneStairs(int stairsID) {
+    public static void deleteOneStairs(int stairsID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneStairs(stairsID));
     }
 
-    public void deleteAllStairsFromSchool(int schoolID) {
+    public static void deleteAllStairsFromSchool(int schoolID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllStairsFromSchool(schoolID));
     }
 
-    public void updateStairs(StairsEntry stairs) {
+    public static void updateStairs(StairsEntry stairs) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateStairs(stairs));
     }
 
-    public void insertStairsFlight(FlightStairsEntry flight) {
+    public static void insertStairsFlight(FlightStairsEntry flight) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertStairsFlight(flight));
     }
 
@@ -387,15 +387,15 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastStairsFlightEntry();
     }
 
-    public void deleteOneFlightOFStairs(int flightID) {
+    public static void deleteOneFlightOFStairs(int flightID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneFlightOFStairs(flightID));
     }
 
-    public void deleteAllFlightsFromStairs(int stairsID) {
+    public static void deleteAllFlightsFromStairs(int stairsID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllFlightsFromStairs(stairsID));
     }
 
-    public void updateFlightStairs(StairsEntry stairs) {
+    public static void updateFlightStairs(StairsEntry stairs) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateFlightStairs(stairs));
     }
 
