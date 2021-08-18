@@ -10,6 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <LinearLayout
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            android:id="@+id/focus_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal" />
+
         <TextView
             android:id="@+id/stairs_header"
             android:layout_width="match_parent"
@@ -53,7 +63,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_stairs_ramp"
+            android:id="@+id/save_stairs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/top_margins"
@@ -63,14 +73,14 @@
             app:layout_constraintTop_toBottomOf="@id/flight_stairs_field" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_stairs_ramp"
+            android:id="@+id/cancel_stairs"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/top_margins"
             android:text="@string/label_button_cancel"
             android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@id/save_stairs_ramp"
+            app:layout_constraintBaseline_toBaselineOf="@id/save_stairs"
             app:layout_constraintStart_toStartOf="parent" />
 
 
