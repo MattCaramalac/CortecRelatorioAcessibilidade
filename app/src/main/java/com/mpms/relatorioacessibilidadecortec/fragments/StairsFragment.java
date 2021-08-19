@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -79,6 +81,7 @@ public class StairsFragment extends Fragment {
         proceedEntry = view.findViewById(R.id.save_stairs);
 
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
 
 //        TODO - Necessário criar observador para captar dados de itens já gravados, não só de recentes
         modelEntry.getLastStairsEntry().observe(getViewLifecycleOwner(), stairs -> {
@@ -86,6 +89,7 @@ public class StairsFragment extends Fragment {
                 recentStairs = 0;
                 int stairID = stairs.getStairsID();
                 staircaseData.putInt(STAIRCASE_ID, stairID);
+//                modelFragments.setStairsBundle(staircaseData); //Ao colocar aqui, ativa o modelFragment 2 vezes
                 FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 StairsFlightFragment flightFragment = StairsFlightFragment.newInstance();
@@ -93,6 +97,15 @@ public class StairsFragment extends Fragment {
                 fragmentTransaction.replace(R.id.show_fragment_selected, flightFragment).addToBackStack(null).commit();
             }
         });
+
+        modelFragments.getStairsBundle().observe(getViewLifecycleOwner(), stairs -> {
+            if (stairs != null) {
+                modelEntry.getStairsEntry(stairs.getInt(STAIRCASE_ID)).observe(getViewLifecycleOwner(), this::gatherStairEntry);
+//                int exemplo = stairs.getInt(STAIRCASE_ID);
+//                Toast.makeText(getContext(), "Teste de verificação: " + exemplo, Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         proceedEntry.setOnClickListener(v -> {
             if(checkStaircaseFields()) {
@@ -138,6 +151,12 @@ public class StairsFragment extends Fragment {
     public void clearStaircaseFields() {
         stairsLocValue.setText(null);
         quantFlightValue.setText(null);
+    }
+
+    public void gatherStairEntry(StairsEntry stairs) {
+        stairsLocValue.setText(stairs.getStairsLocation());
+// TODO - Number formatting does not take into account locale settings. Consider using `String.format` instead.
+        quantFlightValue.setText(Integer.toString(stairs.getFlightStairsQuantity()));
     }
 
 }
