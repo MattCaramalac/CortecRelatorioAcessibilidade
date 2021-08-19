@@ -256,10 +256,10 @@
     <string name="label_step_dimensions_header">Dimensões dos degraus da escadaria</string>
     <string name="label_mirror_register_text">Cadastro Espelhos</string>
     <string name="label_step_register_text">Cadastro Pisos</string>
-    <string name="label_pavement_tactile_sign_header">Há sinalização tátil de pavimento ao início e ao fim do lance de escadas?</string>
+    <string name="label_pavement_tactile_sign_header">Há sinalização tátil de pavimento ao início e ao fim do lance?</string>
     <string name="radio_button_not_applicable">NÃO SE APLICA</string>
     <string name="hint_pavement_tact_sign_obs">Observações da sinalização tátil de pavimento</string>
-    <string name="label_tactile_floor_header">Há presença de piso tátil ao início e ao fim do lance de escadas?</string>
+    <string name="label_tactile_floor_header">Há presença de piso tátil ao início e ao fim do lance?</string>
     <string name="hint_tactile_floor_obs">Observações sobre o piso tátil</string>
     <string name="label_railing_beacon_register_header">Cadastro de guarda-corpos e balizamentos</string>
     <string name="label_button_handrails">Corrimãos e Prolongamentos</string>
@@ -272,4 +272,7 @@
     <string name="label_ramp_register_header">Cadastro de Rampas</string>
     <string name="hint_ramp_location">Localização da Rampa</string>
     <string name="hint_ramp_flight_quantity">Quantidade de lances da rampa</string>
+    <string name="label_ramp_flights_header">Cadastro dos lances da rampa</string>
+    <string name="label_inclination_button">Cadastro de Inclinações</string>
+    <string name="label_inclination_ramp_header">Cadastro das inclinações do lance da rampa</string>
 </resources>
