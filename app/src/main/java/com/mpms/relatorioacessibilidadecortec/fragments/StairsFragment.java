@@ -34,8 +34,6 @@ public class StairsFragment extends Fragment {
     TextInputEditText stairsLocValue, quantFlightValue;
     Button cancelStairs, proceedEntry;
 
-    LinearLayout focusRequest;
-
     String stairsLocation;
     Integer quantityFlights;
 
@@ -79,7 +77,6 @@ public class StairsFragment extends Fragment {
         quantFlightValue = view.findViewById(R.id.flight_stairs_value);
         cancelStairs = view.findViewById(R.id.cancel_stairs);
         proceedEntry = view.findViewById(R.id.save_stairs);
-        focusRequest = view.findViewById(R.id.focus_layout);
 
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 
@@ -103,7 +100,6 @@ public class StairsFragment extends Fragment {
                 ViewModelEntry.insertStairs(newStair);
                 clearStaircaseFields();
                 recentStairs = 1;
-//                clearFieldFocus();
             }
         });
 
@@ -142,12 +138,6 @@ public class StairsFragment extends Fragment {
     public void clearStaircaseFields() {
         stairsLocValue.setText(null);
         quantFlightValue.setText(null);
-    }
-
-    public void clearFieldFocus() {
-        stairsLocValue.clearFocus();
-        quantFlightValue.clearFocus();
-        focusRequest.requestFocus();
     }
 
 }

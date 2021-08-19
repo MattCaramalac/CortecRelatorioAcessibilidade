@@ -251,4 +251,22 @@
     <string name="label_stairs_register">Cadastro de Escadarias</string>
     <string name="hint_staircase_location">Localização da Escadaria</string>
     <string name="hint_number_flight_stairs">Quantidade de lances da escadaria</string>
+    <string name="hint_staircase_width">Largura da Escadaria</string>
+    <string name="label_staircase_register_header">Cadastro lances de escada</string>
+    <string name="label_step_dimensions_header">Dimensões dos degraus da escadaria</string>
+    <string name="label_mirror_register_text">Cadastro Espelhos</string>
+    <string name="label_step_register_text">Cadastro Pisos</string>
+    <string name="label_pavement_tactile_sign_header">Há sinalização tátil de pavimento ao início e ao fim do lance de escadas?</string>
+    <string name="radio_button_not_applicable">NÃO SE APLICA</string>
+    <string name="hint_pavement_tact_sign_obs">Observações da sinalização tátil de pavimento</string>
+    <string name="label_tactile_floor_header">Há presença de piso tátil ao início e ao fim do lance de escadas?</string>
+    <string name="hint_tactile_floor_obs">Observações sobre o piso tátil</string>
+    <string name="label_railing_beacon_register_header">Cadastro de guarda-corpos e balizamentos</string>
+    <string name="label_button_handrails">Corrimãos e Prolongamentos</string>
+    <string name="label_button_railing">Guarda-corpo e balizamento</string>
+    <string name="label_border_sign_header">O lance de escadas possui sinalização nas bordas?</string>
+    <string name="label_handrail_header">Cadastro de corrimãos e seus prolongamentos</string>
+    <string name="hint_border_sign_width">Largura da Sinalização de Borda</string>
+    <string name="label_border_sign_identifiable_header">A sinalização de borda é identificável?</string>
+    <string name="hint_border_sign_obs">Observações Sinalização de Borda</string>
 </resources>
