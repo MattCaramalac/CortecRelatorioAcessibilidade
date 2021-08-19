@@ -269,4 +269,7 @@
     <string name="hint_border_sign_width">Largura da Sinalização de Borda</string>
     <string name="label_border_sign_identifiable_header">A sinalização de borda é identificável?</string>
     <string name="hint_border_sign_obs">Observações Sinalização de Borda</string>
+    <string name="label_ramp_register_header">Cadastro de Rampas</string>
+    <string name="hint_ramp_location">Localização da Rampa</string>
+    <string name="hint_ramp_flight_quantity">Quantidade de lances da rampa</string>
 </resources>

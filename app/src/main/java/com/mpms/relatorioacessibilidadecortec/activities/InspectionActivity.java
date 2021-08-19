@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.RampFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestroomFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
@@ -53,11 +54,13 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 displaySidewalkFragment();
                 break;
             case 7:
-            case 9:
                 displayStairsFragment();
                 break;
             case 8:
                 displayParkingLotFragment();
+                break;
+            case 9:
+                displayRampFragment();
                 break;
             case 16:
                 displayOtherSpacesFragment();
@@ -151,7 +154,22 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         fragmentTransaction.replace(R.id.show_fragment_selected, stairsFragment).addToBackStack(null).commit();
     }
 
-    public void closeStairsRampFragment() {
+    public void closeStairsFragment() {
+        StairsFragment stairsFragment = (StairsFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
+        if (stairsFragment != null) {
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.remove(stairsFragment).commit();
+        }
+    }
+
+    public void displayRampFragment() {
+        RampFragment ramp = RampFragment.newInstance();
+        ramp.setArguments(fragmentSchoolID);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.show_fragment_selected, ramp).addToBackStack(null).commit();
+    }
+
+    public void closeRampFragment() {
         StairsFragment stairsFragment = (StairsFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
         if (stairsFragment != null) {
             fragmentTransaction = fragmentManager.beginTransaction();
