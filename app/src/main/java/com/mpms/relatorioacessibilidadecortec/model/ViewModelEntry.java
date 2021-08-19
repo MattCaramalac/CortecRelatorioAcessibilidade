@@ -347,8 +347,8 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertStairs(stairs));
     }
 
-    public LiveData<List<StairsEntry>> getAllStairs() {
-        return repository.getAllStairs();
+    public LiveData<List<StairsEntry>> getAllStairsFromSchool(int schoolID) {
+        return repository.getAllStairsFromSchool(schoolID);
     }
 
     public LiveData<StairsEntry> getStairsEntry(int stairsID) {
@@ -375,8 +375,8 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertStairsFlight(flight));
     }
 
-    public LiveData<List<FlightStairsEntry>> getAllStairsFlights() {
-        return repository.getAllStairsFlights();
+    public LiveData<List<FlightStairsEntry>> getAllStairsFlights(int stairsID) {
+        return repository.getAllStairsFlights(stairsID);
     }
 
     public LiveData<FlightStairsEntry> getStairsFLightEntry(int flightID) {

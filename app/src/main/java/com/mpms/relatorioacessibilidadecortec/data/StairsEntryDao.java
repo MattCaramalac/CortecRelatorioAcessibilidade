@@ -16,8 +16,8 @@ public interface StairsEntryDao {
     @Insert
     void insertStairs(StairsEntry stairs);
 
-    @Query("SELECT * FROM StairsEntry ORDER BY StairsID DESC")
-    LiveData<List<StairsEntry>> getAllStairs();
+    @Query("SELECT * FROM StairsEntry  WHERE schoolID == :schoolID ORDER BY StairsID DESC")
+    LiveData<List<StairsEntry>> getAllStairs(int schoolID);
 
     @Query("SELECT * FROM StairsEntry WHERE stairsID == :stairsID")
     LiveData<StairsEntry> getStairsEntry(int stairsID);

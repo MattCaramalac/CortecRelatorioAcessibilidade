@@ -376,8 +376,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> stairsEntryDao.insertStairs(stairs));
     }
 
-    public LiveData<List<StairsEntry>> getAllStairs() {
-        return stairsEntryDao.getAllStairs();
+    public LiveData<List<StairsEntry>> getAllStairsFromSchool(int schoolID) {
+        return stairsEntryDao.getAllStairs(schoolID);
     }
 
     public LiveData<StairsEntry> getStairsEntry(int stairsID) {
@@ -404,8 +404,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> fligthStairsDao.insertStairsFlight(flight));
     }
 
-    public LiveData<List<FlightStairsEntry>> getAllStairsFlights() {
-        return fligthStairsDao.getAllStairsFlights();
+    public LiveData<List<FlightStairsEntry>> getAllStairsFlights(int stairsID) {
+        return fligthStairsDao.getAllStairsFlights(stairsID);
     }
 
     public LiveData<FlightStairsEntry> getStairsFLightEntry(int flightID) {

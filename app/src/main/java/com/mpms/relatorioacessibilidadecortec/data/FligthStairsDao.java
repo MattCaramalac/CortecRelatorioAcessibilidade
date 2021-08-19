@@ -17,8 +17,8 @@ public interface FligthStairsDao {
     @Insert
     void insertStairsFlight(FlightStairsEntry flight);
 
-    @Query("SELECT * FROM FlightStairsEntry ORDER BY flightID DESC")
-    LiveData<List<FlightStairsEntry>> getAllStairsFlights();
+    @Query("SELECT * FROM FlightStairsEntry WHERE stairsID == :stairsID ORDER BY flightID DESC")
+    LiveData<List<FlightStairsEntry>> getAllStairsFlights(int stairsID);
 
     @Query("SELECT * FROM FlightStairsEntry WHERE flightID == :flightID")
     LiveData<FlightStairsEntry> getStairsFLightEntry(int flightID);
