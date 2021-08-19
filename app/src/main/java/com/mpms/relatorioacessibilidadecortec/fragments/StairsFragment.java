@@ -40,6 +40,7 @@ public class StairsFragment extends Fragment {
     Integer quantityFlights;
 
     int recentStairs = 0;
+    int updateStairs = 0;
 
     Bundle staircaseData = new Bundle();
 
@@ -83,13 +84,13 @@ public class StairsFragment extends Fragment {
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
 
-//        TODO - Necessário criar observador para captar dados de itens já gravados, não só de recentes
+
+//      Usado quando um novo cadastro é realizado, colocando o ID no bundle e chamando o próximo fragmento
         modelEntry.getLastStairsEntry().observe(getViewLifecycleOwner(), stairs -> {
             if (recentStairs == 1) {
                 recentStairs = 0;
                 int stairID = stairs.getStairsID();
                 staircaseData.putInt(STAIRCASE_ID, stairID);
-//                modelFragments.setStairsBundle(staircaseData); //Ao colocar aqui, ativa o modelFragment 2 vezes
                 FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 StairsFlightFragment flightFragment = StairsFlightFragment.newInstance();
@@ -98,24 +99,50 @@ public class StairsFragment extends Fragment {
             }
         });
 
+//      Usado quando uma entrada deve ser atualizada,
+        modelEntry.getStairsEntry(staircaseData.getInt(STAIRCASE_ID)).observe(getViewLifecycleOwner(), update -> {
+            if (updateStairs == 1) {
+                updateStairs = 0;
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                StairsFlightFragment flightFragment = StairsFlightFragment.newInstance();
+                flightFragment.setArguments(staircaseData);
+                fragmentTransaction.replace(R.id.show_fragment_selected, flightFragment).addToBackStack(null).commit();
+            }
+        });
+
+//      Preenchimento dos campos da tela
         modelFragments.getStairsBundle().observe(getViewLifecycleOwner(), stairs -> {
             if (stairs != null) {
                 modelEntry.getStairsEntry(stairs.getInt(STAIRCASE_ID)).observe(getViewLifecycleOwner(), this::gatherStairEntry);
-//                int exemplo = stairs.getInt(STAIRCASE_ID);
-//                Toast.makeText(getContext(), "Teste de verificação: " + exemplo, Toast.LENGTH_SHORT).show();
             }
         });
 
 
         proceedEntry.setOnClickListener(v -> {
             if(checkStaircaseFields()) {
-                StairsEntry newStair = newStairCase(staircaseData);
-                ViewModelEntry.insertStairs(newStair);
-                clearStaircaseFields();
-                recentStairs = 1;
+                int stairsID = staircaseData.getInt(STAIRCASE_ID, 0);
+                if (stairsID == 0) {
+                    StairsEntry newStair = newStairCase(staircaseData);
+                    ViewModelEntry.insertStairs(newStair);
+                    recentStairs = 1;
+                } else if (stairsID > 0) {
+                    StairsEntry upStairs = newStairCase(staircaseData);
+                    upStairs.setStairsID(stairsID);
+                    ViewModelEntry.updateStairs(upStairs);
+                    updateStairs = 1;
+                } else {
+                    staircaseData = null;
+                    recentStairs = 0;
+                    updateStairs = 0;
+                    clearStaircaseFields();
+                    Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
+//        TODO - Atualizar método para retornar à listagem de escadas cadastradas quando ela for implementada (em vez de fechar o frag)
         cancelStairs.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
@@ -155,7 +182,7 @@ public class StairsFragment extends Fragment {
 
     public void gatherStairEntry(StairsEntry stairs) {
         stairsLocValue.setText(stairs.getStairsLocation());
-// TODO - Number formatting does not take into account locale settings. Consider using `String.format` instead.
+//  Number formatting does not take into account locale settings. Consider using `String.format` instead. - Integer não tem pontos, não tem que se preocupar
         quantFlightValue.setText(Integer.toString(stairs.getFlightStairsQuantity()));
     }
 
