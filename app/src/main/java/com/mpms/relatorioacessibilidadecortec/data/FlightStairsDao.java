@@ -7,12 +7,11 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.FlightStairsEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.StairsEntry;
 
 import java.util.List;
 
 @Dao
-public interface FligthStairsDao {
+public interface FlightStairsDao {
 
     @Insert
     void insertStairsFlight(FlightStairsEntry flight);
@@ -33,5 +32,5 @@ public interface FligthStairsDao {
     void deleteAllFlightsFromStairs(int stairsID);
 
     @Update
-    void updateFlightStairs(StairsEntry stairs);
+    void updateFlightStairs(FlightStairsEntry flightStairs);
 }
