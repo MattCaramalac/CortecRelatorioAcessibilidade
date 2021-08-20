@@ -54,12 +54,12 @@ public class ViewModelFragments extends ViewModel {
         return counterClick;
     }
 
-    public final MutableLiveData<Bundle> stairsBundle = new MutableLiveData<>();
-    public void setStairsBundle(Bundle bundle) {
-        stairsBundle.setValue(bundle);
+    public final MutableLiveData<Bundle> rampStairsBundle = new MutableLiveData<>();
+    public void setRampStairsBundle(Bundle bundle) {
+        rampStairsBundle.setValue(bundle);
     }
-    public LiveData<Bundle> getStairsBundle() {
-        return stairsBundle;
+    public LiveData<Bundle> getRampStairsBundle() {
+        return rampStairsBundle;
     }
 
 }
