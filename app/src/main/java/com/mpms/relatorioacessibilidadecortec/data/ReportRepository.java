@@ -3,13 +3,11 @@ package com.mpms.relatorioacessibilidadecortec.data;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.entities.FlightRampEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.FlightStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
@@ -18,6 +16,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.StairsEntry;
@@ -49,7 +48,9 @@ public class ReportRepository {
     private final PayPhoneDao payPhoneDao;
     private final CounterEntryDao counterEntryDao;
     private final StairsEntryDao stairsEntryDao;
-    private final FligthStairsDao fligthStairsDao;
+    private final FlightStairsDao flightStairsDao;
+    private final RampEntryDao rampEntryDao;
+    private final FlightRampDao flightRampDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -70,7 +71,9 @@ public class ReportRepository {
         gateObsDao = db.gateObsDao();
         counterEntryDao = db.counterEntryDao();
         stairsEntryDao = db.stairsEntryDao();
-        fligthStairsDao = db.fligthStairsDao();
+        flightStairsDao = db.fligthStairsDao();
+        rampEntryDao = db.rampEntryDao();
+        flightRampDao = db.flightRampDao();
 
     }
 
@@ -401,31 +404,87 @@ public class ReportRepository {
     }
 
     public void insertStairsFlight(FlightStairsEntry flight) {
-        ReportDatabase.dbWriteExecutor.execute(() -> fligthStairsDao.insertStairsFlight(flight));
+        ReportDatabase.dbWriteExecutor.execute(() -> flightStairsDao.insertStairsFlight(flight));
     }
 
     public LiveData<List<FlightStairsEntry>> getAllStairsFlights(int stairsID) {
-        return fligthStairsDao.getAllStairsFlights(stairsID);
+        return flightStairsDao.getAllStairsFlights(stairsID);
     }
 
     public LiveData<FlightStairsEntry> getStairsFLightEntry(int flightID) {
-        return fligthStairsDao.getStairsFLightEntry(flightID);
+        return flightStairsDao.getStairsFLightEntry(flightID);
     }
 
     public LiveData<FlightStairsEntry> getLastStairsFlightEntry() {
-        return fligthStairsDao.getLastStairsFlightEntry();
+        return flightStairsDao.getLastStairsFlightEntry();
     }
 
     public void deleteOneFlightOFStairs(int flightID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> fligthStairsDao.deleteOneFlightOFStairs(flightID));
+        ReportDatabase.dbWriteExecutor.execute(() -> flightStairsDao.deleteOneFlightOFStairs(flightID));
     }
 
     public void deleteAllFlightsFromStairs(int stairsID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> fligthStairsDao.deleteAllFlightsFromStairs(stairsID));
+        ReportDatabase.dbWriteExecutor.execute(() -> flightStairsDao.deleteAllFlightsFromStairs(stairsID));
     }
 
-    public void updateFlightStairs(StairsEntry stairs) {
-        ReportDatabase.dbWriteExecutor.execute(() -> fligthStairsDao.updateFlightStairs(stairs));
+    public void updateFlightStairs(FlightStairsEntry flightStairs) {
+        ReportDatabase.dbWriteExecutor.execute(() -> flightStairsDao.updateFlightStairs(flightStairs));
+    }
+
+    public void insertRamp(RampEntry ramp) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampEntryDao.insertRamp(ramp));
+    }
+
+    public LiveData<List<RampEntry>> getAllRampsFromSchool(int schoolID) {
+        return rampEntryDao.getAllRampsFromSchool(schoolID);
+    }
+
+    public LiveData<RampEntry> getRampEntry(int rampID) {
+        return rampEntryDao.getRampEntry(rampID);
+    }
+
+    public LiveData<RampEntry> getLastRampEntry() {
+        return rampEntryDao.getLastRampEntry();
+    }
+
+    public void deleteOneRamp(int rampID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampEntryDao.deleteOneRamp(rampID));
+    }
+
+    public void deleteAllRampsFromSchool(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampEntryDao.deleteAllRampsFromSchool(schoolID));
+    }
+
+    public void updateRamp(RampEntry ramp) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampEntryDao.updateRamp(ramp));
+    }
+
+    public void insertRampFlight(FlightRampEntry flight) {
+        ReportDatabase.dbWriteExecutor.execute(() -> flightRampDao.insertRampFlight(flight));
+    }
+
+    public LiveData<List<FlightRampEntry>> getAllRampFlights(int rampID) {
+        return flightRampDao.getAllRampFlights(rampID);
+    }
+
+    public LiveData<FlightRampEntry> getRampFLightEntry(int flightRampID) {
+        return flightRampDao.getRampFLightEntry(flightRampID);
+    }
+
+    public LiveData<FlightRampEntry> getLastRampFlightEntry() {
+        return flightRampDao.getLastRampFlightEntry();
+    }
+
+    public void deleteOneFlightOfRamp(int flightRampID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> flightRampDao.deleteOneFlightOfRamp(flightRampID));
+    }
+
+    public void deleteAllFlightsFromRamp(int rampID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> flightRampDao.deleteAllFlightsFromRamp(rampID));
+    }
+
+    public void updateFlightRamp(FlightRampEntry rampEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> flightRampDao.updateFlightRamp(rampEntry));
     }
 
     public void deleteAllEntries() {

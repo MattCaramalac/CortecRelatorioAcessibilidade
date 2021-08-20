@@ -14,7 +14,7 @@ import java.util.List;
 public interface RampEntryDao {
 
     @Insert
-    void insertRamp(RampEntry stairs);
+    void insertRamp(RampEntry ramp);
 
     @Query("SELECT * FROM RampEntry WHERE schoolID == :schoolID ORDER BY rampID DESC")
     LiveData<List<RampEntry>> getAllRampsFromSchool(int schoolID);
