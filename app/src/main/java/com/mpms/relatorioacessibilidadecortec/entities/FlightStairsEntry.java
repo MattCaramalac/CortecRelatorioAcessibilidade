@@ -19,12 +19,12 @@ public class FlightStairsEntry {
     private int tactileFloor;
     private String tactileFloorObs;
     private int borderSign;
-    private double borderSignWidth;
-    private int borderSignIdentifiable;
+    private Double borderSignWidth;
+    private Integer borderSignIdentifiable;
     private String borderSignObs;
 
     public FlightStairsEntry(int stairsID, double flightWidth, int signPavement, String signPavementObs, int tactileFloor, String tactileFloorObs,
-                             int borderSign, double borderSignWidth, int borderSignIdentifiable, String borderSignObs) {
+                             int borderSign, Double borderSignWidth, Integer borderSignIdentifiable, String borderSignObs) {
         this.stairsID = stairsID;
         this.flightWidth = flightWidth;
         this.signPavement = signPavement;
@@ -105,7 +105,7 @@ public class FlightStairsEntry {
         return borderSignWidth;
     }
 
-    public void setBorderSignWidth(double borderSignWidth) {
+    public void setBorderSignWidth(Double borderSignWidth) {
         this.borderSignWidth = borderSignWidth;
     }
 
@@ -113,7 +113,7 @@ public class FlightStairsEntry {
         return borderSignIdentifiable;
     }
 
-    public void setBorderSignIdentifiable(int borderSignIdentifiable) {
+    public void setBorderSignIdentifiable(Integer borderSignIdentifiable) {
         this.borderSignIdentifiable = borderSignIdentifiable;
     }
 
