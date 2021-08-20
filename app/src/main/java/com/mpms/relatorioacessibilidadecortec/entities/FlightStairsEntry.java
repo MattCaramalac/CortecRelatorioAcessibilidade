@@ -101,7 +101,7 @@ public class FlightStairsEntry {
         this.borderSign = borderSign;
     }
 
-    public double getBorderSignWidth() {
+    public Double getBorderSignWidth() {
         return borderSignWidth;
     }
 
@@ -109,7 +109,7 @@ public class FlightStairsEntry {
         this.borderSignWidth = borderSignWidth;
     }
 
-    public int getBorderSignIdentifiable() {
+    public Integer getBorderSignIdentifiable() {
         return borderSignIdentifiable;
     }
 

@@ -66,7 +66,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                     dbWriteExecutor.execute(() -> { GateObsDao gateObsDao = INSTANCE.gateObsDao(); });
                     dbWriteExecutor.execute(() -> { CounterEntryDao counterEntryDao = INSTANCE.counterEntryDao(); });
                     dbWriteExecutor.execute(() -> { StairsEntryDao stairsEntryDao = INSTANCE.stairsEntryDao(); });
-                    dbWriteExecutor.execute(() -> { FlightStairsDao flightStairsDao = INSTANCE.fligthStairsDao(); });
+                    dbWriteExecutor.execute(() -> { FlightStairsDao flightStairsDao = INSTANCE.flightStairsDao(); });
                     dbWriteExecutor.execute(() -> { RampEntryDao rampEntryDao = INSTANCE.rampEntryDao(); });
                     dbWriteExecutor.execute(() -> { FlightRampDao flightRampDao = INSTANCE.flightRampDao(); });
                 }
@@ -298,7 +298,7 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract PayPhoneDao payPhoneDao();
     public abstract CounterEntryDao counterEntryDao();
     public abstract StairsEntryDao stairsEntryDao();
-    public abstract FlightStairsDao fligthStairsDao();
+    public abstract FlightStairsDao flightStairsDao();
     public abstract RampEntryDao rampEntryDao();
     public abstract FlightRampDao flightRampDao();
 

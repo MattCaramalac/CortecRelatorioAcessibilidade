@@ -71,7 +71,7 @@ public class ReportRepository {
         gateObsDao = db.gateObsDao();
         counterEntryDao = db.counterEntryDao();
         stairsEntryDao = db.stairsEntryDao();
-        flightStairsDao = db.fligthStairsDao();
+        flightStairsDao = db.flightStairsDao();
         rampEntryDao = db.rampEntryDao();
         flightRampDao = db.flightRampDao();
 
