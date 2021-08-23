@@ -251,7 +251,6 @@
     <string name="label_stairs_register">Cadastro de Escadarias</string>
     <string name="hint_staircase_location">Localização da Escadaria</string>
     <string name="hint_number_flight_stairs">Quantidade de lances da escadaria</string>
-    <string name="hint_staircase_width">Largura da Escadaria</string>
     <string name="label_staircase_register_header">Cadastro lances de escada</string>
     <string name="label_step_dimensions_header">Dimensões dos degraus da escadaria</string>
     <string name="label_mirror_register_text">Cadastro Espelhos</string>
