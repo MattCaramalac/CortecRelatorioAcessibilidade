@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RampEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.StairsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
@@ -81,8 +82,13 @@ public class RampStairsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_ramp_stairs, container, false);
 
         rampStairsBundle = this.getArguments();
-        if (rampStairsBundle != null)
+        if (rampStairsBundle != null) {
             rampStairsBundle.putInt(RAMP_OR_STAIRS, chosenOption);
+            if (rampStairsBundle.getInt(InspectionActivity.ALLOW_UPDATE) == 0)
+                rampStairsBundle.putInt(RAMP_STAIRS_ID,0);
+//            rampStairsBundle.putInt(RAMP_STAIRS_ID, 0); Zera o ID mas acaba causando novas entries
+        }
+
 
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
@@ -112,39 +118,15 @@ public class RampStairsFragment extends Fragment {
             if(checkRampStairsFields()) {
                 int rampStairsID = rampStairsBundle.getInt(RAMP_STAIRS_ID, 0);
                 if (rampStairsID == 0) {
-                    switch (chosenOption) {
-                        case 7:
-                            StairsEntry newStaircase = newStaircase(rampStairsBundle);
-                            ViewModelEntry.insertStairs(newStaircase);
-                            recentEntry = 1;
-                            break;
-                        case 9:
-                            RampEntry newRamp = newRamp(rampStairsBundle);
-                            ViewModelEntry.insertRamp(newRamp);
-                            recentEntry = 1;
-                            break;
-                        default:
-                            errorEscape();
-                            break;
-                    }
+                    rampStairsBundle.putInt(InspectionActivity.ALLOW_UPDATE, 1);
+                    RampStairsEntry newEntry = newRampOrStaircase(rampStairsBundle);
+                    ViewModelEntry.insertRampStairs(newEntry);
+                    recentEntry = 1;
                 } else if (rampStairsID > 0) {
-                    switch (chosenOption) {
-                        case 7:
-                            StairsEntry upStairs = newStaircase(rampStairsBundle);
-                            upStairs.setStairsID(rampStairsID);
-                            ViewModelEntry.updateStairs(upStairs);
-                            updateEntry = 1;
-                            break;
-                        case 9:
-                            RampEntry upRamp = newRamp(rampStairsBundle);
-                            upRamp.setRampID(rampStairsID);
-                            ViewModelEntry.updateRamp(upRamp);
-                            updateEntry = 1;
-                            break;
-                        default:
-                            errorEscape();
-                            break;
-                    }
+                    RampStairsEntry upEntry = newRampOrStaircase(rampStairsBundle);
+                    upEntry.setRampStairsID(rampStairsID);
+                    ViewModelEntry.updateRampStairs(upEntry);
+                    updateEntry = 1;
                 } else {
                     errorEscape();
                 }
@@ -165,100 +147,58 @@ public class RampStairsFragment extends Fragment {
                 rampStairsLocField.setHint(getString(R.string.hint_staircase_location));
                 quantFlightField.setHint(getString(R.string.hint_number_flight_stairs));
                 registerHeader.setText(getText(R.string.label_staircase_register_header));
-
-                modelEntry.getLastStairsEntry().observe(getViewLifecycleOwner(), stairs -> {
-                    if (recentEntry == 1) {
-                        recentEntry = 0;
-                        int stairID = stairs.getStairsID();
-                        rampStairsBundle.putInt(RAMP_STAIRS_ID, stairID);
-                        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        RampStairsFlightFragment flightFragment = RampStairsFlightFragment.newInstance();
-                        flightFragment.setArguments(rampStairsBundle);
-                        fragmentTransaction.replace(R.id.show_fragment_selected, flightFragment).addToBackStack(null).commit();
-                    }
-                });
-
-//      Usado quando uma entrada deve ser atualizada,
-                modelEntry.getStairsEntry(rampStairsBundle.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), update -> {
-                    if (updateEntry == 1) {
-                        updateEntry = 0;
-                        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        RampStairsFlightFragment flightFragment = RampStairsFlightFragment.newInstance();
-                        flightFragment.setArguments(rampStairsBundle);
-                        fragmentTransaction.replace(R.id.show_fragment_selected, flightFragment).addToBackStack(null).commit();
-                    }
-                });
-
-//      Preenchimento dos campos da tela
-                modelFragments.getRampStairsBundle().observe(getViewLifecycleOwner(), stairs -> {
-                    if (stairs != null) {
-                        modelEntry.getStairsEntry(stairs.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), this::gatherStairsEntry);
-                    }
-                });
-
                 break;
             case 9:
                 rampStairsLocField.setHint(getString(R.string.hint_ramp_location));
                 quantFlightField.setHint(getString(R.string.hint_ramp_flight_quantity));
                 registerHeader.setText(getText(R.string.label_ramp_register_header));
-
-//      Usado quando um novo cadastro é realizado, colocando o ID no bundle e chamando o próximo fragmento
-                modelEntry.getLastRampEntry().observe(getViewLifecycleOwner(), ramp -> {
-                    if (recentEntry == 1) {
-                        recentEntry = 0;
-                        int rampID = ramp.getRampID();
-                        rampStairsBundle.putInt(RAMP_STAIRS_ID, rampID);
-                        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        RampStairsFlightFragment flightFragment = RampStairsFlightFragment.newInstance();
-                        flightFragment.setArguments(rampStairsBundle);
-                        fragmentTransaction.replace(R.id.show_fragment_selected, flightFragment).addToBackStack(null).commit();
-                    }
-                });
-
-//      Usado quando uma entrada deve ser atualizada,
-                modelEntry.getRampEntry(rampStairsBundle.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), update -> {
-                    if (updateEntry == 1) {
-                        updateEntry = 0;
-                        FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        RampStairsFlightFragment flightFragment = RampStairsFlightFragment.newInstance();
-                        flightFragment.setArguments(rampStairsBundle);
-                        fragmentTransaction.replace(R.id.show_fragment_selected, flightFragment).addToBackStack(null).commit();
-                    }
-                });
-
-//      Preenchimento dos campos da tela
-                modelFragments.getRampStairsBundle().observe(getViewLifecycleOwner(), ramp -> {
-                    if (ramp != null) {
-                        modelEntry.getRampEntry(ramp.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), this::gatherRampEntry);
-                    }
-                });
-
                 break;
             default:
                 errorEscape();
                 break;
         }
 
+        //      Usado quando um novo cadastro é realizado, colocando o ID no bundle e chamando o próximo fragmento
+        modelEntry.getLastRampStairsEntry().observe(getViewLifecycleOwner(), rampStairs -> {
+            if (recentEntry == 1) {
+                recentEntry = 0;
+                int rampStairsID = rampStairs.getRampStairsID();
+                rampStairsBundle.putInt(RAMP_STAIRS_ID, rampStairsID);
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                RampStairsFlightFragment flightFragment = RampStairsFlightFragment.newInstance();
+                flightFragment.setArguments(rampStairsBundle);
+                fragmentTransaction.replace(R.id.show_fragment_selected, flightFragment).addToBackStack(null).commit();
+            }
+        });
+
+//      Usado quando uma entrada deve ser atualizada,
+        modelEntry.getRampStairsEntry(rampStairsBundle.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), update -> {
+            if (updateEntry == 1) {
+                updateEntry = 0;
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                RampStairsFlightFragment flightFragment = RampStairsFlightFragment.newInstance();
+                flightFragment.setArguments(rampStairsBundle);
+                fragmentTransaction.replace(R.id.show_fragment_selected, flightFragment).addToBackStack(null).commit();
+            }
+        });
+
+//      Preenchimento dos campos da tela
+        modelFragments.getRampStairsBundle().observe(getViewLifecycleOwner(), rampStairs -> {
+            if (rampStairs != null) {
+                modelEntry.getRampStairsEntry(rampStairs.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), this::gatherRampStairsEntry);
+            }
+        });
+
     }
 
-    public StairsEntry newStaircase(Bundle bundle) {
+    public RampStairsEntry newRampOrStaircase(Bundle bundle) {
         rampStairsLocation = Objects.requireNonNull(rampStairsLocValue.getText()).toString();
         rampStairsFlightQuantity = Integer.parseInt(Objects.requireNonNull(quantFlightValue.getText()).toString());
         rampStairsBundle.putInt(NUMBER_FLIGHTS, rampStairsFlightQuantity);
 
-        return new StairsEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), rampStairsLocation, rampStairsFlightQuantity);
-    }
-
-    public RampEntry newRamp(Bundle bundle) {
-        rampStairsLocation = Objects.requireNonNull(rampStairsLocValue.getText()).toString();
-        rampStairsFlightQuantity = Integer.parseInt(Objects.requireNonNull(quantFlightValue.getText()).toString());
-        rampStairsBundle.putInt(NUMBER_FLIGHTS, rampStairsFlightQuantity);
-
-        return new RampEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), rampStairsLocation, rampStairsFlightQuantity);
+        return new RampStairsEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), chosenOption, rampStairsLocation, rampStairsFlightQuantity);
     }
 
     public boolean checkRampStairsFields() {
@@ -280,16 +220,10 @@ public class RampStairsFragment extends Fragment {
         quantFlightField.setErrorEnabled(false);
     }
 
-    public void gatherStairsEntry(StairsEntry stairs) {
-        rampStairsLocValue.setText(stairs.getStairsLocation());
+    public void gatherRampStairsEntry(RampStairsEntry rampStairs) {
+        rampStairsLocValue.setText(rampStairs.getRampStairsLocation());
 //  Number formatting does not take into account locale settings. Consider using `String.format` instead. - Integer não tem pontos, não tem que se preocupar
-        quantFlightValue.setText(Integer.toString(stairs.getFlightStairsQuantity()));
-    }
-
-    public void gatherRampEntry(RampEntry ramp) {
-        rampStairsLocValue.setText(ramp.getRampLocation());
-//  Number formatting does not take into account locale settings. Consider using `String.format` instead. - Integer não tem pontos, não tem que se preocupar
-        quantFlightValue.setText(Integer.toString(ramp.getFlightRampQuantity()));
+        quantFlightValue.setText(Integer.toString(rampStairs.getFlightsQuantity()));
     }
 
     public void errorEscape(){
