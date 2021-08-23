@@ -21,6 +21,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public int schoolEntryID;
     public static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
+    public static final String ALLOW_UPDATE = "ALLOW_UPDATE";
     Bundle fragmentSchoolID = new Bundle();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -163,6 +164,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public void displayStairsRampFragment(int chosenItem) {
         RampStairsFragment rampStairsFragment = RampStairsFragment.newInstance(chosenItem);
+        fragmentSchoolID.putInt(ALLOW_UPDATE, 0);
         rampStairsFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, rampStairsFragment).addToBackStack(null).commit();
