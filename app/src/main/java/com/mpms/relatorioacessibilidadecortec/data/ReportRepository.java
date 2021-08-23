@@ -3,15 +3,10 @@ package com.mpms.relatorioacessibilidadecortec.data;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
-import com.mpms.relatorioacessibilidadecortec.entities.FlightRampEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.FlightStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
@@ -20,11 +15,9 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.RampEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.StairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
