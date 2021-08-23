@@ -7,6 +7,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.FlightRampEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.FlightStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
@@ -15,6 +16,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.StairsEntry;
@@ -36,7 +38,7 @@ import java.util.concurrent.Executors;
 @Database(entities = {SchoolEntry.class, WaterFountainEntry.class, OtherSpaces.class, ExternalAccess.class,
 ParkingLotEntry.class, ParkingLotPDMREntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
 FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
-        CounterEntry.class, StairsEntry.class, FlightStairsEntry.class, RampEntry.class, FlightRampEntry.class}, version = 16)
+CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class}, version = 17)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -65,10 +67,9 @@ public abstract class ReportDatabase extends RoomDatabase {
                     dbWriteExecutor.execute(() -> { PayPhoneDao payPhoneDao = INSTANCE.payPhoneDao(); });
                     dbWriteExecutor.execute(() -> { GateObsDao gateObsDao = INSTANCE.gateObsDao(); });
                     dbWriteExecutor.execute(() -> { CounterEntryDao counterEntryDao = INSTANCE.counterEntryDao(); });
-                    dbWriteExecutor.execute(() -> { StairsEntryDao stairsEntryDao = INSTANCE.stairsEntryDao(); });
-                    dbWriteExecutor.execute(() -> { FlightStairsDao flightStairsDao = INSTANCE.flightStairsDao(); });
-                    dbWriteExecutor.execute(() -> { RampEntryDao rampEntryDao = INSTANCE.rampEntryDao(); });
-                    dbWriteExecutor.execute(() -> { FlightRampDao flightRampDao = INSTANCE.flightRampDao(); });
+                    dbWriteExecutor.execute(() -> { RampStairsEntryDao rampStairsDao = INSTANCE.rampStairsDao(); });
+                    dbWriteExecutor.execute(() -> { FlightRampStairsDao flightRampStairsDao = INSTANCE.flightRampStairsDao(); });
+
                 }
             };
 
@@ -266,6 +267,25 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+
+    static final Migration MIGRATION_16_17 = new Migration(16,17) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE StairsEntry");
+            database.execSQL("DROP TABLE rampEntry");
+            database.execSQL("DROP TABLE FlightStairsEntry");
+            database.execSQL("DROP TABLE FlightRampEntry");
+            database.execSQL("CREATE TABLE RampStairsEntry(rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolID INTEGER NOT NULL," +
+                    "rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, flightsQuantity INTEGER NOT NULL, " +
+                    "FOREIGN KEY (schoolID) REFERENCES SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE FlightsRampStairsEntry(flightID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, rampStairsID INTEGER NOT NULL," +
+                    "flightWidth REAL NOT NULL, signPavement INTEGER NOT NULL, signPavementObs TEXT, tactileFloor INTEGER NOT NULL," +
+                    "tactileFloorObs TEXT, borderSign INTEGER, borderSignWidth REAL, borderSignIdentifiable INTEGER," +
+                    "borderSignObs TEXT, FOREIGN KEY (rampStairsID) REFERENCES RampStairsEntry (rampStairsID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null){
             synchronized (ReportDatabase.class) {
@@ -273,7 +293,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ReportDatabase.class, "ReportDatabase")
                             .addCallback(roomCallback).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6,
                                     MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12,
-                                    MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16).build();
+                                    MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17).build();
                 }
             }
         }
@@ -297,9 +317,6 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract GateObsDao gateObsDao();
     public abstract PayPhoneDao payPhoneDao();
     public abstract CounterEntryDao counterEntryDao();
-    public abstract StairsEntryDao stairsEntryDao();
-    public abstract FlightStairsDao flightStairsDao();
-    public abstract RampEntryDao rampEntryDao();
-    public abstract FlightRampDao flightRampDao();
-
+    public abstract RampStairsEntryDao rampStairsDao();
+    public abstract FlightRampStairsDao flightRampStairsDao();
 }

@@ -13,6 +13,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.FlightRampEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.FlightStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
@@ -21,6 +22,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.StairsEntry;
@@ -345,116 +347,60 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllCounterFromRoom(counterID));
     }
 
-    public static void insertStairs(StairsEntry stairs) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertStairs(stairs));
+    public static void insertRampStairs(RampStairsEntry ramp) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRampStairs(ramp));
     }
 
-    public LiveData<List<StairsEntry>> getAllStairsFromSchool(int schoolID) {
-        return repository.getAllStairsFromSchool(schoolID);
+    public LiveData<List<RampStairsEntry>> getAllRampStairsFromSchool(int schoolID) {
+        return repository.getAllRampStairsFromSchool(schoolID);
     }
 
-    public LiveData<StairsEntry> getStairsEntry(int stairsID) {
-        return repository.getStairsEntry(stairsID);
+    public LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID) {
+        return repository.getRampStairsEntry(rampStairsID);
     }
 
-    public LiveData<StairsEntry> getLastStairsEntry() {
-        return repository.getLastStairsEntry();
+    public LiveData<RampStairsEntry> getLastRampStairsEntry() {
+        return repository.getLastRampStairsEntry();
     }
 
-    public static void deleteOneStairs(int stairsID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneStairs(stairsID));
+    public static void deleteOneRampStairs(int rampStairsID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRampStairs(rampStairsID));
     }
 
-    public static void deleteAllStairsFromSchool(int schoolID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllStairsFromSchool(schoolID));
+    public static void deleteAllRampStairsFromSchool(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllRampStairsFromSchool(schoolID));
     }
 
-    public static void updateStairs(StairsEntry stairs) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateStairs(stairs));
+    public static void updateRampStairs(RampStairsEntry rampStairs) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRampStairs(rampStairs));
     }
 
-    public static void insertStairsFlight(FlightStairsEntry flight) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertStairsFlight(flight));
+    public static void insertRampsStairsFlight(FlightsRampStairsEntry flight) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRampsStairsFlight(flight));
     }
 
-    public LiveData<List<FlightStairsEntry>> getAllStairsFlights(int stairsID) {
-        return repository.getAllStairsFlights(stairsID);
+    public LiveData<List<FlightsRampStairsEntry>> getAllRampStairsFlights(int rampStairsID) {
+        return repository.getAllRampStairsFlights(rampStairsID);
     }
 
-    public LiveData<FlightStairsEntry> getStairsFLightEntry(int flightID) {
-        return repository.getStairsFLightEntry(flightID);
+    public LiveData<FlightsRampStairsEntry> getRampStairsFLightEntry(int flightID) {
+        return repository.getRampStairsFlightEntry(flightID);
     }
 
-    public LiveData<FlightStairsEntry> getLastStairsFlightEntry() {
-        return repository.getLastStairsFlightEntry();
+    public LiveData<FlightsRampStairsEntry> getLastRampStairsFlightEntry() {
+        return repository.getLastRampStairsFlightEntry();
     }
 
-    public static void deleteOneFlightOFStairs(int flightID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneFlightOFStairs(flightID));
+    public static void deleteOneFlight(int flightID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneFlight(flightID));
     }
 
-    public static void deleteAllFlightsFromStairs(int stairsID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllFlightsFromStairs(stairsID));
+    public static void deleteAllFlightsFromOneRampsStairs(int rampStairsID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllFlightsFromOneRampsStairs(rampStairsID));
     }
 
-    public static void updateFlightStairs(FlightStairsEntry flightStairs) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateFlightStairs(flightStairs));
-    }
-
-    public static void insertRamp(RampEntry ramp) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRamp(ramp));
-    }
-
-    public LiveData<List<RampEntry>> getAllRampsFromSchool(int schoolID) {
-        return repository.getAllRampsFromSchool(schoolID);
-    }
-
-    public LiveData<RampEntry> getRampEntry(int rampID) {
-        return repository.getRampEntry(rampID);
-    }
-
-    public LiveData<RampEntry> getLastRampEntry() {
-        return repository.getLastRampEntry();
-    }
-
-    public static void deleteOneRamp(int rampID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRamp(rampID));
-    }
-
-    public static void deleteAllRampsFromSchool(int schoolID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllRampsFromSchool(schoolID));
-    }
-
-    public static void updateRamp(RampEntry ramp) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRamp(ramp));
-    }
-
-    public static void insertRampFlight(FlightRampEntry flight) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRampFlight(flight));
-    }
-
-    public LiveData<List<FlightRampEntry>> getAllRampFlights(int rampID) {
-        return repository.getAllRampFlights(rampID);
-    }
-
-    public LiveData<FlightRampEntry> getRampFLightEntry(int flightRampID) {
-        return repository.getRampFLightEntry(flightRampID);
-    }
-
-    public LiveData<FlightRampEntry> getLastRampFlightEntry() {
-        return repository.getLastRampFlightEntry();
-    }
-
-    public static void deleteOneFlightOfRamp(int flightRampID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneFlightOfRamp(flightRampID));
-    }
-
-    public static void deleteAllFlightsFromRamp(int rampID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllFlightsFromRamp(rampID));
-    }
-
-    public static void updateFlightRamp(FlightRampEntry rampEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateFlightRamp(rampEntry));
+    public static void updateFlightRampStairs(FlightsRampStairsEntry flight) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateFlightRampStairs(flight));
     }
 
 }

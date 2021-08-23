@@ -3,12 +3,16 @@ package com.mpms.relatorioacessibilidadecortec.data;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.entities.FlightRampEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.FlightStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
@@ -17,6 +21,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.StairsEntry;
@@ -47,10 +52,8 @@ public class ReportRepository {
     private final GateObsDao gateObsDao;
     private final PayPhoneDao payPhoneDao;
     private final CounterEntryDao counterEntryDao;
-    private final StairsEntryDao stairsEntryDao;
-    private final FlightStairsDao flightStairsDao;
-    private final RampEntryDao rampEntryDao;
-    private final FlightRampDao flightRampDao;
+    private final RampStairsEntryDao rampStairsEntryDao;
+    private final FlightRampStairsDao flightsRampStairDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -70,10 +73,8 @@ public class ReportRepository {
         payPhoneDao = db.payPhoneDao();
         gateObsDao = db.gateObsDao();
         counterEntryDao = db.counterEntryDao();
-        stairsEntryDao = db.stairsEntryDao();
-        flightStairsDao = db.flightStairsDao();
-        rampEntryDao = db.rampEntryDao();
-        flightRampDao = db.flightRampDao();
+        rampStairsEntryDao = db.rampStairsDao();
+        flightsRampStairDao = db.flightRampStairsDao();
 
     }
 
@@ -375,116 +376,60 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> counterEntryDao.deleteAllCounterFromRoom(counterID));
     }
 
-    public void insertStairs(StairsEntry stairs) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsEntryDao.insertStairs(stairs));
+    public void insertRampStairs(RampStairsEntry ramp) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampStairsEntryDao.insertRampStairs(ramp));
     }
 
-    public LiveData<List<StairsEntry>> getAllStairsFromSchool(int schoolID) {
-        return stairsEntryDao.getAllStairs(schoolID);
+    public LiveData<List<RampStairsEntry>> getAllRampStairsFromSchool(int schoolID) {
+        return rampStairsEntryDao.getAllRampStairsFromSchool(schoolID);
     }
 
-    public LiveData<StairsEntry> getStairsEntry(int stairsID) {
-        return stairsEntryDao.getStairsEntry(stairsID);
+    public LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID) {
+        return rampStairsEntryDao.getRampStairsEntry(rampStairsID);
     }
 
-    public LiveData<StairsEntry> getLastStairsEntry() {
-        return stairsEntryDao.getLastStairsEntry();
+    public LiveData<RampStairsEntry> getLastRampStairsEntry() {
+        return rampStairsEntryDao.getLastRampStairsEntry();
     }
 
-    public void deleteOneStairs(int stairsID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsEntryDao.deleteOneStairs(stairsID));
+    public void deleteOneRampStairs(int rampStairsID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampStairsEntryDao.deleteOneRampStairs(rampStairsID));
     }
 
-    public void deleteAllStairsFromSchool(int schoolID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsEntryDao.deleteAllStairsFromSchool(schoolID));
+    public void deleteAllRampStairsFromSchool(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampStairsEntryDao.deleteAllRampStairsFromSchool(schoolID));
     }
 
-    public void updateStairs(StairsEntry stairs) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsEntryDao.updateStairs(stairs));
+    public void updateRampStairs(RampStairsEntry rampStairs) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampStairsEntryDao.updateRampStairs(rampStairs));
     }
 
-    public void insertStairsFlight(FlightStairsEntry flight) {
-        ReportDatabase.dbWriteExecutor.execute(() -> flightStairsDao.insertStairsFlight(flight));
+    public void insertRampsStairsFlight(FlightsRampStairsEntry flight) {
+        ReportDatabase.dbWriteExecutor.execute(() -> flightsRampStairDao.insertRampsStairsFlight(flight));
     }
 
-    public LiveData<List<FlightStairsEntry>> getAllStairsFlights(int stairsID) {
-        return flightStairsDao.getAllStairsFlights(stairsID);
+    public LiveData<List<FlightsRampStairsEntry>> getAllRampStairsFlights(int rampStairsID) {
+        return flightsRampStairDao.getAllRampStairsFlights(rampStairsID);
     }
 
-    public LiveData<FlightStairsEntry> getStairsFLightEntry(int flightID) {
-        return flightStairsDao.getStairsFLightEntry(flightID);
+    public LiveData<FlightsRampStairsEntry> getRampStairsFlightEntry(int flightID) {
+        return flightsRampStairDao.getRampStairsFlightEntry(flightID);
     }
 
-    public LiveData<FlightStairsEntry> getLastStairsFlightEntry() {
-        return flightStairsDao.getLastStairsFlightEntry();
+    public LiveData<FlightsRampStairsEntry> getLastRampStairsFlightEntry() {
+        return flightsRampStairDao.getLastRampStairsFlightEntry();
     }
 
-    public void deleteOneFlightOFStairs(int flightID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> flightStairsDao.deleteOneFlightOFStairs(flightID));
+    public void deleteOneFlight(int flightID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> flightsRampStairDao.deleteOneFlight(flightID));
     }
 
-    public void deleteAllFlightsFromStairs(int stairsID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> flightStairsDao.deleteAllFlightsFromStairs(stairsID));
+    public void deleteAllFlightsFromOneRampsStairs(int rampStairsID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> flightsRampStairDao.deleteAllFlightsFromOneRampsStairs(rampStairsID));
     }
 
-    public void updateFlightStairs(FlightStairsEntry flightStairs) {
-        ReportDatabase.dbWriteExecutor.execute(() -> flightStairsDao.updateFlightStairs(flightStairs));
-    }
-
-    public void insertRamp(RampEntry ramp) {
-        ReportDatabase.dbWriteExecutor.execute(() -> rampEntryDao.insertRamp(ramp));
-    }
-
-    public LiveData<List<RampEntry>> getAllRampsFromSchool(int schoolID) {
-        return rampEntryDao.getAllRampsFromSchool(schoolID);
-    }
-
-    public LiveData<RampEntry> getRampEntry(int rampID) {
-        return rampEntryDao.getRampEntry(rampID);
-    }
-
-    public LiveData<RampEntry> getLastRampEntry() {
-        return rampEntryDao.getLastRampEntry();
-    }
-
-    public void deleteOneRamp(int rampID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> rampEntryDao.deleteOneRamp(rampID));
-    }
-
-    public void deleteAllRampsFromSchool(int schoolID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> rampEntryDao.deleteAllRampsFromSchool(schoolID));
-    }
-
-    public void updateRamp(RampEntry ramp) {
-        ReportDatabase.dbWriteExecutor.execute(() -> rampEntryDao.updateRamp(ramp));
-    }
-
-    public void insertRampFlight(FlightRampEntry flight) {
-        ReportDatabase.dbWriteExecutor.execute(() -> flightRampDao.insertRampFlight(flight));
-    }
-
-    public LiveData<List<FlightRampEntry>> getAllRampFlights(int rampID) {
-        return flightRampDao.getAllRampFlights(rampID);
-    }
-
-    public LiveData<FlightRampEntry> getRampFLightEntry(int flightRampID) {
-        return flightRampDao.getRampFLightEntry(flightRampID);
-    }
-
-    public LiveData<FlightRampEntry> getLastRampFlightEntry() {
-        return flightRampDao.getLastRampFlightEntry();
-    }
-
-    public void deleteOneFlightOfRamp(int flightRampID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> flightRampDao.deleteOneFlightOfRamp(flightRampID));
-    }
-
-    public void deleteAllFlightsFromRamp(int rampID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> flightRampDao.deleteAllFlightsFromRamp(rampID));
-    }
-
-    public void updateFlightRamp(FlightRampEntry rampEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> flightRampDao.updateFlightRamp(rampEntry));
+    public void updateFlightRampStairs(FlightsRampStairsEntry flight) {
+        ReportDatabase.dbWriteExecutor.execute(() -> flightsRampStairDao.updateFlightRampStairs(flight));
     }
 
     public void deleteAllEntries() {
