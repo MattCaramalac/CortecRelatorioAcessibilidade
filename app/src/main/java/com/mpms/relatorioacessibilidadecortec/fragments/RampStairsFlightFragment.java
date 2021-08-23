@@ -5,7 +5,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +20,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 
-import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
 
 
 public class RampStairsFlightFragment extends Fragment {
 
-    TextView flightHeader, dimensionsButtonsHeader, stairsBorderSignHeader, identifiableBorderSignHeader;
+    TextView flightHeader, dimensionsButtonsHeader, borderSignHeader, identifiableBorderSignHeader,
+    tactileSignRadioError, tactileFloorRadioError, borderSignRadioError, borderSignIdentifiableRadioError;
     TextInputLayout rampStairsWidthField, tactileSignObsField, tactileFloorObsField, borderSignWidthField,
     borderSignObsField;
     TextInputEditText rampStairsWidthValue, tactileSignObsValue, tactileFloorObsValue, borderSignWidthValue,
@@ -40,6 +44,9 @@ public class RampStairsFlightFragment extends Fragment {
     Bundle rampStairsBundle = new Bundle();
 
     int rampOrStairs;
+
+    ViewModelFragments modelFragments;
+    ViewModelEntry modelEntry;
 
     public RampStairsFlightFragment() {
         // Required empty public constructor
@@ -61,11 +68,12 @@ public class RampStairsFlightFragment extends Fragment {
        View rootView = inflater.inflate(R.layout.fragment_ramp_stairs_flight, container, false);
 
        rampStairsBundle = this.getArguments();
-       if (rampStairsBundle != null) {
+       if (rampStairsBundle != null)
            rampOrStairs = rampStairsBundle.getInt(RampStairsFragment.RAMP_OR_STAIRS);
-       }
 
-       return rootView;
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        return rootView;
     }
 
     @Override
@@ -74,8 +82,12 @@ public class RampStairsFlightFragment extends Fragment {
 
         flightHeader = view.findViewById(R.id.flight_header);
         dimensionsButtonsHeader = view.findViewById(R.id.dimensions_header);
-        stairsBorderSignHeader = view.findViewById(R.id.border_sign_header);
+        borderSignHeader = view.findViewById(R.id.border_sign_header);
         identifiableBorderSignHeader = view.findViewById(R.id.border_sign_identifiable_header);
+        tactileSignRadioError = view.findViewById(R.id.tactile_sign_error);
+        tactileFloorRadioError = view.findViewById(R.id.tactile_floor_error);
+        borderSignRadioError = view.findViewById(R.id.border_sign_error);
+        borderSignIdentifiableRadioError = view.findViewById(R.id.border_sign_identifiable_error);
 
         rampStairsWidthField = view.findViewById(R.id.ramp_staircase_width_field);
         tactileSignObsField = view.findViewById(R.id.tactile_sign_obs_field);
@@ -102,18 +114,29 @@ public class RampStairsFlightFragment extends Fragment {
         radioStepBorderSign = view.findViewById(R.id.border_sign_radio);
         radioIdentifiableBorderSign = view.findViewById(R.id.border_sign_identifiable_radio);
 
-        switch (rampOrStairs) {
+        setRampStairsFlightTemplate(rampOrStairs);
+
+        saveFlight.setOnClickListener( v-> {
+            checkEmptyFlightFields();
+        });
+
+//        Comando faz retornar a tela de cadastro da escadaria
+//        TODO - Inserir dialog de perda de dados cadastrados ao tentar retornar para a tela inicial de cadastro
+        cancelFlight.setOnClickListener(v-> Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStackImmediate());
+
+    }
+
+    public void setRampStairsFlightTemplate(int template) {
+        switch (template) {
             case 7:
                 flightHeader.setText(getString(R.string.label_staircase_register_header));
                 rampStairsWidthField.setHint(getString(R.string.hint_stairs_width));
                 dimensionsButtonsHeader.setText(getString(R.string.label_step_dimensions_header));
                 mirrorButton.setVisibility(View.VISIBLE);
                 stepButton.setVisibility(View.VISIBLE);
-                stairsBorderSignHeader.setVisibility(View.VISIBLE);
+                borderSignHeader.setVisibility(View.VISIBLE);
                 radioStepBorderSign.setVisibility(View.VISIBLE);
-                radioIdentifiableBorderSign.setVisibility(View.VISIBLE);
-                borderSignWidthField.setVisibility(View.VISIBLE);
-                borderSignObsField.setVisibility(View.VISIBLE);
+                radioStepBorderSign.setOnCheckedChangeListener(this::borderSignListener);
                 break;
             case 9:
                 flightHeader.setText(getString(R.string.label_ramp_flights_header));
@@ -130,6 +153,72 @@ public class RampStairsFlightFragment extends Fragment {
     public void errorFlightProcedure(){
         Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
+
+//    public FlightsRampStairsEntry newFlightEntry(Bundle bundle) {
+//
+//    }
+
+    public int getFlightRadioCheckedIndex(RadioGroup radio){
+        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
+    }
+
+    public boolean checkEmptyFlightFields() {
+        clearEmptyFlightFieldsErrors();
+        int error = 0;
+        if (TextUtils.isEmpty(rampStairsWidthValue.getText())) {
+            error++;
+            rampStairsWidthField.setError(getString(R.string.blank_field_error));
+        }
+        if (getFlightRadioCheckedIndex(radioTactileSign) == -1) {
+            error++;
+            tactileSignRadioError.setVisibility(View.VISIBLE);
+        }
+        if (getFlightRadioCheckedIndex(radioTactileFloor) == -1) {
+            error++;
+            tactileFloorRadioError.setVisibility(View.VISIBLE);
+        }
+        if (getFlightRadioCheckedIndex(radioStepBorderSign) == -1 && rampOrStairs == 7) {
+            error++;
+            borderSignRadioError.setVisibility(View.VISIBLE);
+        } else if (getFlightRadioCheckedIndex(radioStepBorderSign) == 1 && rampOrStairs == 7) {
+            if (TextUtils.isEmpty(borderSignWidthValue.getText())) {
+                error++;
+                borderSignWidthField.setError(getString(R.string.blank_field_error));
+            }
+            if (getFlightRadioCheckedIndex(radioIdentifiableBorderSign) == -1) {
+                error++;
+                borderSignIdentifiableRadioError.setVisibility(View.VISIBLE);
+            }
+        }
+        return error == 0;
+    }
+
+    public void clearEmptyFlightFieldsErrors() {
+        rampStairsWidthField.setErrorEnabled(false);
+        tactileSignRadioError.setVisibility(View.GONE);
+        tactileFloorRadioError.setVisibility(View.GONE);
+        borderSignRadioError.setVisibility(View.GONE);
+        borderSignWidthField.setErrorEnabled(false);
+        borderSignIdentifiableRadioError.setVisibility(View.GONE);
+    }
+
+    public void borderSignListener(RadioGroup radio, int checkedID) {
+        int index = getFlightRadioCheckedIndex(radio);
+        if (index == 1) {
+            borderSignWidthField.setVisibility(View.VISIBLE);
+            identifiableBorderSignHeader.setVisibility(View.VISIBLE);
+            radioIdentifiableBorderSign.setVisibility(View.VISIBLE);
+            borderSignObsField.setVisibility(View.VISIBLE);
+        } else {
+            borderSignWidthValue.setText(null);
+            borderSignWidthField.setVisibility(View.GONE);
+            identifiableBorderSignHeader.setVisibility(View.GONE);
+            radioIdentifiableBorderSign.clearCheck();
+            radioIdentifiableBorderSign.setVisibility(View.GONE);
+            borderSignObsValue.setText(null);
+            borderSignObsField.setVisibility(View.GONE);
+        }
     }
 
 }

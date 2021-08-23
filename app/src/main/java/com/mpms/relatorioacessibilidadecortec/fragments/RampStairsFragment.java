@@ -84,7 +84,6 @@ public class RampStairsFragment extends Fragment {
             rampStairsBundle.putInt(RAMP_OR_STAIRS, chosenOption);
             if (rampStairsBundle.getInt(InspectionActivity.ALLOW_UPDATE) == 0)
                 rampStairsBundle.putInt(RAMP_STAIRS_ID,0);
-//            rampStairsBundle.putInt(RAMP_STAIRS_ID, 0); Zera o ID mas acaba causando novas entries
         }
 
 
@@ -121,6 +120,8 @@ public class RampStairsFragment extends Fragment {
                     ViewModelEntry.insertRampStairs(newEntry);
                     recentEntry = 1;
                 } else if (rampStairsID > 0) {
+//                    Testar para verificar se não causa novas entradas
+                    rampStairsBundle.putInt(InspectionActivity.ALLOW_UPDATE, 1);
                     RampStairsEntry upEntry = newRampOrStaircase(rampStairsBundle);
                     upEntry.setRampStairsID(rampStairsID);
                     ViewModelEntry.updateRampStairs(upEntry);
