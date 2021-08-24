@@ -274,4 +274,13 @@
     <string name="label_ramp_flights_header">Cadastro dos lances da rampa</string>
     <string name="label_inclination_button">Cadastro de Inclinações</string>
     <string name="label_inclination_ramp_header">Cadastro das inclinações do lance da rampa</string>
+    <string name="label_restroom_register_header">Cadastro de Sanitários</string>
+    <string name="radio_button_masculine">MASCULINO</string>
+    <string name="radio_button_feminine">FEMININO</string>
+    <string name="radio_button_familiar">FAMILIAR</string>
+    <string name="hint_accessible_route_obs">Observações sobre a rota</string>
+    <string name="label_restroom_integration_header">O sanitário está integrado às demais instalações sanitárias?</string>
+    <string name="hint_obs">Observações</string>
+    <string name="label_restroom_distance_header">O sanitário se encontra a uma distância máxima de 50 metros?</string>
+    <string name="hint_exclusive_entrance">O sanitário possui entrada independente?</string>
 </resources>
