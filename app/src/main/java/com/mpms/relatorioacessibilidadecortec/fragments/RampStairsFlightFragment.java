@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
@@ -20,6 +22,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
@@ -39,7 +43,7 @@ public class RampStairsFlightFragment extends Fragment {
 
     Double rampStairsWidth, borderSignWidth;
     String tactileSignObs, tactileFloorObs, borderSignObs;
-    Integer stairsHaveBorderSign, identifiableBorderSign;
+    Integer hasTactileSign, hasTactileFloor, stairsHaveBorderSign, identifiableBorderSign;
 
     Bundle rampStairsBundle = new Bundle();
 
@@ -96,7 +100,7 @@ public class RampStairsFlightFragment extends Fragment {
         borderSignObsField = view.findViewById(R.id.border_signal_obs_field);
 
         rampStairsWidthValue = view.findViewById(R.id.ramp_staircase_width_value);
-        tactileSignObsValue = view.findViewById(R.id.tactile_sign_obs_value);
+        tactileSignObsValue = view.findViewById(R.id.pavement_tact_sign_obs_value);
         tactileFloorObsValue = view.findViewById(R.id.tactile_floor_obs_value);
         borderSignWidthValue = view.findViewById(R.id.border_signal_width_value);
         borderSignObsValue = view.findViewById(R.id.border_signal_obs_value);
@@ -117,7 +121,18 @@ public class RampStairsFlightFragment extends Fragment {
         setRampStairsFlightTemplate(rampOrStairs);
 
         saveFlight.setOnClickListener( v-> {
-            checkEmptyFlightFields();
+            if(checkEmptyFlightFields()) {
+                FlightsRampStairsEntry newFlight = newFlightEntry(rampStairsBundle);
+                ViewModelEntry.insertRampsStairsFlight(newFlight);
+                Toast.makeText(getContext(), "Informações Salvas com Sucesso!", Toast.LENGTH_SHORT).show();
+                rampStairsBundle.putInt(InspectionActivity.ALLOW_UPDATE,0);
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                RampStairsFragment rampStairs = RampStairsFragment.newInstance(rampStairsBundle.getInt(RampStairsFragment.RAMP_OR_STAIRS));
+                rampStairs.setArguments(rampStairsBundle);
+                fragmentTransaction.replace(R.id.show_fragment_selected, rampStairs).commit();
+            }
+//            TODO - Permitir gravar todos os lances em vez de só um!!!!!!!!!!
         });
 
 //        Comando faz retornar a tela de cadastro da escadaria
@@ -155,9 +170,36 @@ public class RampStairsFlightFragment extends Fragment {
         Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
-//    public FlightsRampStairsEntry newFlightEntry(Bundle bundle) {
-//
-//    }
+    public FlightsRampStairsEntry newFlightEntry(Bundle bundle) {
+        rampStairsWidth = null;
+        borderSignWidth = null;
+        tactileSignObs = null;
+        tactileFloorObs = null;
+        borderSignObs = null;
+        hasTactileSign = null;
+        hasTactileFloor = null;
+        stairsHaveBorderSign = null;
+        identifiableBorderSign = null;
+
+        rampStairsWidth = Double.parseDouble(Objects.requireNonNull(rampStairsWidthValue.getText()).toString());
+        hasTactileSign = getFlightRadioCheckedIndex(radioTactileSign);
+        if(!TextUtils.isEmpty(tactileSignObsValue.getText()))
+            tactileSignObs = Objects.requireNonNull(tactileSignObsValue.getText()).toString();
+        hasTactileFloor = getFlightRadioCheckedIndex(radioTactileFloor);
+        if (!TextUtils.isEmpty(tactileFloorObsValue.getText()))
+            tactileFloorObs = Objects.requireNonNull(tactileFloorObsValue.getText()).toString();
+        if (bundle.getInt(RampStairsFragment.RAMP_OR_STAIRS) == 7) {
+            stairsHaveBorderSign = getFlightRadioCheckedIndex(radioStepBorderSign);
+            if (stairsHaveBorderSign == 1) {
+                borderSignWidth = Double.parseDouble(Objects.requireNonNull(borderSignWidthValue.getText()).toString());
+                identifiableBorderSign = getFlightRadioCheckedIndex(radioIdentifiableBorderSign);
+                if (!TextUtils.isEmpty(borderSignObsValue.getText()))
+                    borderSignObs = Objects.requireNonNull(borderSignObsValue.getText()).toString();
+            }
+        }
+        return new FlightsRampStairsEntry(bundle.getInt(RampStairsFragment.RAMP_STAIRS_ID),rampStairsWidth,hasTactileSign,tactileSignObs,
+                hasTactileFloor, tactileFloorObs, stairsHaveBorderSign, borderSignWidth, identifiableBorderSign, borderSignObs);
+    }
 
     public int getFlightRadioCheckedIndex(RadioGroup radio){
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
@@ -220,5 +262,12 @@ public class RampStairsFlightFragment extends Fragment {
             borderSignObsField.setVisibility(View.GONE);
         }
     }
+
+//    public void clearFlightFields() {
+//        radioTactileSign.clearCheck();
+//        radioTactileFloor.clearCheck();
+//        radioStepBorderSign.clearCheck();
+//        radioIdentifiableBorderSign.clearCheck();
+//    }
 
 }
