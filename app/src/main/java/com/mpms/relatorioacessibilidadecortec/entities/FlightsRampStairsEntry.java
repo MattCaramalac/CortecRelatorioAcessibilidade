@@ -13,17 +13,17 @@ public class FlightsRampStairsEntry {
     @PrimaryKey(autoGenerate = true)
     private int flightID;
     private int rampStairsID;
-    private double flightWidth;
-    private int signPavement;
+    private Double flightWidth;
+    private Integer signPavement;
     private String signPavementObs;
-    private int tactileFloor;
+    private Integer tactileFloor;
     private String tactileFloorObs;
     private Integer borderSign;
     private Double borderSignWidth;
     private Integer borderSignIdentifiable;
     private String borderSignObs;
 
-    public FlightsRampStairsEntry(int rampStairsID, double flightWidth, int signPavement, String signPavementObs, int tactileFloor,
+    public FlightsRampStairsEntry(int rampStairsID, Double flightWidth, Integer signPavement, String signPavementObs, Integer tactileFloor,
                                   String tactileFloorObs, Integer borderSign, Double borderSignWidth, Integer borderSignIdentifiable,
                                   String borderSignObs) {
         this.rampStairsID = rampStairsID;
@@ -54,19 +54,19 @@ public class FlightsRampStairsEntry {
         this.rampStairsID = rampStairsID;
     }
 
-    public double getFlightWidth() {
+    public Double getFlightWidth() {
         return flightWidth;
     }
 
-    public void setFlightWidth(double flightWidth) {
+    public void setFlightWidth(Double flightWidth) {
         this.flightWidth = flightWidth;
     }
 
-    public int getSignPavement() {
+    public Integer getSignPavement() {
         return signPavement;
     }
 
-    public void setSignPavement(int signPavement) {
+    public void setSignPavement(Integer signPavement) {
         this.signPavement = signPavement;
     }
 
@@ -78,11 +78,11 @@ public class FlightsRampStairsEntry {
         this.signPavementObs = signPavementObs;
     }
 
-    public int getTactileFloor() {
+    public Integer getTactileFloor() {
         return tactileFloor;
     }
 
-    public void setTactileFloor(int tactileFloor) {
+    public void setTactileFloor(Integer tactileFloor) {
         this.tactileFloor = tactileFloor;
     }
 
