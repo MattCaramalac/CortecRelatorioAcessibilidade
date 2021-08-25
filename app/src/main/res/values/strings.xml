@@ -283,4 +283,14 @@
     <string name="hint_obs">Observações</string>
     <string name="label_restroom_distance_header">O sanitário se encontra a uma distância máxima de 50 metros?</string>
     <string name="hint_exclusive_entrance">O sanitário possui entrada independente?</string>
+    <string name="label_restroom_door_info_header">Informações sobre a porta do sanitário</string>
+    <string name="label_restroom_door_sia_header">Porta possui SIA?</string>
+    <string name="label_restroom_door_external_direction_header">Porta possui sentido de abertura externo?</string>
+    <string name="label_restroom_door_vertical_sign_header">Porta possui sinalização vertical composta?</string>
+    <string name="label_restroom_door_tactile_sign_header">Porta possui sinalização tátil?</string>
+    <string name="label_restroom_door_internal_coating_header">Porta possui revestimento interno anti-impacto?</string>
+    <string name="label_restroom_door_horizontal_handle_header">Porta possui puxador horizontal interno?</string>
+    <string name="hint_horizontal_handle_height">Altura do Puxador Horizontal</string>
+    <string name="hint_horizontal_handle_length">Comprimento do Puxador Horizontal</string>
+    <string name="hint_restroom_id">Identificação ou Localização do Sanitário</string>
 </resources>

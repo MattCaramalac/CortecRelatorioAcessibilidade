@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".fragments.RestroomFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.RestroomFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/restroom_header"
+            android:id="@+id/restroom_header_2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
@@ -20,132 +20,314 @@ tools:context=".fragments.RestroomFragment">
             android:textSize="@dimen/section_header"/>
 
         <TextView
-            android:id="@+id/restroom_type_header"
+            android:id="@+id/door_info_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_header"
+            app:layout_constraintTop_toBottomOf="@id/restroom_header_2"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_restroom_door_info_header"
+            android:textSize="@dimen/section_header"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/restroom_door_width_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/door_info_header"
+            android:hint="@string/hint_door_width">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/restroom_door_width_value"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/door_sia_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/restroom_door_width_field"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_restroom_door_sia_header"
+            android:textSize="@dimen/section_header"/>
+
+        <RadioGroup
+            android:id="@+id/door_sia_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/door_sia_header"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/door_sia_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/door_sia_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/door_sia_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/door_sia_error"
+            android:hint="@string/hint_obs">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/door_sia_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/door_opening_direction_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/door_sia_obs_field"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_restroom_door_external_direction_header"
+            android:textSize="@dimen/section_header"/>
+
+        <RadioGroup
+            android:id="@+id/door_opening_direction_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/door_opening_direction_header"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/door_opening_direction_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/door_opening_direction_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/door_opening_direction_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/door_opening_direction_error"
+            android:hint="@string/hint_obs">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/door_opening_direction_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/door_vertical_sign_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/door_opening_direction_obs_field"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_restroom_door_vertical_sign_header"
+            android:textSize="@dimen/section_header"/>
+
+        <RadioGroup
+            android:id="@+id/door_vertical_sign_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/door_vertical_sign_header"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/door_vertical_sign_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/door_vertical_sign_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/door_vertical_sign_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/door_vertical_sign_error"
+            android:hint="@string/hint_obs">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/door_vertical_sign_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/restroom_door_sill_type_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/door_vertical_sign_obs_field"
             android:layout_marginTop="@dimen/top_margins"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Qual é o tipo de sanitário a ser cadastrado?"
+            android:text="@string/label_sill_type_door"
             android:textSize="@dimen/section_header"/>
 
         <RadioGroup
-            android:id="@+id/restroom_type_radio"
+            android:id="@+id/restroom_door_sill_type_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/restroom_type_header"
             app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/restroom_door_sill_type_header"
+            android:orientation="vertical">
 
             <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_masculine"
-                android:textSize="@dimen/radio_button_text"/>
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_feminine"
-                android:textSize="@dimen/radio_button_text"/>
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_familiar"
-                android:textSize="@dimen/radio_button_text"/>
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/restroom_type_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/restroom_type_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/restroom_location_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_type_error"
-            android:hint="@string/hint_restroom_id">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/restroom_location_value"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/accessible_route_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_location_field"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="O sanitário possui uma rota accessível?"
-            android:textSize="@dimen/section_header"/>
-
-        <RadioGroup
-            android:id="@+id/accessible_route_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/accessible_route_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
+                android:text="@string/label_radio_no_sill"
                 android:textSize="@dimen/radio_button_text"/>
 
             <RadioButton
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
+                android:text="@string/label_radio_inclination_sill"
                 android:textSize="@dimen/radio_button_text"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_radio_step_sill"
+                android:textSize="@dimen/radio_button_text"/>
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/radio_button_text"
+                android:text="@string/label_radio_slope_sill"/>
 
         </RadioGroup>
 
         <TextView
-            android:id="@+id/accessible_route_error"
+            android:id="@+id/restroom_door_sill_type_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/empty_fields"
             android:textSize="14sp"
             android:textColor="@color/error_message"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/accessible_route_radio"
+            app:layout_constraintTop_toBottomOf="@id/restroom_door_sill_type_radio"
             app:layout_constraintStart_toStartOf="parent"
             />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/restroom_accessible_route_obs_field"
+        <FrameLayout
+            android:id="@+id/restroom_door_sill_type_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/accessible_route_error"
-            android:hint="@string/hint_obs">
+            app:layout_constraintTop_toBottomOf="@id/restroom_door_sill_type_error"
+            android:layout_marginTop="@dimen/top_margins"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/restroom_door_sill_obs_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/restroom_door_sill_type_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_sill_type_obs">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/restroom_accessible_route_obs_value"
+                android:id="@+id/restroom_door_sill_obs_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textMultiLine"
@@ -159,20 +341,20 @@ tools:context=".fragments.RestroomFragment">
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/integrated_restroom_header"
+            android:id="@+id/door_tactile_sign_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_accessible_route_obs_field"
+            app:layout_constraintTop_toBottomOf="@id/restroom_door_sill_obs_field"
             android:layout_marginTop="@dimen/usual_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_restroom_integration_header"
+            android:text="@string/label_restroom_door_tactile_sign_header"
             android:textSize="@dimen/section_header"/>
 
         <RadioGroup
-            android:id="@+id/integrated_restroom_radio"
+            android:id="@+id/door_tactile_sign_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/integrated_restroom_header"
+            app:layout_constraintTop_toBottomOf="@id/door_tactile_sign_header"
             app:layout_constraintStart_toStartOf="parent"
             android:orientation="horizontal">
 
@@ -193,99 +375,28 @@ tools:context=".fragments.RestroomFragment">
         </RadioGroup>
 
         <TextView
-            android:id="@+id/integrated_restroom_error"
+            android:id="@+id/door_tactile_sign_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/empty_fields"
             android:textSize="14sp"
             android:textColor="@color/error_message"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/integrated_restroom_radio"
+            app:layout_constraintTop_toBottomOf="@id/door_tactile_sign_radio"
             app:layout_constraintStart_toStartOf="parent"
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/integrated_restroom_obs_field"
+            android:id="@+id/door_tactile_sign_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/integrated_restroom_error"
+            app:layout_constraintTop_toBottomOf="@id/door_tactile_sign_error"
             android:hint="@string/hint_obs">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/integrated_restroom_obs_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="@integer/multiline_obs_field"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-
-        <TextView
-            android:id="@+id/restroom_distance_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/integrated_restroom_obs_field"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_restroom_distance_header"
-            android:textSize="@dimen/section_header"/>
-
-        <RadioGroup
-            android:id="@+id/restroom_distance_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/restroom_distance_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text"/>
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text"/>
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/restroom_distance_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/restroom_distance_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/restroom_distance_obs_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_distance_error"
-            android:hint="@string/hint_obs">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/restroom_distance_obs_value"
+                android:id="@+id/door_tactile_sign_obs_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textMultiLine"
@@ -299,20 +410,20 @@ tools:context=".fragments.RestroomFragment">
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/exclusive_entrance_header"
+            android:id="@+id/door_internal_coating_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_distance_obs_field"
+            app:layout_constraintTop_toBottomOf="@id/door_tactile_sign_obs_field"
             android:layout_marginTop="@dimen/usual_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/hint_exclusive_entrance"
+            android:text="@string/label_restroom_door_internal_coating_header"
             android:textSize="@dimen/section_header"/>
 
         <RadioGroup
-            android:id="@+id/exclusive_entrance_radio"
+            android:id="@+id/door_internal_coating_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/exclusive_entrance_header"
+            app:layout_constraintTop_toBottomOf="@id/door_internal_coating_header"
             app:layout_constraintStart_toStartOf="parent"
             android:orientation="horizontal">
 
@@ -333,28 +444,28 @@ tools:context=".fragments.RestroomFragment">
         </RadioGroup>
 
         <TextView
-            android:id="@+id/exclusive_entrance_error"
+            android:id="@+id/door_internal_coating_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/empty_fields"
             android:textSize="14sp"
             android:textColor="@color/error_message"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/exclusive_entrance_radio"
+            app:layout_constraintTop_toBottomOf="@id/door_internal_coating_radio"
             app:layout_constraintStart_toStartOf="parent"
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/exclusive_entrance_obs_field"
+            android:id="@+id/door_internal_coating_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/exclusive_entrance_error"
+            app:layout_constraintTop_toBottomOf="@id/door_internal_coating_error"
             android:hint="@string/hint_obs">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/exclusive_entrance_obs_value"
+                android:id="@+id/door_internal_coating_obs_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textMultiLine"
@@ -368,20 +479,20 @@ tools:context=".fragments.RestroomFragment">
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/restroom_drifting_header"
+            android:id="@+id/door_horizontal_handle_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/exclusive_entrance_obs_field"
+            app:layout_constraintTop_toBottomOf="@id/door_internal_coating_obs_field"
             android:layout_marginTop="@dimen/usual_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="O sanitário possui piso antiderrapante?"
+            android:text="@string/label_restroom_door_horizontal_handle_header"
             android:textSize="@dimen/section_header"/>
 
         <RadioGroup
-            android:id="@+id/restroom_drifting_radio"
+            android:id="@+id/door_horizontal_handle_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/restroom_drifting_header"
+            app:layout_constraintTop_toBottomOf="@id/door_horizontal_handle_header"
             app:layout_constraintStart_toStartOf="parent"
             android:orientation="horizontal">
 
@@ -402,191 +513,64 @@ tools:context=".fragments.RestroomFragment">
         </RadioGroup>
 
         <TextView
-            android:id="@+id/restroom_drifting_error"
+            android:id="@+id/door_horizontal_handle_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/empty_fields"
             android:textSize="14sp"
             android:textColor="@color/error_message"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/restroom_drifting_radio"
+            app:layout_constraintTop_toBottomOf="@id/door_horizontal_handle_radio"
             app:layout_constraintStart_toStartOf="parent"
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/restroom_drifting_obs_field"
+            android:id="@+id/door_horizontal_handle_height_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_drifting_error"
-            android:hint="@string/hint_obs">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/restroom_drifting_obs_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="@integer/multiline_obs_field"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/restroom_drain_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_drifting_obs_field"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="O sanitário possui grelhas e/ou ralos na área de manobra?"
-            android:textSize="@dimen/section_header"/>
-
-        <RadioGroup
-            android:id="@+id/restroom_drain_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/restroom_drain_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text"/>
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text"/>
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/restroom_drain_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/restroom_drain_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/restroom_drain_obs_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_drain_error"
-            android:hint="@string/hint_obs">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/restroom_drain_obs_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="@integer/multiline_obs_field"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/restroom_switch_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_drain_obs_field"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="O sanitário possui interruptor de luz?"
-            android:textSize="@dimen/section_header"/>
-
-        <RadioGroup
-            android:id="@+id/restroom_switch_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/restroom_switch_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text"/>
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text"/>
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_not_applicable"
-                android:textSize="@dimen/radio_button_text"/>
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/restroom_switch_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/restroom_switch_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/restroom_switch_height_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_switch_error"
-            android:hint="@string/hint_switch_height"
+            app:layout_constraintTop_toBottomOf="@id/door_horizontal_handle_error"
+            android:hint="@string/hint_horizontal_handle_height"
             android:enabled="false">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/restroom_switch_height_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/door_horizontal_handle_height_value"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/restroom_switch_obs_field"
+            android:id="@+id/door_horizontal_handle_length_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_switch_height_field"
+            app:layout_constraintTop_toBottomOf="@id/door_horizontal_handle_height_field"
+            android:hint="@string/hint_horizontal_handle_length"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/door_horizontal_handle_length_value"
+                android:inputType="numberDecimal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/door_horizontal_handle_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/door_horizontal_handle_length_field"
             android:hint="@string/hint_obs">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/restroom_switch_obs_value"
+                android:id="@+id/door_horizontal_handle_obs_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textMultiLine"
@@ -600,25 +584,27 @@ tools:context=".fragments.RestroomFragment">
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/continue_restroom_register"
+            android:id="@+id/save_restroom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/top_margins"
             android:text="@string/label_button_proceed_register"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_switch_obs_field" />
+            app:layout_constraintTop_toBottomOf="@id/door_horizontal_handle_obs_field" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_restroom"
+            android:id="@+id/return_restroom"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/top_margins"
-            android:text="@string/label_button_cancel"
+            android:text="RETORNAR"
             android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@id/continue_restroom_register"
+            app:layout_constraintBaseline_toBaselineOf="@id/save_restroom"
             app:layout_constraintStart_toStartOf="parent" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>
