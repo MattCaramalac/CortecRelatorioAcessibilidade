@@ -3,6 +3,9 @@ package com.mpms.relatorioacessibilidadecortec.data;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
@@ -16,6 +19,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
@@ -47,6 +51,7 @@ public class ReportRepository {
     private final CounterEntryDao counterEntryDao;
     private final RampStairsEntryDao rampStairsEntryDao;
     private final FlightRampStairsDao flightsRampStairDao;
+    private final RestroomEntryDao restroomEntryDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -68,6 +73,7 @@ public class ReportRepository {
         counterEntryDao = db.counterEntryDao();
         rampStairsEntryDao = db.rampStairsDao();
         flightsRampStairDao = db.flightRampStairsDao();
+        restroomEntryDao = db.restroomEntryDao();
 
     }
 
@@ -423,6 +429,34 @@ public class ReportRepository {
 
     public void updateFlightRampStairs(FlightsRampStairsEntry flight) {
         ReportDatabase.dbWriteExecutor.execute(() -> flightsRampStairDao.updateFlightRampStairs(flight));
+    }
+
+    public void insertRestroomEntry(RestroomEntry restroom) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.insertRestroomEntry(restroom));
+    }
+
+    public LiveData<List<RestroomEntry>> getAllSchoolRestroomEntries(int schoolID) {
+        return restroomEntryDao.getAllSchoolRestroomEntries(schoolID);
+    }
+
+    public LiveData<RestroomEntry> getOneRestroomEntry(int restroomID) {
+        return restroomEntryDao.getOneRestroomEntry(restroomID);
+    }
+
+    public LiveData<RestroomEntry> getLastRestroomEntry() {
+        return restroomEntryDao.getLastRestroomEntry();
+    }
+
+    public void updateRestroomEntry(RestroomEntry restroom) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomEntry(restroom));
+    }
+
+    public void deleteOneRestroomEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.deleteOneRestroomEntry(restroomID));
+    }
+
+    public void deleteAllRestroomEntriesFromSchool(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.deleteAllRestroomEntriesFromSchool(schoolID));
     }
 
     public void deleteAllEntries() {

@@ -20,6 +20,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
@@ -397,6 +398,34 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void updateFlightRampStairs(FlightsRampStairsEntry flight) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateFlightRampStairs(flight));
+    }
+
+    public static void insertRestroomEntry(RestroomEntry restroom) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomEntry(restroom));
+    }
+
+    public LiveData<List<RestroomEntry>> getAllSchoolRestroomEntries(int schoolID) {
+        return repository.getAllSchoolRestroomEntries(schoolID);
+    }
+
+    public LiveData<RestroomEntry> getOneRestroomEntry(int restroomID) {
+        return repository.getOneRestroomEntry(restroomID);
+    }
+
+    public LiveData<RestroomEntry> getLastRestroomEntry() {
+        return repository.getLastRestroomEntry();
+    }
+
+    public static void updateRestroomEntry(RestroomEntry restroom) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomEntry(restroom));
+    }
+
+    public static void deleteOneRestroomEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRestroomEntry(restroomID));
+    }
+
+    public static void deleteAllRestroomEntriesFromSchool(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllRestroomEntriesFromSchool(schoolID));
     }
 
 }

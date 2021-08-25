@@ -221,8 +221,7 @@ public class RampStairsFragment extends Fragment {
 
     public void gatherRampStairsEntry(RampStairsEntry rampStairs) {
         rampStairsLocValue.setText(rampStairs.getRampStairsLocation());
-//  Number formatting does not take into account locale settings. Consider using `String.format` instead. - Integer não tem pontos, não tem que se preocupar
-        quantFlightValue.setText(Integer.toString(rampStairs.getFlightsQuantity()));
+        quantFlightValue.setText(String.valueOf(rampStairs.getFlightsQuantity()));
     }
 
     public void errorEscape(){
