@@ -20,7 +20,9 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
@@ -418,6 +420,14 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void updateRestroomEntry(RestroomEntry restroom) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomEntry(restroom));
+    }
+
+    public static void updateRestroomData(RestroomUpdate...restroomUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomData(restroomUpdates));
+    }
+
+    public static void updateRestroomDoorData(RestroomDoorUpdate... doorUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomDoorData(doorUpdates));
     }
 
     public static void deleteOneRestroomEntry(int restroomID) {

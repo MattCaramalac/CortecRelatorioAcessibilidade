@@ -101,57 +101,6 @@ public class RestroomEntry {
         this.handleObs = handleObs;
     }
 
-//    public RestroomEntry(int schoolID, Integer restroomType, String restroomLocation, Integer accessibleRoute, String accessibleRouteObs,
-//                         Integer integratedRestroom, String integratedRestroomObs, Integer restroomDistance, String restroomDistanceObs,
-//                         Integer exclusiveEntrance, String exclusiveEntranceObs, Integer antiDriftingFloor, String antiDriftingFloorObs,
-//                         Integer restroomDrain, String restroomDrainObs, Integer restroomSwitch, Double switchHeight, String switchObs) {
-//        this.schoolID = schoolID;
-//        this.restroomType = restroomType;
-//        this.restroomLocation = restroomLocation;
-//        this.accessibleRoute = accessibleRoute;
-//        this.accessibleRouteObs = accessibleRouteObs;
-//        this.integratedRestroom = integratedRestroom;
-//        this.integratedRestroomObs = integratedRestroomObs;
-//        this.restroomDistance = restroomDistance;
-//        this.restroomDistanceObs = restroomDistanceObs;
-//        this.exclusiveEntrance = exclusiveEntrance;
-//        this.exclusiveEntranceObs = exclusiveEntranceObs;
-//        this.antiDriftingFloor = antiDriftingFloor;
-//        this.antiDriftingFloorObs = antiDriftingFloorObs;
-//        this.restroomDrain = restroomDrain;
-//        this.restroomDrainObs = restroomDrainObs;
-//        this.restroomSwitch = restroomSwitch;
-//        this.switchHeight = switchHeight;
-//        this.switchObs = switchObs;
-//    }
-//
-//    public RestroomEntry(Double doorWidth, Integer doorSIA, String doorSIAObs, Integer doorExtOp, String doorExtOpObs,
-//                         Integer doorVertSign, String doorVertSignObs, Integer doorSillType, Double inclinationSillHeight,
-//                         Double stepSillHeight, Double slopeSillInclination, Double slopeSillWidth, String doorSillTypeObs,
-//                         Integer doorTactileSign, String doorTactileSignObs, Integer doorIntCoating, String doorIntCoatingObs,
-//                         Integer doorHorizontalHandle, Double handleHeight, Double handleLength, String handleObs) {
-//        this.doorWidth = doorWidth;
-//        this.doorSIA = doorSIA;
-//        this.doorSIAObs = doorSIAObs;
-//        this.doorExtOp = doorExtOp;
-//        this.doorExtOpObs = doorExtOpObs;
-//        this.doorVertSign = doorVertSign;
-//        this.doorVertSignObs = doorVertSignObs;
-//        this.doorSillType = doorSillType;
-//        this.inclinationSillHeight = inclinationSillHeight;
-//        this.stepSillHeight = stepSillHeight;
-//        this.slopeSillInclination = slopeSillInclination;
-//        this.slopeSillWidth = slopeSillWidth;
-//        this.doorSillTypeObs = doorSillTypeObs;
-//        this.doorTactileSign = doorTactileSign;
-//        this.doorTactileSignObs = doorTactileSignObs;
-//        this.doorIntCoating = doorIntCoating;
-//        this.doorIntCoatingObs = doorIntCoatingObs;
-//        this.doorHorizontalHandle = doorHorizontalHandle;
-//        this.handleHeight = handleHeight;
-//        this.handleLength = handleLength;
-//        this.handleObs = handleObs;
-//    }
 
     public int getRestroomID() {
         return restroomID;

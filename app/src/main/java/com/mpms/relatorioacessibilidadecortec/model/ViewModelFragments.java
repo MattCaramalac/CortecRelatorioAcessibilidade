@@ -62,4 +62,12 @@ public class ViewModelFragments extends ViewModel {
         return rampStairsBundle;
     }
 
+    public final MutableLiveData<Bundle> restroomBundle = new MutableLiveData<>();
+    public void setRestroomBundle(Bundle bundle) {
+        restroomBundle.setValue(bundle);
+    }
+    public LiveData<Bundle> getRestroomBundle() {
+        return restroomBundle;
+    }
+
 }

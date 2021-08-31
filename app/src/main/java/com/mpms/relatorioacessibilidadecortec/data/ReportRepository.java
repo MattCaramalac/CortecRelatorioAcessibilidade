@@ -19,7 +19,9 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
@@ -449,6 +451,14 @@ public class ReportRepository {
 
     public void updateRestroomEntry(RestroomEntry restroom) {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomEntry(restroom));
+    }
+
+    public void updateRestroomData(RestroomUpdate...restroomUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomData(restroomUpdates));
+    }
+
+    public void updateRestroomDoorData(RestroomDoorUpdate... doorUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomDoorData(doorUpdates));
     }
 
     public void deleteOneRestroomEntry(int restroomID) {

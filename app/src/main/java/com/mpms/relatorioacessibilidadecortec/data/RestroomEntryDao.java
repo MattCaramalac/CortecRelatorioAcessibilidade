@@ -6,7 +6,9 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpdate;
 
 import java.util.List;
 
@@ -27,6 +29,12 @@ public interface RestroomEntryDao {
 
     @Update
     void updateRestroomEntry(RestroomEntry RestroomEntry);
+
+    @Update(entity = RestroomEntry.class)
+    void updateRestroomData(RestroomUpdate...restroomUpdates);
+
+    @Update(entity = RestroomEntry.class)
+    void updateRestroomDoorData(RestroomDoorUpdate... doorUpdates);
 
     @Query("DELETE FROM RestroomEntry WHERE restroomID == :restroomID")
     void deleteOneRestroomEntry(int restroomID);
