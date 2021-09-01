@@ -59,9 +59,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
             case 8:
                 displayParkingLotFragment();
                 break;
-//            case 9:
-//                displayRampFragment();
-//                break;
             case 16:
                 displayOtherSpacesFragment();
                 break;

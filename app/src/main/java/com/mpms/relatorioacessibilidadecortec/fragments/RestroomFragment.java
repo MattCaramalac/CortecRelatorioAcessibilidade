@@ -36,6 +36,7 @@ import java.util.Objects;
 public class RestroomFragment extends Fragment {
 
     public static final String RESTROOM_ID = "RESTROOM_ID";
+    public static final String UPDATE_REGISTER = "UPDATE_REGISTER";
 
     TextInputLayout restroomLocationField, accessibleRouteObsField, integratedRestroomObsField, restroomDistanceObsField,
             exclusiveEntranceObsField, driftingFloorObsField, restroomDrainObsField, restroomSwitchObsField,
@@ -159,6 +160,7 @@ public class RestroomFragment extends Fragment {
             if (updateEntry == 1) {
                 updateEntry = 0;
                 nextFrag = 1;
+                restroomBundle.putBoolean(UPDATE_REGISTER, true);
                 FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RestroomDoorFragment restDoorFragment = RestroomDoorFragment.newInstance();
