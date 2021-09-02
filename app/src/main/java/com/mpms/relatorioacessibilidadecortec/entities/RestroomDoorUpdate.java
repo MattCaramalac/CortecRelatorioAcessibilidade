@@ -29,6 +29,36 @@ public class RestroomDoorUpdate {
     private Double handleLength;
     private String handleObs;
 
+    public RestroomDoorUpdate(int restroomID, Double doorWidth, Integer doorSIA, String doorSIAObs, Integer doorExtOp,
+                              String doorExtOpObs, Integer doorVertSign, String doorVertSignObs, Integer doorSillType,
+                              Double inclinationSillHeight, Double stepSillHeight, Double slopeSillInclination,
+                              Double slopeSillWidth, String doorSillTypeObs, Integer doorTactileSign, String doorTactileSignObs,
+                              Integer doorIntCoating, String doorIntCoatingObs, Integer doorHorizontalHandle, Double handleHeight,
+                              Double handleLength, String handleObs) {
+        this.restroomID = restroomID;
+        this.doorWidth = doorWidth;
+        this.doorSIA = doorSIA;
+        this.doorSIAObs = doorSIAObs;
+        this.doorExtOp = doorExtOp;
+        this.doorExtOpObs = doorExtOpObs;
+        this.doorVertSign = doorVertSign;
+        this.doorVertSignObs = doorVertSignObs;
+        this.doorSillType = doorSillType;
+        this.inclinationSillHeight = inclinationSillHeight;
+        this.stepSillHeight = stepSillHeight;
+        this.slopeSillInclination = slopeSillInclination;
+        this.slopeSillWidth = slopeSillWidth;
+        this.doorSillTypeObs = doorSillTypeObs;
+        this.doorTactileSign = doorTactileSign;
+        this.doorTactileSignObs = doorTactileSignObs;
+        this.doorIntCoating = doorIntCoating;
+        this.doorIntCoatingObs = doorIntCoatingObs;
+        this.doorHorizontalHandle = doorHorizontalHandle;
+        this.handleHeight = handleHeight;
+        this.handleLength = handleLength;
+        this.handleObs = handleObs;
+    }
+
     public int getRestroomID() {
         return restroomID;
     }

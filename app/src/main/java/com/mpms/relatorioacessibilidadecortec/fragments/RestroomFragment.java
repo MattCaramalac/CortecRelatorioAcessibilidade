@@ -37,6 +37,7 @@ public class RestroomFragment extends Fragment {
 
     public static final String RESTROOM_ID = "RESTROOM_ID";
     public static final String UPDATE_REGISTER = "UPDATE_REGISTER";
+    public static final String NEXT_FRAGMENT = "NEXT_FRAGMENT";
 
     TextInputLayout restroomLocationField, accessibleRouteObsField, integratedRestroomObsField, restroomDistanceObsField,
             exclusiveEntranceObsField, driftingFloorObsField, restroomDrainObsField, restroomSwitchObsField,
@@ -144,7 +145,7 @@ public class RestroomFragment extends Fragment {
         modelEntry.getLastRestroomEntry().observe(getViewLifecycleOwner(), restroom -> {
             if (recentEntry == 1) {
                 recentEntry = 0;
-                nextFrag = 1;
+                restroomBundle.putInt(NEXT_FRAGMENT, 1);
                 int restroomID = restroom.getRestroomID();
                 restroomBundle.putInt(RESTROOM_ID, restroomID);
                 FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
@@ -159,7 +160,7 @@ public class RestroomFragment extends Fragment {
         modelEntry.getOneRestroomEntry(restroomBundle.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), update -> {
             if (updateEntry == 1) {
                 updateEntry = 0;
-                nextFrag = 1;
+                restroomBundle.putInt(NEXT_FRAGMENT, 1);
                 restroomBundle.putBoolean(UPDATE_REGISTER, true);
                 FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -174,13 +175,12 @@ public class RestroomFragment extends Fragment {
             if (restBundle != null) {
                 modelEntry.getOneRestroomEntry(restBundle.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), this::gatherRestroomData);
                 registeredEntry = 1;
-                nextFrag = 0;
+                restroomBundle.putInt(NEXT_FRAGMENT, 0);
             }
         });
 
         continueRegister.setOnClickListener(v -> {
             if(checkRestroomFields()) {
-
                 if (registeredEntry == 0 && recentEntry == 0) {
                     RestroomEntry newRestroom = newRestroom(restroomBundle);
                     ViewModelEntry.insertRestroomEntry(newRestroom);
@@ -195,7 +195,7 @@ public class RestroomFragment extends Fragment {
                     clearRestroomDataFields();
                     updateEntry = 0;
                     recentEntry = 0;
-                    nextFrag = 0;
+                    restroomBundle.putInt(NEXT_FRAGMENT, 0);
                     Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -209,7 +209,7 @@ public class RestroomFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (nextFrag == 1)
+        if (restroomBundle.getInt(NEXT_FRAGMENT) == 1)
             modelFragments.setRestroomBundle(restroomBundle);
     }
 

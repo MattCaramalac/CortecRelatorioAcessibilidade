@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
@@ -30,15 +33,21 @@ import java.util.Objects;
 
 public class RestroomDoorFragment extends Fragment {
 
+    public static final String GATHER_DOOR_DATA = "GATHER_DOOR_DATA";
+
     TextInputLayout doorWidthField, doorSIAObsField, doorOpenDirObsField, doorVertSignObsField, doorSillObsField,
             doorTactSignField, doorInternalCoatObsField, doorHorHandleHeightField, doorHorHandleLengthField, doorHorHandleObsField;
     TextInputEditText doorWidthValue, doorSIAObsValue, doorOpenDirObsValue, doorVertSignObsValue, doorSillObsValue,
-            doorTactSignValue, doorInternalCoatObsValue, doorHorHandleHeightValue, doorHorHandleLengthValue, doorHorHandleObsValue;
+            doorTactSignObsValue, doorInternalCoatObsValue, doorHorHandleHeightValue, doorHorHandleLengthValue, doorHorHandleObsValue;
     RadioGroup doorHasSIARadio, doorOpenExtDirRadio, doorVertSignRadio, doorSillRadio, doorTactSignRadio,
             doorInternalCoatRadio, doorHorHandleRadio;
     TextView doorSIAError, doorOpenDirError, doorVertSignError, doorSillError, doorTactSignError, doorInternalCoatError,
             doorHorHandleError;
     Button returnEntry, saveEntry;
+
+    Integer doorHasSIA, doorOpenExtDir, doorHasVertSign, doorSillType, doorHasTactSign, doorHasInternalCoat, doorHasHorHandle;
+    Double doorWidth, doorHorHandleLength, doorHorHandleHeight;
+    String doorSIAObs, doorOpenDirObs, doorVertSignObs, doorSillObs, doorTactSignObs, doorInternalCoatObs, doorHorHandleObs;
 
     ArrayList<TextInputEditText> obsDoorValues = new ArrayList<>();
     Bundle restroomDoorBundle = new Bundle();
@@ -91,7 +100,7 @@ public class RestroomDoorFragment extends Fragment {
         doorOpenDirObsValue = view.findViewById(R.id.door_opening_direction_obs_value);
         doorVertSignObsValue = view.findViewById(R.id.door_vertical_sign_obs_value);
         doorSillObsValue = view.findViewById(R.id.restroom_door_sill_obs_value);
-        doorTactSignValue = view.findViewById(R.id.door_tactile_sign_obs_value);
+        doorTactSignObsValue = view.findViewById(R.id.door_tactile_sign_obs_value);
         doorInternalCoatObsValue = view.findViewById(R.id.door_internal_coating_obs_value);
         doorHorHandleHeightValue = view.findViewById(R.id.door_horizontal_handle_height_value);
         doorHorHandleLengthValue = view.findViewById(R.id.door_horizontal_handle_length_value);
@@ -120,11 +129,64 @@ public class RestroomDoorFragment extends Fragment {
 
         doorHorHandleRadio.setOnCheckedChangeListener(this::activateSwitchHandle);
 
-        if (restroomDoorBundle.getBoolean(RestroomFragment.UPDATE_REGISTER)) {
+        if (restroomDoorBundle.getBoolean(GATHER_DOOR_DATA)) {
             modelEntry.getOneRestroomEntry(restroomDoorBundle.getInt(RestroomFragment.RESTROOM_ID)).observe(getViewLifecycleOwner(), this::gatherRestroomDoorData);
         }
 
+        saveEntry.setOnClickListener(v -> {
+            if(checkEmptyRestDoorDataFields()) {
+                RestroomDoorUpdate doorUpdate = restDoorDataUpdate(restroomDoorBundle);
+                ViewModelEntry.updateRestroomDoorData(doorUpdate);
+                restroomDoorBundle.putBoolean(GATHER_DOOR_DATA, true);
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                RestroomUpperViewFragment upperView = RestroomUpperViewFragment.newInstance();
+                upperView.setArguments(restroomDoorBundle);
+                fragmentTransaction.replace(R.id.show_fragment_selected, upperView).addToBackStack(null).commit();
+
+            }
+        });
+
         returnEntry.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStackImmediate());
+    }
+
+    public RestroomDoorUpdate restDoorDataUpdate(Bundle bundle) {
+
+        //Ignorando dados do Fragmento Filho por enquanto
+
+        doorWidth = Double.valueOf(String.valueOf(doorWidthValue.getText()));
+
+        doorHasSIA = getRestroomDoorCheckedRadio(doorHasSIARadio);
+        doorSIAObs = String.valueOf(doorSIAObsValue.getText());
+
+        doorOpenExtDir = getRestroomDoorCheckedRadio(doorOpenExtDirRadio);
+        doorOpenDirObs = String.valueOf(doorOpenDirObsValue.getText());
+
+        doorHasVertSign = getRestroomDoorCheckedRadio(doorOpenExtDirRadio);
+        doorVertSignObs = String.valueOf(doorVertSignObsValue.getText());
+
+        doorSillType = getRestroomDoorCheckedRadio(doorSillRadio);
+        doorSillObs = String.valueOf(doorSillObsValue.getText());
+
+        doorHasTactSign = getRestroomDoorCheckedRadio(doorTactSignRadio);
+        doorTactSignObs = String.valueOf(doorTactSignObsValue.getText());
+
+        doorHasInternalCoat = getRestroomDoorCheckedRadio(doorInternalCoatRadio);
+        doorInternalCoatObs = String.valueOf(doorInternalCoatObsValue.getText());
+
+        doorHasHorHandle = getRestroomDoorCheckedRadio(doorHorHandleRadio);
+        doorHorHandleObs = String.valueOf(doorHorHandleObsValue.getText());
+
+        if (doorHasHorHandle == 1) {
+            doorHorHandleLength = Double.valueOf(String.valueOf(doorHorHandleLengthValue.getText()));
+            doorHorHandleHeight = Double.valueOf(String.valueOf(doorHorHandleHeightValue.getText()));
+        }
+
+        return new RestroomDoorUpdate(bundle.getInt(RestroomFragment.RESTROOM_ID),doorWidth,doorHasSIA,doorSIAObs,
+                doorOpenExtDir, doorOpenDirObs, doorHasVertSign, doorVertSignObs,doorSillType,null,
+                null, null, null, doorSillObs,doorHasTactSign, doorTactSignObs,
+                doorHasInternalCoat,doorInternalCoatObs,doorHasHorHandle,doorHorHandleHeight, doorHorHandleLength, doorHorHandleObs);
+
     }
 
     public int getRestroomDoorCheckedRadio(RadioGroup radio) {
@@ -158,7 +220,7 @@ public class RestroomDoorFragment extends Fragment {
         obsDoorValues.add(doorOpenDirObsValue);
         obsDoorValues.add(doorVertSignObsValue);
         obsDoorValues.add(doorSillObsValue);
-        obsDoorValues.add(doorTactSignValue);
+        obsDoorValues.add(doorTactSignObsValue);
         obsDoorValues.add(doorInternalCoatObsValue);
         obsDoorValues.add(doorHorHandleHeightValue);
         obsDoorValues.add(doorHorHandleLengthValue);
@@ -190,7 +252,7 @@ public class RestroomDoorFragment extends Fragment {
         doorSillObsValue.setText(restroomEntry.getDoorSillTypeObs());
 
         doorTactSignRadio.check(doorTactSignRadio.getChildAt(restroomEntry.getDoorTactileSign()).getId());
-        doorTactSignValue.setText(restroomEntry.getDoorTactileSignObs());
+        doorTactSignObsValue.setText(restroomEntry.getDoorTactileSignObs());
 
         doorInternalCoatRadio.check(doorInternalCoatRadio.getChildAt(restroomEntry.getDoorIntCoating()).getId());
         doorInternalCoatObsValue.setText(restroomEntry.getDoorIntCoatingObs());
@@ -204,6 +266,7 @@ public class RestroomDoorFragment extends Fragment {
     }
 
     public boolean checkEmptyRestDoorDataFields() {
+        clearRestDoorErrors();
         int error = 0;
 
         if (TextUtils.isEmpty(doorWidthValue.getText())) {
@@ -250,6 +313,20 @@ public class RestroomDoorFragment extends Fragment {
             }
         }
         return error == 0;
+    }
+
+    public void clearRestDoorErrors() {
+        doorWidthField.setErrorEnabled(false);
+        doorSIAError.setVisibility(View.GONE);
+        doorOpenDirError.setVisibility(View.GONE);
+        doorVertSignError.setVisibility(View.GONE);
+        doorSillError.setVisibility(View.GONE);
+        doorTactSignError.setVisibility(View.GONE);
+        doorInternalCoatError.setVisibility(View.GONE);
+        doorHorHandleError.setVisibility(View.GONE);
+        doorHorHandleHeightField.setErrorEnabled(false);
+        doorHorHandleLengthField.setErrorEnabled(false);
+
     }
 
 }
