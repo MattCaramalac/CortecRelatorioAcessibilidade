@@ -1,10 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.RestroomUpperViewFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/rest_upper_view_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/label_upper_view_rest_dimens"
+            android:textSize="@dimen/section_header"/>
+
+        <ImageButton
+            android:id="@+id/rest_upper_view_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rest_upper_view_header"
+            android:layout_marginTop="@dimen/top_margins"
+            android:contentDescription="Visão Superior Banheiro" />
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/rest_upper_view_image"
+            app:layout_constraintStart_toEndOf="@id/rest_upper_view_image"
+            android:layout_marginStart="6dp"
+            android:textSize="@dimen/section_header"
+            android:text="Clique na imagem para ampliá-la!"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/upper_view_A_measurement_field"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/rest_upper_view_image"
+            app:layout_constraintStart_toEndOf="@id/rest_upper_view_image"
+            android:layout_marginStart="6dp"
+            android:hint="Medida A">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/upper_view_A_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/expanded_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            android:visibility="invisible"/>
 
 
-</FrameLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>

@@ -293,4 +293,5 @@
     <string name="hint_horizontal_handle_height">Altura do Puxador Horizontal</string>
     <string name="hint_horizontal_handle_length">Comprimento do Puxador Horizontal</string>
     <string name="hint_restroom_id">Identificação ou Localização do Sanitário</string>
+    <string name="label_upper_view_rest_dimens">Dimensões do Banheiro - Vista Superior</string>
 </resources>
