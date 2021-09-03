@@ -148,7 +148,7 @@ public class RestroomFragment extends Fragment {
                 restroomBundle.putInt(NEXT_FRAGMENT, 1);
                 int restroomID = restroom.getRestroomID();
                 restroomBundle.putInt(RESTROOM_ID, restroomID);
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RestroomDoorFragment restDoorFragment = RestroomDoorFragment.newInstance();
                 restDoorFragment.setArguments(restroomBundle);
@@ -162,7 +162,7 @@ public class RestroomFragment extends Fragment {
                 updateEntry = 0;
                 restroomBundle.putInt(NEXT_FRAGMENT, 1);
                 restroomBundle.putBoolean(UPDATE_REGISTER, true);
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RestroomDoorFragment restDoorFragment = RestroomDoorFragment.newInstance();
                 restDoorFragment.setArguments(restroomBundle);
@@ -201,8 +201,10 @@ public class RestroomFragment extends Fragment {
             }
         });
 
-        cancelRestroom.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
+        cancelRestroom.setOnClickListener(v -> {
+            restroomBundle = null;
+            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        });
 
     }
 
