@@ -304,4 +304,20 @@
     <string name="hint_measurement_D">Medida D</string>
     <string name="hint_measurement_E">Medida E</string>
     <string name="label_back_button">RETORNAR</string>
+    <string name="label_support_bar_header">Dimensões da Barra de Apoio</string>
+    <string name="label_sup_bar_measurements">Dimensões da Barra de Apoio</string>
+    <string name="hint_measurement_F">Medida F</string>
+    <string name="hint_measurement_G">Medida G</string>
+    <string name="hint_measurement_H">Medida H</string>
+    <string name="hint_measurement_I">Medida I</string>
+    <string name="hint_measurement_J">Medida J</string>
+    <string name="hint_toilet_height">Altura do Vaso Sanitário (incluindo o assento)</string>
+    <string name="hint_toilet_flush_height">Altura do acionamento da descarga</string>
+    <string name="hint_sup_bar_diameter">Diâmetro da barra de apoio</string>
+    <string name="hint_sup_bar_obs">Observações sobre a barra de apoio</string>
+    <string name="label_paper_holder_type">Tipo de Papeleira</string>
+    <string name="radio_built_in_paper_holder">EMBUTIDA</string>
+    <string name="radio_overlap_paper_holder">DE SOBREPOR</string>
+    <string name="label_emergency_signal_header">O sanitário possui dispositivo de sinalização de emergência?</string>
+    <string name="label_bidet_header">Há ducha higiência ao lado do vaso sanitário (recomendado)</string>
 </resources>
