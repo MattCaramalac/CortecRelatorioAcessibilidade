@@ -4,30 +4,39 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 
 public class RestroomUpperViewFragment extends Fragment {
 
     ImageButton upperViewImgButton;
-    ImageView resizedImg;
+    Button saveUpMeasures, returnRestDoorData;
+    Bundle restroomDataBundle;
+
+    TextInputLayout measureFieldA, measureFieldB, measureFieldC, measureFieldD, measureFieldE;
+    TextInputEditText measureValueA, measureValueB, measureValueC, measureValueD, measureValueE;
+
+    Double measureA, measureB, measureC, measureD, measureE;
 
     public RestroomUpperViewFragment() {
         // Required empty public constructor
     }
 
     public static RestroomUpperViewFragment newInstance() {
-        RestroomUpperViewFragment fragment = new RestroomUpperViewFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        return new RestroomUpperViewFragment();
     }
 
     @Override
@@ -46,17 +55,77 @@ public class RestroomUpperViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        restroomDataBundle = this.getArguments();
 
         upperViewImgButton = view.findViewById(R.id.rest_upper_view_image);
-        resizedImg = view.findViewById(R.id.expanded_image_view);
+
+        measureFieldA = view.findViewById(R.id.upper_view_A_measurement_field);
+        measureFieldB = view.findViewById(R.id.upper_view_B_measurement_field);
+        measureFieldC = view.findViewById(R.id.upper_view_C_measurement_field);
+        measureFieldD = view.findViewById(R.id.upper_view_D_measurement_field);
+        measureFieldE = view.findViewById(R.id.upper_view_E_measurement_field);
+
+        measureValueA = view.findViewById(R.id.upper_view_A_measurement_value);
+        measureValueB = view.findViewById(R.id.upper_view_B_measurement_value);
+        measureValueC = view.findViewById(R.id.upper_view_C_measurement_value);
+        measureValueD = view.findViewById(R.id.upper_view_D_measurement_value);
+        measureValueE = view.findViewById(R.id.upper_view_E_measurement_value);
+
+        saveUpMeasures = view.findViewById(R.id.save_up_measurements);
+        returnRestDoorData = view.findViewById(R.id.return_button);
 
         Glide.with(this).load(R.drawable.upperview).centerCrop().into(upperViewImgButton);
 
-        upperViewImgButton.setOnClickListener(this::zoomImage);
+        upperViewImgButton.setOnClickListener( v -> {
+            restroomDataBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.upperview);
+            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), restroomDataBundle);
+        });
+
+        returnRestDoorData.setOnClickListener( v-> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+
+        saveUpMeasures.setOnClickListener( v -> {
+            if (checkEmptyMeasurementsFields()) {
+//                inserir dados tabela
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                RestroomSupportBarFragment barFragment = RestroomSupportBarFragment.newInstance();
+                barFragment.setArguments(restroomDataBundle);
+                fragmentTransaction.replace(R.id.show_fragment_selected, barFragment).addToBackStack(null).commit();
+            }
+        });
     }
 
-    private void zoomImage(View thumbView) {
-        resizedImg.setVisibility(View.VISIBLE);
-        Glide.with(this).load(R.drawable.upperview).fitCenter().into(resizedImg);
+    public boolean checkEmptyMeasurementsFields() {
+        clearEmptyMeasurementsErrors();
+        int i = 0;
+        if (TextUtils.isEmpty(measureValueA.getText())) {
+            i++;
+            measureFieldA.setError(getText(R.string.blank_field_error));
+        }
+        if (TextUtils.isEmpty(measureValueB.getText())) {
+            i++;
+            measureFieldB.setError(getText(R.string.blank_field_error));
+        }
+        if (TextUtils.isEmpty(measureValueC.getText())) {
+            i++;
+            measureFieldC.setError(getText(R.string.blank_field_error));
+        }
+        if (TextUtils.isEmpty(measureValueD.getText())) {
+            i++;
+            measureFieldD.setError(getText(R.string.blank_field_error));
+        }
+        if (TextUtils.isEmpty(measureValueE.getText())) {
+            i++;
+            measureFieldE.setError(getText(R.string.blank_field_error));
+        }
+        return i == 0;
+    }
+
+    public void clearEmptyMeasurementsErrors() {
+        measureFieldA.setErrorEnabled(false);
+        measureFieldB.setErrorEnabled(false);
+        measureFieldC.setErrorEnabled(false);
+        measureFieldD.setErrorEnabled(false);
+        measureFieldE.setErrorEnabled(false);
     }
 }

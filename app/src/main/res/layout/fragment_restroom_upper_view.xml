@@ -26,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rest_upper_view_header"
             android:layout_marginTop="@dimen/top_margins"
-            android:contentDescription="Visão Superior Banheiro" />
+            android:contentDescription="@string/label_upper_view_measurements" />
 
         <TextView
             android:layout_width="300dp"
@@ -35,7 +35,7 @@
             app:layout_constraintStart_toEndOf="@id/rest_upper_view_image"
             android:layout_marginStart="6dp"
             android:textSize="@dimen/section_header"
-            android:text="Clique na imagem para ampliá-la!"/>
+            android:text="@string/label_expand_image_info"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/upper_view_A_measurement_field"
@@ -44,7 +44,7 @@
             app:layout_constraintBottom_toBottomOf="@id/rest_upper_view_image"
             app:layout_constraintStart_toEndOf="@id/rest_upper_view_image"
             android:layout_marginStart="6dp"
-            android:hint="Medida A">
+            android:hint="@string/hint_measurement_A">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/upper_view_A_measurement_value"
@@ -54,19 +54,94 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ImageView
-            android:id="@+id/expanded_image_view"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/upper_view_B_measurement_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/upper_view_A_measurement_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_B">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/upper_view_B_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/upper_view_C_measurement_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/upper_view_B_measurement_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_C">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/upper_view_C_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/upper_view_D_measurement_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/upper_view_C_measurement_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_D">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/upper_view_D_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/upper_view_E_measurement_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/upper_view_D_measurement_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_E">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/upper_view_E_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_up_measurements"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="@dimen/top_margins"
+            android:text="@string/label_button_proceed_register"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintTop_toBottomOf="parent"
-            android:visibility="invisible"/>
+            app:layout_constraintTop_toBottomOf="@id/upper_view_E_measurement_field" />
 
-
-
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/return_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_margins"
+            android:text="@string/label_back_button"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/save_up_measurements"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
