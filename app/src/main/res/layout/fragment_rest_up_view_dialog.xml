@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@+id/app_bar_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/expand_image_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            app:elevation="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/expand_image_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:padding="8dp"
+                app:contentInsetStartWithNavigation="0dp"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ImageButton
+            android:id="@+id/closeDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:foregroundGravity="center_vertical"
+            android:src="@drawable/ic_close"
+            android:backgroundTint="@color/white"
+            app:tint="@color/black"
+            android:contentDescription="@string/close_button_description" />
+
+    </FrameLayout>
+
+    <ImageView
+        android:layout_below="@id/app_bar_frame_layout"
+        android:layout_centerInParent="true"
+        android:id="@+id/dialog_expanded_img"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:contentDescription="@string/expanded_image_description" />
+
+
+
+</RelativeLayout>

@@ -294,4 +294,14 @@
     <string name="hint_horizontal_handle_length">Comprimento do Puxador Horizontal</string>
     <string name="hint_restroom_id">Identificação ou Localização do Sanitário</string>
     <string name="label_upper_view_rest_dimens">Dimensões do Banheiro - Vista Superior</string>
+    <string name="expanded_image_description">Expanded Image</string>
+    <string name="close_button_description">Close Button</string>
+    <string name="label_upper_view_measurements">Visão Superior Banheiro</string>
+    <string name="label_expand_image_info">Clique na imagem para ampliá-la!</string>
+    <string name="hint_measurement_A">Medida A</string>
+    <string name="hint_measurement_B">Medida B</string>
+    <string name="hint_measurement_C">Medida C</string>
+    <string name="hint_measurement_D">Medida D</string>
+    <string name="hint_measurement_E">Medida E</string>
+    <string name="label_back_button">RETORNAR</string>
 </resources>
