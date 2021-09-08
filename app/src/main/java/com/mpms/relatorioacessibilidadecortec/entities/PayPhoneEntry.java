@@ -4,8 +4,6 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import io.reactivex.annotations.NonNull;
-
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity (foreignKeys =

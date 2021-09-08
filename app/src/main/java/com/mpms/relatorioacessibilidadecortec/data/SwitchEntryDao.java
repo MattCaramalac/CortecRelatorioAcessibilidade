@@ -7,7 +7,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
 
 import java.util.List;
 

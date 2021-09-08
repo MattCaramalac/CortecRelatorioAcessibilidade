@@ -8,8 +8,6 @@ import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 
-import java.util.List;
-
 @Dao
 public interface ParkingLotPdmrDao {
 

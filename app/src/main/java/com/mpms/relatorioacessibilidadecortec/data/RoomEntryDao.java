@@ -8,7 +8,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 
 import java.util.List;
 

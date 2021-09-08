@@ -7,7 +7,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
-import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 
 import java.util.List;
 

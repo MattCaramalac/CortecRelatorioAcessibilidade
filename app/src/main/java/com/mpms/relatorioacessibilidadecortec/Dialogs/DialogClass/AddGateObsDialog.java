@@ -124,7 +124,7 @@ public class AddGateObsDialog extends DialogFragment {
             }
         });
 
-        cancelGateObs.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelGateObs.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
     }

@@ -20,8 +20,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
-import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ParkingLotInterface;
@@ -82,7 +80,7 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ViewModelEntry recentEntry = new ViewModelEntry(Objects.requireNonNull(getActivity()).getApplication());
+        ViewModelEntry recentEntry = new ViewModelEntry(requireActivity().getApplication());
 
         layout = view.findViewById(R.id.parking_lot_PDMR_constraint_layout);
 
@@ -145,7 +143,7 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
                 registerID.putInt(PARKING_LOT_ID, parkingLotID);
                 saveAttempt = 0;
                 clearFields();
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 ParkingLotElderlyFragment parkingLotElderlyFragment = ParkingLotElderlyFragment.newInstance();
                 parkingLotElderlyFragment.setArguments(registerID);
@@ -154,7 +152,7 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
 
         });
 
-        cancelParkingLotPdmr.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelParkingLotPdmr.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
         proceedParkingLotPdmr.setOnClickListener(v -> {

@@ -84,7 +84,7 @@ public class WaterFountainSpoutFragment extends Fragment {
                     spoutData.putDouble(FREE_SPACE_SPOUT, Double.parseDouble(Objects.requireNonNull(freeSpaceSpoutValue.getText()).toString()));
                     modelFragments.setFountainBundle(spoutData);
                     clearFields();
-                    Objects.requireNonNull(getParentFragment()).getChildFragmentManager().beginTransaction().remove(this).commit();
+                    requireParentFragment().getChildFragmentManager().beginTransaction().remove(this).commit();
                 }
                 modelFragments.setSaveAttemptFountain(0);
 

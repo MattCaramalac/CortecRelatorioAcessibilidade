@@ -1,11 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +9,10 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -142,7 +141,7 @@ public class ExternalAccessFragment extends Fragment {
             saveUpdateDialogClick();
         });
 
-        cancelExternalAccess.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelExternalAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
         saveExternalAccess.setOnClickListener(v -> {
@@ -321,11 +320,11 @@ public class ExternalAccessFragment extends Fragment {
     }
 
     private void addGateObsDialog() {
-        AddGateObsDialog.displayGateDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), extBundle);
+        AddGateObsDialog.displayGateDialog(requireActivity().getSupportFragmentManager(), extBundle);
     }
 
     private void addPayPhoneDialog() {
-        AddPayPhoneDialog.displayPayPhoneDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), extBundle);
+        AddPayPhoneDialog.displayPayPhoneDialog(requireActivity().getSupportFragmentManager(), extBundle);
     }
 
 }

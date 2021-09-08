@@ -86,7 +86,7 @@ public class AddSwitchDialog extends DialogFragment {
             }
         });
 
-        cancelSwitch.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelSwitch.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
     }

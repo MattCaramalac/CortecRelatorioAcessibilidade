@@ -20,9 +20,6 @@ import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
-import java.util.Objects;
-
-
 
 public class WaterFountainFragment extends Fragment {
 
@@ -94,7 +91,7 @@ public class WaterFountainFragment extends Fragment {
                 modelFragments.setSaveAttemptFountain(1);
         });
 
-        cancelWaterFountain.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelWaterFountain.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
     }
 

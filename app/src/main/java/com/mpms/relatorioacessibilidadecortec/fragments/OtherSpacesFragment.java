@@ -87,7 +87,7 @@ public class OtherSpacesFragment extends Fragment {
             return false;
         });
 
-        cancelOtherSpaces.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelOtherSpaces.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
         saveOtherSpaces.setOnClickListener(v -> {

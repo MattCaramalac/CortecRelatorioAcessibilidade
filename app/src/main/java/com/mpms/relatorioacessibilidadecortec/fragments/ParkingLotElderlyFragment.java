@@ -83,7 +83,7 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ViewModelEntry recentEntry = new ViewModelEntry(Objects.requireNonNull(getActivity()).getApplication());
+        ViewModelEntry recentEntry = new ViewModelEntry(requireActivity().getApplication());
 
         layout = view.findViewById(R.id.parking_lot_elderly_constraint_layout);
 
@@ -136,14 +136,14 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
             if (saveAttempt == 1) {
                 saveAttempt = 0;
                 clearFields();
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
                 fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
             }
         });
 
-        cancelParkingLotElderly.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelParkingLotElderly.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
         saveParkingLotElderly.setOnClickListener(v -> {

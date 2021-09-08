@@ -1,6 +1,5 @@
 package com.mpms.relatorioacessibilidadecortec.util;
 
-import android.view.View;
 import android.widget.RadioGroup;
 
 import androidx.constraintlayout.widget.ConstraintLayout;

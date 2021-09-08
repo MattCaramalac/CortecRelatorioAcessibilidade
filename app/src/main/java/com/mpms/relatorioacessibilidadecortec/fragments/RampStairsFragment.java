@@ -134,7 +134,7 @@ public class RampStairsFragment extends Fragment {
         });
 
         //        TODO - Atualizar método para retornar à listagem de escadas/rampas cadastradas quando ela for implementada (em vez de fechar o frag)
-        cancelRampStairs.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelRampStairs.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
 
@@ -163,7 +163,7 @@ public class RampStairsFragment extends Fragment {
                 recentEntry = 0;
                 int rampStairsID = rampStairs.getRampStairsID();
                 rampStairsBundle.putInt(RAMP_STAIRS_ID, rampStairsID);
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RampStairsFlightFragment flightFragment = RampStairsFlightFragment.newInstance();
                 flightFragment.setArguments(rampStairsBundle);
@@ -175,7 +175,7 @@ public class RampStairsFragment extends Fragment {
         modelEntry.getRampStairsEntry(rampStairsBundle.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), update -> {
             if (updateEntry == 1) {
                 updateEntry = 0;
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RampStairsFlightFragment flightFragment = RampStairsFlightFragment.newInstance();
                 flightFragment.setArguments(rampStairsBundle);
@@ -226,7 +226,7 @@ public class RampStairsFragment extends Fragment {
 
     public void errorEscape(){
         Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
-        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
 

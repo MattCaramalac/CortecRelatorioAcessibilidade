@@ -28,7 +28,6 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class RestroomDoorFragment extends Fragment {

@@ -126,7 +126,7 @@ public class RampStairsFlightFragment extends Fragment {
                 ViewModelEntry.insertRampsStairsFlight(newFlight);
                 Toast.makeText(getContext(), "Informações Salvas com Sucesso!", Toast.LENGTH_SHORT).show();
                 rampStairsBundle.putInt(InspectionActivity.ALLOW_UPDATE,0);
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RampStairsFragment rampStairs = RampStairsFragment.newInstance(rampStairsBundle.getInt(RampStairsFragment.RAMP_OR_STAIRS));
                 rampStairs.setArguments(rampStairsBundle);
@@ -137,7 +137,7 @@ public class RampStairsFlightFragment extends Fragment {
 
 //        Comando faz retornar a tela de cadastro da escadaria
 //        TODO - Inserir dialog de perda de dados cadastrados ao tentar retornar para a tela inicial de cadastro
-        cancelFlight.setOnClickListener(v-> Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStackImmediate());
+        cancelFlight.setOnClickListener(v-> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
     }
 
@@ -167,7 +167,7 @@ public class RampStairsFlightFragment extends Fragment {
 
     public void errorFlightProcedure(){
         Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
-        Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction().remove(this).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
     public FlightsRampStairsEntry newFlightEntry(Bundle bundle) {

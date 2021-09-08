@@ -19,8 +19,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 
-import java.util.Objects;
-
 public class SidewalkFragment extends Fragment {
 
     TextInputLayout sidewalkLocationField, sidewalkStatusField, sidewalkWidthField, sidewalkSpecialFloorObsField;
@@ -79,12 +77,12 @@ public class SidewalkFragment extends Fragment {
         hasSpecialFloor.setOnCheckedChangeListener(this::hasSpecialFloorListener);
         hasSlope.setOnCheckedChangeListener(this::hasSlopeListener);
 
-        cancelSidewalk.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelSidewalk.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
         saveSidewalk.setOnClickListener(v -> {
             //Método de Salvar calçadas
-            FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
             fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();

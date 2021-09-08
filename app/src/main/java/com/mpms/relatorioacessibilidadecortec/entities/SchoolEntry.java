@@ -1,10 +1,7 @@
 package com.mpms.relatorioacessibilidadecortec.entities;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import java.sql.Blob;
 
 @Entity
 public class SchoolEntry {

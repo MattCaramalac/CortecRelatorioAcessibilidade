@@ -14,11 +14,8 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddCounterDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
-
-import java.util.Objects;
 
 
 public class CafeteriaFragment extends Fragment {

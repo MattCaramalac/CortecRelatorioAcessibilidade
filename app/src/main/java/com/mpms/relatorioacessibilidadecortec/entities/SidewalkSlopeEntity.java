@@ -4,8 +4,6 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
-
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys = {@ForeignKey(entity = SchoolEntry.class,

@@ -16,8 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddCounterDialog;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddDoorDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 

@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -22,7 +21,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
 
@@ -69,7 +67,7 @@ public class ParkingLotFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ViewModelEntry recentEntry = new ViewModelEntry(Objects.requireNonNull(getActivity()).getApplication());
+        ViewModelEntry recentEntry = new ViewModelEntry(requireActivity().getApplication());
 
         cancelParkingLotRegister = view.findViewById(R.id.cancel_parking_lot);
         saveParkingLotRegister = view.findViewById(R.id.save_parking_lot);
@@ -93,7 +91,7 @@ public class ParkingLotFragment extends Fragment {
                 registerID.putInt("PARKING_LOT_ID", parkingLotID);
                 saveAttempt = 0;
                 clearFields();
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 ParkingLotPdmrFragment parkingLotPdmrFragment = ParkingLotPdmrFragment.newInstance();
                 parkingLotPdmrFragment.setArguments(registerID);
@@ -102,7 +100,7 @@ public class ParkingLotFragment extends Fragment {
 
         });
 
-        cancelParkingLotRegister.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelParkingLotRegister.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
         saveParkingLotRegister.setOnClickListener(v -> {
