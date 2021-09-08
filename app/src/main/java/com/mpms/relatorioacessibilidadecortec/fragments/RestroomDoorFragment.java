@@ -138,7 +138,7 @@ public class RestroomDoorFragment extends Fragment {
                 RestroomDoorUpdate doorUpdate = restDoorDataUpdate(restroomDoorBundle);
                 ViewModelEntry.updateRestroomDoorData(doorUpdate);
                 restroomDoorBundle.putBoolean(GATHER_DOOR_DATA, true);
-                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RestroomUpperViewFragment upperView = RestroomUpperViewFragment.newInstance();
                 upperView.setArguments(restroomDoorBundle);
@@ -147,7 +147,7 @@ public class RestroomDoorFragment extends Fragment {
             }
         });
 
-        returnEntry.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStackImmediate());
+        returnEntry.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
     }
 
     public RestroomDoorUpdate restDoorDataUpdate(Bundle bundle) {

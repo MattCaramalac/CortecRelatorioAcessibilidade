@@ -83,7 +83,7 @@ public class AddFreeSpaceDialog extends DialogFragment {
             }
         });
 
-        cancelFreeSpace.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelFreeSpace.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
     }
 

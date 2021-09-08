@@ -82,7 +82,7 @@ public class AddWindowDialog extends DialogFragment {
             }
         });
 
-        cancelWindow.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelWindow.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
     }
 

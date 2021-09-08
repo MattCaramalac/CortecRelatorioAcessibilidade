@@ -90,7 +90,7 @@ public class AddCounterDialog extends DialogFragment {
             }
         });
 
-        cancelCounter.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelCounter.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
     }

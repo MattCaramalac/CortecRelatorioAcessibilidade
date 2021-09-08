@@ -218,7 +218,7 @@ public class RoomsRegisterFragment extends Fragment {
             saveUpdateDialogClick();
         });
 
-        cancelRoomRegister.setOnClickListener(v -> Objects.requireNonNull(getActivity()).getSupportFragmentManager()
+        cancelRoomRegister.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
         saveRoomRegister.setOnClickListener(v -> saveRoomEntry());
@@ -338,27 +338,27 @@ public class RoomsRegisterFragment extends Fragment {
     }
 
     private void addDoorDialog() {
-        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+        AddDoorDialog.displayDoorDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
     }
 
     private void addSwitchDialog() {
-        AddSwitchDialog.displaySwitchDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+        AddSwitchDialog.displaySwitchDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
     }
 
     private void addWindowDialog() {
-        AddWindowDialog.displayWindowDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+        AddWindowDialog.displayWindowDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
     }
 
     private void addFreeSpaceDialog() {
-        AddFreeSpaceDialog.displayFreeSpaceDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+        AddFreeSpaceDialog.displayFreeSpaceDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
     }
 
     private void addTableDialog() {
-        AddTableDialog.addTableDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+        AddTableDialog.addTableDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
     }
 
     private void addCounterDialog() {
-        AddCounterDialog.displayCounterDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), roomBundleID);
+        AddCounterDialog.displayCounterDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
     }
 
 }
