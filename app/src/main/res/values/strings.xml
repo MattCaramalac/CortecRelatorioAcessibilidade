@@ -293,7 +293,7 @@
     <string name="hint_horizontal_handle_height">Altura do Puxador Horizontal</string>
     <string name="hint_horizontal_handle_length">Comprimento do Puxador Horizontal</string>
     <string name="hint_restroom_id">Identificação ou Localização do Sanitário</string>
-    <string name="label_upper_view_rest_dimens">Dimensões do Banheiro - Vista Superior</string>
+    <string name="label_upper_view_rest_dimens">Dimensões do Sanitário - Vista Superior</string>
     <string name="expanded_image_description">Expanded Image</string>
     <string name="close_button_description">Close Button</string>
     <string name="label_upper_view_measurements">Visão Superior Banheiro</string>
@@ -304,7 +304,7 @@
     <string name="hint_measurement_D">Medida D</string>
     <string name="hint_measurement_E">Medida E</string>
     <string name="label_back_button">RETORNAR</string>
-    <string name="label_support_bar_header">Dimensões da Barra de Apoio</string>
+    <string name="label_support_bar_header">Dimensões do Sanitário - Barras de Apoio</string>
     <string name="label_sup_bar_measurements">Dimensões da Barra de Apoio</string>
     <string name="hint_measurement_F">Medida F</string>
     <string name="hint_measurement_G">Medida G</string>
@@ -320,6 +320,19 @@
     <string name="radio_overlap_paper_holder">DE SOBREPOR</string>
     <string name="label_emergency_signal_header">O sanitário possui dispositivo de sinalização de emergência?</string>
     <string name="label_bidet_header">Há ducha higiência ao lado do vaso sanitário (recomendado)</string>
-    <string name="label_sink_dimensions_header">Dimensões da Pia</string>
+    <string name="label_sink_dimensions_header">Dimensões do Sanitário - Dimensões da Pia</string>
     <string name="hint_sink_measures_obs">Observações sobre as medidas da figura acima</string>
+    <string name="hint_measurement_K">Medida K</string>
+    <string name="hint_measurement_L">Medida L</string>
+    <string name="hint_measurement_M">Medida M</string>
+    <string name="hint_measurement_N">Medida N</string>
+    <string name="hint_measurement_O">Medida O</string>
+    <string name="hint_measurement_P">Medida P</string>
+    <string name="hint_measurement_Q">Medida Q</string>
+    <string name="hint_measurement_R">Medida R</string>
+    <string name="hint_measurement_S">Medida S</string>
+    <string name="hint_measurement_T">Medida T</string>
+    <string name="label_mirror_urinal_header">Dimensões do Sanitáro - Espelho e Mictório</string>
+    <string name="label_restroom_has_mirrors">O sanitário possui espelho?</string>
+    <string name="label_header_urinal">O sanitário possui mictório?</string>
 </resources>

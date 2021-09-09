@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
@@ -18,7 +20,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 public class RestroomSink1Fragment extends Fragment {
 
     ImageButton sinkOne, sinkTwo;
-    Button returnSupBar, saveSink;
+    Button returnSupBar, saveSinkOne;
 
     Bundle restroomDataBundle;
 
@@ -52,7 +54,7 @@ public class RestroomSink1Fragment extends Fragment {
         sinkTwo = view.findViewById(R.id.sink_image_two);
 
         returnSupBar = view.findViewById(R.id.return_sup_bar);
-        saveSink = view.findViewById(R.id.save_sink_one);
+        saveSinkOne = view.findViewById(R.id.save_sink_one);
 
         Glide.with(this).load(R.drawable.sink_1).fitCenter().into(sinkOne);
         Glide.with(this).load(R.drawable.sink_2).fitCenter().into(sinkTwo);
@@ -66,5 +68,16 @@ public class RestroomSink1Fragment extends Fragment {
             restroomDataBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sink_2);
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), restroomDataBundle);
         });
+
+        saveSinkOne.setOnClickListener(v-> {
+            //Inserir Gravação de Dados
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            RestroomSink2Fragment sinkTwoFragment = RestroomSink2Fragment.newInstance();
+            sinkTwoFragment.setArguments(restroomDataBundle);
+            fragmentTransaction.replace(R.id.show_fragment_selected, sinkTwoFragment).addToBackStack(null).commit();
+        });
+
+        returnSupBar.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
     }
 }
