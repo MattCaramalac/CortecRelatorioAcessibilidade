@@ -320,4 +320,6 @@
     <string name="radio_overlap_paper_holder">DE SOBREPOR</string>
     <string name="label_emergency_signal_header">O sanitário possui dispositivo de sinalização de emergência?</string>
     <string name="label_bidet_header">Há ducha higiência ao lado do vaso sanitário (recomendado)</string>
+    <string name="label_sink_dimensions_header">Dimensões da Pia</string>
+    <string name="hint_sink_measures_obs">Observações sobre as medidas da figura acima</string>
 </resources>

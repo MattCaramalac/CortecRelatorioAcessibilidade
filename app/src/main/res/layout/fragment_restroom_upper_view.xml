@@ -12,38 +12,38 @@
 
         <TextView
             android:id="@+id/rest_upper_view_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/label_upper_view_rest_dimens"
             android:textSize="@dimen/section_header"/>
 
         <ImageButton
             android:id="@+id/rest_upper_view_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/square_image_100"
+            android:layout_height="@dimen/square_image_100"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rest_upper_view_header"
             android:layout_marginTop="@dimen/top_margins"
             android:contentDescription="@string/label_upper_view_measurements" />
 
         <TextView
-            android:layout_width="300dp"
+            android:layout_width="275dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/rest_upper_view_image"
             app:layout_constraintStart_toEndOf="@id/rest_upper_view_image"
-            android:layout_marginStart="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
             android:textSize="@dimen/section_header"
             android:text="@string/label_expand_image_info"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/upper_view_A_measurement_field"
-            android:layout_width="300dp"
+            android:layout_width="275dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/rest_upper_view_image"
             app:layout_constraintStart_toEndOf="@id/rest_upper_view_image"
-            android:layout_marginStart="6dp"
+            app:layout_constraintEnd_toEndOf="parent"
             android:hint="@string/hint_measurement_A">
 
             <com.google.android.material.textfield.TextInputEditText

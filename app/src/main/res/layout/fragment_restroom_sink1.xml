@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.RestroomSink1Fragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/sink_dimensions_header_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_sink_dimensions_header"
+            android:textSize="@dimen/section_header"/>
+
+        <ImageButton
+            android:id="@+id/sink_image_one"
+            android:layout_width="@dimen/square_image_100"
+            android:layout_height="@dimen/square_image_100"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sink_dimensions_header_one"
+            android:layout_marginTop="@dimen/top_margins"
+            android:contentDescription="@string/label_upper_view_measurements" />
+
+        <TextView
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/sink_image_one"
+            app:layout_constraintStart_toEndOf="@id/sink_image_one"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="6dp"
+            android:textSize="@dimen/section_header"
+            android:text="@string/label_expand_image_info"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sink_one_A_measurement_field"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/sink_image_one"
+            app:layout_constraintStart_toEndOf="@id/sink_image_one"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="@string/hint_measurement_A">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_one_A_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sink_one_B_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/sink_one_A_measurement_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/sink_one_C_measurement_field"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_B">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_one_B_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sink_one_C_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/sink_one_B_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/sink_one_B_measurement_field"
+            android:hint="@string/hint_measurement_C">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_one_C_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sink_one_D_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/sink_one_B_measurement_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/sink_one_E_measurement_field"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_D">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_one_D_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sink_one_E_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/sink_one_D_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/sink_one_D_measurement_field"
+            android:hint="@string/hint_measurement_E">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_one_E_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sink_one_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sink_one_D_measurement_field"
+            android:hint="@string/hint_sink_measures_obs">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_one_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/sink_image_two"
+            android:layout_width="@dimen/square_image_100"
+            android:layout_height="@dimen/square_image_100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sink_one_obs_field"
+            android:layout_marginTop="@dimen/top_margins"
+            android:contentDescription="@string/label_upper_view_measurements" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sink_one_F_measurement_field"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/sink_image_two"
+            app:layout_constraintBottom_toBottomOf="@id/sink_image_two"
+            app:layout_constraintEnd_toStartOf="@id/sink_image_two"
+            app:layout_constraintStart_toStartOf="parent"
+            android:hint="@string/hint_measurement_F">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_one_F_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sink_one_G_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/sink_image_two"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/sink_one_H_measurement_field"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_G">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_one_G_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sink_one_H_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/sink_one_G_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/sink_one_G_measurement_field"
+            android:hint="@string/hint_measurement_H">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_one_H_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sink_two_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sink_one_H_measurement_field"
+            android:hint="@string/hint_sink_measures_obs">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_two_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_sink_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_margins"
+            android:text="@string/label_button_proceed_register"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sink_two_obs_field" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/return_sup_bar"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_margins"
+            android:text="@string/label_back_button"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/save_sink_one"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
