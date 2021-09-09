@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.RestroomMirrorUrinalFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/mirror_urinal_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_mirror_urinal_header"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/restroom_mirror_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:text="@string/label_restroom_has_mirrors"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mirror_urinal_header" />
+
+        <RadioGroup
+            android:id="@+id/restroom_mirror_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/restroom_mirror_header">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="15sp" />
+
+        </RadioGroup>
+
+        <ImageButton
+            android:id="@+id/mirror_image"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/label_sup_bar_measurements"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/expand_mirror_img"
+            app:layout_constraintTop_toBottomOf="@id/restroom_mirror_radio" />
+
+        <TextView
+            android:id="@+id/expand_mirror_img"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toTopOf="@id/mirror_image"
+            app:layout_constraintBottom_toBottomOf="@id/mirror_image"
+            app:layout_constraintStart_toEndOf="@id/mirror_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/usual_padding"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:textSize="@dimen/section_header"
+            android:textAlignment="center"
+            android:text="@string/label_expand_image_info"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/mirror_A_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/mirror_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/mirror_B_measurement_field"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_A">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/mirror_A_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/mirror_B_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/mirror_A_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/mirror_A_measurement_field"
+            android:hint="@string/hint_measurement_B">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/mirror_B_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/mirror_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mirror_A_measurement_field"
+            android:hint="@string/hint_sink_measures_obs">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/mirror_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/restroom_urinal_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:text="@string/label_header_urinal"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mirror_obs_field" />
+
+        <RadioGroup
+            android:id="@+id/restroom_urinal_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/restroom_urinal_header">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="15sp" />
+
+        </RadioGroup>
+
+        <ImageButton
+            android:id="@+id/urinal_image_one"
+            android:layout_width="@dimen/square_image_100"
+            android:layout_height="125dp"
+            android:contentDescription="@string/label_upper_view_measurements"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/restroom_urinal_radio"
+            app:layout_constraintEnd_toStartOf="@id/expand_urinal_image_text"/>
+
+
+        <TextView
+            android:id="@+id/expand_urinal_image_text"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/restroom_urinal_radio"
+            app:layout_constraintBottom_toTopOf="@id/urinal_A_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/urinal_image_one"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/section_header"
+            android:textAlignment="center"
+            android:text="@string/label_expand_image_info"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_A_measurement_field"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/urinal_image_one"
+            app:layout_constraintTop_toBottomOf="@id/expand_urinal_image_text"
+            app:layout_constraintStart_toEndOf="@id/urinal_image_one"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="@string/hint_measurement_A">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_A_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_B_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/urinal_image_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/mirror_B_measurement_field"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_B">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_B_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_C_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/urinal_B_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/mirror_A_measurement_field"
+            android:hint="@string/hint_measurement_C">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_C_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/urinal_image_two"
+            android:layout_width="@dimen/square_image_100"
+            android:layout_height="125dp"
+            android:contentDescription="@string/label_upper_view_measurements"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintTop_toBottomOf="@id/urinal_C_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/urinal_D_measurement_field"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_D_measurement_field"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/urinal_image_two"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/urinal_image_two"
+            android:hint="@string/hint_measurement_D">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_D_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_E_measurement_field"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/urinal_image_two"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/urinal_image_two"
+            android:hint="@string/hint_measurement_E">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_E_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_F_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/urinal_E_measurement_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/urinal_G_measurement_field"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_F">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_F_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_G_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/urinal_F_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/urinal_F_measurement_field"
+            android:hint="@string/hint_measurement_G">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_G_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_H_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/urinal_F_measurement_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/urinal_G_measurement_field"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_H">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_H_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_I_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/urinal_H_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/urinal_F_measurement_field"
+            android:hint="@string/hint_measurement_I">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_I_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_J_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/urinal_H_measurement_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/urinal_G_measurement_field"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_measurement_J">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_J_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_K_measurement_field"
+            android:layout_width="@dimen/dimen_field"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/urinal_J_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/urinal_F_measurement_field"
+            android:hint="@string/hint_measurement_K">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_K_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urinal_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/urinal_J_measurement_field"
+            android:hint="@string/hint_sink_measures_obs">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urinal_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_mirror_urinal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_margins"
+            android:text="@string/label_button_save"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/urinal_obs_field" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/return_sink_two"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_margins"
+            android:text="@string/label_back_button"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/save_mirror_urinal"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
+
+

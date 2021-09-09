@@ -65,9 +65,10 @@ public class RestroomSupportBarFragment extends Fragment {
         });
 
         saveSupBar.setOnClickListener( v -> {
+            //Inserir gravação de dados
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-           RestroomSink1Fragment sinkOneFragment = RestroomSink1Fragment.newInstance();
+            RestroomSink1Fragment sinkOneFragment = RestroomSink1Fragment.newInstance();
             sinkOneFragment.setArguments(restroomDataBundle);
             fragmentTransaction.replace(R.id.show_fragment_selected, sinkOneFragment).addToBackStack(null).commit();
         });
