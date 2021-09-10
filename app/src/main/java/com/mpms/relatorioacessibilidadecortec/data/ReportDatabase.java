@@ -38,52 +38,100 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {SchoolEntry.class, WaterFountainEntry.class, OtherSpaces.class, ExternalAccess.class,
-ParkingLotEntry.class, ParkingLotPDMREntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
-FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
-CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
-RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class}, version = 20)
+        ParkingLotEntry.class, ParkingLotPDMREntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
+        FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
+        CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
+        RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class}, version = 20)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
     private static volatile ReportDatabase INSTANCE;
     public static final ExecutorService dbWriteExecutor = Executors.newFixedThreadPool(NUMBER_THREADS);
 
-    public static final RoomDatabase.Callback  roomCallback =
+    public static final RoomDatabase.Callback roomCallback =
             new RoomDatabase.Callback() {
                 @Override
                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                     super.onCreate(db);
 
-                    dbWriteExecutor.execute(() -> { SchoolEntryDao schoolEntryDao = INSTANCE.schoolEntryDao(); });
-                    dbWriteExecutor.execute(() -> { WaterFountainDao waterFountainDao = INSTANCE.waterFountainDao(); });
-                    dbWriteExecutor.execute(() -> { ExternalAccessDao externalAccessDao = INSTANCE.externalAccessDao(); });
-                    dbWriteExecutor.execute(() -> { OtherSpacesDao otherSpacesDao = INSTANCE.otherSpacesDao(); });
-                    dbWriteExecutor.execute(() -> { ParkingLotEntryDao parkingLotEntryDao = INSTANCE.parkingLotEntryDao(); });
-                    dbWriteExecutor.execute(() -> { ParkingLotPdmrDao parkingLotPdmrDao = INSTANCE.parkingLotPdmrDao(); });
-                    dbWriteExecutor.execute(() -> { ParkingLotElderlyDao parkingLotElderlyDao = INSTANCE.parkingLotElderlyDao(); });
-                    dbWriteExecutor.execute(() -> { RoomEntryDao roomEntryDao = INSTANCE.roomEntryDao(); });
-                    dbWriteExecutor.execute(() -> { DoorEntryDao doorEntryDao = INSTANCE.doorEntryDao(); });
-                    dbWriteExecutor.execute(() -> { SwitchEntryDao switchEntryDao = INSTANCE.switchEntryDao(); });
-                    dbWriteExecutor.execute(() -> { FreeSpaceEntryDao freeSpaceEntryDao = INSTANCE.freeSpaceEntryDao(); });
-                    dbWriteExecutor.execute(() -> { TableEntryDao tableEntryDao = INSTANCE.tableEntryDao(); });
-                    dbWriteExecutor.execute(() -> { WindowEntryDao windowEntryDao = INSTANCE.windowEntryDao(); });
-                    dbWriteExecutor.execute(() -> { PayPhoneDao payPhoneDao = INSTANCE.payPhoneDao(); });
-                    dbWriteExecutor.execute(() -> { GateObsDao gateObsDao = INSTANCE.gateObsDao(); });
-                    dbWriteExecutor.execute(() -> { CounterEntryDao counterEntryDao = INSTANCE.counterEntryDao(); });
-                    dbWriteExecutor.execute(() -> { RampStairsEntryDao rampStairsDao = INSTANCE.rampStairsDao(); });
-                    dbWriteExecutor.execute(() -> { FlightRampStairsDao flightRampStairsDao = INSTANCE.flightRampStairsDao(); });
-                    dbWriteExecutor.execute(() -> { RestroomEntryDao restroomEntryDao = INSTANCE.restroomEntryDao(); });
-                    dbWriteExecutor.execute(() -> { RestroomMirrorDao restroomMirrorDao = INSTANCE.restroomMirrorDao(); });
-                    dbWriteExecutor.execute(() -> { RestroomSinkDao restroomSinkDao = INSTANCE.restroomSinkDao(); });
-                    dbWriteExecutor.execute(() -> { RestroomSupportBarDao restroomSupportBarDao = INSTANCE.restroomSupportBarDao(); });
-                    dbWriteExecutor.execute(() -> { RestroomUpViewDao restroomUpViewDao = INSTANCE.restroomUpViewDao(); });
-                    dbWriteExecutor.execute(() -> { RestroomUrinalDao restroomUrinalDao = INSTANCE.restroomUrinalDao(); });
+                    dbWriteExecutor.execute(() -> {
+                        SchoolEntryDao schoolEntryDao = INSTANCE.schoolEntryDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        WaterFountainDao waterFountainDao = INSTANCE.waterFountainDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        ExternalAccessDao externalAccessDao = INSTANCE.externalAccessDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        OtherSpacesDao otherSpacesDao = INSTANCE.otherSpacesDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        ParkingLotEntryDao parkingLotEntryDao = INSTANCE.parkingLotEntryDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        ParkingLotPdmrDao parkingLotPdmrDao = INSTANCE.parkingLotPdmrDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        ParkingLotElderlyDao parkingLotElderlyDao = INSTANCE.parkingLotElderlyDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        RoomEntryDao roomEntryDao = INSTANCE.roomEntryDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        DoorEntryDao doorEntryDao = INSTANCE.doorEntryDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        SwitchEntryDao switchEntryDao = INSTANCE.switchEntryDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        FreeSpaceEntryDao freeSpaceEntryDao = INSTANCE.freeSpaceEntryDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        TableEntryDao tableEntryDao = INSTANCE.tableEntryDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        WindowEntryDao windowEntryDao = INSTANCE.windowEntryDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        PayPhoneDao payPhoneDao = INSTANCE.payPhoneDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        GateObsDao gateObsDao = INSTANCE.gateObsDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        CounterEntryDao counterEntryDao = INSTANCE.counterEntryDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        RampStairsEntryDao rampStairsDao = INSTANCE.rampStairsDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        FlightRampStairsDao flightRampStairsDao = INSTANCE.flightRampStairsDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        RestroomEntryDao restroomEntryDao = INSTANCE.restroomEntryDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        RestroomMirrorDao restroomMirrorDao = INSTANCE.restroomMirrorDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        RestroomSinkDao restroomSinkDao = INSTANCE.restroomSinkDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        RestroomSupportBarDao restroomSupportBarDao = INSTANCE.restroomSupportBarDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        RestroomUpViewDao restroomUpViewDao = INSTANCE.restroomUpViewDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        RestroomUrinalDao restroomUrinalDao = INSTANCE.restroomUrinalDao();
+                    });
 
                 }
             };
 
 
-    static final Migration MIGRATION_2_3 = new Migration(2,3) {
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE WaterFountainEntry (waterFountainID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
@@ -93,7 +141,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_3_4 = new Migration(3,4) {
+    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("DROP TABLE WaterFountainEntry");
@@ -105,7 +153,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_4_5 = new Migration(4,5) {
+    static final Migration MIGRATION_4_5 = new Migration(4, 5) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE ExternalAccess (externalAccessID INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -115,7 +163,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_5_6 = new Migration(5,6) {
+    static final Migration MIGRATION_5_6 = new Migration(5, 6) {
 
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
@@ -130,7 +178,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_6_7 = new Migration(6,7) {
+    static final Migration MIGRATION_6_7 = new Migration(6, 7) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE ParkingLotEntry (parkingLotID INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -139,7 +187,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_7_8 = new Migration(7,8) {
+    static final Migration MIGRATION_7_8 = new Migration(7, 8) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE ParkingLotPDMREntry (parkingPdmrID INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -160,7 +208,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_8_9 = new Migration(8,9) {
+    static final Migration MIGRATION_8_9 = new Migration(8, 9) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE RoomEntry (roomID INTEGER PRIMARY KEY AUTOINCREMENT, schoolEntryID INTEGER, " +
@@ -174,7 +222,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_9_10 = new Migration(9,10) {
+    static final Migration MIGRATION_9_10 = new Migration(9, 10) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE DoorEntry(doorID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolID INTEGER NOT NULL, roomID INTEGER NOT NULL," +
@@ -200,7 +248,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_10_11 = new Migration(10,11) {
+    static final Migration MIGRATION_10_11 = new Migration(10, 11) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE GateObsEntry(gateObsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolEntryID INTEGER NOT NULL, accessRefPoint TEXT," +
@@ -212,7 +260,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_11_12 = new Migration(11,12) {
+    static final Migration MIGRATION_11_12 = new Migration(11, 12) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("DROP TABLE GateObsEntry");
@@ -226,7 +274,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_12_13 = new Migration(12,13) {
+    static final Migration MIGRATION_12_13 = new Migration(12, 13) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE CounterEntry(counterID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL, counterUpperEdge REAL NOT NULL," +
@@ -236,7 +284,7 @@ public abstract class ReportDatabase extends RoomDatabase {
     };
 
 
-    static final Migration MIGRATION_13_14 = new Migration(13,14) {
+    static final Migration MIGRATION_13_14 = new Migration(13, 14) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("DROP TABLE CounterEntry");
@@ -246,7 +294,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_14_15 = new Migration(14,15) {
+    static final Migration MIGRATION_14_15 = new Migration(14, 15) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE StairsEntry(stairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolID INTEGER NOT NULL," +
@@ -259,7 +307,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_15_16 = new Migration(15,16) {
+    static final Migration MIGRATION_15_16 = new Migration(15, 16) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("DROP TABLE FlightStairsEntry");
@@ -277,7 +325,7 @@ public abstract class ReportDatabase extends RoomDatabase {
     };
 
 
-    static final Migration MIGRATION_16_17 = new Migration(16,17) {
+    static final Migration MIGRATION_16_17 = new Migration(16, 17) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("DROP TABLE StairsEntry");
@@ -295,7 +343,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_17_18 = new Migration(17,18) {
+    static final Migration MIGRATION_17_18 = new Migration(17, 18) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("DROP TABLE FlightsRampStairsEntry");
@@ -307,7 +355,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_18_19 = new Migration(18,19) {
+    static final Migration MIGRATION_18_19 = new Migration(18, 19) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE RestroomEntry(restroomID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolID INTEGER NOT NULL," +
@@ -324,39 +372,38 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_19_20 = new Migration(19,20) {
+    static final Migration MIGRATION_19_20 = new Migration(19, 20) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE RestroomMirrorEntry(mirrorID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restroomID INTEGER NOT NULL," +
                     "restroomHasMirror INTEGER NOT NULL, mirrorMeasureA REAL, mirrorMeasureB REAL, mirrorObs TEXT, FOREIGN KEY (restroomID) " +
                     "REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
-            database.execSQL("CREATE TABLE RestroomSinkEntry(sinkID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restroomId INTEGER NOT NULL," +
+            database.execSQL("CREATE TABLE RestroomSinkEntry(sinkID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restroomID INTEGER NOT NULL," +
                     "sinkMeasureA REAL, sinkMeasureB REAL, sinkMeasureC REAL, sinkMeasureD REAL, sinkMeasureE REAL, sinkObsAtoE TEXT," +
                     "sinkMeasureF REAL, sinkMeasureG REAL, sinkMeasureH REAL, sinkObsFtoH TEXT, sinkMeasureI REAL, sinkMeasureJ REAL," +
                     "sinkMeasureK REAL, sinkMeasureL REAL, sinkMeasureM REAL, sinkMeasureN REAL, sinkObsItoN TEXT, sinkMeasureO REAL," +
-                    "sinkMeasureP REAL, sinkMeasureQ REAL, sinkMeasureR, sinkMeasureS, sinkMeasureT REAL, sinkObsOtoT, FOREIGN KEY (restroomID)" +
-                    "REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+                    "sinkMeasureP REAL, sinkMeasureQ REAL, sinkMeasureR REAL, sinkMeasureS REAL, sinkMeasureT REAL, sinkObsOtoT TEXT, " +
+                    "FOREIGN KEY (restroomID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
             database.execSQL("CREATE TABLE RestroomSupportBarEntry(supBarID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restroomID INTEGER NOT NULL," +
-                    "supBarDiamenter REAL NOT NULL, supBarMeasureA REAL NOT NULL, supBarMeasureB REAL NOT NULL, supBarMeasureC REAL NOT NULL," +
+                    "supBarDiameter REAL NOT NULL, supBarMeasureA REAL NOT NULL, supBarMeasureB REAL NOT NULL, supBarMeasureC REAL NOT NULL," +
                     "supBarMeasureD REAL NOT NULL, supBarMeasureE REAL NOT NULL, supBarMeasureF REAL NOT NULL, supBarMeasureG REAL NOT NULL," +
                     "supBarMeasureH REAL NOT NULL, supBarMeasureI REAL NOT NULL, supBarMeasureJ REAL NOT NULL, supBarObs TEXT, toiletHeight REAL NOT NULL," +
                     "toiletFlushHeight REAL NOT NULL, paperHolderType INTEGER NOT NULL, paperHolderDistance REAL NOT NULL, paperHolderHeight REAL NOT NULL," +
-                    "paperHolderObs TEXT, hasEmergencySignal INTEGER NOT NULL, emergencySignalHeight REAL NOT NULL, emergencySignalObs TEXT," +
-                    "hasBidet INTEGER NOT NULL, bidetObs TEXT, FOREIGN KEY (restroomID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+                    "paperHolderObs TEXT, hasEmergencySignal INTEGER NOT NULL, emergencySignalHeight REAL, emergencySignalObs TEXT, hasBidet INTEGER NOT NULL, " +
+                    "bidetObs TEXT, FOREIGN KEY (restroomID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
             database.execSQL("CREATE TABLE RestroomUpViewEntry(upViewID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restroomID INTEGER NOT NULL," +
                     "upViewMeasureA REAL NOT NULL, upViewMeasureB REAL NOT NULL, upViewMeasureC REAL NOT NULL, upViewMeasureD REAL NOT NULL, " +
-                    "upViewMeasureA REAL NOT NULL, upViewObs TEXT, FOREIGN KEY (restroomID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+                    "upViewMeasureE REAL NOT NULL, upViewObs TEXT, FOREIGN KEY (restroomID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
             database.execSQL("CREATE TABLE RestroomUrinalEntry(urinalID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restroomID INTEGER NOT NULL," +
                     "restroomHasUrinal INTEGER NOT NULL, urinalMeasureA REAL, urinalMeasureB REAL, urinalMeasureC REAL, urinalMeasureD REAL, urinalMeasureE REAL," +
                     "urinalMeasureF REAL, urinalMeasureG REAL, urinalMeasureH REAL, urinalMeasureI REAL, urinalMeasureJ REAL, urinalMeasureK REAL," +
                     "urinalObs TEXT, FOREIGN KEY (restroomID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
-            }
-        };
-
+        }
+    };
 
 
     public static ReportDatabase getDatabase(final Context context) {
-        if (INSTANCE == null){
+        if (INSTANCE == null) {
             synchronized (ReportDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ReportDatabase.class, "ReportDatabase")
@@ -372,28 +419,51 @@ public abstract class ReportDatabase extends RoomDatabase {
 
 
     public abstract SchoolEntryDao schoolEntryDao();
+
     public abstract WaterFountainDao waterFountainDao();
+
     public abstract ExternalAccessDao externalAccessDao();
+
     public abstract OtherSpacesDao otherSpacesDao();
+
     public abstract ParkingLotEntryDao parkingLotEntryDao();
+
     public abstract ParkingLotElderlyDao parkingLotElderlyDao();
+
     public abstract ParkingLotPdmrDao parkingLotPdmrDao();
+
     public abstract RoomEntryDao roomEntryDao();
+
     public abstract DoorEntryDao doorEntryDao();
+
     public abstract SwitchEntryDao switchEntryDao();
+
     public abstract FreeSpaceEntryDao freeSpaceEntryDao();
+
     public abstract TableEntryDao tableEntryDao();
+
     public abstract WindowEntryDao windowEntryDao();
+
     public abstract GateObsDao gateObsDao();
+
     public abstract PayPhoneDao payPhoneDao();
+
     public abstract CounterEntryDao counterEntryDao();
+
     public abstract RampStairsEntryDao rampStairsDao();
+
     public abstract FlightRampStairsDao flightRampStairsDao();
+
     public abstract RestroomEntryDao restroomEntryDao();
+
     public abstract RestroomMirrorDao restroomMirrorDao();
+
     public abstract RestroomSinkDao restroomSinkDao();
+
     public abstract RestroomSupportBarDao restroomSupportBarDao();
+
     public abstract RestroomUpViewDao restroomUpViewDao();
+
     public abstract RestroomUrinalDao restroomUrinalDao();
 
 }
