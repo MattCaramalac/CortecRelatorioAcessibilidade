@@ -2,14 +2,6 @@ package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,12 +10,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillInclinationFragment;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillSlopeFragment;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillStepFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
@@ -52,6 +56,8 @@ public class RestroomDoorFragment extends Fragment {
     Bundle restroomDoorBundle = new Bundle();
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
+    ViewModelDialog modelDialog;
+    FragmentManager manager;
 
 
     public RestroomDoorFragment() {
@@ -76,6 +82,7 @@ public class RestroomDoorFragment extends Fragment {
         restroomDoorBundle = this.getArguments();
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
         return rootView;
     }
 
@@ -124,25 +131,48 @@ public class RestroomDoorFragment extends Fragment {
         saveEntry = view.findViewById(R.id.save_restroom);
         returnEntry = view.findViewById(R.id.return_restroom);
 
+        manager = getChildFragmentManager();
+
         enableDoorObsScrollingFields();
 
         doorHorHandleRadio.setOnCheckedChangeListener(this::activateSwitchHandle);
+
+        doorSillRadio.setOnCheckedChangeListener(this::openChildFragment);
 
         if (restroomDoorBundle.getBoolean(GATHER_DOOR_DATA)) {
             modelEntry.getOneRestroomEntry(restroomDoorBundle.getInt(RestroomFragment.RESTROOM_ID)).observe(getViewLifecycleOwner(), this::gatherRestroomDoorData);
         }
 
-        saveEntry.setOnClickListener(v -> {
-            if(checkEmptyRestDoorDataFields()) {
-                RestroomDoorUpdate doorUpdate = restDoorDataUpdate(restroomDoorBundle);
+        modelDialog.getDoorInfo().observe(getViewLifecycleOwner(), sillBundle -> {
+            if (sillBundle != null) {
+                sillBundle.putInt(RestroomFragment.RESTROOM_ID, restroomDoorBundle.getInt(RestroomFragment.RESTROOM_ID));
+                RestroomDoorUpdate doorUpdate = restDoorDataUpdate(sillBundle);
                 ViewModelEntry.updateRestroomDoorData(doorUpdate);
+                modelDialog.setDoorInfo(null);
                 restroomDoorBundle.putBoolean(GATHER_DOOR_DATA, true);
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RestroomUpperViewFragment upperView = RestroomUpperViewFragment.newInstance();
                 upperView.setArguments(restroomDoorBundle);
                 fragmentTransaction.replace(R.id.show_fragment_selected, upperView).addToBackStack(null).commit();
+                modelDialog.setDoorInfo(null);
+            }
+        });
 
+        saveEntry.setOnClickListener(v -> {
+            if(checkEmptyRestDoorDataFields()) {
+                if(getRestroomDoorCheckedRadio(doorSillRadio) == 0) {
+                    RestroomDoorUpdate doorUpdate = restDoorDataUpdate(restroomDoorBundle);
+                    ViewModelEntry.updateRestroomDoorData(doorUpdate);
+                    restroomDoorBundle.putBoolean(GATHER_DOOR_DATA, true);
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    RestroomUpperViewFragment upperView = RestroomUpperViewFragment.newInstance();
+                    upperView.setArguments(restroomDoorBundle);
+                    fragmentTransaction.replace(R.id.show_fragment_selected, upperView).addToBackStack(null).commit();
+                } else {
+                    modelDialog.setSaveDoorAttempt(1);
+                }
             }
         });
 
@@ -182,10 +212,11 @@ public class RestroomDoorFragment extends Fragment {
         }
 
         return new RestroomDoorUpdate(bundle.getInt(RestroomFragment.RESTROOM_ID),doorWidth,doorHasSIA,doorSIAObs,
-                doorOpenExtDir, doorOpenDirObs, doorHasVertSign, doorVertSignObs,doorSillType,null,
-                null, null, null, doorSillObs,doorHasTactSign, doorTactSignObs,
-                doorHasInternalCoat,doorInternalCoatObs,doorHasHorHandle,doorHorHandleHeight, doorHorHandleLength, doorHorHandleObs);
-
+                doorOpenExtDir, doorOpenDirObs, doorHasVertSign, doorVertSignObs,doorSillType,
+                bundle.getDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL),bundle.getDouble(SillStepFragment.STEP_HEIGHT),
+                bundle.getDouble(SillSlopeFragment.SLOPE_INCLINATION), bundle.getDouble(SillSlopeFragment.SLOPE_WIDTH),
+                doorSillObs,doorHasTactSign, doorTactSignObs, doorHasInternalCoat,doorInternalCoatObs,doorHasHorHandle,
+                doorHorHandleHeight, doorHorHandleLength, doorHorHandleObs);
     }
 
     public int getRestroomDoorCheckedRadio(RadioGroup radio) {
@@ -326,6 +357,47 @@ public class RestroomDoorFragment extends Fragment {
         doorHorHandleHeightField.setErrorEnabled(false);
         doorHorHandleLengthField.setErrorEnabled(false);
 
+    }
+
+    public void openChildFragment(RadioGroup radio, int checkedID) {
+        int index = getRestroomDoorCheckedRadio(radio);
+        switch (index) {
+            case 1:
+                getChildFragmentManager().beginTransaction().replace(R.id.restroom_door_sill_type_fragment, new SillInclinationFragment()).commit();
+                break;
+            case 2:
+                getChildFragmentManager().beginTransaction().replace(R.id.restroom_door_sill_type_fragment, new SillStepFragment()).commit();
+                break;
+            case 3:
+                getChildFragmentManager().beginTransaction().replace(R.id.restroom_door_sill_type_fragment, new SillSlopeFragment()).commit();
+                break;
+            default:
+                removeSillTypeFragments();
+                break;
+        }
+    }
+
+//    TODO - procurar se há método melhor para fechar fragmentos filhos
+    public void removeSillTypeFragments() {
+        try {
+            SillInclinationFragment inclination = (SillInclinationFragment) manager.findFragmentById(R.id.restroom_door_sill_type_fragment);
+            if (inclination != null)
+                manager.beginTransaction().remove(inclination).commit();
+        } catch (Exception e) {
+            try {
+                SillStepFragment step = (SillStepFragment) manager.findFragmentById(R.id.restroom_door_sill_type_fragment);
+                if (step != null)
+                    manager.beginTransaction().remove(step).commit();
+            } catch (Exception f) {
+                try {
+                    SillSlopeFragment slope = (SillSlopeFragment) manager.findFragmentById(R.id.restroom_door_sill_type_fragment);
+                    if (slope != null)
+                        manager.beginTransaction().remove(slope).commit();
+                } catch (Exception g) {
+                    Toast.makeText(getContext(), "Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
 }
