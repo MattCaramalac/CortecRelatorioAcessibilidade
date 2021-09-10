@@ -13,7 +13,7 @@ public class RestroomSupportBarEntry {
     @PrimaryKey(autoGenerate = true)
     private int supBarID;
     private int restroomID;
-    private int supBarDiameter;
+    private double supBarDiameter;
     private double supBarMeasureA;
     private double supBarMeasureB;
     private double supBarMeasureC;
@@ -37,7 +37,7 @@ public class RestroomSupportBarEntry {
     private int hasBidet;
     private String bidetObs;
 
-    public RestroomSupportBarEntry(int restroomID, int supBarDiameter, double supBarMeasureA, double supBarMeasureB,
+    public RestroomSupportBarEntry(int restroomID, double supBarDiameter, double supBarMeasureA, double supBarMeasureB,
                                    double supBarMeasureC, double supBarMeasureD, double supBarMeasureE, double supBarMeasureF,
                                    double supBarMeasureG, double supBarMeasureH, double supBarMeasureI, double supBarMeasureJ,
                                    String supBarObs, double toiletHeight, double toiletFlushHeight, int paperHolderType,
@@ -86,11 +86,11 @@ public class RestroomSupportBarEntry {
         this.restroomID = restroomID;
     }
 
-    public int getSupBarDiameter() {
+    public double getSupBarDiameter() {
         return supBarDiameter;
     }
 
-    public void setSupBarDiameter(int supBarDiameter) {
+    public void setSupBarDiameter(double supBarDiameter) {
         this.supBarDiameter = supBarDiameter;
     }
 
