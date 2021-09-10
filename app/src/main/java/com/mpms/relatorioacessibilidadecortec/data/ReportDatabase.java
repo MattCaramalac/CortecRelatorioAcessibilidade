@@ -22,6 +22,11 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomMirrorEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomSupportBarEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
@@ -35,7 +40,8 @@ import java.util.concurrent.Executors;
 @Database(entities = {SchoolEntry.class, WaterFountainEntry.class, OtherSpaces.class, ExternalAccess.class,
 ParkingLotEntry.class, ParkingLotPDMREntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
 FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
-CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class}, version = 19)
+CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
+RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class}, version = 20)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -318,6 +324,37 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_19_20 = new Migration(19,20) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE RestroomMirrorEntry(mirrorID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restroomID INTEGER NOT NULL," +
+                    "restroomHasMirror INTEGER NOT NULL, mirrorMeasureA REAL, mirrorMeasureB REAL, mirrorObs TEXT, FOREIGN KEY (restroomID) " +
+                    "REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE RestroomSinkEntry(sinkID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restroomId INTEGER NOT NULL," +
+                    "sinkMeasureA REAL, sinkMeasureB REAL, sinkMeasureC REAL, sinkMeasureD REAL, sinkMeasureE REAL, sinkObsAtoE TEXT," +
+                    "sinkMeasureF REAL, sinkMeasureG REAL, sinkMeasureH REAL, sinkObsFtoH TEXT, sinkMeasureI REAL, sinkMeasureJ REAL," +
+                    "sinkMeasureK REAL, sinkMeasureL REAL, sinkMeasureM REAL, sinkMeasureN REAL, sinkObsItoN TEXT, sinkMeasureO REAL," +
+                    "sinkMeasureP REAL, sinkMeasureQ REAL, sinkMeasureR, sinkMeasureS, sinkMeasureT REAL, sinkObsOtoT, FOREIGN KEY (restroomID)" +
+                    "REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE RestroomSupportBarEntry(supBarID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restroomID INTEGER NOT NULL," +
+                    "supBarDiamenter REAL NOT NULL, supBarMeasureA REAL NOT NULL, supBarMeasureB REAL NOT NULL, supBarMeasureC REAL NOT NULL," +
+                    "supBarMeasureD REAL NOT NULL, supBarMeasureE REAL NOT NULL, supBarMeasureF REAL NOT NULL, supBarMeasureG REAL NOT NULL," +
+                    "supBarMeasureH REAL NOT NULL, supBarMeasureI REAL NOT NULL, supBarMeasureJ REAL NOT NULL, supBarObs TEXT, toiletHeight REAL NOT NULL," +
+                    "toiletFlushHeight REAL NOT NULL, paperHolderType INTEGER NOT NULL, paperHolderDistance REAL NOT NULL, paperHolderHeight REAL NOT NULL," +
+                    "paperHolderObs TEXT, hasEmergencySignal INTEGER NOT NULL, emergencySignalHeight REAL NOT NULL, emergencySignalObs TEXT," +
+                    "hasBidet INTEGER NOT NULL, bidetObs TEXT, FOREIGN KEY (restroomID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE RestroomUpViewEntry(upViewID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restroomID INTEGER NOT NULL," +
+                    "upViewMeasureA REAL NOT NULL, upViewMeasureB REAL NOT NULL, upViewMeasureC REAL NOT NULL, upViewMeasureD REAL NOT NULL, " +
+                    "upViewMeasureA REAL NOT NULL, upViewObs TEXT, FOREIGN KEY (restroomID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE RestroomUrinalEntry(urinalID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restroomID INTEGER NOT NULL," +
+                    "restroomHasUrinal INTEGER NOT NULL, urinalMeasureA REAL, urinalMeasureB REAL, urinalMeasureC REAL, urinalMeasureD REAL, urinalMeasureE REAL," +
+                    "urinalMeasureF REAL, urinalMeasureG REAL, urinalMeasureH REAL, urinalMeasureI REAL, urinalMeasureJ REAL, urinalMeasureK REAL," +
+                    "urinalObs TEXT, FOREIGN KEY (restroomID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            }
+        };
+
+
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null){
             synchronized (ReportDatabase.class) {
@@ -326,7 +363,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                             .addCallback(roomCallback).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6,
                                     MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12,
                                     MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17,
-                                    MIGRATION_17_18, MIGRATION_18_19).build();
+                                    MIGRATION_17_18, MIGRATION_18_19, MIGRATION_19_20).build();
                 }
             }
         }
