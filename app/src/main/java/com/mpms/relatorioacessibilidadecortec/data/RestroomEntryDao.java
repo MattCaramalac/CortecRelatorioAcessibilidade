@@ -8,7 +8,7 @@ import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpdate;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntryUpdate;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public interface RestroomEntryDao {
     void updateRestroomEntry(RestroomEntry RestroomEntry);
 
     @Update(entity = RestroomEntry.class)
-    void updateRestroomData(RestroomUpdate...restroomUpdates);
+    void updateRestroomData(RestroomEntryUpdate... restroomEntryUpdates);
 
     @Update(entity = RestroomEntry.class)
     void updateRestroomDoorData(RestroomDoorUpdate... doorUpdates);

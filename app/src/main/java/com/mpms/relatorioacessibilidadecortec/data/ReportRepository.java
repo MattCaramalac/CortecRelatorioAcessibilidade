@@ -24,7 +24,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkOne;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkTwo;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomSupportBarEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpdate;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntryUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
@@ -467,8 +467,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomEntry(restroom));
     }
 
-    public void updateRestroomData(RestroomUpdate...restroomUpdates) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomData(restroomUpdates));
+    public void updateRestroomData(RestroomEntryUpdate... restroomEntryUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomData(restroomEntryUpdates));
     }
 
     public void updateRestroomDoorData(RestroomDoorUpdate... doorUpdates) {

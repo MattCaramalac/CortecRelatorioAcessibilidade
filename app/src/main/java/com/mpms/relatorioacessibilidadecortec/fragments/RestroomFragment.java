@@ -25,7 +25,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpdate;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntryUpdate;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
@@ -186,7 +186,7 @@ public class RestroomFragment extends Fragment {
                     recentEntry = 1;
                     clearRestroomDataFields();
                 } else if (registeredEntry == 1) {
-                    RestroomUpdate update = updateRestroom(restroomBundle);
+                    RestroomEntryUpdate update = updateRestroom(restroomBundle);
                     ViewModelEntry.updateRestroomData(update);
                     updateEntry = 1;
                     clearRestroomDataFields();
@@ -342,7 +342,7 @@ public class RestroomFragment extends Fragment {
                 null, null, null);
     }
 
-    public RestroomUpdate updateRestroom(Bundle bundle) {
+    public RestroomEntryUpdate updateRestroom(Bundle bundle) {
         restroomType = getRestroomCheckedRadio(restroomTypeRadio);
         accessibleRoute = getRestroomCheckedRadio(accessibleRouteRadio);
         integratedRestroom = getRestroomCheckedRadio(integratedRestroomRadio);
@@ -365,7 +365,7 @@ public class RestroomFragment extends Fragment {
             switchHeight = Double.parseDouble(Objects.requireNonNull(restroomSwitchHeightValue.getText()).toString());
         }
 
-        return new RestroomUpdate(bundle.getInt(RESTROOM_ID),restroomType, restroomLocation, accessibleRoute,
+        return new RestroomEntryUpdate(bundle.getInt(RESTROOM_ID),restroomType, restroomLocation, accessibleRoute,
                 accessibleRouteObs, integratedRestroom, integratedRestroomObs, restroomDistance, restroomDistanceObs, exclusiveEntrance,
                 exclusiveEntranceObs, antiDriftingFloor, antiDriftingFloorObs, restroomDrain, restroomDrainObs, restroomSwitch,
                 switchHeight, switchObs);

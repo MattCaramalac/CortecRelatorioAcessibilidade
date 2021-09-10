@@ -28,7 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkOne;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkTwo;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomSupportBarEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpdate;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntryUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
@@ -429,8 +429,8 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomEntry(restroom));
     }
 
-    public static void updateRestroomData(RestroomUpdate...restroomUpdates) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomData(restroomUpdates));
+    public static void updateRestroomData(RestroomEntryUpdate... restroomEntryUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomData(restroomEntryUpdates));
     }
 
     public static void updateRestroomDoorData(RestroomDoorUpdate... doorUpdates) {

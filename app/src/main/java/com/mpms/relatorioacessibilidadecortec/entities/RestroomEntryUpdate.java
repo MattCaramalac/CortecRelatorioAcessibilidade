@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class RestroomUpdate {
+public class RestroomEntryUpdate {
     @PrimaryKey
     private int restroomID;
     private Integer restroomType;
@@ -25,10 +25,10 @@ public class RestroomUpdate {
     private Double switchHeight;
     private String switchObs;
 
-    public RestroomUpdate(int restroomID, Integer restroomType, String restroomLocation, Integer accessibleRoute, String accessibleRouteObs,
-                          Integer integratedRestroom, String integratedRestroomObs, Integer restroomDistance, String restroomDistanceObs,
-                          Integer exclusiveEntrance, String exclusiveEntranceObs, Integer antiDriftingFloor, String antiDriftingFloorObs,
-                          Integer restroomDrain, String restroomDrainObs, Integer restroomSwitch, Double switchHeight, String switchObs) {
+    public RestroomEntryUpdate(int restroomID, Integer restroomType, String restroomLocation, Integer accessibleRoute, String accessibleRouteObs,
+                               Integer integratedRestroom, String integratedRestroomObs, Integer restroomDistance, String restroomDistanceObs,
+                               Integer exclusiveEntrance, String exclusiveEntranceObs, Integer antiDriftingFloor, String antiDriftingFloorObs,
+                               Integer restroomDrain, String restroomDrainObs, Integer restroomSwitch, Double switchHeight, String switchObs) {
         this.restroomID = restroomID;
         this.restroomType = restroomType;
         this.restroomLocation = restroomLocation;
