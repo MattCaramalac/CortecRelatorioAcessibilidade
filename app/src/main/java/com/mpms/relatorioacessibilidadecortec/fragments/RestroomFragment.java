@@ -2,14 +2,6 @@ package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,6 +11,13 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -258,6 +257,10 @@ public class RestroomFragment extends Fragment {
     public boolean checkRestroomFields() {
         clearRestroomErrors();
         int error = 0;
+        if (TextUtils.isEmpty(restroomLocationValue.getText())) {
+            error++;
+            restroomLocationField.setError(getString(R.string.blank_field_error));
+        }
         if (getRestroomCheckedRadio(restroomTypeRadio) == -1) {
             restroomTypeError.setVisibility(View.VISIBLE);
             error++;
@@ -298,6 +301,7 @@ public class RestroomFragment extends Fragment {
     }
 
     public void clearRestroomErrors() {
+        restroomLocationField.setErrorEnabled(false);
         restroomTypeError.setVisibility(View.GONE);
         accessibleRouteError.setVisibility(View.GONE);
         integratedRestroomError.setVisibility(View.GONE);
