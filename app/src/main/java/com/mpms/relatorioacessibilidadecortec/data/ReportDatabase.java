@@ -2,6 +2,13 @@ package com.mpms.relatorioacessibilidadecortec.data;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
 import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
@@ -21,13 +28,6 @@ import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WindowEntry;
-
-import androidx.annotation.NonNull;
-import androidx.room.Database;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -67,6 +67,11 @@ public abstract class ReportDatabase extends RoomDatabase {
                     dbWriteExecutor.execute(() -> { RampStairsEntryDao rampStairsDao = INSTANCE.rampStairsDao(); });
                     dbWriteExecutor.execute(() -> { FlightRampStairsDao flightRampStairsDao = INSTANCE.flightRampStairsDao(); });
                     dbWriteExecutor.execute(() -> { RestroomEntryDao restroomEntryDao = INSTANCE.restroomEntryDao(); });
+                    dbWriteExecutor.execute(() -> { RestroomMirrorDao restroomMirrorDao = INSTANCE.restroomMirrorDao(); });
+                    dbWriteExecutor.execute(() -> { RestroomSinkDao restroomSinkDao = INSTANCE.restroomSinkDao(); });
+                    dbWriteExecutor.execute(() -> { RestroomSupportBarDao restroomSupportBarDao = INSTANCE.restroomSupportBarDao(); });
+                    dbWriteExecutor.execute(() -> { RestroomUpViewDao restroomUpViewDao = INSTANCE.restroomUpViewDao(); });
+                    dbWriteExecutor.execute(() -> { RestroomUrinalDao restroomUrinalDao = INSTANCE.restroomUrinalDao(); });
 
                 }
             };
@@ -348,4 +353,10 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract RampStairsEntryDao rampStairsDao();
     public abstract FlightRampStairsDao flightRampStairsDao();
     public abstract RestroomEntryDao restroomEntryDao();
+    public abstract RestroomMirrorDao restroomMirrorDao();
+    public abstract RestroomSinkDao restroomSinkDao();
+    public abstract RestroomSupportBarDao restroomSupportBarDao();
+    public abstract RestroomUpViewDao restroomUpViewDao();
+    public abstract RestroomUrinalDao restroomUrinalDao();
+
 }

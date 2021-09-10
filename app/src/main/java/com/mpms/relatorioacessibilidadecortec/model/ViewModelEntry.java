@@ -22,7 +22,14 @@ import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomMirrorEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkOne;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkTwo;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomSupportBarEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpdate;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
@@ -436,6 +443,94 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteAllRestroomEntriesFromSchool(int schoolID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllRestroomEntriesFromSchool(schoolID));
+    }
+
+    public void insertRestroomMirrorEntry(RestroomMirrorEntry restroom) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomMirrorEntry(restroom));
+    }
+
+    public LiveData<RestroomMirrorEntry> getOneRestroomMirrorEntry(int restroomID) {
+        return repository.getOneRestroomMirrorEntry(restroomID);
+    }
+
+    public void updateRestroomMirrorEntry(RestroomMirrorEntry mirrorEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomMirrorEntry(mirrorEntry));
+    }
+
+    public void deleteOneRestroomMirrorEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRestroomMirrorEntry(restroomID));
+    }
+
+    public void insertRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomSinkEntry(sinkEntry));
+    }
+
+    public LiveData<RestroomSinkEntry> getOneRestroomSinkEntry(int restroomID) {
+        return repository.getOneRestroomSinkEntry(restroomID);
+    }
+
+    public void updateRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomSinkEntry(sinkEntry));
+    }
+
+    public void updateSinkEntryOne(RestroomSinkOne... sinkOne) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSinkEntryOne(sinkOne));
+    }
+
+    public void updateSinkEntryTwo(RestroomSinkTwo... sinkTwo) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSinkEntryTwo(sinkTwo));
+    }
+
+    public void deleteOneRestroomSinkEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRestroomSinkEntry(restroomID));
+    }
+
+    public void insertRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomSupportBarEntry(supportBar));
+    }
+
+    public LiveData<RestroomSupportBarEntry> getOneRestroomSupportBarEntry(int restroomID) {
+        return repository.getOneRestroomSupportBarEntry(restroomID);
+    }
+
+    public void updateRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomSupportBarEntry(supportBar));
+    }
+
+    public void deleteOneRestroomSupportBarEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRestroomSupportBarEntry(restroomID));
+    }
+
+    public void insertRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomUpViewEntry(upViewEntry));
+    }
+
+    public LiveData<RestroomUpViewEntry> getOneRestroomUpViewEntry(int restroomID) {
+        return repository.getOneRestroomUpViewEntry(restroomID);
+    }
+
+    public void updateRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomUpViewEntry(upViewEntry));
+    }
+
+    public void deleteRestroomUpViewEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteRestroomUpViewEntry(restroomID));
+    }
+
+    public void insertRestroomUrinalEntry(RestroomUrinalEntry urinalEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomUrinalEntry(urinalEntry));
+    }
+
+    public LiveData<RestroomUrinalEntry> getOneRestroomUrinalEntry(int restroomID) {
+        return repository.getOneRestroomUrinalEntry(restroomID);
+    }
+
+    public void updateRestroomUrinalEntry(RestroomUrinalEntry urinalEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomUrinalEntry(urinalEntry));
+    }
+
+    public void deleteOneRestroomUrinalEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRestroomUrinalEntry(restroomID));
     }
 
 }

@@ -18,7 +18,14 @@ import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomMirrorEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkOne;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkTwo;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomSupportBarEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpdate;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
@@ -51,6 +58,11 @@ public class ReportRepository {
     private final RampStairsEntryDao rampStairsEntryDao;
     private final FlightRampStairsDao flightsRampStairDao;
     private final RestroomEntryDao restroomEntryDao;
+    private final RestroomMirrorDao restroomMirrorDao;
+    private final RestroomSinkDao restroomSinkDao;
+    private final RestroomSupportBarDao restroomSupportBarDao;
+    private final RestroomUpViewDao restroomUpViewDao;
+    private final RestroomUrinalDao restroomUrinalDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -73,6 +85,11 @@ public class ReportRepository {
         rampStairsEntryDao = db.rampStairsDao();
         flightsRampStairDao = db.flightRampStairsDao();
         restroomEntryDao = db.restroomEntryDao();
+        restroomMirrorDao = db.restroomMirrorDao();
+        restroomSinkDao = db.restroomSinkDao();
+        restroomSupportBarDao = db.restroomSupportBarDao();
+        restroomUpViewDao = db.restroomUpViewDao();
+        restroomUrinalDao = db.restroomUrinalDao();
 
     }
 
@@ -464,6 +481,94 @@ public class ReportRepository {
 
     public void deleteAllRestroomEntriesFromSchool(int schoolID) {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.deleteAllRestroomEntriesFromSchool(schoolID));
+    }
+
+    public void insertRestroomMirrorEntry(RestroomMirrorEntry restroom) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomMirrorDao.insertRestroomMirrorEntry(restroom));
+    }
+
+    public LiveData<RestroomMirrorEntry> getOneRestroomMirrorEntry(int restroomID) {
+        return restroomMirrorDao.getOneRestroomMirrorEntry(restroomID);
+    }
+
+    public void updateRestroomMirrorEntry(RestroomMirrorEntry mirrorEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomMirrorDao.updateRestroomMirrorEntry(mirrorEntry));
+    }
+
+    public void deleteOneRestroomMirrorEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomMirrorDao.deleteOneRestroomMirrorEntry(restroomID));
+    }
+
+    public void insertRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.insertRestroomSinkEntry(sinkEntry));
+    }
+
+    public LiveData<RestroomSinkEntry> getOneRestroomSinkEntry(int restroomID) {
+        return restroomSinkDao.getOneRestroomSinkEntry(restroomID);
+    }
+
+    public void updateRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.updateRestroomSinkEntry(sinkEntry));
+    }
+
+    public void updateSinkEntryOne(RestroomSinkOne... sinkOne) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.updateSinkEntryOne(sinkOne));
+    }
+
+    public void updateSinkEntryTwo(RestroomSinkTwo... sinkTwo) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.updateSinkEntryTwo(sinkTwo));
+    }
+
+    public void deleteOneRestroomSinkEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.deleteOneRestroomSinkEntry(restroomID));
+    }
+
+    public void insertRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomSupportBarDao.insertRestroomSupportBarEntry(supportBar));
+    }
+
+    public LiveData<RestroomSupportBarEntry> getOneRestroomSupportBarEntry(int restroomID) {
+        return restroomSupportBarDao.getOneRestroomSupportBarEntry(restroomID);
+    }
+
+    public void updateRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomSupportBarDao.updateRestroomSupportBarEntry(supportBar));
+    }
+
+    public void deleteOneRestroomSupportBarEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomSupportBarDao.deleteOneRestroomSupportBarEntry(restroomID));
+    }
+
+    public void insertRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomUpViewDao.insertRestroomUpViewEntry(upViewEntry));
+    }
+
+    public LiveData<RestroomUpViewEntry> getOneRestroomUpViewEntry(int restroomID) {
+        return restroomUpViewDao.getOneRestroomUpViewEntry(restroomID);
+    }
+
+    public void updateRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomUpViewDao.updateRestroomUpViewEntry(upViewEntry));
+    }
+
+    public void deleteRestroomUpViewEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomUpViewDao.deleteRestroomUpViewEntry(restroomID));
+    }
+
+    public void insertRestroomUrinalEntry(RestroomUrinalEntry urinalEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomUrinalDao.insertRestroomUrinalEntry(urinalEntry));
+    }
+
+    public LiveData<RestroomUrinalEntry> getOneRestroomUrinalEntry(int restroomID) {
+        return restroomUrinalDao.getOneRestroomUrinalEntry(restroomID);
+    }
+
+    public void updateRestroomUrinalEntry(RestroomUrinalEntry urinalEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomUrinalDao.updateRestroomUrinalEntry(urinalEntry));
+    }
+
+    public void deleteOneRestroomUrinalEntry(int restroomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomUrinalDao.deleteOneRestroomUrinalEntry(restroomID));
     }
 
     public void deleteAllEntries() {
