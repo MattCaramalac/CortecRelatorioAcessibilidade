@@ -49,7 +49,7 @@
             android:hint="@string/hint_sup_bar_diameter">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/sup_bar_diam__value"
+                android:id="@+id/sup_bar_diam_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="numberDecimal"/>
@@ -303,7 +303,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/paper_holder_type_header"
-            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:orientation="horizontal">
 
             <RadioButton
@@ -322,14 +322,26 @@
 
         </RadioGroup>
 
+        <TextView
+            android:id="@+id/paper_holder_type_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/paper_holder_type_radio"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/paper_holder_distance_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/paper_holder_type_radio"
+            app:layout_constraintTop_toBottomOf="@id/paper_holder_type_error"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="Distância entre papeleira e vaso sanitário">
+            android:hint="@string/hint_paper_holder_distance">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/paper_holder_distance_value"
@@ -346,7 +358,7 @@
             app:layout_constraintTop_toBottomOf="@id/paper_holder_distance_field"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="Altura da Papeleira">
+            android:hint="@string/hint_paper_holder_height">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/paper_holder_height_value"
@@ -363,7 +375,7 @@
             android:layout_marginTop="@dimen/top_margins"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/paper_holder_height_field"
-            android:hint="Observações sobre a papeleira">
+            android:hint="@string/hint_paper_holder_obs">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/paper_holder_obs_value"
@@ -413,14 +425,26 @@
 
         </RadioGroup>
 
+        <TextView
+            android:id="@+id/emergency_signal_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/emergency_signal_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emergency_signal_height_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/emergency_signal_radio"
+            app:layout_constraintTop_toBottomOf="@id/emergency_signal_error"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="Altura do dispositivo">
+            android:hint="@string/hint_emergency_signal_height">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emergency_signal_height_value"
@@ -437,7 +461,7 @@
             android:layout_marginTop="@dimen/top_margins"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/emergency_signal_height_field"
-            android:hint="Observações sobre a papeleira">
+            android:hint="@string/hint_emergency_signal_obs">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emergency_signal_obs_value"
@@ -468,7 +492,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/bidet_header"
-            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:orientation="horizontal">
 
             <RadioButton
@@ -487,6 +511,17 @@
 
         </RadioGroup>
 
+        <TextView
+            android:id="@+id/bidet_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/bidet_radio"
+            app:layout_constraintStart_toStartOf="parent" />
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/bidet_obs_field"
@@ -494,8 +529,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bidet_radio"
-            android:hint="Observações sobre a papeleira">
+            app:layout_constraintTop_toBottomOf="@id/bidet_error"
+            android:hint="@string/hint_bidet_obs">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/bidet_obs_value"

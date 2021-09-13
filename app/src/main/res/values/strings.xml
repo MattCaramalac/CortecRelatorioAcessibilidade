@@ -335,4 +335,10 @@
     <string name="label_mirror_urinal_header">Dimensões do Sanitáro - Espelho e Mictório</string>
     <string name="label_restroom_has_mirrors">O sanitário possui espelho?</string>
     <string name="label_header_urinal">O sanitário possui mictório?</string>
+    <string name="hint_paper_holder_obs">Observações sobre a papeleira</string>
+    <string name="hint_emergency_signal_height">Altura do dispositivo</string>
+    <string name="hint_emergency_signal_obs">Observações sobre o dispositivo de emergência</string>
+    <string name="hint_bidet_obs">Observações sobre a ducha higiênica</string>
+    <string name="hint_paper_holder_height">Altura da Papeleira</string>
+    <string name="hint_paper_holder_distance">Distância entre papeleira e vaso sanitário</string>
 </resources>
