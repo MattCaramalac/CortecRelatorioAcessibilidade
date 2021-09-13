@@ -445,7 +445,7 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllRestroomEntriesFromSchool(schoolID));
     }
 
-    public void insertRestroomMirrorEntry(RestroomMirrorEntry restroom) {
+    public static void insertRestroomMirrorEntry(RestroomMirrorEntry restroom) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomMirrorEntry(restroom));
     }
 
@@ -453,15 +453,15 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getOneRestroomMirrorEntry(restroomID);
     }
 
-    public void updateRestroomMirrorEntry(RestroomMirrorEntry mirrorEntry) {
+    public static void updateRestroomMirrorEntry(RestroomMirrorEntry mirrorEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomMirrorEntry(mirrorEntry));
     }
 
-    public void deleteOneRestroomMirrorEntry(int restroomID) {
+    public static void deleteOneRestroomMirrorEntry(int restroomID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRestroomMirrorEntry(restroomID));
     }
 
-    public void insertRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
+    public static void insertRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomSinkEntry(sinkEntry));
     }
 
@@ -469,23 +469,23 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getOneRestroomSinkEntry(restroomID);
     }
 
-    public void updateRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
+    public static void updateRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomSinkEntry(sinkEntry));
     }
 
-    public void updateSinkEntryOne(RestroomSinkOne... sinkOne) {
+    public static void updateSinkEntryOne(RestroomSinkOne... sinkOne) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSinkEntryOne(sinkOne));
     }
 
-    public void updateSinkEntryTwo(RestroomSinkTwo... sinkTwo) {
+    public static void updateSinkEntryTwo(RestroomSinkTwo... sinkTwo) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSinkEntryTwo(sinkTwo));
     }
 
-    public void deleteOneRestroomSinkEntry(int restroomID) {
+    public static void deleteOneRestroomSinkEntry(int restroomID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRestroomSinkEntry(restroomID));
     }
 
-    public void insertRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
+    public static void insertRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomSupportBarEntry(supportBar));
     }
 
@@ -493,15 +493,15 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getOneRestroomSupportBarEntry(restroomID);
     }
 
-    public void updateRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
+    public static void updateRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomSupportBarEntry(supportBar));
     }
 
-    public void deleteOneRestroomSupportBarEntry(int restroomID) {
+    public static void deleteOneRestroomSupportBarEntry(int restroomID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRestroomSupportBarEntry(restroomID));
     }
 
-    public void insertRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
+    public static void insertRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomUpViewEntry(upViewEntry));
     }
 
@@ -509,15 +509,15 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getOneRestroomUpViewEntry(restroomID);
     }
 
-    public void updateRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
+    public static void updateRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomUpViewEntry(upViewEntry));
     }
 
-    public void deleteRestroomUpViewEntry(int restroomID) {
+    public static void deleteRestroomUpViewEntry(int restroomID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteRestroomUpViewEntry(restroomID));
     }
 
-    public void insertRestroomUrinalEntry(RestroomUrinalEntry urinalEntry) {
+    public static void insertRestroomUrinalEntry(RestroomUrinalEntry urinalEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomUrinalEntry(urinalEntry));
     }
 
@@ -525,11 +525,11 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getOneRestroomUrinalEntry(restroomID);
     }
 
-    public void updateRestroomUrinalEntry(RestroomUrinalEntry urinalEntry) {
+    public static void updateRestroomUrinalEntry(RestroomUrinalEntry urinalEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomUrinalEntry(urinalEntry));
     }
 
-    public void deleteOneRestroomUrinalEntry(int restroomID) {
+    public static void deleteOneRestroomUrinalEntry(int restroomID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRestroomUrinalEntry(restroomID));
     }
 
