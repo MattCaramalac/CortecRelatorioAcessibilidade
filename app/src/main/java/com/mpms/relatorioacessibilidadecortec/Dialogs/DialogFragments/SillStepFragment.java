@@ -1,16 +1,15 @@
 package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -59,6 +58,8 @@ public class SillStepFragment extends Fragment {
 
         modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
 
+        modelDialog.getRestDoorBundle().observe(getViewLifecycleOwner(), this::gatherStepData);
+
         modelDialog.getSaveDoorAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
             if(Objects.equals(modelDialog.getSaveDoorAttempt().getValue(), 1)) {
                 if (checkEmptySillStepField()) {
@@ -88,5 +89,9 @@ public class SillStepFragment extends Fragment {
 
     public void clearStepField() {
         stepHeightValue.setText(null);
+    }
+
+    public void gatherStepData(Bundle bundle) {
+        stepHeightValue.setText(String.valueOf(bundle.getDouble(STEP_HEIGHT)));
     }
 }

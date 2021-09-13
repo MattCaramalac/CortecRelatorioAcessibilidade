@@ -39,4 +39,8 @@ public class ViewModelDialog extends ViewModel {
     public final MutableLiveData<Bundle> tempGateObsInfo = new MutableLiveData<>();
     public void setTempGateObsInfo(Bundle bundle) { tempGateObsInfo.setValue(bundle); }
     public LiveData<Bundle> getTempGateObsInfo() { return tempGateObsInfo; }
+
+    public final MutableLiveData<Bundle> restDoorBundle = new MutableLiveData<>();
+    public void setRestDoorBundle(Bundle bundle) { restDoorBundle.setValue(bundle); }
+    public LiveData<Bundle> getRestDoorBundle() { return restDoorBundle; }
 }

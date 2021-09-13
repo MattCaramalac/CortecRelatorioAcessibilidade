@@ -180,8 +180,6 @@ public class RestroomDoorFragment extends Fragment {
 
     public RestroomDoorUpdate restDoorDataUpdate(Bundle bundle) {
 
-        //Ignorando dados do Fragmento Filho por enquanto
-
         doorWidth = Double.valueOf(String.valueOf(doorWidthValue.getText()));
 
         doorHasSIA = getRestroomDoorCheckedRadio(doorHasSIARadio);
@@ -265,6 +263,7 @@ public class RestroomDoorFragment extends Fragment {
     }
 
     public void gatherRestroomDoorData(RestroomEntry restroomEntry) {
+        Bundle doorSillBundle = new Bundle();
         doorWidthValue.setText(String.valueOf(restroomEntry.getDoorWidth()));
 
         doorHasSIARadio.check(doorHasSIARadio.getChildAt(restroomEntry.getDoorSIA()).getId());
@@ -277,6 +276,20 @@ public class RestroomDoorFragment extends Fragment {
         doorVertSignObsValue.setText(restroomEntry.getDoorVertSignObs());
 
         doorSillRadio.check(doorSillRadio.getChildAt(restroomEntry.getDoorSillType()).getId());
+
+        switch (restroomEntry.getDoorSillType()) {
+            case 1:
+                doorSillBundle.putDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL, restroomEntry.getInclinationSillHeight());
+                break;
+            case 2:
+                doorSillBundle.putDouble(SillStepFragment.STEP_HEIGHT, restroomEntry.getStepSillHeight());
+                break;
+            case 3:
+                doorSillBundle.putDouble(SillSlopeFragment.SLOPE_WIDTH, restroomEntry.getSlopeSillWidth());
+                doorSillBundle.putDouble(SillSlopeFragment.SLOPE_INCLINATION, restroomEntry.getSlopeSillInclination());
+                break;
+        }
+        modelDialog.setRestDoorBundle(doorSillBundle);
 
         doorSillObsValue.setText(restroomEntry.getDoorSillTypeObs());
 
@@ -292,6 +305,7 @@ public class RestroomDoorFragment extends Fragment {
             doorHorHandleLengthValue.setText(String.valueOf(restroomEntry.getHandleLength()));
         }
         doorHorHandleObsValue.setText(restroomEntry.getHandleObs());
+
     }
 
     public boolean checkEmptyRestDoorDataFields() {
