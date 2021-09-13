@@ -21,9 +21,11 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
+//TODO - Cria uma nova entrada ao invés de atualizar a existente. Corrigir isto
 public class RestroomUpperViewFragment extends Fragment {
 
-    public static final String GATHER_UP_VIEW = "GATHER_UP_VIEW";
+    public static final String OPENED_UP_VIEW = "OPENED_UP_VIEW";
+    public static final String UPPER_VIEW_ID = "UPPER_VIEW_ID";
 
     ImageButton upperViewImgButton;
     Button saveUpMeasures, returnRestDoorData;
@@ -90,17 +92,10 @@ public class RestroomUpperViewFragment extends Fragment {
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgData);
         });
 
-        if (restroomDataBundle.getBoolean(GATHER_UP_VIEW)) {
-            modelEntry.getOneRestroomUpViewEntry(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID)).observe(getViewLifecycleOwner(), this::gatherUpViewData);
-        }
-
-        returnRestDoorData.setOnClickListener( v-> requireActivity().getSupportFragmentManager().popBackStackImmediate());
-
-        saveUpMeasures.setOnClickListener( v -> {
-            if (checkEmptyMeasurementsFields()) {
-                RestroomUpViewEntry newUpView = newRestUpView(restroomDataBundle);
-                ViewModelEntry.insertRestroomUpViewEntry(newUpView);
-                restroomDataBundle.putBoolean(GATHER_UP_VIEW, true);
+//        TODO - consertar o método de gravação de dados para que permita obter o ID da entrada recém criada
+        modelEntry.getLastRestroomUpViewEntry().observe(getViewLifecycleOwner(), upViewEntry -> {
+            if (restroomDataBundle.getBoolean(RestroomSupportBarFragment.OPENED_SUP_BAR)) {
+                restroomDataBundle.putInt(UPPER_VIEW_ID, upViewEntry.getUpViewID());
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RestroomSupportBarFragment barFragment = RestroomSupportBarFragment.newInstance();
@@ -108,6 +103,38 @@ public class RestroomUpperViewFragment extends Fragment {
                 fragmentTransaction.replace(R.id.show_fragment_selected, barFragment).addToBackStack(null).commit();
             }
         });
+
+        if (restroomDataBundle.getBoolean(RestroomSupportBarFragment.OPENED_SUP_BAR)) {
+            modelEntry.getOneRestroomUpViewEntry(restroomDataBundle.getInt(UPPER_VIEW_ID)).observe(getViewLifecycleOwner(), this::gatherUpViewData);
+        }
+
+        returnRestDoorData.setOnClickListener( v-> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+
+
+
+        saveUpMeasures.setOnClickListener( v -> {
+            if (checkEmptyMeasurementsFields()) {
+                RestroomUpViewEntry newUpView = newRestUpView(restroomDataBundle);
+                if (restroomDataBundle.getBoolean(RestroomSupportBarFragment.OPENED_SUP_BAR)) {
+                    newUpView.setUpViewID(restroomDataBundle.getInt(UPPER_VIEW_ID));
+                    ViewModelEntry.updateRestroomUpViewEntry(newUpView);
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    RestroomSupportBarFragment barFragment = RestroomSupportBarFragment.newInstance();
+                    barFragment.setArguments(restroomDataBundle);
+                    fragmentTransaction.replace(R.id.show_fragment_selected, barFragment).addToBackStack(null).commit();
+                } else {
+                    ViewModelEntry.insertRestroomUpViewEntry(newUpView);
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        restroomDataBundle.putBoolean(OPENED_UP_VIEW, true);
     }
 
     public boolean checkEmptyMeasurementsFields() {
