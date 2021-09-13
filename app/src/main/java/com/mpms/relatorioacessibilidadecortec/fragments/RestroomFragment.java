@@ -34,8 +34,6 @@ import java.util.Objects;
 public class RestroomFragment extends Fragment {
 
     public static final String RESTROOM_ID = "RESTROOM_ID";
-    public static final String UPDATE_REGISTER = "UPDATE_REGISTER";
-    public static final String NEXT_FRAGMENT = "NEXT_FRAGMENT";
 
     TextInputLayout restroomLocationField, accessibleRouteObsField, integratedRestroomObsField, restroomDistanceObsField,
             exclusiveEntranceObsField, driftingFloorObsField, restroomDrainObsField, restroomSwitchObsField,
@@ -63,7 +61,6 @@ public class RestroomFragment extends Fragment {
     int recentEntry = 0;
     int updateEntry = 0;
     int registeredEntry = 0;
-    int nextFrag = 0;
 
     public RestroomFragment() {
         // Required empty public constructor
@@ -143,7 +140,6 @@ public class RestroomFragment extends Fragment {
         modelEntry.getLastRestroomEntry().observe(getViewLifecycleOwner(), restroom -> {
             if (recentEntry == 1) {
                 recentEntry = 0;
-                restroomBundle.putInt(NEXT_FRAGMENT, 1);
                 int restroomID = restroom.getRestroomID();
                 restroomBundle.putInt(RESTROOM_ID, restroomID);
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -158,8 +154,6 @@ public class RestroomFragment extends Fragment {
         modelEntry.getOneRestroomEntry(restroomBundle.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), update -> {
             if (updateEntry == 1) {
                 updateEntry = 0;
-                restroomBundle.putInt(NEXT_FRAGMENT, 1);
-                restroomBundle.putBoolean(UPDATE_REGISTER, true);
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RestroomDoorFragment restDoorFragment = RestroomDoorFragment.newInstance();
@@ -173,7 +167,6 @@ public class RestroomFragment extends Fragment {
             if (restBundle != null) {
                 modelEntry.getOneRestroomEntry(restBundle.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), this::gatherRestroomData);
                 registeredEntry = 1;
-                restroomBundle.putInt(NEXT_FRAGMENT, 0);
             }
         });
 
@@ -193,7 +186,7 @@ public class RestroomFragment extends Fragment {
                     clearRestroomDataFields();
                     updateEntry = 0;
                     recentEntry = 0;
-                    restroomBundle.putInt(NEXT_FRAGMENT, 0);
+                    restroomBundle.putBoolean(RestroomDoorFragment.OPENED_DOOR_FRAG, false);
                     Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -209,7 +202,7 @@ public class RestroomFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (restroomBundle.getInt(NEXT_FRAGMENT) == 1)
+        if (restroomBundle.getBoolean(RestroomDoorFragment.OPENED_DOOR_FRAG))
             modelFragments.setRestroomBundle(restroomBundle);
     }
 
@@ -315,27 +308,7 @@ public class RestroomFragment extends Fragment {
     }
 
     public RestroomEntry newRestroom(Bundle bundle) {
-        restroomType = getRestroomCheckedRadio(restroomTypeRadio);
-        accessibleRoute = getRestroomCheckedRadio(accessibleRouteRadio);
-        integratedRestroom = getRestroomCheckedRadio(integratedRestroomRadio);
-        restroomDistance = getRestroomCheckedRadio(restroomDistanceRadio);
-        exclusiveEntrance = getRestroomCheckedRadio(exclusiveEntranceRadio);
-        antiDriftingFloor = getRestroomCheckedRadio(driftingFloorRadio);
-        restroomDrain = getRestroomCheckedRadio(restroomDrainRadio);
-        restroomSwitch = getRestroomCheckedRadio(restroomSwitchRadio);
-
-        restroomLocation = Objects.requireNonNull(restroomLocationValue.getText()).toString();
-        accessibleRouteObs = Objects.requireNonNull(accessibleRouteObsValue.getText()).toString();
-        integratedRestroomObs = Objects.requireNonNull(integratedRestroomObsValue.getText()).toString();
-        restroomDistanceObs = Objects.requireNonNull(restroomDistanceObsValue.getText()).toString();
-        exclusiveEntranceObs = Objects.requireNonNull(exclusiveEntranceObsValue.getText()).toString();
-        antiDriftingFloorObs = Objects.requireNonNull(driftingFloorObsValue.getText()).toString();
-        restroomDrainObs = Objects.requireNonNull(restroomDrainObsValue.getText()).toString();
-        switchObs = Objects.requireNonNull(restroomSwitchObsValue.getText()).toString();
-
-        if (restroomSwitch == 1) {
-            switchHeight = Double.parseDouble(Objects.requireNonNull(restroomSwitchHeightValue.getText()).toString());
-        }
+        pickUpRestroomDataFields();
 
         return new RestroomEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE),restroomType, restroomLocation, accessibleRoute,
                 accessibleRouteObs, integratedRestroom, integratedRestroomObs, restroomDistance, restroomDistanceObs, exclusiveEntrance,
@@ -347,6 +320,15 @@ public class RestroomFragment extends Fragment {
     }
 
     public RestroomEntryUpdate updateRestroom(Bundle bundle) {
+        pickUpRestroomDataFields();
+
+        return new RestroomEntryUpdate(bundle.getInt(RESTROOM_ID),restroomType, restroomLocation, accessibleRoute,
+                accessibleRouteObs, integratedRestroom, integratedRestroomObs, restroomDistance, restroomDistanceObs, exclusiveEntrance,
+                exclusiveEntranceObs, antiDriftingFloor, antiDriftingFloorObs, restroomDrain, restroomDrainObs, restroomSwitch,
+                switchHeight, switchObs);
+    }
+
+    public void pickUpRestroomDataFields() {
         restroomType = getRestroomCheckedRadio(restroomTypeRadio);
         accessibleRoute = getRestroomCheckedRadio(accessibleRouteRadio);
         integratedRestroom = getRestroomCheckedRadio(integratedRestroomRadio);
@@ -369,10 +351,6 @@ public class RestroomFragment extends Fragment {
             switchHeight = Double.parseDouble(Objects.requireNonNull(restroomSwitchHeightValue.getText()).toString());
         }
 
-        return new RestroomEntryUpdate(bundle.getInt(RESTROOM_ID),restroomType, restroomLocation, accessibleRoute,
-                accessibleRouteObs, integratedRestroom, integratedRestroomObs, restroomDistance, restroomDistanceObs, exclusiveEntrance,
-                exclusiveEntranceObs, antiDriftingFloor, antiDriftingFloorObs, restroomDrain, restroomDrainObs, restroomSwitch,
-                switchHeight, switchObs);
     }
 
     public void gatherRestroomData(RestroomEntry restroomEntry) {
