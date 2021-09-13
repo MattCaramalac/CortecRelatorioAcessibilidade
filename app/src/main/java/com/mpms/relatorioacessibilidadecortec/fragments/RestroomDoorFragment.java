@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -377,27 +376,10 @@ public class RestroomDoorFragment extends Fragment {
         }
     }
 
-//    TODO - procurar se há método melhor para fechar fragmentos filhos
     public void removeSillTypeFragments() {
-        try {
-            SillInclinationFragment inclination = (SillInclinationFragment) manager.findFragmentById(R.id.restroom_door_sill_type_fragment);
-            if (inclination != null)
-                manager.beginTransaction().remove(inclination).commit();
-        } catch (Exception e) {
-            try {
-                SillStepFragment step = (SillStepFragment) manager.findFragmentById(R.id.restroom_door_sill_type_fragment);
-                if (step != null)
-                    manager.beginTransaction().remove(step).commit();
-            } catch (Exception f) {
-                try {
-                    SillSlopeFragment slope = (SillSlopeFragment) manager.findFragmentById(R.id.restroom_door_sill_type_fragment);
-                    if (slope != null)
-                        manager.beginTransaction().remove(slope).commit();
-                } catch (Exception g) {
-                    Toast.makeText(getContext(), "Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
+        Fragment fragment = manager.findFragmentById(R.id.restroom_door_sill_type_fragment);
+        if (fragment != null)
+            manager.beginTransaction().remove(fragment).commit();
     }
 
 }

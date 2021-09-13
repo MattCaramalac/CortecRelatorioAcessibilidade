@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -71,7 +71,7 @@ public class AddDoorDialog extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_add_door, container, false);
@@ -113,7 +113,6 @@ public class AddDoorDialog extends DialogFragment {
                 ViewModelEntry.insertDoorEntry(doorEntry);
                 clearDoorFields();
                 modelDialog.setDoorInfo(null);
-                removeFragments();
             }
         });
 
@@ -193,25 +192,9 @@ public class AddDoorDialog extends DialogFragment {
     }
 
     public void removeFragments() {
-        try {
-            SillInclinationFragment inclination = (SillInclinationFragment) manager.findFragmentById(R.id.sill_type_child_fragment);
-            if (inclination != null)
-                manager.beginTransaction().remove(inclination).commit();
-        } catch (Exception e) {
-            try {
-                SillStepFragment step = (SillStepFragment) manager.findFragmentById(R.id.sill_type_child_fragment);
-                if (step != null)
-                manager.beginTransaction().remove(step).commit();
-            } catch (Exception f) {
-                try {
-                    SillSlopeFragment slope = (SillSlopeFragment) manager.findFragmentById(R.id.sill_type_child_fragment);
-                    if (slope != null)
-                        manager.beginTransaction().remove(slope).commit();
-                } catch (Exception g) {
-                    Toast.makeText(getContext(), "Algo deu errado, tente novamente", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
+        Fragment fragment = manager.findFragmentById(R.id.sill_type_child_fragment);
+        if (fragment != null)
+            manager.beginTransaction().remove(fragment).commit();
     }
 
     public DoorEntry newDoor(Bundle bundle) {
