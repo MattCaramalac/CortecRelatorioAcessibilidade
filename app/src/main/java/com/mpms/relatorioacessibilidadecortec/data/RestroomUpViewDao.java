@@ -17,6 +17,9 @@ public interface RestroomUpViewDao {
     @Query("SELECT * FROM RestroomUpViewEntry WHERE restroomID == :restroomID")
     LiveData<RestroomUpViewEntry> getOneRestroomUpViewEntry(int restroomID);
 
+    @Query("SELECT * FROM RestroomUpViewEntry WHERE restroomID == (SELECT MAX(restroomID) FROM RestroomUpViewEntry)")
+    LiveData<RestroomUpViewEntry> getLastRestroomUpViewEntry();
+
     @Update
     void updateRestroomUpViewEntry(RestroomUpViewEntry upViewEntry);
 

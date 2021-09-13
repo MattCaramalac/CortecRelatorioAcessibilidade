@@ -509,6 +509,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getOneRestroomUpViewEntry(restroomID);
     }
 
+    public LiveData<RestroomUpViewEntry> getLastRestroomUpViewEntry() {
+        return repository.getLastRestroomUpViewEntry();
+    }
+
     public static void updateRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomUpViewEntry(upViewEntry));
     }

@@ -547,6 +547,10 @@ public class ReportRepository {
         return restroomUpViewDao.getOneRestroomUpViewEntry(restroomID);
     }
 
+    public LiveData<RestroomUpViewEntry> getLastRestroomUpViewEntry() {
+        return restroomUpViewDao.getLastRestroomUpViewEntry();
+    }
+
     public void updateRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomUpViewDao.updateRestroomUpViewEntry(upViewEntry));
     }
