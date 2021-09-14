@@ -39,6 +39,10 @@ public class RestroomUpperViewFragment extends Fragment {
 
     ViewModelEntry modelEntry;
 
+    int recentEntry = 0;
+    int updateEntry = 0;
+    int registeredEntry = 0;
+
     public RestroomUpperViewFragment() {
         // Required empty public constructor
     }
@@ -92,15 +96,14 @@ public class RestroomUpperViewFragment extends Fragment {
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgData);
         });
 
-//        TODO - consertar o método de gravação de dados para que permita obter o ID da entrada recém criada
+
+//        TODO - Adicionar depois método para acessar os dados quando selecionado um banheiro em específico.
+
         modelEntry.getLastRestroomUpViewEntry().observe(getViewLifecycleOwner(), upViewEntry -> {
-            if (restroomDataBundle.getBoolean(RestroomSupportBarFragment.OPENED_SUP_BAR)) {
+            if (recentEntry == 1) {
+                recentEntry = 0;
                 restroomDataBundle.putInt(UPPER_VIEW_ID, upViewEntry.getUpViewID());
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                RestroomSupportBarFragment barFragment = RestroomSupportBarFragment.newInstance();
-                barFragment.setArguments(restroomDataBundle);
-                fragmentTransaction.replace(R.id.show_fragment_selected, barFragment).addToBackStack(null).commit();
+                callSupBarFragment(restroomDataBundle);
             }
         });
 
@@ -118,13 +121,10 @@ public class RestroomUpperViewFragment extends Fragment {
                 if (restroomDataBundle.getBoolean(RestroomSupportBarFragment.OPENED_SUP_BAR)) {
                     newUpView.setUpViewID(restroomDataBundle.getInt(UPPER_VIEW_ID));
                     ViewModelEntry.updateRestroomUpViewEntry(newUpView);
-                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    RestroomSupportBarFragment barFragment = RestroomSupportBarFragment.newInstance();
-                    barFragment.setArguments(restroomDataBundle);
-                    fragmentTransaction.replace(R.id.show_fragment_selected, barFragment).addToBackStack(null).commit();
+                    callSupBarFragment(restroomDataBundle);
                 } else {
                     ViewModelEntry.insertRestroomUpViewEntry(newUpView);
+                    recentEntry = 1;
                 }
 
             }
@@ -135,6 +135,14 @@ public class RestroomUpperViewFragment extends Fragment {
     public void onResume() {
         super.onResume();
         restroomDataBundle.putBoolean(OPENED_UP_VIEW, true);
+    }
+
+    public void callSupBarFragment(Bundle bundle) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        RestroomSupportBarFragment barFragment = RestroomSupportBarFragment.newInstance();
+        barFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.show_fragment_selected, barFragment).addToBackStack(null).commit();
     }
 
     public boolean checkEmptyMeasurementsFields() {
@@ -192,5 +200,14 @@ public class RestroomUpperViewFragment extends Fragment {
         measureValueD.setText(String.valueOf(upViewEntry.getUpViewMeasureD()));
         measureValueE.setText(String.valueOf(upViewEntry.getUpViewMeasureE()));
         upViewObsValue.setText(upViewEntry.getUpViewObs());
+    }
+
+    public void clearUpViewFields() {
+        measureValueA.setText(null);
+        measureValueB.setText(null);
+        measureValueC.setText(null);
+        measureValueD.setText(null);
+        measureValueE.setText(null);
+        upViewObsValue.setText(null);
     }
 }
