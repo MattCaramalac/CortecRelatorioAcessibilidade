@@ -40,8 +40,6 @@ public class RestroomUpperViewFragment extends Fragment {
     ViewModelEntry modelEntry;
 
     int recentEntry = 0;
-    int updateEntry = 0;
-    int registeredEntry = 0;
 
     public RestroomUpperViewFragment() {
         // Required empty public constructor
@@ -112,8 +110,6 @@ public class RestroomUpperViewFragment extends Fragment {
         }
 
         returnRestDoorData.setOnClickListener( v-> requireActivity().getSupportFragmentManager().popBackStackImmediate());
-
-
 
         saveUpMeasures.setOnClickListener( v -> {
             if (checkEmptyMeasurementsFields()) {

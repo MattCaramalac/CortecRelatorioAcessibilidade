@@ -26,8 +26,8 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 public class RestroomSupportBarFragment extends Fragment {
 
-    public static final String GATHER_SUP_BAR = "GATHER_SUP_BAR";
     public static final String OPENED_SUP_BAR = "OPENED_SUP_BAR";
+    public static final String SUP_BAR_ID = "SUP_BAR_ID";
 
     ViewModelEntry modelEntry;
 
@@ -56,6 +56,8 @@ public class RestroomSupportBarFragment extends Fragment {
 
     String supBarObs, papObs, eButObs, bidetObs;
 
+    int recentSupBar = 0;
+
 
     public RestroomSupportBarFragment() {
         // Required empty public constructor
@@ -70,6 +72,7 @@ public class RestroomSupportBarFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         restroomDataBundle = this.getArguments();
+        imgBundle = new Bundle();
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
     }
 
@@ -156,19 +159,29 @@ public class RestroomSupportBarFragment extends Fragment {
             }
         });
 
-        if (restroomDataBundle.getBoolean(GATHER_SUP_BAR)) {
-            modelEntry.getOneRestroomSupportBarEntry(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID)).observe(getViewLifecycleOwner(), this::gatherSupBar);
+        modelEntry.getLastRestroomSupportBarEntry().observe(getViewLifecycleOwner(), supBar -> {
+            if (recentSupBar == 1) {
+                recentSupBar = 0;
+                restroomDataBundle.putInt(SUP_BAR_ID, supBar.getSupBarID());
+                callSinkOneFragment(restroomDataBundle);
+            }
+        });
+
+        if (restroomDataBundle.getBoolean(RestroomSink1Fragment.OPENED_SINK_ONE)) {
+            modelEntry.getOneRestroomSupportBarEntry(restroomDataBundle.getInt(SUP_BAR_ID)).observe(getViewLifecycleOwner(), this::gatherSupBar);
         }
 
+        // TODO - Inserir método de Update (está gravando uma nova entrada toda vez)
         saveSupBar.setOnClickListener( v -> {
             if (checkEmptySupBarField()) {
                 RestroomSupportBarEntry supBar = newSupBar(restroomDataBundle);
-                ViewModelEntry.insertRestroomSupportBarEntry(supBar);
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                RestroomSink1Fragment sinkOneFragment = RestroomSink1Fragment.newInstance();
-                sinkOneFragment.setArguments(restroomDataBundle);
-                fragmentTransaction.replace(R.id.show_fragment_selected, sinkOneFragment).addToBackStack(null).commit();
+                if (restroomDataBundle.getBoolean(RestroomSink2Fragment.OPENED_SINK_TWO)) {
+                    supBar.setSupBarID(restroomDataBundle.getInt(SUP_BAR_ID));
+                    callSinkOneFragment(restroomDataBundle);
+                } else {
+                    ViewModelEntry.insertRestroomSupportBarEntry(supBar);
+                    recentSupBar = 1;
+                }
             }
         });
 
@@ -181,9 +194,18 @@ public class RestroomSupportBarFragment extends Fragment {
         restroomDataBundle.putBoolean(OPENED_SUP_BAR, true);
     }
 
+    public void callSinkOneFragment(Bundle bundle) {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        RestroomSink1Fragment sinkOneFragment = RestroomSink1Fragment.newInstance();
+        sinkOneFragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.show_fragment_selected, sinkOneFragment).addToBackStack(null).commit();
+    }
+
     public int getSupBarCheckedRadio(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
+
     public boolean checkEmptySupBarField() {
         clearEmptySupBarErrors();
         int i = 0;
@@ -255,7 +277,7 @@ public class RestroomSupportBarFragment extends Fragment {
             i++;
             emergencySignalError.setVisibility(View.VISIBLE);
         }
-        if (getSupBarCheckedRadio(papTypeRadio) == 1) {
+        if (getSupBarCheckedRadio(eButRadio) == 1) {
             if (TextUtils.isEmpty(eButHeightValue.getText())) {
                 i++;
                 eButHeightField.setError(getString(R.string.blank_field_error));

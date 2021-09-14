@@ -19,6 +19,8 @@ import com.mpms.relatorioacessibilidadecortec.R;
 
 public class RestroomSink1Fragment extends Fragment {
 
+    public static final String OPENED_SINK_ONE = "OPENED_SINK_ONE";
+
     ImageButton sinkOne, sinkTwo;
     Button returnSupBar, saveSinkOne;
 
@@ -79,5 +81,11 @@ public class RestroomSink1Fragment extends Fragment {
         });
 
         returnSupBar.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        restroomDataBundle.putBoolean(OPENED_SINK_ONE, true);
     }
 }
