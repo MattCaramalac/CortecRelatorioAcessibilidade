@@ -543,8 +543,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomUpViewDao.insertRestroomUpViewEntry(upViewEntry));
     }
 
-    public LiveData<RestroomUpViewEntry> getOneRestroomUpViewEntry(int restroomID) {
-        return restroomUpViewDao.getOneRestroomUpViewEntry(restroomID);
+    public LiveData<RestroomUpViewEntry> getOneRestroomUpViewEntry(int upViewID) {
+        return restroomUpViewDao.getOneRestroomUpViewEntry(upViewID);
     }
 
     public LiveData<RestroomUpViewEntry> getLastRestroomUpViewEntry() {
