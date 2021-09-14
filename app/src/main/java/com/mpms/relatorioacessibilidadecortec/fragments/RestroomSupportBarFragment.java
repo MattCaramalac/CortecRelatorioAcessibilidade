@@ -171,12 +171,13 @@ public class RestroomSupportBarFragment extends Fragment {
             modelEntry.getOneRestroomSupportBarEntry(restroomDataBundle.getInt(SUP_BAR_ID)).observe(getViewLifecycleOwner(), this::gatherSupBar);
         }
 
-        // TODO - Inserir método de Update (está gravando uma nova entrada toda vez)
+
         saveSupBar.setOnClickListener( v -> {
             if (checkEmptySupBarField()) {
                 RestroomSupportBarEntry supBar = newSupBar(restroomDataBundle);
-                if (restroomDataBundle.getBoolean(RestroomSink2Fragment.OPENED_SINK_TWO)) {
+                if (restroomDataBundle.getBoolean(RestroomSink1Fragment.OPENED_SINK_ONE)) {
                     supBar.setSupBarID(restroomDataBundle.getInt(SUP_BAR_ID));
+                    ViewModelEntry.updateRestroomSupportBarEntry(supBar);
                     callSinkOneFragment(restroomDataBundle);
                 } else {
                     ViewModelEntry.insertRestroomSupportBarEntry(supBar);
@@ -369,7 +370,8 @@ public class RestroomSupportBarFragment extends Fragment {
         papHeightValue.setText(String.valueOf(supportBarEntry.getPaperHolderHeight()));
         papObsValue.setText(String.valueOf(supportBarEntry.getPaperHolderObs()));
         eButRadio.check(eButRadio.getChildAt(supportBarEntry.getHasEmergencySignal()).getId());
-        eButHeightValue.setText(String.valueOf(supportBarEntry.getEmergencySignalHeight()));
+        if (supportBarEntry.getHasEmergencySignal() == 1)
+            eButHeightValue.setText(String.valueOf(supportBarEntry.getEmergencySignalHeight()));
         eButObsValue.setText(String.valueOf(supportBarEntry.getEmergencySignalObs()));
         bidetRadio.check(bidetRadio.getChildAt(supportBarEntry.getHasBidet()).getId());
         bidetObsValue.setText(String.valueOf(supportBarEntry.getBidetObs()));
