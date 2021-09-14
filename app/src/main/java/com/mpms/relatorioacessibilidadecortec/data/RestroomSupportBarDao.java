@@ -14,8 +14,11 @@ public interface RestroomSupportBarDao {
     @Insert
     void insertRestroomSupportBarEntry(RestroomSupportBarEntry supportBar);
 
-    @Query("SELECT * FROM RestroomSupportBarEntry WHERE restroomID == :restroomID")
-    LiveData<RestroomSupportBarEntry> getOneRestroomSupportBarEntry(int restroomID);
+    @Query("SELECT * FROM RestroomSupportBarEntry WHERE supBarID == :supBarID")
+    LiveData<RestroomSupportBarEntry> getOneRestroomSupportBarEntry(int supBarID);
+
+    @Query("SELECT * FROM RestroomSupportBarEntry WHERE supBarID == (SELECT MAX(supBarID) FROM RestroomSupportBarEntry)")
+    LiveData<RestroomSupportBarEntry> getLastRestroomSupportBarEntry();
 
     @Update
     void updateRestroomSupportBarEntry(RestroomSupportBarEntry supportBar);

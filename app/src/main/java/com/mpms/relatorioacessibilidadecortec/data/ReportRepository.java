@@ -18,13 +18,13 @@ import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntryUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomMirrorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkOne;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkTwo;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomSupportBarEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntryUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
@@ -529,6 +529,10 @@ public class ReportRepository {
 
     public LiveData<RestroomSupportBarEntry> getOneRestroomSupportBarEntry(int restroomID) {
         return restroomSupportBarDao.getOneRestroomSupportBarEntry(restroomID);
+    }
+
+    public LiveData<RestroomSupportBarEntry> getLastRestroomSupportBarEntry() {
+        return restroomSupportBarDao.getLastRestroomSupportBarEntry();
     }
 
     public void updateRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
