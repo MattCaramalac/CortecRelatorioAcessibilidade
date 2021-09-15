@@ -5,24 +5,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.bumptech.glide.Glide;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestroomMirrorChildFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestroomUrinalChildFragment;
 
 public class RestroomMirrorUrinalFragment extends Fragment {
 
     public static final String OPENED_MIRROR = "OPENED_MIRROR";
 
-    ImageButton mirror, urinalOne, urinalTwo;
+    RadioGroup mirrorRadio, urinalRadio;
     Button returnSinkTwo, save;
     Bundle restroomDataBundle;
+    FragmentManager manager;
 
     public RestroomMirrorUrinalFragment() {
         // Required empty public constructor
@@ -42,6 +43,7 @@ public class RestroomMirrorUrinalFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         restroomDataBundle = this.getArguments();
+        manager = getChildFragmentManager();
         return inflater.inflate(R.layout.fragment_restroom_mirror_urinal, container, false);
     }
 
@@ -49,31 +51,13 @@ public class RestroomMirrorUrinalFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mirror = view.findViewById(R.id.mirror_image);
-        urinalOne = view.findViewById(R.id.urinal_image_one);
-        urinalTwo = view.findViewById(R.id.urinal_image_two);
+        mirrorRadio = view.findViewById(R.id.restroom_mirror_radio);
+        urinalRadio = view.findViewById(R.id.restroom_urinal_radio);
 
         returnSinkTwo = view.findViewById(R.id.return_sink_two);
         save = view.findViewById(R.id.save_mirror_urinal);
 
-        Glide.with(this).load(R.drawable.mirror).fitCenter().into(mirror);
-        Glide.with(this).load(R.drawable.urinal_1).fitCenter().into(urinalOne);
-        Glide.with(this).load(R.drawable.urinal_2).fitCenter().into(urinalTwo);
-
-        urinalOne.setOnClickListener(v -> {
-            restroomDataBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.urinal_1);
-            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), restroomDataBundle);
-        });
-
-        urinalTwo.setOnClickListener(v -> {
-            restroomDataBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.urinal_2);
-            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), restroomDataBundle);
-        });
-
-        mirror.setOnClickListener(v -> {
-            restroomDataBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.mirror);
-            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), restroomDataBundle);
-        });
+        radioListener();
 
         save.setOnClickListener( v-> {
             //Inserir Gravação de Dados
@@ -91,5 +75,32 @@ public class RestroomMirrorUrinalFragment extends Fragment {
     public void onResume() {
         super.onResume();
         restroomDataBundle.putBoolean(OPENED_MIRROR, true);
+    }
+
+    public int getMirrorUrinalCheckedIndex(RadioGroup radio) {
+        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
+    }
+
+    public void radioListener() {
+        mirrorRadio.setOnCheckedChangeListener((radio, checkedId) -> {
+            int index = getMirrorUrinalCheckedIndex(radio);
+            if (index == 1)
+                getChildFragmentManager().beginTransaction().replace(R.id.restroom_mirror_fragment, new RestroomMirrorChildFragment()).commit();
+            else
+                removeChildFragments(R.id.restroom_mirror_fragment);
+        });
+        urinalRadio.setOnCheckedChangeListener((radio, checkedId) -> {
+            int index = getMirrorUrinalCheckedIndex(radio);
+            if (index == 1)
+                getChildFragmentManager().beginTransaction().replace(R.id.restroom_urinal_fragment, new RestroomUrinalChildFragment()).commit();
+            else
+                removeChildFragments(R.id.restroom_urinal_fragment);
+        });
+    }
+
+    public void removeChildFragments(int fragID) {
+        Fragment fragment = manager.findFragmentById(fragID);
+        if (fragment != null)
+            manager.beginTransaction().remove(fragment).commit();
     }
 }
