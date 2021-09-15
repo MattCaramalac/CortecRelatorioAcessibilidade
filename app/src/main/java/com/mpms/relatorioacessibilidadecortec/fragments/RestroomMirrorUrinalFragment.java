@@ -18,6 +18,8 @@ import com.mpms.relatorioacessibilidadecortec.R;
 
 public class RestroomMirrorUrinalFragment extends Fragment {
 
+    public static final String OPENED_MIRROR = "OPENED_MIRROR";
+
     ImageButton mirror, urinalOne, urinalTwo;
     Button returnSinkTwo, save;
     Bundle restroomDataBundle;
@@ -83,5 +85,11 @@ public class RestroomMirrorUrinalFragment extends Fragment {
         });
 
         returnSinkTwo.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        restroomDataBundle.putBoolean(OPENED_MIRROR, true);
     }
 }
