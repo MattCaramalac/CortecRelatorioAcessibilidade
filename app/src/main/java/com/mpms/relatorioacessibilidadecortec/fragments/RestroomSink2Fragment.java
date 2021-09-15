@@ -23,6 +23,8 @@ public class RestroomSink2Fragment extends Fragment {
     ImageButton sinkThree, sinkFour, sinkFive;
     Bundle restroomDataBundle;
 
+    public static final String OPENED_SINK_TWO = "OPENED_SINK_TWO";
+
     public RestroomSink2Fragment() {
         // Required empty public constructor
     }
@@ -83,5 +85,11 @@ public class RestroomSink2Fragment extends Fragment {
         });
 
         returnSinkOne.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        restroomDataBundle.putBoolean(OPENED_SINK_TWO, true);
     }
 }
