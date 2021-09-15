@@ -465,8 +465,12 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestroomSinkEntry(sinkEntry));
     }
 
-    public LiveData<RestroomSinkEntry> getOneRestroomSinkEntry(int restroomID) {
-        return repository.getOneRestroomSinkEntry(restroomID);
+    public LiveData<RestroomSinkEntry> getOneRestroomSinkEntry(int sinkID) {
+        return repository.getOneRestroomSinkEntry(sinkID);
+    }
+
+    public LiveData<RestroomSinkEntry> getLastRestroomSinkEntry() {
+        return repository.getLastRestroomSinkEntry();
     }
 
     public static void updateRestroomSinkEntry(RestroomSinkEntry sinkEntry) {

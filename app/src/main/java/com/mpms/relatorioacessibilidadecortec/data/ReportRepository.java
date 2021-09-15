@@ -503,8 +503,12 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.insertRestroomSinkEntry(sinkEntry));
     }
 
-    public LiveData<RestroomSinkEntry> getOneRestroomSinkEntry(int restroomID) {
-        return restroomSinkDao.getOneRestroomSinkEntry(restroomID);
+    public LiveData<RestroomSinkEntry> getOneRestroomSinkEntry(int sinkID) {
+        return restroomSinkDao.getOneRestroomSinkEntry(sinkID);
+    }
+
+    public LiveData<RestroomSinkEntry> getLastRestroomSinkEntry() {
+        return restroomSinkDao.getLastRestroomSinkEntry();
     }
 
     public void updateRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
