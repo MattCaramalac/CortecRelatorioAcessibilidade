@@ -34,6 +34,7 @@ import java.util.Objects;
 public class RestroomFragment extends Fragment {
 
     public static final String RESTROOM_ID = "RESTROOM_ID";
+    public static final String REGISTERED_ROOM = "REGISTERED_ROOM";
 
     TextInputLayout restroomLocationField, accessibleRouteObsField, integratedRestroomObsField, restroomDistanceObsField,
             exclusiveEntranceObsField, driftingFloorObsField, restroomDrainObsField, restroomSwitchObsField,
@@ -151,16 +152,19 @@ public class RestroomFragment extends Fragment {
         });
 
 //      Usado quando uma entrada deve ser atualizada,
-        modelEntry.getOneRestroomEntry(restroomBundle.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), update -> {
-            if (updateEntry == 1) {
-                updateEntry = 0;
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                RestroomDoorFragment restDoorFragment = RestroomDoorFragment.newInstance();
-                restDoorFragment.setArguments(restroomBundle);
-                fragmentTransaction.replace(R.id.show_fragment_selected, restDoorFragment).addToBackStack(null).commit();
-            }
-        });
+        if (restroomBundle.getInt(RESTROOM_ID) != 0) {
+            modelEntry.getOneRestroomEntry(restroomBundle.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), update -> {
+                if (updateEntry == 1) {
+                    updateEntry = 0;
+                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    RestroomDoorFragment restDoorFragment = RestroomDoorFragment.newInstance();
+                    restDoorFragment.setArguments(restroomBundle);
+                    fragmentTransaction.replace(R.id.show_fragment_selected, restDoorFragment).addToBackStack(null).commit();
+                }
+            });
+        }
+
 
 //      Preenchimento dos campos da tela
         modelFragments.getRestroomBundle().observe(getViewLifecycleOwner(), restBundle -> {

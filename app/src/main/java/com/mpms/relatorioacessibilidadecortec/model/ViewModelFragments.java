@@ -38,14 +38,6 @@ public class ViewModelFragments extends ViewModel {
         return roomBundle;
     }
 
-    public final MutableLiveData<Integer> updateRooms = new MutableLiveData<>();
-    public void setUpdateRooms (Integer integer) {
-        updateRooms.setValue(integer);
-    }
-    public LiveData<Integer> getUpdateRoom() {
-        return updateRooms;
-    }
-
     public final MutableLiveData<Integer> counterClick = new MutableLiveData<>();
     public void setCounterClick (Integer integer) {
         counterClick.setValue(integer);
@@ -68,6 +60,22 @@ public class ViewModelFragments extends ViewModel {
     }
     public LiveData<Bundle> getRestroomBundle() {
         return restroomBundle;
+    }
+
+    public final MutableLiveData<Bundle> checkMirUrFrags = new MutableLiveData<>();
+    public void setCheckMirUrFrags(Bundle bundle) {
+        checkMirUrFrags.setValue(bundle);
+    }
+    public LiveData<Bundle> getCheckMirUrFrags() {
+        return checkMirUrFrags;
+    }
+
+    public final MutableLiveData<Bundle> restChildFragBundle = new MutableLiveData<>();
+    public void setRestChildFragBundle(Bundle bundle) {
+        restChildFragBundle.setValue(bundle);
+    }
+    public LiveData<Bundle> getRestChildFragBundle() {
+        return restChildFragBundle;
     }
 
 }

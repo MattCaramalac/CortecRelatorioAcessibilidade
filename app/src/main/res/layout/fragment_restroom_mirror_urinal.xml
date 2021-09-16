@@ -53,12 +53,24 @@
 
         </RadioGroup>
 
+        <TextView
+            android:id="@+id/mirror_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/restroom_mirror_radio"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            />
+
         <FrameLayout
             android:id="@+id/restroom_mirror_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_mirror_radio"
+            app:layout_constraintTop_toBottomOf="@id/mirror_error"
             />
 
         <TextView
@@ -95,15 +107,25 @@
 
         </RadioGroup>
 
+        <TextView
+            android:id="@+id/urinal_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/restroom_urinal_radio"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            />
+
         <FrameLayout
             android:id="@+id/restroom_urinal_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restroom_urinal_radio"
+            app:layout_constraintTop_toBottomOf="@id/urinal_error"
             />
-
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_mirror_urinal"
