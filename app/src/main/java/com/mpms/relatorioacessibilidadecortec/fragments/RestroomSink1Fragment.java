@@ -107,12 +107,12 @@ public class RestroomSink1Fragment extends Fragment {
 
         sinkOne.setOnClickListener(v -> {
             imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sink_1);
-            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), restroomDataBundle);
+            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
         });
 
         sinkTwo.setOnClickListener(v -> {
             imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sink_2);
-            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), restroomDataBundle);
+            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
         });
 
         if (restroomDataBundle.getBoolean(RestroomSink2Fragment.OPENED_SINK_TWO)) {
@@ -131,13 +131,18 @@ public class RestroomSink1Fragment extends Fragment {
             //REGISTERED_ROOM deverá ser usado quando acessar dados da tabela através da escolha do usuário
             if (restroomDataBundle.getBoolean(RestroomFragment.REGISTERED_ROOM) ||
                     restroomDataBundle.getBoolean(RestroomSink2Fragment.OPENED_SINK_TWO)) {
-                RestroomSinkOne updateSinkOne = updateSinkOne(restroomDataBundle);
-                ViewModelEntry.updateSinkEntryOne(updateSinkOne);
-                callSinkTwoFragment(restroomDataBundle);
+                if (checkSinkOneEmptyFields()) {
+                    RestroomSinkOne updateSinkOne = updateSinkOne(restroomDataBundle);
+                    ViewModelEntry.updateSinkEntryOne(updateSinkOne);
+                    callSinkTwoFragment(restroomDataBundle);
+                }
+
             }  else {
-                RestroomSinkEntry newSink = newSink(restroomDataBundle);
-                ViewModelEntry.insertRestroomSinkEntry(newSink);
-                recentSinkEntry = 1;
+                if (checkSinkOneEmptyFields()) {
+                    RestroomSinkEntry newSink = newSink(restroomDataBundle);
+                    ViewModelEntry.insertRestroomSinkEntry(newSink);
+                    recentSinkEntry = 1;
+                }
             }
         });
 
