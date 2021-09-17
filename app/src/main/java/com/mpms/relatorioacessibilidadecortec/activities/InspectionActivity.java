@@ -1,19 +1,19 @@
 package com.mpms.relatorioacessibilidadecortec.activities;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.os.Bundle;
-
+import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestroomFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
-import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
 
@@ -39,7 +39,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     @Override
     public void onDropdownChoice(int choice) {
         switch (choice) {
-            //criar o fragmento para os banheiros/sanitários -> case 1
             case 0:
                 displayExternalAccessFragment();
                 break;

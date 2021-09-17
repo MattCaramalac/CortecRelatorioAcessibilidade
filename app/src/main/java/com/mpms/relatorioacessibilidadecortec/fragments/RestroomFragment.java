@@ -55,7 +55,8 @@ public class RestroomFragment extends Fragment {
     Double switchHeight;
 
     ArrayList<TextInputEditText> obsValues = new ArrayList<>();
-    Bundle restroomBundle = new Bundle();
+    Bundle restroomBundleData = new Bundle();
+    Bundle activityBundle = new Bundle();
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
 
@@ -82,7 +83,10 @@ public class RestroomFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_restroom, container, false);
-        restroomBundle = this.getArguments();
+        activityBundle = this.getArguments();
+        if (activityBundle != null) {
+            restroomBundleData.putInt(InspectionActivity.SCHOOL_ID_VALUE, activityBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE));
+        }
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
         return rootView;
@@ -142,24 +146,24 @@ public class RestroomFragment extends Fragment {
             if (recentEntry == 1) {
                 recentEntry = 0;
                 int restroomID = restroom.getRestroomID();
-                restroomBundle.putInt(RESTROOM_ID, restroomID);
+                restroomBundleData.putInt(RESTROOM_ID, restroomID);
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 RestroomDoorFragment restDoorFragment = RestroomDoorFragment.newInstance();
-                restDoorFragment.setArguments(restroomBundle);
+                restDoorFragment.setArguments(restroomBundleData);
                 fragmentTransaction.replace(R.id.show_fragment_selected, restDoorFragment).addToBackStack(null).commit();
             }
         });
 
 //      Usado quando uma entrada deve ser atualizada,
-        if (restroomBundle.getInt(RESTROOM_ID) != 0) {
-            modelEntry.getOneRestroomEntry(restroomBundle.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), update -> {
+        if (restroomBundleData.getInt(RESTROOM_ID) != 0) {
+            modelEntry.getOneRestroomEntry(restroomBundleData.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), update -> {
                 if (updateEntry == 1) {
                     updateEntry = 0;
                     FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     RestroomDoorFragment restDoorFragment = RestroomDoorFragment.newInstance();
-                    restDoorFragment.setArguments(restroomBundle);
+                    restDoorFragment.setArguments(restroomBundleData);
                     fragmentTransaction.replace(R.id.show_fragment_selected, restDoorFragment).addToBackStack(null).commit();
                 }
             });
@@ -177,12 +181,12 @@ public class RestroomFragment extends Fragment {
         continueRegister.setOnClickListener(v -> {
             if(checkRestroomFields()) {
                 if (registeredEntry == 0 && recentEntry == 0) {
-                    RestroomEntry newRestroom = newRestroom(restroomBundle);
+                    RestroomEntry newRestroom = newRestroom(restroomBundleData);
                     ViewModelEntry.insertRestroomEntry(newRestroom);
                     recentEntry = 1;
                     clearRestroomDataFields();
                 } else if (registeredEntry == 1) {
-                    RestroomEntryUpdate update = updateRestroom(restroomBundle);
+                    RestroomEntryUpdate update = updateRestroom(restroomBundleData);
                     ViewModelEntry.updateRestroomData(update);
                     updateEntry = 1;
                     clearRestroomDataFields();
@@ -190,14 +194,14 @@ public class RestroomFragment extends Fragment {
                     clearRestroomDataFields();
                     updateEntry = 0;
                     recentEntry = 0;
-                    restroomBundle.putBoolean(RestroomDoorFragment.OPENED_DOOR_FRAG, false);
+                    restroomBundleData.putBoolean(RestroomDoorFragment.OPENED_DOOR_FRAG, false);
                     Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
         cancelRestroom.setOnClickListener(v -> {
-            restroomBundle = null;
+            restroomBundleData = null;
             requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         });
 
@@ -206,8 +210,8 @@ public class RestroomFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (restroomBundle.getBoolean(RestroomDoorFragment.OPENED_DOOR_FRAG))
-            modelFragments.setRestroomBundle(restroomBundle);
+        if (restroomBundleData.getBoolean(RestroomDoorFragment.OPENED_DOOR_FRAG))
+            modelFragments.setRestroomBundle(restroomBundleData);
     }
 
     public void activateSwitchHeight(RadioGroup radio, int checkedID) {
