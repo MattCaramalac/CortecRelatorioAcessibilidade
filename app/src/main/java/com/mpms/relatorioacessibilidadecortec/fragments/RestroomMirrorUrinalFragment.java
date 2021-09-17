@@ -80,11 +80,12 @@ public class RestroomMirrorUrinalFragment extends Fragment {
 
         modelFragments.getRestChildFragBundle().observe(getViewLifecycleOwner(), dataBundle -> {
             if (dataBundle != null) {
+                dataBundle.putInt(RestroomFragment.RESTROOM_ID, restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID));
                 createEntryFinishFragment(dataBundle);
             }
         });
 
-//        TODO - Verificar porque não está salvando com os fragmentos abertos
+//        TODO - Fazer os erros aparecerem nos fragmentos filhos já abertos, assim como no fragmento pai
         save.setOnClickListener( v-> {
             if (checkEmptyMirrorUrinalFields())
                 if (hasMirrors == 0 && hasUrinal == 0) {
@@ -148,9 +149,9 @@ public class RestroomMirrorUrinalFragment extends Fragment {
         checkChildFrag = new Bundle();
         if (hasMirrors == 1 && hasUrinal == 1)
             checkChildFrag.putBoolean(HAS_BOTH, true);
-        else if (hasMirrors == 1)
+        else if (hasMirrors == 1 && hasUrinal == 0)
             checkChildFrag.putBoolean(HAS_MIRROR, true);
-        else if (hasUrinal == 1)
+        else if (hasMirrors == 0 && hasUrinal == 1)
             checkChildFrag.putBoolean(HAS_URINAL, true);
         modelFragments.setCheckMirUrFrags(checkChildFrag);
     }
@@ -159,7 +160,7 @@ public class RestroomMirrorUrinalFragment extends Fragment {
         int schoolID = restroomDataBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
         restroomDataBundle = new Bundle();
         restroomDataBundle.putInt(InspectionActivity.SCHOOL_ID_VALUE, schoolID);
-//        restroomDataBundle.putInt(RestroomFragment.RESTROOM_ID, 0);
+        modelFragments.setRestroomBundle(null);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);

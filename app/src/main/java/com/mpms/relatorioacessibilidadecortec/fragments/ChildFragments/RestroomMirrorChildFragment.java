@@ -1,6 +1,7 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +10,34 @@ import android.widget.ImageButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.fragments.RestroomMirrorUrinalFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 
 public class RestroomMirrorChildFragment extends Fragment {
 
+    public static final String MIRROR_A = "MIRROR_A";
+    public static final String MIRROR_B = "MIRROR_B";
+    public static final String MIRROR_OBS = "MIRROR_OBS";
+
+    TextInputLayout measureFieldA, measureFieldB, mirrorObsField;
+    TextInputEditText measureValueA, measureValueB, mirrorObsValue;
+
+    Double measureA, measureB;
+    String mirrorObs;
+
     ImageButton mirror;
     Bundle imgBundleMirror = new Bundle();
+    Bundle mirrorDataBundle = new Bundle();
+
+    ViewModelFragments modelFragments;
 
     public RestroomMirrorChildFragment() {
         // Required empty public constructor
@@ -37,12 +56,20 @@ public class RestroomMirrorChildFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
         return inflater.inflate(R.layout.fragment_restroom_mirror_child, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        measureFieldA = view.findViewById(R.id.mirror_A_measurement_field);
+        measureFieldB = view.findViewById(R.id.mirror_B_measurement_field);
+        mirrorObsField = view.findViewById(R.id.mirror_obs_field);
+        measureValueA = view.findViewById(R.id.mirror_A_measurement_value);
+        measureValueB = view.findViewById(R.id.mirror_B_measurement_value);
+        mirrorObsValue = view.findViewById(R.id.mirror_obs_value);
 
         mirror = view.findViewById(R.id.mirror_image);
 
@@ -52,5 +79,41 @@ public class RestroomMirrorChildFragment extends Fragment {
             imgBundleMirror.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.mirror);
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundleMirror);
         });
+
+        modelFragments.getCheckMirUrFrags().observe(getViewLifecycleOwner(), checkBundle -> {
+            if (!checkBundle.getBoolean(RestroomMirrorUrinalFragment.HAS_URINAL)) {
+                if (checkEmptyMirrorFragFields()) {
+                    mirrorDataBundle.putString(MIRROR_OBS, String.valueOf(mirrorObsValue.getText()));
+                    if (checkBundle.getBoolean(RestroomMirrorUrinalFragment.HAS_BOTH)) {
+                        mirrorDataBundle.putBoolean(RestroomMirrorUrinalFragment.HAS_URINAL, true);
+                        modelFragments.setCheckMirUrFrags(mirrorDataBundle);
+                    } else if (checkBundle.getBoolean(RestroomMirrorUrinalFragment.HAS_MIRROR))
+                        modelFragments.setRestChildFragBundle(mirrorDataBundle);
+                }
+            }
+        });
+    }
+
+    public boolean checkEmptyMirrorFragFields() {
+        clearEmptyMirrorFieldsErrors();
+        int i = 0;
+        if (TextUtils.isEmpty(measureValueA.getText())) {
+            measureFieldA.setError(getString(R.string.blank_field_error));
+            i++;
+        } else
+            mirrorDataBundle.putDouble(MIRROR_A, Double.parseDouble(String.valueOf(measureValueA.getText())));
+
+        if (TextUtils.isEmpty(measureValueB.getText())) {
+            measureFieldB.setError(getString(R.string.blank_field_error));
+            i++;
+        } else
+            mirrorDataBundle.putDouble(MIRROR_B, Double.parseDouble(String.valueOf(measureValueB.getText())));
+
+        return i == 0;
+    }
+
+    public void clearEmptyMirrorFieldsErrors() {
+        measureFieldA.setErrorEnabled(false);
+        measureFieldB.setErrorEnabled(false);
     }
 }
