@@ -21,7 +21,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
-//TODO - Cria uma nova entrada ao invés de atualizar a existente. Corrigir isto
 public class RestroomUpperViewFragment extends Fragment {
 
     public static final String OPENED_UP_VIEW = "OPENED_UP_VIEW";
@@ -61,6 +60,7 @@ public class RestroomUpperViewFragment extends Fragment {
         // Inflate the layout for this fragment
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         restroomDataBundle = this.getArguments();
+        imgData = new Bundle();
         return inflater.inflate(R.layout.fragment_restroom_upper_view, container, false);
     }
 

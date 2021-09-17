@@ -37,7 +37,7 @@ public class RestroomSink2Fragment extends Fragment {
 
     Button saveSinkTwo, returnSinkOne;
     ImageButton sinkThree, sinkFour, sinkFive;
-    Bundle restroomDataBundle;
+    Bundle restroomDataBundle, imgBundle;
     ViewModelEntry modelEntry;
 
 
@@ -60,6 +60,7 @@ public class RestroomSink2Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         restroomDataBundle = this.getArguments();
+        imgBundle = new Bundle();
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         return inflater.inflate(R.layout.fragment_restroom_sink2, container, false);
     }
@@ -109,18 +110,18 @@ public class RestroomSink2Fragment extends Fragment {
         Glide.with(this).load(R.drawable.sink_5).fitCenter().into(sinkFive);
 
         sinkThree.setOnClickListener(v -> {
-            restroomDataBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sink_3);
-            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), restroomDataBundle);
+            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sink_3);
+            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
         });
 
         sinkFour.setOnClickListener(v -> {
-            restroomDataBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sink_4);
-            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), restroomDataBundle);
+            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sink_4);
+            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
         });
 
         sinkFive.setOnClickListener(v -> {
-            restroomDataBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sink_5);
-            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), restroomDataBundle);
+            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sink_5);
+            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
         });
 
         if (restroomDataBundle.getBoolean(RestroomMirrorUrinalFragment.OPENED_MIRROR)) {
