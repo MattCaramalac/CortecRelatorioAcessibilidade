@@ -41,8 +41,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sink_one_A_measurement_field"
-            android:layout_width="275dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintBottom_toBottomOf="@id/sink_image_one"
             app:layout_constraintStart_toEndOf="@id/sink_image_one"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,8 +60,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sink_one_B_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/sink_one_A_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/sink_one_C_measurement_field"
@@ -76,8 +80,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sink_one_C_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/sink_one_B_measurement_field"
             app:layout_constraintStart_toEndOf="@id/sink_one_B_measurement_field"
@@ -93,8 +99,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sink_one_D_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/sink_one_B_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/sink_one_E_measurement_field"
@@ -111,8 +119,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sink_one_E_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/sink_one_D_measurement_field"
             app:layout_constraintStart_toEndOf="@id/sink_one_D_measurement_field"
@@ -160,8 +170,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sink_two_F_measurement_field"
-            android:layout_width="275dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toTopOf="@id/sink_image_two"
             app:layout_constraintBottom_toBottomOf="@id/sink_image_two"
             app:layout_constraintEnd_toStartOf="@id/sink_image_two"
@@ -178,8 +190,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sink_two_G_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/sink_image_two"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/sink_two_H_measurement_field"
@@ -196,8 +210,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sink_two_H_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/sink_two_G_measurement_field"
             app:layout_constraintStart_toEndOf="@id/sink_two_G_measurement_field"

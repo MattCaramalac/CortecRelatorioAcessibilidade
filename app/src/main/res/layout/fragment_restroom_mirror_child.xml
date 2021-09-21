@@ -35,8 +35,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/mirror_A_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/mirror_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/mirror_B_measurement_field"
@@ -53,8 +55,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/mirror_B_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/mirror_A_measurement_field"
             app:layout_constraintStart_toEndOf="@id/mirror_A_measurement_field"

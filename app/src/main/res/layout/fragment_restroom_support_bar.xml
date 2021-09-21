@@ -58,8 +58,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sup_bar_A_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/sup_bar_diam_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/sup_bar_B_measurement_field"
@@ -76,8 +78,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sup_bar_B_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/sup_bar_A_measurement_field"
             app:layout_constraintStart_toEndOf="@id/sup_bar_A_measurement_field"
@@ -93,8 +97,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sup_bar_C_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/sup_bar_A_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/sup_bar_D_measurement_field"
@@ -111,8 +117,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sup_bar_D_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/sup_bar_C_measurement_field"
             app:layout_constraintBaseline_toBaselineOf="@id/sup_bar_C_measurement_field"
@@ -128,8 +136,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sup_bar_E_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/sup_bar_C_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/sup_bar_F_measurement_field"
@@ -146,8 +156,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sup_bar_F_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintStart_toEndOf="@id/sup_bar_E_measurement_field"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/sup_bar_E_measurement_field"
@@ -163,8 +175,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sup_bar_G_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/sup_bar_E_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/sup_bar_H_measurement_field"
@@ -181,8 +195,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sup_bar_H_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintStart_toEndOf="@id/sup_bar_G_measurement_field"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/sup_bar_G_measurement_field"
@@ -198,8 +214,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sup_bar_I_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/sup_bar_G_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/sup_bar_J_measurement_field"
@@ -216,8 +234,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sup_bar_J_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintStart_toEndOf="@id/sup_bar_I_measurement_field"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/sup_bar_I_measurement_field"

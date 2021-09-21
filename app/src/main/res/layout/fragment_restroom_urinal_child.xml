@@ -53,8 +53,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/urinal_B_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/urinal_image_one"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/urinal_C_measurement_field"
@@ -71,8 +73,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/urinal_C_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/urinal_B_measurement_field"
             app:layout_constraintStart_toEndOf="@id/urinal_B_measurement_field"
@@ -132,8 +136,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/urinal_F_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/urinal_E_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/urinal_G_measurement_field"
@@ -150,8 +156,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/urinal_G_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/urinal_F_measurement_field"
             app:layout_constraintStart_toEndOf="@id/urinal_F_measurement_field"
@@ -167,11 +175,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/urinal_H_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/urinal_F_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/urinal_G_measurement_field"
+            app:layout_constraintEnd_toStartOf="@id/urinal_I_measurement_field"
             android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/hint_measurement_H">
 
@@ -185,11 +195,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/urinal_I_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/urinal_H_measurement_field"
-            app:layout_constraintStart_toEndOf="@id/urinal_F_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/urinal_H_measurement_field"
             android:hint="@string/hint_measurement_I">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -202,11 +214,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/urinal_J_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/urinal_H_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/urinal_G_measurement_field"
+            app:layout_constraintEnd_toStartOf="@id/urinal_K_measurement_field"
             android:layout_marginTop="@dimen/top_margins"
             android:hint="@string/hint_measurement_J">
 
@@ -220,11 +234,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/urinal_K_measurement_field"
-            android:layout_width="@dimen/dimen_field"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBaseline_toBaselineOf="@id/urinal_J_measurement_field"
-            app:layout_constraintStart_toEndOf="@id/urinal_F_measurement_field"
+            app:layout_constraintStart_toEndOf="@id/urinal_J_measurement_field"
             android:hint="@string/hint_measurement_K">
 
             <com.google.android.material.textfield.TextInputEditText
