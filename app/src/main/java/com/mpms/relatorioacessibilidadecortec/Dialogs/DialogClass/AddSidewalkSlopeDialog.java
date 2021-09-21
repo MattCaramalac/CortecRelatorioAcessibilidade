@@ -17,7 +17,7 @@ public class AddSidewalkSlopeDialog extends DialogFragment {
 
     public static AddSidewalkSlopeDialog sidewalkSlope(FragmentManager fragmentManager, Bundle bundle) {
         AddSidewalkSlopeDialog sidewalkSlope = new AddSidewalkSlopeDialog();
-        sidewalkSlope.show(fragmentManager, "DOOR_DIALOG");
+        sidewalkSlope.show(fragmentManager, "SLOPE_DIALOG");
         sidewalkBundle = bundle;
         return sidewalkSlope;
     }

@@ -1,13 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +8,17 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSidewalkSlopeDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 
 public class SidewalkFragment extends Fragment {
 
@@ -26,6 +27,9 @@ public class SidewalkFragment extends Fragment {
     RadioGroup hasSpecialFloor, statusSpecialFloor, obligatorySlope, hasSlope;
     TextView slopeRegisterLabel;
     Button saveSidewalk, cancelSidewalk, addSlope;
+
+    Bundle schoolData = new Bundle();
+    Bundle sidewalkData = new Bundle();
 
     public SidewalkFragment() {
         // Required empty public constructor
@@ -44,6 +48,10 @@ public class SidewalkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        schoolData = this.getArguments();
+        if (schoolData != null) {
+            sidewalkData.putInt(InspectionActivity.SCHOOL_ID_VALUE, schoolData.getInt(InspectionActivity.SCHOOL_ID_VALUE));
+        }
         return inflater.inflate(R.layout.fragment_sidewalk, container, false);
     }
 
@@ -76,6 +84,10 @@ public class SidewalkFragment extends Fragment {
 
         hasSpecialFloor.setOnCheckedChangeListener(this::hasSpecialFloorListener);
         hasSlope.setOnCheckedChangeListener(this::hasSlopeListener);
+
+        addSlope.setOnClickListener( v-> {
+            addSlope();
+        });
 
         cancelSidewalk.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
@@ -135,5 +147,9 @@ public class SidewalkFragment extends Fragment {
             addSlope.setVisibility(View.GONE);
 
         }
+    }
+
+    private void addSlope() {
+        AddSidewalkSlopeDialog.sidewalkSlope(requireActivity().getSupportFragmentManager(),sidewalkData);
     }
 }

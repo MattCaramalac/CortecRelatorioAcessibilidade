@@ -56,38 +56,36 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/slope_width_field"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="@integer/weight_one"
                 android:layout_marginTop="@dimen/top_margins"
                 android:hint="@string/hint_slope_width"
-                android:layout_marginEnd="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slope_identification_field"
-                app:layout_constraintEnd_toStartOf="@id/slope_frontal_inclination_field">
+                app:layout_constraintTop_toBottomOf="@id/slope_identification_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/slope_width_value"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/slope_frontal_inclination_field"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins"
-                android:layout_marginStart="@dimen/usual_padding"
                 android:hint="@string/hint_inclination_slope"
-                app:layout_constraintStart_toEndOf="@id/slope_width_field"
-                app:layout_constraintTop_toBottomOf="@id/slope_identification_field"
+                app:layout_constraintTop_toBottomOf="@id/slope_width_field"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/slope_frontal_inclination_value"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,12 +96,13 @@
                 android:layout_marginTop="@dimen/top_margins"
                 android:hint="@string/hint_left_brim_slope"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slope_width_field">
+                app:layout_constraintTop_toBottomOf="@id/slope_frontal_inclination_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/left_brim_inclination_value"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -119,7 +118,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/right_brim_inclination_value"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -158,12 +158,30 @@
             </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/slope_obs_field"
+                android:id="@+id/slope_free_space_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                app:layout_constraintStart_toStartOf="parent"
+                android:hint="@string/hint_slope_free_space"
                 app:layout_constraintTop_toBottomOf="@id/has_tactile_floor_radio"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/slope_free_space_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/slope_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/slope_free_space_field"
                 android:hint="@string/hint_obs">
 
                 <com.google.android.material.textfield.TextInputEditText

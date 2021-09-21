@@ -44,15 +44,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_sidewalk_status"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sidewalk_location_field">
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_location_field"
+            android:hint="@string/hint_sidewalk_status">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sidewalk_status_value"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -157,15 +163,22 @@
             android:id="@+id/sidewalk_special_floor_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_conservation_status_special_floor"
+            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/radio_status_special_floor"
-            >
+            android:hint="@string/hint_conservation_status_special_floor">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sidewalk_special_floor_obs_value"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
