@@ -413,8 +413,8 @@ public abstract class ReportDatabase extends RoomDatabase {
     static final Migration MIGRATION_20_21 = new Migration(20, 21) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("DROP TABLE SidewalkEntity");
-            database.execSQL("DROP TABLE SidewalkSlopeEntity");
+//            database.execSQL("DROP TABLE SidewalkEntry");
+//            database.execSQL("DROP TABLE SidewalkSlopeEntity");
             database.execSQL("CREATE TABLE SidewalkEntry(sidewalkID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolEntryID INTEGER NOT NULL," +
                     "sidewalkLocation TEXT, sidewalkConservationStatus TEXT, widthSidewalk REAL, sidewalkHasTactileFloor INTEGER, " +
                     "tactileFloorConservationStatus INTEGER, tactileFloorObs TEXT, obligatorySidewalkSlope INTEGER, sidewalkHasSlope INTEGER," +
@@ -422,7 +422,7 @@ public abstract class ReportDatabase extends RoomDatabase {
             database.execSQL("CREATE TABLE SidewalkSlopeEntry(sidewalkSlopeID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sidewalkID INTEGER NOT NULL," +
                     "slopeLocation TEXT, slopeWidth REAL NOT NULL, slopeFrontalInclination REAL NOT NULL, slopeLeftBrimInclination REAL NOT NULL," +
                     "slopeRightBrimInclination REAL NOT NULL, slopeHasTactileFloor INTEGER NOT NULL, slopeFreeSpace REAL NOT NULL, slopeObs TEXT," +
-                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntity(sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE)");
+                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntry(sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE)");
         }
     };
 

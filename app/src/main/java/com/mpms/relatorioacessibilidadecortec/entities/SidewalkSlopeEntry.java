@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = SidewalkEntry.class, parentColumns = "sidewalkID", childColumns = "sidewalkEntryID",
+@Entity(foreignKeys = @ForeignKey(entity = SidewalkEntry.class, parentColumns = "sidewalkID", childColumns = "sidewalkID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class SidewalkSlopeEntry {
 
