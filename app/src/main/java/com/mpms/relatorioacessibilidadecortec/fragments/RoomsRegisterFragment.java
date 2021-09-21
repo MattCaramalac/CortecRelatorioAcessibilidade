@@ -25,6 +25,7 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSwitchDialo
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddTableDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddWindowDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
@@ -34,10 +35,8 @@ import java.util.Objects;
 
 public class RoomsRegisterFragment extends Fragment {
 
-    public static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
     public static final String ROOM_TYPE = "ROOM_TYPE";
     public static final String ROOM_ID_VALUE = "ROOM_ID_VALUE";
-    public static int schoolID;
     private static int chosenOption;
     public int update = 0;
     public int recentRoomID = 0;
@@ -52,6 +51,7 @@ public class RoomsRegisterFragment extends Fragment {
     String obsVisSign, obsTactSign;
     FragmentManager manager;
     Bundle roomBundleID = new Bundle();
+    Bundle schoolData = new Bundle();
     private ViewModelFragments modelFragments;
     private ViewModelEntry modelEntry;
 
@@ -81,9 +81,9 @@ public class RoomsRegisterFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_rooms_register, container, false);
         setHeaderText(rootView);
 
-        roomBundleID = this.getArguments();
-        if (roomBundleID != null) {
-            schoolID = roomBundleID.getInt(SCHOOL_ID_VALUE);
+        schoolData = this.getArguments();
+        if (schoolData != null) {
+            roomBundleID.putInt(InspectionActivity.SCHOOL_ID_VALUE, schoolData.getInt(InspectionActivity.SCHOOL_ID_VALUE));
             roomBundleID.putInt(ROOM_TYPE, chosenOption);
         }
 
@@ -177,7 +177,7 @@ public class RoomsRegisterFragment extends Fragment {
 
         modelFragments.getRoomBundle().observe(getViewLifecycleOwner(), roomBundle -> {
             if (roomBundle != null) {
-                roomBundle.putInt(SCHOOL_ID_VALUE, schoolID);
+                roomBundle.putInt(InspectionActivity.SCHOOL_ID_VALUE, roomBundleID.getInt(InspectionActivity.SCHOOL_ID_VALUE));
                 if (update == 0) {
                     RoomEntry newEntry = newRoomEntry(roomBundle);
                     ViewModelEntry.insertRoomEntry(newEntry);
@@ -332,9 +332,9 @@ public class RoomsRegisterFragment extends Fragment {
                 break;
         }
 
-        return new RoomEntry(bundle.getInt(SCHOOL_ID_VALUE), chosenOption, hasVisSign, obsVisSign, hasTactSign, obsTactSign, libShelvesDistOK,
-                libPcrManeuverOK, libAccessPcOK, cafeSpinOK, classBoardHeight, secFixedSeat, secHasPcrSpace, secWidthPcrSpace,
-                secDepthPcrSpace, secSpinOK);
+        return new RoomEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), chosenOption, hasVisSign, obsVisSign, hasTactSign,
+                obsTactSign, libShelvesDistOK, libPcrManeuverOK, libAccessPcOK, cafeSpinOK, classBoardHeight, secFixedSeat,
+                secHasPcrSpace, secWidthPcrSpace, secDepthPcrSpace, secSpinOK);
     }
 
     private void addDoorDialog() {

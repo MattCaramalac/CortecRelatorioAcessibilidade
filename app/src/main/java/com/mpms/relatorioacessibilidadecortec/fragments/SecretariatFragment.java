@@ -31,8 +31,6 @@ public class SecretariatFragment extends Fragment {
 
     ViewModelFragments modelFragments;
 
-    Bundle bundle = new Bundle();
-
     public static final String FIXED_SEATS = "FIXED_SEATS";
     public static final String HAS_PCR_SPACE = "HAS_PCR_SPACE";
     public static final String PCR_WIDTH = "PCR_WIDTH";

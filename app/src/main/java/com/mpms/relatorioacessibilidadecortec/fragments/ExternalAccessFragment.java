@@ -33,10 +33,10 @@ public class ExternalAccessFragment extends Fragment {
     Button hasTrailRampButton, hasGateObstaclesButton, hasGatePayphonesButton, saveExternalAccess, cancelExternalAccess;
     TextView accessTypeError, hasSiaError, hasTrailRampError, hasGateObstaclesError, hasGatePayphonesError;
 
+    Bundle schoolBundle = new Bundle();
     Bundle extBundle = new Bundle();
 
     public static final String EXT_ACCESS_ID = "EXT_ACCESS_ID";
-    public static final String SCHOOL_ID = "SCHOOL_ID";
 
     int saveAttempt = 0;
 
@@ -68,7 +68,10 @@ public class ExternalAccessFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        extBundle = this.getArguments();
+        schoolBundle = this.getArguments();
+        if (schoolBundle != null) {
+            extBundle.putInt(InspectionActivity.SCHOOL_ID_VALUE, schoolBundle.getInt((InspectionActivity.SCHOOL_ID_VALUE)));
+        }
     }
 
     @Override

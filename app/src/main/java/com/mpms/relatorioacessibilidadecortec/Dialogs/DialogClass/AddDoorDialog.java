@@ -24,6 +24,7 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillInclin
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillSlopeFragment;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillStepFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
@@ -34,9 +35,6 @@ import java.util.Objects;
 
 public class AddDoorDialog extends DialogFragment {
 
-
-    private static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
-    private static final String ROOM_TYPE = "ROOM_TYPE";
 
     private Toolbar toolbar;
 
@@ -107,7 +105,7 @@ public class AddDoorDialog extends DialogFragment {
 
         modelDialog.getDoorInfo().observe(getViewLifecycleOwner(), sillBundle -> {
             if (sillBundle != null) {
-                sillBundle.putInt(RoomsRegisterFragment.SCHOOL_ID_VALUE, roomBundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE));
+                sillBundle.putInt(InspectionActivity.SCHOOL_ID_VALUE, roomBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE));
                 sillBundle.putInt(RoomsRegisterFragment.ROOM_ID_VALUE, roomBundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE));
                 DoorEntry doorEntry = newDoor(sillBundle);
                 ViewModelEntry.insertDoorEntry(doorEntry);
@@ -216,7 +214,7 @@ public class AddDoorDialog extends DialogFragment {
             doorSillObs = Objects.requireNonNull(doorSillObsValue.getText()).toString();
         }
 
-        return new DoorEntry(bundle.getInt(RoomsRegisterFragment.SCHOOL_ID_VALUE), bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+        return new DoorEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
                 Objects.requireNonNull(doorLocationValue.getText()).toString(), Double.parseDouble(Objects.requireNonNull(doorWidthValue.getText()).toString()),
                 getCheckedRadio(sillType),sillInclinationHeight, sillStepHeight, sillSlopeInclination, sillSlopeWidth, doorSillObs);
 

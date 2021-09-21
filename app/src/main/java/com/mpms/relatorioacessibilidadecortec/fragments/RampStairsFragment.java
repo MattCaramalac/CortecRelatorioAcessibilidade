@@ -1,14 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -39,7 +38,8 @@ public class RampStairsFragment extends Fragment {
     private int recentEntry = 0;
     private int updateEntry = 0;
 
-    private Bundle rampStairsBundle = new Bundle();
+    Bundle rampStairsBundle = new Bundle();
+    Bundle schoolData = new Bundle();
 
     TextInputLayout rampStairsLocField, quantFlightField;
     TextInputEditText rampStairsLocValue, quantFlightValue;
@@ -79,8 +79,9 @@ public class RampStairsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_ramp_stairs, container, false);
 
-        rampStairsBundle = this.getArguments();
-        if (rampStairsBundle != null) {
+        schoolData = this.getArguments();
+        if (schoolData != null) {
+            rampStairsBundle.putInt(InspectionActivity.SCHOOL_ID_VALUE, schoolData.getInt(InspectionActivity.SCHOOL_ID_VALUE));
             rampStairsBundle.putInt(RAMP_OR_STAIRS, chosenOption);
             if (rampStairsBundle.getInt(InspectionActivity.ALLOW_UPDATE) == 0)
                 rampStairsBundle.putInt(RAMP_STAIRS_ID,0);

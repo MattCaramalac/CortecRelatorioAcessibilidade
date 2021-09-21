@@ -84,8 +84,6 @@ public class WaterFountainFragment extends Fragment {
             }
         });
 
-
-
         saveWaterFountain.setOnClickListener(v -> {
             if (verifyWaterFountainErrors())
                 modelFragments.setSaveAttemptFountain(1);
