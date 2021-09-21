@@ -29,6 +29,8 @@ import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
@@ -41,7 +43,8 @@ import java.util.concurrent.Executors;
         ParkingLotEntry.class, ParkingLotPDMREntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
-        RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class}, version = 20)
+        RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
+        SidewalkSlopeEntry.class}, version = 21)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -125,6 +128,12 @@ public abstract class ReportDatabase extends RoomDatabase {
                     });
                     dbWriteExecutor.execute(() -> {
                         RestroomUrinalDao restroomUrinalDao = INSTANCE.restroomUrinalDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        SidewalkEntryDao sidewalkEntryDao = INSTANCE.sidewalkEntryDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        SidewalkSlopeDao sidewalkSlopeDao = INSTANCE.sidewalkSlopeDao();
                     });
 
                 }
@@ -401,6 +410,21 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_20_21 = new Migration(20, 21) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE SidewalkEntity");
+            database.execSQL("DROP TABLE SidewalkSlopeEntity");
+            database.execSQL("CREATE TABLE SidewalkEntry(sidewalkID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolEntryID INTEGER NOT NULL," +
+                    "sidewalkLocation TEXT, sidewalkConservationStatus TEXT, widthSidewalk REAL, sidewalkHasTactileFloor INTEGER, " +
+                    "tactileFloorConservationStatus INTEGER, tactileFloorObs TEXT, obligatorySidewalkSlope INTEGER, sidewalkHasSlope INTEGER," +
+                    "FOREIGN KEY (schoolEntryID) REFERENCES SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE SidewalkSlopeEntry(sidewalkSlopeID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sidewalkID INTEGER NOT NULL," +
+                    "slopeLocation TEXT, slopeWidth REAL NOT NULL, slopeFrontalInclination REAL NOT NULL, slopeLeftBrimInclination REAL NOT NULL," +
+                    "slopeRightBrimInclination REAL NOT NULL, slopeHasTactileFloor INTEGER NOT NULL, slopeFreeSpace REAL NOT NULL, slopeObs TEXT," +
+                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntity(sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -410,7 +434,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                             .addCallback(roomCallback).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6,
                                     MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12,
                                     MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17,
-                                    MIGRATION_17_18, MIGRATION_18_19, MIGRATION_19_20).build();
+                                    MIGRATION_17_18, MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21).build();
                 }
             }
         }
@@ -465,5 +489,9 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract RestroomUpViewDao restroomUpViewDao();
 
     public abstract RestroomUrinalDao restroomUrinalDao();
+
+    public abstract SidewalkEntryDao sidewalkEntryDao();
+
+    public abstract  SidewalkSlopeDao sidewalkSlopeDao();
 
 }

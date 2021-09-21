@@ -28,6 +28,8 @@ import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
@@ -63,6 +65,8 @@ public class ReportRepository {
     private final RestroomSupportBarDao restroomSupportBarDao;
     private final RestroomUpViewDao restroomUpViewDao;
     private final RestroomUrinalDao restroomUrinalDao;
+    private final SidewalkEntryDao sidewalkEntryDao;
+    private final SidewalkSlopeDao sidewalkSlopeDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -90,6 +94,8 @@ public class ReportRepository {
         restroomSupportBarDao = db.restroomSupportBarDao();
         restroomUpViewDao = db.restroomUpViewDao();
         restroomUrinalDao = db.restroomUrinalDao();
+        sidewalkEntryDao = db.sidewalkEntryDao();
+        sidewalkSlopeDao = db.sidewalkSlopeDao();
 
     }
 
@@ -581,6 +587,58 @@ public class ReportRepository {
 
     public void deleteOneRestroomUrinalEntry(int restroomID) {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomUrinalDao.deleteOneRestroomUrinalEntry(restroomID));
+    }
+
+    public void insertSidewalkEntry(SidewalkEntry sidewalkEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> sidewalkEntryDao.insertSidewalkEntry(sidewalkEntry));
+    }
+
+    public LiveData<List<SidewalkEntry>> getAllSidewalks() {
+        return sidewalkEntryDao.getAllSidewalks();
+    }
+
+    public LiveData<SidewalkEntry> getSidewalkEntry(int sidewalkID) {
+        return sidewalkEntryDao.getSidewalkEntry(sidewalkID);
+    }
+
+    public LiveData<SidewalkEntry> getLastSidewalkEntry() {
+        return sidewalkEntryDao.getLastSidewalkEntry();
+    }
+
+    public void updateSidewalk(SidewalkEntry sidewalkEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> sidewalkEntryDao.updateSidewalk(sidewalkEntry));
+    }
+
+    public void deleteSidewalk(int sidewalkID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> sidewalkEntryDao.deleteSidewalk(sidewalkID));
+    }
+
+    public void deleteAllSidewalksFromSchool(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> sidewalkEntryDao.deleteAllSidewalksFromSchool(schoolID));
+    }
+
+    public void insertSidewalkSlopeEntry(SidewalkSlopeEntry sidewalkSlopeEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> sidewalkSlopeDao.insertSidewalkSlopeEntry(sidewalkSlopeEntry));
+    }
+
+    public LiveData<List<SidewalkSlopeEntry>> getAllSidewalkSlopes() {
+        return sidewalkSlopeDao.getAllSidewalkSlopes();
+    }
+
+    public LiveData<SidewalkSlopeEntry> getSidewalkSlopeEntry(int sidewalkSlopeID) {
+        return sidewalkSlopeDao.getSidewalkSlopeEntry(sidewalkSlopeID);
+    }
+
+   public void updateSidewalkSlope(SidewalkSlopeEntry sidewalkSlopeEntry) {
+       ReportDatabase.dbWriteExecutor.execute(() -> sidewalkSlopeDao.updateSidewalkSlope(sidewalkSlopeEntry));
+   }
+
+    public void deleteSidewalkSlope(int sidewalkSlopeID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> sidewalkSlopeDao.deleteSidewalkSlope(sidewalkSlopeID));
+    }
+
+    public void deleteAllSidewalkSlopesFromSidewalk(int sidewalkID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> sidewalkSlopeDao.deleteAllSidewalkSlopesFromSidewalk(sidewalkID));
     }
 
     public void deleteAllEntries() {
