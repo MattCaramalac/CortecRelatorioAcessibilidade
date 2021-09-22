@@ -43,4 +43,8 @@ public class ViewModelDialog extends ViewModel {
     public final MutableLiveData<Bundle> restDoorBundle = new MutableLiveData<>();
     public void setRestDoorBundle(Bundle bundle) { restDoorBundle.setValue(bundle); }
     public LiveData<Bundle> getRestDoorBundle() { return restDoorBundle; }
+
+    public final MutableLiveData<Integer> sidewalkSlopeCounter = new MutableLiveData<>();
+    public void setSidewalkSlopeCounter(Integer integer) { sidewalkSlopeCounter.setValue(integer); }
+    public LiveData<Integer> getSidewalkSlopeCounter() { return sidewalkSlopeCounter; }
 }

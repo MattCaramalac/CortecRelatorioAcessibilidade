@@ -1,6 +1,7 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,25 +12,41 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSidewalkSlopeDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 public class SidewalkFragment extends Fragment {
 
-    TextInputLayout sidewalkLocationField, sidewalkStatusField, sidewalkWidthField, sidewalkSpecialFloorObsField;
-    TextInputEditText sidewalkLocationValue, sidewalkStatusValue, sidewalkWidthValue, sidewalkSpecialFloorObsValue;
-    RadioGroup hasSpecialFloor, statusSpecialFloor, obligatorySlope, hasSlope;
-    TextView slopeRegisterLabel;
+    public static final String SIDEWALK_ID = "SIDEWALK_ID";
+
+    TextInputLayout sidewalkLocationField, sidewalkStatusField, sidewalkWidthField, sidewalkTactileFloorStatusField, sidewalkObsField;
+    TextInputEditText sidewalkLocationValue, sidewalkStatusValue, sidewalkWidthValue, sidewalkTactileFloorStatusValue, sidewalkObsValue;
+    RadioGroup hasTactileFloor, statusTactileFloor, obligatorySlope, hasSlope;
+    TextView tactileFloorLabel, slopeRegisterLabel, tactileFloorError, tactileFloorStatusError, sidewalkObligatorySlopeError, sidewalkHasSlopeError;
     Button saveSidewalk, cancelSidewalk, addSlope;
+
+    String sidewalkLocation, sidewalkStatus, sidewalkTactileFloorStatus, sidewalkObs;
+    Integer hasTactFloor, tactileFloorStatus, sidewalkObligatorySlope, sidewalkHasSlope;
+    Double sidewalkWidth;
 
     Bundle schoolData = new Bundle();
     Bundle sidewalkData = new Bundle();
+
+    int updateRegister = 0;
+    int recentRegister = 0;
+    int sidewalkID = 0;
+    int rowCounter = 0;
+
+    ViewModelEntry modelEntry;
+    ViewModelDialog modelDialog;
 
     public SidewalkFragment() {
         // Required empty public constructor
@@ -48,9 +65,12 @@ public class SidewalkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
         schoolData = this.getArguments();
         if (schoolData != null) {
             sidewalkData.putInt(InspectionActivity.SCHOOL_ID_VALUE, schoolData.getInt(InspectionActivity.SCHOOL_ID_VALUE));
+            sidewalkID = schoolData.getInt(SIDEWALK_ID, 0);
         }
         return inflater.inflate(R.layout.fragment_sidewalk, container, false);
     }
@@ -62,62 +82,108 @@ public class SidewalkFragment extends Fragment {
         sidewalkLocationField = view.findViewById(R.id.sidewalk_location_field);
         sidewalkStatusField = view.findViewById(R.id.sidewalk_status_field);
         sidewalkWidthField = view.findViewById(R.id.sidewalk_width_field);
-        sidewalkSpecialFloorObsField = view.findViewById(R.id.sidewalk_special_floor_obs_field);
+        sidewalkTactileFloorStatusField = view.findViewById(R.id.sidewalk_special_floor_obs_field);
+        sidewalkObsField = view.findViewById(R.id.sidewalk_obs_field);
 
         sidewalkLocationValue = view.findViewById(R.id.sidewalk_location_value);
         sidewalkStatusValue = view.findViewById(R.id.sidewalk_status_value);
         sidewalkWidthValue = view.findViewById(R.id.sidewalk_width_value);
-        sidewalkSpecialFloorObsValue = view.findViewById(R.id.sidewalk_special_floor_obs_value);
+        sidewalkTactileFloorStatusValue = view.findViewById(R.id.sidewalk_special_floor_obs_value);
+        sidewalkObsValue = view.findViewById(R.id.sidewalk_obs_value);
 
-        hasSpecialFloor = view.findViewById(R.id.radio_sidewalk_special_floor);
-        statusSpecialFloor = view.findViewById(R.id.radio_status_special_floor);
+        hasTactileFloor = view.findViewById(R.id.radio_sidewalk_special_floor);
+        statusTactileFloor = view.findViewById(R.id.radio_status_special_floor);
         obligatorySlope = view.findViewById(R.id.radio_obligatory_sidewalk_slope);
         hasSlope = view.findViewById(R.id.radio_sidewalk_slope);
 
         slopeRegisterLabel = view.findViewById(R.id.label_sidewalk_slope_register);
+        tactileFloorLabel = view.findViewById(R.id.label_status_special_floor);
+        tactileFloorError = view.findViewById(R.id.has_tactile_floor_error);
+        tactileFloorStatusError = view.findViewById(R.id.tactile_floor_status_error);
+        sidewalkObligatorySlopeError = view.findViewById(R.id.obligatory_slope_error);
+        sidewalkHasSlopeError = view.findViewById(R.id.sidewalk_has_slope_error);
 
         saveSidewalk = view.findViewById(R.id.save_sidewalk);
         cancelSidewalk = view.findViewById(R.id.cancel_sidewalk);
         addSlope = view.findViewById(R.id.add_sidewalk_slope);
 
-        firstRegister();
+        initialLayout();
 
-        hasSpecialFloor.setOnCheckedChangeListener(this::hasSpecialFloorListener);
+        hasTactileFloor.setOnCheckedChangeListener(this::hasSpecialFloorListener);
         hasSlope.setOnCheckedChangeListener(this::hasSlopeListener);
 
-        addSlope.setOnClickListener( v-> {
-            addSlope();
+        modelEntry.getLastSidewalkEntry().observe(getViewLifecycleOwner(), sidewalk -> {
+            if (recentRegister == 1) {
+                recentRegister = 0;
+                sidewalkData.putInt(SIDEWALK_ID, sidewalk.getSidewalkID());
+                openSlopeDialog();
+            }
+        });
+
+        modelDialog.getSidewalkSlopeCounter().observe(getViewLifecycleOwner(), counter -> {
+            if (counter != null && counter > 0) {
+                rowCounter = counter;
+            }
+        });
+
+//        TODO - organizar if & else
+        addSlope.setOnClickListener(v -> {
+            if (updateRegister == 0 && sidewalkID == 0) {
+                recentRegister++;
+                updateRegister++;
+                SidewalkEntry newSidewalkEntry = newSidewalk(sidewalkData);
+                ViewModelEntry.insertSidewalkEntry(newSidewalkEntry);
+            } else if ((updateRegister > 0 && sidewalkID == 0) || (updateRegister == 0 && sidewalkID > 0) ||
+                    (updateRegister > 0 && sidewalkID > 0)) {
+                updateRegister++;
+                openSlopeDialog();
+            } else {
+                //Error message
+            }
         });
 
         cancelSidewalk.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
 
+
+//        TODO - organizar if & else -> rever casos de if else (os casos atuais funcionam)
         saveSidewalk.setOnClickListener(v -> {
-            //Método de Salvar calçadas
-            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
-            fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
+            if (checkEmptySidewalkFields()) {
+                if (sidewalkID == 0) {
+                    if (getCheckedSidewalkRadioButton(hasSlope) == 1 && rowCounter == 0) {
+//                        TODO - Erro de gravação - implementar mensagem.
+                    } else if (getCheckedSidewalkRadioButton(hasSlope) == 0 && rowCounter > 0) {
+//                        TODO - Deletar os slopes na hora de salvar. Chamar dialog.
+                    } else {
+                        if (updateRegister == 0) {
+                            SidewalkEntry newSidewalkEntry = newSidewalk(sidewalkData);
+                            ViewModelEntry.insertSidewalkEntry(newSidewalkEntry);
+                            resetInitialLayout();
+                        } else if (updateRegister > 0) {
+                            SidewalkEntry upSidewalkEntry = newSidewalk(sidewalkData);
+                            upSidewalkEntry.setSidewalkID(sidewalkData.getInt(SIDEWALK_ID));
+                            ViewModelEntry.updateSidewalk(upSidewalkEntry);
+                            resetInitialLayout();
+                        } else {
+//                      TODO - Erro de gravação
+                        }
+                    }
+                } else if (sidewalkID > 0) {
+//                  TODO - gravação de dados quando o usuário escolher uma calçada já cadastrada
+                } else {
+//                      TODO - Erro de gravação
+                }
+            }
         });
 
-
     }
 
-    public void firstRegister() {
-        disableRadioGroup(statusSpecialFloor);
-        sidewalkSpecialFloorObsField.setEnabled(false);
-    }
-
-    public void disableRadioGroup(RadioGroup radioGroup) {
-        for (int j = 0; j < radioGroup.getChildCount(); j++) {
-            radioGroup.getChildAt(j).setEnabled(false);
-        }
-    }
-
-    public void enableRadioGroup(RadioGroup radioGroup) {
-        for (int j = 0; j < radioGroup.getChildCount(); j++) {
-            radioGroup.getChildAt(j).setEnabled(true);
-        }
+    public void initialLayout() {
+        tactileFloorLabel.setVisibility(View.GONE);
+        statusTactileFloor.setVisibility(View.GONE);
+        sidewalkTactileFloorStatusField.setVisibility(View.GONE);
+        slopeRegisterLabel.setVisibility(View.GONE);
+        addSlope.setVisibility(View.GONE);
     }
 
     public void hasSpecialFloorListener(RadioGroup radioGroup, int checkedID) {
@@ -125,13 +191,15 @@ public class SidewalkFragment extends Fragment {
         int index = radioGroup.indexOfChild(radioButton);
 
         if (index == 1) {
-            enableRadioGroup(statusSpecialFloor);
-            sidewalkSpecialFloorObsField.setEnabled(true);
+            tactileFloorLabel.setVisibility(View.VISIBLE);
+            statusTactileFloor.setVisibility(View.VISIBLE);
+            sidewalkTactileFloorStatusField.setVisibility(View.VISIBLE);
         } else {
-            statusSpecialFloor.clearCheck();
-            disableRadioGroup(statusSpecialFloor);
-            sidewalkSpecialFloorObsValue.setText(null);
-            sidewalkSpecialFloorObsField.setEnabled(false);
+            statusTactileFloor.clearCheck();
+            sidewalkTactileFloorStatusValue.setText(null);
+            tactileFloorLabel.setVisibility(View.GONE);
+            statusTactileFloor.setVisibility(View.GONE);
+            sidewalkTactileFloorStatusField.setVisibility(View.GONE);
         }
     }
 
@@ -149,7 +217,100 @@ public class SidewalkFragment extends Fragment {
         }
     }
 
-    private void addSlope() {
-        AddSidewalkSlopeDialog.sidewalkSlope(requireActivity().getSupportFragmentManager(),sidewalkData);
+    public int getCheckedSidewalkRadioButton(RadioGroup radio) {
+        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
+    }
+
+    public boolean checkEmptySidewalkFields() {
+        clearSidewalkEmptyFieldErrors();
+        int i = 0;
+        if (TextUtils.isEmpty(sidewalkLocationValue.getText())) {
+            i++;
+            sidewalkLocationField.setError(getString(R.string.blank_field_error));
+        }
+        if (TextUtils.isEmpty(sidewalkStatusValue.getText())) {
+            i++;
+            sidewalkStatusField.setError(getString(R.string.blank_field_error));
+        }
+        if (TextUtils.isEmpty(sidewalkWidthValue.getText())) {
+            i++;
+            sidewalkWidthField.setError(getString(R.string.blank_field_error));
+        }
+        if (getCheckedSidewalkRadioButton(hasTactileFloor) == -1) {
+            tactileFloorError.setVisibility(View.VISIBLE);
+            i++;
+        } else if (getCheckedSidewalkRadioButton(hasTactileFloor) == 1) {
+            if (getCheckedSidewalkRadioButton(statusTactileFloor) == -1) {
+                tactileFloorStatusError.setVisibility(View.VISIBLE);
+                i++;
+            }
+            if (TextUtils.isEmpty(sidewalkTactileFloorStatusValue.getText())) {
+                sidewalkTactileFloorStatusField.setError(getString(R.string.blank_field_error));
+                i++;
+            }
+        }
+        if (getCheckedSidewalkRadioButton(obligatorySlope) == -1) {
+            sidewalkObligatorySlopeError.setVisibility(View.VISIBLE);
+            i++;
+        }
+        if (getCheckedSidewalkRadioButton(hasSlope) == -1) {
+            sidewalkHasSlopeError.setVisibility(View.VISIBLE);
+            i++;
+        }
+        return i == 0;
+    }
+
+    public void clearSidewalkEmptyFieldErrors() {
+        sidewalkLocationField.setErrorEnabled(false);
+        sidewalkStatusField.setErrorEnabled(false);
+        sidewalkWidthField.setErrorEnabled(false);
+        tactileFloorError.setVisibility(View.GONE);
+        tactileFloorStatusError.setVisibility(View.GONE);
+        sidewalkTactileFloorStatusField.setErrorEnabled(false);
+        sidewalkObligatorySlopeError.setVisibility(View.GONE);
+        sidewalkHasSlopeError.setVisibility(View.GONE);
+    }
+
+    private void openSlopeDialog() {
+        AddSidewalkSlopeDialog.sidewalkSlope(requireActivity().getSupportFragmentManager(), sidewalkData);
+    }
+
+    private SidewalkEntry newSidewalk(Bundle bundle) {
+        sidewalkLocation = String.valueOf(sidewalkLocationValue.getText());
+        sidewalkStatus = String.valueOf(sidewalkStatusValue.getText());
+        if (!TextUtils.isEmpty(sidewalkWidthValue.getText()))
+            sidewalkWidth = Double.valueOf(String.valueOf(sidewalkWidthValue.getText()));
+        hasTactFloor = getCheckedSidewalkRadioButton(hasTactileFloor);
+        if (hasTactFloor == 1) {
+            tactileFloorStatus = getCheckedSidewalkRadioButton(statusTactileFloor);
+            sidewalkTactileFloorStatus = String.valueOf(sidewalkTactileFloorStatusValue.getText());
+        }
+        sidewalkObligatorySlope = getCheckedSidewalkRadioButton(obligatorySlope);
+        sidewalkHasSlope = getCheckedSidewalkRadioButton(hasSlope);
+        sidewalkObs = String.valueOf(sidewalkObsValue.getText());
+
+        return new SidewalkEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), sidewalkLocation, sidewalkStatus, sidewalkWidth,
+                hasTactFloor, tactileFloorStatus, sidewalkTactileFloorStatus, sidewalkObligatorySlope, sidewalkHasSlope, sidewalkObs);
+    }
+
+    public void resetInitialLayout() {
+        updateRegister = 0;
+        recentRegister = 0;
+        sidewalkID = 0;
+        rowCounter = 0;
+        sidewalkLocationValue.setText(null);
+        sidewalkStatusValue.setText(null);
+        sidewalkWidthValue.setText(null);
+        sidewalkTactileFloorStatusValue.setText(null);
+        sidewalkObsValue.setText(null);
+        hasTactileFloor.clearCheck();
+        statusTactileFloor.clearCheck();
+        obligatorySlope.clearCheck();
+        hasSlope.clearCheck();
+        tactileFloorLabel.setVisibility(View.GONE);
+        statusTactileFloor.setVisibility(View.GONE);
+        sidewalkTactileFloorStatusField.setVisibility(View.GONE);
+        slopeRegisterLabel.setVisibility(View.GONE);
+        addSlope.setVisibility(View.GONE);
     }
 }

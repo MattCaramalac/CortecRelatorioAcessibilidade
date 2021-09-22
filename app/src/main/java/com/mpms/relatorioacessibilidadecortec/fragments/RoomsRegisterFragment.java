@@ -145,8 +145,8 @@ public class RoomsRegisterFragment extends Fragment {
 //        TODO - Alterar o método de seleção de sala alterada
         modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> {
             if (update == 0 && buttonChoice != -1) {
-                recentRoomID = lastRoom.getRoomID();
-                roomBundleID.putInt(ROOM_ID_VALUE, recentRoomID);
+//                recentRoomID = lastRoom.getRoomID();
+                roomBundleID.putInt(ROOM_ID_VALUE, lastRoom.getRoomID());
                 update++;
             }
 
@@ -261,6 +261,7 @@ public class RoomsRegisterFragment extends Fragment {
             RoomEntry newEntry = newRoomEntry(roomBundleID);
             ViewModelEntry.insertRoomEntry(newEntry);
         } else if (update > 0) {
+//            TODO - Clicar nos botões para adicionar dados da sala NÃO deve atualizar o cadastro da sala até que a mesma seja atualizada no botão salvar
             RoomEntry newEntry = newRoomEntry(roomBundleID);
             newEntry.setRoomID(roomBundleID.getInt(ROOM_ID_VALUE));
             ViewModelEntry.updateRoom(newEntry);

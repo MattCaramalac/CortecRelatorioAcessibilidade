@@ -547,7 +547,7 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRestroomUrinalEntry(restroomID));
     }
 
-    public void insertSidewalkEntry(SidewalkEntry sidewalkEntry) {
+    public static void insertSidewalkEntry(SidewalkEntry sidewalkEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertSidewalkEntry(sidewalkEntry));
     }
 
@@ -563,39 +563,40 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastSidewalkEntry();
     }
 
-    public void updateSidewalk(SidewalkEntry sidewalkEntry) {
+    public static void updateSidewalk(SidewalkEntry sidewalkEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSidewalk(sidewalkEntry));
     }
 
-    public void deleteSidewalk(int sidewalkID) {
+    public static void deleteSidewalk(int sidewalkID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteSidewalk(sidewalkID));
     }
 
-    public void deleteAllSidewalksFromSchool(int schoolID) {
+    public static void deleteAllSidewalksFromSchool(int schoolID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllSidewalksFromSchool(schoolID));
     }
 
-    public void insertSidewalkSlopeEntry(SidewalkSlopeEntry sidewalkSlopeEntry) {
+    public static void insertSidewalkSlopeEntry(SidewalkSlopeEntry sidewalkSlopeEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertSidewalkSlopeEntry(sidewalkSlopeEntry));
     }
 
-    public LiveData<List<SidewalkSlopeEntry>> getAllSidewalkSlopes() {
-        return repository.getAllSidewalkSlopes();
+    public LiveData<List<SidewalkSlopeEntry>> getAllSidewalkSlopes(int sidewalkID) {
+        return repository.getAllSidewalkSlopes(sidewalkID);
     }
 
     public LiveData<SidewalkSlopeEntry> getSidewalkSlopeEntry(int sidewalkSlopeID) {
         return repository.getSidewalkSlopeEntry(sidewalkSlopeID);
     }
 
-    public void updateSidewalkSlope(SidewalkSlopeEntry sidewalkSlopeEntry) {
+
+    public static void updateSidewalkSlope(SidewalkSlopeEntry sidewalkSlopeEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSidewalkSlope(sidewalkSlopeEntry));
     }
 
-    public void deleteSidewalkSlope(int sidewalkSlopeID) {
+    public static void deleteSidewalkSlope(int sidewalkSlopeID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteSidewalkSlope(sidewalkSlopeID));
     }
 
-    public void deleteAllSidewalkSlopesFromSidewalk(int sidewalkID) {
+    public static void deleteAllSidewalkSlopesFromSidewalk(int sidewalkID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllSidewalkSlopesFromSidewalk(sidewalkID));
     }
 
