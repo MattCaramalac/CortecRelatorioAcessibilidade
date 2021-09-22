@@ -116,16 +116,26 @@
                 android:textSize="@dimen/radio_button_text"
                 />
 
-
-
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/has_tactile_floor_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_special_floor"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <TextView
             android:id="@+id/label_status_special_floor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_special_floor"
+            app:layout_constraintTop_toBottomOf="@id/has_tactile_floor_error"
             android:textSize="@dimen/section_header"
             android:text="@string/label_status_special_floor"
             android:layout_marginTop="@dimen/top_margins"/>
@@ -154,10 +164,19 @@
                 android:text="@string/radio_button_yes"
                 android:textSize="@dimen/radio_button_text"
                 />
-
-
-
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/tactile_floor_status_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/radio_status_special_floor"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sidewalk_special_floor_obs_field"
@@ -165,7 +184,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radio_status_special_floor"
+            app:layout_constraintTop_toBottomOf="@id/tactile_floor_status_error"
             android:hint="@string/hint_conservation_status_special_floor">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -220,13 +239,25 @@
         </RadioGroup>
 
         <TextView
+            android:id="@+id/obligatory_slope_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/radio_obligatory_sidewalk_slope"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
             android:id="@+id/label_sidewalk_has_slope_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/section_header"
             android:text="@string/label_sidewalk_slope"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radio_obligatory_sidewalk_slope"
+            app:layout_constraintTop_toBottomOf="@id/obligatory_slope_error"
             android:layout_marginTop="@dimen/top_margins"/>
 
         <RadioGroup
@@ -257,15 +288,27 @@
         </RadioGroup>
 
         <TextView
+            android:id="@+id/sidewalk_has_slope_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_slope"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
             android:id="@+id/label_sidewalk_slope_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/section_header"
             android:text="@string/label_slope_register"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_slope"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_has_slope_error"
             android:layout_marginTop="@dimen/top_margins"
-            android:visibility="gone"/>
+            />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_sidewalk_slope"
@@ -278,14 +321,37 @@
             android:textColor="@color/black"
             app:cornerRadius="3dp"
             android:text="@string/label_add_frag_entry"
-            android:visibility="gone"
+
             />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_sidewalk_slope"
+            android:hint="@string/hint_obs">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_sidewalk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/add_sidewalk_slope"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_obs_field"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="@dimen/top_margins"
             android:text="@string/label_button_save"
