@@ -134,7 +134,7 @@
                 app:layout_constraintTop_toBottomOf="@id/right_brim_inclination_field"/>
 
             <RadioGroup
-                android:id="@+id/has_tactile_floor_radio"
+                android:id="@+id/slope_has_tactile_floor_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -157,13 +157,25 @@
 
             </RadioGroup>
 
+            <TextView
+                android:id="@+id/slope_has_tactile_floor_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textSize="14sp"
+                android:textColor="@color/error_message"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/slope_has_tactile_floor_radio"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/slope_free_space_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_slope_free_space"
-                app:layout_constraintTop_toBottomOf="@id/has_tactile_floor_radio"
+                app:layout_constraintTop_toBottomOf="@id/slope_has_tactile_floor_error"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -199,24 +211,24 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/save_restroom"
+                android:id="@+id/save_sidewalk_slope"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/top_margins"
-                android:text="@string/label_button_proceed_register"
+                android:text="@string/label_button_save"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/slope_obs_field" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/return_restroom"
+                android:id="@+id/cancel_sidewalk_slope"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/top_margins"
                 android:text="@string/label_back_button"
                 android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@id/save_restroom"
+                app:layout_constraintBaseline_toBaselineOf="@id/save_sidewalk_slope"
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
