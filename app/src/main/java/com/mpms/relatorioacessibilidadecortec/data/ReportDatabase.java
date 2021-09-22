@@ -44,7 +44,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
-        SidewalkSlopeEntry.class}, version = 21)
+        SidewalkSlopeEntry.class}, version = 22)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -413,8 +413,6 @@ public abstract class ReportDatabase extends RoomDatabase {
     static final Migration MIGRATION_20_21 = new Migration(20, 21) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-//            database.execSQL("DROP TABLE SidewalkEntry");
-//            database.execSQL("DROP TABLE SidewalkSlopeEntity");
             database.execSQL("CREATE TABLE SidewalkEntry(sidewalkID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolEntryID INTEGER NOT NULL," +
                     "sidewalkLocation TEXT, sidewalkConservationStatus TEXT, widthSidewalk REAL, sidewalkHasTactileFloor INTEGER, " +
                     "tactileFloorConservationStatus INTEGER, tactileFloorObs TEXT, obligatorySidewalkSlope INTEGER, sidewalkHasSlope INTEGER," +
@@ -426,6 +424,13 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_21_22 = new Migration(21, 22) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN sidewalkObs TEXT");
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ReportDatabase.class) {
@@ -434,7 +439,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                             .addCallback(roomCallback).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6,
                                     MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12,
                                     MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17,
-                                    MIGRATION_17_18, MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21).build();
+                                    MIGRATION_17_18, MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22).build();
                 }
             }
         }

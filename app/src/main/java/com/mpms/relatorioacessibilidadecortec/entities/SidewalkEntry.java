@@ -22,10 +22,11 @@ public class SidewalkEntry {
     private String tactileFloorObs;
     private Integer obligatorySidewalkSlope;
     private Integer sidewalkHasSlope;
+    private String sidewalkObs;
 
     public SidewalkEntry(int schoolEntryID, String sidewalkLocation, String sidewalkConservationStatus, Double widthSidewalk,
                          Integer sidewalkHasTactileFloor, Integer tactileFloorConservationStatus, String tactileFloorObs,
-                         Integer obligatorySidewalkSlope, Integer sidewalkHasSlope) {
+                         Integer obligatorySidewalkSlope, Integer sidewalkHasSlope, String sidewalkObs) {
         this.schoolEntryID = schoolEntryID;
         this.sidewalkLocation = sidewalkLocation;
         this.sidewalkConservationStatus = sidewalkConservationStatus;
@@ -35,6 +36,7 @@ public class SidewalkEntry {
         this.tactileFloorObs = tactileFloorObs;
         this.obligatorySidewalkSlope = obligatorySidewalkSlope;
         this.sidewalkHasSlope = sidewalkHasSlope;
+        this.sidewalkObs = sidewalkObs;
     }
 
     public int getSidewalkID() {
@@ -115,5 +117,13 @@ public class SidewalkEntry {
 
     public void setSidewalkHasSlope(Integer sidewalkHasSlope) {
         this.sidewalkHasSlope = sidewalkHasSlope;
+    }
+
+    public String getSidewalkObs() {
+        return sidewalkObs;
+    }
+
+    public void setSidewalkObs(String sidewalkObs) {
+        this.sidewalkObs = sidewalkObs;
     }
 }
