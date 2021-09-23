@@ -1,4 +1,18 @@
 <resources>
+
+    <string-array name="multi_radio_railing_buttons">
+        <item>NÃO</item>
+        <item>SIM</item>
+        <item>MEIA-PAREDE</item>
+        <item>PAREDE</item>
+    </string-array>
+
+    <string-array name="multi_radio_beacon_buttons">
+        <item>NÃO</item>
+        <item>SIM</item>
+        <item>PAREDE</item>
+    </string-array>
+
     <string name="app_name">Relatório Acessibilidade Cortec</string>
 
     <string name="header">Cadastro da Instituição</string>
@@ -348,4 +362,16 @@
     <string name="hint_right_brim_slope">Inclinação Aba Direita do Rebaixamento</string>
     <string name="label_has_tactile_floor_header">O rebaixamento possui piso tátil?</string>
     <string name="hint_slope_free_space">Espaço Livre à frente do rebaixamento</string>
+    <string name="dialog_add_sidewalk_slope">Cadastrar Rebaixamentos</string>
+
+    <string name="hint_stairs_mirror_height">Altura do Espelho</string>
+    <string name="hint_stairs_step_width">Largura do Piso do Degrau</string>
+    <string name="label_railing_beacon_register_fragment">Cadastro de Guarda-corpos e Balizamentos</string>
+    <string name="radio_button_left">ESQUERDO</string>
+    <string name="radio_button_right">DIREITO</string>
+    <string name="label_staircase_side_header">Selecione qual o lado do lance de escadas você irá analisar:</string>
+    <string name="label_staircase_has_railing">Este lado do lance de escadas possui um guarda-corpo?</string>
+    <string name="hint_railing_height">Altura do guarda-corpo</string>
+    <string name="stairs_have_beacon_header">Este lado do lance de escadas possui uma guia de balizamento?</string>
+    <string name="radio_button_wall">PAREDE</string>
 </resources>
