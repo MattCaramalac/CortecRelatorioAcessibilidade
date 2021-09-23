@@ -27,6 +27,10 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddWindowDialo
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.CafeteriaFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ClassroomFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.LibraryFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SecretariatFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;

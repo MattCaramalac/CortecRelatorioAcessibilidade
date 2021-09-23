@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.fragments;
+package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
