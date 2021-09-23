@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -79,6 +80,110 @@ public class SidewalkFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        instantiateSidewalkFragmentViews(view);
+        initialLayout();
+
+        hasTactileFloor.setOnCheckedChangeListener(this::hasSpecialFloorListener);
+        hasSlope.setOnCheckedChangeListener(this::hasSlopeListener);
+
+        modelEntry.getLastSidewalkEntry().observe(getViewLifecycleOwner(), sidewalk -> {
+            if (recentRegister == 1) {
+                recentRegister = 0;
+                sidewalkData.putInt(SIDEWALK_ID, sidewalk.getSidewalkID());
+                openSlopeDialog();
+            }
+        });
+
+        modelDialog.getSidewalkSlopeCounter().observe(getViewLifecycleOwner(), counter -> {
+            if (counter != null && counter > 0) {
+                rowCounter = counter;
+            }
+        });
+
+//        TODO - organizar if & else
+        addSlope.setOnClickListener(v -> {
+            if (sidewalkID == 0) {
+                if (updateRegister == 0) {
+                    recentRegister++;
+                    updateRegister++;
+                    SidewalkEntry newSidewalkEntry = newSidewalk(sidewalkData);
+                    ViewModelEntry.insertSidewalkEntry(newSidewalkEntry);
+                } else if (updateRegister > 0) {
+                    updateRegister++;
+                    openSlopeDialog();
+                } else {
+                    recentRegister = 0;
+                    updateRegister = 0;
+                    sidewalkData.putInt(SIDEWALK_ID, 0);
+                    Toast.makeText(getContext(), "Ocorreu um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                }
+            } else if (sidewalkID > 0) {
+                if (updateRegister >= 0) {
+                    updateRegister++;
+                    openSlopeDialog();
+                } else {
+                    recentRegister = 0;
+                    updateRegister = 0;
+                    sidewalkID = 0;
+                    sidewalkData.putInt(SIDEWALK_ID, 0);
+                    Toast.makeText(getContext(), "Ocorreu um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                updateRegister = 0;
+                recentRegister = 0;
+                sidewalkID = 0;
+                sidewalkData.putInt(SIDEWALK_ID, 0);
+                Toast.makeText(getContext(), "Ocorreu um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cancelSidewalk.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
+                .beginTransaction().remove(this).commit());
+
+
+        saveSidewalk.setOnClickListener(v -> {
+            if (checkEmptySidewalkFields()) {
+                if (sidewalkID == 0) {
+                    if (getCheckedSidewalkRadioButton(hasSlope) == 1 && rowCounter == 0) {
+//                        TODO - Erro de gravação - implementar mensagem - Toast temporário.
+                        Toast.makeText(getContext(), "Por favor, adicione rebaixamentos para esta calçada", Toast.LENGTH_LONG).show();
+                    } else if (getCheckedSidewalkRadioButton(hasSlope) == 0 && rowCounter > 0) {
+//                        TODO - Deletar os slopes na hora de salvar. Chamar dialog - toast temporário.
+                        Toast.makeText(getContext(), "A calçada possui rebaixamentos. Marque a opção correta ou delete os rebaixamentos", Toast.LENGTH_LONG).show();
+                    } else {
+                        if (updateRegister == 0) {
+                            SidewalkEntry newSidewalkEntry = newSidewalk(sidewalkData);
+                            ViewModelEntry.insertSidewalkEntry(newSidewalkEntry);
+                            resetInitialLayout();
+                        } else if (updateRegister > 0) {
+                            SidewalkEntry upSidewalkEntry = newSidewalk(sidewalkData);
+                            upSidewalkEntry.setSidewalkID(sidewalkData.getInt(SIDEWALK_ID));
+                            ViewModelEntry.updateSidewalk(upSidewalkEntry);
+                            resetInitialLayout();
+                        } else {
+                            updateRegister = 0;
+                            recentRegister = 0;
+                            rowCounter = 0;
+                            sidewalkData.putInt(SIDEWALK_ID, 0);
+                            Toast.makeText(getContext(), "Ocorreu um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else if (sidewalkID > 0) {
+//                  TODO - gravação de dados quando o usuário escolher uma calçada já cadastrada
+                } else {
+                    updateRegister = 0;
+                    recentRegister = 0;
+                    rowCounter = 0;
+                    sidewalkID = 0;
+                    sidewalkData.putInt(SIDEWALK_ID, 0);
+                    Toast.makeText(getContext(), "Ocorreu um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    public void instantiateSidewalkFragmentViews(View view) {
         sidewalkLocationField = view.findViewById(R.id.sidewalk_location_field);
         sidewalkStatusField = view.findViewById(R.id.sidewalk_status_field);
         sidewalkWidthField = view.findViewById(R.id.sidewalk_width_field);
@@ -106,76 +211,6 @@ public class SidewalkFragment extends Fragment {
         saveSidewalk = view.findViewById(R.id.save_sidewalk);
         cancelSidewalk = view.findViewById(R.id.cancel_sidewalk);
         addSlope = view.findViewById(R.id.add_sidewalk_slope);
-
-        initialLayout();
-
-        hasTactileFloor.setOnCheckedChangeListener(this::hasSpecialFloorListener);
-        hasSlope.setOnCheckedChangeListener(this::hasSlopeListener);
-
-        modelEntry.getLastSidewalkEntry().observe(getViewLifecycleOwner(), sidewalk -> {
-            if (recentRegister == 1) {
-                recentRegister = 0;
-                sidewalkData.putInt(SIDEWALK_ID, sidewalk.getSidewalkID());
-                openSlopeDialog();
-            }
-        });
-
-        modelDialog.getSidewalkSlopeCounter().observe(getViewLifecycleOwner(), counter -> {
-            if (counter != null && counter > 0) {
-                rowCounter = counter;
-            }
-        });
-
-//        TODO - organizar if & else
-        addSlope.setOnClickListener(v -> {
-            if (updateRegister == 0 && sidewalkID == 0) {
-                recentRegister++;
-                updateRegister++;
-                SidewalkEntry newSidewalkEntry = newSidewalk(sidewalkData);
-                ViewModelEntry.insertSidewalkEntry(newSidewalkEntry);
-            } else if ((updateRegister > 0 && sidewalkID == 0) || (updateRegister == 0 && sidewalkID > 0) ||
-                    (updateRegister > 0 && sidewalkID > 0)) {
-                updateRegister++;
-                openSlopeDialog();
-            } else {
-                //Error message
-            }
-        });
-
-        cancelSidewalk.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
-
-
-//        TODO - organizar if & else -> rever casos de if else (os casos atuais funcionam)
-        saveSidewalk.setOnClickListener(v -> {
-            if (checkEmptySidewalkFields()) {
-                if (sidewalkID == 0) {
-                    if (getCheckedSidewalkRadioButton(hasSlope) == 1 && rowCounter == 0) {
-//                        TODO - Erro de gravação - implementar mensagem.
-                    } else if (getCheckedSidewalkRadioButton(hasSlope) == 0 && rowCounter > 0) {
-//                        TODO - Deletar os slopes na hora de salvar. Chamar dialog.
-                    } else {
-                        if (updateRegister == 0) {
-                            SidewalkEntry newSidewalkEntry = newSidewalk(sidewalkData);
-                            ViewModelEntry.insertSidewalkEntry(newSidewalkEntry);
-                            resetInitialLayout();
-                        } else if (updateRegister > 0) {
-                            SidewalkEntry upSidewalkEntry = newSidewalk(sidewalkData);
-                            upSidewalkEntry.setSidewalkID(sidewalkData.getInt(SIDEWALK_ID));
-                            ViewModelEntry.updateSidewalk(upSidewalkEntry);
-                            resetInitialLayout();
-                        } else {
-//                      TODO - Erro de gravação
-                        }
-                    }
-                } else if (sidewalkID > 0) {
-//                  TODO - gravação de dados quando o usuário escolher uma calçada já cadastrada
-                } else {
-//                      TODO - Erro de gravação
-                }
-            }
-        });
-
     }
 
     public void initialLayout() {

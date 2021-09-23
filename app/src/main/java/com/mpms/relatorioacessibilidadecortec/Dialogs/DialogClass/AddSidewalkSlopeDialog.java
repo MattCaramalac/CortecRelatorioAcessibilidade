@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,6 +27,8 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import static com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment.SIDEWALK_ID;
 
 public class AddSidewalkSlopeDialog extends DialogFragment {
+
+    private Toolbar toolbar;
 
     TextInputLayout slopeLocationField, slopeWidthField, frontalInclinationField, leftInclinationField, rightInclinationField,
             slopeFreeSpaceField, slopeObsField;
@@ -61,13 +64,16 @@ public class AddSidewalkSlopeDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
-        return inflater.inflate(R.layout.fragment_add_sidewalk_slope_dialog, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_sidewalk_slope_dialog, container, false);
+        toolbar = view.findViewById(R.id.sidewalk_slope_toolbar);
+        return view;
 
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        toolbar.setTitle(R.string.dialog_add_sidewalk_slope);
         instantiateSidewalkSlopeLayoutFields(view);
 
         saveSlope.setOnClickListener( v -> {
@@ -90,7 +96,7 @@ public class AddSidewalkSlopeDialog extends DialogFragment {
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int length = ViewGroup.LayoutParams.WRAP_CONTENT;
+            int length = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, length);
         }
     }
