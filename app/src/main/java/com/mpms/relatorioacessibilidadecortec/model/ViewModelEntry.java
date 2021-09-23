@@ -34,6 +34,8 @@ import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkSlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.StairsMirrorEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.StairsStepEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
@@ -598,6 +600,54 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteAllSidewalkSlopesFromSidewalk(int sidewalkID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllSidewalkSlopesFromSidewalk(sidewalkID));
+    }
+
+    public void insertStairsStepEntry(StairsStepEntry stepEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertStairsStepEntry(stepEntry));
+    }
+
+    public LiveData<List<StairsStepEntry>> getAllStairsStepPerFlight(int flightID) {
+        return repository.getAllStairsStepPerFlight(flightID);
+    }
+
+    public LiveData<StairsStepEntry> getOneStairsStepEntry(int stairsStepID) {
+        return repository.getOneStairsStepEntry(stairsStepID);
+    }
+
+    public void updateStairsStepEntry(StairsStepEntry stepEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateStairsStepEntry(stepEntry));
+    }
+
+    public void deleteOneStairsStepEntry(int stairsStepID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneStairsStepEntry(stairsStepID));
+    }
+
+    public void deleteAllStairsStepPerFlight(int flightID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllStairsStepPerFlight(flightID));
+    }
+
+    public void insertStairsMirrorEntry(StairsMirrorEntry mirrorEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertStairsMirrorEntry(mirrorEntry));
+    }
+
+    public LiveData<List<StairsMirrorEntry>> getAllStairsMirrorPerFlight(int flightID) {
+        return repository.getAllStairsMirrorPerFlight(flightID);
+    }
+
+    public LiveData<StairsMirrorEntry> getOneStairsMirrorEntry(int stairsMirrorID) {
+        return repository.getOneStairsMirrorEntry(stairsMirrorID);
+    }
+
+    public void updateStairsMirrorEntry(StairsMirrorEntry mirrorEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateStairsMirrorEntry(mirrorEntry));
+    }
+
+    public void deleteOneStairsMirrorEntry(int stairsMirrorID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneStairsMirrorEntry(stairsMirrorID));
+    }
+
+    public void deleteAllStairsMirrorPerFlight(int flightID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllStairsMirrorPerFlight(flightID));
     }
 
 }

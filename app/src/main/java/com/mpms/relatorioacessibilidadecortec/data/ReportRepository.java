@@ -30,6 +30,8 @@ import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkSlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.StairsMirrorEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.StairsStepEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
@@ -67,6 +69,8 @@ public class ReportRepository {
     private final RestroomUrinalDao restroomUrinalDao;
     private final SidewalkEntryDao sidewalkEntryDao;
     private final SidewalkSlopeDao sidewalkSlopeDao;
+    private final StairsStepDao stairsStepDao;
+    private final StairsMirrorDao stairsMirrorDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -96,6 +100,8 @@ public class ReportRepository {
         restroomUrinalDao = db.restroomUrinalDao();
         sidewalkEntryDao = db.sidewalkEntryDao();
         sidewalkSlopeDao = db.sidewalkSlopeDao();
+        stairsStepDao = db.stairsStepDao();
+        stairsMirrorDao = db.stairsMirrorDao();
 
     }
 
@@ -639,6 +645,54 @@ public class ReportRepository {
 
     public void deleteAllSidewalkSlopesFromSidewalk(int sidewalkID) {
         ReportDatabase.dbWriteExecutor.execute(() -> sidewalkSlopeDao.deleteAllSidewalkSlopesFromSidewalk(sidewalkID));
+    }
+
+    public void insertStairsStepEntry(StairsStepEntry stepEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stairsStepDao.insertStairsStepEntry(stepEntry));
+    }
+
+    public LiveData<List<StairsStepEntry>> getAllStairsStepPerFlight(int flightID) {
+        return stairsStepDao.getAllStairsStepPerFlight(flightID);
+    }
+
+    public LiveData<StairsStepEntry> getOneStairsStepEntry(int stairsStepID) {
+        return stairsStepDao.getOneStairsStepEntry(stairsStepID);
+    }
+
+    public void updateStairsStepEntry(StairsStepEntry stepEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stairsStepDao.updateStairsStepEntry(stepEntry));
+    }
+
+    public void deleteOneStairsStepEntry(int stairsStepID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stairsStepDao.deleteOneStairsStepEntry(stairsStepID));
+    }
+
+    public void deleteAllStairsStepPerFlight(int flightID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stairsStepDao.deleteAllStairsStepPerFlight(flightID));
+    }
+
+    public void insertStairsMirrorEntry(StairsMirrorEntry mirrorEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stairsMirrorDao.insertStairsMirrorEntry(mirrorEntry));
+    }
+
+    public LiveData<List<StairsMirrorEntry>> getAllStairsMirrorPerFlight(int flightID) {
+        return stairsMirrorDao.getAllStairsMirrorPerFlight(flightID);
+    }
+
+    public LiveData<StairsMirrorEntry> getOneStairsMirrorEntry(int stairsMirrorID) {
+        return stairsMirrorDao.getOneStairsMirrorEntry(stairsMirrorID);
+    }
+
+    public void updateStairsMirrorEntry(StairsMirrorEntry mirrorEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stairsMirrorDao.updateStairsMirrorEntry(mirrorEntry));
+    }
+
+    public void deleteOneStairsMirrorEntry(int stairsMirrorID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stairsMirrorDao.deleteOneStairsMirrorEntry(stairsMirrorID));
+    }
+
+    public void deleteAllStairsMirrorPerFlight(int flightID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stairsMirrorDao.deleteAllStairsMirrorPerFlight(flightID));
     }
 
     public void deleteAllEntries() {

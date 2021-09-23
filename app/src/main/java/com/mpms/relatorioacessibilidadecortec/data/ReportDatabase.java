@@ -31,6 +31,8 @@ import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkSlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.StairsMirrorEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.StairsStepEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
@@ -44,7 +46,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
-        SidewalkSlopeEntry.class}, version = 22)
+        SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class}, version = 23)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -134,6 +136,12 @@ public abstract class ReportDatabase extends RoomDatabase {
                     });
                     dbWriteExecutor.execute(() -> {
                         SidewalkSlopeDao sidewalkSlopeDao = INSTANCE.sidewalkSlopeDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        StairsMirrorDao mirrorDao = INSTANCE.stairsMirrorDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        StairsStepDao stepDao = INSTANCE.stairsStepDao();
                     });
 
                 }
@@ -431,6 +439,13 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_22_23 = new Migration(22,23) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ReportDatabase.class) {
@@ -438,8 +453,8 @@ public abstract class ReportDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), ReportDatabase.class, "ReportDatabase")
                             .addCallback(roomCallback).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6,
                                     MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12,
-                                    MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17,
-                                    MIGRATION_17_18, MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22).build();
+                                    MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17, MIGRATION_17_18,
+                                    MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23).build();
                 }
             }
         }
@@ -448,55 +463,32 @@ public abstract class ReportDatabase extends RoomDatabase {
 
 
     public abstract SchoolEntryDao schoolEntryDao();
-
     public abstract WaterFountainDao waterFountainDao();
-
     public abstract ExternalAccessDao externalAccessDao();
-
     public abstract OtherSpacesDao otherSpacesDao();
-
     public abstract ParkingLotEntryDao parkingLotEntryDao();
-
     public abstract ParkingLotElderlyDao parkingLotElderlyDao();
-
     public abstract ParkingLotPdmrDao parkingLotPdmrDao();
-
     public abstract RoomEntryDao roomEntryDao();
-
     public abstract DoorEntryDao doorEntryDao();
-
     public abstract SwitchEntryDao switchEntryDao();
-
     public abstract FreeSpaceEntryDao freeSpaceEntryDao();
-
     public abstract TableEntryDao tableEntryDao();
-
     public abstract WindowEntryDao windowEntryDao();
-
     public abstract GateObsDao gateObsDao();
-
     public abstract PayPhoneDao payPhoneDao();
-
     public abstract CounterEntryDao counterEntryDao();
-
     public abstract RampStairsEntryDao rampStairsDao();
-
     public abstract FlightRampStairsDao flightRampStairsDao();
-
     public abstract RestroomEntryDao restroomEntryDao();
-
     public abstract RestroomMirrorDao restroomMirrorDao();
-
     public abstract RestroomSinkDao restroomSinkDao();
-
     public abstract RestroomSupportBarDao restroomSupportBarDao();
-
     public abstract RestroomUpViewDao restroomUpViewDao();
-
     public abstract RestroomUrinalDao restroomUrinalDao();
-
     public abstract SidewalkEntryDao sidewalkEntryDao();
-
-    public abstract  SidewalkSlopeDao sidewalkSlopeDao();
+    public abstract SidewalkSlopeDao sidewalkSlopeDao();
+    public abstract StairsStepDao stairsStepDao();
+    public abstract StairsMirrorDao stairsMirrorDao();
 
 }
