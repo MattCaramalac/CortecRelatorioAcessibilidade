@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/free_space_toolbar"
+            android:id="@+id/sidewalk_slope_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:padding="8dp"
@@ -26,6 +26,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
+        android:id="@+id/add_slope_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/sidewalk_slope_app_bar"
