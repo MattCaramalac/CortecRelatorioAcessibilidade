@@ -17,6 +17,8 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.StairsMirrorEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFlightFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 
@@ -33,7 +35,7 @@ public class AddStairsMirrorDialog extends DialogFragment {
 
     static Bundle stairsMirrorBundle = new Bundle();
 
-    int mirrorMeasurements = 1;
+    int mirrorMeasurements = 0;
 
     public static AddStairsMirrorDialog displayMirrorDialog(FragmentManager manager, Bundle bundle) {
         AddStairsMirrorDialog mirrorDialog = new AddStairsMirrorDialog();
@@ -60,7 +62,7 @@ public class AddStairsMirrorDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar.setTitle("Cadastrar Espelhos do Lance");
+        toolbar.setTitle(R.string.toolbar_register_staircase_mirrors);
 
         stairsMirrorHeightField = view.findViewById(R.id.stairs_mirror_size_field);
         stairsMirrorHeightValue = view.findViewById(R.id.stairs_mirror_size_value);
@@ -74,7 +76,10 @@ public class AddStairsMirrorDialog extends DialogFragment {
 
         saveStairs.setOnClickListener(v -> {
             if(checkStairsMirrorEmptyField()) {
-
+                StairsMirrorEntry mirrorEntry = mirrorEntry(stairsMirrorBundle);
+                ViewModelEntry.insertStairsMirrorEntry(mirrorEntry);
+                mirrorMeasurements++;
+                clearStairsMirrorFields();
             }
         });
 
@@ -109,5 +114,10 @@ public class AddStairsMirrorDialog extends DialogFragment {
 
     private void clearStairsMirrorFields() {
         stairsMirrorHeightValue.setText(null);
+    }
+
+    private StairsMirrorEntry mirrorEntry(Bundle bundle) {
+        double mirrorHeight = Double.parseDouble(String.valueOf(stairsMirrorHeightValue.getText()));
+        return new StairsMirrorEntry(bundle.getInt(RampStairsFlightFragment.FLIGHT_ID), (mirrorMeasurements+1), mirrorHeight);
     }
 }

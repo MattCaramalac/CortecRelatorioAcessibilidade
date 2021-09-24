@@ -17,13 +17,15 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.StairsStepEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFlightFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 
 public class AddStairsStepDialog extends DialogFragment {
 
-    TextInputLayout stairsStepHeightField;
-    TextInputEditText stairsStepHeightValue;
+    TextInputLayout stairsStepWidthField;
+    TextInputEditText stairsStepWidthValue;
     Button saveStairsStep, cancelStairsStep;
     Toolbar toolbar;
 
@@ -33,7 +35,7 @@ public class AddStairsStepDialog extends DialogFragment {
 
     static Bundle stairsStepBundle = new Bundle();
 
-    int StepMeasurements = 1;
+    int stepMeasurements = 0;
 
     public static AddStairsStepDialog displayStepDialog(FragmentManager manager, Bundle bundle) {
         AddStairsStepDialog stepDialog = new AddStairsStepDialog();
@@ -62,8 +64,8 @@ public class AddStairsStepDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle("Cadastrar Espelhos do Lance");
 
-        stairsStepHeightField = view.findViewById(R.id.stairs_step_size_field);
-        stairsStepHeightValue = view.findViewById(R.id.stairs_step_size_value);
+        stairsStepWidthField = view.findViewById(R.id.stairs_step_size_field);
+        stairsStepWidthValue = view.findViewById(R.id.stairs_step_size_value);
 
         saveStairsStep = view.findViewById(R.id.save_stairs_step);
         cancelStairsStep = view.findViewById(R.id.cancel_stairs_step);
@@ -74,7 +76,10 @@ public class AddStairsStepDialog extends DialogFragment {
 
         saveStairsStep.setOnClickListener(v -> {
             if(checkStairsStepEmptyField()) {
-
+                StairsStepEntry stairsStepEntry = stepEntry(stairsStepBundle);
+                ViewModelEntry.insertStairsStepEntry(stairsStepEntry);
+                stepMeasurements++;
+                clearStairsStepFields();
             }
         });
 
@@ -96,18 +101,23 @@ public class AddStairsStepDialog extends DialogFragment {
     private boolean checkStairsStepEmptyField() {
         clearStairsStepEmptyFieldError();
         int i = 0;
-        if (TextUtils.isEmpty(stairsStepHeightValue.getText())){
+        if (TextUtils.isEmpty(stairsStepWidthValue.getText())){
             i++;
-            stairsStepHeightField.setError(getString(R.string.blank_field_error));
+            stairsStepWidthField.setError(getString(R.string.blank_field_error));
         }
         return i == 0;
     }
 
     private void clearStairsStepEmptyFieldError() {
-        stairsStepHeightField.setErrorEnabled(false);
+        stairsStepWidthField.setErrorEnabled(false);
     }
 
     private void clearStairsStepFields() {
-        stairsStepHeightValue.setText(null);
+        stairsStepWidthValue.setText(null);
+    }
+
+    private StairsStepEntry stepEntry(Bundle bundle) {
+        double stepWidth = Double.parseDouble(String.valueOf(stairsStepWidthValue.getText()));
+        return new StairsStepEntry(bundle.getInt(RampStairsFlightFragment.FLIGHT_ID), (stepMeasurements+1), stepWidth);
     }
 }
