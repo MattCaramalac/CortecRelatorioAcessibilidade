@@ -1,65 +1,211 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.RampStairsRailingEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RampStairsRailingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RampStairsRailingFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    TextInputLayout railingHeightField, railingObsField, beaconHeightField, beaconObsField;
+    TextInputEditText railingHeightValue, railingObsValue, beaconHeightValue, beaconObsValue;
+    RadioGroup railingSideRadio, hasBeaconRadio;
+    MultiLineRadioGroup hasRailingRadio;
+    TextView railingSideError, hasRailingError, hasBeaconError;
+    Button saveRailing, cancelRailing;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    Integer railingSide, hasRailing, hasBeacon;
+    Double railingHeight, beaconHeight;
+    String railingObs, beaconObs;
+
+    Bundle railingBundle = new Bundle();
+    Bundle flightBundle = new Bundle();
 
     public RampStairsRailingFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RampStairsRailingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RampStairsRailingFragment newInstance(String param1, String param2) {
-        RampStairsRailingFragment fragment = new RampStairsRailingFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+
+    public static RampStairsRailingFragment newInstance() {
+        return new RampStairsRailingFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ramp_stairs_railing, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_ramp_stairs_railing, container, false);
+
+        flightBundle = this.getArguments();
+        if (flightBundle != null)
+            railingBundle.putInt(RampStairsFlightFragment.FLIGHT_ID, flightBundle.getInt(RampStairsFlightFragment.FLIGHT_ID));
+        return rootView;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        instantiateRailingFragmentViews(view);
+        initializeRailingFragment();
+        hasRailingRadio.setOnCheckedChangeListener(this::hasRailingListener);
+        hasBeaconRadio.setOnCheckedChangeListener(this::hasBeaconListener);
+
+        saveRailing.setOnClickListener(v -> {
+            if (checkRailingEmptyFields()) {
+                RampStairsRailingEntry newRailing = railingEntry(railingBundle);
+                ViewModelEntry.insertRampStairsRailing(newRailing);
+                initializeRailingFragment();
+            }
+        });
+
+        cancelRailing.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+    }
+
+    private void instantiateRailingFragmentViews(View view) {
+//        TextInputLayout
+        railingHeightField = view.findViewById(R.id.railing_height_field);
+        railingObsField = view.findViewById(R.id.railing_obs_field);
+        beaconHeightField = view.findViewById(R.id.beacon_height_field);
+        beaconObsField = view.findViewById(R.id.beacon_obs_field);
+//        TextInputEditText
+        railingHeightValue = view.findViewById(R.id.railing_height_value);
+        railingObsValue = view.findViewById(R.id.railing_obs_value);
+        beaconHeightValue = view.findViewById(R.id.beacon_height_value);
+        beaconObsValue = view.findViewById(R.id.beacon_obs_value);
+//        RadioGroup
+        railingSideRadio = view.findViewById(R.id.railing_side_radio);
+        hasBeaconRadio = view.findViewById(R.id.staircase_has_beacon_radio);
+//        MultiLineRadioGroup
+        hasRailingRadio = view.findViewById(R.id.staircase_has_railing_radio);
+//        TextView
+        railingSideError = view.findViewById(R.id.railing_side_error);
+        hasRailingError = view.findViewById(R.id.staircase_railing_error);
+        hasBeaconError = view.findViewById(R.id.staircase_beacon_error);
+//        Button
+        saveRailing = view.findViewById(R.id.save_railing);
+        cancelRailing = view.findViewById(R.id.cancel_railing);
+    }
+
+    private void initializeRailingFragment() {
+//        TextInputEditText
+        railingHeightValue.setText(null);
+        railingObsValue.setText(null);
+        beaconHeightValue.setText(null);
+        beaconObsValue.setText(null);
+//        TextInputLayout
+        railingHeightField.setEnabled(false);
+        beaconHeightField.setEnabled(false);
+//        RadioGroup
+        railingSideRadio.clearCheck();
+        hasBeaconRadio.clearCheck();
+//        MultiLineRadioGroup
+        hasRailingRadio.clearCheck();
+    }
+
+    private int getCheckedRailingRadio(RadioGroup radio) {
+        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
+    }
+
+    private boolean checkRailingEmptyFields() {
+        clearRailingEmptyFieldError();
+        int i = 0;
+        if (getCheckedRailingRadio(railingSideRadio) == -1) {
+            i++;
+            railingSideError.setVisibility(View.VISIBLE);
+        }
+        if (hasRailingRadio.getCheckedRadioButtonIndex() == -1) {
+            i++;
+            hasRailingError.setVisibility(View.VISIBLE);
+        } else if (hasRailingRadio.getCheckedRadioButtonIndex() == 1 || hasRailingRadio.getCheckedRadioButtonIndex() == 2) {
+            if (TextUtils.isEmpty(railingHeightValue.getText())) {
+                i++;
+                railingHeightField.setError(getString(R.string.blank_field_error));
+            }
+        }
+        if (getCheckedRailingRadio(hasBeaconRadio) == -1) {
+            i++;
+            hasBeaconError.setVisibility(View.VISIBLE);
+        } else if (getCheckedRailingRadio(hasBeaconRadio) != 0) {
+            if (TextUtils.isEmpty(beaconHeightValue.getText())) {
+                i++;
+                beaconHeightField.setError(getString(R.string.blank_field_error));
+            }
+        }
+        return i == 0;
+    }
+
+    private void clearRailingEmptyFieldError() {
+        hasRailingError.setVisibility(View.GONE);
+        railingSideError.setVisibility(View.GONE);
+        hasBeaconError.setVisibility(View.GONE);
+
+        railingHeightField.setErrorEnabled(false);
+        beaconHeightField.setErrorEnabled(false);
+    }
+
+    private void hasRailingListener(RadioGroup radio, int checkedID) {
+        int index = getCheckedRailingRadio(radio);
+        if (index == 1 || index == 2) {
+//        TextInputLayout
+            railingHeightField.setEnabled(true);
+            railingObsField.setEnabled(true);
+        } else {
+//        TextInputEditText
+            railingHeightValue.setText(null);
+//        TextInputLayout
+            railingHeightField.setEnabled(true);
+
+        }
+    }
+
+    private void hasBeaconListener(RadioGroup radio, int checkedID) {
+        int index = getCheckedRailingRadio(radio);
+        if (index > 0) {
+//        TextInputLayout
+            beaconHeightField.setEnabled(true);
+        } else {
+//        TextInputEditText
+            beaconHeightValue.setText(null);
+//        TextInputLayout
+            beaconHeightField.setEnabled(false);
+        }
+    }
+
+    private RampStairsRailingEntry railingEntry(Bundle bundle) {
+        railingSide = getCheckedRailingRadio(railingSideRadio);
+        hasRailing = hasRailingRadio.getCheckedRadioButtonIndex();
+        if (hasRailing == 1 || hasRailing == 2)
+            railingHeight = Double.valueOf(String.valueOf(railingHeightValue.getText()));
+        railingObs = String.valueOf(railingObsValue.getText());
+        hasBeacon = getCheckedRailingRadio(hasBeaconRadio);
+        if (hasBeacon > 0)
+            beaconHeight = Double.valueOf(String.valueOf(beaconHeightValue.getText()));
+        beaconObs = String.valueOf(beaconObsValue.getText());
+
+        return new RampStairsRailingEntry(bundle.getInt(RampStairsFlightFragment.FLIGHT_ID), railingSide, hasRailing, railingHeight,
+                railingObs, hasBeacon, beaconHeight, beaconObs);
+    }
+
 }

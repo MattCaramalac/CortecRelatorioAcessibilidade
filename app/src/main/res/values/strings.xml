@@ -7,10 +7,11 @@
         <item>PAREDE</item>
     </string-array>
 
-    <string-array name="multi_radio_beacon_buttons">
-        <item>NÃO</item>
-        <item>SIM</item>
-        <item>PAREDE</item>
+    <string-array name="multi_radio_handrail_buttons">
+        <item>SUPERIOR ESQUERDO</item>
+        <item>SUPERIOR DIREITO</item>
+        <item>INFERIOR ESQUERDO</item>
+        <item>INFERIOR DIREITO</item>
     </string-array>
 
     <string name="app_name">Relatório Acessibilidade Cortec</string>
@@ -123,8 +124,8 @@
     <string name="parking_lot_signal">Sinalização do Estacionamento</string>
     <string name="hint_stairs_width">Largura da Escadaria</string>
     <string name="hint_handrail_height">Altura do Corrimão</string>
-    <string name="hint_handrail_extensions">Prolongamento Corrrimão</string>
-    <string name="hint_handrail_grip">Empunhadura Corrimão</string>
+    <string name="hint_handrail_extensions_length">Comprimento do prolongamento</string>
+    <string name="hint_handrail_grip">Empunhadura do Corrimão</string>
     <string name="hint_railing">Guarda-Corpo</string>
     <string name="hint_tactile_signal">Sinalização Tátil</string>
 
@@ -374,4 +375,13 @@
     <string name="hint_railing_height">Altura do guarda-corpo</string>
     <string name="stairs_have_beacon_header">Este lado do lance de escadas possui uma guia de balizamento?</string>
     <string name="radio_button_wall">PAREDE</string>
+    <string name="hint_beacon_height">Altura da Guia de Balizamento</string>
+
+    <string name="label_handrail_register_header">Cadastro de corrimãos e prolongamentos</string>
+    <string name="label_handrail_choice_header">Escolha o corrimão a ser cadastrado</string>
+    <string name="label_handrail_has_extension_header">Este corrimão possui prolongamento?</string>
+    <string name="hint_ramp_inclination">Medida de inclinação</string>
+    <string name="toolbar_register_staircase_mirrors">Cadastrar Espelhos do Lance</string>
+    <string name="toolbar_register_ramp_inclination">Cadastrar Inclinações da Rampa</string>
+    <string name="label_place_has_handrail_header">Este local possui corrimão?</string>
 </resources>
