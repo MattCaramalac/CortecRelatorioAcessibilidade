@@ -4,11 +4,9 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFlightFragment;
-
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = @ForeignKey(entity = RampStairsFlightFragment.class, parentColumns = "flightID", childColumns = "flightID",
+@Entity (foreignKeys = @ForeignKey(entity = FlightsRampStairsEntry.class, parentColumns = "flightID", childColumns = "flightID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class StairsMirrorEntry {
 

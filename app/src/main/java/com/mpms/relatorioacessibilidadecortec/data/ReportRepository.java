@@ -17,6 +17,8 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampStairsHandrailEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntryUpdate;
@@ -73,6 +75,8 @@ public class ReportRepository {
     private final StairsStepDao stairsStepDao;
     private final StairsMirrorDao stairsMirrorDao;
     private final RampInclinationDao rampInclinationDao;
+    private final RampStairsHandrailDao handrailDao;
+    private final RampStairsRailingDao railingDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -105,6 +109,8 @@ public class ReportRepository {
         stairsStepDao = db.stairsStepDao();
         stairsMirrorDao = db.stairsMirrorDao();
         rampInclinationDao = db.rampInclinationDao();
+        handrailDao = db.rampStairsHandrailDao();
+        railingDao = db.rampStairsRailingDao();
 
     }
 
@@ -720,6 +726,54 @@ public class ReportRepository {
 
     public void deleteAllRampInclinationsPerFlight(int flightID) {
         ReportDatabase.dbWriteExecutor.execute(() -> rampInclinationDao.deleteAllRampInclinationsPerFlight(flightID));
+    }
+
+    public void insertRampStairsRailing(RampStairsRailingEntry railingEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> railingDao.insertRampStairsRailing(railingEntry));
+    }
+
+    public LiveData<List<RampStairsRailingEntry>> getAllRampStairsRailings(int flightID){
+        return railingDao.getAllRampStairsRailings(flightID);
+    }
+
+    public LiveData<RampStairsRailingEntry> getRampStairsRailing(int railingID){
+        return railingDao.getRampStairsRailing(railingID);
+    }
+
+    public void deleteOneRampStairsRailing(int railingID){
+        ReportDatabase.dbWriteExecutor.execute(() -> railingDao.deleteOneRampStairsRailing(railingID));
+    }
+
+    public void deleteAllRailingsFromOneRampStairs(int flightID){
+        ReportDatabase.dbWriteExecutor.execute(() -> railingDao.deleteAllRailingsFromOneRampStairs(flightID));
+    }
+
+    public void updateRampStairsRailing(RampStairsRailingEntry railingEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> railingDao.updateRampStairsRailing(railingEntry));
+    }
+
+    public void insertRampStairsHandrail(RampStairsHandrailEntry handrailEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> handrailDao.insertRampStairsHandrail(handrailEntry));
+    }
+
+    public LiveData<List<RampStairsHandrailEntry>> getAllRampStairsHandrails(int flightID){
+        return handrailDao.getAllRampStairsHandrails(flightID);
+    }
+
+    public LiveData<RampStairsHandrailEntry> getRampStairsHandrail(int handrailID){
+        return handrailDao.getRampStairsHandrail(handrailID);
+    }
+
+    public void deleteOneRampStairsHandrail(int handrailID){
+        ReportDatabase.dbWriteExecutor.execute(() -> handrailDao.deleteOneRampStairsHandrail(handrailID));
+    }
+
+    public void deleteAllHandrailsFromOneRampStairs(int flightID){
+        ReportDatabase.dbWriteExecutor.execute(() -> handrailDao.deleteAllHandrailsFromOneRampStairs(flightID));
+    }
+
+    public void updateRampStairsHandrail(RampStairsHandrailEntry handrailEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> handrailDao.updateRampStairsHandrail(handrailEntry));
     }
 
     public void deleteAllEntries() {

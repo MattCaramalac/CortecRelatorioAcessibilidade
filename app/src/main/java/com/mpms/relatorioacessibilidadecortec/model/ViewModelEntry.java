@@ -21,6 +21,8 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampStairsHandrailEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomMirrorEntry;
@@ -673,6 +675,54 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteAllRampInclinationsPerFlight(int flightID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllRampInclinationsPerFlight(flightID));
+    }
+
+    public static void insertRampStairsRailing(RampStairsRailingEntry railingEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRampStairsRailing(railingEntry));
+    }
+
+    public LiveData<List<RampStairsRailingEntry>> getAllRampStairsRailings(int flightID){
+        return repository.getAllRampStairsRailings(flightID);
+    }
+
+    public LiveData<RampStairsRailingEntry> getRampStairsRailing(int railingID){
+        return repository.getRampStairsRailing(railingID);
+    }
+
+    public static void deleteOneRampStairsRailing(int railingID){
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRampStairsRailing(railingID));
+    }
+
+    public static void deleteAllRailingsFromOneRampStairs(int flightID){
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllRailingsFromOneRampStairs(flightID));
+    }
+
+    public static void updateRampStairsRailing(RampStairsRailingEntry railingEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRampStairsRailing(railingEntry));
+    }
+
+    public static void insertRampStairsHandrail(RampStairsHandrailEntry handrailEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRampStairsHandrail(handrailEntry));
+    }
+
+    public LiveData<List<RampStairsHandrailEntry>> getAllRampStairsHandrails(int flightID){
+        return repository.getAllRampStairsHandrails(flightID);
+    }
+
+    public LiveData<RampStairsHandrailEntry> getRampStairsHandrail(int handrailID){
+        return repository.getRampStairsHandrail(handrailID);
+    }
+
+    public static void deleteOneRampStairsHandrail(int handrailID){
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRampStairsHandrail(handrailID));
+    }
+
+    public static void deleteAllHandrailsFromOneRampStairs(int flightID){
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllHandrailsFromOneRampStairs(flightID));
+    }
+
+    public static void updateRampStairsHandrail(RampStairsHandrailEntry handrailEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRampStairsHandrail(handrailEntry));
     }
 
 }

@@ -22,6 +22,8 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampStairsHandrailEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomMirrorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkEntry;
@@ -47,7 +49,8 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
-        SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class}, version = 23)
+        SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class, RampStairsHandrailEntry.class,
+        RampStairsRailingEntry.class}, version = 24)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -146,6 +149,12 @@ public abstract class ReportDatabase extends RoomDatabase {
                     });
                     dbWriteExecutor.execute(() -> {
                        RampInclinationDao rampDao = INSTANCE.rampInclinationDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        RampStairsRailingDao railingDao = INSTANCE.rampStairsRailingDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        RampStairsHandrailDao handrailDao = INSTANCE.rampStairsHandrailDao();
                     });
 
                 }
@@ -458,6 +467,19 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_23_24 = new Migration(23,24) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE RampStairsRailingEntry(railingID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, flightID INTEGER NOT NULL," +
+                    "railingSide INTEGER NOT NULL, hasRailing INTEGER NOT NULL, railingHeight REAL, railingObs TEXT, hasBeacon INTEGER NOT NULL, " +
+                    "beaconHeight REAL, beaconObs TEXT, FOREIGN KEY (flightID) REFERENCES FlightsRampStairsEntry(flightID)ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE RampStairsHandrailEntry(handrailID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, flightID INTEGER NOT NULL," +
+                    "hasHandrail INTEGER NOT NULL, handrailPlacement INTEGER, handrailHeight REAL, handrailGrip REAL, handrailObs TEXT," +
+                    "handrailHasExtension INTEGER, extensionLenght REAL, extensionObs TEXT,  FOREIGN KEY (flightID) REFERENCES FlightsRampStairsEntry(flightID)" +
+                    "ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ReportDatabase.class) {
@@ -466,7 +488,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                             .addCallback(roomCallback).addMigrations(MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6,
                                     MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12,
                                     MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17, MIGRATION_17_18,
-                                    MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23).build();
+                                    MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23, MIGRATION_23_24).build();
                 }
             }
         }
@@ -503,5 +525,7 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract StairsStepDao stairsStepDao();
     public abstract StairsMirrorDao stairsMirrorDao();
     public abstract RampInclinationDao rampInclinationDao();
+    public abstract RampStairsHandrailDao rampStairsHandrailDao();
+    public abstract RampStairsRailingDao rampStairsRailingDao();
 
 }
