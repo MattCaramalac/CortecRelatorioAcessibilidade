@@ -15,6 +15,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
@@ -71,6 +72,7 @@ public class ReportRepository {
     private final SidewalkSlopeDao sidewalkSlopeDao;
     private final StairsStepDao stairsStepDao;
     private final StairsMirrorDao stairsMirrorDao;
+    private final RampInclinationDao rampInclinationDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -102,6 +104,7 @@ public class ReportRepository {
         sidewalkSlopeDao = db.sidewalkSlopeDao();
         stairsStepDao = db.stairsStepDao();
         stairsMirrorDao = db.stairsMirrorDao();
+        rampInclinationDao = db.rampInclinationDao();
 
     }
 
@@ -693,6 +696,30 @@ public class ReportRepository {
 
     public void deleteAllStairsMirrorPerFlight(int flightID) {
         ReportDatabase.dbWriteExecutor.execute(() -> stairsMirrorDao.deleteAllStairsMirrorPerFlight(flightID));
+    }
+
+    public void insertRampInclinationEntry(RampInclinationEntry rampEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampInclinationDao.insertRampInclinationEntry(rampEntry));
+    }
+
+    public LiveData<List<RampInclinationEntry>> getAllRampInclinationsPerFlight(int flightID) {
+        return rampInclinationDao.getAllRampInclinationsPerFlight(flightID);
+    }
+
+    public LiveData<RampInclinationEntry> getOneRampInclinationEntry(int rampInclinationID) {
+        return rampInclinationDao.getOneRampInclinationEntry(rampInclinationID);
+    }
+
+    public void updateRampInclinationEntry(RampInclinationEntry rampEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampInclinationDao.updateRampInclinationEntry(rampEntry));
+    }
+
+    public void deleteOneRampInclinationEntry(int rampInclinationID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampInclinationDao.deleteOneRampInclinationEntry(rampInclinationID));
+    }
+
+    public void deleteAllRampInclinationsPerFlight(int flightID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> rampInclinationDao.deleteAllRampInclinationsPerFlight(flightID));
     }
 
     public void deleteAllEntries() {

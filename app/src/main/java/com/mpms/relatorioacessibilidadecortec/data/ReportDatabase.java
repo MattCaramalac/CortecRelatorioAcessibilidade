@@ -20,6 +20,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomMirrorEntry;
@@ -46,7 +47,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
-        SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class}, version = 23)
+        SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class}, version = 23)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -142,6 +143,9 @@ public abstract class ReportDatabase extends RoomDatabase {
                     });
                     dbWriteExecutor.execute(() -> {
                         StairsStepDao stepDao = INSTANCE.stairsStepDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                       RampInclinationDao rampDao = INSTANCE.rampInclinationDao();
                     });
 
                 }
@@ -442,7 +446,15 @@ public abstract class ReportDatabase extends RoomDatabase {
     static final Migration MIGRATION_22_23 = new Migration(22,23) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-
+            database.execSQL("CREATE TABLE StairsStepEntry(stairsStepID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, flightID INTEGER NOT NULL," +
+                    "flightStepNumber INTEGER NOT NULL, stepWidth REAL NOT NULL, FOREIGN KEY (flightID) REFERENCES FlightsRampStairsEntry(flightID)" +
+                    "ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE StairsMirrorEntry(stairsMirrorID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, flightID INTEGER NOT NULL," +
+                    "flightMirrorNumber INTEGER NOT NULL, mirrorHeight REAL NOT NULL, FOREIGN KEY (flightID) REFERENCES FlightsRampStairsEntry(flightID)" +
+                    "ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE RampInclinationEntry(rampInclinationID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, flightID INTEGER NOT NULL," +
+                    "flightInclinationNumber INTEGER NOT NULL, inclinationValue REAL NOT NULL, FOREIGN KEY (flightID) REFERENCES " +
+                    "FlightsRampStairsEntry(flightID) ON UPDATE CASCADE ON DELETE CASCADE)");
         }
     };
 
@@ -490,5 +502,6 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract SidewalkSlopeDao sidewalkSlopeDao();
     public abstract StairsStepDao stairsStepDao();
     public abstract StairsMirrorDao stairsMirrorDao();
+    public abstract RampInclinationDao rampInclinationDao();
 
 }

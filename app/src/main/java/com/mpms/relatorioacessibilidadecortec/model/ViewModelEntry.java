@@ -19,6 +19,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomDoorUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
@@ -602,7 +603,7 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllSidewalkSlopesFromSidewalk(sidewalkID));
     }
 
-    public void insertStairsStepEntry(StairsStepEntry stepEntry) {
+    public static void insertStairsStepEntry(StairsStepEntry stepEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertStairsStepEntry(stepEntry));
     }
 
@@ -614,19 +615,19 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getOneStairsStepEntry(stairsStepID);
     }
 
-    public void updateStairsStepEntry(StairsStepEntry stepEntry) {
+    public static void updateStairsStepEntry(StairsStepEntry stepEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateStairsStepEntry(stepEntry));
     }
 
-    public void deleteOneStairsStepEntry(int stairsStepID) {
+    public static void deleteOneStairsStepEntry(int stairsStepID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneStairsStepEntry(stairsStepID));
     }
 
-    public void deleteAllStairsStepPerFlight(int flightID) {
+    public static void deleteAllStairsStepPerFlight(int flightID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllStairsStepPerFlight(flightID));
     }
 
-    public void insertStairsMirrorEntry(StairsMirrorEntry mirrorEntry) {
+    public static void insertStairsMirrorEntry(StairsMirrorEntry mirrorEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertStairsMirrorEntry(mirrorEntry));
     }
 
@@ -638,16 +639,40 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getOneStairsMirrorEntry(stairsMirrorID);
     }
 
-    public void updateStairsMirrorEntry(StairsMirrorEntry mirrorEntry) {
+    public static void updateStairsMirrorEntry(StairsMirrorEntry mirrorEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateStairsMirrorEntry(mirrorEntry));
     }
 
-    public void deleteOneStairsMirrorEntry(int stairsMirrorID) {
+    public static void deleteOneStairsMirrorEntry(int stairsMirrorID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneStairsMirrorEntry(stairsMirrorID));
     }
 
-    public void deleteAllStairsMirrorPerFlight(int flightID) {
+    public static void deleteAllStairsMirrorPerFlight(int flightID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllStairsMirrorPerFlight(flightID));
+    }
+
+    public static void insertRampInclinationEntry(RampInclinationEntry rampEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRampInclinationEntry(rampEntry));
+    }
+
+    public LiveData<List<RampInclinationEntry>> getAllRampInclinationsPerFlight(int flightID) {
+        return repository.getAllRampInclinationsPerFlight(flightID);
+    }
+
+    public LiveData<RampInclinationEntry> getOneRampInclinationEntry(int rampInclinationID) {
+        return repository.getOneRampInclinationEntry(rampInclinationID);
+    }
+
+    public static void updateRampInclinationEntry(RampInclinationEntry rampEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRampInclinationEntry(rampEntry));
+    }
+
+    public static void deleteOneRampInclinationEntry(int rampInclinationID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRampInclinationEntry(rampInclinationID));
+    }
+
+    public static void deleteAllRampInclinationsPerFlight(int flightID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllRampInclinationsPerFlight(flightID));
     }
 
 }
