@@ -22,6 +22,9 @@ public interface RampStairsRailingDao {
     @Query("SELECT * FROM RampStairsRailingEntry WHERE railingID == :railingID")
     LiveData<RampStairsRailingEntry> getRampStairsRailing(int railingID);
 
+    @Query("SELECT COUNT(flightID) FROM RampStairsRailingEntry WHERE flightID == :flightID")
+    LiveData<Integer> countRampStairsRailings(int flightID);
+
     @Query("DELETE FROM RampStairsRailingEntry WHERE railingID == :railingID")
     void deleteOneRampStairsRailing(int railingID);
 

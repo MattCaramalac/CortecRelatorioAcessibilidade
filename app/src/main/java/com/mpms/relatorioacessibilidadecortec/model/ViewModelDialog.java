@@ -47,4 +47,16 @@ public class ViewModelDialog extends ViewModel {
     public final MutableLiveData<Integer> sidewalkSlopeCounter = new MutableLiveData<>();
     public void setSidewalkSlopeCounter(Integer integer) { sidewalkSlopeCounter.setValue(integer); }
     public LiveData<Integer> getSidewalkSlopeCounter() { return sidewalkSlopeCounter; }
+
+    public final MutableLiveData<Integer> rampSlopeCounter = new MutableLiveData<>();
+    public void setRampSlopeCounter(Integer integer) { rampSlopeCounter.setValue(integer); }
+    public LiveData<Integer> getRampSlopeCounter() { return rampSlopeCounter; }
+
+    public final MutableLiveData<Integer> stairsMirrorCounter = new MutableLiveData<>();
+    public void setStairsMirrorCounter(Integer integer) { stairsMirrorCounter.setValue(integer); }
+    public LiveData<Integer> getStairsMirrorCounter() { return stairsMirrorCounter; }
+
+    public final MutableLiveData<Integer> stairsStepCounter = new MutableLiveData<>();
+    public void setStairsStepCounter(Integer integer) { stairsStepCounter.setValue(integer); }
+    public LiveData<Integer> getStairsStepCounter() { return stairsStepCounter; }
 }

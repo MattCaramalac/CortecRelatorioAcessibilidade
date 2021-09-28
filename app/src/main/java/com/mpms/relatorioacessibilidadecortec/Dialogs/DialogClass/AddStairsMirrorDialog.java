@@ -7,18 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.StairsMirrorEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFlightFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 
@@ -32,6 +34,7 @@ public class AddStairsMirrorDialog extends DialogFragment {
     FragmentManager manager;
 
     ViewModelEntry modelEntry;
+    ViewModelDialog modelDialog;
 
     static Bundle stairsMirrorBundle = new Bundle();
 
@@ -55,6 +58,8 @@ public class AddStairsMirrorDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_stairs_mirror_dialog, container, false);
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
         toolbar = view.findViewById(R.id.stairs_mirror_toolbar);
         return view;
     }
@@ -72,7 +77,12 @@ public class AddStairsMirrorDialog extends DialogFragment {
 
         manager = getChildFragmentManager();
 
-        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelEntry.countStairsMirror(stairsMirrorBundle.getInt(RampStairsFlightFragment.FLIGHT_ID))
+                .observe(getViewLifecycleOwner(), count -> {
+                    if (count != null && count > 0) {
+                        mirrorMeasurements = count;
+                    }
+                });
 
         saveStairs.setOnClickListener(v -> {
             if(checkStairsMirrorEmptyField()) {
@@ -96,6 +106,12 @@ public class AddStairsMirrorDialog extends DialogFragment {
             int length = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width,length);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        modelDialog.setStairsMirrorCounter(mirrorMeasurements);
     }
 
     private boolean checkStairsMirrorEmptyField() {

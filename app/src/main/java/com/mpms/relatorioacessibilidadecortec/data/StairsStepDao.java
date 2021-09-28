@@ -22,6 +22,9 @@ public interface StairsStepDao {
     @Query("SELECT * FROM StairsStepEntry WHERE stairsStepID == :stairsStepID")
     LiveData<StairsStepEntry> getOneStairsStepEntry(int stairsStepID);
 
+    @Query("SELECT COUNT(flightID) FROM StairsStepEntry WHERE flightID == :flightID")
+    LiveData<Integer> countStairSteps(int flightID);
+
     @Update
     void updateStairsStepEntry(StairsStepEntry stepEntry);
 

@@ -475,7 +475,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                     "beaconHeight REAL, beaconObs TEXT, FOREIGN KEY (flightID) REFERENCES FlightsRampStairsEntry(flightID)ON UPDATE CASCADE ON DELETE CASCADE)");
             database.execSQL("CREATE TABLE RampStairsHandrailEntry(handrailID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, flightID INTEGER NOT NULL," +
                     "hasHandrail INTEGER NOT NULL, handrailPlacement INTEGER, handrailHeight REAL, handrailGrip REAL, handrailObs TEXT," +
-                    "handrailHasExtension INTEGER, extensionLenght REAL, extensionObs TEXT,  FOREIGN KEY (flightID) REFERENCES FlightsRampStairsEntry(flightID)" +
+                    "handrailHasExtension INTEGER, extensionLength REAL, extensionObs TEXT,  FOREIGN KEY (flightID) REFERENCES FlightsRampStairsEntry(flightID)" +
                     "ON UPDATE CASCADE ON DELETE CASCADE)");
         }
     };

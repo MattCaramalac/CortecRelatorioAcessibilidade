@@ -396,7 +396,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getAllRampStairsFlights(rampStairsID);
     }
 
-    public LiveData<FlightsRampStairsEntry> getRampStairsFLightEntry(int flightID) {
+    public LiveData<FlightsRampStairsEntry> getRampStairsFlightEntry(int flightID) {
         return repository.getRampStairsFlightEntry(flightID);
     }
 
@@ -723,6 +723,26 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void updateRampStairsHandrail(RampStairsHandrailEntry handrailEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRampStairsHandrail(handrailEntry));
+    }
+
+    public LiveData<Integer> countRampStairsRailings(int flightID) {
+        return repository.countRampStairsRailings(flightID);
+    }
+
+    public LiveData<Integer> countRampStairsHandrails(int flightID) {
+        return repository.countRampStairsHandrails(flightID);
+    }
+
+    public LiveData<Integer> countStairSteps(int flightID) {
+        return repository.countStairSteps(flightID);
+    }
+
+    public LiveData<Integer> countStairsMirror(int flightID) {
+        return repository.countStairsMirror(flightID);
+    }
+
+    public LiveData<Integer> countRampInclination(int flightID) {
+        return repository.countRampInclination(flightID);
     }
 
 }

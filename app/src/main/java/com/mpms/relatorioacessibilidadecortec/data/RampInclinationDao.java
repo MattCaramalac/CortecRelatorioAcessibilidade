@@ -22,6 +22,9 @@ public interface RampInclinationDao {
     @Query("SELECT * FROM RampInclinationEntry WHERE rampInclinationID == :rampInclinationID")
     LiveData<RampInclinationEntry> getOneRampInclinationEntry(int rampInclinationID);
 
+    @Query("SELECT COUNT(flightID) FROM RampInclinationEntry WHERE flightID == :flightID")
+    LiveData<Integer> countRampInclination(int flightID);
+
     @Update
     void updateRampInclinationEntry(RampInclinationEntry RampInclinationEntry);
 

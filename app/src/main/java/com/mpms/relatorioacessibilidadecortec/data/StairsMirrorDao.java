@@ -22,6 +22,9 @@ public interface StairsMirrorDao {
     @Query("SELECT * FROM StairsMirrorEntry WHERE stairsMirrorID == :stairsMirrorID")
     LiveData<StairsMirrorEntry> getOneStairsMirrorEntry(int stairsMirrorID);
 
+    @Query("SELECT COUNT(flightID) FROM StairsMirrorEntry WHERE flightID == :flightID")
+    LiveData<Integer> countStairsMirror(int flightID);
+
     @Update
     void updateStairsMirrorEntry(StairsMirrorEntry StairsMirrorEntry);
 

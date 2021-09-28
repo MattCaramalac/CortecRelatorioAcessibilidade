@@ -752,6 +752,14 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> railingDao.updateRampStairsRailing(railingEntry));
     }
 
+    public LiveData<Integer> countRampStairsRailings(int flightID) {
+        return railingDao.countRampStairsRailings(flightID);
+    }
+
+    public LiveData<Integer> countRampStairsHandrails(int flightID) {
+        return handrailDao.countRampStairsHandrails(flightID);
+    }
+
     public void insertRampStairsHandrail(RampStairsHandrailEntry handrailEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> handrailDao.insertRampStairsHandrail(handrailEntry));
     }
@@ -774,6 +782,18 @@ public class ReportRepository {
 
     public void updateRampStairsHandrail(RampStairsHandrailEntry handrailEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> handrailDao.updateRampStairsHandrail(handrailEntry));
+    }
+
+    public LiveData<Integer> countStairSteps(int flightID) {
+        return stairsStepDao.countStairSteps(flightID);
+    }
+
+    public LiveData<Integer> countStairsMirror(int flightID) {
+        return stairsMirrorDao.countStairsMirror(flightID);
+    }
+
+    public LiveData<Integer> countRampInclination(int flightID) {
+        return rampInclinationDao.countRampInclination(flightID);
     }
 
     public void deleteAllEntries() {

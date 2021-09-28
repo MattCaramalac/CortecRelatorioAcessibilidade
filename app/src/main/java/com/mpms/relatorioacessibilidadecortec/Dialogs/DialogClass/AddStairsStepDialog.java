@@ -7,18 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.StairsStepEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFlightFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 
@@ -32,6 +34,7 @@ public class AddStairsStepDialog extends DialogFragment {
     FragmentManager manager;
 
     ViewModelEntry modelEntry;
+    ViewModelDialog modelDialog;
 
     static Bundle stairsStepBundle = new Bundle();
 
@@ -56,6 +59,8 @@ public class AddStairsStepDialog extends DialogFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_stairs_step_dialog, container, false);
         toolbar = view.findViewById(R.id.stairs_step_toolbar);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
         return view;
     }
 
@@ -72,7 +77,13 @@ public class AddStairsStepDialog extends DialogFragment {
 
         manager = getChildFragmentManager();
 
-        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+
+        modelEntry.countStairSteps(stairsStepBundle.getInt(RampStairsFlightFragment.FLIGHT_ID))
+                .observe(getViewLifecycleOwner(), count -> {
+                    if (count != null && count > 0) {
+                        stepMeasurements = count;
+                    }
+                });
 
         saveStairsStep.setOnClickListener(v -> {
             if(checkStairsStepEmptyField()) {
@@ -96,6 +107,12 @@ public class AddStairsStepDialog extends DialogFragment {
             int length = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width,length);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        modelDialog.setStairsMirrorCounter(stepMeasurements);
     }
 
     private boolean checkStairsStepEmptyField() {

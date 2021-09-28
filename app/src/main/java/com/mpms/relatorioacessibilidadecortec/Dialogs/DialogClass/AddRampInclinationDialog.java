@@ -7,18 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFlightFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 
@@ -32,6 +34,7 @@ public class AddRampInclinationDialog extends DialogFragment {
     FragmentManager manager;
 
     ViewModelEntry modelEntry;
+    ViewModelDialog modelDialog;
 
     static Bundle inclinationBundle;
 
@@ -55,6 +58,8 @@ public class AddRampInclinationDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_add_ramp_inclination_dialog, container, false);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
         toolbar = view.findViewById(R.id.ramp_inclination_toolbar);
         return view;
     }
@@ -71,6 +76,13 @@ public class AddRampInclinationDialog extends DialogFragment {
         cancelInclination = view.findViewById(R.id.cancel_ramp_inclination);
 
         manager = getChildFragmentManager();
+
+        modelEntry.countRampInclination(inclinationBundle.getInt(RampStairsFlightFragment.FLIGHT_ID))
+                .observe(getViewLifecycleOwner(), count -> {
+            if (count != null && count > 0) {
+                inclinationNumber = count;
+            }
+        });
 
         saveInclination.setOnClickListener(v -> {
             if(checkRampInclinationEmptyField()) {
@@ -94,6 +106,12 @@ public class AddRampInclinationDialog extends DialogFragment {
             int length = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width,length);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        modelDialog.setRampSlopeCounter(inclinationNumber);
     }
 
     private boolean checkRampInclinationEmptyField() {
