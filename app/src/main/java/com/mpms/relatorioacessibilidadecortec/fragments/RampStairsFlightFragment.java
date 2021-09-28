@@ -25,11 +25,11 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddStairsStepD
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.FlightsRampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
-
 
 public class RampStairsFlightFragment extends Fragment {
 
@@ -43,6 +43,7 @@ public class RampStairsFlightFragment extends Fragment {
             borderSignObsValue;
     Button mirrorButton, stepButton, inclinationButton, railingButton, handrailButton, saveFlight, cancelFlight;
     RadioGroup radioTactileSign, radioTactileFloor, radioStepBorderSign, radioIdentifiableBorderSign;
+    TextView flightNumber;
 
     Double rampStairsWidth, borderSignWidth;
     String tactileSignObs, tactileFloorObs, borderSignObs;
@@ -50,15 +51,23 @@ public class RampStairsFlightFragment extends Fragment {
 
     Bundle rampStairsData = new Bundle();
     Bundle flightBundle = new Bundle();
+    Bundle newEntryBundle = new Bundle();
 
-    int rampOrStairs;
+    View buttonClicked;
 
     int recentFlight = 0;
     int updateFlight = 0;
     int flightID = 0;
+    int numberFlights = 1;
+
+    Integer stepCounter, mirrorCounter, slopeCounter, handrailCounter, railingCounter;
 
     ViewModelFragments modelFragments;
     ViewModelEntry modelEntry;
+    ViewModelDialog modelDialog;
+
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     public RampStairsFlightFragment() {
         // Required empty public constructor
@@ -81,13 +90,20 @@ public class RampStairsFlightFragment extends Fragment {
 
        rampStairsData = this.getArguments();
        if (rampStairsData != null) {
-           flightBundle.putInt(RampStairsFlightFragment.FLIGHT_ID,rampStairsData.getInt(RampStairsFlightFragment.FLIGHT_ID));
+           flightBundle.putInt(RampStairsFragment.RAMP_STAIRS_ID,rampStairsData.getInt(RampStairsFragment.RAMP_STAIRS_ID));
            flightBundle.putInt(RampStairsFragment.RAMP_OR_STAIRS,rampStairsData.getInt(RampStairsFragment.RAMP_OR_STAIRS));
+           flightBundle.putInt(RampStairsFragment.NUMBER_FLIGHTS,rampStairsData.getInt(RampStairsFragment.NUMBER_FLIGHTS));
            flightID = rampStairsData.getInt(FLIGHT_ID, 0);
+           newEntryBundle.putInt(RampStairsFragment.RAMP_OR_STAIRS,rampStairsData.getInt(RampStairsFragment.RAMP_OR_STAIRS));
+           newEntryBundle.putInt(InspectionActivity.SCHOOL_ID_VALUE, rampStairsData.getInt(InspectionActivity.SCHOOL_ID_VALUE));
        }
+
+        fragmentManager = requireActivity().getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
         return rootView;
     }
 
@@ -98,31 +114,99 @@ public class RampStairsFlightFragment extends Fragment {
         instantiateFlightViews(view);
         setRampStairsFlightTemplate(flightBundle.getInt(RampStairsFragment.RAMP_OR_STAIRS));
 
-        mirrorButton.setOnClickListener(this::buttonObserver);
-        stepButton.setOnClickListener(this::buttonObserver);
-        inclinationButton.setOnClickListener(this::buttonObserver);
-        railingButton.setOnClickListener(this::buttonObserver);
-        handrailButton.setOnClickListener(this::buttonObserver);
+        flightNumber.setText(String.valueOf((numberFlights)));
+
+        mirrorButton.setOnClickListener(this::buttonListener);
+        stepButton.setOnClickListener(this::buttonListener);
+        inclinationButton.setOnClickListener(this::buttonListener);
+        railingButton.setOnClickListener(this::buttonListener);
+        handrailButton.setOnClickListener(this::buttonListener);
+
+        if (flightBundle.getInt(FLIGHT_ID) != 0) {
+            modelEntry.getRampStairsFlightEntry(flightBundle.getInt(FLIGHT_ID)).observe(getViewLifecycleOwner(), this::gatherFlightData);
+        }
+
+        rampStairsComponentObservers(flightBundle.getInt(RampStairsFragment.RAMP_OR_STAIRS));
+
+        modelEntry.getLastRampStairsFlightEntry().observe(getViewLifecycleOwner(), flight -> {
+            if (recentFlight == 1) {
+                recentFlight = 0;
+                flightBundle.putInt(FLIGHT_ID, flight.getFlightID());
+                buttonTypeListener(buttonClicked);
+            }
+        });
 
         saveFlight.setOnClickListener( v-> {
             if(checkEmptyFlightFields()) {
-                FlightsRampStairsEntry newFlight = newFlightEntry(flightBundle);
-                ViewModelEntry.insertRampsStairsFlight(newFlight);
-                Toast.makeText(getContext(), "Informações Salvas com Sucesso!", Toast.LENGTH_SHORT).show();
-                flightBundle.putInt(InspectionActivity.ALLOW_UPDATE,0);
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                RampStairsFragment rampStairs = RampStairsFragment.newInstance(flightBundle.getInt(RampStairsFragment.RAMP_OR_STAIRS));
-                rampStairs.setArguments(flightBundle);
-                fragmentTransaction.replace(R.id.show_fragment_selected, rampStairs).commit();
+                if (flightID == 0) {
+                    if (updateFlight == 0) {
+                        Toast.makeText(getContext(), "Por favor, cadastre os componentes deste local", Toast.LENGTH_SHORT).show();
+                    } else if (updateFlight > 0) {
+                        if(checkRampStairsComponents(flightBundle.getInt(FLIGHT_ID))) {
+                           updateFlight(flightBundle);
+                           updateFlightScreen();
+                        } else {
+                            Toast.makeText(getContext(), "Por favor, cadastre os componentes deste local", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        errorFlightProcedure();
+                    }
+                } else if (flightID > 0) {
+                    if(checkRampStairsComponents(flightBundle.getInt(FLIGHT_ID))) {
+                        updateFlight(flightBundle);
+                        updateFlightScreen();
+                    } else {
+                        Toast.makeText(getContext(), "Por favor, cadastre os componentes deste local", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    errorFlightProcedure();
+                }
             }
-//            TODO - Permitir gravar todos os lances em vez de só um!!!!!!!!!!
+
         });
 
 //        Comando faz retornar a tela de cadastro da escadaria
 //        TODO - Inserir dialog de perda de dados cadastrados ao tentar retornar para a tela inicial de cadastro
         cancelFlight.setOnClickListener(v-> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
+    }
+
+    private void updateFlightScreen() {
+        if (numberFlights < flightBundle.getInt(RampStairsFragment.NUMBER_FLIGHTS)) {
+            numberFlights++;
+            flightBundle.putInt(FLIGHT_ID, 0);
+            flightNumber.setText(String.valueOf(numberFlights));
+            stepCounter = 0;
+            mirrorCounter = 0;
+            slopeCounter = 0;
+            handrailCounter = 0;
+            railingCounter = 0;
+            updateFlight = 0;
+            clearFlightFields();
+        } else {
+            RampStairsFragment rampStairs = RampStairsFragment.newInstance(newEntryBundle.getInt(RampStairsFragment.RAMP_OR_STAIRS));
+            rampStairs.setArguments(newEntryBundle);
+            Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+            fragmentTransaction.replace(R.id.show_fragment_selected, rampStairs).addToBackStack(null).commit();
+        }
+    }
+
+    private void clearFlightFields() {
+        rampStairsWidthValue.setText(null);
+        tactileSignObsValue.setText(null);
+        tactileFloorObsValue.setText(null);
+        borderSignWidthValue.setText(null);
+        borderSignObsValue.setText(null);
+        radioTactileSign.clearCheck();
+        radioTactileFloor.clearCheck();
+        radioStepBorderSign.clearCheck();
+        radioIdentifiableBorderSign.clearCheck();
+    }
+
+    private void updateFlight(Bundle bundle) {
+        FlightsRampStairsEntry upFlight = newFlightEntry(bundle);
+        upFlight.setFlightID(bundle.getInt(FLIGHT_ID));
+        ViewModelEntry.updateFlightRampStairs(upFlight);
     }
 
     public void setRampStairsFlightTemplate(int template) {
@@ -159,6 +243,7 @@ public class RampStairsFlightFragment extends Fragment {
         dimensionsButtonsHeader = view.findViewById(R.id.dimensions_header);
         borderSignHeader = view.findViewById(R.id.border_sign_header);
         identifiableBorderSignHeader = view.findViewById(R.id.border_sign_identifiable_header);
+
         tactileSignRadioError = view.findViewById(R.id.tactile_sign_error);
         tactileFloorRadioError = view.findViewById(R.id.tactile_floor_error);
         borderSignRadioError = view.findViewById(R.id.border_sign_error);
@@ -188,10 +273,25 @@ public class RampStairsFlightFragment extends Fragment {
         radioTactileFloor = view.findViewById(R.id.tactile_floor_radio);
         radioStepBorderSign = view.findViewById(R.id.border_sign_radio);
         radioIdentifiableBorderSign = view.findViewById(R.id.border_sign_identifiable_radio);
+
+        flightNumber = view.findViewById(R.id.flight_number);
     }
 
-//    TODO - Terminar e testar o buttonObserver
-    private void buttonObserver(View view) {
+    private void rampStairsComponentObservers(int template) {
+        if (template == 7) {
+            modelDialog.getStairsMirrorCounter().observe(getViewLifecycleOwner(), mirrorUnits -> mirrorCounter = mirrorUnits);
+            modelDialog.getStairsStepCounter().observe(getViewLifecycleOwner(), stepUnits -> stepCounter = stepUnits);
+        } else if (template == 9) {
+            modelDialog.getRampSlopeCounter().observe(getViewLifecycleOwner(), rampUnits -> slopeCounter = rampUnits);
+        }
+        modelEntry.countRampStairsRailings(flightBundle.getInt(FLIGHT_ID))
+                .observe(getViewLifecycleOwner(), railCount -> railingCounter = railCount);
+        modelEntry.countRampStairsHandrails(flightBundle.getInt(FLIGHT_ID))
+                .observe(getViewLifecycleOwner(), handrailCount -> handrailCounter = handrailCount);
+    }
+
+    private void buttonListener(View view) {
+        buttonClicked = view;
         if (flightID == 0) {
             if (updateFlight == 0) {
                 recentFlight++;
@@ -200,31 +300,48 @@ public class RampStairsFlightFragment extends Fragment {
                 ViewModelEntry.insertRampsStairsFlight(newFlight);
             } else if (updateFlight > 0) {
                 updateFlight++;
+                updateFlight(flightBundle);
+                buttonTypeListener(view);
             } else {
-
+                recentFlight = 0;
+                updateFlight = 0;
+                Toast.makeText(getContext(), "Algo deu Errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
             }
-
         } else if (flightID > 0) {
-
+            if (updateFlight >= 0) {
+                updateFlight++;
+                updateFlight(flightBundle);
+                buttonTypeListener(view);
+            } else {
+                recentFlight = 0;
+                updateFlight = 0;
+                Toast.makeText(getContext(), "Algo deu Errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                errorFlightProcedure();
+            }
         } else {
-
+            errorFlightProcedure();
         }
+    }
 
+    private void buttonTypeListener(View view) {
         if (view == mirrorButton) {
             addStairsMirrorDialog();
         } else if (view == stepButton) {
             addStairsStepDialog();
         } else if (view == inclinationButton) {
             addRampInclinationDialog();
-        } else if (view == handrailButton) {
-//            TODO - Colocar a chamada correta de fragmentos para handrail e railing
+        } else {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            RampStairsFragment rampStairs = RampStairsFragment.newInstance(flightBundle.getInt(RampStairsFragment.RAMP_OR_STAIRS));
-            rampStairs.setArguments(flightBundle);
-            fragmentTransaction.replace(R.id.show_fragment_selected, rampStairs).commit();
-        } else if (view == railingButton) {
-
+            if (view == handrailButton) {
+                RampStairsHandrailFragment handrailFragment = RampStairsHandrailFragment.newInstance();
+                handrailFragment.setArguments(flightBundle);
+                fragmentTransaction.replace(R.id.show_fragment_selected, handrailFragment).addToBackStack(null).commit();
+            } else if (view == railingButton) {
+                RampStairsRailingFragment railingFragment = RampStairsRailingFragment.newInstance();
+                railingFragment.setArguments(flightBundle);
+                fragmentTransaction.replace(R.id.show_fragment_selected, railingFragment).addToBackStack(null).commit();
+            }
         }
     }
 
@@ -325,11 +442,52 @@ public class RampStairsFlightFragment extends Fragment {
         AddRampInclinationDialog.inclinationDialog(requireActivity().getSupportFragmentManager(), flightBundle);
     }
 
-//    public void clearFlightFields() {
-//        radioTactileSign.clearCheck();
-//        radioTactileFloor.clearCheck();
-//        radioStepBorderSign.clearCheck();
-//        radioIdentifiableBorderSign.clearCheck();
-//    }
+    private void gatherFlightData(FlightsRampStairsEntry rampStairs) {
+//        TODO - Fazer um método mais elegante, isso tem muito cara de gambiarra - remover observer talvez?
+        if (flightBundle.getInt(FLIGHT_ID) != 0) {
+            if (rampStairs.getFlightWidth() != null)
+                rampStairsWidthValue.setText(String.valueOf(rampStairs.getFlightWidth()));
+            if (rampStairs.getSignPavement() != null && rampStairs.getSignPavement() != -1)
+                radioTactileSign.check(radioTactileSign.getChildAt(rampStairs.getSignPavement()).getId());
+            tactileSignObsValue.setText(rampStairs.getSignPavementObs());
+            if (rampStairs.getTactileFloor() != null && rampStairs.getTactileFloor() != -1)
+                radioTactileFloor.check(radioTactileFloor.getChildAt(rampStairs.getTactileFloor()).getId());
+            tactileFloorObsValue.setText(rampStairs.getTactileFloorObs());
+            if (flightBundle.getInt(RampStairsFragment.RAMP_OR_STAIRS) == 7) {
+                if (rampStairs.getBorderSign() != null && rampStairs.getBorderSign() != -1) {
+                    radioStepBorderSign.check(radioStepBorderSign.getChildAt(rampStairs.getBorderSign()).getId());
+                    if (rampStairs.getBorderSign() == 1) {
+                        if (rampStairs.getBorderSignWidth() != null)
+                            borderSignWidthValue.setText(String.valueOf(rampStairs.getBorderSignWidth()));
+                        if (rampStairs.getBorderSignIdentifiable() != null && rampStairs.getBorderSignIdentifiable() != -1)
+                            radioIdentifiableBorderSign.check(radioIdentifiableBorderSign.getChildAt(rampStairs.getBorderSignIdentifiable()).getId());
+                        borderSignObsValue.setText(rampStairs.getBorderSignObs());
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean checkRampStairsComponents(int template) {
+        int i = 0;
+        switch (template) {
+            case 7:
+                if (stepCounter == null || stepCounter <= 0)
+                    i++;
+                if (mirrorCounter == null || mirrorCounter <= 0)
+                    i++;
+                break;
+            case 9:
+                if (slopeCounter == null || slopeCounter <= 0)
+                    i++;
+                break;
+        }
+        if (handrailCounter == null || handrailCounter <= 0)
+            i++;
+        if (railingCounter == null || railingCounter <= 0)
+            i++;
+        return i == 0;
+
+    }
 
 }

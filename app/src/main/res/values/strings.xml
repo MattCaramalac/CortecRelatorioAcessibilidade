@@ -384,4 +384,5 @@
     <string name="toolbar_register_staircase_mirrors">Cadastrar Espelhos do Lance</string>
     <string name="toolbar_register_ramp_inclination">Cadastrar Inclinações da Rampa</string>
     <string name="label_place_has_handrail_header">Este local possui corrimão?</string>
+    <string name="header_flight_number_indicator">Cadastro do lance de número:</string>
 </resources>
