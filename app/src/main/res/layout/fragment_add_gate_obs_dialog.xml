@@ -1,161 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Dialogs.DialogClass.AddGateObsDialog">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/gate_obstacles_app_bar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:backgroundTint="@color/white"
-        >
+        app:elevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/gate_obstacles_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:padding="8dp"
-            app:contentInsetStartWithNavigation="0dp"/>
+            app:contentInsetStartWithNavigation="0dp" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/gate_obstacles_app_bar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true">
+        android:paddingStart="@dimen/usual_padding"
+        android:paddingEnd="@dimen/usual_padding">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/gate_obstacle_location_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/usual_padding"
-            android:paddingEnd="@dimen/usual_padding">
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/gate_obstacle_location_hint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/gate_obstacle_location_field"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="@dimen/usual_padding"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/gate_obstacle_location_value"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/gate_obstacle_location_hint">
+                android:layout_height="match_parent" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/gate_obstacle_location_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/label_gate_obstacle_situation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:text="@string/label_gate_obstacle_situation"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_location_field" />
 
-            <TextView
-                android:id="@+id/label_gate_obstacle_situation"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gate_obstacle_location_field"
-                android:layout_marginTop="@dimen/top_margins"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_gate_obstacle_situation"
-                android:textSize="@dimen/section_header"/>
+        <RadioGroup
+            android:id="@+id/gate_obstacle_situation_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_gate_obstacle_situation">
 
-            <RadioGroup
-                android:id="@+id/gate_obstacle_situation_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_gate_obstacle_situation"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/radio_button_no"
-                    android:layout_weight="@integer/weight_one"
-                    android:textSize="@dimen/radio_button_text"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"
-                    android:textSize="@dimen/radio_button_text"/>
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/gate_obstacle_situation_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/empty_fields"
-                android:textSize="14sp"
-                android:textColor="@color/error_message"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/gate_obstacle_situation_radio"
-                app:layout_constraintStart_toStartOf="parent"
-                />
-
-            <FrameLayout
-                android:id="@+id/gate_obs_type_child_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gate_obstacle_situation_error"
-                android:layout_marginTop="@dimen/top_margins"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/gate_obstacle_obs_field"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gate_obs_type_child_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_gate_obstacles_obs">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/gate_obstacle_obs_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="textMultiLine"
-                    android:overScrollMode="always"
-                    android:scrollbarStyle="outsideInset"
-                    android:scrollbars="vertical"
-                    android:scrollHorizontally="false"
-                    android:lines="5"
-                    android:gravity="start"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/save_gate_obstacle"
+            <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/top_margins"
-                android:text="@string/label_button_save"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gate_obstacle_obs_field" />
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancel_gate_obstacle"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+            <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/top_margins"
-                android:text="@string/label_button_cancel"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@id/save_gate_obstacle"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </RadioGroup>
 
-    </ScrollView>
+        <TextView
+            android:id="@+id/gate_obstacle_situation_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_situation_radio" />
+
+        <FrameLayout
+            android:id="@+id/gate_obs_type_child_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_situation_error" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/gate_obstacle_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_gate_obstacles_obs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_obs_type_child_fragment">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/gate_obstacle_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save_gate_obstacle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_margins"
+            android:text="@string/label_button_save"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_obs_field" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel_gate_obstacle"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/top_margins"
+            android:text="@string/label_button_cancel"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/save_gate_obstacle"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

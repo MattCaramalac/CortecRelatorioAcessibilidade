@@ -1,9 +1,11 @@
 package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -65,18 +67,8 @@ public class AddSwitchDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(R.string.dialog_add_switch_header);
 
-        switchPlaceField = view.findViewById(R.id.switch_placement_field);
-        switchTypeField = view.findViewById(R.id.switch_type_field);
-        switchHeightField = view.findViewById(R.id.switch_height_field);
-        switchObsField = view.findViewById(R.id.switch_obs_field);
-
-        switchPlaceValue = view.findViewById(R.id.switch_placement_value);
-        switchTypeValue = view.findViewById(R.id.switch_type_value);
-        switchHeightValue = view.findViewById(R.id.switch_height_value);
-        switchObsValue = view.findViewById(R.id.switch_obs_value);
-
-        saveSwitch = view.findViewById(R.id.save_switch);
-        cancelSwitch = view.findViewById(R.id.cancel_switch);
+        instantiateSwitchViews(view);
+        allowSwitchObsScroll();
 
         saveSwitch.setOnClickListener(v -> {
             if (checkEmptySwitchFields()) {
@@ -100,6 +92,34 @@ public class AddSwitchDialog extends DialogFragment {
             int length = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width,length);
         }
+    }
+
+    private void instantiateSwitchViews(View view) {
+        switchPlaceField = view.findViewById(R.id.switch_placement_field);
+        switchTypeField = view.findViewById(R.id.switch_type_field);
+        switchHeightField = view.findViewById(R.id.switch_height_field);
+        switchObsField = view.findViewById(R.id.switch_obs_field);
+
+        switchPlaceValue = view.findViewById(R.id.switch_placement_value);
+        switchTypeValue = view.findViewById(R.id.switch_type_value);
+        switchHeightValue = view.findViewById(R.id.switch_height_value);
+        switchObsValue = view.findViewById(R.id.switch_obs_value);
+
+        saveSwitch = view.findViewById(R.id.save_switch);
+        cancelSwitch = view.findViewById(R.id.cancel_switch);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowSwitchObsScroll() {
+        switchObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public boolean checkEmptySwitchFields() {

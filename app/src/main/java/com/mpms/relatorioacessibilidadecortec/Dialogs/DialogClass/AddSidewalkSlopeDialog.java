@@ -1,9 +1,11 @@
 package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -74,7 +76,9 @@ public class AddSidewalkSlopeDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(R.string.dialog_add_sidewalk_slope);
-        instantiateSidewalkSlopeLayoutFields(view);
+
+        instantiateSidewalkSlopeViews(view);
+        allowSidewalkSlopeObsScroll();
 
         saveSlope.setOnClickListener( v -> {
             if (checkEmptySidewalkSlopeFields()) {
@@ -107,7 +111,7 @@ public class AddSidewalkSlopeDialog extends DialogFragment {
         modelDialog.setSidewalkSlopeCounter(slopeCounter);
     }
 
-    private void instantiateSidewalkSlopeLayoutFields(View v) {
+    private void instantiateSidewalkSlopeViews(View v) {
 //        TextInputLayout
         slopeLocationField = v.findViewById(R.id.slope_identification_field);
         slopeWidthField = v.findViewById(R.id.slope_width_field);
@@ -131,6 +135,19 @@ public class AddSidewalkSlopeDialog extends DialogFragment {
 //        Button
         cancelSlope = v.findViewById(R.id.cancel_sidewalk_slope);
         saveSlope = v.findViewById(R.id.save_sidewalk_slope);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowSidewalkSlopeObsScroll() {
+        slopeObsValue.setOnTouchListener(this::scrollingField);
     }
 
     private int getSidewalkSlopeRadioCheck(RadioGroup radio) {

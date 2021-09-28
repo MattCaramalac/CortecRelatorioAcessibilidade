@@ -1,8 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -64,12 +66,8 @@ public class RestroomMirrorChildFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        measureFieldA = view.findViewById(R.id.mirror_A_measurement_field);
-        measureFieldB = view.findViewById(R.id.mirror_B_measurement_field);
-        mirrorObsField = view.findViewById(R.id.mirror_obs_field);
-        measureValueA = view.findViewById(R.id.mirror_A_measurement_value);
-        measureValueB = view.findViewById(R.id.mirror_B_measurement_value);
-        mirrorObsValue = view.findViewById(R.id.mirror_obs_value);
+        instantiateMirrorViews(view);
+        allowSinkOneObsScroll();
 
         mirror = view.findViewById(R.id.mirror_image);
 
@@ -115,5 +113,27 @@ public class RestroomMirrorChildFragment extends Fragment {
     public void clearEmptyMirrorFieldsErrors() {
         measureFieldA.setErrorEnabled(false);
         measureFieldB.setErrorEnabled(false);
+    }
+
+    private void instantiateMirrorViews(View view) {
+        measureFieldA = view.findViewById(R.id.mirror_A_measurement_field);
+        measureFieldB = view.findViewById(R.id.mirror_B_measurement_field);
+        mirrorObsField = view.findViewById(R.id.mirror_obs_field);
+        measureValueA = view.findViewById(R.id.mirror_A_measurement_value);
+        measureValueB = view.findViewById(R.id.mirror_B_measurement_value);
+        mirrorObsValue = view.findViewById(R.id.mirror_obs_value);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowSinkOneObsScroll() {
+            mirrorObsValue.setOnTouchListener(this::scrollingField);
     }
 }

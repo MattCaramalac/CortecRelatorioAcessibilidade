@@ -1,9 +1,11 @@
 package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -62,6 +64,7 @@ public class AddTableDialog extends DialogFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_table_dialog, container, false);
         toolbar = view.findViewById(R.id.table_toolbar);
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
 
         if (roomBundle.getInt(RoomsRegisterFragment.ROOM_TYPE) == 11) {
             getChildFragmentManager().beginTransaction().replace(R.id.table_type_child_fragment, new TableTypeFragment()).commit();
@@ -76,22 +79,8 @@ public class AddTableDialog extends DialogFragment {
 
         toolbar.setTitle("Adicionar Mesa");
 
-        highestBorderField = view.findViewById(R.id.table_superior_border_height_field);
-        lowestBorderField = view.findViewById(R.id.table_inferior_border_height_field);
-        widthField = view.findViewById(R.id.table_width_field);
-        frontalApproxField = view.findViewById(R.id.table_frontal_approx_field);
-        tableObsField = view.findViewById(R.id.table_obs_field);
-
-        highestBorderValue = view.findViewById(R.id.table_superior_border_height_value);
-        lowestBorderValue = view.findViewById(R.id.table_inferior_border_height_value);
-        widthValue = view.findViewById(R.id.table_width_value);
-        frontalApproxValue = view.findViewById(R.id.table_frontal_approx_value);
-        tableObsValue = view.findViewById(R.id.table_obs_value);
-
-        saveTable = view.findViewById(R.id.save_table);
-        cancelTable = view.findViewById(R.id.cancel_table);
-
-        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+        instantiateTableViews(view);
+        allowTableObsScroll();
 
         modelDialog.getTableInfo().observe(getViewLifecycleOwner(), tableBundle -> {
             if (tableBundle!= null) {
@@ -130,6 +119,36 @@ public class AddTableDialog extends DialogFragment {
             int length = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width,length);
         }
+    }
+
+    private void instantiateTableViews(View view) {
+        highestBorderField = view.findViewById(R.id.table_superior_border_height_field);
+        lowestBorderField = view.findViewById(R.id.table_inferior_border_height_field);
+        widthField = view.findViewById(R.id.table_width_field);
+        frontalApproxField = view.findViewById(R.id.table_frontal_approx_field);
+        tableObsField = view.findViewById(R.id.table_obs_field);
+
+        highestBorderValue = view.findViewById(R.id.table_superior_border_height_value);
+        lowestBorderValue = view.findViewById(R.id.table_inferior_border_height_value);
+        widthValue = view.findViewById(R.id.table_width_value);
+        frontalApproxValue = view.findViewById(R.id.table_frontal_approx_value);
+        tableObsValue = view.findViewById(R.id.table_obs_value);
+
+        saveTable = view.findViewById(R.id.save_table);
+        cancelTable = view.findViewById(R.id.cancel_table);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowTableObsScroll() {
+        tableObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public boolean checkEmptyTableFields() {

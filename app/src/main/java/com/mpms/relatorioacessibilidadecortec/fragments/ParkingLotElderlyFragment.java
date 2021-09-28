@@ -1,16 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,6 +12,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -41,7 +42,8 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
     TextInputEditText totalVacancyValue, verticalSignObsValue, horizontalSignWidthValue, horizontalSignLengthValue, horizontalSignObsValue,
             pictogramWidthValue, pictogramLengthValue, pictogramObsValue;
     ArrayList<TextInputLayout> verticalFields, horizontalFields, pictogramFields;
-    ArrayList<TextInputEditText> verticalValues, horizontalValues, pictogramValues;
+    ArrayList<TextInputEditText> verticalValues, horizontalValues, pictogramValues, elderlyObsArray;
+    ViewModelEntry recentEntry;
 
     public int saveAttempt = 0;
 
@@ -76,6 +78,7 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        recentEntry = new ViewModelEntry(requireActivity().getApplication());
         return inflater.inflate(R.layout.fragment_parking_lot_elderly, container, false);
     }
 
@@ -83,8 +86,41 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ViewModelEntry recentEntry = new ViewModelEntry(requireActivity().getApplication());
+        instantiateElderlyViews(view);
+        addValuesToArrays();
+        allowElderlyObsScroll();
+        disableEverything(layout);
 
+        hasVacancy.setOnCheckedChangeListener(this::hasParkingLotVacancy);
+        hasVerticalSign.setOnCheckedChangeListener(this::enableFields);
+        hasHorizontalSign.setOnCheckedChangeListener(this::enableFields);
+        hasPictogram.setOnCheckedChangeListener(this::enableFields);
+
+        recentEntry.selectElderlyParkingLot(parkingLotID).observe(getViewLifecycleOwner(), elderlyEntry -> {
+            if (saveAttempt == 1) {
+                saveAttempt = 0;
+                clearFields();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
+                fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
+            }
+        });
+
+        cancelParkingLotElderly.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
+                .beginTransaction().remove(this).commit());
+
+        saveParkingLotElderly.setOnClickListener(v -> {
+            if (verifyEmptyFields()) {
+                ParkingLotElderlyEntry newEntry = newElderlyEntry();
+                ViewModelEntry.insertElderlyParkingLot(newEntry);
+                saveAttempt = 1;
+                Toast.makeText(getContext(), "Informações Salvas com Sucesso!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void instantiateElderlyViews(View view) {
         layout = view.findViewById(R.id.parking_lot_elderly_constraint_layout);
 
         fragHeader = view.findViewById(R.id.frag_parking_lot_elderly_header);
@@ -122,38 +158,6 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
 
         cancelParkingLotElderly = view.findViewById(R.id.cancel_parking_lot_elderly);
         saveParkingLotElderly = view.findViewById(R.id.save_parking_lot_elderly);
-
-        addValuesToArrays();
-
-        disableEverything(layout);
-
-        hasVacancy.setOnCheckedChangeListener(this::hasParkingLotVacancy);
-        hasVerticalSign.setOnCheckedChangeListener(this::enableFields);
-        hasHorizontalSign.setOnCheckedChangeListener(this::enableFields);
-        hasPictogram.setOnCheckedChangeListener(this::enableFields);
-
-        recentEntry.selectElderlyParkingLot(parkingLotID).observe(getViewLifecycleOwner(), elderlyEntry -> {
-            if (saveAttempt == 1) {
-                saveAttempt = 0;
-                clearFields();
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
-                fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
-            }
-        });
-
-        cancelParkingLotElderly.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
-
-        saveParkingLotElderly.setOnClickListener(v -> {
-            if (verifyEmptyFields()) {
-                ParkingLotElderlyEntry newEntry = newElderlyEntry();
-                ViewModelEntry.insertElderlyParkingLot(newEntry);
-                saveAttempt = 1;
-                Toast.makeText(getContext(), "Informações Salvas com Sucesso!", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     public void clearErrorMessages() {
@@ -312,6 +316,7 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         horizontalFields = new ArrayList<>();
         pictogramValues = new ArrayList<>();
         pictogramFields = new ArrayList<>();
+        elderlyObsArray = new ArrayList<>();
 
         verticalFields.add(verticalSignObsField);
 
@@ -332,6 +337,25 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         pictogramValues.add(pictogramLengthValue);
         pictogramValues.add(pictogramWidthValue);
         pictogramValues.add(pictogramObsValue);
+
+        elderlyObsArray.add(verticalSignObsValue);
+        elderlyObsArray.add(horizontalSignObsValue);
+        elderlyObsArray.add(pictogramObsValue);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowElderlyObsScroll() {
+        for (TextInputEditText obsScroll : elderlyObsArray) {
+            obsScroll.setOnTouchListener(this::scrollingField);
+        }
     }
 
     @Override

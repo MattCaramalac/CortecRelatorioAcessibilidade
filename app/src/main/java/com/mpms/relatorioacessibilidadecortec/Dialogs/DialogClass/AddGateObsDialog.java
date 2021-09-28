@@ -1,9 +1,11 @@
 package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -66,6 +68,7 @@ public class AddGateObsDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_gate_obs_dialog, container, false);
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
         toolbar = view.findViewById(R.id.gate_obstacles_toolbar);
         return view;
     }
@@ -75,22 +78,12 @@ public class AddGateObsDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(getString(R.string.dialog_add_gate_obstacle_header));
 
-        referencePointField = view.findViewById(R.id.gate_obstacle_location_field);
-        obsField = view.findViewById(R.id.gate_obstacle_obs_field);
-
-        referencePointValue = view.findViewById(R.id.gate_obstacle_location_value);
-        obsValue = view.findViewById(R.id.gate_obstacle_obs_value);
-
-        gateObstacleSituation = view.findViewById(R.id.gate_obstacle_situation_radio);
-
-        saveGateObs = view.findViewById(R.id.save_gate_obstacle);
-        cancelGateObs = view.findViewById(R.id.cancel_gate_obstacle);
-
-        gateObsError = view.findViewById(R.id.gate_obstacle_situation_error);
+        instantiateGateObsViews(view);
+        allowGateObsScroll();
 
         manager = getChildFragmentManager();
 
-        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+
 
         gateObstacleSituation.setOnCheckedChangeListener(((group, checkedId) -> {
             int index = getCheckedRadio(group);
@@ -138,6 +131,34 @@ public class AddGateObsDialog extends DialogFragment {
             int length = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, length);
         }
+    }
+
+    private void instantiateGateObsViews(View view) {
+        referencePointField = view.findViewById(R.id.gate_obstacle_location_field);
+        obsField = view.findViewById(R.id.gate_obstacle_obs_field);
+
+        referencePointValue = view.findViewById(R.id.gate_obstacle_location_value);
+        obsValue = view.findViewById(R.id.gate_obstacle_obs_value);
+
+        gateObstacleSituation = view.findViewById(R.id.gate_obstacle_situation_radio);
+
+        saveGateObs = view.findViewById(R.id.save_gate_obstacle);
+        cancelGateObs = view.findViewById(R.id.cancel_gate_obstacle);
+
+        gateObsError = view.findViewById(R.id.gate_obstacle_situation_error);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowGateObsScroll() {
+        obsValue.setOnTouchListener(this::scrollingField);
     }
 
     public GateObsEntry newObstacle(Bundle bundle) {

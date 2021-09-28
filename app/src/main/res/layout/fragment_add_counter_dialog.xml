@@ -127,7 +127,7 @@
                     android:scrollbars="vertical"
                     android:gravity="start"
                     android:scrollHorizontally="false"
-                    android:lines="5"/>
+                    android:lines="3"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

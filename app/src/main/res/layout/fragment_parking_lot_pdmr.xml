@@ -142,7 +142,13 @@
                 android:id="@+id/vertical_sign_PDMR_obs_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textAutoCorrect" />
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -241,7 +247,13 @@
                 android:id="@+id/horizontal_sign_PDMR_obs_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textAutoCorrect" />
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -321,7 +333,13 @@
                 android:id="@+id/safety_zone_PDMR_obs_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textAutoCorrect" />
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -421,7 +439,13 @@
                 android:id="@+id/PDMR_SIA_obs_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textAutoCorrect" />
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="3" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

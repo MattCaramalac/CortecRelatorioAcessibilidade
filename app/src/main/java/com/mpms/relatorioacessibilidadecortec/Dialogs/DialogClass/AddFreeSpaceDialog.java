@@ -1,9 +1,11 @@
 package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -47,7 +49,6 @@ public class AddFreeSpaceDialog extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -64,16 +65,8 @@ public class AddFreeSpaceDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(R.string.dialog_add_free_space_header);
 
-        freeSpaceLocationField = view.findViewById(R.id.free_space_placement_field);
-        freeSpaceWidthField = view.findViewById(R.id.free_space_width_field);
-        freeSpaceObsField = view.findViewById(R.id.free_space_obs_field);
-
-        freeSpaceLocationValue = view.findViewById(R.id.free_space_placement_value);
-        freeSpaceWidthValue = view.findViewById(R.id.free_space_width_value);
-        freeSpaceObsValue = view.findViewById(R.id.free_space_obs_value);
-
-        saveFreeSpace = view.findViewById(R.id.save_free_space);
-        cancelFreeSpace = view.findViewById(R.id.cancel_free_space);
+        instantiateFreeSpaceViews(view);
+        allowFreeSpaceObsScroll();
 
         saveFreeSpace.setOnClickListener(v -> {
             if (checkEmptyFreeSpaceFields()) {
@@ -96,6 +89,32 @@ public class AddFreeSpaceDialog extends DialogFragment {
             int length = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width,length);
         }
+    }
+
+    private void instantiateFreeSpaceViews(View view) {
+        freeSpaceLocationField = view.findViewById(R.id.free_space_placement_field);
+        freeSpaceWidthField = view.findViewById(R.id.free_space_width_field);
+        freeSpaceObsField = view.findViewById(R.id.free_space_obs_field);
+
+        freeSpaceLocationValue = view.findViewById(R.id.free_space_placement_value);
+        freeSpaceWidthValue = view.findViewById(R.id.free_space_width_value);
+        freeSpaceObsValue = view.findViewById(R.id.free_space_obs_value);
+
+        saveFreeSpace = view.findViewById(R.id.save_free_space);
+        cancelFreeSpace = view.findViewById(R.id.cancel_free_space);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowFreeSpaceObsScroll() {
+        freeSpaceObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public boolean checkEmptyFreeSpaceFields() {

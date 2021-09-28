@@ -1,8 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,6 +31,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class RampStairsFlightFragment extends Fragment {
@@ -52,6 +55,8 @@ public class RampStairsFlightFragment extends Fragment {
     Bundle rampStairsData = new Bundle();
     Bundle flightBundle = new Bundle();
     Bundle newEntryBundle = new Bundle();
+
+    ArrayList<TextInputEditText> flightObsArray = new ArrayList<>();
 
     View buttonClicked;
 
@@ -169,6 +174,27 @@ public class RampStairsFlightFragment extends Fragment {
 //        TODO - Inserir dialog de perda de dados cadastrados ao tentar retornar para a tela inicial de cadastro
         cancelFlight.setOnClickListener(v-> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    private void addObsFieldsToArray() {
+        flightObsArray.add(tactileSignObsValue);
+        flightObsArray.add(tactileFloorObsValue);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowFlightObsScroll() {
+        addObsFieldsToArray();
+        for (TextInputEditText obsScroll :flightObsArray) {
+            obsScroll.setOnTouchListener(this::scrollingField);
+        }
     }
 
     private void updateFlightScreen() {

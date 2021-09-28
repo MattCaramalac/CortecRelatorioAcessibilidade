@@ -1,9 +1,11 @@
 package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -53,7 +55,7 @@ public class AddWindowDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_window, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_window_dialog, container, false);
         toolbar = view.findViewById(R.id.window_toolbar);
         return view;
     }
@@ -63,16 +65,8 @@ public class AddWindowDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(R.string.dialog_add_window_header);
 
-        windowPlaceField = view.findViewById(R.id.window_placement_field);
-        windowHeightField = view.findViewById(R.id.window_height_field);
-        windowObsField = view.findViewById(R.id.window_obs_field);
-
-        windowPlaceValue = view.findViewById(R.id.window_placement_value);
-        windowHeightValue = view.findViewById(R.id.window_height_value);
-        windowObsValue = view.findViewById(R.id.window_obs_value);
-
-        saveWindow = view.findViewById(R.id.save_window);
-        cancelWindow = view.findViewById(R.id.cancel_window);
+        instantiateWindowsViews(view);
+        allowWindowsObsScroll();
 
         saveWindow.setOnClickListener(v -> {
             if(checkEmptyWindowFields()) {
@@ -92,9 +86,35 @@ public class AddWindowDialog extends DialogFragment {
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int length = ViewGroup.LayoutParams.MATCH_PARENT;
+            int length = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width,length);
         }
+    }
+
+    private void instantiateWindowsViews(View view) {
+        windowPlaceField = view.findViewById(R.id.window_placement_field);
+        windowHeightField = view.findViewById(R.id.window_height_field);
+        windowObsField = view.findViewById(R.id.window_obs_field);
+
+        windowPlaceValue = view.findViewById(R.id.window_placement_value);
+        windowHeightValue = view.findViewById(R.id.window_height_value);
+        windowObsValue = view.findViewById(R.id.window_obs_value);
+
+        saveWindow = view.findViewById(R.id.save_window);
+        cancelWindow = view.findViewById(R.id.cancel_window);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowWindowsObsScroll() {
+            windowObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public boolean checkEmptyWindowFields() {

@@ -258,7 +258,7 @@
             android:layout_marginTop="@dimen/top_margins"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/urinal_J_measurement_field"
-            android:hint="@string/hint_sink_measures_obs">
+            android:hint="@string/hint_obs">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/urinal_obs_value"

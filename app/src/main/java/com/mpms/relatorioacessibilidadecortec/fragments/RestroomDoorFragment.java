@@ -89,46 +89,7 @@ public class RestroomDoorFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        doorWidthField = view.findViewById(R.id.restroom_door_width_field);
-        doorSIAObsField = view.findViewById(R.id.door_sia_obs_field);
-        doorOpenDirObsField = view.findViewById(R.id.door_opening_direction_obs_field);
-        doorVertSignObsField = view.findViewById(R.id.door_vertical_sign_obs_field);
-        doorSillObsField = view.findViewById(R.id.restroom_door_sill_obs_field);
-        doorTactSignField = view.findViewById(R.id.door_tactile_sign_obs_field);
-        doorInternalCoatObsField = view.findViewById(R.id.door_internal_coating_obs_field);
-        doorHorHandleHeightField = view.findViewById(R.id.door_horizontal_handle_height_field);
-        doorHorHandleLengthField = view.findViewById(R.id.door_horizontal_handle_length_field);
-        doorHorHandleObsField = view.findViewById(R.id.door_horizontal_handle_obs_field);
-
-        doorWidthValue = view.findViewById(R.id.restroom_door_width_value);
-        doorSIAObsValue = view.findViewById(R.id.door_sia_obs_value);
-        doorOpenDirObsValue = view.findViewById(R.id.door_opening_direction_obs_value);
-        doorVertSignObsValue = view.findViewById(R.id.door_vertical_sign_obs_value);
-        doorSillObsValue = view.findViewById(R.id.restroom_door_sill_obs_value);
-        doorTactSignObsValue = view.findViewById(R.id.door_tactile_sign_obs_value);
-        doorInternalCoatObsValue = view.findViewById(R.id.door_internal_coating_obs_value);
-        doorHorHandleHeightValue = view.findViewById(R.id.door_horizontal_handle_height_value);
-        doorHorHandleLengthValue = view.findViewById(R.id.door_horizontal_handle_length_value);
-        doorHorHandleObsValue = view.findViewById(R.id.door_horizontal_handle_obs_value);
-
-        doorHasSIARadio = view.findViewById(R.id.door_sia_radio);
-        doorOpenExtDirRadio = view.findViewById(R.id.door_opening_direction_radio);
-        doorVertSignRadio = view.findViewById(R.id.door_vertical_sign_radio);
-        doorSillRadio = view.findViewById(R.id.restroom_door_sill_type_radio);
-        doorTactSignRadio = view.findViewById(R.id.door_tactile_sign_radio);
-        doorInternalCoatRadio = view.findViewById(R.id.door_internal_coating_radio);
-        doorHorHandleRadio = view.findViewById(R.id.door_horizontal_handle_radio);
-
-        doorSIAError = view.findViewById(R.id.door_sia_error);
-        doorOpenDirError = view.findViewById(R.id.door_opening_direction_error);
-        doorVertSignError = view.findViewById(R.id.door_vertical_sign_error);
-        doorSillError = view.findViewById(R.id.restroom_door_sill_type_error);
-        doorTactSignError = view.findViewById(R.id.door_tactile_sign_error);
-        doorInternalCoatError = view.findViewById(R.id.door_internal_coating_error);
-        doorHorHandleError = view.findViewById(R.id.door_horizontal_handle_error);
-
-        saveEntry = view.findViewById(R.id.save_restroom);
-        returnEntry = view.findViewById(R.id.return_restroom);
+        instantiateRestDoorViews(view);
 
         manager = getChildFragmentManager();
 
@@ -180,6 +141,49 @@ public class RestroomDoorFragment extends Fragment {
     public void onResume() {
         super.onResume();
         restroomDoorBundle.putBoolean(OPENED_DOOR_FRAG, true);
+    }
+
+    private void instantiateRestDoorViews(View view) {
+        doorWidthField = view.findViewById(R.id.restroom_door_width_field);
+        doorSIAObsField = view.findViewById(R.id.door_sia_obs_field);
+        doorOpenDirObsField = view.findViewById(R.id.door_opening_direction_obs_field);
+        doorVertSignObsField = view.findViewById(R.id.door_vertical_sign_obs_field);
+        doorSillObsField = view.findViewById(R.id.restroom_door_sill_obs_field);
+        doorTactSignField = view.findViewById(R.id.door_tactile_sign_obs_field);
+        doorInternalCoatObsField = view.findViewById(R.id.door_internal_coating_obs_field);
+        doorHorHandleHeightField = view.findViewById(R.id.door_horizontal_handle_height_field);
+        doorHorHandleLengthField = view.findViewById(R.id.door_horizontal_handle_length_field);
+        doorHorHandleObsField = view.findViewById(R.id.door_horizontal_handle_obs_field);
+
+        doorWidthValue = view.findViewById(R.id.restroom_door_width_value);
+        doorSIAObsValue = view.findViewById(R.id.door_sia_obs_value);
+        doorOpenDirObsValue = view.findViewById(R.id.door_opening_direction_obs_value);
+        doorVertSignObsValue = view.findViewById(R.id.door_vertical_sign_obs_value);
+        doorSillObsValue = view.findViewById(R.id.restroom_door_sill_obs_value);
+        doorTactSignObsValue = view.findViewById(R.id.door_tactile_sign_obs_value);
+        doorInternalCoatObsValue = view.findViewById(R.id.door_internal_coating_obs_value);
+        doorHorHandleHeightValue = view.findViewById(R.id.door_horizontal_handle_height_value);
+        doorHorHandleLengthValue = view.findViewById(R.id.door_horizontal_handle_length_value);
+        doorHorHandleObsValue = view.findViewById(R.id.door_horizontal_handle_obs_value);
+
+        doorHasSIARadio = view.findViewById(R.id.door_sia_radio);
+        doorOpenExtDirRadio = view.findViewById(R.id.door_opening_direction_radio);
+        doorVertSignRadio = view.findViewById(R.id.door_vertical_sign_radio);
+        doorSillRadio = view.findViewById(R.id.restroom_door_sill_type_radio);
+        doorTactSignRadio = view.findViewById(R.id.door_tactile_sign_radio);
+        doorInternalCoatRadio = view.findViewById(R.id.door_internal_coating_radio);
+        doorHorHandleRadio = view.findViewById(R.id.door_horizontal_handle_radio);
+
+        doorSIAError = view.findViewById(R.id.door_sia_error);
+        doorOpenDirError = view.findViewById(R.id.door_opening_direction_error);
+        doorVertSignError = view.findViewById(R.id.door_vertical_sign_error);
+        doorSillError = view.findViewById(R.id.restroom_door_sill_type_error);
+        doorTactSignError = view.findViewById(R.id.door_tactile_sign_error);
+        doorInternalCoatError = view.findViewById(R.id.door_internal_coating_error);
+        doorHorHandleError = view.findViewById(R.id.door_horizontal_handle_error);
+
+        saveEntry = view.findViewById(R.id.save_restroom);
+        returnEntry = view.findViewById(R.id.return_restroom);
     }
 
     public RestroomDoorUpdate restDoorDataUpdate(Bundle bundle) {

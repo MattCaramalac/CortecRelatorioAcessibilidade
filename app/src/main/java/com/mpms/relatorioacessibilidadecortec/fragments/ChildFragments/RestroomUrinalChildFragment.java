@@ -1,8 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -71,33 +73,8 @@ public class RestroomUrinalChildFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        measureFieldA = view.findViewById(R.id.urinal_A_measurement_field);
-        measureFieldB = view.findViewById(R.id.urinal_B_measurement_field);
-        measureFieldC = view.findViewById(R.id.urinal_C_measurement_field);
-        measureFieldD = view.findViewById(R.id.urinal_D_measurement_field);
-        measureFieldE = view.findViewById(R.id.urinal_E_measurement_field);
-        measureFieldF = view.findViewById(R.id.urinal_F_measurement_field);
-        measureFieldG = view.findViewById(R.id.urinal_G_measurement_field);
-        measureFieldH = view.findViewById(R.id.urinal_H_measurement_field);
-        measureFieldI = view.findViewById(R.id.urinal_I_measurement_field);
-        measureFieldJ = view.findViewById(R.id.urinal_J_measurement_field);
-        measureFieldK = view.findViewById(R.id.urinal_K_measurement_field);
-        urinalObsField = view.findViewById(R.id.urinal_obs_field);
-        measureValueA = view.findViewById(R.id.urinal_A_measurement_value);
-        measureValueB = view.findViewById(R.id.urinal_B_measurement_value);
-        measureValueC = view.findViewById(R.id.urinal_C_measurement_value);
-        measureValueD = view.findViewById(R.id.urinal_D_measurement_value);
-        measureValueE = view.findViewById(R.id.urinal_E_measurement_value);
-        measureValueF = view.findViewById(R.id.urinal_F_measurement_value);
-        measureValueG = view.findViewById(R.id.urinal_G_measurement_value);
-        measureValueH = view.findViewById(R.id.urinal_H_measurement_value);
-        measureValueI = view.findViewById(R.id.urinal_I_measurement_value);
-        measureValueJ = view.findViewById(R.id.urinal_J_measurement_value);
-        measureValueK = view.findViewById(R.id.urinal_K_measurement_value);
-        urinalObsValue = view.findViewById(R.id.urinal_obs_value);
-
-        urinalOne = view.findViewById(R.id.urinal_image_one);
-        urinalTwo = view.findViewById(R.id.urinal_image_two);
+        instantiateUrinalViews(view);
+        allowUrinalObsScroll();
 
         Glide.with(this).load(R.drawable.urinal_1).fitCenter().into(urinalOne);
         Glide.with(this).load(R.drawable.urinal_2).fitCenter().into(urinalTwo);
@@ -119,6 +96,37 @@ public class RestroomUrinalChildFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void instantiateUrinalViews(View view) {
+        measureFieldA = view.findViewById(R.id.urinal_A_measurement_field);
+        measureFieldB = view.findViewById(R.id.urinal_B_measurement_field);
+        measureFieldC = view.findViewById(R.id.urinal_C_measurement_field);
+        measureFieldD = view.findViewById(R.id.urinal_D_measurement_field);
+        measureFieldE = view.findViewById(R.id.urinal_E_measurement_field);
+        measureFieldF = view.findViewById(R.id.urinal_F_measurement_field);
+        measureFieldG = view.findViewById(R.id.urinal_G_measurement_field);
+        measureFieldH = view.findViewById(R.id.urinal_H_measurement_field);
+        measureFieldI = view.findViewById(R.id.urinal_I_measurement_field);
+        measureFieldJ = view.findViewById(R.id.urinal_J_measurement_field);
+        measureFieldK = view.findViewById(R.id.urinal_K_measurement_field);
+        urinalObsField = view.findViewById(R.id.urinal_obs_field);
+
+        measureValueA = view.findViewById(R.id.urinal_A_measurement_value);
+        measureValueB = view.findViewById(R.id.urinal_B_measurement_value);
+        measureValueC = view.findViewById(R.id.urinal_C_measurement_value);
+        measureValueD = view.findViewById(R.id.urinal_D_measurement_value);
+        measureValueE = view.findViewById(R.id.urinal_E_measurement_value);
+        measureValueF = view.findViewById(R.id.urinal_F_measurement_value);
+        measureValueG = view.findViewById(R.id.urinal_G_measurement_value);
+        measureValueH = view.findViewById(R.id.urinal_H_measurement_value);
+        measureValueI = view.findViewById(R.id.urinal_I_measurement_value);
+        measureValueJ = view.findViewById(R.id.urinal_J_measurement_value);
+        measureValueK = view.findViewById(R.id.urinal_K_measurement_value);
+        urinalObsValue = view.findViewById(R.id.urinal_obs_value);
+
+        urinalOne = view.findViewById(R.id.urinal_image_one);
+        urinalTwo = view.findViewById(R.id.urinal_image_two);
     }
 
     public boolean checkEmptyUrinalFields(Bundle bundle) {
@@ -173,6 +181,19 @@ public class RestroomUrinalChildFragment extends Fragment {
             pickUrinalData(bundle);
 
         return i == 0;
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowUrinalObsScroll() {
+            urinalObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public void clearUrinalEmptyFieldErrors() {

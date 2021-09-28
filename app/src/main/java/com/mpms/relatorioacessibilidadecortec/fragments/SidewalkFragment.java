@@ -1,8 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,6 +26,8 @@ import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
+import java.util.ArrayList;
+
 public class SidewalkFragment extends Fragment {
 
     public static final String SIDEWALK_ID = "SIDEWALK_ID";
@@ -37,6 +41,8 @@ public class SidewalkFragment extends Fragment {
     String sidewalkLocation, sidewalkStatus, sidewalkTactileFloorStatus, sidewalkObs;
     Integer hasTactFloor, tactileFloorStatus, sidewalkObligatorySlope, sidewalkHasSlope;
     Double sidewalkWidth;
+
+    ArrayList<TextInputEditText> sidewalkObsArray = new ArrayList<>();
 
     Bundle schoolData = new Bundle();
     Bundle sidewalkData = new Bundle();
@@ -63,7 +69,7 @@ public class SidewalkFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
@@ -82,6 +88,7 @@ public class SidewalkFragment extends Fragment {
 
         instantiateSidewalkFragmentViews(view);
         initialLayout();
+        allowSidewalkObsScroll();
 
         hasTactileFloor.setOnCheckedChangeListener(this::hasSpecialFloorListener);
         hasSlope.setOnCheckedChangeListener(this::hasSlopeListener);
@@ -100,7 +107,6 @@ public class SidewalkFragment extends Fragment {
             }
         });
 
-//        TODO - organizar if & else
         addSlope.setOnClickListener(v -> {
             if (sidewalkID == 0) {
                 if (updateRegister == 0) {
@@ -169,7 +175,26 @@ public class SidewalkFragment extends Fragment {
                         }
                     }
                 } else if (sidewalkID > 0) {
-//                  TODO - gravação de dados quando o usuário escolher uma calçada já cadastrada
+                    if (getCheckedSidewalkRadioButton(hasSlope) == 1 && rowCounter == 0) {
+//                        TODO - Erro de gravação - implementar mensagem - Toast temporário.
+                        Toast.makeText(getContext(), "Por favor, adicione rebaixamentos para esta calçada", Toast.LENGTH_LONG).show();
+                    } else if (getCheckedSidewalkRadioButton(hasSlope) == 0 && rowCounter > 0) {
+//                        TODO - Deletar os slopes na hora de salvar. Chamar dialog - toast temporário.
+                        Toast.makeText(getContext(), "A calçada possui rebaixamentos. Marque a opção correta ou delete os rebaixamentos", Toast.LENGTH_LONG).show();
+                    } else {
+                        if (updateRegister >= 0) {
+                            SidewalkEntry upSidewalkEntry = newSidewalk(sidewalkData);
+                            upSidewalkEntry.setSidewalkID(sidewalkData.getInt(SIDEWALK_ID));
+                            ViewModelEntry.updateSidewalk(upSidewalkEntry);
+                            resetInitialLayout();
+                        } else {
+                            updateRegister = 0;
+                            recentRegister = 0;
+                            rowCounter = 0;
+                            sidewalkData.putInt(SIDEWALK_ID, 0);
+                            Toast.makeText(getContext(), "Ocorreu um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 } else {
                     updateRegister = 0;
                     recentRegister = 0;
@@ -183,7 +208,29 @@ public class SidewalkFragment extends Fragment {
 
     }
 
-    public void instantiateSidewalkFragmentViews(View view) {
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    private void addObsFieldsToArray() {
+        sidewalkObsArray.add(sidewalkStatusValue);
+        sidewalkObsArray.add(sidewalkTactileFloorStatusValue);
+        sidewalkObsArray.add(sidewalkObsValue);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowSidewalkObsScroll() {
+        addObsFieldsToArray();
+        for (TextInputEditText obsScroll :sidewalkObsArray) {
+            obsScroll.setOnTouchListener(this::scrollingField);
+        }
+    }
+
+    private void instantiateSidewalkFragmentViews(View view) {
         sidewalkLocationField = view.findViewById(R.id.sidewalk_location_field);
         sidewalkStatusField = view.findViewById(R.id.sidewalk_status_field);
         sidewalkWidthField = view.findViewById(R.id.sidewalk_width_field);
@@ -213,7 +260,7 @@ public class SidewalkFragment extends Fragment {
         addSlope = view.findViewById(R.id.add_sidewalk_slope);
     }
 
-    public void initialLayout() {
+    private void initialLayout() {
         tactileFloorLabel.setVisibility(View.GONE);
         statusTactileFloor.setVisibility(View.GONE);
         sidewalkTactileFloorStatusField.setVisibility(View.GONE);
@@ -221,7 +268,7 @@ public class SidewalkFragment extends Fragment {
         addSlope.setVisibility(View.GONE);
     }
 
-    public void hasSpecialFloorListener(RadioGroup radioGroup, int checkedID) {
+    private void hasSpecialFloorListener(RadioGroup radioGroup, int checkedID) {
         View radioButton = radioGroup.findViewById(checkedID);
         int index = radioGroup.indexOfChild(radioButton);
 
@@ -238,7 +285,7 @@ public class SidewalkFragment extends Fragment {
         }
     }
 
-    public void hasSlopeListener(RadioGroup radioGroup, int checkedID) {
+    private void hasSlopeListener(RadioGroup radioGroup, int checkedID) {
         View radioButton = radioGroup.findViewById(checkedID);
         int index = radioGroup.indexOfChild(radioButton);
 
@@ -252,11 +299,11 @@ public class SidewalkFragment extends Fragment {
         }
     }
 
-    public int getCheckedSidewalkRadioButton(RadioGroup radio) {
+    private int getCheckedSidewalkRadioButton(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
-    public boolean checkEmptySidewalkFields() {
+    private boolean checkEmptySidewalkFields() {
         clearSidewalkEmptyFieldErrors();
         int i = 0;
         if (TextUtils.isEmpty(sidewalkLocationValue.getText())) {
@@ -295,7 +342,7 @@ public class SidewalkFragment extends Fragment {
         return i == 0;
     }
 
-    public void clearSidewalkEmptyFieldErrors() {
+    private void clearSidewalkEmptyFieldErrors() {
         sidewalkLocationField.setErrorEnabled(false);
         sidewalkStatusField.setErrorEnabled(false);
         sidewalkWidthField.setErrorEnabled(false);
@@ -328,7 +375,7 @@ public class SidewalkFragment extends Fragment {
                 hasTactFloor, tactileFloorStatus, sidewalkTactileFloorStatus, sidewalkObligatorySlope, sidewalkHasSlope, sidewalkObs);
     }
 
-    public void resetInitialLayout() {
+    private void resetInitialLayout() {
         updateRegister = 0;
         recentRegister = 0;
         sidewalkID = 0;

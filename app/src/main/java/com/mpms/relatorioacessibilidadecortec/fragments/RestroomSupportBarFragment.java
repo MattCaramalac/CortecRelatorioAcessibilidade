@@ -1,8 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,6 +25,8 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDia
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomSupportBarEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+
+import java.util.ArrayList;
 
 public class RestroomSupportBarFragment extends Fragment {
 
@@ -58,6 +62,8 @@ public class RestroomSupportBarFragment extends Fragment {
 
     int recentSupBar = 0;
 
+    ArrayList<TextInputEditText> supportBarObsArray = new ArrayList<>();
+
 
     public RestroomSupportBarFragment() {
         // Required empty public constructor
@@ -87,6 +93,86 @@ public class RestroomSupportBarFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        instantiateSupportView(view);
+        allowSupBarObsScroll();
+
+        Glide.with(this).load(R.drawable.supporthandle2).centerCrop().into(supportBar);
+
+        supportBar.setOnClickListener( v -> {
+            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.supporthandle2);
+            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
+        });
+
+        eButRadio.setOnCheckedChangeListener((radio, checkedId) -> {
+            int index = getSupBarCheckedRadio(radio);
+            if (index == 1) {
+                eButHeightField.setEnabled(true);
+            } else {
+                eButHeightValue.setText(null);
+                eButHeightField.setEnabled(false);
+            }
+        });
+
+        modelEntry.getLastRestroomSupportBarEntry().observe(getViewLifecycleOwner(), supBar -> {
+            if (recentSupBar == 1) {
+                recentSupBar = 0;
+                restroomDataBundle.putInt(SUP_BAR_ID, supBar.getSupBarID());
+                callSinkOneFragment(restroomDataBundle);
+            }
+        });
+
+        if (restroomDataBundle.getBoolean(RestroomSink1Fragment.OPENED_SINK_ONE)) {
+            modelEntry.getOneRestroomSupportBarEntry(restroomDataBundle.getInt(SUP_BAR_ID)).observe(getViewLifecycleOwner(), this::gatherSupBar);
+        }
+
+
+        saveSupBar.setOnClickListener( v -> {
+            if (checkEmptySupBarField()) {
+                RestroomSupportBarEntry supBar = newSupBar(restroomDataBundle);
+                if (restroomDataBundle.getBoolean(RestroomSink1Fragment.OPENED_SINK_ONE)) {
+                    supBar.setSupBarID(restroomDataBundle.getInt(SUP_BAR_ID));
+                    ViewModelEntry.updateRestroomSupportBarEntry(supBar);
+                    callSinkOneFragment(restroomDataBundle);
+                } else {
+                    ViewModelEntry.insertRestroomSupportBarEntry(supBar);
+                    recentSupBar = 1;
+                }
+            }
+        });
+
+        returnUpView.setOnClickListener( v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        restroomDataBundle.putBoolean(OPENED_SUP_BAR, true);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    private void addObsFieldsToArray() {
+        supportBarObsArray.add(supBarObsValue);
+        supportBarObsArray.add(papObsValue);
+        supportBarObsArray.add(eButObsValue);
+        supportBarObsArray.add(bidetObsValue);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowSupBarObsScroll() {
+        addObsFieldsToArray();
+        for (TextInputEditText obsScroll :supportBarObsArray) {
+            obsScroll.setOnTouchListener(this::scrollingField);
+        }
+    }
+
+    private void instantiateSupportView(View view) {
         supportBar = view.findViewById(R.id.rest_support_bar_image);
 
         paperHolderError = view.findViewById(R.id.paper_holder_type_error);
@@ -141,58 +227,6 @@ public class RestroomSupportBarFragment extends Fragment {
 
         saveSupBar = view.findViewById(R.id.save_sup_bar);
         returnUpView = view.findViewById(R.id.return_up_view);
-
-        Glide.with(this).load(R.drawable.supporthandle2).centerCrop().into(supportBar);
-
-        supportBar.setOnClickListener( v -> {
-            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.supporthandle2);
-            ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
-        });
-
-        eButRadio.setOnCheckedChangeListener((radio, checkedId) -> {
-            int index = getSupBarCheckedRadio(radio);
-            if (index == 1) {
-                eButHeightField.setEnabled(true);
-            } else {
-                eButHeightValue.setText(null);
-                eButHeightField.setEnabled(false);
-            }
-        });
-
-        modelEntry.getLastRestroomSupportBarEntry().observe(getViewLifecycleOwner(), supBar -> {
-            if (recentSupBar == 1) {
-                recentSupBar = 0;
-                restroomDataBundle.putInt(SUP_BAR_ID, supBar.getSupBarID());
-                callSinkOneFragment(restroomDataBundle);
-            }
-        });
-
-        if (restroomDataBundle.getBoolean(RestroomSink1Fragment.OPENED_SINK_ONE)) {
-            modelEntry.getOneRestroomSupportBarEntry(restroomDataBundle.getInt(SUP_BAR_ID)).observe(getViewLifecycleOwner(), this::gatherSupBar);
-        }
-
-
-        saveSupBar.setOnClickListener( v -> {
-            if (checkEmptySupBarField()) {
-                RestroomSupportBarEntry supBar = newSupBar(restroomDataBundle);
-                if (restroomDataBundle.getBoolean(RestroomSink1Fragment.OPENED_SINK_ONE)) {
-                    supBar.setSupBarID(restroomDataBundle.getInt(SUP_BAR_ID));
-                    ViewModelEntry.updateRestroomSupportBarEntry(supBar);
-                    callSinkOneFragment(restroomDataBundle);
-                } else {
-                    ViewModelEntry.insertRestroomSupportBarEntry(supBar);
-                    recentSupBar = 1;
-                }
-            }
-        });
-
-        returnUpView.setOnClickListener( v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        restroomDataBundle.putBoolean(OPENED_SUP_BAR, true);
     }
 
     public void callSinkOneFragment(Bundle bundle) {

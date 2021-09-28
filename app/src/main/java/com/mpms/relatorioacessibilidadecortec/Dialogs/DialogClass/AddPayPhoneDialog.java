@@ -1,9 +1,11 @@
 package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -60,6 +62,7 @@ public class AddPayPhoneDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_pay_phone_dialog, container, false);
         toolbar = view.findViewById(R.id.gate_payphone_toolbar);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
         return view;
     }
 
@@ -68,20 +71,8 @@ public class AddPayPhoneDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(getString(R.string.dialog_add_payphone_header));
 
-        payphoneRefField = view.findViewById(R.id.gate_payphone_ref_field);
-        payphoneHeightField = view.findViewById(R.id.gate_payphone_op_height_field);
-        payphoneObsField = view.findViewById(R.id.gate_payphone_obs_field);
-        payphoneRefValue = view.findViewById(R.id.gate_payphone_ref_value);
-        payphoneHeightValue = view.findViewById(R.id.gate_payphone_op_height_value);
-        payphoneObsValue = view.findViewById(R.id.gate_payphone_obs_value);
-        payphoneFloorError = view.findViewById(R.id.gate_payphone_floor_error);
-        payphoneTactileFloor = view.findViewById(R.id.payphone_tactile_floor_radio);
-        savePayphone = view.findViewById(R.id.save_gate_payphone);
-        cancelPayphone = view.findViewById(R.id.cancel_gate_payphone);
-
-
-
-        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        instantiatePayPhoneViews(view);
+        allowPayPhoneObsScroll();
 
         savePayphone.setOnClickListener(v -> {
             if(checkEmptyFields()) {
@@ -89,7 +80,6 @@ public class AddPayPhoneDialog extends DialogFragment {
                 ViewModelEntry.insertPayPhone(newPhone);
                 clearPhoneFields();
             }
-
         });
 
         cancelPayphone.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
@@ -106,6 +96,35 @@ public class AddPayPhoneDialog extends DialogFragment {
             int length = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width,length);
         }
+    }
+
+    private void instantiatePayPhoneViews(View view) {
+        payphoneRefField = view.findViewById(R.id.gate_payphone_ref_field);
+        payphoneHeightField = view.findViewById(R.id.gate_payphone_op_height_field);
+        payphoneObsField = view.findViewById(R.id.gate_payphone_obs_field);
+
+        payphoneRefValue = view.findViewById(R.id.gate_payphone_ref_value);
+        payphoneHeightValue = view.findViewById(R.id.gate_payphone_op_height_value);
+        payphoneObsValue = view.findViewById(R.id.gate_payphone_obs_value);
+
+        payphoneFloorError = view.findViewById(R.id.gate_payphone_floor_error);
+        payphoneTactileFloor = view.findViewById(R.id.payphone_tactile_floor_radio);
+
+        savePayphone = view.findViewById(R.id.save_gate_payphone);
+        cancelPayphone = view.findViewById(R.id.cancel_gate_payphone);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowPayPhoneObsScroll() {
+        payphoneObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public int getCheckedRadioFloor(RadioGroup radio) {

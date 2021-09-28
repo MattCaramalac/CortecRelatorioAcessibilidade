@@ -169,7 +169,14 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/pavement_tact_sign_obs_value"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="3"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -231,7 +238,14 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tactile_floor_obs_value"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="3"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

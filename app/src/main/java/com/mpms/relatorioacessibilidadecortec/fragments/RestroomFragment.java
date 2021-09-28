@@ -96,47 +96,7 @@ public class RestroomFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        restroomLocationField = view.findViewById(R.id.restroom_location_field);
-        accessibleRouteObsField = view.findViewById(R.id.restroom_accessible_route_obs_field);
-        integratedRestroomObsField = view.findViewById(R.id.integrated_restroom_obs_field);
-        restroomDistanceObsField = view.findViewById(R.id.restroom_distance_obs_field);
-        exclusiveEntranceObsField = view.findViewById(R.id.exclusive_entrance_obs_field);
-        driftingFloorObsField = view.findViewById(R.id.restroom_drifting_obs_field);
-        restroomDrainObsField = view.findViewById(R.id.restroom_drain_obs_field);
-        restroomSwitchObsField = view.findViewById(R.id.restroom_switch_obs_field);
-        restroomSwitchHeightField = view.findViewById(R.id.restroom_switch_height_field);
-
-        restroomLocationValue = view.findViewById(R.id.restroom_location_value);
-        accessibleRouteObsValue = view.findViewById(R.id.restroom_accessible_route_obs_value);
-        integratedRestroomObsValue = view.findViewById(R.id.integrated_restroom_obs_value);
-        restroomDistanceObsValue = view.findViewById(R.id.restroom_distance_obs_value);
-        exclusiveEntranceObsValue = view.findViewById(R.id.exclusive_entrance_obs_value);
-        driftingFloorObsValue = view.findViewById(R.id.restroom_drifting_obs_value);
-        restroomDrainObsValue = view.findViewById(R.id.restroom_drain_obs_value);
-        restroomSwitchObsValue = view.findViewById(R.id.restroom_switch_obs_value);
-        restroomSwitchHeightValue = view.findViewById(R.id.restroom_switch_height_value);
-
-        restroomTypeRadio = view.findViewById(R.id.restroom_type_radio);
-        accessibleRouteRadio = view.findViewById(R.id.accessible_route_radio);
-        integratedRestroomRadio = view.findViewById(R.id.integrated_restroom_radio);
-        restroomDistanceRadio = view.findViewById(R.id.restroom_distance_radio);
-        exclusiveEntranceRadio = view.findViewById(R.id.exclusive_entrance_radio);
-        driftingFloorRadio = view.findViewById(R.id.restroom_drifting_radio);
-        restroomDrainRadio = view.findViewById(R.id.restroom_drain_radio);
-        restroomSwitchRadio = view.findViewById(R.id.restroom_switch_radio);
-
-        restroomTypeError = view.findViewById(R.id.restroom_type_error);
-        accessibleRouteError = view.findViewById(R.id.accessible_route_error);
-        integratedRestroomError = view.findViewById(R.id.integrated_restroom_error);
-        restroomDistanceError = view.findViewById(R.id.restroom_distance_error);
-        exclusiveEntranceError = view.findViewById(R.id.exclusive_entrance_error);
-        driftingFloorError = view.findViewById(R.id.restroom_drifting_error);
-        restroomDrainError = view.findViewById(R.id.restroom_drain_error);
-        restroomSwitchError = view.findViewById(R.id.restroom_switch_error);
-
-        cancelRestroom = view.findViewById(R.id.cancel_restroom);
-        continueRegister = view.findViewById(R.id.continue_restroom_register);
-
+        instantiateRestroomViews(view);
         enableObsScrollingFields();
 
         restroomSwitchRadio.setOnCheckedChangeListener(this::activateSwitchHeight);
@@ -212,6 +172,49 @@ public class RestroomFragment extends Fragment {
         super.onResume();
         if (restroomBundleData.getBoolean(RestroomDoorFragment.OPENED_DOOR_FRAG))
             modelFragments.setRestroomBundle(restroomBundleData);
+    }
+
+    private void instantiateRestroomViews(View view) {
+        restroomLocationField = view.findViewById(R.id.restroom_location_field);
+        accessibleRouteObsField = view.findViewById(R.id.restroom_accessible_route_obs_field);
+        integratedRestroomObsField = view.findViewById(R.id.integrated_restroom_obs_field);
+        restroomDistanceObsField = view.findViewById(R.id.restroom_distance_obs_field);
+        exclusiveEntranceObsField = view.findViewById(R.id.exclusive_entrance_obs_field);
+        driftingFloorObsField = view.findViewById(R.id.restroom_drifting_obs_field);
+        restroomDrainObsField = view.findViewById(R.id.restroom_drain_obs_field);
+        restroomSwitchObsField = view.findViewById(R.id.restroom_switch_obs_field);
+        restroomSwitchHeightField = view.findViewById(R.id.restroom_switch_height_field);
+
+        restroomLocationValue = view.findViewById(R.id.restroom_location_value);
+        accessibleRouteObsValue = view.findViewById(R.id.restroom_accessible_route_obs_value);
+        integratedRestroomObsValue = view.findViewById(R.id.integrated_restroom_obs_value);
+        restroomDistanceObsValue = view.findViewById(R.id.restroom_distance_obs_value);
+        exclusiveEntranceObsValue = view.findViewById(R.id.exclusive_entrance_obs_value);
+        driftingFloorObsValue = view.findViewById(R.id.restroom_drifting_obs_value);
+        restroomDrainObsValue = view.findViewById(R.id.restroom_drain_obs_value);
+        restroomSwitchObsValue = view.findViewById(R.id.restroom_switch_obs_value);
+        restroomSwitchHeightValue = view.findViewById(R.id.restroom_switch_height_value);
+
+        restroomTypeRadio = view.findViewById(R.id.restroom_type_radio);
+        accessibleRouteRadio = view.findViewById(R.id.accessible_route_radio);
+        integratedRestroomRadio = view.findViewById(R.id.integrated_restroom_radio);
+        restroomDistanceRadio = view.findViewById(R.id.restroom_distance_radio);
+        exclusiveEntranceRadio = view.findViewById(R.id.exclusive_entrance_radio);
+        driftingFloorRadio = view.findViewById(R.id.restroom_drifting_radio);
+        restroomDrainRadio = view.findViewById(R.id.restroom_drain_radio);
+        restroomSwitchRadio = view.findViewById(R.id.restroom_switch_radio);
+
+        restroomTypeError = view.findViewById(R.id.restroom_type_error);
+        accessibleRouteError = view.findViewById(R.id.accessible_route_error);
+        integratedRestroomError = view.findViewById(R.id.integrated_restroom_error);
+        restroomDistanceError = view.findViewById(R.id.restroom_distance_error);
+        exclusiveEntranceError = view.findViewById(R.id.exclusive_entrance_error);
+        driftingFloorError = view.findViewById(R.id.restroom_drifting_error);
+        restroomDrainError = view.findViewById(R.id.restroom_drain_error);
+        restroomSwitchError = view.findViewById(R.id.restroom_switch_error);
+
+        cancelRestroom = view.findViewById(R.id.cancel_restroom);
+        continueRegister = view.findViewById(R.id.continue_restroom_register);
     }
 
     public void activateSwitchHeight(RadioGroup radio, int checkedID) {

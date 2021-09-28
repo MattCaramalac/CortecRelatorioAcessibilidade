@@ -1,8 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -68,24 +70,8 @@ public class RestroomUpperViewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        upperViewImgButton = view.findViewById(R.id.rest_upper_view_image);
-
-        measureFieldA = view.findViewById(R.id.upper_view_A_measurement_field);
-        measureFieldB = view.findViewById(R.id.upper_view_B_measurement_field);
-        measureFieldC = view.findViewById(R.id.upper_view_C_measurement_field);
-        measureFieldD = view.findViewById(R.id.upper_view_D_measurement_field);
-        measureFieldE = view.findViewById(R.id.upper_view_E_measurement_field);
-        upViewObsField = view.findViewById(R.id.upper_view_obs_field);
-
-        measureValueA = view.findViewById(R.id.upper_view_A_measurement_value);
-        measureValueB = view.findViewById(R.id.upper_view_B_measurement_value);
-        measureValueC = view.findViewById(R.id.upper_view_C_measurement_value);
-        measureValueD = view.findViewById(R.id.upper_view_D_measurement_value);
-        measureValueE = view.findViewById(R.id.upper_view_E_measurement_value);
-        upViewObsValue = view.findViewById(R.id.upper_view_obs_value);
-
-        saveUpMeasures = view.findViewById(R.id.save_up_measurements);
-        returnRestDoorData = view.findViewById(R.id.return_button);
+        instantiateUpperViews(view);
+        allowUpperViewObsScroll();
 
         Glide.with(this).load(R.drawable.upperview).centerCrop().into(upperViewImgButton);
 
@@ -131,6 +117,41 @@ public class RestroomUpperViewFragment extends Fragment {
     public void onResume() {
         super.onResume();
         restroomDataBundle.putBoolean(OPENED_UP_VIEW, true);
+    }
+
+    private void instantiateUpperViews(View view) {
+        upperViewImgButton = view.findViewById(R.id.rest_upper_view_image);
+
+        measureFieldA = view.findViewById(R.id.upper_view_A_measurement_field);
+        measureFieldB = view.findViewById(R.id.upper_view_B_measurement_field);
+        measureFieldC = view.findViewById(R.id.upper_view_C_measurement_field);
+        measureFieldD = view.findViewById(R.id.upper_view_D_measurement_field);
+        measureFieldE = view.findViewById(R.id.upper_view_E_measurement_field);
+        upViewObsField = view.findViewById(R.id.upper_view_obs_field);
+
+        measureValueA = view.findViewById(R.id.upper_view_A_measurement_value);
+        measureValueB = view.findViewById(R.id.upper_view_B_measurement_value);
+        measureValueC = view.findViewById(R.id.upper_view_C_measurement_value);
+        measureValueD = view.findViewById(R.id.upper_view_D_measurement_value);
+        measureValueE = view.findViewById(R.id.upper_view_E_measurement_value);
+        upViewObsValue = view.findViewById(R.id.upper_view_obs_value);
+
+        saveUpMeasures = view.findViewById(R.id.save_up_measurements);
+        returnRestDoorData = view.findViewById(R.id.return_button);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowUpperViewObsScroll() {
+            upViewObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public void callSupBarFragment(Bundle bundle) {

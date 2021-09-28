@@ -1,19 +1,20 @@
 package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -69,18 +70,8 @@ public class AddCounterDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(R.string.dialog_add_counter_header);
 
-        counterLocationField = view.findViewById(R.id.counter_ref_location_field);
-        upperEdgeField = view.findViewById(R.id.counter_upper_edge_field);
-        lowerEdgeField = view.findViewById(R.id.counter_lower_edge_field);
-        frontalApproxField = view.findViewById(R.id.counter_frontal_approx_field);
-        counterObsField = view.findViewById(R.id.counter_obs_field);
-        counterLocationValue = view.findViewById(R.id.counter_ref_location_value);
-        upperEdgeValue = view.findViewById(R.id.counter_upper_edge_value);
-        lowerEdgeValue = view.findViewById(R.id.counter_lower_edge_value);
-        frontalApproxValue = view.findViewById(R.id.counter_frontal_approx_value);
-        counterObsValue = view.findViewById(R.id.counter_obs_value);
-        addCounter = view.findViewById(R.id.save_counter_button);
-        cancelCounter = view.findViewById(R.id.cancel_counter_button);
+        instantiateCounterView(view);
+        allowCounterObsScroll();
 
         addCounter.setOnClickListener(v -> {
             if(checkEmptyCounterFields()) {
@@ -104,6 +95,36 @@ public class AddCounterDialog extends DialogFragment {
             int length = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width, length);
         }
+    }
+
+    private void instantiateCounterView(View view) {
+        counterLocationField = view.findViewById(R.id.counter_ref_location_field);
+        upperEdgeField = view.findViewById(R.id.counter_upper_edge_field);
+        lowerEdgeField = view.findViewById(R.id.counter_lower_edge_field);
+        frontalApproxField = view.findViewById(R.id.counter_frontal_approx_field);
+        counterObsField = view.findViewById(R.id.counter_obs_field);
+
+        counterLocationValue = view.findViewById(R.id.counter_ref_location_value);
+        upperEdgeValue = view.findViewById(R.id.counter_upper_edge_value);
+        lowerEdgeValue = view.findViewById(R.id.counter_lower_edge_value);
+        frontalApproxValue = view.findViewById(R.id.counter_frontal_approx_value);
+        counterObsValue = view.findViewById(R.id.counter_obs_value);
+
+        addCounter = view.findViewById(R.id.save_counter_button);
+        cancelCounter = view.findViewById(R.id.cancel_counter_button);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowCounterObsScroll() {
+        counterObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public boolean checkEmptyCounterFields() {

@@ -1,8 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,6 +25,8 @@ import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkTwo;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
+import java.util.ArrayList;
+
 public class RestroomSink2Fragment extends Fragment {
 
     public static final String OPENED_SINK_TWO = "OPENED_SINK_TWO";
@@ -40,7 +44,7 @@ public class RestroomSink2Fragment extends Fragment {
     Bundle restroomDataBundle, imgBundle;
     ViewModelEntry modelEntry;
 
-
+    ArrayList<TextInputEditText> sinkTwoObsArray = new ArrayList<>();
 
     public RestroomSink2Fragment() {
         // Required empty public constructor
@@ -69,41 +73,8 @@ public class RestroomSink2Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        measureFieldI = view.findViewById(R.id.sink_three_I_measurement_field);
-        measureFieldJ = view.findViewById(R.id.sink_three_J_measurement_field);
-        measureFieldK = view.findViewById(R.id.sink_three_K_measurement_field);
-        measureFieldL = view.findViewById(R.id.sink_three_L_measurement_field);
-        measureFieldM = view.findViewById(R.id.sink_three_M_measurement_field);
-        measureFieldN = view.findViewById(R.id.sink_three_N_measurement_field);
-        measureFieldO = view.findViewById(R.id.sink_four_O_measurement_field);
-        measureFieldP = view.findViewById(R.id.sink_four_P_measurement_field);
-        measureFieldQ = view.findViewById(R.id.sink_four_Q_measurement_field);
-        measureFieldR = view.findViewById(R.id.sink_four_R_measurement_field);
-        measureFieldS = view.findViewById(R.id.sink_five_S_measurement_field);
-        measureFieldT = view.findViewById(R.id.sink_five_T_measurement_field);
-        obsSinkImgThreeField = view.findViewById(R.id.sink_three_obs_field);
-        obsSinkImgFourFiveField = view.findViewById(R.id.sink_four_five_obs_field);
-        measureValueI = view.findViewById(R.id.sink_three_I_measurement_value);
-        measureValueJ = view.findViewById(R.id.sink_three_J_measurement_value);
-        measureValueK = view.findViewById(R.id.sink_three_K_measurement_value);
-        measureValueL = view.findViewById(R.id.sink_three_L_measurement_value);
-        measureValueM = view.findViewById(R.id.sink_three_M_measurement_value);
-        measureValueN = view.findViewById(R.id.sink_three_N_measurement_value);
-        measureValueO = view.findViewById(R.id.sink_four_O_measurement_value);
-        measureValueP = view.findViewById(R.id.sink_four_P_measurement_value);
-        measureValueQ = view.findViewById(R.id.sink_four_Q_measurement_value);
-        measureValueR = view.findViewById(R.id.sink_four_R_measurement_value);
-        measureValueS = view.findViewById(R.id.sink_five_S_measurement_value);
-        measureValueT = view.findViewById(R.id.sink_five_T_measurement_value);
-        obsSinkImgThreeValue = view.findViewById(R.id.sink_three_obs_value);
-        obsSinkImgFourFiveValue = view.findViewById(R.id.sink_four_five_obs_value);
-
-        saveSinkTwo = view.findViewById(R.id.save_sink_two);
-        returnSinkOne = view.findViewById(R.id.return_sink_one);
-
-        sinkThree = view.findViewById(R.id.sink_image_three);
-        sinkFour = view.findViewById(R.id.sink_image_four);
-        sinkFive = view.findViewById(R.id.sink_image_five);
+        instantiateSinkTwoViews(view);
+        allowSinkTwoObsScroll();
 
         Glide.with(this).load(R.drawable.sink_3).fitCenter().into(sinkThree);
         Glide.with(this).load(R.drawable.sink_4).fitCenter().into(sinkFour);
@@ -143,6 +114,65 @@ public class RestroomSink2Fragment extends Fragment {
     public void onResume() {
         super.onResume();
         restroomDataBundle.putBoolean(OPENED_SINK_TWO, true);
+    }
+
+    private void instantiateSinkTwoViews(View view) {
+        measureFieldI = view.findViewById(R.id.sink_three_I_measurement_field);
+        measureFieldJ = view.findViewById(R.id.sink_three_J_measurement_field);
+        measureFieldK = view.findViewById(R.id.sink_three_K_measurement_field);
+        measureFieldL = view.findViewById(R.id.sink_three_L_measurement_field);
+        measureFieldM = view.findViewById(R.id.sink_three_M_measurement_field);
+        measureFieldN = view.findViewById(R.id.sink_three_N_measurement_field);
+        measureFieldO = view.findViewById(R.id.sink_four_O_measurement_field);
+        measureFieldP = view.findViewById(R.id.sink_four_P_measurement_field);
+        measureFieldQ = view.findViewById(R.id.sink_four_Q_measurement_field);
+        measureFieldR = view.findViewById(R.id.sink_four_R_measurement_field);
+        measureFieldS = view.findViewById(R.id.sink_five_S_measurement_field);
+        measureFieldT = view.findViewById(R.id.sink_five_T_measurement_field);
+        obsSinkImgThreeField = view.findViewById(R.id.sink_three_obs_field);
+        obsSinkImgFourFiveField = view.findViewById(R.id.sink_four_five_obs_field);
+        measureValueI = view.findViewById(R.id.sink_three_I_measurement_value);
+        measureValueJ = view.findViewById(R.id.sink_three_J_measurement_value);
+        measureValueK = view.findViewById(R.id.sink_three_K_measurement_value);
+        measureValueL = view.findViewById(R.id.sink_three_L_measurement_value);
+        measureValueM = view.findViewById(R.id.sink_three_M_measurement_value);
+        measureValueN = view.findViewById(R.id.sink_three_N_measurement_value);
+        measureValueO = view.findViewById(R.id.sink_four_O_measurement_value);
+        measureValueP = view.findViewById(R.id.sink_four_P_measurement_value);
+        measureValueQ = view.findViewById(R.id.sink_four_Q_measurement_value);
+        measureValueR = view.findViewById(R.id.sink_four_R_measurement_value);
+        measureValueS = view.findViewById(R.id.sink_five_S_measurement_value);
+        measureValueT = view.findViewById(R.id.sink_five_T_measurement_value);
+        obsSinkImgThreeValue = view.findViewById(R.id.sink_three_obs_value);
+        obsSinkImgFourFiveValue = view.findViewById(R.id.sink_four_five_obs_value);
+
+        saveSinkTwo = view.findViewById(R.id.save_sink_two);
+        returnSinkOne = view.findViewById(R.id.return_sink_one);
+
+        sinkThree = view.findViewById(R.id.sink_image_three);
+        sinkFour = view.findViewById(R.id.sink_image_four);
+        sinkFive = view.findViewById(R.id.sink_image_five);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    private void addObsFieldsToArray() {
+        sinkTwoObsArray.add(obsSinkImgThreeValue);
+        sinkTwoObsArray.add(obsSinkImgFourFiveValue);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowSinkTwoObsScroll() {
+        addObsFieldsToArray();
+        for (TextInputEditText obsScroll :sinkTwoObsArray) {
+            obsScroll.setOnTouchListener(this::scrollingField);
+        }
     }
 
     public boolean checkSinkTwoEmptyFields() {

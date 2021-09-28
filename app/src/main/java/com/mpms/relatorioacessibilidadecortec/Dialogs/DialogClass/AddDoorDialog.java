@@ -1,9 +1,11 @@
 package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -74,6 +76,8 @@ public class AddDoorDialog extends DialogFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_add_door, container, false);
         toolbar = view.findViewById(R.id.door_toolbar);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
         return view;
     }
 
@@ -82,26 +86,10 @@ public class AddDoorDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(getString(R.string.dialog_add_door_header));
 
-        doorLocationField = view.findViewById(R.id.door_placement_field);
-        doorWidthField = view.findViewById(R.id.door_width_field);
-        doorSillObsField = view.findViewById(R.id.door_sill_obs_field);
-
-        doorLocationValue = view.findViewById(R.id.door_placement_value);
-        doorWidthValue = view.findViewById(R.id.door_width_value);
-        doorSillObsValue = view.findViewById(R.id.door_sill_obs_value);
-
-        sillType = view.findViewById(R.id.type_sill_radio);
-
-        sillTypeError = view.findViewById(R.id.sill_type_error);
-
-        saveDoor = view.findViewById(R.id.save_door);
-        cancelDoor = view.findViewById(R.id.cancel_door);
+        instantiateDoorObsField(view);
+        allowDoorSillObsScroll();
 
         manager = getChildFragmentManager();
-
-        modelEntry = new ViewModelEntry(requireActivity().getApplication());
-
-        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
 
         modelDialog.getDoorInfo().observe(getViewLifecycleOwner(), sillBundle -> {
             if (sillBundle != null) {
@@ -158,6 +146,36 @@ public class AddDoorDialog extends DialogFragment {
             int length = ViewGroup.LayoutParams.MATCH_PARENT;
             dialog.getWindow().setLayout(width,length);
         }
+    }
+
+    private void instantiateDoorObsField(View view) {
+        doorLocationField = view.findViewById(R.id.door_placement_field);
+        doorWidthField = view.findViewById(R.id.door_width_field);
+        doorSillObsField = view.findViewById(R.id.door_sill_obs_field);
+
+        doorLocationValue = view.findViewById(R.id.door_placement_value);
+        doorWidthValue = view.findViewById(R.id.door_width_value);
+        doorSillObsValue = view.findViewById(R.id.door_sill_obs_value);
+
+        sillType = view.findViewById(R.id.type_sill_radio);
+
+        sillTypeError = view.findViewById(R.id.sill_type_error);
+
+        saveDoor = view.findViewById(R.id.save_door);
+        cancelDoor = view.findViewById(R.id.cancel_door);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowDoorSillObsScroll() {
+        doorSillObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public boolean checkEmptyFields() {

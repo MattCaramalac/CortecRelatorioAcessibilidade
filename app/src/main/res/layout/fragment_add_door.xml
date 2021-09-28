@@ -150,7 +150,14 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/door_sill_obs_value"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

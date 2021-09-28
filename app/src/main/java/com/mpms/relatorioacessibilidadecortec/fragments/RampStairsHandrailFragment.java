@@ -1,8 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,6 +22,8 @@ import com.mpms.relatorioacessibilidadecortec.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
+import java.util.ArrayList;
+
 public class RampStairsHandrailFragment extends Fragment {
 
     Bundle handrailBundle = new Bundle();
@@ -31,6 +35,7 @@ public class RampStairsHandrailFragment extends Fragment {
     RadioGroup hasHandrailRadio, hasExtensionRadio;
     TextView hasHandrailError, handrailLocationError, handrailExtensionError, hasExtensionHeader, handrailSideHeader;
     Button saveHandrail, cancelHandrail;
+    ArrayList<TextInputEditText> obsHandrailArray = new ArrayList<>();
 
     public RampStairsHandrailFragment() {
         // Required empty public constructor
@@ -64,6 +69,7 @@ public class RampStairsHandrailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateHandrailFragmentViews(view);
+        allowHandrailObsScroll();
         initializeHandrailFragment();
         hasHandrailRadio.setOnCheckedChangeListener(this::hasHandrailListener);
         hasExtensionRadio.setOnCheckedChangeListener(this::hasExtensionListener);
@@ -131,6 +137,27 @@ public class RampStairsHandrailFragment extends Fragment {
 //        TextView
         hasExtensionHeader.setVisibility(View.GONE);
         handrailSideHeader.setVisibility(View.GONE);
+    }
+
+    public boolean scrollingDoorField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    private void addRailingFieldsToArrays() {
+        obsHandrailArray.add(handrailObsValue);
+        obsHandrailArray.add(extensionObsValue);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowHandrailObsScroll() {
+        addRailingFieldsToArrays();
+        for (TextInputEditText obsScroll : obsHandrailArray) {
+            obsScroll.setOnTouchListener(this::scrollingDoorField);
+        }
     }
 
     private int getCheckedHandrailRadio(RadioGroup radio) {

@@ -1,8 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -35,6 +37,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class RoomsRegisterFragment extends Fragment {
@@ -58,6 +61,8 @@ public class RoomsRegisterFragment extends Fragment {
     Bundle schoolData = new Bundle();
     private ViewModelFragments modelFragments;
     private ViewModelEntry modelEntry;
+
+    ArrayList<TextInputEditText> roomObsArray = new ArrayList<>();
 
     public RoomsRegisterFragment() {
         // Required empty public constructor
@@ -120,22 +125,8 @@ public class RoomsRegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        cancelRoomRegister = view.findViewById(R.id.cancel_room);
-        saveRoomRegister = view.findViewById(R.id.save_room);
-        doorRegister = view.findViewById(R.id.room_add_door_button);
-        switchRegister = view.findViewById(R.id.room_add_switch_button);
-        windowRegister = view.findViewById(R.id.room_add_window_button);
-        tableRegister = view.findViewById(R.id.room_add_tables_button);
-        freeSpaceRegister = view.findViewById(R.id.room_add_free_space_button);
-
-        hasVisualSign = view.findViewById(R.id.room_has_visual_sign_radio);
-        hasTactileSign = view.findViewById(R.id.room_has_tactile_sign_radio);
-
-        obsVisualSignField = view.findViewById(R.id.visual_sign_obs_field);
-        obsTactileSignField = view.findViewById(R.id.tactile_sign_obs_field);
-
-        obsVisualSignValue = view.findViewById(R.id.visual_sign_obs_value);
-        obsTactileSignValue = view.findViewById(R.id.tactile_sign_obs_value);
+        instantiateRoomViews(view);
+        allowRoomObsScroll();
 
         modelFragments.getCounterClick().observe(getViewLifecycleOwner(), counter -> {
             if(Objects.equals(modelFragments.counterClick.getValue(), 1)) {
@@ -226,6 +217,46 @@ public class RoomsRegisterFragment extends Fragment {
                 .beginTransaction().remove(this).commit());
 
         saveRoomRegister.setOnClickListener(v -> saveRoomEntry());
+    }
+
+    private void instantiateRoomViews(View view) {
+        cancelRoomRegister = view.findViewById(R.id.cancel_room);
+        saveRoomRegister = view.findViewById(R.id.save_room);
+        doorRegister = view.findViewById(R.id.room_add_door_button);
+        switchRegister = view.findViewById(R.id.room_add_switch_button);
+        windowRegister = view.findViewById(R.id.room_add_window_button);
+        tableRegister = view.findViewById(R.id.room_add_tables_button);
+        freeSpaceRegister = view.findViewById(R.id.room_add_free_space_button);
+
+        hasVisualSign = view.findViewById(R.id.room_has_visual_sign_radio);
+        hasTactileSign = view.findViewById(R.id.room_has_tactile_sign_radio);
+
+        obsVisualSignField = view.findViewById(R.id.visual_sign_obs_field);
+        obsTactileSignField = view.findViewById(R.id.tactile_sign_obs_field);
+
+        obsVisualSignValue = view.findViewById(R.id.visual_sign_obs_value);
+        obsTactileSignValue = view.findViewById(R.id.tactile_sign_obs_value);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    private void addObsFieldsToArray() {
+        roomObsArray.add(obsVisualSignValue);
+        roomObsArray.add(obsTactileSignValue);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowRoomObsScroll() {
+        addObsFieldsToArray();
+        for (TextInputEditText obsScroll :roomObsArray) {
+            obsScroll.setOnTouchListener(this::scrollingField);
+        }
     }
 
     public void saveRoomEntry() {
