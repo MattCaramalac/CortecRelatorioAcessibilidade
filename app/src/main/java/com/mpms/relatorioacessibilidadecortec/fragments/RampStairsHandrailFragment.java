@@ -29,7 +29,7 @@ public class RampStairsHandrailFragment extends Fragment {
     TextInputEditText handrailHeightValue, handrailGripValue, handrailObsValue, extensionLengthValue, extensionObsValue;
     MultiLineRadioGroup handrailPlacementRadio;
     RadioGroup hasHandrailRadio, hasExtensionRadio;
-    TextView hasHandrailError, handrailLocationError, handrailExtensionError;
+    TextView hasHandrailError, handrailLocationError, handrailExtensionError, hasExtensionHeader, handrailSideHeader;
     Button saveHandrail, cancelHandrail;
 
     public RampStairsHandrailFragment() {
@@ -69,7 +69,7 @@ public class RampStairsHandrailFragment extends Fragment {
         hasExtensionRadio.setOnCheckedChangeListener(this::hasExtensionListener);
 
         saveHandrail.setOnClickListener(v -> {
-            if(checkHandrailEmptyFields()) {
+            if (checkHandrailEmptyFields()) {
                 RampStairsHandrailEntry newHandrail = handrailEntry(handrailBundle);
                 ViewModelEntry.insertRampStairsHandrail(newHandrail);
                 initializeHandrailFragment();
@@ -101,6 +101,8 @@ public class RampStairsHandrailFragment extends Fragment {
         saveHandrail = view.findViewById(R.id.save_handrail);
         cancelHandrail = view.findViewById(R.id.cancel_handrail);
 //        TextView
+        hasExtensionHeader = view.findViewById(R.id.handrail_has_extension_header);
+        handrailSideHeader = view.findViewById(R.id.handrail_choice_header);
         hasHandrailError = view.findViewById(R.id.has_handrail_error);
         handrailLocationError = view.findViewById(R.id.handrail_placement_error);
         handrailExtensionError = view.findViewById(R.id.has_extension_error);
@@ -108,11 +110,12 @@ public class RampStairsHandrailFragment extends Fragment {
 
     private void initializeHandrailFragment() {
 //        RadioGroups
+        hasHandrailRadio.clearCheck();
         hasExtensionRadio.clearCheck();
-        hasExtensionRadio.setEnabled(false);
+        hasExtensionRadio.setVisibility(View.GONE);
 //        MultilineRadio
         handrailPlacementRadio.clearCheck();
-        handrailPlacementRadio.setEnabled(false);
+        handrailPlacementRadio.setVisibility(View.GONE);
 //        TextInputEditText
         handrailHeightValue.setText(null);
         handrailGripValue.setText(null);
@@ -120,11 +123,14 @@ public class RampStairsHandrailFragment extends Fragment {
         extensionLengthValue.setText(null);
         extensionObsValue.setText(null);
 //        TextInputLayout
-        handrailHeightField.setEnabled(false);
-        handrailGripField.setEnabled(false);
-        handrailObsField.setEnabled(false);
-        extensionLengthField.setEnabled(false);
-        extensionObsField.setEnabled(false);
+        handrailHeightField.setVisibility(View.GONE);
+        handrailGripField.setVisibility(View.GONE);
+        handrailObsField.setVisibility(View.GONE);
+        extensionLengthField.setVisibility(View.GONE);
+        extensionObsField.setVisibility(View.GONE);
+//        TextView
+        hasExtensionHeader.setVisibility(View.GONE);
+        handrailSideHeader.setVisibility(View.GONE);
     }
 
     private int getCheckedHandrailRadio(RadioGroup radio) {
@@ -177,20 +183,23 @@ public class RampStairsHandrailFragment extends Fragment {
         int index = getCheckedHandrailRadio(radio);
         if (index == 1) {
 //        RadioGroups
-            hasExtensionRadio.setEnabled(true);
+            hasExtensionRadio.setVisibility(View.VISIBLE);
 //        MultilineRadio
-            handrailPlacementRadio.setEnabled(true);
+            handrailPlacementRadio.setVisibility(View.VISIBLE);
 //        TextInputLayout
-            handrailHeightField.setEnabled(true);
-            handrailGripField.setEnabled(true);
-            handrailObsField.setEnabled(true);
+            handrailHeightField.setVisibility(View.VISIBLE);
+            handrailGripField.setVisibility(View.VISIBLE);
+            handrailObsField.setVisibility(View.VISIBLE);
+//        TextView
+            hasExtensionHeader.setVisibility(View.VISIBLE);
+            handrailSideHeader.setVisibility(View.VISIBLE);
         } else {
 //        RadioGroups
             hasExtensionRadio.clearCheck();
-            hasExtensionRadio.setEnabled(false);
+            hasExtensionRadio.setVisibility(View.GONE);
 //        MultilineRadio
             handrailPlacementRadio.clearCheck();
-            handrailPlacementRadio.setEnabled(false);
+            handrailPlacementRadio.setVisibility(View.GONE);
 //        TextInputEditText
             handrailHeightValue.setText(null);
             handrailGripValue.setText(null);
@@ -198,12 +207,14 @@ public class RampStairsHandrailFragment extends Fragment {
             extensionLengthValue.setText(null);
             extensionObsValue.setText(null);
 //        TextInputLayout
-            handrailHeightField.setEnabled(false);
-            handrailGripField.setEnabled(false);
-            handrailObsField.setEnabled(false);
-            extensionLengthField.setEnabled(false);
-            extensionObsField.setEnabled(false);
-
+            handrailHeightField.setVisibility(View.GONE);
+            handrailGripField.setVisibility(View.GONE);
+            handrailObsField.setVisibility(View.GONE);
+            extensionLengthField.setVisibility(View.GONE);
+            extensionObsField.setVisibility(View.GONE);
+//        TextViews
+            hasExtensionHeader.setVisibility(View.GONE);
+            handrailSideHeader.setVisibility(View.GONE);
         }
     }
 
@@ -211,15 +222,15 @@ public class RampStairsHandrailFragment extends Fragment {
         int index = getCheckedHandrailRadio(radio);
         if (index == 1) {
 //        TextInputLayout
-            extensionLengthField.setEnabled(true);
-            extensionObsField.setEnabled(true);
+            extensionLengthField.setVisibility(View.VISIBLE);
+            extensionObsField.setVisibility(View.VISIBLE);
         } else {
 //        TextInputEditText
             extensionLengthValue.setText(null);
             extensionObsValue.setText(null);
 //        TextInputLayout
-            extensionLengthField.setEnabled(false);
-            extensionObsField.setEnabled(false);
+            extensionLengthField.setVisibility(View.GONE);
+            extensionObsField.setVisibility(View.GONE);
         }
     }
 
@@ -247,7 +258,6 @@ public class RampStairsHandrailFragment extends Fragment {
                     null, null, null, null, null);
         }
     }
-
 
 
 }

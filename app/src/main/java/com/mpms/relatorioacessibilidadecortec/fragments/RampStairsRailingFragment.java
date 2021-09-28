@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -165,8 +166,8 @@ public class RampStairsRailingFragment extends Fragment {
         beaconHeightField.setErrorEnabled(false);
     }
 
-    private void hasRailingListener(RadioGroup radio, int checkedID) {
-        int index = getCheckedRailingRadio(radio);
+    private void hasRailingListener(ViewGroup multi, RadioButton rButton) {
+        int index = hasRailingRadio.getCheckedRadioButtonIndex();
         if (index == 1 || index == 2) {
 //        TextInputLayout
             railingHeightField.setEnabled(true);
@@ -175,8 +176,7 @@ public class RampStairsRailingFragment extends Fragment {
 //        TextInputEditText
             railingHeightValue.setText(null);
 //        TextInputLayout
-            railingHeightField.setEnabled(true);
-
+            railingHeightField.setEnabled(false);
         }
     }
 
