@@ -18,13 +18,34 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/section_header"/>
 
-        <!-- Inserir outro texto para indicar qual lance de escada está sendo cadastrado  -->
+        <TextView
+            android:id="@+id/flight_number_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/flight_header"
+            android:layout_marginTop="@dimen/top_margins"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/section_header"
+            android:text="@string/header_flight_number_indicator"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/flight_number"
+            app:layout_constraintStart_toEndOf="@id/flight_number_header"
+            app:layout_constraintBaseline_toBaselineOf="@id/flight_number_header"
+            android:layout_marginTop="@dimen/top_margins"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/purple_700"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/ramp_staircase_width_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/flight_header"
+            app:layout_constraintTop_toBottomOf="@id/flight_number_header"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/usual_padding">
 
