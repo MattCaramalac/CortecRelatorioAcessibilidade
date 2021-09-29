@@ -4,13 +4,9 @@ public class HeaderNames {
 
     private String name;
 
-//    public void HeaderNames() {
-//    }
-//
-
     public static final String[] headerNames = {
             "Acesso externo",
-            "Banheiro",
+            "Sanitário",
             "Bebedouro",
             "Biblioteca",
             "Calçada",
