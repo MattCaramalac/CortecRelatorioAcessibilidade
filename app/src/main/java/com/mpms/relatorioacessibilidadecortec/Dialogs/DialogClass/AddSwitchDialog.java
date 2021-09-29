@@ -89,7 +89,7 @@ public class AddSwitchDialog extends DialogFragment {
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int length = ViewGroup.LayoutParams.MATCH_PARENT;
+            int length = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width,length);
         }
     }
