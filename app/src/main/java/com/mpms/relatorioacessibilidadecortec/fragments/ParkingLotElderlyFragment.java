@@ -114,8 +114,8 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
             if (verifyEmptyFields()) {
                 ParkingLotElderlyEntry newEntry = newElderlyEntry();
                 ViewModelEntry.insertElderlyParkingLot(newEntry);
+                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 saveAttempt = 1;
-                Toast.makeText(getContext(), "Informações Salvas com Sucesso!", Toast.LENGTH_SHORT).show();
             }
         });
     }

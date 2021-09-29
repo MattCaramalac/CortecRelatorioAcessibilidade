@@ -87,6 +87,7 @@ public class AddTableDialog extends DialogFragment {
                 roomBundle.putInt(TableTypeFragment.TABLE_TYPE,tableBundle.getInt(TableTypeFragment.TABLE_TYPE));
                 TableEntry newTabEntry = newTableEntry(roomBundle);
                 ViewModelEntry.insertTablesEntry(newTabEntry);
+                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 clearTableFields();
                 modelDialog.setTableInfo(null);
             }

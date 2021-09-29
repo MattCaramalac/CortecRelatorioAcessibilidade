@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -84,6 +85,7 @@ public class AddSidewalkSlopeDialog extends DialogFragment {
             if (checkEmptySidewalkSlopeFields()) {
                 SidewalkSlopeEntry newSlope = newSlope(sidewalkBundle);
                 ViewModelEntry.insertSidewalkSlopeEntry(newSlope);
+                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 clearSidewalkSlopeFields();
                 slopeCounter++;
             }

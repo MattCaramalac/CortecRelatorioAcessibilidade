@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -166,6 +167,7 @@ public class RestroomMirrorUrinalFragment extends Fragment {
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         RestroomFragment restroom = RestroomFragment.newInstance();
         restroom.setArguments(restroomDataBundle);
+        Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
         fragmentTransaction.replace(R.id.show_fragment_selected, restroom).addToBackStack(null).commit();
     }
 

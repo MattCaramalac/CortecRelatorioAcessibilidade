@@ -176,11 +176,13 @@ public class RoomsRegisterFragment extends Fragment {
                 if (update == 0) {
                     RoomEntry newEntry = newRoomEntry(roomBundle);
                     ViewModelEntry.insertRoomEntry(newEntry);
+                    Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
 
                 } else {
                     RoomEntry updateEntry = newRoomEntry(roomBundle);
                     updateEntry.setRoomID(recentRoomID);
                     ViewModelEntry.updateRoom(updateEntry);
+                    Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 }
                 clearRoomFields();
                 modelFragments.setRoomBundle(null);

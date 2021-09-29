@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -88,6 +89,7 @@ public class AddRampInclinationDialog extends DialogFragment {
             if(checkRampInclinationEmptyField()) {
                 RampInclinationEntry rampEntry = newInclination(inclinationBundle);
                 ViewModelEntry.insertRampInclinationEntry(rampEntry);
+                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 inclinationNumber++;
                 clearRampInclinationFields();
             }

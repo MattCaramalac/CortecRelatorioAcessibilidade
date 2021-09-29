@@ -160,11 +160,13 @@ public class SidewalkFragment extends Fragment {
                         if (updateRegister == 0) {
                             SidewalkEntry newSidewalkEntry = newSidewalk(sidewalkData);
                             ViewModelEntry.insertSidewalkEntry(newSidewalkEntry);
+                            Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                             resetInitialLayout();
                         } else if (updateRegister > 0) {
                             SidewalkEntry upSidewalkEntry = newSidewalk(sidewalkData);
                             upSidewalkEntry.setSidewalkID(sidewalkData.getInt(SIDEWALK_ID));
                             ViewModelEntry.updateSidewalk(upSidewalkEntry);
+                            Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                             resetInitialLayout();
                         } else {
                             updateRegister = 0;
@@ -186,6 +188,7 @@ public class SidewalkFragment extends Fragment {
                             SidewalkEntry upSidewalkEntry = newSidewalk(sidewalkData);
                             upSidewalkEntry.setSidewalkID(sidewalkData.getInt(SIDEWALK_ID));
                             ViewModelEntry.updateSidewalk(upSidewalkEntry);
+                            Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
                             resetInitialLayout();
                         } else {
                             updateRegister = 0;

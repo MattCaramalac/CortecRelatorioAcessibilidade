@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -77,6 +78,7 @@ public class AddCounterDialog extends DialogFragment {
             if(checkEmptyCounterFields()) {
                 CounterEntry newCounter = newCounter(counterBundle);
                 ViewModelEntry.insertCounter(newCounter);
+                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 clearCounterFields();
             }
         });

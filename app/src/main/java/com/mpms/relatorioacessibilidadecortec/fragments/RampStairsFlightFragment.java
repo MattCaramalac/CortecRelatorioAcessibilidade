@@ -117,6 +117,7 @@ public class RampStairsFlightFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateFlightViews(view);
+        allowFlightObsScroll();
         setRampStairsFlightTemplate(flightBundle.getInt(RampStairsFragment.RAMP_OR_STAIRS));
 
         flightNumber.setText(String.valueOf((numberFlights)));
@@ -149,7 +150,8 @@ public class RampStairsFlightFragment extends Fragment {
                     } else if (updateFlight > 0) {
                         if(checkRampStairsComponents(flightBundle.getInt(FLIGHT_ID))) {
                            updateFlight(flightBundle);
-                           updateFlightScreen();
+                           Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                           celarFlightFragment();
                         } else {
                             Toast.makeText(getContext(), "Por favor, cadastre os componentes deste local", Toast.LENGTH_SHORT).show();
                         }
@@ -159,7 +161,8 @@ public class RampStairsFlightFragment extends Fragment {
                 } else if (flightID > 0) {
                     if(checkRampStairsComponents(flightBundle.getInt(FLIGHT_ID))) {
                         updateFlight(flightBundle);
-                        updateFlightScreen();
+                        Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                        celarFlightFragment();
                     } else {
                         Toast.makeText(getContext(), "Por favor, cadastre os componentes deste local", Toast.LENGTH_SHORT).show();
                     }
@@ -197,7 +200,7 @@ public class RampStairsFlightFragment extends Fragment {
         }
     }
 
-    private void updateFlightScreen() {
+    private void celarFlightFragment() {
         if (numberFlights < flightBundle.getInt(RampStairsFragment.NUMBER_FLIGHTS)) {
             numberFlights++;
             flightBundle.putInt(FLIGHT_ID, 0);

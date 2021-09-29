@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -83,6 +84,7 @@ public class RampStairsRailingFragment extends Fragment {
             if (checkRailingEmptyFields()) {
                 RampStairsRailingEntry newRailing = railingEntry(railingBundle);
                 ViewModelEntry.insertRampStairsRailing(newRailing);
+                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 initializeRailingFragment();
             }
         });

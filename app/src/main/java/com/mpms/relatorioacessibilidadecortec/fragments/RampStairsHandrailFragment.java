@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -78,6 +79,7 @@ public class RampStairsHandrailFragment extends Fragment {
             if (checkHandrailEmptyFields()) {
                 RampStairsHandrailEntry newHandrail = handrailEntry(handrailBundle);
                 ViewModelEntry.insertRampStairsHandrail(newHandrail);
+                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 initializeHandrailFragment();
             }
         });

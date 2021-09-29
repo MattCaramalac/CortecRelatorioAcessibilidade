@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -89,6 +90,7 @@ public class AddStairsStepDialog extends DialogFragment {
             if(checkStairsStepEmptyField()) {
                 StairsStepEntry stairsStepEntry = stepEntry(stairsStepBundle);
                 ViewModelEntry.insertStairsStepEntry(stairsStepEntry);
+                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 stepMeasurements++;
                 clearStairsStepFields();
             }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -97,6 +98,7 @@ public class AddDoorDialog extends DialogFragment {
                 sillBundle.putInt(RoomsRegisterFragment.ROOM_ID_VALUE, roomBundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE));
                 DoorEntry doorEntry = newDoor(sillBundle);
                 ViewModelEntry.insertDoorEntry(doorEntry);
+                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 clearDoorFields();
                 modelDialog.setDoorInfo(null);
             }
