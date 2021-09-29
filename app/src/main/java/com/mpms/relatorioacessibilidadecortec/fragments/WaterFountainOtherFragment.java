@@ -1,18 +1,19 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -27,12 +28,13 @@ public class WaterFountainOtherFragment extends Fragment {
     static final String FAUCET_HEIGHT = "FAUCET_HEIGHT";
     static final String HAS_CUP_HOLDER = "HAS_CUP_HOLDER";
     static final String CUP_HOLDER_HEIGHT = "CUP_HOLDER_HEIGHT";
+    static final String OTHER_FOUNTAIN_OBS = "OTHER_FOUNTAIN_OBS";
 
     ViewModelFragments modelFragments;
     TextView lateralApproxError, hasCupHolderError;
     RadioGroup allowLateralApprox, hasCupHolder;
-    TextInputLayout faucetHeightField, cupHolderHeightField;
-    TextInputEditText faucetHeightValue, cupHolderHeightValue;
+    TextInputLayout faucetHeightField, cupHolderHeightField, fountainObsField;
+    TextInputEditText faucetHeightValue, cupHolderHeightValue, fountainObsValue;
 
     public WaterFountainOtherFragment() {
         // Required empty public constructor
@@ -59,17 +61,8 @@ public class WaterFountainOtherFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        lateralApproxError = view.findViewById(R.id.water_fountain_lateral_approx_error);
-        hasCupHolderError = view.findViewById(R.id.water_fountain_has_cup_holder_error);
-
-        allowLateralApprox = view.findViewById(R.id.other_allow_approx_radio);
-        hasCupHolder = view.findViewById(R.id.other_has_cup_holder_radio);
-
-        faucetHeightField = view.findViewById(R.id.other_water_fountain_faucet_height_field);
-        cupHolderHeightField = view.findViewById(R.id.other_water_fountain_cup_holder_height_field);
-
-        faucetHeightValue = view.findViewById(R.id.other_water_fountain_faucet_height_value);
-        cupHolderHeightValue = view.findViewById(R.id.other_water_fountain_cup_holder_height_value);
+        instantiateOtherViews(view);
+        allowOtherFountainObsScroll();
 
         hasCupHolder.setOnCheckedChangeListener(this::hasCupHolderListener);
 
@@ -78,11 +71,13 @@ public class WaterFountainOtherFragment extends Fragment {
                 if (hasNoEmptyFields()) {
                     Bundle otherData = new Bundle();
                     otherData.putInt(ALLOW_LATERAL, getCheckedIndex(allowLateralApprox));
-                    otherData.putDouble(FAUCET_HEIGHT, Double.parseDouble(Objects.requireNonNull(faucetHeightValue.getText()).toString()));
+                    otherData.putDouble(FAUCET_HEIGHT, Double.parseDouble(String.valueOf(faucetHeightValue.getText())));
                     otherData.putInt(HAS_CUP_HOLDER, getCheckedIndex(hasCupHolder));
                     if (getCheckedIndex(hasCupHolder) == 1) {
-                        otherData.putDouble(CUP_HOLDER_HEIGHT, Double.parseDouble(Objects.requireNonNull(cupHolderHeightValue.getText()).toString()));
+                        otherData.putDouble(CUP_HOLDER_HEIGHT, Double.parseDouble(String.valueOf(cupHolderHeightValue.getText())));
                     }
+                    if (!TextUtils.isEmpty(fountainObsValue.getText()))
+                        otherData.putString(OTHER_FOUNTAIN_OBS,String.valueOf(fountainObsValue.getText()));
                     modelFragments.setFountainBundle(otherData);
                     clearFields();
                     requireParentFragment().getChildFragmentManager().beginTransaction().remove(this).commit();
@@ -92,6 +87,35 @@ public class WaterFountainOtherFragment extends Fragment {
             }
 
         });
+    }
+
+    private void instantiateOtherViews(View view) {
+        lateralApproxError = view.findViewById(R.id.water_fountain_lateral_approx_error);
+        hasCupHolderError = view.findViewById(R.id.water_fountain_has_cup_holder_error);
+
+        allowLateralApprox = view.findViewById(R.id.other_allow_approx_radio);
+        hasCupHolder = view.findViewById(R.id.other_has_cup_holder_radio);
+
+        faucetHeightField = view.findViewById(R.id.other_water_fountain_faucet_height_field);
+        cupHolderHeightField = view.findViewById(R.id.other_water_fountain_cup_holder_height_field);
+        fountainObsField = view.findViewById(R.id.other_water_fountain_obs_field);
+
+        faucetHeightValue = view.findViewById(R.id.other_water_fountain_faucet_height_value);
+        cupHolderHeightValue = view.findViewById(R.id.other_water_fountain_cup_holder_height_value);
+        fountainObsValue = view.findViewById(R.id.other_water_fountain_obs_value);
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowOtherFountainObsScroll() {
+            fountainObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public void hasCupHolderListener(RadioGroup group, int checkedID) {

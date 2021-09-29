@@ -1,18 +1,19 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -27,12 +28,13 @@ public class WaterFountainSpoutFragment extends Fragment {
     static final String HIGHEST_SPOUT = "HIGHEST_SPOUT";
     static final String LOWEST_SPOUT = "LOWEST_SPOUT";
     static final String FREE_SPACE_SPOUT = "FREE_SPACE_SPOUT";
+    static final String SPOUT_FOUNTAIN_OBS = "SPOUT_FOUNTAIN_OBS";
 
     ViewModelFragments modelFragments;
     TextView allowApproxError;
     RadioGroup allowFrontalApprox;
-    TextInputLayout highestSpoutField, lowestSpoutField, freeSpaceSpoutField;
-    TextInputEditText highestSpoutValue, lowestSpoutValue, freeSpaceSpoutValue;
+    TextInputLayout highestSpoutField, lowestSpoutField, freeSpaceSpoutField, spoutObsField;
+    TextInputEditText highestSpoutValue, lowestSpoutValue, freeSpaceSpoutValue, spoutObsValue;
 
     public WaterFountainSpoutFragment() {
         // Required empty public constructor
@@ -62,6 +64,28 @@ public class WaterFountainSpoutFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        instantiateSpoutFountainViews(view);
+        allowSpoutFountainObsScroll();
+
+        modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
+            if (Objects.equals(modelFragments.getSaveAttempt().getValue(), 1)) {
+                if (hasNoEmptyFields()) {
+                    Bundle spoutData = new Bundle();
+                    spoutData.putInt(ALLOW_FRONTAL, getCheckedIndex(allowFrontalApprox));
+                    spoutData.putDouble(HIGHEST_SPOUT, Double.parseDouble(String.valueOf(highestSpoutValue.getText())));
+                    spoutData.putDouble(LOWEST_SPOUT, Double.parseDouble(String.valueOf(lowestSpoutValue.getText())));
+                    spoutData.putDouble(FREE_SPACE_SPOUT, Double.parseDouble(String.valueOf(freeSpaceSpoutValue.getText())));
+                    spoutData.putString(SPOUT_FOUNTAIN_OBS, String.valueOf(spoutObsValue.getText()));
+                    modelFragments.setFountainBundle(spoutData);
+                    clearFields();
+                    requireParentFragment().getChildFragmentManager().beginTransaction().remove(this).commit();
+                }
+                modelFragments.setSaveAttemptFountain(0);
+            }
+        });
+    }
+
+    private void instantiateSpoutFountainViews(View view) {
         allowApproxError = view.findViewById(R.id.water_fountain_frontal_approx_error);
 
         allowFrontalApprox = view.findViewById(R.id.spout_allow_approx_radio);
@@ -69,30 +93,25 @@ public class WaterFountainSpoutFragment extends Fragment {
         highestSpoutField = view.findViewById(R.id.highest_spout_height_field);
         lowestSpoutField = view.findViewById(R.id.lowest_spout_height_field);
         freeSpaceSpoutField = view.findViewById(R.id.free_space_height_field);
+        spoutObsField = view.findViewById(R.id.spout_water_fountain_obs_field);
 
         highestSpoutValue = view.findViewById(R.id.highest_spout_height_value);
         lowestSpoutValue = view.findViewById(R.id.lowest_spout_height_value);
         freeSpaceSpoutValue = view.findViewById(R.id.free_space_height_value);
+        spoutObsValue = view.findViewById(R.id.spout_water_fountain_obs_value);
+    }
 
-        modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
-            if (Objects.equals(modelFragments.getSaveAttempt().getValue(), 1)) {
-                if (hasNoEmptyFields()) {
-                    Bundle spoutData = new Bundle();
-                    spoutData.putInt(ALLOW_FRONTAL, getCheckedIndex(allowFrontalApprox));
-                    spoutData.putDouble(HIGHEST_SPOUT, Double.parseDouble(Objects.requireNonNull(highestSpoutValue.getText()).toString()));
-                    spoutData.putDouble(LOWEST_SPOUT, Double.parseDouble(Objects.requireNonNull(lowestSpoutValue.getText()).toString()));
-                    spoutData.putDouble(FREE_SPACE_SPOUT, Double.parseDouble(Objects.requireNonNull(freeSpaceSpoutValue.getText()).toString()));
-                    modelFragments.setFountainBundle(spoutData);
-                    clearFields();
-                    requireParentFragment().getChildFragmentManager().beginTransaction().remove(this).commit();
-                }
-                modelFragments.setSaveAttemptFountain(0);
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
 
-            }
-
-        });
-
-
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowSpoutFountainObsScroll() {
+        spoutObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public boolean hasNoEmptyFields() {

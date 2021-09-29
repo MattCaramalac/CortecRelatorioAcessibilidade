@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,12 +67,7 @@ public class WaterFountainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        typeWaterFountain = view.findViewById(R.id.fountain_type_radio);
-
-        typeWaterFountainError = view.findViewById(R.id.water_fountain_type_error);
-
-        cancelWaterFountain = view.findViewById(R.id.cancel_waterfountain);
-        saveWaterFountain = view.findViewById(R.id.save_waterfountain);
+        instantiateFountainViews(view);
 
         typeWaterFountain.setOnCheckedChangeListener(this::typeFountainListener);
 
@@ -79,6 +75,7 @@ public class WaterFountainFragment extends Fragment {
             if (bundle != null) {
                 newFountain = createFountain(bundle, chosenFountain);
                 ViewModelEntry.insertWaterFountain(newFountain);
+                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 modelFragments.setFountainBundle(null);
                 typeWaterFountain.clearCheck();
             }
@@ -91,6 +88,15 @@ public class WaterFountainFragment extends Fragment {
 
         cancelWaterFountain.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
+    }
+
+    private void instantiateFountainViews(View view) {
+        typeWaterFountain = view.findViewById(R.id.fountain_type_radio);
+
+        typeWaterFountainError = view.findViewById(R.id.water_fountain_type_error);
+
+        cancelWaterFountain = view.findViewById(R.id.cancel_waterfountain);
+        saveWaterFountain = view.findViewById(R.id.save_waterfountain);
     }
 
     public void typeFountainListener(RadioGroup group, int checkedID) {
@@ -130,11 +136,13 @@ public class WaterFountainFragment extends Fragment {
         if (chosenFountain == 0) {
             newFountain = new WaterFountainEntry(schoolID, chosenFountain, null, null, null, null,
                     bundle.getInt(WaterFountainSpoutFragment.ALLOW_FRONTAL), bundle.getDouble(WaterFountainSpoutFragment.HIGHEST_SPOUT),
-                    bundle.getDouble(WaterFountainSpoutFragment.LOWEST_SPOUT), bundle.getDouble(WaterFountainSpoutFragment.FREE_SPACE_SPOUT));
+                    bundle.getDouble(WaterFountainSpoutFragment.LOWEST_SPOUT), bundle.getDouble(WaterFountainSpoutFragment.FREE_SPACE_SPOUT),
+                    bundle.getString(WaterFountainSpoutFragment.SPOUT_FOUNTAIN_OBS));
         } else if (chosenFountain == 1) {
             newFountain = new WaterFountainEntry(schoolID, chosenFountain, bundle.getInt(WaterFountainOtherFragment.ALLOW_LATERAL),
                     bundle.getDouble(WaterFountainOtherFragment.FAUCET_HEIGHT), bundle.getInt(WaterFountainOtherFragment.HAS_CUP_HOLDER),
-                    bundle.getDouble(WaterFountainOtherFragment.CUP_HOLDER_HEIGHT),null, null, null, null);
+                    bundle.getDouble(WaterFountainOtherFragment.CUP_HOLDER_HEIGHT),null, null,
+                    null, null, bundle.getString(WaterFountainOtherFragment.OTHER_FOUNTAIN_OBS));
         }
         return newFountain;
     }

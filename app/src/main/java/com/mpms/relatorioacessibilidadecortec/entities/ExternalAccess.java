@@ -24,10 +24,11 @@ public class ExternalAccess {
     private Integer gateHasTrailRamp;
     private Integer gateHasObstacles;
     private Integer gateHasPayphones;
+    private String externalObs;
 
     public ExternalAccess(@NonNull Integer schoolEntryID, Integer entranceType, Integer hasSIA, String floorType,
                           Double gateWidth, Double gateTrailHeight, Integer gateHasTrailRamp, Integer gateHasObstacles,
-                          Integer gateHasPayphones) {
+                          Integer gateHasPayphones, String externalObs) {
         this.schoolEntryID = schoolEntryID;
         this.entranceType = entranceType;
         this.hasSIA = hasSIA;
@@ -37,6 +38,7 @@ public class ExternalAccess {
         this.gateHasTrailRamp = gateHasTrailRamp;
         this.gateHasObstacles = gateHasObstacles;
         this.gateHasPayphones = gateHasPayphones;
+        this.externalObs = externalObs;
     }
 
     public int getExternalAccessID() {
@@ -118,5 +120,13 @@ public class ExternalAccess {
 
     public void setGateHasPayphones(Integer gateHasPayphones) {
         this.gateHasPayphones = gateHasPayphones;
+    }
+
+    public String getExternalObs() {
+        return externalObs;
+    }
+
+    public void setExternalObs(String externalObs) {
+        this.externalObs = externalObs;
     }
 }

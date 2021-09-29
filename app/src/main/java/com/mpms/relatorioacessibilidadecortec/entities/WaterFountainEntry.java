@@ -28,6 +28,25 @@ public class WaterFountainEntry {
     private Double lowestSpoutHeight;
     private Double freeSpaceLowestSpout;
 
+    private String fountainObs;
+
+    public WaterFountainEntry(@NonNull Integer schoolEntryID, @NonNull Integer typeWaterFountain, Integer otherAllowSideApproximation,
+                              Double otherFaucetHeight, Integer otherHasCupHolder, Double otherCupHolderHeight,
+                              Integer spoutAllowFrontalApproximation, Double highestSpoutHeight, Double lowestSpoutHeight,
+                              Double freeSpaceLowestSpout, String fountainObs) {
+        this.schoolEntryID = schoolEntryID;
+        this.typeWaterFountain = typeWaterFountain;
+        this.otherAllowSideApproximation = otherAllowSideApproximation;
+        this.otherFaucetHeight = otherFaucetHeight;
+        this.otherHasCupHolder = otherHasCupHolder;
+        this.otherCupHolderHeight = otherCupHolderHeight;
+        this.spoutAllowFrontalApproximation = spoutAllowFrontalApproximation;
+        this.highestSpoutHeight = highestSpoutHeight;
+        this.lowestSpoutHeight = lowestSpoutHeight;
+        this.freeSpaceLowestSpout = freeSpaceLowestSpout;
+        this.fountainObs = fountainObs;
+    }
+
     @NonNull
     public Integer getWaterFountainID() {
         return waterFountainID;
@@ -119,19 +138,11 @@ public class WaterFountainEntry {
         this.freeSpaceLowestSpout = freeSpaceLowestSpout;
     }
 
-    public WaterFountainEntry(@NonNull Integer schoolEntryID, @NonNull Integer typeWaterFountain, Integer otherAllowSideApproximation,
-                              Double otherFaucetHeight, Integer otherHasCupHolder, Double otherCupHolderHeight,
-                              Integer spoutAllowFrontalApproximation, Double highestSpoutHeight, Double lowestSpoutHeight,
-                              Double freeSpaceLowestSpout) {
-        this.schoolEntryID = schoolEntryID;
-        this.typeWaterFountain = typeWaterFountain;
-        this.otherAllowSideApproximation = otherAllowSideApproximation;
-        this.otherFaucetHeight = otherFaucetHeight;
-        this.otherHasCupHolder = otherHasCupHolder;
-        this.otherCupHolderHeight = otherCupHolderHeight;
-        this.spoutAllowFrontalApproximation = spoutAllowFrontalApproximation;
-        this.highestSpoutHeight = highestSpoutHeight;
-        this.lowestSpoutHeight = lowestSpoutHeight;
-        this.freeSpaceLowestSpout = freeSpaceLowestSpout;
+    public String getFountainObs() {
+        return fountainObs;
+    }
+
+    public void setFountainObs(String fountainObs) {
+        this.fountainObs = fountainObs;
     }
 }

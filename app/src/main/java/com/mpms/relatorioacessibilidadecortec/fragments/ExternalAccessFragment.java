@@ -1,8 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -23,13 +25,11 @@ import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
-import java.util.Objects;
-
 public class ExternalAccessFragment extends Fragment {
 
     RadioGroup entranceType, hasSiaRadio, hasTrailRampRadio, hasGateObstaclesRadio, hasGatePayphonesRadio;
-    TextInputLayout floorTypeField, gateWidthField, gateTrailHeightField;
-    TextInputEditText floorTypeValue, gateWidthValue, gateTrailHeightValue;
+    TextInputLayout floorTypeField, gateWidthField, gateTrailHeightField, externalObsField;
+    TextInputEditText floorTypeValue, gateWidthValue, gateTrailHeightValue, externalObsValue;
     Button hasTrailRampButton, hasGateObstaclesButton, hasGatePayphonesButton, saveExternalAccess, cancelExternalAccess;
     TextView accessTypeError, hasSiaError, hasTrailRampError, hasGateObstaclesError, hasGatePayphonesError;
 
@@ -48,7 +48,7 @@ public class ExternalAccessFragment extends Fragment {
     Integer typeExtAccess, hasSia, hasTrailRamp, hasGateObs, hasPayphone;
 //    TODO - Implementar contadores de registros, impedir gravação sem ao menos um registro salvo (quando marcado sim)
     //Integer trailCounter, obsCounter, payphoneCounter (a implementar)
-    String floorType;
+    String floorType, externalObs;
     Double gateWidth, gateTrailHeight;
 
     private int extButtonChoice = -1;
@@ -87,31 +87,8 @@ public class ExternalAccessFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        entranceType = view.findViewById(R.id.external_access_type_radio);
-        hasSiaRadio = view.findViewById(R.id.has_SIA_radio);
-        hasTrailRampRadio = view.findViewById(R.id.gate_has_trail_ramp_radio);
-        hasGateObstaclesRadio = view.findViewById(R.id.gate_has_obstacles_radio);
-        hasGatePayphonesRadio = view.findViewById(R.id.gate_has_payphones_radio);
-
-        floorTypeField = view.findViewById(R.id.floor_type_ext_field);
-        gateWidthField = view.findViewById(R.id.gate_width_ext_field);
-        gateTrailHeightField = view.findViewById(R.id.ext_trail_height_field);
-
-        floorTypeValue = view.findViewById(R.id.floor_type_ext_value);
-        gateWidthValue = view.findViewById(R.id.gate_width_ext_value);
-        gateTrailHeightValue = view.findViewById(R.id.ext_trail_height_value);
-
-        hasTrailRampButton = view.findViewById(R.id.add_gate_trail_ramp_button);
-        hasGateObstaclesButton = view.findViewById(R.id.add_gate_obstacles_button);
-        hasGatePayphonesButton = view.findViewById(R.id.add_gate_payphones_button);
-        saveExternalAccess = view.findViewById(R.id.save_ext_access);
-        cancelExternalAccess = view.findViewById(R.id.cancel_ext_access);
-
-        accessTypeError = view.findViewById(R.id.external_access_type_error);
-        hasSiaError = view.findViewById(R.id.has_SIA_error);
-        hasTrailRampError = view.findViewById(R.id.has_trail_ramp_error);
-        hasGateObstaclesError = view.findViewById(R.id.gate_has_obstacles_error);
-        hasGatePayphonesError = view.findViewById(R.id.gate_has_payphones_error);
+        instantiateExternalAccessViews(view);
+        allowExternalObsScroll();
 
         radioGroupActivation(hasTrailRampRadio, hasTrailRampButton);
         radioGroupActivation(hasGateObstaclesRadio, hasGateObstaclesButton);
@@ -152,6 +129,7 @@ public class ExternalAccessFragment extends Fragment {
                 if (upCounter == 0) {
                     ExternalAccess newAccess = newExtAccess(extBundle);
                     ViewModelEntry.insertExternalAccess(newAccess);
+                    Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                     clearFields();
                 } else if (upCounter > 0) {
                     ExternalAccess upAccess = newExtAccess(extBundle);
@@ -165,6 +143,7 @@ public class ExternalAccessFragment extends Fragment {
                         existingEntry = 0;
                     }
                     ViewModelEntry.updateExternalAccess(upAccess);
+                    Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
                     clearFields();
                 } else {
                     Toast.makeText(getContext(), "Algo inesperado ocorreu. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
@@ -174,6 +153,36 @@ public class ExternalAccessFragment extends Fragment {
                 Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
         });
 
+    }
+
+    private void instantiateExternalAccessViews(View view) {
+        entranceType = view.findViewById(R.id.external_access_type_radio);
+        hasSiaRadio = view.findViewById(R.id.has_SIA_radio);
+        hasTrailRampRadio = view.findViewById(R.id.gate_has_trail_ramp_radio);
+        hasGateObstaclesRadio = view.findViewById(R.id.gate_has_obstacles_radio);
+        hasGatePayphonesRadio = view.findViewById(R.id.gate_has_payphones_radio);
+
+        floorTypeField = view.findViewById(R.id.floor_type_ext_field);
+        gateWidthField = view.findViewById(R.id.gate_width_ext_field);
+        gateTrailHeightField = view.findViewById(R.id.ext_trail_height_field);
+        externalObsField = view.findViewById(R.id.external_access_obs_field);
+
+        floorTypeValue = view.findViewById(R.id.floor_type_ext_value);
+        gateWidthValue = view.findViewById(R.id.gate_width_ext_value);
+        gateTrailHeightValue = view.findViewById(R.id.ext_trail_height_value);
+        externalObsValue = view.findViewById(R.id.external_access_obs_value);
+
+        hasTrailRampButton = view.findViewById(R.id.add_gate_trail_ramp_button);
+        hasGateObstaclesButton = view.findViewById(R.id.add_gate_obstacles_button);
+        hasGatePayphonesButton = view.findViewById(R.id.add_gate_payphones_button);
+        saveExternalAccess = view.findViewById(R.id.save_ext_access);
+        cancelExternalAccess = view.findViewById(R.id.cancel_ext_access);
+
+        accessTypeError = view.findViewById(R.id.external_access_type_error);
+        hasSiaError = view.findViewById(R.id.has_SIA_error);
+        hasTrailRampError = view.findViewById(R.id.has_trail_ramp_error);
+        hasGateObstaclesError = view.findViewById(R.id.gate_has_obstacles_error);
+        hasGatePayphonesError = view.findViewById(R.id.gate_has_payphones_error);
     }
 
     public void radioGroupActivation(RadioGroup radioGroup, Button button) {
@@ -186,6 +195,19 @@ public class ExternalAccessFragment extends Fragment {
             else
                 button.setVisibility(View.GONE);
         });
+    }
+
+    private boolean scrollingField(View v, MotionEvent event) {
+        v.getParent().requestDisallowInterceptTouchEvent(true);
+        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void allowExternalObsScroll() {
+        externalObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public int getCheckedButton(RadioGroup radioGroup) {
@@ -261,6 +283,7 @@ public class ExternalAccessFragment extends Fragment {
         floorTypeValue.setText(null);
         gateWidthValue.setText(null);
         gateTrailHeightValue.setText(null);
+        externalObsValue.setText(null);
         hasTrailRampRadio.clearCheck();
         hasGateObstaclesRadio.clearCheck();
         hasGatePayphonesRadio.clearCheck();
@@ -272,20 +295,21 @@ public class ExternalAccessFragment extends Fragment {
         if (hasSiaRadio.getCheckedRadioButtonId() != -1)
             hasSia = getCheckedButton(hasSiaRadio);
         if (!TextUtils.isEmpty(floorTypeValue.getText()))
-            floorType = Objects.requireNonNull(floorTypeValue.getText()).toString();
+            floorType = String.valueOf(floorTypeValue.getText());
         if (!TextUtils.isEmpty(gateWidthValue.getText()))
-            gateWidth = Double.parseDouble(Objects.requireNonNull(gateWidthValue.getText()).toString());
+            gateWidth = Double.parseDouble(String.valueOf(gateWidthValue.getText()));
         if (!TextUtils.isEmpty(gateTrailHeightValue.getText()))
-            gateTrailHeight = Double.parseDouble(Objects.requireNonNull(gateTrailHeightValue.getText()).toString());
+            gateTrailHeight = Double.parseDouble(String.valueOf(gateTrailHeightValue.getText()));
         if (hasTrailRampRadio.getCheckedRadioButtonId() != -1)
             hasTrailRamp = getCheckedButton(hasTrailRampRadio);
         if (hasGateObstaclesRadio.getCheckedRadioButtonId() != -1)
             hasGateObs = getCheckedButton(hasGateObstaclesRadio);
         if (hasGatePayphonesRadio.getCheckedRadioButtonId() != -1)
             hasPayphone = getCheckedButton(hasGatePayphonesRadio);
+        externalObs = String.valueOf(externalObsValue.getText());
 
         return new ExternalAccess(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), typeExtAccess, hasSia, floorType, gateWidth,
-                gateTrailHeight, hasTrailRamp, hasGateObs, hasPayphone);
+                gateTrailHeight, hasTrailRamp, hasGateObs, hasPayphone, externalObs);
     }
 
     public void saveUpdateDialogClick() {
