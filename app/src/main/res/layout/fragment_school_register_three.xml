@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.SchoolRegisterFragmentThree">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/usual_padding">
+
+        <TextView
+            android:id="@+id/students_employees_register_header"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/students_employees_register_header"
+            android:textSize="@dimen/section_header"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/students_ages_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/students_employees_register_header"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/students_ages_header"
+            android:textSize="@dimen/section_header"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:textColor="@color/black"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/students_newest_age_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/students_ages_header"
+            app:layout_constraintEnd_toStartOf="@id/students_ages_text_to"
+            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/students_newest_age_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/max_length_age"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/students_ages_text_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/up_to"
+            android:textColor="@color/black"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintBottom_toBottomOf="@+id/students_newest_age_field"
+            app:layout_constraintEnd_toStartOf="@id/students_oldest_age_field"
+            app:layout_constraintStart_toEndOf="@id/students_newest_age_field"
+            app:layout_constraintTop_toTopOf="@+id/students_newest_age_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/students_oldest_age_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBaseline_toBaselineOf="@id/students_newest_age_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/students_ages_text_to"
+            android:gravity="center">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/students_oldest_age_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/max_length_age"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/total_students_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/students_newest_age_field"
+            app:layout_constraintEnd_toStartOf="@id/total_pcd_students_field"
+            android:hint="@string/hint_total_students"
+            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginEnd="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/total_students_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/total_pcd_students_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/total_students_field"
+            app:layout_constraintBaseline_toBaselineOf="@id/total_students_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:hint="@string/hint_total_students_pcd"
+            android:layout_marginStart="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/total_pcd_students_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/description_pcd_students_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/total_students_field"
+            android:hint="@string/hint_students_pcd_description"
+            android:layout_marginTop="@dimen/top_margins">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/description_pcd_students_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="3"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/total_workers_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description_pcd_students_field"
+            app:layout_constraintEnd_toStartOf="@id/total_pcd_workers_field"
+            android:hint="@string/hint_total_workers"
+            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginEnd="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/total_workers_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/total_pcd_workers_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/total_workers_field"
+            app:layout_constraintBaseline_toBaselineOf="@id/total_workers_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:hint="@string/hint_total_workers_pcd"
+            android:layout_marginStart="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/total_pcd_workers_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/description_pcd_workers_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/total_workers_field"
+            android:hint="@string/hint_workers_pcd_description"
+            android:layout_marginTop="@dimen/top_margins">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/description_pcd_workers_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="3"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/total_workers_libras_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/description_pcd_workers_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_total_workers_libras">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/total_workers_libras_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/initial_date_inspection_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/total_workers_libras_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_start_inspection_date"
+            app:startIconDrawable="@drawable/ic_calendar">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/initial_date_inspection_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:maxLength="@integer/max_length_date" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/final_date_inspection_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/initial_date_inspection_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_conclusion_inspection_date"
+            app:startIconDrawable="@drawable/ic_calendar">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/final_date_inspection_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:maxLength="@integer/max_length_date" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

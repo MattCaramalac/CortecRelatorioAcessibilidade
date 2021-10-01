@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.SchoolRegisterFragmentTwo">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/usual_padding">
+
+        <TextView
+            android:id="@+id/school_register_header_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Cadastro das Informações da Instituição"
+            android:textSize="@dimen/section_header"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/school_working_hours_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/school_register_header_two"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/working_hours"
+            android:textSize="@dimen/section_header"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:textColor="@color/black"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox_morning_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="@string/check_box_morning"
+            android:textSize="18sp"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintTop_toBottomOf="@id/school_working_hours_header"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/morning_hours_start_field"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_morning_hours"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_morning_hours"
+            app:layout_constraintEnd_toStartOf="@id/morning_hours_text_to"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/morning_hours_start_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/max_length_hour"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/morning_hours_text_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:text="@string/to"
+            android:textColor="@color/black"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintBottom_toBottomOf="@+id/morning_hours_start_field"
+            app:layout_constraintEnd_toStartOf="@id/morning_hours_end_field"
+            app:layout_constraintTop_toTopOf="@+id/morning_hours_start_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/morning_hours_end_field"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_morning_hours"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_morning_hours"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/top_margins"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/morning_hours_end_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/max_length_hour"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox_afternoon_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="@string/check_box_afternoon"
+            android:textSize="18sp"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintTop_toBottomOf="@id/morning_hours_start_field"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/afternoon_hours_start_field"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_afternoon_hours"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_afternoon_hours"
+            app:layout_constraintEnd_toStartOf="@id/afternoon_hours_text_to"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/afternoon_hours_start_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/max_length_hour"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/afternoon_hours_text_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:text="@string/to"
+            android:textColor="@color/black"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintBottom_toBottomOf="@+id/afternoon_hours_start_field"
+            app:layout_constraintEnd_toStartOf="@id/afternoon_hours_end_field"
+            app:layout_constraintTop_toTopOf="@+id/afternoon_hours_start_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/afternoon_hours_end_field"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_afternoon_hours"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_afternoon_hours"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/afternoon_hours_end_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/max_length_hour"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox_evening_hours"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="@string/check_box_evening"
+            android:textSize="18sp"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintTop_toBottomOf="@id/afternoon_hours_start_field"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/evening_hours_start_field"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_evening_hours"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_evening_hours"
+            app:layout_constraintEnd_toStartOf="@id/evening_hours_text_to"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/evening_hours_start_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/max_length_hour"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/evening_hours_text_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:text="@string/to"
+            android:textColor="@color/black"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintBottom_toBottomOf="@+id/evening_hours_start_field"
+            app:layout_constraintEnd_toStartOf="@id/evening_hours_end_field"
+            app:layout_constraintTop_toTopOf="@+id/evening_hours_start_field"
+            android:enabled="false"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/evening_hours_end_field"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_evening_hours"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_evening_hours"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/evening_hours_end_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/max_length_hour"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/working_hours_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/evening_hours_start_field"
+            android:hint="@string/hint_obs"
+            android:layout_marginTop="@dimen/top_margins">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/working_hours_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="3"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/school_services_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/working_hours_obs_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/offered_services"
+            android:textSize="@dimen/section_header"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:textColor="@color/black"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox_maternal_classes"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="Maternal:"
+            android:textSize="18sp"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintTop_toBottomOf="@id/school_services_header"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/maternal_first_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_maternal_classes"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_maternal_classes"
+            app:layout_constraintEnd_toStartOf="@id/maternal_levels_text_to"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/maternal_first_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/maternal_levels_text_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:text="@string/ao"
+            android:textColor="@color/black"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintBottom_toBottomOf="@+id/maternal_first_level_field"
+            app:layout_constraintEnd_toStartOf="@id/maternal_last_level_field"
+            app:layout_constraintTop_toTopOf="@+id/maternal_first_level_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/maternal_last_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/maternal_levels_text_to"
+            app:layout_constraintBottom_toBottomOf="@id/maternal_levels_text_to"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/maternal_last_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox_pre_school_classes"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="@string/check_box_pre_school"
+            android:textSize="18sp"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_maternal_classes"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/pre_school_first_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_pre_school_classes"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_pre_school_classes"
+            app:layout_constraintEnd_toStartOf="@id/pre_school_levels_text_to"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pre_school_first_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/pre_school_levels_text_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:text="@string/ao"
+            android:textColor="@color/black"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintBottom_toBottomOf="@+id/pre_school_first_level_field"
+            app:layout_constraintEnd_toStartOf="@id/pre_school_last_level_field"
+            app:layout_constraintTop_toTopOf="@+id/pre_school_first_level_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/pre_school_last_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/pre_school_levels_text_to"
+            app:layout_constraintBottom_toBottomOf="@id/pre_school_levels_text_to"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pre_school_last_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox_elementary_classes"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="@string/check_box_elementary"
+            android:textSize="18sp"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_pre_school_classes"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/elementary_first_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_elementary_classes"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_elementary_classes"
+            app:layout_constraintEnd_toStartOf="@id/elementary_levels_text_to"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/elementary_first_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/elementary_levels_text_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:text="@string/ao"
+            android:textColor="@color/black"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintBottom_toBottomOf="@+id/elementary_first_level_field"
+            app:layout_constraintEnd_toStartOf="@id/elementary_last_level_field"
+            app:layout_constraintTop_toTopOf="@+id/elementary_first_level_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/elementary_last_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/elementary_levels_text_to"
+            app:layout_constraintBottom_toBottomOf="@id/elementary_levels_text_to"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/elementary_last_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox_middle_school_classes"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="@string/check_box_middle_school"
+            android:textSize="18sp"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_elementary_classes"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/middle_school_first_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_middle_school_classes"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_middle_school_classes"
+            app:layout_constraintEnd_toStartOf="@id/middle_school_levels_text_to"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/middle_school_first_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/middle_school_levels_text_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:text="@string/ao"
+            android:textColor="@color/black"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintBottom_toBottomOf="@+id/middle_school_first_level_field"
+            app:layout_constraintEnd_toStartOf="@id/middle_school_last_level_field"
+            app:layout_constraintTop_toTopOf="@+id/middle_school_first_level_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/middle_school_last_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/middle_school_levels_text_to"
+            app:layout_constraintBottom_toBottomOf="@id/middle_school_levels_text_to"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/middle_school_last_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox_high_school_classes"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="@string/check_box_high_school"
+            android:textSize="18sp"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_middle_school_classes"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/high_school_first_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_high_school_classes"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_high_school_classes"
+            app:layout_constraintEnd_toStartOf="@id/high_school_levels_text_to"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/high_school_first_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/high_school_levels_text_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:text="@string/ao"
+            android:textColor="@color/black"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintBottom_toBottomOf="@+id/high_school_first_level_field"
+            app:layout_constraintEnd_toStartOf="@id/high_school_last_level_field"
+            app:layout_constraintTop_toTopOf="@+id/high_school_first_level_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/high_school_last_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/high_school_levels_text_to"
+            app:layout_constraintBottom_toBottomOf="@id/high_school_levels_text_to"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/high_school_last_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox_EJA_classes"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="@string/check_box_high_school"
+            android:textSize="18sp"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_high_school_classes"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/EJA_first_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/checkbox_EJA_classes"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_EJA_classes"
+            app:layout_constraintEnd_toStartOf="@id/EJA_levels_text_to"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EJA_first_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/EJA_levels_text_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:text="@string/ao"
+            android:textColor="@color/black"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintBottom_toBottomOf="@+id/EJA_first_level_field"
+            app:layout_constraintEnd_toStartOf="@id/EJA_last_level_field"
+            app:layout_constraintTop_toTopOf="@+id/EJA_first_level_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/EJA_last_level_field"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/EJA_levels_text_to"
+            app:layout_constraintBottom_toBottomOf="@id/EJA_levels_text_to"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/top_margins"
+            android:enabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EJA_last_level_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="@integer/min_length_grade"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:id="@+id/school_services_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_EJA_classes"
+            android:hint="@string/hint_obs"
+            android:layout_marginTop="@dimen/top_margins">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/school_services_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="3"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

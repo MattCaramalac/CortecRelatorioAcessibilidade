@@ -19,25 +19,25 @@
     <string name="header">Cadastro da Instituição</string>
     <string name="headerInspection">Memorial Descritivo</string>
 
-    <string name="label_school">Nome da Instituição</string>
-    <string name="label_city_school">Nome da Cidade</string>
-    <string name="label_contact_phone1">Telefone Contato 1</string>
-    <string name="label_contact_phone2">Telefone Contato 2</string>
-    <string name="label_name_principal">Nome do(a) Diretor(a)</string>
-    <string name="label_name_responsible_visit">Nome do Acompanhante da Visita</string>
-    <string name="label_total_students">Total de Estudantes</string>
-    <string name="label_total_students_pcd">Estudantes PcD</string>
-    <string name="label_total_workers">Total de Funcionários</string>
-    <string name="label_total_workers_pcd">Funcionários PcD</string>
-    <string name="label_total_workers_libras">Funcionários Libras</string>
-    <string name="label_date_inspection">Data Inspeção</string>
-    <string name="label_adress">Endereço da Instituição</string>
-    <string name="label_visit_team">Membros da Equipe de Inspeção</string>
-    <string name="label_neighborhood">Bairro</string>
-    <string name="label_number">Número</string>
-    <string name="label_complements">Complemento</string>
-    <string name="label_students_pcd_description">Deficiênicas e Impedimentos dos Alunos</string>
-    <string name="label_workers_pcd_description">Deficiênicas e Impedimentos Funcionários</string>
+    <string name="hint_school">Nome da Instituição</string>
+    <string name="hint_city_school">Cidade</string>
+    <string name="hint_contact_phone1">Telefone Contato 1</string>
+    <string name="hint_contact_phone2">Telefone Contato 2</string>
+    <string name="hint_name_principal">Nome Diretor(a) da Instituição</string>
+    <string name="hint_name_responsible_visit">Nome do Acompanhante da Visita</string>
+    <string name="hint_total_students">Total de Estudantes</string>
+    <string name="hint_total_students_pcd">Estudantes PCD</string>
+    <string name="hint_total_workers">Total de Funcionários</string>
+    <string name="hint_total_workers_pcd">Funcionários PCD</string>
+    <string name="hint_total_workers_libras">Funcionários Capacitados Libras</string>
+    <string name="hint_date_inspection">Data Inspeção</string>
+    <string name="hint_address_street">Endereço da Instituição</string>
+    <string name="hint_visit_team">Membros da Equipe de Inspeção</string>
+    <string name="hint_address_neighborhood">Bairro</string>
+    <string name="hint_address_number">Número</string>
+    <string name="hint_address_complements">Complemento</string>
+    <string name="hint_students_pcd_description">Deficiênicas e Impedimentos dos Alunos</string>
+    <string name="hint_workers_pcd_description">Deficiênicas e Impedimentos dos Funcionários</string>
     <string name="label_pick_memorial_option">Local Vistoriado</string>
 
     <string name="hint_external_floor">Tipo do Piso</string>
@@ -46,7 +46,7 @@
     <string name="label_save_continue_button">Salvar e Continuar</string>
     <string name="label_cancel_button">Cancelar</string>
     <string name="label_add_register_button">Adicionar Cadastro</string>
-    <string name="label_update_button">Atualizar Cadastro</string>
+    <string name="label_update_close_button">Atualizar e Fechar</string>
     <string name="label_update_continue_button">Atualizar e Continuar</string>
     <string name="label_save_quit_button">Salvar e Sair</string>
     <string name="label_save_finish_button">Salvar e Finalizar</string>
@@ -57,7 +57,7 @@
     <string name="empty_fields">Um ou mais campos não foram preenchidos</string>
 
     <string name="working_hours">Horário de Funcionamento:</string>
-    <string name="offered_services">Serviços Prestados</string>
+    <string name="offered_services">Serviços Prestados pela Instituição:</string>
     <string name="morning">Matutino: Das</string>
     <string name="afternoon">Vespert.: Das</string>
     <string name="evening">Noturno: Das</string>
@@ -385,4 +385,21 @@
     <string name="toolbar_register_ramp_inclination">Cadastrar Inclinações da Rampa</string>
     <string name="label_place_has_handrail_header">Este local possui corrimão?</string>
     <string name="header_flight_number_indicator">Cadastro do lance de número:</string>
+    <string name="title_activity_school_register">SchoolRegisterActivity</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="check_box_morning">Matutino:</string>
+    <string name="check_box_evening">Noturno:</string>
+    <string name="check_box_afternoon">Vespertino:</string>
+    <string name="check_box_pre_school">Pré-Escola:</string>
+    <string name="check_box_elementary">Fundamental I:</string>
+    <string name="check_box_middle_school">Fundamental II:</string>
+    <string name="check_box_high_school">Ensino Médio:</string>
+
+    <string name="students_employees_register_header">Informações sobre os Estudantes e Alunos da Instituição</string>
+    <string name="students_ages_header">Idades dos Alunos atendidos pela Instituição</string>
+    <string name="up_to">até</string>
+    <string name="hint_start_inspection_date">Data do Início da Inspeção</string>
+    <string name="hint_conclusion_inspection_date">Data de Conclusão da Inspeção</string>
 </resources>
