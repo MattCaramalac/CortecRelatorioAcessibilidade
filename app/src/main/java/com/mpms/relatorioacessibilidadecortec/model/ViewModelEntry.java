@@ -35,6 +35,9 @@ import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntryUpdate;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterOne;
+import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterThree;
+import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterTwo;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.StairsMirrorEntry;
@@ -59,19 +62,31 @@ public class ViewModelEntry extends AndroidViewModel {
         allRooms = repository.getAllRooms();
     }
 
-    public static void insert(SchoolEntry schoolEntry) {
+    public static void insertSchool(SchoolEntry schoolEntry) {
         repository.insertSchoolEntry(schoolEntry);
     }
 
-    public static void update(SchoolEntry schoolEntry) {
+    public static void updateSchool(SchoolEntry schoolEntry) {
         repository.updateSchoolEntry(schoolEntry);
     }
 
-    public static void deleteOne(SchoolEntry schoolEntry) {
+    public static void updateSchoolRegOne(SchoolRegisterOne... regOne) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSchoolRegOne(regOne));
+    }
+
+    public static void updateSchoolRegTwo(SchoolRegisterTwo... regTwo) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSchoolRegTwo(regTwo));
+    }
+
+    public static void updateSchoolRegThree(SchoolRegisterThree... regThree) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSchoolRegThree(regThree));
+    }
+
+    public static void deleteOneSchool(SchoolEntry schoolEntry) {
         repository.deleteOneSchoolEntry(schoolEntry);
     }
 
-    public static void deleteAll() {
+    public static void deleteAllSchool() {
         repository.deleteAllEntries();
     }
 

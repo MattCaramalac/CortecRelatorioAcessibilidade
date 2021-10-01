@@ -31,6 +31,9 @@ import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterOne;
+import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterThree;
+import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterTwo;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.StairsMirrorEntry;
@@ -132,6 +135,18 @@ public class ReportRepository {
 
     public void updateSchoolEntry(SchoolEntry schoolEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.update(schoolEntry));
+    }
+
+    public void updateSchoolRegOne(SchoolRegisterOne... regOne) {
+        ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.updateSchoolRegOne(regOne));
+    }
+
+    public void updateSchoolRegTwo(SchoolRegisterTwo... regTwo) {
+        ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.updateSchoolRegTwo(regTwo));
+    }
+
+    public void updateSchoolRegThree(SchoolRegisterThree... regThree) {
+        ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.updateSchoolRegThree(regThree));
     }
 
     public void deleteOneSchoolEntry(SchoolEntry schoolEntry) {

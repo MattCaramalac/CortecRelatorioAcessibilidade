@@ -16,7 +16,7 @@
             android:id="@+id/name_school"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/label_school"
+            android:hint="@string/hint_school"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/label_adress"
+            android:hint="@string/hint_address_street"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name_school">
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="2"
-                android:hint="@string/label_complements"
+                android:hint="@string/hint_address_complements"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:hint="@string/label_number"
+                android:hint="@string/hint_address_number"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/label_neighborhood"
+            android:hint="@string/hint_address_neighborhood"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/linearlayout_adress">
@@ -116,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/label_city_school"
+            android:hint="@string/hint_city_school"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/neighborhood">
@@ -134,7 +134,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/label_name_principal"
+            android:hint="@string/hint_name_principal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name_city">
@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:hint="@string/label_contact_phone1"
+                android:hint="@string/hint_contact_phone1"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -183,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:hint="@string/label_contact_phone2"
+                android:hint="@string/hint_contact_phone2"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -201,7 +201,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/label_name_responsible_visit"
+            android:hint="@string/hint_name_responsible_visit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/linearlayout_phone">
@@ -219,7 +219,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/label_visit_team"
+            android:hint="@string/hint_visit_team"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name_responsible">
@@ -288,7 +288,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/max_lenght_hour"/>
+                        android:maxLength="@integer/max_length_hour"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -319,7 +319,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/max_lenght_hour"
+                        android:maxLength="@integer/max_length_hour"
                         />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -365,7 +365,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/max_lenght_hour"/>
+                        android:maxLength="@integer/max_length_hour"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -396,7 +396,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/max_lenght_hour"/>
+                        android:maxLength="@integer/max_length_hour"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -441,7 +441,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/max_lenght_hour" />
+                        android:maxLength="@integer/max_length_hour" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -472,7 +472,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/max_lenght_hour" />
+                        android:maxLength="@integer/max_length_hour" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -551,7 +551,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/min_lenght_grade" />
+                        android:maxLength="@integer/min_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -584,7 +584,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/min_lenght_grade" />
+                        android:maxLength="@integer/min_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -631,7 +631,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/min_lenght_grade" />
+                        android:maxLength="@integer/min_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -664,7 +664,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/min_lenght_grade" />
+                        android:maxLength="@integer/min_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -712,7 +712,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/max_lenght_grade" />
+                        android:maxLength="@integer/max_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -746,7 +746,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/max_lenght_grade" />
+                        android:maxLength="@integer/max_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -807,7 +807,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/max_lenght_grade" />
+                        android:maxLength="@integer/max_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -841,7 +841,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/max_lenght_grade" />
+                        android:maxLength="@integer/max_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -902,7 +902,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/min_lenght_grade" />
+                        android:maxLength="@integer/min_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -936,7 +936,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/min_lenght_grade" />
+                        android:maxLength="@integer/min_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -997,7 +997,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/min_lenght_grade" />
+                        android:maxLength="@integer/min_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -1030,7 +1030,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:maxLength="@integer/min_lenght_grade" />
+                        android:maxLength="@integer/min_length_grade" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -1091,7 +1091,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:maxLength="@integer/max_lenght_age"
+                android:maxLength="@integer/max_length_age"
                 android:textAlignment="center"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -1125,7 +1125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:maxLength="@integer/max_lenght_age"
+                android:maxLength="@integer/max_length_age"
                 android:textAlignment="center"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -1176,7 +1176,7 @@
                 app:layout_constraintTop_toBottomOf="@id/name_principal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/total_students_pcd"
-                android:hint="@string/label_total_students"
+                android:hint="@string/hint_total_students"
                 android:layout_marginEnd="8dp"
                 >
 
@@ -1197,7 +1197,7 @@
                 app:layout_constraintBaseline_toBaselineOf="@id/total_students"
                 app:layout_constraintStart_toEndOf="@id/total_students"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:hint="@string/label_total_students_pcd"
+                android:hint="@string/hint_total_students_pcd"
                 android:layout_marginStart="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -1217,7 +1217,7 @@
             app:layout_constraintTop_toBottomOf="@id/linearlayout_students"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="@string/label_students_pcd_description"
+            android:hint="@string/hint_students_pcd_description"
             android:layout_marginTop="@dimen/top_margins"
             >
 
@@ -1246,7 +1246,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/label_total_workers"
+                android:hint="@string/hint_total_workers"
                 android:layout_marginEnd="8dp"
                 >
 
@@ -1267,7 +1267,7 @@
                 app:layout_constraintBaseline_toBaselineOf="@id/total_students"
                 app:layout_constraintStart_toEndOf="@id/total_students"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:hint="@string/label_total_workers_pcd"
+                android:hint="@string/hint_total_workers_pcd"
                 android:layout_marginStart="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -1287,7 +1287,7 @@
             app:layout_constraintTop_toBottomOf="@id/linearlayout_workers"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="@string/label_workers_pcd_description"
+            android:hint="@string/hint_workers_pcd_description"
             android:layout_marginTop="@dimen/top_margins"
             >
 
@@ -1315,7 +1315,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/label_total_workers_libras"
+                android:hint="@string/hint_total_workers_libras"
                 android:layout_marginEnd="8dp"
                 >
 
@@ -1333,7 +1333,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/label_date_inspection"
+                android:hint="@string/hint_date_inspection"
                 app:startIconDrawable="@drawable/ic_calendar"
                 android:layout_marginStart="8dp">
 
@@ -1381,7 +1381,7 @@
             android:layout_marginTop="@dimen/top_margins"
             android:layout_marginBottom="@dimen/top_margins"
             android:textSize="13sp"
-            android:text="@string/label_update_button"/>
+            android:text="@string/label_update_close_button"/>
 
         <Button
             android:id="@+id/updateContinueButton"

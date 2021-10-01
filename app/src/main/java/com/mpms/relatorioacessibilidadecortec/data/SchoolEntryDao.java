@@ -8,6 +8,9 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterOne;
+import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterThree;
+import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterTwo;
 
 import java.util.List;
 
@@ -28,6 +31,15 @@ public interface SchoolEntryDao {
 
     @Update
     void update(SchoolEntry schoolEntry);
+
+    @Update(entity = SchoolEntry.class)
+    void updateSchoolRegOne(SchoolRegisterOne... regOne);
+
+    @Update(entity = SchoolEntry.class)
+    void updateSchoolRegTwo(SchoolRegisterTwo... regTwo);
+
+    @Update(entity = SchoolEntry.class)
+    void updateSchoolRegThree(SchoolRegisterThree... regThree);
 
     @Delete
     void deleteOne(SchoolEntry schoolEntry);

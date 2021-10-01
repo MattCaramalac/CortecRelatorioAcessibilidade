@@ -78,4 +78,16 @@ public class ViewModelFragments extends ViewModel {
         return restChildFragBundle;
     }
 
+    public final MutableLiveData<Bundle> saveUpdateSchoolRegBundle = new MutableLiveData<>();
+    public void setSaveUpdateSchoolReg(Bundle bundle) { saveUpdateSchoolRegBundle.setValue(bundle); }
+    public LiveData<Bundle> getSaveUpdateSchoolReg() {
+        return saveUpdateSchoolRegBundle;
+    }
+
+    public final MutableLiveData<Bundle> dataFromFragToActivity = new MutableLiveData<>();
+    public void setDataFromFragToActivity(Bundle bundle) { dataFromFragToActivity.setValue(bundle); }
+    public LiveData<Bundle> getDataFromFragToActivity() {
+        return dataFromFragToActivity;
+    }
+
 }

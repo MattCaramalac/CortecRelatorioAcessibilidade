@@ -201,7 +201,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         saveCloseButton.setOnClickListener(v -> {
             if (verifyErrors()) {
                 SchoolEntry newEntry = createEntry();
-                ViewModelEntry.insert(newEntry);
+                ViewModelEntry.insertSchool(newEntry);
                 finish();
             }
         });
@@ -209,7 +209,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
         saveContinueButton.setOnClickListener(v -> {
             if (verifyErrors()) {
                 SchoolEntry newEntry = createEntry();
-                ViewModelEntry.insert(newEntry);
+                ViewModelEntry.insertSchool(newEntry);
                 saveAttempt = 1;
 //              Crie o observador COM TODOS OS MÉTODOS NECESSÁRIOS E SÓ ENTÃO faça a inserção
 
@@ -222,7 +222,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             if (verifyErrors()) {
                 SchoolEntry updateEntry = createEntry();
                 updateEntry.setCadID(cadID);
-                ViewModelEntry.update(updateEntry);
+                ViewModelEntry.updateSchool(updateEntry);
                 finish();
             }
         });
@@ -231,7 +231,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             if (verifyErrors()) {
                 SchoolEntry updateEntry = createEntry();
                 updateEntry.setCadID(cadID);
-                ViewModelEntry.update(updateEntry);
+                ViewModelEntry.updateSchool(updateEntry);
                 Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
                 itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, cadID);
                 startActivity(itemInspectionIntent);
@@ -609,6 +609,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     Objects.requireNonNull(afternoonEndTime.getText()).toString(),
                     checkValueCheckbox(hasEveningClasses), Objects.requireNonNull(eveningStartTime.getText()).toString(),
                     Objects.requireNonNull(eveningEndTime.getText()).toString(),
+                    null,
                     checkValueCheckbox(hasMaternal), Objects.requireNonNull(maternalFirstGrade.getText()).toString(),
                     Objects.requireNonNull(maternalLastGrade.getText()).toString(),
                     checkValueCheckbox(hasPreschool), Objects.requireNonNull(preschoolFirstGrade.getText()).toString(),
@@ -621,16 +622,17 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                     Objects.requireNonNull(highLastGrade.getText()).toString(),
                     checkValueCheckbox(hasEJA), Objects.requireNonNull(ejaFirstGrade.getText()).toString(),
                     Objects.requireNonNull(ejaLastGrade.getText()).toString(),
+                    null,
                     Integer.parseInt(Objects.requireNonNull(youngestStudentAge.getText()).toString()),
                     Integer.parseInt(Objects.requireNonNull(oldestStudentAge.getText()).toString()),
                     Integer.parseInt(Objects.requireNonNull(totalStudents.getText()).toString()),
                     Integer.parseInt(Objects.requireNonNull(totalStudentsPcd.getText()).toString()),
                     Objects.requireNonNull(studentsPcdDescription.getText()).toString(),
                     Integer.parseInt(Objects.requireNonNull(totalWorkers.getText()).toString()),
+                    Integer.parseInt(Objects.requireNonNull(totalWorkersLibras.getText()).toString()),
                     Integer.parseInt(Objects.requireNonNull(totalWorkersPcd.getText()).toString()),
                     Objects.requireNonNull(workersPcdDescription.getText()).toString(),
-                    Integer.parseInt(Objects.requireNonNull(totalWorkersLibras.getText()).toString()),
-                    null);
+                    null, null);
         } else return new SchoolEntry(Objects.requireNonNull(nameSchool.getText()).toString(),
                 Objects.requireNonNull(addressSchool.getText()).toString(),
                 Objects.requireNonNull(addressComplement.getText()).toString(),
@@ -648,6 +650,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 Objects.requireNonNull(afternoonEndTime.getText()).toString(),
                 checkValueCheckbox(hasEveningClasses), Objects.requireNonNull(eveningStartTime.getText()).toString(),
                 Objects.requireNonNull(eveningEndTime.getText()).toString(),
+                null,
                 checkValueCheckbox(hasMaternal), Objects.requireNonNull(maternalFirstGrade.getText()).toString(),
                 Objects.requireNonNull(maternalLastGrade.getText()).toString(),
                 checkValueCheckbox(hasPreschool), Objects.requireNonNull(preschoolFirstGrade.getText()).toString(),
@@ -660,16 +663,18 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 Objects.requireNonNull(highLastGrade.getText()).toString(),
                 checkValueCheckbox(hasEJA), Objects.requireNonNull(ejaFirstGrade.getText()).toString(),
                 Objects.requireNonNull(ejaLastGrade.getText()).toString(),
+                null,
                 Integer.parseInt(Objects.requireNonNull(youngestStudentAge.getText()).toString()),
                 Integer.parseInt(Objects.requireNonNull(oldestStudentAge.getText()).toString()),
                 Integer.parseInt(Objects.requireNonNull(totalStudents.getText()).toString()),
                 Integer.parseInt(Objects.requireNonNull(totalStudentsPcd.getText()).toString()),
                 Objects.requireNonNull(studentsPcdDescription.getText()).toString(),
                 Integer.parseInt(Objects.requireNonNull(totalWorkers.getText()).toString()),
+                Integer.parseInt(Objects.requireNonNull(totalWorkersLibras.getText()).toString()),
                 Integer.parseInt(Objects.requireNonNull(totalWorkersPcd.getText()).toString()),
                 Objects.requireNonNull(workersPcdDescription.getText()).toString(),
-                Integer.parseInt(Objects.requireNonNull(totalWorkersLibras.getText()).toString()),
-                stringToDate(Objects.requireNonNull(dateInspectionText.getText()).toString()));
+                stringToDate(Objects.requireNonNull(dateInspectionText.getText()).toString()),
+                null);
         }
 
 

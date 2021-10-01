@@ -9,6 +9,9 @@
         android:roundIcon="@mipmap/ic_cortec_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RelatorioAcessibilidadeCortec">
+        <activity
+            android:name=".activities.NewSchoolRegisterActivity"
+            android:label="@string/header"/>
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
