@@ -29,7 +29,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 //      TODO - Estudar para usar Fragments no lugar de Activities - Garante melhor Design em Tablets + diminui gasto de memória
-public class RegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class zOldRegisterActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     public int saveAttempt = 0;
 
@@ -58,11 +58,11 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_school_register);
+        setContentView(R.layout.z_old_activity_school_register);
         Locale aLocale = new Locale.Builder().setLanguage("pt").setRegion("BR").build();
         Locale.setDefault(aLocale);
 
-        ViewModelEntry recentEntry = new ViewModelEntry(RegisterActivity.this.getApplication());
+        ViewModelEntry recentEntry = new ViewModelEntry(zOldRegisterActivity.this.getApplication());
 
         //Só podem ser iniciados DENTRO do onCreate, caso contrário não foi selecionada ainda a View
         //E acaba causando um apontamento para algo nulo (já que não tem View selecioada para ser achada)
@@ -176,7 +176,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             saveContinueButton.setVisibility(View.GONE);
 
             cadID = getIntent().getIntExtra(MainActivity.UPDATE_REQUEST, -1);
-            ViewModelEntry gatherInfo = new ViewModelEntry(RegisterActivity.this.getApplication());
+            ViewModelEntry gatherInfo = new ViewModelEntry(zOldRegisterActivity.this.getApplication());
             if (cadID != -1)
                 gatherInfo.getEntry(cadID).observe(this, this::gatherEntry);
         } else {
@@ -190,7 +190,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
             if (saveAttempt == 1) {
                 lastCadID = lastEntry.getCadID();
 //                  LiveData PRECISA ser observado para poder obter os dados
-                Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
+                Intent itemInspectionIntent = new Intent(zOldRegisterActivity.this, InspectionActivity.class);
                 itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, lastCadID);
                 startActivity(itemInspectionIntent);
             }
@@ -232,7 +232,7 @@ public class RegisterActivity extends AppCompatActivity implements DatePickerDia
                 SchoolEntry updateEntry = createEntry();
                 updateEntry.setCadID(cadID);
                 ViewModelEntry.updateSchool(updateEntry);
-                Intent itemInspectionIntent = new Intent(RegisterActivity.this, InspectionActivity.class);
+                Intent itemInspectionIntent = new Intent(zOldRegisterActivity.this, InspectionActivity.class);
                 itemInspectionIntent.putExtra(MEMORIAL_ITEM_ENTRY, cadID);
                 startActivity(itemInspectionIntent);
                 releaseInstance();
