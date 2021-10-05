@@ -20,7 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -157,7 +157,7 @@ public class AddSwitchDialog extends DialogFragment {
         else
             switchObs = null;
 
-        return new SwitchEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+        return new SwitchEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
                 switchLocation, switchType,switchHeight,switchObs);
     }
 

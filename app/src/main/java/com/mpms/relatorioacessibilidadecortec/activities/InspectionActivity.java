@@ -19,8 +19,6 @@ import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
-    public int schoolEntryID;
-    public static final String SCHOOL_ID_VALUE = "SCHOOL_ID_VALUE";
     public static final String ALLOW_UPDATE = "ALLOW_UPDATE";
     Bundle fragmentSchoolID = new Bundle();
 
@@ -31,8 +29,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspection);
-        schoolEntryID = getIntent().getIntExtra(RegisterActivity.MEMORIAL_ITEM_ENTRY, 0);
-        fragmentSchoolID.putInt(SCHOOL_ID_VALUE, schoolEntryID);
+        fragmentSchoolID = getIntent().getBundleExtra(SchoolRegisterActivity.SCHOOL_BUNDLE);
     }
 
 

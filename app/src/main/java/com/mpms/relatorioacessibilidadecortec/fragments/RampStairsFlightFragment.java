@@ -25,7 +25,7 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddRampInclina
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddStairsMirrorDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddStairsStepDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -100,7 +100,7 @@ public class RampStairsFlightFragment extends Fragment {
            flightBundle.putInt(RampStairsFragment.NUMBER_FLIGHTS,rampStairsData.getInt(RampStairsFragment.NUMBER_FLIGHTS));
            flightID = rampStairsData.getInt(FLIGHT_ID, 0);
            newEntryBundle.putInt(RampStairsFragment.RAMP_OR_STAIRS,rampStairsData.getInt(RampStairsFragment.RAMP_OR_STAIRS));
-           newEntryBundle.putInt(InspectionActivity.SCHOOL_ID_VALUE, rampStairsData.getInt(InspectionActivity.SCHOOL_ID_VALUE));
+           newEntryBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, rampStairsData.getInt(SchoolRegisterActivity.SCHOOL_ID));
        }
 
         fragmentManager = requireActivity().getSupportFragmentManager();

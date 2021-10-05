@@ -22,7 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.TableTypeFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
@@ -201,7 +201,7 @@ public class AddTableDialog extends DialogFragment {
         if (!TextUtils.isEmpty(tableObsValue.getText()))
             tableObs = Objects.requireNonNull(tableObsValue.getText()).toString();
 
-        return new TableEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE),bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+        return new TableEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID),bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
                 isClassroom, tableType,lowestBorder, highestBorder, widthTable, frontalApprox, tableObs);
     }
 

@@ -21,7 +21,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddGateObsDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddPayPhoneDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
@@ -70,7 +70,7 @@ public class ExternalAccessFragment extends Fragment {
         super.onCreate(savedInstanceState);
         schoolBundle = this.getArguments();
         if (schoolBundle != null) {
-            extBundle.putInt(InspectionActivity.SCHOOL_ID_VALUE, schoolBundle.getInt((InspectionActivity.SCHOOL_ID_VALUE)));
+            extBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, schoolBundle.getInt((SchoolRegisterActivity.SCHOOL_ID)));
         }
     }
 
@@ -308,7 +308,7 @@ public class ExternalAccessFragment extends Fragment {
             hasPayphone = getCheckedButton(hasGatePayphonesRadio);
         externalObs = String.valueOf(externalObsValue.getText());
 
-        return new ExternalAccess(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), typeExtAccess, hasSia, floorType, gateWidth,
+        return new ExternalAccess(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), typeExtAccess, hasSia, floorType, gateWidth,
                 gateTrailHeight, hasTrailRamp, hasGateObs, hasPayphone, externalObs);
     }
 

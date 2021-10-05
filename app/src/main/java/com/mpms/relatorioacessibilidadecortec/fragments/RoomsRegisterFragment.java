@@ -27,7 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSwitchDialo
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddTableDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddWindowDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.CafeteriaFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ClassroomFragment;
@@ -92,7 +92,7 @@ public class RoomsRegisterFragment extends Fragment {
 
         schoolData = this.getArguments();
         if (schoolData != null) {
-            roomBundleID.putInt(InspectionActivity.SCHOOL_ID_VALUE, schoolData.getInt(InspectionActivity.SCHOOL_ID_VALUE));
+            roomBundleID.putInt(SchoolRegisterActivity.SCHOOL_ID, schoolData.getInt(SchoolRegisterActivity.SCHOOL_ID));
             roomBundleID.putInt(ROOM_TYPE, chosenOption);
         }
 
@@ -172,7 +172,7 @@ public class RoomsRegisterFragment extends Fragment {
 
         modelFragments.getRoomBundle().observe(getViewLifecycleOwner(), roomBundle -> {
             if (roomBundle != null) {
-                roomBundle.putInt(InspectionActivity.SCHOOL_ID_VALUE, roomBundleID.getInt(InspectionActivity.SCHOOL_ID_VALUE));
+                roomBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, roomBundleID.getInt(SchoolRegisterActivity.SCHOOL_ID));
                 if (update == 0) {
                     RoomEntry newEntry = newRoomEntry(roomBundle);
                     ViewModelEntry.insertRoomEntry(newEntry);
@@ -370,7 +370,7 @@ public class RoomsRegisterFragment extends Fragment {
                 break;
         }
 
-        return new RoomEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), chosenOption, hasVisSign, obsVisSign, hasTactSign,
+        return new RoomEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), chosenOption, hasVisSign, obsVisSign, hasTactSign,
                 obsTactSign, libShelvesDistOK, libPcrManeuverOK, libAccessPcOK, cafeSpinOK, classBoardHeight, secFixedSeat,
                 secHasPcrSpace, secWidthPcrSpace, secDepthPcrSpace, secSpinOK);
     }

@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomMirrorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestroomMirrorChildFragment;
@@ -158,9 +158,9 @@ public class RestroomMirrorUrinalFragment extends Fragment {
     }
 
     public void finishRestroomRegister() {
-        int schoolID = restroomDataBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
+        int schoolID = restroomDataBundle.getInt(SchoolRegisterActivity.SCHOOL_ID);
         restroomDataBundle = new Bundle();
-        restroomDataBundle.putInt(InspectionActivity.SCHOOL_ID_VALUE, schoolID);
+        restroomDataBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, schoolID);
         modelFragments.setRestroomBundle(null);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

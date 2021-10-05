@@ -18,7 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
@@ -50,7 +50,7 @@ public class ParkingLotFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle schoolBundle = this.getArguments();
         if (schoolBundle != null)
-            schoolID = schoolBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
+            schoolID = schoolBundle.getInt(SchoolRegisterActivity.SCHOOL_ID);
 //        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
     }
 

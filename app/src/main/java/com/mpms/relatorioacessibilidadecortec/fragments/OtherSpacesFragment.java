@@ -2,11 +2,6 @@ package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,10 +12,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
@@ -49,7 +48,7 @@ public class OtherSpacesFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle schoolBundle = this.getArguments();
         if (schoolBundle != null) {
-            schoolID = schoolBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
+            schoolID = schoolBundle.getInt(SchoolRegisterActivity.SCHOOL_ID);
         }
     }
 

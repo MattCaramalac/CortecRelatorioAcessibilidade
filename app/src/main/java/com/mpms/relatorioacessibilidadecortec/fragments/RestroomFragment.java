@@ -22,7 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntryUpdate;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -85,7 +85,7 @@ public class RestroomFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_restroom, container, false);
         activityBundle = this.getArguments();
         if (activityBundle != null) {
-            restroomBundleData.putInt(InspectionActivity.SCHOOL_ID_VALUE, activityBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE));
+            restroomBundleData.putInt(SchoolRegisterActivity.SCHOOL_ID, activityBundle.getInt(SchoolRegisterActivity.SCHOOL_ID));
         }
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
@@ -321,7 +321,7 @@ public class RestroomFragment extends Fragment {
     public RestroomEntry newRestroom(Bundle bundle) {
         pickUpRestroomDataFields();
 
-        return new RestroomEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE),restroomType, restroomLocation, accessibleRoute,
+        return new RestroomEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID),restroomType, restroomLocation, accessibleRoute,
                 accessibleRouteObs, integratedRestroom, integratedRestroomObs, restroomDistance, restroomDistanceObs, exclusiveEntrance,
                 exclusiveEntranceObs, antiDriftingFloor, antiDriftingFloorObs, restroomDrain, restroomDrainObs, restroomSwitch,
                 switchHeight, switchObs, null, null, null, null, null, null,

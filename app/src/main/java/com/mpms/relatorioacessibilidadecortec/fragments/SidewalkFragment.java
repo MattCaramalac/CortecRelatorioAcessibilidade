@@ -21,7 +21,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSidewalkSlopeDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -76,7 +76,7 @@ public class SidewalkFragment extends Fragment {
         modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
         schoolData = this.getArguments();
         if (schoolData != null) {
-            sidewalkData.putInt(InspectionActivity.SCHOOL_ID_VALUE, schoolData.getInt(InspectionActivity.SCHOOL_ID_VALUE));
+            sidewalkData.putInt(SchoolRegisterActivity.SCHOOL_ID, schoolData.getInt(SchoolRegisterActivity.SCHOOL_ID));
             sidewalkID = schoolData.getInt(SIDEWALK_ID, 0);
         }
         return inflater.inflate(R.layout.fragment_sidewalk, container, false);
@@ -374,7 +374,7 @@ public class SidewalkFragment extends Fragment {
         sidewalkHasSlope = getCheckedSidewalkRadioButton(hasSlope);
         sidewalkObs = String.valueOf(sidewalkObsValue.getText());
 
-        return new SidewalkEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), sidewalkLocation, sidewalkStatus, sidewalkWidth,
+        return new SidewalkEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), sidewalkLocation, sidewalkStatus, sidewalkWidth,
                 hasTactFloor, tactileFloorStatus, sidewalkTactileFloorStatus, sidewalkObligatorySlope, sidewalkHasSlope, sidewalkObs);
     }
 

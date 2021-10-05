@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
@@ -81,7 +82,7 @@ public class RampStairsFragment extends Fragment {
 
         schoolData = this.getArguments();
         if (schoolData != null) {
-            rampStairsBundle.putInt(InspectionActivity.SCHOOL_ID_VALUE, schoolData.getInt(InspectionActivity.SCHOOL_ID_VALUE));
+            rampStairsBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, schoolData.getInt(SchoolRegisterActivity.SCHOOL_ID));
             rampStairsBundle.putInt(RAMP_OR_STAIRS, chosenOption);
             if (rampStairsBundle.getInt(InspectionActivity.ALLOW_UPDATE) == 0)
                 rampStairsBundle.putInt(RAMP_STAIRS_ID,0);
@@ -198,7 +199,7 @@ public class RampStairsFragment extends Fragment {
         rampStairsFlightQuantity = Integer.parseInt(Objects.requireNonNull(quantFlightValue.getText()).toString());
         rampStairsBundle.putInt(NUMBER_FLIGHTS, rampStairsFlightQuantity);
 
-        return new RampStairsEntry(bundle.getInt(InspectionActivity.SCHOOL_ID_VALUE), chosenOption, rampStairsLocation, rampStairsFlightQuantity);
+        return new RampStairsEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), chosenOption, rampStairsLocation, rampStairsFlightQuantity);
     }
 
     public boolean checkRampStairsFields() {

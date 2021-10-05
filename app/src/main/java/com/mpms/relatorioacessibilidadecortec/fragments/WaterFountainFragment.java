@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
@@ -51,7 +51,7 @@ public class WaterFountainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle schoolBundle = this.getArguments();
         if (schoolBundle != null)
-            schoolID = schoolBundle.getInt(InspectionActivity.SCHOOL_ID_VALUE);
+            schoolID = schoolBundle.getInt(SchoolRegisterActivity.SCHOOL_ID);
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
 
     }
