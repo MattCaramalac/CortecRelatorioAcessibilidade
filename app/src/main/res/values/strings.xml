@@ -67,7 +67,7 @@
     <string name="school_level3">Fundamental I:</string>
     <string name="school_level4">Fundamental II:</string>
     <string name="school_level5">Ensino Médio:</string>
-    <string name="school_EJA">E.J.A.: Nível</string>
+    <string name="school_EJA">E.J.A.:</string>
     <string name="school_grade">ano</string>
     <string name="grade_o">º</string>
     <string name="students_ages">Idades Atendidas pela Instituição:</string>
@@ -387,8 +387,6 @@
     <string name="header_flight_number_indicator">Cadastro do lance de número:</string>
     <string name="title_activity_school_register">SchoolRegisterActivity</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="check_box_morning">Matutino:</string>
     <string name="check_box_evening">Noturno:</string>
     <string name="check_box_afternoon">Vespertino:</string>
@@ -402,4 +400,7 @@
     <string name="up_to">até</string>
     <string name="hint_start_inspection_date">Data do Início da Inspeção</string>
     <string name="hint_conclusion_inspection_date">Data de Conclusão da Inspeção</string>
+    <string name="date_picker_start_inspection">Selecione a data de início da inspeção</string>
+    <string name="date_picker_end_inspection">Selecione a data de término da inspeção</string>
+    <string name="header_school_register">Cadastro da Instituição Vistoriada</string>
 </resources>
