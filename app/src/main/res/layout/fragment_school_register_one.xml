@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="Cadastro da Instituição Vistoriada"
+            android:text="@string/header_school_register"
             android:textSize="@dimen/section_header"
             android:textColor="@color/black"/>
 
@@ -166,7 +166,8 @@
                 android:id="@+id/first_telephone_number_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"/>
+                android:inputType="phone"
+                android:maxLength="@integer/max_length_phone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -187,7 +188,8 @@
                 android:id="@+id/second_telephone_number_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"/>
+                android:inputType="phone"
+                android:maxLength="@integer/max_length_phone"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

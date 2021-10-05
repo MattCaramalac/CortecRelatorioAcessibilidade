@@ -1,6 +1,7 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.NewSchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterOne;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -28,10 +28,13 @@ public class SchoolRegisterFragmentOne extends Fragment {
     TextInputEditText schoolNameValue, addressStreetValue, addressComplementValue, addressNumberValue, addressNeighborhoodValue,
             addressCityValue, principalNameValue, contactPhoneOneValue, contactPhoneTwoValue, responsibleValue, inspectionTeamValue;
 
+    String schoolName, addressStreet, addressComplement, addressNumber, addressNeighborhood, addressCity, principalName,
+            contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam;
+
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
 
-    Bundle schoolRegOne = new Bundle();
+    static Bundle bundleFragOne = new Bundle();
 
     public SchoolRegisterFragmentOne() {
         // Required empty public constructor
@@ -39,15 +42,9 @@ public class SchoolRegisterFragmentOne extends Fragment {
 
     public static SchoolRegisterFragmentOne newInstance(Bundle bundle) {
         SchoolRegisterFragmentOne fragmentOne = new SchoolRegisterFragmentOne();
-        fragmentOne.fillDataFields(bundle);
+        fragmentOne.setArguments(bundle);
+        SchoolRegisterActivity.provideSchoolID(bundle, bundleFragOne);
         return fragmentOne;
-    }
-
-    public void fillDataFields(Bundle bundle) {
-        if (bundle != null) {
-            schoolRegOne.putInt(MainActivity.UPDATE_REQUEST, bundle.getInt(MainActivity.UPDATE_REQUEST));
-        }
-
     }
 
     @Override
@@ -68,41 +65,27 @@ public class SchoolRegisterFragmentOne extends Fragment {
 
         instantiateSchoolFragmentOne(view);
 
-        if (schoolRegOne.getInt(MainActivity.UPDATE_REQUEST) != 0)
-            modelEntry.getEntry(schoolRegOne.getInt(MainActivity.UPDATE_REQUEST)).observe(getViewLifecycleOwner(), this::gatherSchoolDataOne);
+        if (bundleFragOne.getInt(SchoolRegisterActivity.SCHOOL_ID) > 0)
+            modelEntry.getEntry(bundleFragOne.getInt(SchoolRegisterActivity.SCHOOL_ID)).observe(getViewLifecycleOwner(), this::gatherSchoolDataFragOne);
+        else {
+            modelEntry.getLastEntry().observe(getViewLifecycleOwner(), lastEntry -> {
+                if (bundleFragOne.getBoolean(SchoolRegisterActivity.OPEN_FRAG_TWO)) {
+                    bundleFragOne.putInt(SchoolRegisterActivity.SCHOOL_ID, lastEntry.getCadID());
+                    modelFragments.setDataFromFragToActivity(bundleFragOne);
+                    bundleFragOne.putBoolean(SchoolRegisterActivity.OPEN_FRAG_TWO, false);
+                }
+            });
+        }
 
         modelFragments.getSaveUpdateSchoolReg().observe(getViewLifecycleOwner(), saveUpdate -> {
             if (regOneHasNoEmptyFields() && saveUpdate != null) {
-                if (saveUpdate.getBoolean(NewSchoolRegisterActivity.SAVE_CLOSE)) {
-                    SchoolEntry school = newEntry();
-                    ViewModelEntry.insertSchool(school);
-                    schoolRegOne.putBoolean(NewSchoolRegisterActivity.SAVE_CLOSE, false);
-                    schoolRegOne.putBoolean(NewSchoolRegisterActivity.CLOSE_FRAGMENT, true);
-                    modelFragments.setDataFromFragToActivity(schoolRegOne);
-                } else if (saveUpdate.getBoolean(NewSchoolRegisterActivity.SAVE_CONTINUE)) {
-                    SchoolEntry school = newEntry();
-                    ViewModelEntry.insertSchool(school);
-                    schoolRegOne.putBoolean(NewSchoolRegisterActivity.SAVE_CONTINUE, false);
-                    schoolRegOne.putBoolean(NewSchoolRegisterActivity.OPEN_FRAG_TWO, true);
-                    modelFragments.setDataFromFragToActivity(schoolRegOne);
-                } else if (saveUpdate.getBoolean(NewSchoolRegisterActivity.UPDATE_CLOSE)) {
-                    SchoolRegisterOne school = updateRegisterOne(schoolRegOne);
-                    ViewModelEntry.updateSchoolRegOne(school);
-                    schoolRegOne.putBoolean(NewSchoolRegisterActivity.UPDATE_CLOSE, false);
-                    schoolRegOne.putBoolean(NewSchoolRegisterActivity.CLOSE_FRAGMENT, true);
-                    modelFragments.setDataFromFragToActivity(schoolRegOne);
-                } else if (saveUpdate.getBoolean(NewSchoolRegisterActivity.UPDATE_CONTINUE)) {
-                    SchoolRegisterOne school = updateRegisterOne(schoolRegOne);
-                    ViewModelEntry.updateSchoolRegOne(school);
-                    schoolRegOne.putBoolean(NewSchoolRegisterActivity.UPDATE_CONTINUE, false);
-                    schoolRegOne.putBoolean(NewSchoolRegisterActivity.OPEN_FRAG_TWO, true);
-                    modelFragments.setDataFromFragToActivity(schoolRegOne);
-                }
+                regOneDataHandling(saveUpdate);
             }
         });
     }
 
     private void instantiateSchoolFragmentOne(View view) {
+//        TextInputLayout
         schoolNameField = view.findViewById(R.id.school_name_field);
         addressStreetField = view.findViewById(R.id.school_address_field);
         addressComplementField = view.findViewById(R.id.address_complement_field);
@@ -114,6 +97,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
         contactPhoneTwoField = view.findViewById(R.id.second_telephone_number_field);
         responsibleField = view.findViewById(R.id.name_responsible_field);
         inspectionTeamField = view.findViewById(R.id.name_team_components_field);
+//        TextInputEditText
         schoolNameValue = view.findViewById(R.id.school_name_value);
         addressStreetValue = view.findViewById(R.id.school_address_value);
         addressComplementValue = view.findViewById(R.id.address_complement_value);
@@ -125,13 +109,46 @@ public class SchoolRegisterFragmentOne extends Fragment {
         contactPhoneTwoValue = view.findViewById(R.id.second_telephone_number_value);
         responsibleValue = view.findViewById(R.id.name_responsible_value);
         inspectionTeamValue = view.findViewById(R.id.name_team_components_value);
-
+//        ViewModels
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
-
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+//        MaskWatcher
+//        TODO - verificar possibilidade de usar classe de máscaras (para adicionar parênteses)
+        contactPhoneOneValue.addTextChangedListener(new PhoneNumberFormattingTextWatcher("BR"));
+        contactPhoneTwoValue.addTextChangedListener(new PhoneNumberFormattingTextWatcher("BR"));
     }
 
-    private void gatherSchoolDataOne(SchoolEntry school) {
+    private void regOneDataHandling(Bundle bundle) {
+        if (bundle.getBoolean(SchoolRegisterActivity.SAVE_CLOSE)) {
+            SchoolEntry school = newEntry();
+            ViewModelEntry.insertSchool(school);
+            bundleFragOne.putBoolean(SchoolRegisterActivity.SAVE_CLOSE, false);
+            bundleFragOne.putBoolean(SchoolRegisterActivity.CLOSE_FRAGMENT, true);
+            modelFragments.setDataFromFragToActivity(bundleFragOne);
+            bundleFragOne.putBoolean(SchoolRegisterActivity.CLOSE_FRAGMENT, false);
+        } else if (bundle.getBoolean(SchoolRegisterActivity.SAVE_CONTINUE)) {
+            SchoolEntry school = newEntry();
+            ViewModelEntry.insertSchool(school);
+            bundleFragOne.putBoolean(SchoolRegisterActivity.SAVE_CONTINUE, false);
+            bundleFragOne.putBoolean(SchoolRegisterActivity.OPEN_FRAG_TWO, true);
+        } else if (bundle.getBoolean(SchoolRegisterActivity.UPDATE_CLOSE)) {
+            SchoolRegisterOne school = updateRegisterOne(bundleFragOne);
+            ViewModelEntry.updateSchoolRegOne(school);
+            bundleFragOne.putBoolean(SchoolRegisterActivity.UPDATE_CLOSE, false);
+            bundleFragOne.putBoolean(SchoolRegisterActivity.CLOSE_FRAGMENT, true);
+            modelFragments.setDataFromFragToActivity(bundleFragOne);
+            bundleFragOne.putBoolean(SchoolRegisterActivity.CLOSE_FRAGMENT, false);
+        } else if (bundle.getBoolean(SchoolRegisterActivity.UPDATE_CONTINUE)) {
+            SchoolRegisterOne school = updateRegisterOne(bundleFragOne);
+            ViewModelEntry.updateSchoolRegOne(school);
+            bundleFragOne.putBoolean(SchoolRegisterActivity.UPDATE_CONTINUE, false);
+            bundleFragOne.putBoolean(SchoolRegisterActivity.OPEN_FRAG_TWO, true);
+            modelFragments.setDataFromFragToActivity(bundleFragOne);
+            bundleFragOne.putBoolean(SchoolRegisterActivity.OPEN_FRAG_TWO, false);
+        }
+    }
+
+    private void gatherSchoolDataFragOne(SchoolEntry school) {
         schoolNameValue.setText(school.getSchoolAddress());
         addressStreetValue.setText(school.getSchoolAddress());
         addressComplementValue.setText(school.getAddressComplement());
@@ -200,17 +217,17 @@ public class SchoolRegisterFragmentOne extends Fragment {
     }
 
     private SchoolEntry newEntry() {
-        String schoolName = String.valueOf(schoolNameValue.getText());
-        String addressStreet = String.valueOf(addressStreetValue.getText());
-        String addressComplement = String.valueOf(addressComplementValue.getText());
-        String addressNumber = String.valueOf(addressNumberValue.getText());
-        String addressNeighborhood = String.valueOf(addressNeighborhoodValue.getText());
-        String addressCity = String.valueOf(addressCityValue.getText());
-        String principalName = String.valueOf(principalNameValue.getText());
-        String contactPhoneOne = String.valueOf(contactPhoneOneValue.getText());
-        String contactPhoneTwo = String.valueOf(contactPhoneTwoValue.getText());
-        String responsible = String.valueOf(responsibleValue.getText());
-        String inspectionTeam = String.valueOf(inspectionTeamValue.getText());
+        schoolName = String.valueOf(schoolNameValue.getText());
+        addressStreet = String.valueOf(addressStreetValue.getText());
+        addressComplement = String.valueOf(addressComplementValue.getText());
+        addressNumber = String.valueOf(addressNumberValue.getText());
+        addressNeighborhood = String.valueOf(addressNeighborhoodValue.getText());
+        addressCity = String.valueOf(addressCityValue.getText());
+        principalName = String.valueOf(principalNameValue.getText());
+        contactPhoneOne = String.valueOf(contactPhoneOneValue.getText());
+        contactPhoneTwo = String.valueOf(contactPhoneTwoValue.getText());
+        responsible = String.valueOf(responsibleValue.getText());
+        inspectionTeam = String.valueOf(inspectionTeamValue.getText());
 
         return new SchoolEntry(schoolName, addressStreet, addressComplement, addressNumber, addressNeighborhood, addressCity, principalName,
                 contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam, null, null, null, null,
@@ -222,19 +239,19 @@ public class SchoolRegisterFragmentOne extends Fragment {
     }
 
     private SchoolRegisterOne updateRegisterOne(Bundle bundle) {
-        String schoolName = String.valueOf(schoolNameValue.getText());
-        String addressStreet = String.valueOf(addressStreetValue.getText());
-        String addressComplement = String.valueOf(addressComplementValue.getText());
-        String addressNumber = String.valueOf(addressNumberValue.getText());
-        String addressNeighborhood = String.valueOf(addressNeighborhoodValue.getText());
-        String addressCity = String.valueOf(addressCityValue.getText());
-        String principalName = String.valueOf(principalNameValue.getText());
-        String contactPhoneOne = String.valueOf(contactPhoneOneValue.getText());
-        String contactPhoneTwo = String.valueOf(contactPhoneTwoValue.getText());
-        String responsible = String.valueOf(responsibleValue.getText());
-        String inspectionTeam = String.valueOf(inspectionTeamValue.getText());
+        schoolName = String.valueOf(schoolNameValue.getText());
+        addressStreet = String.valueOf(addressStreetValue.getText());
+        addressComplement = String.valueOf(addressComplementValue.getText());
+        addressNumber = String.valueOf(addressNumberValue.getText());
+        addressNeighborhood = String.valueOf(addressNeighborhoodValue.getText());
+        addressCity = String.valueOf(addressCityValue.getText());
+        principalName = String.valueOf(principalNameValue.getText());
+        contactPhoneOne = String.valueOf(contactPhoneOneValue.getText());
+        contactPhoneTwo = String.valueOf(contactPhoneTwoValue.getText());
+        responsible = String.valueOf(responsibleValue.getText());
+        inspectionTeam = String.valueOf(inspectionTeamValue.getText());
 
-        return new SchoolRegisterOne(bundle.getInt(MainActivity.UPDATE_REQUEST), schoolName, addressStreet, addressComplement, addressNumber,
+        return new SchoolRegisterOne(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), schoolName, addressStreet, addressComplement, addressNumber,
                 addressNeighborhood, addressCity, principalName, contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam);
     }
 
