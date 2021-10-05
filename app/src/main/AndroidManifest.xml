@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RelatorioAcessibilidadeCortec">
         <activity
-            android:name=".activities.NewSchoolRegisterActivity"
+            android:name=".activities.SchoolRegisterActivity"
             android:label="@string/header"/>
         <activity android:name=".activities.MainActivity">
             <intent-filter>
@@ -19,9 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.RegisterActivity"
-            android:label="@string/header" />
         <activity
             android:name=".activities.InspectionActivity"
             android:label="@string/headerInspection" />

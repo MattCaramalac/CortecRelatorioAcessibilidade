@@ -1,5 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,11 +12,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.fragments.SchoolRegisterFragmentOne;
+import com.mpms.relatorioacessibilidadecortec.fragments.SchoolRegisterFragmentThree;
 import com.mpms.relatorioacessibilidadecortec.fragments.SchoolRegisterFragmentTwo;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
-public class NewSchoolRegisterActivity extends AppCompatActivity {
+public class SchoolRegisterActivity extends AppCompatActivity {
 
+    public static final String SCHOOL_ID = "SCHOOL_ID";
     public static final String SAVE_CLOSE = "SAVE_CLOSE";
     public static final String SAVE_CONTINUE = "SAVE_CONTINUE";
     public static final String UPDATE_CLOSE = "UPDATE_CLOSE";
@@ -23,7 +26,8 @@ public class NewSchoolRegisterActivity extends AppCompatActivity {
     public static final String CLOSE_FRAGMENT = "CLOSE_FRAGMENT";
     public static final String OPEN_FRAG_TWO = "OPEN_FRAG_TWO";
     public static final String OPEN_FRAG_THREE = "OPEN_FRAG_THREE";
-    public static final String END_SCHOOL_REG = "END_SCHOOL_REG";
+    public static final String NEXT_ACTIVITY = "NEXT_ACTIVITY";
+    public static final String SCHOOL_BUNDLE = "SCHOOL_BUNDLE";
 
     Button saveUpdateCloseButton, saveUpdateContinueButton;
     FrameLayout registerFragment;
@@ -34,15 +38,18 @@ public class NewSchoolRegisterActivity extends AppCompatActivity {
 
     ViewModelFragments modelFragments;
     SchoolRegisterFragmentOne fragmentOne;
+    SchoolRegisterFragmentTwo fragmentTwo;
+    SchoolRegisterFragmentThree fragmentThree;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_school_register);
 
-        if (getIntent().hasExtra(MainActivity.UPDATE_REQUEST)){
-            schoolRegBundle.putInt(MainActivity.UPDATE_REQUEST, getIntent().getIntExtra(MainActivity.UPDATE_REQUEST, -1));
-        }
+        if (getIntent().hasExtra(MainActivity.UPDATE_REQUEST))
+            schoolRegBundle.putInt(SCHOOL_ID, getIntent().getIntExtra(MainActivity.UPDATE_REQUEST, 0));
+        else
+            schoolRegBundle.putInt(SCHOOL_ID, 0);
 
         instantiateSchoolRegisterActivity();
         setButtonConfiguration();
@@ -54,22 +61,34 @@ public class NewSchoolRegisterActivity extends AppCompatActivity {
             }
             else {
                 if (schoolReg.getBoolean(OPEN_FRAG_TWO)){
+                    if (schoolReg.getInt(SCHOOL_ID) != 0)
+                        schoolRegBundle.putInt(SCHOOL_ID, schoolReg.getInt(SCHOOL_ID));
                     modelFragments.setSaveUpdateSchoolReg(null);
-                    manager.beginTransaction().replace(R.id.show_register_school_fragment, new SchoolRegisterFragmentTwo()).commit();
+                    setSecondFragment(schoolRegBundle);
+                    manager.beginTransaction().replace(R.id.show_register_school_fragment, fragmentTwo).addToBackStack(null).commit();
                 } else if (schoolReg.getBoolean(OPEN_FRAG_THREE)) {
                     modelFragments.setSaveUpdateSchoolReg(null);
-                } else if (schoolReg.getBoolean(END_SCHOOL_REG)) {
+                    setThirdFragment(schoolRegBundle);
+                    manager.beginTransaction().replace(R.id.show_register_school_fragment, fragmentThree).addToBackStack(null).commit();
+                } else if (schoolReg.getBoolean(NEXT_ACTIVITY)) {
                     modelFragments.setSaveUpdateSchoolReg(null);
+                    Intent itemInspectionIntent = new Intent(this, InspectionActivity.class);
+                    itemInspectionIntent.putExtra(SCHOOL_BUNDLE, schoolRegBundle);
+                    startActivity(itemInspectionIntent);
                 }
             }
         });
     }
 
+    public static void provideSchoolID(Bundle bundle, Bundle bundleFrag) {
+        if (bundle != null) {
+            bundleFrag.putInt(SCHOOL_ID, bundle.getInt(SCHOOL_ID));
+        }
+    }
+
     private void instantiateSchoolRegisterActivity() {
         saveUpdateCloseButton = findViewById(R.id.save_update_close_register);
         saveUpdateContinueButton = findViewById(R.id.save_update_continue_register);
-
-        registerFragment = findViewById(R.id.show_register_school_fragment);
 
         setFirstFragment(schoolRegBundle);
 
@@ -84,8 +103,16 @@ public class NewSchoolRegisterActivity extends AppCompatActivity {
         fragmentOne = SchoolRegisterFragmentOne.newInstance(bundle);
     }
 
+    private void setSecondFragment(Bundle bundle) {
+        fragmentTwo = SchoolRegisterFragmentTwo.newInstance(bundle);
+    }
+
+    private void setThirdFragment(Bundle bundle) {
+        fragmentThree = SchoolRegisterFragmentThree.newInstance(bundle);
+    }
+
     private void setButtonConfiguration() {
-        if (getIntent().hasExtra(MainActivity.UPDATE_REQUEST)) {
+        if (schoolRegBundle.getInt(SCHOOL_ID) != 0) {
             saveUpdateCloseButton.setText(R.string.label_update_close_button);
             saveUpdateContinueButton.setText(R.string.label_update_continue_button);
         } else {
@@ -97,7 +124,7 @@ public class NewSchoolRegisterActivity extends AppCompatActivity {
     }
 
     private void setSaveUpdateCloseButtonsLogic(View view) {
-        if (getIntent().hasExtra(MainActivity.UPDATE_REQUEST)) {
+        if (schoolRegBundle.getInt(SCHOOL_ID) != 0) {
             schoolRegFragment.putBoolean(UPDATE_CLOSE, true);
         } else {
             schoolRegFragment.putBoolean(SAVE_CLOSE, true);
@@ -106,7 +133,7 @@ public class NewSchoolRegisterActivity extends AppCompatActivity {
     }
 
     private void setSaveUpdateContinueButtonsLogic(View view) {
-        if (getIntent().hasExtra(MainActivity.UPDATE_REQUEST)) {
+        if (schoolRegBundle.getInt(SCHOOL_ID) != 0) {
             schoolRegFragment.putBoolean(UPDATE_CONTINUE, true);
         } else {
             schoolRegFragment.putBoolean(SAVE_CONTINUE, true);

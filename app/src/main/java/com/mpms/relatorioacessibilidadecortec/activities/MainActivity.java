@@ -49,17 +49,14 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
         });
 
         FloatingActionButton fab = findViewById(R.id.fab_register);
-        fab.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RegisterActivity.class)));
-
-        FloatingActionButton fabTeste = findViewById(R.id.fab_register_test);
-        fabTeste.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, NewSchoolRegisterActivity.class)));
+        fab.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SchoolRegisterActivity.class)));
     }
 
     @Override
     public void OnEntryClick(int position) {
         SchoolEntry schoolEntry = viewModelEntry.getAllEntries().getValue().get(position);
 
-        Intent updateIntent = new Intent(MainActivity.this, NewSchoolRegisterActivity.class);
+        Intent updateIntent = new Intent(MainActivity.this, SchoolRegisterActivity.class);
         updateIntent.putExtra(UPDATE_REQUEST, schoolEntry.getCadID());
         startActivity(updateIntent);
     }
