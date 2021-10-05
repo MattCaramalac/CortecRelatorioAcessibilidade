@@ -220,13 +220,25 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/working_hours_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            app:layout_constraintTop_toBottomOf="@id/evening_hours_start_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/working_hours_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/evening_hours_start_field"
+            app:layout_constraintTop_toBottomOf="@id/working_hours_error_message"
             android:hint="@string/hint_obs"
             android:layout_marginTop="@dimen/top_margins">
 
@@ -569,7 +581,7 @@
             android:id="@+id/checkbox_EJA_classes"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:text="@string/check_box_high_school"
+            android:text="@string/school_EJA"
             android:textSize="18sp"
             android:layout_marginTop="@dimen/top_margins"
             app:layout_constraintTop_toBottomOf="@id/checkbox_high_school_classes"
@@ -627,13 +639,25 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/school_services_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            app:layout_constraintTop_toBottomOf="@id/EJA_first_level_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/school_services_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_EJA_classes"
+            app:layout_constraintTop_toBottomOf="@id/school_services_error_message"
             android:hint="@string/hint_obs"
             android:layout_marginTop="@dimen/top_margins">
 
@@ -641,13 +665,13 @@
                 android:id="@+id/school_services_obs_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="start"
                 android:inputType="textMultiLine"
+                android:lines="3"
                 android:overScrollMode="always"
                 android:scrollbarStyle="outsideInset"
                 android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="3"/>
+                android:scrollHorizontally="false" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
