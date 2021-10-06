@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -30,10 +29,9 @@ public class SchoolRegisterActivity extends AppCompatActivity {
     public static final String SCHOOL_BUNDLE = "SCHOOL_BUNDLE";
 
     Button saveUpdateCloseButton, saveUpdateContinueButton;
-    FrameLayout registerFragment;
     FragmentManager manager;
 
-    Bundle schoolRegBundle = new Bundle();
+    public static Bundle schoolRegBundle = new Bundle();
     Bundle schoolRegFragment = new Bundle();
 
     ViewModelFragments modelFragments;
@@ -52,7 +50,7 @@ public class SchoolRegisterActivity extends AppCompatActivity {
             schoolRegBundle.putInt(SCHOOL_ID, 0);
 
         instantiateSchoolRegisterActivity();
-        setButtonConfiguration();
+
 
         modelFragments.getDataFromFragToActivity().observe(this, schoolReg -> {
             if (schoolReg.getBoolean(CLOSE_FRAGMENT)) {
@@ -90,6 +88,8 @@ public class SchoolRegisterActivity extends AppCompatActivity {
         saveUpdateCloseButton = findViewById(R.id.save_update_close_register);
         saveUpdateContinueButton = findViewById(R.id.save_update_continue_register);
 
+        setButtonConfiguration();
+
         setFirstFragment(schoolRegBundle);
 
         manager = getSupportFragmentManager();
@@ -126,16 +126,20 @@ public class SchoolRegisterActivity extends AppCompatActivity {
     private void setSaveUpdateCloseButtonsLogic(View view) {
         if (schoolRegBundle.getInt(SCHOOL_ID) != 0) {
             schoolRegFragment.putBoolean(UPDATE_CLOSE, true);
+            schoolRegFragment.putBoolean(UPDATE_CONTINUE, false);
         } else {
             schoolRegFragment.putBoolean(SAVE_CLOSE, true);
+            schoolRegFragment.putBoolean(SAVE_CONTINUE, false);
         }
         modelFragments.setSaveUpdateSchoolReg(schoolRegFragment);
     }
 
     private void setSaveUpdateContinueButtonsLogic(View view) {
         if (schoolRegBundle.getInt(SCHOOL_ID) != 0) {
+            schoolRegFragment.putBoolean(UPDATE_CLOSE, false);
             schoolRegFragment.putBoolean(UPDATE_CONTINUE, true);
         } else {
+            schoolRegFragment.putBoolean(SAVE_CLOSE, false);
             schoolRegFragment.putBoolean(SAVE_CONTINUE, true);
         }
         modelFragments.setSaveUpdateSchoolReg(schoolRegFragment);
