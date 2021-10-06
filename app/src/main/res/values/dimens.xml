@@ -16,8 +16,8 @@
     <dimen name="square_image_100">100dp</dimen>
 
     <integer name="max_length_age">3</integer>
-    <integer name="min_length_grade">2</integer>
-    <integer name="max_length_grade">3</integer>
+    <integer name="min_length_grade">1</integer>
+    <integer name="max_length_grade">2</integer>
     <integer name="max_length_hour">5</integer>
     <integer name="max_length_date">10</integer>
     <integer name="max_length_phone">13</integer>

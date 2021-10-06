@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="Cadastro das Informações da Instituição"
+            android:text="@string/header_school_info_work_services"
             android:textSize="@dimen/section_header"
             android:textColor="@color/black"/>
 
@@ -57,7 +57,7 @@
                 android:id="@+id/morning_hours_start_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="datetime"
                 android:maxLength="@integer/max_length_hour"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -90,7 +90,7 @@
                 android:id="@+id/morning_hours_end_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="datetime"
                 android:maxLength="@integer/max_length_hour"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -120,7 +120,7 @@
                 android:id="@+id/afternoon_hours_start_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="datetime"
                 android:maxLength="@integer/max_length_hour"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -152,7 +152,7 @@
                 android:id="@+id/afternoon_hours_end_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="datetime"
                 android:maxLength="@integer/max_length_hour"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -182,7 +182,7 @@
                 android:id="@+id/evening_hours_start_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="datetime"
                 android:maxLength="@integer/max_length_hour"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -215,7 +215,7 @@
                 android:id="@+id/evening_hours_end_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:inputType="datetime"
                 android:maxLength="@integer/max_length_hour"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -271,7 +271,7 @@
             android:id="@+id/checkbox_maternal_classes"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:text="Maternal:"
+            android:text="@string/check_box_maternal"
             android:textSize="18sp"
             android:layout_marginTop="@dimen/top_margins"
             app:layout_constraintTop_toBottomOf="@id/school_services_header"
@@ -409,6 +409,7 @@
             app:layout_constraintTop_toTopOf="@id/checkbox_elementary_classes"
             app:layout_constraintBottom_toBottomOf="@id/checkbox_elementary_classes"
             app:layout_constraintEnd_toStartOf="@id/elementary_levels_text_to"
+            app:suffixText="@string/grade_o"
             android:layout_marginEnd="@dimen/top_margins"
             android:enabled="false">
 
@@ -441,6 +442,7 @@
             app:layout_constraintTop_toTopOf="@id/elementary_levels_text_to"
             app:layout_constraintBottom_toBottomOf="@id/elementary_levels_text_to"
             app:layout_constraintEnd_toEndOf="parent"
+            app:suffixText="@string/grade_o"
             android:layout_marginEnd="@dimen/top_margins"
             android:enabled="false">
 
@@ -472,6 +474,7 @@
             app:layout_constraintBottom_toBottomOf="@id/checkbox_middle_school_classes"
             app:layout_constraintEnd_toStartOf="@id/middle_school_levels_text_to"
             android:layout_marginEnd="@dimen/top_margins"
+            app:suffixText="@string/grade_o"
             android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -503,6 +506,7 @@
             app:layout_constraintTop_toTopOf="@id/middle_school_levels_text_to"
             app:layout_constraintBottom_toBottomOf="@id/middle_school_levels_text_to"
             app:layout_constraintEnd_toEndOf="parent"
+            app:suffixText="@string/grade_o"
             android:layout_marginEnd="@dimen/top_margins"
             android:enabled="false">
 
@@ -534,6 +538,7 @@
             app:layout_constraintBottom_toBottomOf="@id/checkbox_high_school_classes"
             app:layout_constraintEnd_toStartOf="@id/high_school_levels_text_to"
             android:layout_marginEnd="@dimen/top_margins"
+            app:suffixText="@string/grade_o"
             android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -565,6 +570,7 @@
             app:layout_constraintTop_toTopOf="@id/high_school_levels_text_to"
             app:layout_constraintBottom_toBottomOf="@id/high_school_levels_text_to"
             app:layout_constraintEnd_toEndOf="parent"
+            app:suffixText="@string/grade_o"
             android:layout_marginEnd="@dimen/top_margins"
             android:enabled="false">
 

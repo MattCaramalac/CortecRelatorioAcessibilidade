@@ -1,6 +1,7 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterTwo;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.MaskWatcher;
 
 public class SchoolRegisterFragmentTwo extends Fragment {
 
@@ -93,6 +95,8 @@ public class SchoolRegisterFragmentTwo extends Fragment {
                         modelFragments.setDataFromFragToActivity(bundleFragTwo);
                         bundleFragTwo.putBoolean(SchoolRegisterActivity.CLOSE_FRAGMENT, false);
                     }
+                } else {
+                    modelFragments.setSaveUpdateSchoolReg(null);
                 }
             }
         });
@@ -141,6 +145,13 @@ public class SchoolRegisterFragmentTwo extends Fragment {
         ejaStartValue = v.findViewById(R.id.EJA_first_level_value);
         ejaEndValue = v.findViewById(R.id.EJA_last_level_value);
         servicesObsValue = v.findViewById(R.id.school_services_obs_value);
+//        DataMasks
+        morningStartValue.addTextChangedListener(MaskWatcher.buildWorkingHours());
+        morningEndValue.addTextChangedListener(MaskWatcher.buildWorkingHours());
+        afternoonStartValue.addTextChangedListener(MaskWatcher.buildWorkingHours());
+        afternoonEndValue.addTextChangedListener(MaskWatcher.buildWorkingHours());
+        eveningStartValue.addTextChangedListener(MaskWatcher.buildWorkingHours());
+        eveningEndValue.addTextChangedListener(MaskWatcher.buildWorkingHours());
 //        MaterialCheckBox
         morningCheck = v.findViewById(R.id.checkbox_morning_hours);
         afternoonCheck = v.findViewById(R.id.checkbox_afternoon_hours);
@@ -154,15 +165,30 @@ public class SchoolRegisterFragmentTwo extends Fragment {
 //        TextView
         workingHoursError = v.findViewById(R.id.working_hours_error_message);
         servicesError = v.findViewById(R.id.school_services_error_message);
-
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
     }
 
     private boolean checkEmptyFieldsFragTwo() {
+        clearEmptyFieldsErrorFragTwo();
         int i = 0;
         if (!morningCheck.isChecked() && !afternoonCheck.isChecked() && !eveningCheck.isChecked()) {
+            i++;
+            workingHoursError.setVisibility(View.VISIBLE);
+        }
+        if (morningCheck.isChecked() &&
+                (TextUtils.isEmpty(morningStartValue.getText()) || TextUtils.isEmpty(morningEndValue.getText()))) {
+            i++;
+            workingHoursError.setVisibility(View.VISIBLE);
+        }
+        if (afternoonCheck.isChecked() &&
+                (TextUtils.isEmpty(afternoonStartValue.getText()) || TextUtils.isEmpty(afternoonEndValue.getText()))) {
+            i++;
+            workingHoursError.setVisibility(View.VISIBLE);
+        }
+        if (eveningCheck.isChecked() &&
+                (TextUtils.isEmpty(eveningStartValue.getText()) || TextUtils.isEmpty(eveningEndValue.getText()))) {
             i++;
             workingHoursError.setVisibility(View.VISIBLE);
         }
@@ -171,7 +197,43 @@ public class SchoolRegisterFragmentTwo extends Fragment {
             i++;
             servicesError.setVisibility(View.VISIBLE);
         }
+        if (maternalCheck.isChecked() &&
+                (TextUtils.isEmpty(maternalStartValue.getText()) ||TextUtils.isEmpty(maternalEndValue.getText()))) {
+            i++;
+            servicesError.setVisibility(View.VISIBLE);
+        }
+        if (preSchoolCheck.isChecked() &&
+                (TextUtils.isEmpty(preSchoolStartValue.getText()) ||TextUtils.isEmpty(preSchoolEndValue.getText()))) {
+            i++;
+            servicesError.setVisibility(View.VISIBLE);
+        }
+        if (elementaryCheck.isChecked() &&
+                (TextUtils.isEmpty(elementaryStartValue.getText()) ||TextUtils.isEmpty(elementaryEndValue.getText()))) {
+            i++;
+            servicesError.setVisibility(View.VISIBLE);
+        }
+        if (middleCheck.isChecked() &&
+                (TextUtils.isEmpty(middleStartValue.getText()) ||TextUtils.isEmpty(middleEndValue.getText()))) {
+            i++;
+            servicesError.setVisibility(View.VISIBLE);
+        }
+        if (highCheck.isChecked() &&
+                (TextUtils.isEmpty(highStartValue.getText()) ||TextUtils.isEmpty(highEndValue.getText()))) {
+            i++;
+            servicesError.setVisibility(View.VISIBLE);
+        }
+        if (ejaCheck.isChecked() &&
+                (TextUtils.isEmpty(ejaStartValue.getText()) ||TextUtils.isEmpty(ejaEndValue.getText()))) {
+            i++;
+            servicesError.setVisibility(View.VISIBLE);
+        }
+
         return i == 0;
+    }
+
+    private void clearEmptyFieldsErrorFragTwo() {
+        workingHoursError.setVisibility(View.GONE);
+        servicesError.setVisibility(View.GONE);
     }
 
     private void gatherSchoolDataFragTwo(SchoolEntry school) {

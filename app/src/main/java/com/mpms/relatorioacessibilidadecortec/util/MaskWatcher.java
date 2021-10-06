@@ -22,6 +22,10 @@ public class MaskWatcher implements TextWatcher {
         return new MaskWatcher("(##)#####-####");
     }
 
+    public static MaskWatcher buildWorkingHours() {
+        return new MaskWatcher("##:##");
+    }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         isDeleting = count > after;
@@ -39,11 +43,14 @@ public class MaskWatcher implements TextWatcher {
         isRunning = true;
 
         int editableLength = editable.length();
-        if (editableLength < mask.length()) {
+        if (editableLength == 0) {
+            isRunning = false;
+            return;
+        } else if (editableLength < mask.length()) {
             if (mask.charAt(editableLength) != '#') {
                 editable.append(mask.charAt(editableLength));
-            } else if (mask.charAt(editableLength-1) != '#') {
-                editable.insert(editableLength-1, mask, editableLength-1, editableLength);
+            } else if (mask.charAt(editableLength - 1) != '#') {
+                editable.insert(editableLength - 1, mask, editableLength - 1, editableLength);
             }
         }
         isRunning = false;

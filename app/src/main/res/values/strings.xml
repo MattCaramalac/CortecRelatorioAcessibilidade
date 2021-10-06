@@ -403,4 +403,6 @@
     <string name="date_picker_start_inspection">Selecione a data de início da inspeção</string>
     <string name="date_picker_end_inspection">Selecione a data de término da inspeção</string>
     <string name="header_school_register">Cadastro da Instituição Vistoriada</string>
+    <string name="header_school_info_work_services">Cadastro das Informações da Instituição</string>
+    <string name="check_box_maternal">Maternal:</string>
 </resources>
