@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,11 +46,14 @@ public class SchoolRegisterFragmentThree extends Fragment {
     TextInputEditText startAgeValue, finalAgeValue, totalStudentsValue, totalStudentsPcdValue, studentPcdDescriptionValue,
             totalWorkersValue, totalWorkersPcdValue, workersPcdDescriptionValue, totalWorkersLibrasValue, startInspectionDateValue,
             endInspectionDateValue;
+    TextView studentsAgeError;
     MaterialDatePicker<Long> initialDate, finalDate;
     CalendarConstraints.Builder constraints;
 
     Integer youngestStudent, oldestStudent, totalStudents, totalPcdStudents, totalEmployees, totalPcdEmployees, librasEmployees;
     String studentsPcdDescription, employeesPcdDescription, startingDateInspection, endDateInspection;
+
+    int defaultColor;
 
     static Bundle bundleFragThree = new Bundle();
 
@@ -108,20 +112,67 @@ public class SchoolRegisterFragmentThree extends Fragment {
                         modelFragments.setDataFromFragToActivity(bundleFragThree);
                         bundleFragThree.putBoolean(SchoolRegisterActivity.CLOSE_FRAGMENT, false);
                     }
+                } else {
+                    modelFragments.setSaveUpdateSchoolReg(null);
                 }
             }
         });
     }
 
+    private void instantiateSchoolFragThree(View v) {
+//        Configuration - Set Locale by default, not by Fragment
+        configuration.setLocale(locale);
+//        TextInputLayout
+        startAgeField = v.findViewById(R.id.students_newest_age_field);
+        finalAgeField = v.findViewById(R.id.students_oldest_age_field);
+        totalStudentsField = v.findViewById(R.id.total_students_field);
+        totalStudentsPcdField = v.findViewById(R.id.total_pcd_students_field);
+        studentPcdDescriptionField = v.findViewById(R.id.description_pcd_students_field);
+        totalWorkersField = v.findViewById(R.id.total_workers_field);
+        totalWorkersPcdField = v.findViewById(R.id.total_pcd_workers_field);
+        workersPcdDescriptionField = v.findViewById(R.id.description_pcd_workers_field);
+        totalWorkersLibrasField = v.findViewById(R.id.total_workers_libras_field);
+        startInspectionDateField = v.findViewById(R.id.initial_date_inspection_field);
+        endInspectionDateField = v.findViewById(R.id.final_date_inspection_field);
+//        TextInputEditText
+        startAgeValue = v.findViewById(R.id.students_newest_age_value);
+        finalAgeValue = v.findViewById(R.id.students_oldest_age_value);
+        totalStudentsValue = v.findViewById(R.id.total_students_value);
+        totalStudentsPcdValue = v.findViewById(R.id.total_pcd_students_value);
+        studentPcdDescriptionValue = v.findViewById(R.id.description_pcd_students_value);
+        totalWorkersValue = v.findViewById(R.id.total_workers_value);
+        totalWorkersPcdValue = v.findViewById(R.id.total_pcd_workers_value);
+        workersPcdDescriptionValue = v.findViewById(R.id.description_pcd_workers_value);
+        totalWorkersLibrasValue = v.findViewById(R.id.total_workers_libras_value);
+        startInspectionDateValue = v.findViewById(R.id.initial_date_inspection_value);
+        endInspectionDateValue = v.findViewById(R.id.final_date_inspection_value);
+//        TextView
+        studentsAgeError = v.findViewById(R.id.students_age_error_message);
+//        Default Color
+        defaultColor = startAgeField.getBoxStrokeColor();
+//        ViewModels
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+//        Date ClickListeners
+        startInspectionDateValue.setOnClickListener(this::showDatePicker);
+        endInspectionDateValue.setOnClickListener(this::showDatePicker);
+//        ViewModels
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+    }
+
     private boolean checkEmptyFieldsFragThree() {
+        clearEmptyFieldsFragThreeErrors();
         int i = 0;
         if (TextUtils.isEmpty(startAgeValue.getText())) {
             i++;
-            startAgeField.setError(getString(R.string.blank_field_error));
+            startAgeField.setBoxStrokeColor(getResources().getColor(R.color.error_message, requireActivity().getTheme()));
+            studentsAgeError.setVisibility(View.VISIBLE);
         }
         if (TextUtils.isEmpty(finalAgeValue.getText())) {
             i++;
-            finalAgeField.setError(getString(R.string.blank_field_error));
+            finalAgeField.setBoxStrokeColor(getResources().getColor(R.color.error_message, requireActivity().getTheme()));
+            studentsAgeError.setVisibility(View.VISIBLE);
         }
         if (TextUtils.isEmpty(totalStudentsValue.getText())) {
             i++;
@@ -159,55 +210,41 @@ public class SchoolRegisterFragmentThree extends Fragment {
         return i == 0;
     }
 
-    private void gatherSchoolDataFragThree(SchoolEntry school) {
-        startAgeValue.setText(String.valueOf(school.getYoungestStudent()));
-        finalAgeValue.setText(String.valueOf(school.getOldestStudent()));
-        totalStudentsValue.setText(String.valueOf(school.getNumberStudents()));
-        totalStudentsPcdValue.setText(String.valueOf(school.getNumberStudentsPcd()));
-        studentPcdDescriptionValue.setText(school.getStudentsPcdDescription());
-        totalWorkersValue.setText(String.valueOf(school.getNumberWorkers()));
-        totalWorkersPcdValue.setText(String.valueOf(school.getNumberWorkersPcd()));
-        workersPcdDescriptionValue.setText(school.getWorkersPcdDescription());
-        totalWorkersLibrasValue.setText(String.valueOf(school.getNumberWorkersLibras()));
-        startInspectionDateValue.setText(school.getDateInspection());
-        endInspectionDateValue.setText(school.getDateInspectionEnd());
+    private void clearEmptyFieldsFragThreeErrors() {
+        startAgeField.setBoxStrokeColor(defaultColor);
+        finalAgeField.setBoxStrokeColor(defaultColor);
+        studentsAgeError.setVisibility(View.GONE);
+        totalStudentsField.setErrorEnabled(false);
+        totalStudentsPcdField.setErrorEnabled(false);
+        studentPcdDescriptionField.setErrorEnabled(false);
+        totalWorkersField.setErrorEnabled(false);
+        totalWorkersPcdField.setErrorEnabled(false);
+        workersPcdDescriptionField.setErrorEnabled(false);
+        totalWorkersLibrasField.setErrorEnabled(false);
+        startInspectionDateField.setErrorEnabled(false);
+        endInspectionDateField.setErrorEnabled(false);
+
     }
 
-    private void instantiateSchoolFragThree(View v) {
-        configuration.setLocale(locale);
-//        TextInputLayout
-        startAgeField = v.findViewById(R.id.students_newest_age_field);
-        finalAgeField = v.findViewById(R.id.students_oldest_age_field);
-        totalStudentsField = v.findViewById(R.id.total_students_field);
-        totalStudentsPcdField = v.findViewById(R.id.total_pcd_students_field);
-        studentPcdDescriptionField = v.findViewById(R.id.description_pcd_students_field);
-        totalWorkersField = v.findViewById(R.id.total_workers_field);
-        totalWorkersPcdField = v.findViewById(R.id.total_pcd_workers_field);
-        workersPcdDescriptionField = v.findViewById(R.id.description_pcd_workers_field);
-        totalWorkersLibrasField = v.findViewById(R.id.total_workers_libras_field);
-        startInspectionDateField = v.findViewById(R.id.initial_date_inspection_field);
-        endInspectionDateField = v.findViewById(R.id.final_date_inspection_field);
-//        TextInputEditText
-        startAgeValue = v.findViewById(R.id.students_newest_age_value);
-        finalAgeValue = v.findViewById(R.id.students_oldest_age_value);
-        totalStudentsValue = v.findViewById(R.id.total_students_value);
-        totalStudentsPcdValue = v.findViewById(R.id.total_pcd_students_value);
-        studentPcdDescriptionValue = v.findViewById(R.id.description_pcd_students_value);
-        totalWorkersValue = v.findViewById(R.id.total_workers_value);
-        totalWorkersPcdValue = v.findViewById(R.id.total_pcd_workers_value);
-        workersPcdDescriptionValue = v.findViewById(R.id.description_pcd_workers_value);
-        totalWorkersLibrasValue = v.findViewById(R.id.total_workers_libras_value);
-        startInspectionDateValue = v.findViewById(R.id.initial_date_inspection_value);
-        endInspectionDateValue = v.findViewById(R.id.final_date_inspection_value);
-//        ViewModels
-        modelEntry = new ViewModelEntry(requireActivity().getApplication());
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
-//        Date ClickListeners
-        startInspectionDateValue.setOnClickListener(this::showDatePicker);
-        endInspectionDateValue.setOnClickListener(this::showDatePicker);
-//        ViewModels
-        modelEntry = new ViewModelEntry(requireActivity().getApplication());
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+    private void gatherSchoolDataFragThree(SchoolEntry school) {
+        if (school.getYoungestStudent() != null)
+            startAgeValue.setText(String.valueOf(school.getYoungestStudent()));
+        if (school.getOldestStudent() != null)
+            finalAgeValue.setText(String.valueOf(school.getOldestStudent()));
+        if (school.getNumberStudents() != null)
+            totalStudentsValue.setText(String.valueOf(school.getNumberStudents()));
+        if (school.getNumberStudentsPcd() != null)
+            totalStudentsPcdValue.setText(String.valueOf(school.getNumberStudentsPcd()));
+        studentPcdDescriptionValue.setText(school.getStudentsPcdDescription());
+        if (school.getNumberWorkers() != null)
+            totalWorkersValue.setText(String.valueOf(school.getNumberWorkers()));
+        if (school.getNumberWorkersPcd() != null)
+            totalWorkersPcdValue.setText(String.valueOf(school.getNumberWorkersPcd()));
+        workersPcdDescriptionValue.setText(school.getWorkersPcdDescription());
+        if (school.getNumberWorkersLibras() != null)
+            totalWorkersLibrasValue.setText(String.valueOf(school.getNumberWorkersLibras()));
+        startInspectionDateValue.setText(school.getDateInspection());
+        endInspectionDateValue.setText(school.getDateInspectionEnd());
     }
 
     private void showDatePicker(View view) {

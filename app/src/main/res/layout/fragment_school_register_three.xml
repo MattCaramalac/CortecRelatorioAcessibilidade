@@ -83,13 +83,25 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/students_age_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            app:layout_constraintTop_toBottomOf="@id/students_oldest_age_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:id="@+id/total_students_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/students_newest_age_field"
+            app:layout_constraintTop_toBottomOf="@id/students_age_error_message"
             app:layout_constraintEnd_toStartOf="@id/total_pcd_students_field"
             android:hint="@string/hint_total_students"
             android:layout_marginTop="@dimen/top_margins"
