@@ -149,7 +149,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
     }
 
     private void gatherSchoolDataFragOne(SchoolEntry school) {
-        schoolNameValue.setText(school.getSchoolAddress());
+        schoolNameValue.setText(school.getSchoolName());
         addressStreetValue.setText(school.getSchoolAddress());
         addressComplementValue.setText(school.getAddressComplement());
         addressNumberValue.setText(school.getAddressNumber());
