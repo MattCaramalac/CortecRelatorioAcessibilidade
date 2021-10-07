@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
@@ -66,10 +67,15 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public void displayExternalAccessFragment() {
-        ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance();
-        externalAccessFragment.setArguments(fragmentSchoolID);
+//        ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance();
+//        externalAccessFragment.setArguments(fragmentSchoolID);
+//        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.show_fragment_selected, externalAccessFragment).addToBackStack(null).commit();
+
+        ExternalAccessListFragment extAccessList = ExternalAccessListFragment.newInstance();
+        extAccessList.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, externalAccessFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.show_fragment_selected, extAccessList).addToBackStack(null).commit();
     }
 
     public void closeExternalAccessFragment() {

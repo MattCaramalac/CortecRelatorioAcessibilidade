@@ -1,0 +1,116 @@
+package com.mpms.relatorioacessibilidadecortec.fragments;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
+import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.adapter.ExtAccRecViewAdapter;
+import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
+import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+
+import java.util.Objects;
+
+public class ExternalAccessListFragment extends Fragment implements OnEntryClickListener {
+
+    MaterialButton closeExtAccess, addExtAccess;
+
+    private ViewModelEntry modelEntry;
+    private RecyclerView recyclerView;
+    private ExtAccRecViewAdapter extAccAdapter;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+
+    Bundle extListBundle = new Bundle();
+
+
+    public ExternalAccessListFragment() {
+        // Required empty public constructor
+    }
+
+    public static ExternalAccessListFragment newInstance() {
+        return new ExternalAccessListFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (this.getArguments() != null) {
+            extListBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_external_access_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        instantiateExtAccListViews(view);
+
+        modelEntry.getAllExternalAccessesInSchool(extListBundle.getInt(SchoolRegisterActivity.SCHOOL_ID))
+                .observe(getViewLifecycleOwner(), extAccess -> {
+                    extAccAdapter = new ExtAccRecViewAdapter(extAccess, requireActivity(), this);
+                    recyclerView.setAdapter(extAccAdapter);
+                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                    dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+                    recyclerView.addItemDecoration(dividerItemDecoration);
+                });
+
+        closeExtAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+
+        addExtAccess.setOnClickListener(v -> {
+            ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance();
+            externalAccessFragment.setArguments(extListBundle);
+            fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.show_fragment_selected, externalAccessFragment).addToBackStack(null).commit();
+        });
+    }
+
+    private void instantiateExtAccListViews(View v) {
+        closeExtAccess = v.findViewById(R.id.close_external_access_list);
+        addExtAccess = v.findViewById(R.id.add_external_access);
+        recyclerView = v.findViewById(R.id.ext_access_recycler_view);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+
+        modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+
+
+    }
+
+    @Override
+    public void OnEntryClick(int position) {
+        ExternalAccess externalAccess = modelEntry.allExtAccSchool.getValue().get(position);
+
+        extListBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, externalAccess.getExternalAccessID());
+
+        ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance();
+        externalAccessFragment.setArguments(extListBundle);
+        fragmentManager = requireActivity().getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.show_fragment_selected, externalAccessFragment).addToBackStack(null).commit();
+    }
+}

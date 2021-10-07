@@ -52,6 +52,7 @@ import java.util.List;
 public class ViewModelEntry extends AndroidViewModel {
 
     public static ReportRepository repository;
+    public LiveData<List<ExternalAccess>> allExtAccSchool;
     public final LiveData<List<SchoolEntry>> allEntries;
     public final LiveData<List<RoomEntry>> allRooms;
 
@@ -200,7 +201,8 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public LiveData<List<ExternalAccess>> getAllExternalAccessesInSchool(int schoolEntryID) {
-        return repository.getAllExternalAccessesInSchool(schoolEntryID);
+        allExtAccSchool = repository.getAllExternalAccessesInSchool(schoolEntryID);
+        return allExtAccSchool;
     }
 
     public LiveData<ExternalAccess> getOneExternalAccess(int externalAccessID) {

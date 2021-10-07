@@ -33,16 +33,11 @@ public class ExternalAccessFragment extends Fragment {
     Button hasTrailRampButton, hasGateObstaclesButton, hasGatePayphonesButton, saveExternalAccess, cancelExternalAccess;
     TextView accessTypeError, hasSiaError, hasTrailRampError, hasGateObstaclesError, hasGatePayphonesError;
 
-    Bundle schoolBundle = new Bundle();
     Bundle extBundle = new Bundle();
 
     public static final String EXT_ACCESS_ID = "EXT_ACCESS_ID";
 
-    int saveAttempt = 0;
-
-//    TODO - Será usado para os casos onde a informação já foi cadastrada, está sendo acessada novamente para possível alteração
     int existingEntry = 0;
-//    TODO - Será usado para casos onde a informação foi gravada recentemente, diferente de informações que já existiam na tabela
     int recentEntry = 0;
 
     Integer typeExtAccess, hasSia, hasTrailRamp, hasGateObs, hasPayphone;
@@ -68,9 +63,9 @@ public class ExternalAccessFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        schoolBundle = this.getArguments();
-        if (schoolBundle != null) {
-            extBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, schoolBundle.getInt((SchoolRegisterActivity.SCHOOL_ID)));
+        if (this.getArguments() != null) {
+            extBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            extBundle.putInt(EXT_ACCESS_ID, this.getArguments().getInt(EXT_ACCESS_ID));
         }
     }
 
@@ -93,6 +88,12 @@ public class ExternalAccessFragment extends Fragment {
         radioGroupActivation(hasTrailRampRadio, hasTrailRampButton);
         radioGroupActivation(hasGateObstaclesRadio, hasGateObstaclesButton);
         radioGroupActivation(hasGatePayphonesRadio, hasGatePayphonesButton);
+
+        if (extBundle.getInt(EXT_ACCESS_ID) > 0) {
+            modelEntry.getOneExternalAccess(extBundle.getInt(EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), this::gatherExtAccessInfo);
+            existingEntry = 1;
+            upCounter = 1;
+        }
 
 //      Como a verificação estava ocorrendo depois do dialogo ser criado, coloca-se o chamado do dialogo dentro do observer
 //      Para garantir que o bundle receba o ID necessário. (existe solução mais elegante?)
@@ -121,8 +122,7 @@ public class ExternalAccessFragment extends Fragment {
             saveUpdateDialogClick();
         });
 
-        cancelExternalAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
+        cancelExternalAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
         saveExternalAccess.setOnClickListener(v -> {
             if (checkEmptyFields()) {
@@ -138,13 +138,13 @@ public class ExternalAccessFragment extends Fragment {
                         recentEntry = 0;
                     }
                     if (existingEntry == 1) {
-                        // TODO - Inserir método para captar ExternalID
-//                        upAccess.setExternalAccessID(lastExtAccess);
+                        upAccess.setExternalAccessID(extBundle.getInt(EXT_ACCESS_ID));
                         existingEntry = 0;
                     }
                     ViewModelEntry.updateExternalAccess(upAccess);
                     Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
                     clearFields();
+                    requireActivity().getSupportFragmentManager().popBackStackImmediate();
                 } else {
                     Toast.makeText(getContext(), "Algo inesperado ocorreu. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
                     clearFields();
@@ -183,6 +183,24 @@ public class ExternalAccessFragment extends Fragment {
         hasTrailRampError = view.findViewById(R.id.has_trail_ramp_error);
         hasGateObstaclesError = view.findViewById(R.id.gate_has_obstacles_error);
         hasGatePayphonesError = view.findViewById(R.id.gate_has_payphones_error);
+    }
+
+    private void gatherExtAccessInfo(ExternalAccess extAccess) {
+        if (extAccess.getEntranceType() != null)
+            entranceType.check(entranceType.getChildAt(extAccess.getEntranceType()).getId());
+        if (extAccess.getHasSIA() != null)
+            hasSiaRadio.check(hasSiaRadio.getChildAt(extAccess.getHasSIA()).getId());
+        if (extAccess.getGateHasTrailRamp() != null)
+            hasTrailRampRadio.check(hasTrailRampRadio.getChildAt(extAccess.getGateHasTrailRamp()).getId());
+        if (extAccess.getGateHasObstacles() != null)
+            hasGateObstaclesRadio.check(hasGateObstaclesRadio.getChildAt(extAccess.getGateHasObstacles()).getId());
+        if (extAccess.getGateHasPayphones() != null)
+            hasGatePayphonesRadio.check(hasGatePayphonesRadio.getChildAt(extAccess.getGateHasPayphones()).getId());
+
+        floorTypeValue.setText(extAccess.getFloorType());
+        gateWidthValue.setText(String.valueOf(extAccess.getGateWidth()));
+        gateTrailHeightValue.setText(String.valueOf(extAccess.getGateTrailHeight()));
+        externalObsValue.setText(extAccess.getExternalObs());
     }
 
     public void radioGroupActivation(RadioGroup radioGroup, Button button) {
@@ -325,7 +343,7 @@ public class ExternalAccessFragment extends Fragment {
                 upAccess.setExternalAccessID(lastExtAccess);
                 ViewModelEntry.updateExternalAccess(upAccess);
             } else if (existingEntry == 1) {
-// TODO - Inserir método para captar ExternalID
+                upAccess.setExternalAccessID(lastExtAccess);
                 ViewModelEntry.updateExternalAccess(upAccess);
             } else {
                 existingEntry = 0;
