@@ -36,6 +36,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 
 public class SchoolRegisterFragmentThree extends Fragment {
@@ -248,6 +249,8 @@ public class SchoolRegisterFragmentThree extends Fragment {
     }
 
     private void showDatePicker(View view) {
+        TimeZone utc = TimeZone.getDefault();
+        int offset = utc.getOffset(new Date().getTime()) * -1;
         //        MaterialDatePickers
         if (view == startInspectionDateValue) {
             if (!TextUtils.isEmpty(endInspectionDateValue.getText())) {
@@ -261,7 +264,7 @@ public class SchoolRegisterFragmentThree extends Fragment {
                         setSelection(MaterialDatePicker.todayInUtcMilliseconds()).setTitleText(R.string.date_picker_start_inspection).build();
             }
             initialDate.show(requireActivity().getSupportFragmentManager(), "DATE_PICKER");
-            initialDate.addOnPositiveButtonClickListener(selection -> startInspectionDateValue.setText(longToStringConverter(selection)));
+            initialDate.addOnPositiveButtonClickListener(selection -> startInspectionDateValue.setText(longToStringConverter(selection+offset)));
         } else if (view == endInspectionDateValue) {
             if (!TextUtils.isEmpty(startInspectionDateValue.getText())) {
                 long startInspection = stringToLongConverter(String.valueOf(startInspectionDateValue.getText()));
@@ -274,7 +277,7 @@ public class SchoolRegisterFragmentThree extends Fragment {
                         setSelection(MaterialDatePicker.todayInUtcMilliseconds()).setTitleText(R.string.date_picker_end_inspection).build();
             }
             finalDate.show(requireActivity().getSupportFragmentManager(), "DATE_PICKER");
-            finalDate.addOnPositiveButtonClickListener(selection -> endInspectionDateValue.setText(longToStringConverter(selection)));
+            finalDate.addOnPositiveButtonClickListener(selection -> endInspectionDateValue.setText(longToStringConverter(selection+offset)));
         }
     }
 
@@ -293,7 +296,7 @@ public class SchoolRegisterFragmentThree extends Fragment {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            return date.getTime();
+            return date != null ? date.getTime() : 0;
         }
     }
 
