@@ -235,7 +235,7 @@ public class ExternalAccessFragment extends Fragment {
     public void buttonClicked (int buttonClicked) {
         switch (buttonClicked) {
             case 0:
-                addTrailRampDialog();
+                addTrailRampFragment();
                 break;
             case 1:
                 addGateObsDialog();
@@ -343,7 +343,7 @@ public class ExternalAccessFragment extends Fragment {
                 upAccess.setExternalAccessID(lastExtAccess);
                 ViewModelEntry.updateExternalAccess(upAccess);
             } else if (existingEntry == 1) {
-                upAccess.setExternalAccessID(lastExtAccess);
+                upAccess.setExternalAccessID(extBundle.getInt(EXT_ACCESS_ID));
                 ViewModelEntry.updateExternalAccess(upAccess);
             } else {
                 existingEntry = 0;
@@ -360,7 +360,7 @@ public class ExternalAccessFragment extends Fragment {
         }
     }
 
-    private void addTrailRampDialog() {
+    private void addTrailRampFragment() {
 //        AddDoorDialog.displayDoorDialog(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), extBundle);
     }
 

@@ -30,7 +30,7 @@ public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ExtAccRecViewAdap
     @NonNull
     @Override
     public ExtViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ext_access_entries_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_item_entry_layout, parent, false);
         return new ExtAccRecViewAdapter.ExtViewHolder(view, entryClickListener);
     }
 
@@ -68,8 +68,8 @@ public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ExtAccRecViewAdap
 
         public ExtViewHolder(@NonNull View itemView, OnEntryClickListener entryClickListener) {
             super(itemView);
-            extAccessType = itemView.findViewById(R.id.ext_access_type);
-            extAccessNumber = itemView.findViewById(R.id.ext_access_number);
+            extAccessType = itemView.findViewById(R.id.item_info_one);
+            extAccessNumber = itemView.findViewById(R.id.item_info_two);
             this.entryClickListener = entryClickListener;
 
             itemView.setOnClickListener(this);

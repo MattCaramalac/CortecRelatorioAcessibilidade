@@ -59,7 +59,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_external_access_list, container, false);
+        return inflater.inflate(R.layout.fragment_items_entries_list, container, false);
     }
 
     @Override
@@ -89,9 +89,9 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
     }
 
     private void instantiateExtAccListViews(View v) {
-        closeExtAccess = v.findViewById(R.id.close_external_access_list);
-        addExtAccess = v.findViewById(R.id.add_external_access);
-        recyclerView = v.findViewById(R.id.ext_access_recycler_view);
+        closeExtAccess = v.findViewById(R.id.close_items_entries_list);
+        addExtAccess = v.findViewById(R.id.add_items_entries);
+        recyclerView = v.findViewById(R.id.items_entries_recycler_view);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
