@@ -17,6 +17,9 @@ public interface RestroomSupportBarDao {
     @Query("SELECT * FROM RestroomSupportBarEntry WHERE supBarID == :supBarID")
     LiveData<RestroomSupportBarEntry> getOneRestroomSupportBarEntry(int supBarID);
 
+    @Query("SELECT * FROM RestroomSupportBarEntry WHERE restroomID == :restroomID")
+    LiveData<RestroomSupportBarEntry> getRestSupportBarByRestroom(int restroomID);
+
     @Query("SELECT * FROM RestroomSupportBarEntry WHERE supBarID == (SELECT MAX(supBarID) FROM RestroomSupportBarEntry)")
     LiveData<RestroomSupportBarEntry> getLastRestroomSupportBarEntry();
 

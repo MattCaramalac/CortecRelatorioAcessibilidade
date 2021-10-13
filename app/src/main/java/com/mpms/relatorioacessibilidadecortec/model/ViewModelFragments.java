@@ -63,11 +63,21 @@ public class ViewModelFragments extends ViewModel {
     }
 
     public final MutableLiveData<Bundle> checkMirUrFrags = new MutableLiveData<>();
-    public void setCheckMirUrFrags(Bundle bundle) {
-        checkMirUrFrags.setValue(bundle);
-    }
+    public void setCheckMirUrFrags(Bundle bundle) { checkMirUrFrags.setValue(bundle); }
     public LiveData<Bundle> getCheckMirUrFrags() {
         return checkMirUrFrags;
+    }
+
+    public final MutableLiveData<Bundle> sendMirrorFragData = new MutableLiveData<>();
+    public void setSendMirrorFragData(Bundle bundle) { sendMirrorFragData.setValue(bundle); }
+    public LiveData<Bundle> getSendMirrorFragData() {
+        return sendMirrorFragData;
+    }
+
+    public final MutableLiveData<Bundle> sendUrinalFragData = new MutableLiveData<>();
+    public void setSendUrinalFragData(Bundle bundle) { sendUrinalFragData.setValue(bundle); }
+    public LiveData<Bundle> getSendUrinalFragData() {
+        return sendUrinalFragData;
     }
 
     public final MutableLiveData<Bundle> restChildFragBundle = new MutableLiveData<>();

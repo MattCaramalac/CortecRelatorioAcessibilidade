@@ -495,6 +495,10 @@ public class ReportRepository {
         return restroomEntryDao.getOneRestroomEntry(restroomID);
     }
 
+    public LiveData<RestroomUpViewEntry> getRestroomUpViewByRestroom(int restroomID) {
+        return restroomUpViewDao.getRestroomUpViewByRestroom(restroomID);
+    }
+
     public LiveData<RestroomEntry> getLastRestroomEntry() {
         return restroomEntryDao.getLastRestroomEntry();
     }
@@ -547,6 +551,10 @@ public class ReportRepository {
         return restroomSinkDao.getLastRestroomSinkEntry();
     }
 
+    public LiveData<RestroomSinkEntry> getRestroomSinkByRestroom(int restroomID) {
+        return restroomSinkDao.getRestroomSinkByRestroom(restroomID);
+    }
+
     public void updateRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.updateRestroomSinkEntry(sinkEntry));
     }
@@ -573,6 +581,10 @@ public class ReportRepository {
 
     public LiveData<RestroomSupportBarEntry> getLastRestroomSupportBarEntry() {
         return restroomSupportBarDao.getLastRestroomSupportBarEntry();
+    }
+
+    public LiveData<RestroomSupportBarEntry> getRestSupportBarByRestroom(int restroomID) {
+        return restroomSupportBarDao.getRestSupportBarByRestroom(restroomID);
     }
 
     public void updateRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {

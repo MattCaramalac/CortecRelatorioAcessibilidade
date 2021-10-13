@@ -36,6 +36,8 @@ public class RestroomUrinalChildFragment extends Fragment {
     public static final String URINAL_MEASURE_J = "URINAL_MEASURE_J";
     public static final String URINAL_MEASURE_K = "URINAL_MEASURE_K";
     public static final String URINAL_OBS = "URINAL_OBS";
+    public static final String FILL_URINAL = "FILL_URINAL";
+    public static final String URINAL_ID = "URINAL_ID";
 
     TextInputLayout measureFieldA, measureFieldB, measureFieldC, measureFieldD, measureFieldE, measureFieldF,
             measureFieldG, measureFieldH, measureFieldI, measureFieldJ, measureFieldK, urinalObsField;
@@ -89,6 +91,11 @@ public class RestroomUrinalChildFragment extends Fragment {
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundleUrinal);
         });
 
+        modelFragments.getSendUrinalFragData().observe(getViewLifecycleOwner(), urinalData -> {
+            if (urinalData.getBoolean(FILL_URINAL))
+                gatherUrinalData(urinalData);
+        });
+
         modelFragments.getCheckMirUrFrags().observe(getViewLifecycleOwner(), checkFrag -> {
             if (checkFrag.getBoolean(RestroomMirrorUrinalFragment.HAS_URINAL)) {
                 if(checkEmptyUrinalFields(checkFrag)) {
@@ -96,6 +103,21 @@ public class RestroomUrinalChildFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void gatherUrinalData(Bundle bundle) {
+        measureValueA.setText(String.valueOf(bundle.getDouble(URINAL_MEASURE_A)));
+        measureValueB.setText(String.valueOf(bundle.getDouble(URINAL_MEASURE_B)));
+        measureValueC.setText(String.valueOf(bundle.getDouble(URINAL_MEASURE_C)));
+        measureValueD.setText(String.valueOf(bundle.getDouble(URINAL_MEASURE_D)));
+        measureValueE.setText(String.valueOf(bundle.getDouble(URINAL_MEASURE_E)));
+        measureValueF.setText(String.valueOf(bundle.getDouble(URINAL_MEASURE_F)));
+        measureValueG.setText(String.valueOf(bundle.getDouble(URINAL_MEASURE_G)));
+        measureValueH.setText(String.valueOf(bundle.getDouble(URINAL_MEASURE_H)));
+        measureValueI.setText(String.valueOf(bundle.getDouble(URINAL_MEASURE_I)));
+        measureValueJ.setText(String.valueOf(bundle.getDouble(URINAL_MEASURE_J)));
+        measureValueK.setText(String.valueOf(bundle.getDouble(URINAL_MEASURE_K)));
+        urinalObsValue.setText(bundle.getString(URINAL_OBS));
     }
 
     private void instantiateUrinalViews(View view) {

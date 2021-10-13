@@ -13,7 +13,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RestroomFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.RestroomListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
@@ -87,10 +87,15 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public void displayRestroomFragment() {
-        RestroomFragment restroomFragment = RestroomFragment.newInstance();
-        restroomFragment.setArguments(fragmentSchoolID);
+//        RestroomFragment restroomFragment = RestroomFragment.newInstance();
+//        restroomFragment.setArguments(fragmentSchoolID);
+//        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.show_fragment_selected, restroomFragment).addToBackStack(null).commit();
+
+        RestroomListFragment restListFragment = RestroomListFragment.newInstance();
+        restListFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, restroomFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.show_fragment_selected, restListFragment).addToBackStack(null).commit();
     }
 
     public void displayWaterFountainFragment() {

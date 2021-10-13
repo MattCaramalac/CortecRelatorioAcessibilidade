@@ -1,19 +1,22 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 
 
@@ -24,6 +27,8 @@ public class InspectionMemorial extends Fragment {
     TextInputLayout dropdownMenuLocations;
     AutoCompleteTextView listItemsMemorial;
     ArrayAdapter<String> adapterLocations;
+
+    MaterialButton saveAndClose;
 
     private static final int NO_CHOICE = -1;
     private int chosenOption = NO_CHOICE;
@@ -51,6 +56,19 @@ public class InspectionMemorial extends Fragment {
         dropdownMenuLocations = rootView.findViewById(R.id.menu_options_memorial);
         listItemsMemorial = rootView.findViewById(R.id.list_item_memorial);
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        saveAndClose = view.findViewById(R.id.saveAndQuit);
+
+        saveAndClose.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |  Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
     }
 
     @Override

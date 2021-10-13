@@ -81,8 +81,6 @@ public class RestroomUpperViewFragment extends Fragment {
         });
 
 
-//        TODO - Adicionar depois método para acessar os dados quando selecionado um banheiro em específico.
-
         modelEntry.getLastRestroomUpViewEntry().observe(getViewLifecycleOwner(), upViewEntry -> {
             if (recentEntry == 1) {
                 recentEntry = 0;
@@ -91,16 +89,22 @@ public class RestroomUpperViewFragment extends Fragment {
             }
         });
 
-        if (restroomDataBundle.getBoolean(RestroomSupportBarFragment.OPENED_SUP_BAR)) {
-            modelEntry.getOneRestroomUpViewEntry(restroomDataBundle.getInt(UPPER_VIEW_ID)).observe(getViewLifecycleOwner(), this::gatherUpViewData);
-        }
+        modelEntry.getRestroomUpViewByRestroom(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID))
+                .observe(getViewLifecycleOwner(), upView -> {
+                    if (upView != null) {
+                        restroomDataBundle.putInt(UPPER_VIEW_ID, upView.getUpViewID());
+                        modelEntry.getOneRestroomUpViewEntry(restroomDataBundle.getInt(UPPER_VIEW_ID))
+                                .observe(getViewLifecycleOwner(), this::gatherUpViewData);
+                    }
+                });
 
         returnRestDoorData.setOnClickListener( v-> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
         saveUpMeasures.setOnClickListener( v -> {
             if (checkEmptyMeasurementsFields()) {
                 RestroomUpViewEntry newUpView = newRestUpView(restroomDataBundle);
-                if (restroomDataBundle.getBoolean(RestroomSupportBarFragment.OPENED_SUP_BAR)) {
+                if (restroomDataBundle.getBoolean(RestroomSupportBarFragment.OPENED_SUP_BAR) ||
+                        restroomDataBundle.getInt(UPPER_VIEW_ID) > 0) {
                     newUpView.setUpViewID(restroomDataBundle.getInt(UPPER_VIEW_ID));
                     ViewModelEntry.updateRestroomUpViewEntry(newUpView);
                     callSupBarFragment(restroomDataBundle);
@@ -111,12 +115,6 @@ public class RestroomUpperViewFragment extends Fragment {
 
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        restroomDataBundle.putBoolean(OPENED_UP_VIEW, true);
     }
 
     private void instantiateUpperViews(View view) {

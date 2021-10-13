@@ -82,15 +82,6 @@ public class RestroomSink1Fragment extends Fragment {
         instantiateSinkOneViews(view);
         allowSinkOneObsScroll();
 
-        sinkOne = view.findViewById(R.id.sink_image_one);
-        sinkTwo = view.findViewById(R.id.sink_image_two);
-
-        returnSupBar = view.findViewById(R.id.return_sup_bar);
-        saveSinkOne = view.findViewById(R.id.save_sink_one);
-
-        Glide.with(this).load(R.drawable.sink_1).fitCenter().into(sinkOne);
-        Glide.with(this).load(R.drawable.sink_2).fitCenter().into(sinkTwo);
-
         sinkOne.setOnClickListener(v -> {
             imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sink_1);
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
@@ -101,9 +92,14 @@ public class RestroomSink1Fragment extends Fragment {
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
         });
 
-        if (restroomDataBundle.getBoolean(RestroomSink2Fragment.OPENED_SINK_TWO)) {
-            modelEntry.getOneRestroomSinkEntry(restroomDataBundle.getInt(SINK_ID)).observe(getViewLifecycleOwner(), this::gatherRestroomSinkOneData);
-        }
+        modelEntry.getRestroomSinkByRestroom(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID))
+                .observe(getViewLifecycleOwner(), sinkEntry -> {
+                    if (sinkEntry != null) {
+                        restroomDataBundle.putInt(SINK_ID, sinkEntry.getSinkID());
+                        modelEntry.getOneRestroomSinkEntry(restroomDataBundle.getInt(SINK_ID))
+                                .observe(getViewLifecycleOwner(), this::gatherRestroomSinkOneData);
+                    }
+                });
 
         modelEntry.getLastRestroomSinkEntry().observe(getViewLifecycleOwner(), lastSink -> {
             if (recentSinkEntry == 1) {
@@ -114,15 +110,12 @@ public class RestroomSink1Fragment extends Fragment {
         });
 
         saveSinkOne.setOnClickListener(v-> {
-            //REGISTERED_ROOM deverá ser usado quando acessar dados da tabela através da escolha do usuário
-            if (restroomDataBundle.getBoolean(RestroomFragment.REGISTERED_ROOM) ||
-                    restroomDataBundle.getBoolean(RestroomSink2Fragment.OPENED_SINK_TWO)) {
+            if (restroomDataBundle.getInt(SINK_ID) > 0) {
                 if (checkSinkOneEmptyFields()) {
                     RestroomSinkOne updateSinkOne = updateSinkOne(restroomDataBundle);
                     ViewModelEntry.updateSinkEntryOne(updateSinkOne);
                     callSinkTwoFragment(restroomDataBundle);
                 }
-
             }  else {
                 if (checkSinkOneEmptyFields()) {
                     RestroomSinkEntry newSink = newSink(restroomDataBundle);
@@ -142,6 +135,7 @@ public class RestroomSink1Fragment extends Fragment {
     }
 
     private void instantiateSinkOneViews(View view) {
+//        TextInputLayout
         measureFieldA = view.findViewById(R.id.sink_one_A_measurement_field);
         measureFieldB = view.findViewById(R.id.sink_one_B_measurement_field);
         measureFieldC = view.findViewById(R.id.sink_one_C_measurement_field);
@@ -152,6 +146,7 @@ public class RestroomSink1Fragment extends Fragment {
         measureFieldH = view.findViewById(R.id.sink_two_H_measurement_field);
         obsImgOneField = view.findViewById(R.id.sink_one_obs_field);
         obsImgTwoField = view.findViewById(R.id.sink_two_obs_field);
+//        TextInputEditText
         measureValueA = view.findViewById(R.id.sink_one_A_measurement_value);
         measureValueB = view.findViewById(R.id.sink_one_B_measurement_value);
         measureValueC = view.findViewById(R.id.sink_one_C_measurement_value);
@@ -162,6 +157,15 @@ public class RestroomSink1Fragment extends Fragment {
         measureValueH = view.findViewById(R.id.sink_two_H_measurement_value);
         obsImgOneValue = view.findViewById(R.id.sink_one_obs_value);
         obsImgTwoValue = view.findViewById(R.id.sink_two_obs_value);
+//        ImageView
+        sinkOne = view.findViewById(R.id.sink_image_one);
+        sinkTwo = view.findViewById(R.id.sink_image_two);
+//        Button
+        returnSupBar = view.findViewById(R.id.return_sup_bar);
+        saveSinkOne = view.findViewById(R.id.save_sink_one);
+//        Glide
+        Glide.with(this).load(R.drawable.sink_1).fitCenter().into(sinkOne);
+        Glide.with(this).load(R.drawable.sink_2).fitCenter().into(sinkTwo);
     }
 
     private boolean scrollingField(View v, MotionEvent event) {
@@ -274,6 +278,8 @@ public class RestroomSink1Fragment extends Fragment {
     }
 
     public void gatherRestroomSinkOneData(RestroomSinkEntry sinkEntry) {
+        restroomDataBundle.putInt(SINK_ID, sinkEntry.getSinkID());
+
         measureValueA.setText(String.valueOf(sinkEntry.getSinkMeasureA()));
         measureValueB.setText(String.valueOf(sinkEntry.getSinkMeasureB()));
         measureValueC.setText(String.valueOf(sinkEntry.getSinkMeasureC()));

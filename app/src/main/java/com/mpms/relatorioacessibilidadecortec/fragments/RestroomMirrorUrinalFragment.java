@@ -38,6 +38,7 @@ public class RestroomMirrorUrinalFragment extends Fragment {
     FragmentManager manager;
 
     ViewModelFragments modelFragments;
+    ViewModelEntry modelEntry;
 
     Integer hasMirrors, hasUrinal;
 
@@ -60,6 +61,7 @@ public class RestroomMirrorUrinalFragment extends Fragment {
         // Inflate the layout for this fragment
         restroomDataBundle = this.getArguments();
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
         manager = getChildFragmentManager();
         return inflater.inflate(R.layout.fragment_restroom_mirror_urinal, container, false);
     }
@@ -68,26 +70,29 @@ public class RestroomMirrorUrinalFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mirrorError = view.findViewById(R.id.mirror_error);
-        urinalError = view.findViewById(R.id.urinal_error);
-
-        mirrorRadio = view.findViewById(R.id.restroom_mirror_radio);
-        urinalRadio = view.findViewById(R.id.restroom_urinal_radio);
-
-        returnSinkTwo = view.findViewById(R.id.return_sink_two);
-        save = view.findViewById(R.id.save_mirror_urinal);
-
+        instantiateMirrorUrinal(view);
         radioListener();
+
+        if (restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID) > 0) {
+            modelEntry.getOneRestroomMirrorEntry(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID)).
+                    observe(getViewLifecycleOwner(), this::gatherInfoMirror);
+            modelEntry.getOneRestroomUrinalEntry(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID)).
+                    observe(getViewLifecycleOwner(), this::gatherInfoUrinal);
+        }
+
+        modelEntry.getOneRestroomMirrorEntry(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID)).
+                observe(getViewLifecycleOwner(), this::gatherInfoMirror);
 
         modelFragments.getRestChildFragBundle().observe(getViewLifecycleOwner(), dataBundle -> {
             if (dataBundle != null) {
                 dataBundle.putInt(RestroomFragment.RESTROOM_ID, restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID));
                 createEntryFinishFragment(dataBundle);
+                modelFragments.setRestChildFragBundle(null);
             }
         });
 
 //        TODO - Fazer os erros aparecerem nos fragmentos filhos já abertos, assim como no fragmento pai
-        save.setOnClickListener( v-> {
+        save.setOnClickListener(v -> {
             if (checkEmptyMirrorUrinalFields())
                 if (hasMirrors == 0 && hasUrinal == 0) {
                     createEntryFinishFragment(restroomDataBundle);
@@ -102,6 +107,52 @@ public class RestroomMirrorUrinalFragment extends Fragment {
     public void onResume() {
         super.onResume();
         restroomDataBundle.putBoolean(OPENED_MIRROR, true);
+    }
+
+    private void instantiateMirrorUrinal(View view) {
+        mirrorError = view.findViewById(R.id.mirror_error);
+        urinalError = view.findViewById(R.id.urinal_error);
+
+        mirrorRadio = view.findViewById(R.id.restroom_mirror_radio);
+        urinalRadio = view.findViewById(R.id.restroom_urinal_radio);
+
+        returnSinkTwo = view.findViewById(R.id.return_sink_two);
+        save = view.findViewById(R.id.save_mirror_urinal);
+    }
+
+    public void gatherInfoMirror(RestroomMirrorEntry mirrorEntry) {
+        mirrorRadio.check(mirrorRadio.getChildAt(mirrorEntry.getRestroomHasMirror()).getId());
+        restroomDataBundle.putInt(RestroomMirrorChildFragment.MIRROR_ID, mirrorEntry.getMirrorID());
+        if (mirrorEntry.getRestroomHasMirror() == 1) {
+            Bundle mirrorData = new Bundle();
+            mirrorData.putDouble(RestroomMirrorChildFragment.MIRROR_A, mirrorEntry.getMirrorMeasureA());
+            mirrorData.putDouble(RestroomMirrorChildFragment.MIRROR_B, mirrorEntry.getMirrorMeasureB());
+            mirrorData.putString(RestroomMirrorChildFragment.MIRROR_OBS, mirrorEntry.getMirrorObs());
+            mirrorData.putBoolean(RestroomMirrorChildFragment.FILL_MIRROR, true);
+            modelFragments.setSendMirrorFragData(mirrorData);
+        }
+    }
+
+    public void gatherInfoUrinal(RestroomUrinalEntry urinalEntry) {
+        urinalRadio.check(urinalRadio.getChildAt(urinalEntry.getRestroomHasUrinal()).getId());
+        restroomDataBundle.putInt(RestroomUrinalChildFragment.URINAL_ID, urinalEntry.getUrinalID());
+        if (urinalEntry.getRestroomHasUrinal() == 1) {
+            Bundle urinalData = new Bundle();
+            urinalData.putDouble(RestroomUrinalChildFragment.URINAL_MEASURE_A, urinalEntry.getUrinalMeasureA());
+            urinalData.putDouble(RestroomUrinalChildFragment.URINAL_MEASURE_B, urinalEntry.getUrinalMeasureB());
+            urinalData.putDouble(RestroomUrinalChildFragment.URINAL_MEASURE_C, urinalEntry.getUrinalMeasureC());
+            urinalData.putDouble(RestroomUrinalChildFragment.URINAL_MEASURE_D, urinalEntry.getUrinalMeasureD());
+            urinalData.putDouble(RestroomUrinalChildFragment.URINAL_MEASURE_E, urinalEntry.getUrinalMeasureE());
+            urinalData.putDouble(RestroomUrinalChildFragment.URINAL_MEASURE_F, urinalEntry.getUrinalMeasureF());
+            urinalData.putDouble(RestroomUrinalChildFragment.URINAL_MEASURE_G, urinalEntry.getUrinalMeasureG());
+            urinalData.putDouble(RestroomUrinalChildFragment.URINAL_MEASURE_H, urinalEntry.getUrinalMeasureH());
+            urinalData.putDouble(RestroomUrinalChildFragment.URINAL_MEASURE_I, urinalEntry.getUrinalMeasureI());
+            urinalData.putDouble(RestroomUrinalChildFragment.URINAL_MEASURE_J, urinalEntry.getUrinalMeasureJ());
+            urinalData.putDouble(RestroomUrinalChildFragment.URINAL_MEASURE_K, urinalEntry.getUrinalMeasureK());
+            urinalData.putString(RestroomUrinalChildFragment.URINAL_OBS, urinalEntry.getUrinalObs());
+            urinalData.putBoolean(RestroomUrinalChildFragment.FILL_URINAL, true);
+            modelFragments.setSendUrinalFragData(urinalData);
+        }
     }
 
     public int getMirrorUrinalCheckedIndex(RadioGroup radio) {
@@ -176,7 +227,7 @@ public class RestroomMirrorUrinalFragment extends Fragment {
                 bundle.getDouble(RestroomMirrorChildFragment.MIRROR_B), bundle.getString(RestroomMirrorChildFragment.MIRROR_OBS));
     }
 
-    public RestroomUrinalEntry newUrinal (Bundle bundle) {
+    public RestroomUrinalEntry newUrinal(Bundle bundle) {
         return new RestroomUrinalEntry(bundle.getInt(RestroomFragment.RESTROOM_ID), hasUrinal, bundle.getDouble(RestroomUrinalChildFragment.URINAL_MEASURE_A),
                 bundle.getDouble(RestroomUrinalChildFragment.URINAL_MEASURE_B), bundle.getDouble(RestroomUrinalChildFragment.URINAL_MEASURE_C),
                 bundle.getDouble(RestroomUrinalChildFragment.URINAL_MEASURE_D), bundle.getDouble(RestroomUrinalChildFragment.URINAL_MEASURE_E),
@@ -188,9 +239,19 @@ public class RestroomMirrorUrinalFragment extends Fragment {
 
     public void createEntryFinishFragment(Bundle bundle) {
         RestroomMirrorEntry newMirror = newMirror(bundle);
-        ViewModelEntry.insertRestroomMirrorEntry(newMirror);
         RestroomUrinalEntry newUrinal = newUrinal(bundle);
-        ViewModelEntry.insertRestroomUrinalEntry(newUrinal);
+        if (restroomDataBundle.getInt(RestroomMirrorChildFragment.MIRROR_ID) > 0) {
+            newMirror.setMirrorID(restroomDataBundle.getInt(RestroomMirrorChildFragment.MIRROR_ID));
+            ViewModelEntry.updateRestroomMirrorEntry(newMirror);
+        } else
+            ViewModelEntry.insertRestroomMirrorEntry(newMirror);
+
+        if (restroomDataBundle.getInt(RestroomUrinalChildFragment.URINAL_ID) > 0) {
+            newUrinal.setUrinalID(restroomDataBundle.getInt(RestroomUrinalChildFragment.URINAL_ID));
+            ViewModelEntry.updateRestroomUrinalEntry(newUrinal);
+        } else
+            ViewModelEntry.insertRestroomUrinalEntry(newUrinal);
+
         finishRestroomRegister();
     }
 

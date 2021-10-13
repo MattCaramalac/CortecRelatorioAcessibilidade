@@ -34,7 +34,6 @@ import java.util.Objects;
 public class RestroomFragment extends Fragment {
 
     public static final String RESTROOM_ID = "RESTROOM_ID";
-    public static final String REGISTERED_ROOM = "REGISTERED_ROOM";
 
     TextInputLayout restroomLocationField, accessibleRouteObsField, integratedRestroomObsField, restroomDistanceObsField,
             exclusiveEntranceObsField, driftingFloorObsField, restroomDrainObsField, restroomSwitchObsField,
@@ -56,7 +55,7 @@ public class RestroomFragment extends Fragment {
 
     ArrayList<TextInputEditText> obsValues = new ArrayList<>();
     Bundle restroomBundleData = new Bundle();
-    Bundle activityBundle = new Bundle();
+
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
 
@@ -83,9 +82,9 @@ public class RestroomFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_restroom, container, false);
-        activityBundle = this.getArguments();
-        if (activityBundle != null) {
-            restroomBundleData.putInt(SchoolRegisterActivity.SCHOOL_ID, activityBundle.getInt(SchoolRegisterActivity.SCHOOL_ID));
+        if (this.getArguments() != null) {
+            restroomBundleData.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            restroomBundleData.putInt(RESTROOM_ID, this.getArguments().getInt(RESTROOM_ID));
         }
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
@@ -131,12 +130,19 @@ public class RestroomFragment extends Fragment {
 
 
 //      Preenchimento dos campos da tela
-        modelFragments.getRestroomBundle().observe(getViewLifecycleOwner(), restBundle -> {
-            if (restBundle != null) {
-                modelEntry.getOneRestroomEntry(restBundle.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), this::gatherRestroomData);
+//        modelFragments.getRestroomBundle().observe(getViewLifecycleOwner(), restBundle -> {
+//            if (restBundle != null) {
+//                modelEntry.getOneRestroomEntry(restBundle.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), this::gatherRestroomData);
+//                registeredEntry = 1;
+//            }
+//        });
+
+        if (restroomBundleData.getInt(RESTROOM_ID) > 0) {
+            modelEntry.getOneRestroomEntry(restroomBundleData.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), restroomEntry -> {
+                gatherRestroomData(restroomEntry);
                 registeredEntry = 1;
-            }
-        });
+            });
+        }
 
         continueRegister.setOnClickListener(v -> {
             if(checkRestroomFields()) {
@@ -154,7 +160,6 @@ public class RestroomFragment extends Fragment {
                     clearRestroomDataFields();
                     updateEntry = 0;
                     recentEntry = 0;
-                    restroomBundleData.putBoolean(RestroomDoorFragment.OPENED_DOOR_FRAG, false);
                     Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -165,13 +170,6 @@ public class RestroomFragment extends Fragment {
             requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         });
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (restroomBundleData.getBoolean(RestroomDoorFragment.OPENED_DOOR_FRAG))
-            modelFragments.setRestroomBundle(restroomBundleData);
     }
 
     private void instantiateRestroomViews(View view) {

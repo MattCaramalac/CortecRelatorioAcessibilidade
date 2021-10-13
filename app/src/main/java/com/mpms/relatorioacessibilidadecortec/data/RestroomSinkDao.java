@@ -19,6 +19,9 @@ public interface RestroomSinkDao {
     @Query("SELECT * FROM RestroomSinkEntry WHERE sinkID == :sinkID")
     LiveData<RestroomSinkEntry> getOneRestroomSinkEntry(int sinkID);
 
+    @Query("SELECT * FROM RestroomSinkEntry WHERE restroomID == :restroomID")
+    LiveData<RestroomSinkEntry> getRestroomSinkByRestroom(int restroomID);
+
     @Query("SELECT * FROM RestroomSinkEntry WHERE sinkID == (SELECT MAX (sinkID) FROM RestroomSinkEntry)")
     LiveData<RestroomSinkEntry> getLastRestroomSinkEntry();
 

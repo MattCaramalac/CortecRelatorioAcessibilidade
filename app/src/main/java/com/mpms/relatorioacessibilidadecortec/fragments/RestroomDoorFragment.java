@@ -99,8 +99,9 @@ public class RestroomDoorFragment extends Fragment {
 
         doorSillRadio.setOnCheckedChangeListener(this::openChildFragment);
 
-        if (restroomDoorBundle.getBoolean(RestroomUpperViewFragment.OPENED_UP_VIEW)) {
-            modelEntry.getOneRestroomEntry(restroomDoorBundle.getInt(RestroomFragment.RESTROOM_ID)).observe(getViewLifecycleOwner(), this::gatherRestroomDoorData);
+        if (restroomDoorBundle.getInt(RestroomFragment.RESTROOM_ID) > 0) {
+            modelEntry.getOneRestroomEntry(restroomDoorBundle.getInt(RestroomFragment.RESTROOM_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherRestroomDoorData);
         }
 
         modelDialog.getDoorInfo().observe(getViewLifecycleOwner(), sillBundle -> {
@@ -135,12 +136,6 @@ public class RestroomDoorFragment extends Fragment {
         });
 
         returnEntry.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        restroomDoorBundle.putBoolean(OPENED_DOOR_FRAG, true);
     }
 
     private void instantiateRestDoorViews(View view) {
@@ -272,48 +267,58 @@ public class RestroomDoorFragment extends Fragment {
 
     public void gatherRestroomDoorData(RestroomEntry restroomEntry) {
         Bundle doorSillBundle = new Bundle();
-        doorWidthValue.setText(String.valueOf(restroomEntry.getDoorWidth()));
+        if (restroomEntry.getDoorWidth() != null)
+            doorWidthValue.setText(String.valueOf(restroomEntry.getDoorWidth()));
 
-        doorHasSIARadio.check(doorHasSIARadio.getChildAt(restroomEntry.getDoorSIA()).getId());
+        if (restroomEntry.getDoorSIA() != null)
+            doorHasSIARadio.check(doorHasSIARadio.getChildAt(restroomEntry.getDoorSIA()).getId());
         doorSIAObsValue.setText(restroomEntry.getDoorSIAObs());
 
-        doorOpenExtDirRadio.check(doorOpenExtDirRadio.getChildAt(restroomEntry.getDoorExtOp()).getId());
+        if (restroomEntry.getDoorExtOp() != null)
+            doorOpenExtDirRadio.check(doorOpenExtDirRadio.getChildAt(restroomEntry.getDoorExtOp()).getId());
         doorOpenDirObsValue.setText(restroomEntry.getDoorExtOpObs());
 
-        doorVertSignRadio.check(doorVertSignRadio.getChildAt(restroomEntry.getDoorVertSign()).getId());
+        if (restroomEntry.getDoorVertSign() != null)
+            doorVertSignRadio.check(doorVertSignRadio.getChildAt(restroomEntry.getDoorVertSign()).getId());
         doorVertSignObsValue.setText(restroomEntry.getDoorVertSignObs());
 
-        doorSillRadio.check(doorSillRadio.getChildAt(restroomEntry.getDoorSillType()).getId());
+        if (restroomEntry.getDoorSillType() != null) {
+            doorSillRadio.check(doorSillRadio.getChildAt(restroomEntry.getDoorSillType()).getId());
 
-        switch (restroomEntry.getDoorSillType()) {
-            case 1:
-                doorSillBundle.putDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL, restroomEntry.getInclinationSillHeight());
-                break;
-            case 2:
-                doorSillBundle.putDouble(SillStepFragment.STEP_HEIGHT, restroomEntry.getStepSillHeight());
-                break;
-            case 3:
-                doorSillBundle.putDouble(SillSlopeFragment.SLOPE_WIDTH, restroomEntry.getSlopeSillWidth());
-                doorSillBundle.putDouble(SillSlopeFragment.SLOPE_INCLINATION, restroomEntry.getSlopeSillInclination());
-                break;
+            switch (restroomEntry.getDoorSillType()) {
+                case 1:
+                    doorSillBundle.putDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL, restroomEntry.getInclinationSillHeight());
+                    break;
+                case 2:
+                    doorSillBundle.putDouble(SillStepFragment.STEP_HEIGHT, restroomEntry.getStepSillHeight());
+                    break;
+                case 3:
+                    doorSillBundle.putDouble(SillSlopeFragment.SLOPE_WIDTH, restroomEntry.getSlopeSillWidth());
+                    doorSillBundle.putDouble(SillSlopeFragment.SLOPE_INCLINATION, restroomEntry.getSlopeSillInclination());
+                    break;
+            }
+            modelDialog.setRestDoorBundle(doorSillBundle);
         }
-        modelDialog.setRestDoorBundle(doorSillBundle);
 
         doorSillObsValue.setText(restroomEntry.getDoorSillTypeObs());
 
-        doorTactSignRadio.check(doorTactSignRadio.getChildAt(restroomEntry.getDoorTactileSign()).getId());
+        if (restroomEntry.getDoorTactileSign() != null)
+            doorTactSignRadio.check(doorTactSignRadio.getChildAt(restroomEntry.getDoorTactileSign()).getId());
         doorTactSignObsValue.setText(restroomEntry.getDoorTactileSignObs());
 
-        doorInternalCoatRadio.check(doorInternalCoatRadio.getChildAt(restroomEntry.getDoorIntCoating()).getId());
+        if (restroomEntry.getDoorIntCoating() != null)
+            doorInternalCoatRadio.check(doorInternalCoatRadio.getChildAt(restroomEntry.getDoorIntCoating()).getId());
         doorInternalCoatObsValue.setText(restroomEntry.getDoorIntCoatingObs());
 
-        doorHorHandleRadio.check(doorHorHandleRadio.getChildAt(restroomEntry.getDoorHorizontalHandle()).getId());
-        if (restroomEntry.getDoorHorizontalHandle() == 1) {
-            doorHorHandleHeightValue.setText(String.valueOf(restroomEntry.getHandleHeight()));
-            doorHorHandleLengthValue.setText(String.valueOf(restroomEntry.getHandleLength()));
+        if (restroomEntry.getDoorHorizontalHandle() != null) {
+            doorHorHandleRadio.check(doorHorHandleRadio.getChildAt(restroomEntry.getDoorHorizontalHandle()).getId());
+            if (restroomEntry.getDoorHorizontalHandle() == 1) {
+                doorHorHandleHeightValue.setText(String.valueOf(restroomEntry.getHandleHeight()));
+                doorHorHandleLengthValue.setText(String.valueOf(restroomEntry.getHandleLength()));
+            }
         }
-        doorHorHandleObsValue.setText(restroomEntry.getHandleObs());
 
+        doorHorHandleObsValue.setText(restroomEntry.getHandleObs());
     }
 
     public boolean checkEmptyRestDoorDataFields() {

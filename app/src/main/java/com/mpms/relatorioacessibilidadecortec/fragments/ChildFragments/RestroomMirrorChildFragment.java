@@ -28,6 +28,8 @@ public class RestroomMirrorChildFragment extends Fragment {
     public static final String MIRROR_A = "MIRROR_A";
     public static final String MIRROR_B = "MIRROR_B";
     public static final String MIRROR_OBS = "MIRROR_OBS";
+    public static final String FILL_MIRROR = "FILL_MIRROR";
+    public static final String MIRROR_ID = "MIRROR_ID";
 
     TextInputLayout measureFieldA, measureFieldB, mirrorObsField;
     TextInputEditText measureValueA, measureValueB, mirrorObsValue;
@@ -78,6 +80,11 @@ public class RestroomMirrorChildFragment extends Fragment {
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundleMirror);
         });
 
+        modelFragments.getSendMirrorFragData().observe(getViewLifecycleOwner(), mirrorData -> {
+            if (mirrorData.getBoolean(FILL_MIRROR))
+                gatherMirrorData(mirrorData);
+        });
+
         modelFragments.getCheckMirUrFrags().observe(getViewLifecycleOwner(), checkBundle -> {
             if (!checkBundle.getBoolean(RestroomMirrorUrinalFragment.HAS_URINAL)) {
                 if (checkEmptyMirrorFragFields()) {
@@ -90,6 +97,12 @@ public class RestroomMirrorChildFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void gatherMirrorData(Bundle bundle) {
+        measureValueA.setText(String.valueOf(bundle.getDouble(MIRROR_A)));
+        measureValueB.setText(String.valueOf(bundle.getDouble(MIRROR_B)));
+        mirrorObsValue.setText(String.valueOf(bundle.getDouble(MIRROR_OBS)));
     }
 
     public boolean checkEmptyMirrorFragFields() {

@@ -53,6 +53,7 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static ReportRepository repository;
     public LiveData<List<ExternalAccess>> allExtAccSchool;
+    public LiveData<List<RestroomEntry>> allRestSchool;
     public final LiveData<List<SchoolEntry>> allEntries;
     public final LiveData<List<RoomEntry>> allRooms;
 
@@ -438,7 +439,8 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public LiveData<List<RestroomEntry>> getAllSchoolRestroomEntries(int schoolID) {
-        return repository.getAllSchoolRestroomEntries(schoolID);
+        allRestSchool = repository.getAllSchoolRestroomEntries(schoolID);
+        return allRestSchool;
     }
 
     public LiveData<RestroomEntry> getOneRestroomEntry(int restroomID) {
@@ -497,6 +499,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastRestroomSinkEntry();
     }
 
+    public LiveData<RestroomSinkEntry> getRestroomSinkByRestroom(int restroomID) {
+        return repository.getRestroomSinkByRestroom(restroomID);
+    }
+
     public static void updateRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomSinkEntry(sinkEntry));
     }
@@ -525,6 +531,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastRestroomSupportBarEntry();
     }
 
+    public LiveData<RestroomSupportBarEntry> getRestSupportBarByRestroom(int restroomID) {
+        return repository.getRestSupportBarByRestroom(restroomID);
+    }
+
     public static void updateRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomSupportBarEntry(supportBar));
     }
@@ -539,6 +549,10 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public LiveData<RestroomUpViewEntry> getOneRestroomUpViewEntry(int upViewID) {
         return repository.getOneRestroomUpViewEntry(upViewID);
+    }
+
+    public LiveData<RestroomUpViewEntry> getRestroomUpViewByRestroom(int restroomID) {
+        return repository.getRestroomUpViewByRestroom(restroomID);
     }
 
     public LiveData<RestroomUpViewEntry> getLastRestroomUpViewEntry() {

@@ -62,7 +62,7 @@ public class SchoolRegisterFragmentThree extends Fragment {
     ViewModelFragments modelFragments;
 
     //    TODO - Colocar o Locale no App em vez de só neste fragmento. Verificar como.
-    Locale locale = new Locale("BR");
+    Locale locale = new Locale("pt");
 
     Configuration configuration = new Configuration();
     Date date;

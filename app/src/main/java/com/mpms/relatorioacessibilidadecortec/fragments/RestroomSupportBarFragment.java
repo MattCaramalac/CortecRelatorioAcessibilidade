@@ -121,15 +121,21 @@ public class RestroomSupportBarFragment extends Fragment {
             }
         });
 
-        if (restroomDataBundle.getBoolean(RestroomSink1Fragment.OPENED_SINK_ONE)) {
-            modelEntry.getOneRestroomSupportBarEntry(restroomDataBundle.getInt(SUP_BAR_ID)).observe(getViewLifecycleOwner(), this::gatherSupBar);
-        }
+        modelEntry.getRestSupportBarByRestroom(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID))
+                .observe(getViewLifecycleOwner(), supBar -> {
+                    if (supBar != null) {
+                        restroomDataBundle.putInt(SUP_BAR_ID, supBar.getSupBarID());
+                        modelEntry.getOneRestroomSupportBarEntry(restroomDataBundle.getInt(SUP_BAR_ID))
+                                .observe(getViewLifecycleOwner(), this::gatherSupBar);
+                    }
 
+                });
 
         saveSupBar.setOnClickListener( v -> {
             if (checkEmptySupBarField()) {
                 RestroomSupportBarEntry supBar = newSupBar(restroomDataBundle);
-                if (restroomDataBundle.getBoolean(RestroomSink1Fragment.OPENED_SINK_ONE)) {
+                if (restroomDataBundle.getBoolean(RestroomSink1Fragment.OPENED_SINK_ONE)
+                        || restroomDataBundle.getInt(SUP_BAR_ID) > 0) {
                     supBar.setSupBarID(restroomDataBundle.getInt(SUP_BAR_ID));
                     ViewModelEntry.updateRestroomSupportBarEntry(supBar);
                     callSinkOneFragment(restroomDataBundle);
@@ -141,12 +147,6 @@ public class RestroomSupportBarFragment extends Fragment {
         });
 
         returnUpView.setOnClickListener( v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        restroomDataBundle.putBoolean(OPENED_SUP_BAR, true);
     }
 
     private boolean scrollingField(View v, MotionEvent event) {
@@ -385,6 +385,8 @@ public class RestroomSupportBarFragment extends Fragment {
     }
 
     public void gatherSupBar(RestroomSupportBarEntry supportBarEntry) {
+        restroomDataBundle.putInt(SUP_BAR_ID, supportBarEntry.getSupBarID());
+
         supBarDiamValue.setText(String.valueOf(supportBarEntry.getSupBarDiameter()));
         measureValueA.setText(String.valueOf(supportBarEntry.getSupBarMeasureA()));
         measureValueB.setText(String.valueOf(supportBarEntry.getSupBarMeasureB()));

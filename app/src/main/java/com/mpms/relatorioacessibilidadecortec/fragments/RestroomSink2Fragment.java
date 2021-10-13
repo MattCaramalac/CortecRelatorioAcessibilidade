@@ -65,7 +65,6 @@ public class RestroomSink2Fragment extends Fragment {
         // Inflate the layout for this fragment
         restroomDataBundle = this.getArguments();
         imgBundle = new Bundle();
-        modelEntry = new ViewModelEntry(requireActivity().getApplication());
         return inflater.inflate(R.layout.fragment_restroom_sink2, container, false);
     }
 
@@ -75,10 +74,6 @@ public class RestroomSink2Fragment extends Fragment {
 
         instantiateSinkTwoViews(view);
         allowSinkTwoObsScroll();
-
-        Glide.with(this).load(R.drawable.sink_3).fitCenter().into(sinkThree);
-        Glide.with(this).load(R.drawable.sink_4).fitCenter().into(sinkFour);
-        Glide.with(this).load(R.drawable.sink_5).fitCenter().into(sinkFive);
 
         sinkThree.setOnClickListener(v -> {
             imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sink_3);
@@ -95,12 +90,12 @@ public class RestroomSink2Fragment extends Fragment {
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
         });
 
-        if (restroomDataBundle.getBoolean(RestroomMirrorUrinalFragment.OPENED_MIRROR)) {
+        if (restroomDataBundle.getInt(RestroomSink1Fragment.SINK_ID) > 0) {
             modelEntry.getOneRestroomSinkEntry(restroomDataBundle.getInt(RestroomSink1Fragment.SINK_ID)).observe(getViewLifecycleOwner(), this::gatherSinkTwoData);
         }
 
-        saveSinkTwo.setOnClickListener( v-> {
-            if(checkSinkTwoEmptyFields()) {
+        saveSinkTwo.setOnClickListener(v -> {
+            if (checkSinkTwoEmptyFields()) {
                 RestroomSinkTwo sinkTwo = updateSinkTwo(restroomDataBundle);
                 ViewModelEntry.updateSinkEntryTwo(sinkTwo);
                 callMirrorFragment(restroomDataBundle);
@@ -117,6 +112,7 @@ public class RestroomSink2Fragment extends Fragment {
     }
 
     private void instantiateSinkTwoViews(View view) {
+//        TextInputLayout
         measureFieldI = view.findViewById(R.id.sink_three_I_measurement_field);
         measureFieldJ = view.findViewById(R.id.sink_three_J_measurement_field);
         measureFieldK = view.findViewById(R.id.sink_three_K_measurement_field);
@@ -131,6 +127,7 @@ public class RestroomSink2Fragment extends Fragment {
         measureFieldT = view.findViewById(R.id.sink_five_T_measurement_field);
         obsSinkImgThreeField = view.findViewById(R.id.sink_three_obs_field);
         obsSinkImgFourFiveField = view.findViewById(R.id.sink_four_five_obs_field);
+//        TextInputEditText
         measureValueI = view.findViewById(R.id.sink_three_I_measurement_value);
         measureValueJ = view.findViewById(R.id.sink_three_J_measurement_value);
         measureValueK = view.findViewById(R.id.sink_three_K_measurement_value);
@@ -145,13 +142,19 @@ public class RestroomSink2Fragment extends Fragment {
         measureValueT = view.findViewById(R.id.sink_five_T_measurement_value);
         obsSinkImgThreeValue = view.findViewById(R.id.sink_three_obs_value);
         obsSinkImgFourFiveValue = view.findViewById(R.id.sink_four_five_obs_value);
-
+//        Button
         saveSinkTwo = view.findViewById(R.id.save_sink_two);
         returnSinkOne = view.findViewById(R.id.return_sink_one);
-
+//        ImageButton
         sinkThree = view.findViewById(R.id.sink_image_three);
         sinkFour = view.findViewById(R.id.sink_image_four);
         sinkFive = view.findViewById(R.id.sink_image_five);
+//        Glide
+        Glide.with(this).load(R.drawable.sink_3).fitCenter().into(sinkThree);
+        Glide.with(this).load(R.drawable.sink_4).fitCenter().into(sinkFour);
+        Glide.with(this).load(R.drawable.sink_5).fitCenter().into(sinkFive);
+//        ViewModelEntry
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
     }
 
     private boolean scrollingField(View v, MotionEvent event) {
@@ -170,7 +173,7 @@ public class RestroomSink2Fragment extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     private void allowSinkTwoObsScroll() {
         addObsFieldsToArray();
-        for (TextInputEditText obsScroll :sinkTwoObsArray) {
+        for (TextInputEditText obsScroll : sinkTwoObsArray) {
             obsScroll.setOnTouchListener(this::scrollingField);
         }
     }
@@ -178,55 +181,55 @@ public class RestroomSink2Fragment extends Fragment {
     public boolean checkSinkTwoEmptyFields() {
         clearSinkTwoEmptyFields();
         int i = 0;
-        if(TextUtils.isEmpty(measureValueI.getText())){
+        if (TextUtils.isEmpty(measureValueI.getText())) {
             i++;
             measureFieldI.setError(getString(R.string.blank_field_error));
         }
-        if(TextUtils.isEmpty(measureValueJ.getText())){
+        if (TextUtils.isEmpty(measureValueJ.getText())) {
             i++;
             measureFieldJ.setError(getString(R.string.blank_field_error));
         }
-        if(TextUtils.isEmpty(measureValueK.getText())){
+        if (TextUtils.isEmpty(measureValueK.getText())) {
             i++;
             measureFieldK.setError(getString(R.string.blank_field_error));
         }
-        if(TextUtils.isEmpty(measureValueL.getText())){
+        if (TextUtils.isEmpty(measureValueL.getText())) {
             i++;
             measureFieldL.setError(getString(R.string.blank_field_error));
         }
-        if(TextUtils.isEmpty(measureValueM.getText())){
+        if (TextUtils.isEmpty(measureValueM.getText())) {
             i++;
             measureFieldM.setError(getString(R.string.blank_field_error));
         }
-        if(TextUtils.isEmpty(measureValueN.getText())){
+        if (TextUtils.isEmpty(measureValueN.getText())) {
             i++;
             measureFieldN.setError(getString(R.string.blank_field_error));
         }
-        if(TextUtils.isEmpty(measureValueO.getText())){
+        if (TextUtils.isEmpty(measureValueO.getText())) {
             i++;
             measureFieldO.setError(getString(R.string.blank_field_error));
         }
-        if(TextUtils.isEmpty(measureValueP.getText())){
+        if (TextUtils.isEmpty(measureValueP.getText())) {
             i++;
             measureFieldP.setError(getString(R.string.blank_field_error));
         }
-        if(TextUtils.isEmpty(measureValueQ.getText())){
+        if (TextUtils.isEmpty(measureValueQ.getText())) {
             i++;
             measureFieldQ.setError(getString(R.string.blank_field_error));
         }
-        if(TextUtils.isEmpty(measureValueR.getText())){
+        if (TextUtils.isEmpty(measureValueR.getText())) {
             i++;
             measureFieldR.setError(getString(R.string.blank_field_error));
         }
-        if(TextUtils.isEmpty(measureValueS.getText())){
+        if (TextUtils.isEmpty(measureValueS.getText())) {
             i++;
             measureFieldS.setError(getString(R.string.blank_field_error));
         }
-        if(TextUtils.isEmpty(measureValueT.getText())){
+        if (TextUtils.isEmpty(measureValueT.getText())) {
             i++;
             measureFieldT.setError(getString(R.string.blank_field_error));
         }
-        return  i == 0;
+        return i == 0;
     }
 
     public void clearSinkTwoEmptyFields() {
@@ -245,7 +248,7 @@ public class RestroomSink2Fragment extends Fragment {
 
     }
 
-    public RestroomSinkTwo updateSinkTwo (Bundle bundle) {
+    public RestroomSinkTwo updateSinkTwo(Bundle bundle) {
         pickUpSinkTwoData();
         return new RestroomSinkTwo(restroomDataBundle.getInt(RestroomSink1Fragment.SINK_ID), measureI, measureJ, measureK, measureL,
                 measureM, measureN, obsSinkImgThree, measureO, measureP, measureQ, measureR, measureS, measureT, obsSinkImgFourFive);
@@ -295,18 +298,30 @@ public class RestroomSink2Fragment extends Fragment {
     }
 
     public void gatherSinkTwoData(RestroomSinkEntry sinkEntry) {
-        measureValueI.setText(String.valueOf(sinkEntry.getSinkMeasureI()));
-        measureValueJ.setText(String.valueOf(sinkEntry.getSinkMeasureJ()));
-        measureValueK.setText(String.valueOf(sinkEntry.getSinkMeasureK()));
-        measureValueL.setText(String.valueOf(sinkEntry.getSinkMeasureL()));
-        measureValueM.setText(String.valueOf(sinkEntry.getSinkMeasureM()));
-        measureValueN.setText(String.valueOf(sinkEntry.getSinkMeasureN()));
-        measureValueO.setText(String.valueOf(sinkEntry.getSinkMeasureO()));
-        measureValueP.setText(String.valueOf(sinkEntry.getSinkMeasureP()));
-        measureValueQ.setText(String.valueOf(sinkEntry.getSinkMeasureQ()));
-        measureValueR.setText(String.valueOf(sinkEntry.getSinkMeasureR()));
-        measureValueS.setText(String.valueOf(sinkEntry.getSinkMeasureS()));
-        measureValueT.setText(String.valueOf(sinkEntry.getSinkMeasureT()));
+        if (sinkEntry.getSinkMeasureI() != null)
+            measureValueI.setText(String.valueOf(sinkEntry.getSinkMeasureI()));
+        if (sinkEntry.getSinkMeasureJ() != null)
+            measureValueJ.setText(String.valueOf(sinkEntry.getSinkMeasureJ()));
+        if (sinkEntry.getSinkMeasureK() != null)
+            measureValueK.setText(String.valueOf(sinkEntry.getSinkMeasureK()));
+        if (sinkEntry.getSinkMeasureL() != null)
+            measureValueL.setText(String.valueOf(sinkEntry.getSinkMeasureL()));
+        if (sinkEntry.getSinkMeasureM() != null)
+            measureValueM.setText(String.valueOf(sinkEntry.getSinkMeasureM()));
+        if (sinkEntry.getSinkMeasureN() != null)
+            measureValueN.setText(String.valueOf(sinkEntry.getSinkMeasureN()));
+        if (sinkEntry.getSinkMeasureO() != null)
+            measureValueO.setText(String.valueOf(sinkEntry.getSinkMeasureO()));
+        if (sinkEntry.getSinkMeasureP() != null)
+            measureValueP.setText(String.valueOf(sinkEntry.getSinkMeasureP()));
+        if (sinkEntry.getSinkMeasureQ() != null)
+            measureValueQ.setText(String.valueOf(sinkEntry.getSinkMeasureQ()));
+        if (sinkEntry.getSinkMeasureR() != null)
+            measureValueR.setText(String.valueOf(sinkEntry.getSinkMeasureR()));
+        if (sinkEntry.getSinkMeasureS() != null)
+            measureValueS.setText(String.valueOf(sinkEntry.getSinkMeasureS()));
+        if (sinkEntry.getSinkMeasureT() != null)
+            measureValueT.setText(String.valueOf(sinkEntry.getSinkMeasureT()));
         obsSinkImgThreeValue.setText(sinkEntry.getSinkObsItoN());
         obsSinkImgFourFiveValue.setText(sinkEntry.getSinkObsOtoT());
     }
