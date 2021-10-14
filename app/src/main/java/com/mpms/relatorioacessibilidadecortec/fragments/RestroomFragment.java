@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomEntryUpdate;
@@ -58,6 +59,9 @@ public class RestroomFragment extends Fragment {
 
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
+
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     int recentEntry = 0;
     int updateEntry = 0;
@@ -167,7 +171,9 @@ public class RestroomFragment extends Fragment {
 
         cancelRestroom.setOnClickListener(v -> {
             restroomBundleData = null;
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+//            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.popBackStack(InspectionActivity.REST_LIST, 0);
         });
 
     }

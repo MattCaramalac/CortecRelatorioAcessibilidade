@@ -20,6 +20,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
+    public static final String REST_LIST = "REST_LIST";
     public static final String ALLOW_UPDATE = "ALLOW_UPDATE";
     Bundle fragmentSchoolID = new Bundle();
 
@@ -67,11 +68,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public void displayExternalAccessFragment() {
-//        ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance();
-//        externalAccessFragment.setArguments(fragmentSchoolID);
-//        fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.show_fragment_selected, externalAccessFragment).addToBackStack(null).commit();
-
         ExternalAccessListFragment extAccessList = ExternalAccessListFragment.newInstance();
         extAccessList.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -87,15 +83,10 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public void displayRestroomFragment() {
-//        RestroomFragment restroomFragment = RestroomFragment.newInstance();
-//        restroomFragment.setArguments(fragmentSchoolID);
-//        fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.show_fragment_selected, restroomFragment).addToBackStack(null).commit();
-
         RestroomListFragment restListFragment = RestroomListFragment.newInstance();
         restListFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, restListFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.show_fragment_selected, restListFragment).addToBackStack(REST_LIST).commit();
     }
 
     public void displayWaterFountainFragment() {

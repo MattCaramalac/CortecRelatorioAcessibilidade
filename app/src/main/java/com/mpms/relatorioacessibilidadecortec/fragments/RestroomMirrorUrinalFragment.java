@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomMirrorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RestroomUrinalEntry;
@@ -73,15 +74,23 @@ public class RestroomMirrorUrinalFragment extends Fragment {
         instantiateMirrorUrinal(view);
         radioListener();
 
-        if (restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID) > 0) {
-            modelEntry.getOneRestroomMirrorEntry(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID)).
-                    observe(getViewLifecycleOwner(), this::gatherInfoMirror);
-            modelEntry.getOneRestroomUrinalEntry(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID)).
-                    observe(getViewLifecycleOwner(), this::gatherInfoUrinal);
-        }
-
         modelEntry.getOneRestroomMirrorEntry(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID)).
-                observe(getViewLifecycleOwner(), this::gatherInfoMirror);
+                observe(getViewLifecycleOwner(), mirrorEntry ->  {
+                    if (mirrorEntry != null) {
+                        restroomDataBundle.putInt(RestroomMirrorChildFragment.MIRROR_ID, mirrorEntry.getMirrorID());
+                        gatherInfoMirror(mirrorEntry);
+                    }
+
+                });
+
+        modelEntry.getOneRestroomUrinalEntry(restroomDataBundle.getInt(RestroomFragment.RESTROOM_ID)).
+                observe(getViewLifecycleOwner(), urinalEntry ->  {
+                    if (urinalEntry != null) {
+                        restroomDataBundle.putInt(RestroomMirrorChildFragment.MIRROR_ID, urinalEntry.getUrinalID());
+                        gatherInfoUrinal(urinalEntry);
+                    }
+
+                });
 
         modelFragments.getRestChildFragBundle().observe(getViewLifecycleOwner(), dataBundle -> {
             if (dataBundle != null) {
@@ -213,9 +222,12 @@ public class RestroomMirrorUrinalFragment extends Fragment {
         restroomDataBundle = new Bundle();
         restroomDataBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, schoolID);
         modelFragments.setRestroomBundle(null);
+        modelFragments.setRestChildFragBundle(null);
+        modelFragments.setCheckMirUrFrags(null);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentManager.popBackStack(InspectionActivity.REST_LIST, 0);
         RestroomFragment restroom = RestroomFragment.newInstance();
         restroom.setArguments(restroomDataBundle);
         Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();

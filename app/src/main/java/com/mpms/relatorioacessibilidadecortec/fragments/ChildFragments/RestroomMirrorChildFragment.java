@@ -86,14 +86,16 @@ public class RestroomMirrorChildFragment extends Fragment {
         });
 
         modelFragments.getCheckMirUrFrags().observe(getViewLifecycleOwner(), checkBundle -> {
-            if (!checkBundle.getBoolean(RestroomMirrorUrinalFragment.HAS_URINAL)) {
-                if (checkEmptyMirrorFragFields()) {
-                    mirrorDataBundle.putString(MIRROR_OBS, String.valueOf(mirrorObsValue.getText()));
-                    if (checkBundle.getBoolean(RestroomMirrorUrinalFragment.HAS_BOTH)) {
-                        mirrorDataBundle.putBoolean(RestroomMirrorUrinalFragment.HAS_URINAL, true);
-                        modelFragments.setCheckMirUrFrags(mirrorDataBundle);
-                    } else if (checkBundle.getBoolean(RestroomMirrorUrinalFragment.HAS_MIRROR))
-                        modelFragments.setRestChildFragBundle(mirrorDataBundle);
+            if (checkBundle != null) {
+                if (!checkBundle.getBoolean(RestroomMirrorUrinalFragment.HAS_URINAL)) {
+                    if (checkEmptyMirrorFragFields()) {
+                        mirrorDataBundle.putString(MIRROR_OBS, String.valueOf(mirrorObsValue.getText()));
+                        if (checkBundle.getBoolean(RestroomMirrorUrinalFragment.HAS_BOTH)) {
+                            mirrorDataBundle.putBoolean(RestroomMirrorUrinalFragment.HAS_URINAL, true);
+                            modelFragments.setCheckMirUrFrags(mirrorDataBundle);
+                        } else if (checkBundle.getBoolean(RestroomMirrorUrinalFragment.HAS_MIRROR))
+                            modelFragments.setRestChildFragBundle(mirrorDataBundle);
+                    }
                 }
             }
         });
@@ -102,7 +104,7 @@ public class RestroomMirrorChildFragment extends Fragment {
     private void gatherMirrorData(Bundle bundle) {
         measureValueA.setText(String.valueOf(bundle.getDouble(MIRROR_A)));
         measureValueB.setText(String.valueOf(bundle.getDouble(MIRROR_B)));
-        mirrorObsValue.setText(String.valueOf(bundle.getDouble(MIRROR_OBS)));
+        mirrorObsValue.setText(String.valueOf(bundle.getString(MIRROR_OBS)));
     }
 
     public boolean checkEmptyMirrorFragFields() {

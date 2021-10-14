@@ -46,7 +46,6 @@ public class RestroomUrinalChildFragment extends Fragment {
 
     ImageButton urinalOne, urinalTwo;
     Bundle imgBundleUrinal = new Bundle();
-    Bundle urinalDataBundle = new Bundle();
 
     ViewModelFragments modelFragments;
 
@@ -97,9 +96,11 @@ public class RestroomUrinalChildFragment extends Fragment {
         });
 
         modelFragments.getCheckMirUrFrags().observe(getViewLifecycleOwner(), checkFrag -> {
-            if (checkFrag.getBoolean(RestroomMirrorUrinalFragment.HAS_URINAL)) {
-                if(checkEmptyUrinalFields(checkFrag)) {
-                    modelFragments.setRestChildFragBundle(checkFrag);
+            if (checkFrag != null) {
+                if (checkFrag.getBoolean(RestroomMirrorUrinalFragment.HAS_URINAL)) {
+                    if(checkEmptyUrinalFields(checkFrag)) {
+                        modelFragments.setRestChildFragBundle(checkFrag);
+                    }
                 }
             }
         });

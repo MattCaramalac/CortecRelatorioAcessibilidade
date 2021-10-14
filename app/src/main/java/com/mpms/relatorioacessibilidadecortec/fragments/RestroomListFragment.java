@@ -28,6 +28,7 @@ import java.util.Objects;
 
 public class RestroomListFragment extends Fragment implements OnEntryClickListener {
 
+
     MaterialButton closeRestroomList, addRestroom;
 
     private ViewModelEntry modelEntry;
