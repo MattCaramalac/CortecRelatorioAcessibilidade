@@ -314,9 +314,9 @@ public class ExternalAccessFragment extends Fragment {
             hasSia = getCheckedButton(hasSiaRadio);
         if (!TextUtils.isEmpty(floorTypeValue.getText()))
             floorType = String.valueOf(floorTypeValue.getText());
-        if (!TextUtils.isEmpty(gateWidthValue.getText()))
+        if (!TextUtils.isEmpty(gateWidthValue.getText())  && !String.valueOf(gateWidthValue.getText()).equals("null"))
             gateWidth = Double.parseDouble(String.valueOf(gateWidthValue.getText()));
-        if (!TextUtils.isEmpty(gateTrailHeightValue.getText()))
+        if (!TextUtils.isEmpty(gateTrailHeightValue.getText()) && !String.valueOf(gateTrailHeightValue.getText()).equals("null"))
             gateTrailHeight = Double.parseDouble(String.valueOf(gateTrailHeightValue.getText()));
         if (hasTrailRampRadio.getCheckedRadioButtonId() != -1)
             hasTrailRamp = getCheckedButton(hasTrailRampRadio);

@@ -79,13 +79,7 @@ public class RestroomListFragment extends Fragment implements OnEntryClickListen
 
         closeRestroomList.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
-        addRestroom.setOnClickListener(v -> {
-            RestroomFragment restroomFragment = RestroomFragment.newInstance();
-            restroomFragment.setArguments(restListBundle);
-            fragmentManager = requireActivity().getSupportFragmentManager();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.show_fragment_selected, restroomFragment).addToBackStack(null).commit();
-        });
+        addRestroom.setOnClickListener(v -> OpenRestFragment());
 
     }
 
@@ -106,6 +100,10 @@ public class RestroomListFragment extends Fragment implements OnEntryClickListen
 
         restListBundle.putInt(RestroomFragment.RESTROOM_ID, restroomEntry.getRestroomID());
 
+        OpenRestFragment();
+    }
+
+    private void OpenRestFragment() {
         RestroomFragment restroomFragment = RestroomFragment.newInstance();
         restroomFragment.setArguments(restListBundle);
         fragmentManager = requireActivity().getSupportFragmentManager();

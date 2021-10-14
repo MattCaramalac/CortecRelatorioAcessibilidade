@@ -112,12 +112,6 @@ public class RestroomMirrorUrinalFragment extends Fragment {
         returnSinkTwo.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        restroomDataBundle.putBoolean(OPENED_MIRROR, true);
-    }
-
     private void instantiateMirrorUrinal(View view) {
         mirrorError = view.findViewById(R.id.mirror_error);
         urinalError = view.findViewById(R.id.urinal_error);

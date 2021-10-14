@@ -71,10 +71,6 @@ public class RestroomMirrorChildFragment extends Fragment {
         instantiateMirrorViews(view);
         allowSinkOneObsScroll();
 
-        mirror = view.findViewById(R.id.mirror_image);
-
-        Glide.with(this).load(R.drawable.mirror).fitCenter().into(mirror);
-
         mirror.setOnClickListener(v -> {
             imgBundleMirror.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.mirror);
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundleMirror);
@@ -104,7 +100,7 @@ public class RestroomMirrorChildFragment extends Fragment {
     private void gatherMirrorData(Bundle bundle) {
         measureValueA.setText(String.valueOf(bundle.getDouble(MIRROR_A)));
         measureValueB.setText(String.valueOf(bundle.getDouble(MIRROR_B)));
-        mirrorObsValue.setText(String.valueOf(bundle.getString(MIRROR_OBS)));
+        mirrorObsValue.setText(bundle.getString(MIRROR_OBS));
     }
 
     public boolean checkEmptyMirrorFragFields() {
@@ -137,6 +133,10 @@ public class RestroomMirrorChildFragment extends Fragment {
         measureValueA = view.findViewById(R.id.mirror_A_measurement_value);
         measureValueB = view.findViewById(R.id.mirror_B_measurement_value);
         mirrorObsValue = view.findViewById(R.id.mirror_obs_value);
+
+        mirror = view.findViewById(R.id.mirror_image);
+
+        Glide.with(this).load(R.drawable.mirror).fitCenter().into(mirror);
     }
 
     private boolean scrollingField(View v, MotionEvent event) {
