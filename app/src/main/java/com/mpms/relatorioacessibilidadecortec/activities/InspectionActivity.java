@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesFragment;
@@ -16,11 +15,13 @@ import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestroomListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainListFragment;
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
+    public static final String EXTERNAL_LIST = "EXTERNAL_LIST";
     public static final String REST_LIST = "REST_LIST";
+    public static final String WATER_LIST = "WATER_LIST";
     public static final String ALLOW_UPDATE = "ALLOW_UPDATE";
     Bundle fragmentSchoolID = new Bundle();
 
@@ -71,15 +72,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         ExternalAccessListFragment extAccessList = ExternalAccessListFragment.newInstance();
         extAccessList.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, extAccessList).addToBackStack(null).commit();
-    }
-
-    public void closeExternalAccessFragment() {
-        ExternalAccessFragment externalAccessFragment = (ExternalAccessFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (externalAccessFragment != null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(externalAccessFragment).commit();
-        }
+        fragmentTransaction.replace(R.id.show_fragment_selected, extAccessList).addToBackStack(EXTERNAL_LIST).commit();
     }
 
     public void displayRestroomFragment() {
@@ -90,10 +83,10 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public void displayWaterFountainFragment() {
-        WaterFountainFragment waterFountainFragment = WaterFountainFragment.newInstance();
-        waterFountainFragment.setArguments(fragmentSchoolID);
+        WaterFountainListFragment waterListFrag = WaterFountainListFragment.newInstance();
+        waterListFrag.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, waterFountainFragment).commit();
+        fragmentTransaction.replace(R.id.show_fragment_selected, waterListFrag).addToBackStack(WATER_LIST).commit();
 
     }
 

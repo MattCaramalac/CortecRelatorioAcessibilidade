@@ -67,6 +67,12 @@ public class WaterFountainSpoutFragment extends Fragment {
         instantiateSpoutFountainViews(view);
         allowSpoutFountainObsScroll();
 
+        modelFragments.getFountainFragData().observe(getViewLifecycleOwner(), waterFrag -> {
+            if (waterFrag != null) {
+                gatherSpoutFountainData(waterFrag);
+            }
+        });
+
         modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
             if (Objects.equals(modelFragments.getSaveAttempt().getValue(), 1)) {
                 if (hasNoEmptyFields()) {
@@ -83,6 +89,14 @@ public class WaterFountainSpoutFragment extends Fragment {
                 modelFragments.setSaveAttemptFountain(0);
             }
         });
+    }
+
+    private void gatherSpoutFountainData(Bundle bundle) {
+        allowFrontalApprox.check(allowFrontalApprox.getChildAt(bundle.getInt(ALLOW_FRONTAL)).getId());
+        highestSpoutValue.setText(String.valueOf(bundle.getDouble(HIGHEST_SPOUT)));
+        lowestSpoutValue.setText(String.valueOf(bundle.getDouble(LOWEST_SPOUT)));
+        freeSpaceSpoutValue.setText(String.valueOf(bundle.getDouble(FREE_SPACE_SPOUT)));
+        spoutObsValue.setText(bundle.getString(SPOUT_FOUNTAIN_OBS));
     }
 
     private void instantiateSpoutFountainViews(View view) {
@@ -153,9 +167,7 @@ public class WaterFountainSpoutFragment extends Fragment {
     }
 
     public int getCheckedIndex(RadioGroup group) {
-        int buttonID = group.getCheckedRadioButtonId();
-        View button = group.findViewById(buttonID);
-        return group.indexOfChild(button);
+        return group.indexOfChild(group.findViewById(group.getCheckedRadioButtonId()));
     }
 
 

@@ -51,13 +51,13 @@ public class RestroomRecViewAdapter extends RecyclerView.Adapter<RestroomRecView
         String restType = "";
         switch (restroom.getRestroomType()) {
             case 0:
-                restType = "Masculino";
+                restType = "- Masculino";
                 break;
             case 1:
-                restType = "Feminino";
+                restType = "- Feminino";
                 break;
             case 2:
-                restType = "Familiar";
+                restType = "- Familiar";
                 break;
             default:
                 break;

@@ -53,6 +53,7 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static ReportRepository repository;
     public LiveData<List<ExternalAccess>> allExtAccSchool;
+    public LiveData<List<WaterFountainEntry>> allFountainsInSchool;
     public LiveData<List<RestroomEntry>> allRestSchool;
     public final LiveData<List<SchoolEntry>> allEntries;
     public final LiveData<List<RoomEntry>> allRooms;
@@ -194,7 +195,8 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public LiveData<List<WaterFountainEntry>> getAllFountainsInSchool(int schoolEntryID) {
-        return repository.getAllFountainsInSchool(schoolEntryID);
+        allFountainsInSchool = repository.getAllFountainsInSchool(schoolEntryID);
+        return allFountainsInSchool;
     }
 
     public LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountainID) {

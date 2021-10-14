@@ -66,6 +66,12 @@ public class WaterFountainOtherFragment extends Fragment {
 
         hasCupHolder.setOnCheckedChangeListener(this::hasCupHolderListener);
 
+        modelFragments.getFountainFragData().observe(getViewLifecycleOwner(), waterFrag -> {
+            if (waterFrag != null) {
+                gatherOtherFountainData(waterFrag);
+            }
+        });
+
         modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
             if (Objects.equals(modelFragments.getSaveAttempt().getValue(), 1)) {
                 if (hasNoEmptyFields()) {
@@ -87,6 +93,15 @@ public class WaterFountainOtherFragment extends Fragment {
             }
 
         });
+    }
+
+    private void gatherOtherFountainData(Bundle bundle) {
+        allowLateralApprox.check(allowLateralApprox.getChildAt(bundle.getInt(ALLOW_LATERAL)).getId());
+        faucetHeightValue.setText(String.valueOf(bundle.getDouble(FAUCET_HEIGHT)));
+        hasCupHolder.check(hasCupHolder.getChildAt(bundle.getInt(HAS_CUP_HOLDER)).getId());
+        if (bundle.getInt(HAS_CUP_HOLDER) > 0)
+            cupHolderHeightValue.setText(String.valueOf(bundle.getDouble(CUP_HOLDER_HEIGHT)));
+        fountainObsValue.setText(bundle.getString(OTHER_FOUNTAIN_OBS));
     }
 
     private void instantiateOtherViews(View view) {
@@ -173,9 +188,7 @@ public class WaterFountainOtherFragment extends Fragment {
     }
 
     public int getCheckedIndex(RadioGroup group) {
-        int buttonID = group.getCheckedRadioButtonId();
-        View button = group.findViewById(buttonID);
-        return group.indexOfChild(button);
+        return group.indexOfChild(group.findViewById(group.getCheckedRadioButtonId()));
     }
 
 }

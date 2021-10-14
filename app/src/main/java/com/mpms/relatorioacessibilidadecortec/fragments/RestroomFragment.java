@@ -132,15 +132,6 @@ public class RestroomFragment extends Fragment {
             });
         }
 
-
-//      Preenchimento dos campos da tela
-//        modelFragments.getRestroomBundle().observe(getViewLifecycleOwner(), restBundle -> {
-//            if (restBundle != null) {
-//                modelEntry.getOneRestroomEntry(restBundle.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), this::gatherRestroomData);
-//                registeredEntry = 1;
-//            }
-//        });
-
         if (restroomBundleData.getInt(RESTROOM_ID) > 0) {
             modelEntry.getOneRestroomEntry(restroomBundleData.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), restroomEntry -> {
                 gatherRestroomData(restroomEntry);
