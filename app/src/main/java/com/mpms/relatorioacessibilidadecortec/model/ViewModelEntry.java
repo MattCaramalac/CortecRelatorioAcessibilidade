@@ -55,6 +55,7 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<ExternalAccess>> allExtAccSchool;
     public LiveData<List<WaterFountainEntry>> allFountainsInSchool;
     public LiveData<List<RestroomEntry>> allRestSchool;
+    public LiveData<List<OtherSpaces>> allOtherSpaces;
     public final LiveData<List<SchoolEntry>> allEntries;
     public final LiveData<List<RoomEntry>> allRooms;
 
@@ -216,19 +217,20 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastExternalAccess();
     }
 
-    public LiveData<List<OtherSpaces>> selectAllSpaces(int schoolEntryID) {
-        return repository.selectAllSpaces(schoolEntryID);
+    public LiveData<List<OtherSpaces>> getAllOtherSpaces(int schoolEntryID) {
+        allOtherSpaces = repository.selectAllSpaces(schoolEntryID);
+        return allOtherSpaces;
     }
 
-    public LiveData<OtherSpaces> selectOneSpace(int otherID) {
+    public LiveData<OtherSpaces> getOneOtherSpace(int otherID) {
         return repository.selectOneSpace(otherID);
     }
 
-    public LiveData<List<ParkingLotEntry>> selectEveryParkingLot(int schoolEntryID) {
+    public LiveData<List<ParkingLotEntry>> getAllParkingLots(int schoolEntryID) {
         return repository.selectEveryParkingLot(schoolEntryID);
     }
 
-    public LiveData<ParkingLotEntry> selectOneParkingLot(int parkingLotID) {
+    public LiveData<ParkingLotEntry> getOneParkingLot(int parkingLotID) {
         return repository.selectOneParkingLot(parkingLotID);
     }
 

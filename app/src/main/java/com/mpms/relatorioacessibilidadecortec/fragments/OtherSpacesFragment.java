@@ -15,10 +15,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -33,7 +35,9 @@ public class OtherSpacesFragment extends Fragment {
     RadioGroup isAccessible;
     TextView isAccessibleError;
 
-    public static int schoolID;
+    Bundle otherBundle = new Bundle();
+
+    ViewModelEntry modelEntry;
 
     public OtherSpacesFragment() {
         // Required empty public constructor
@@ -46,9 +50,9 @@ public class OtherSpacesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle schoolBundle = this.getArguments();
-        if (schoolBundle != null) {
-            schoolID = schoolBundle.getInt(SchoolRegisterActivity.SCHOOL_ID);
+        if (this.getArguments() != null) {
+            otherBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            otherBundle.putInt(OtherSpacesListFragment.OTHER_SPACE_ID, this.getArguments().getInt(OtherSpacesListFragment.OTHER_SPACE_ID));
         }
     }
 
@@ -64,19 +68,7 @@ public class OtherSpacesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        otherSpacesNameValue = view.findViewById(R.id.other_spaces_name_value);
-        otherSpacesDescriptionValue = view.findViewById(R.id.other_spaces_description_value);
-
-        otherSpacesNameField = view.findViewById(R.id.other_spaces_name_field);
-        otherSpacesDescriptionField = view.findViewById(R.id.other_spaces_description_field);
-
-        saveOtherSpaces = view.findViewById(R.id.save_other_spaces_button);
-
-        cancelOtherSpaces = view.findViewById(R.id.cancel_other_spaces_button);
-
-        isAccessible = view.findViewById(R.id.accordance_with_accessibility_radio);
-
-        isAccessibleError = view.findViewById(R.id.other_spaces_radio_error);
+        instantiateOtherSpaceViews(view);
 
         otherSpacesDescriptionValue.setOnTouchListener((v, event) -> {
             v.getParent().requestDisallowInterceptTouchEvent(true);
@@ -86,18 +78,55 @@ public class OtherSpacesFragment extends Fragment {
             return false;
         });
 
+        if (otherBundle.getInt(OtherSpacesListFragment.OTHER_SPACE_ID) > 0) {
+            modelEntry.getOneOtherSpace(otherBundle.getInt(OtherSpacesListFragment.OTHER_SPACE_ID)).
+                    observe(getViewLifecycleOwner(), this::gatherOtherSpacesData);
+        }
+
         cancelOtherSpaces.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
+                .popBackStack(InspectionActivity.OTHERS_LIST, 0));
 
         saveOtherSpaces.setOnClickListener(v -> {
             if(checkEmptyFields()) {
                 OtherSpaces newSpace = createOtherSpace();
-                ViewModelEntry.insertOtherSpace(newSpace);
-                clearOtherSpaceFields();
-                Toast.makeText(getContext(), "Cadastro efetuado com Sucesso", Toast.LENGTH_SHORT).show();
+                if (otherBundle.getInt(OtherSpacesListFragment.OTHER_SPACE_ID) > 0) {
+                    newSpace.setOtherSpacesID(otherBundle.getInt(OtherSpacesListFragment.OTHER_SPACE_ID));
+                    ViewModelEntry.updateOtherSpace(newSpace);
+                    Toast.makeText(getContext(), "Cadastro atualizado com Sucesso", Toast.LENGTH_SHORT).show();
+                    FragmentManager manager = requireActivity().getSupportFragmentManager();
+                    manager.popBackStack(InspectionActivity.OTHERS_LIST, 0);
+                } else {
+                    ViewModelEntry.insertOtherSpace(newSpace);
+                    clearOtherSpaceFields();
+                    Toast.makeText(getContext(), "Cadastro efetuado com Sucesso", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
+    }
+
+    private void instantiateOtherSpaceViews(View view) {
+//        TextInputEditText
+        otherSpacesNameValue = view.findViewById(R.id.other_spaces_name_value);
+        otherSpacesDescriptionValue = view.findViewById(R.id.other_spaces_description_value);
+//        TextInputLayout
+        otherSpacesNameField = view.findViewById(R.id.other_spaces_name_field);
+        otherSpacesDescriptionField = view.findViewById(R.id.other_spaces_description_field);
+//        Buttons
+        saveOtherSpaces = view.findViewById(R.id.save_other_spaces_button);
+        cancelOtherSpaces = view.findViewById(R.id.cancel_other_spaces_button);
+//        RadioGroup
+        isAccessible = view.findViewById(R.id.accordance_with_accessibility_radio);
+//        TextView
+        isAccessibleError = view.findViewById(R.id.other_spaces_radio_error);
+//        ViewModel
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+    }
+
+    private void gatherOtherSpacesData(OtherSpaces other) {
+        otherSpacesNameValue.setText(other.getOtherSpaceName());
+        otherSpacesDescriptionValue.setText(other.getOtherSpaceDescription());
+        isAccessible.check(isAccessible.getChildAt(other.getIsAccessible()).getId());
     }
 
     public boolean checkEmptyFields() {
@@ -125,7 +154,7 @@ public class OtherSpacesFragment extends Fragment {
     }
 
     public OtherSpaces createOtherSpace() {
-        return new OtherSpaces(schoolID,
+        return new OtherSpaces(otherBundle.getInt(SchoolRegisterActivity.SCHOOL_ID),
                 Objects.requireNonNull(otherSpacesNameValue.getText()).toString(),
                 Objects.requireNonNull(otherSpacesDescriptionValue.getText()).toString(),
                 checkedRadio(isAccessible));

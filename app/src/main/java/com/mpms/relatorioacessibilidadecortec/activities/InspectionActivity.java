@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
-import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestroomListFragment;
@@ -22,6 +22,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     public static final String EXTERNAL_LIST = "EXTERNAL_LIST";
     public static final String REST_LIST = "REST_LIST";
     public static final String WATER_LIST = "WATER_LIST";
+    public static final String OTHERS_LIST = "OTHERS_LIST";
     public static final String ALLOW_UPDATE = "ALLOW_UPDATE";
     Bundle fragmentSchoolID = new Bundle();
 
@@ -97,27 +98,11 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         fragmentTransaction.replace(R.id.show_fragment_selected, sidewalkFragment).addToBackStack(null).commit();
     }
 
-    public void closeSidewalkFragment() {
-        SidewalkFragment sidewalkFragment = (SidewalkFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (sidewalkFragment != null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(sidewalkFragment).commit();
-        }
-    }
-
     public void displayRoomsRegisterFragment(int chosenItem) {
         RoomsRegisterFragment roomsRegisterFragment = RoomsRegisterFragment.newInstance(chosenItem);
         roomsRegisterFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, roomsRegisterFragment).addToBackStack(null).commit();
-    }
-
-    public void closeRoomsRegisterFragment() {
-        RoomsRegisterFragment roomsRegisterFragment = (RoomsRegisterFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (roomsRegisterFragment != null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(roomsRegisterFragment).commit();
-        }
     }
 
     public void displayParkingLotFragment() {
@@ -127,27 +112,11 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
     }
 
-    public void closeParkingLotFragment() {
-        ParkingLotFragment parkingLotFragment = (ParkingLotFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (parkingLotFragment != null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(parkingLotFragment).commit();
-        }
-    }
-
     public void displayOtherSpacesFragment() {
-        OtherSpacesFragment otherSpacesFragment = OtherSpacesFragment.newInstance();
-        otherSpacesFragment.setArguments(fragmentSchoolID);
+        OtherSpacesListFragment otherListFrag = OtherSpacesListFragment.newInstance();
+        otherListFrag.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, otherSpacesFragment).addToBackStack(null).commit();
-    }
-
-    public void closeOtherSpacesFragment() {
-        OtherSpacesFragment otherSpaces = (OtherSpacesFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (otherSpaces != null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(otherSpaces).commit();
-        }
+        fragmentTransaction.replace(R.id.show_fragment_selected, otherListFrag).addToBackStack(OTHERS_LIST).commit();
     }
 
     public void displayStairsRampFragment(int chosenItem) {
@@ -156,14 +125,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         rampStairsFragment.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, rampStairsFragment).addToBackStack(null).commit();
-    }
-
-    public void closeStairsRampFragment() {
-        RampStairsFragment rampStairsFragment = (RampStairsFragment) fragmentManager.findFragmentById(R.id.show_fragment_selected);
-        if (rampStairsFragment != null) {
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.remove(rampStairsFragment).commit();
-        }
     }
 }
 
