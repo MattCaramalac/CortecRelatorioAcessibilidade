@@ -38,7 +38,7 @@ public class RestroomRecViewAdapter extends RecyclerView.Adapter<RestroomRecView
         RestroomEntry restroomEntry = restroomList.get(position);
         if (restroomList.get(position) != null) {
             holder.restroomLocation.setText(restLocationType(restroomEntry));
-            holder.restroomNumber.setText(restNumber(position));
+            holder.restroomNumber.setText(restNumber(getItemCount()-position));
         }
     }
 
@@ -66,7 +66,7 @@ public class RestroomRecViewAdapter extends RecyclerView.Adapter<RestroomRecView
     }
 
     public String restNumber(int i) {
-        return "Sanitário nº " + (i+1);
+        return "Sanitário nº" +i;
     }
 
     public static class RestViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

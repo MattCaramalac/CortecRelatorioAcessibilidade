@@ -37,7 +37,7 @@ public class WaterRecViewAdapter extends RecyclerView.Adapter<WaterRecViewAdapte
     public void onBindViewHolder(@NonNull WaterViewHolder holder, int position) {
         WaterFountainEntry waterFountain = waterList.get(position);
         holder.waterType.setText(fountainType(waterFountain.getTypeWaterFountain()));
-        holder.waterNumber.setText(fountainNumber(position));
+        holder.waterNumber.setText(fountainNumber(getItemCount()-position));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class WaterRecViewAdapter extends RecyclerView.Adapter<WaterRecViewAdapte
     }
 
     private String fountainNumber(int i) {
-        return "Bebedouro nº" + (i + 1);
+        return "Bebedouro nº" +i;
     }
 
     public static class WaterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

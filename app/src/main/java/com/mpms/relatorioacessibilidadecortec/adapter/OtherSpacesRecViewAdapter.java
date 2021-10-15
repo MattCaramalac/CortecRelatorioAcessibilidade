@@ -50,7 +50,7 @@ public class OtherSpacesRecViewAdapter extends RecyclerView.Adapter<OtherSpacesR
     }
 
     private String spaceNumber(int i) {
-        return "Ambiente nº"+(i);
+        return "Ambiente nº"+i;
     }
 
     public static class OtherViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

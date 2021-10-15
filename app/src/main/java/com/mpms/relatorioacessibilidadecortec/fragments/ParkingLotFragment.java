@@ -82,7 +82,7 @@ public class ParkingLotFragment extends Fragment {
         totalVacancyValue = view.findViewById(R.id.parking_lot_vacancy_value);
         parkingLotFloorTypeValue = view.findViewById(R.id.parking_lot_floor_value);
 
-        recentEntry.selectEveryParkingLot(schoolID).observe(getViewLifecycleOwner(), parkingLotEntries -> {
+        recentEntry.getAllParkingLots(schoolID).observe(getViewLifecycleOwner(), parkingLotEntries -> {
             if (saveAttempt == 1) {
                 int size = parkingLotEntries.size();
                 ParkingLotEntry lastEntry = parkingLotEntries.get(size - 1);

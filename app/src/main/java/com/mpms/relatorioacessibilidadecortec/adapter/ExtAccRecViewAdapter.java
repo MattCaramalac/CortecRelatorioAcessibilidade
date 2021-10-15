@@ -39,7 +39,7 @@ public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ExtAccRecViewAdap
         ExternalAccess extAccess = extAccessList.get(position);
         if (extAccess.getEntranceType() != null) {
             holder.extAccessType.setText(entranceType(extAccess.getEntranceType()));
-            holder.extAccessNumber.setText(extAccessNumber(position));
+            holder.extAccessNumber.setText(extAccessNumber(getItemCount()-position));
         }
     }
 
@@ -56,7 +56,7 @@ public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ExtAccRecViewAdap
     }
 
     public String extAccessNumber(int i) {
-        return "Entrada Externa nº "+(i+1);
+        return "Entrada Externa nº "+i;
     }
 
 
