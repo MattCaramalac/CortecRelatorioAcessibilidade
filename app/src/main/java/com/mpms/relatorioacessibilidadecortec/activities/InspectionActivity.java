@@ -10,7 +10,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestroomListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
@@ -19,6 +19,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainListFragmen
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
+    public static final String PARKING_LIST = "PARKING_LIST";
     public static final String EXTERNAL_LIST = "EXTERNAL_LIST";
     public static final String REST_LIST = "REST_LIST";
     public static final String WATER_LIST = "WATER_LIST";
@@ -106,10 +107,10 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public void displayParkingLotFragment() {
-        ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
-        parkingLotFragment.setArguments(fragmentSchoolID);
+        ParkingLotListFragment parkingList = ParkingLotListFragment.newInstance();
+        parkingList.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.show_fragment_selected, parkingList).addToBackStack(PARKING_LIST).commit();
     }
 
     public void displayOtherSpacesFragment() {

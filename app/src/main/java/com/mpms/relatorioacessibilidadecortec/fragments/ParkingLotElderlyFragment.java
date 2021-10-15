@@ -18,11 +18,12 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ParkingLotInterface;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInterface {
+
+    public static final String ELDERLY_LOT_ID = "ELDERLY_LOT_ID";
 
     ConstraintLayout layout;
     TextView fragHeader, vacancyHeader, verticalSignHeader, horizontalSignHeader, pictogramHeader;
@@ -43,14 +46,11 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
             pictogramWidthValue, pictogramLengthValue, pictogramObsValue;
     ArrayList<TextInputLayout> verticalFields, horizontalFields, pictogramFields;
     ArrayList<TextInputEditText> verticalValues, horizontalValues, pictogramValues, elderlyObsArray;
-    ViewModelEntry recentEntry;
+    ViewModelEntry modelEntry;
 
     public int saveAttempt = 0;
 
-    private static int schoolID, parkingLotID;
-
-    public static String PARKING_LOT_ID = "PARKING_LOT_ID";
-    public static String SCHOOL_ID = "SCHOOL_ID";
+    Bundle elderlyBundle = new Bundle();
 
 
     public ParkingLotElderlyFragment() {
@@ -67,10 +67,9 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle schoolBundle = this.getArguments();
-        if (schoolBundle != null) {
-            schoolID = schoolBundle.getInt(SCHOOL_ID);
-            parkingLotID = schoolBundle.getInt(PARKING_LOT_ID);
+        if (this.getArguments() != null) {
+            elderlyBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            elderlyBundle.putInt(ParkingLotListFragment.PARKING_ID, this.getArguments().getInt(ParkingLotListFragment.PARKING_ID));
         }
     }
 
@@ -78,7 +77,7 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        recentEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
         return inflater.inflate(R.layout.fragment_parking_lot_elderly, container, false);
     }
 
@@ -96,16 +95,13 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         hasHorizontalSign.setOnCheckedChangeListener(this::enableFields);
         hasPictogram.setOnCheckedChangeListener(this::enableFields);
 
-        recentEntry.selectElderlyParkingLot(parkingLotID).observe(getViewLifecycleOwner(), elderlyEntry -> {
-            if (saveAttempt == 1) {
-                saveAttempt = 0;
-                clearFields();
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                ParkingLotFragment parkingLotFragment = ParkingLotFragment.newInstance();
-                fragmentTransaction.replace(R.id.show_fragment_selected, parkingLotFragment).addToBackStack(null).commit();
-            }
-        });
+        modelEntry.getElderlyParkingLot(elderlyBundle.getInt(ParkingLotListFragment.PARKING_ID))
+                .observe(getViewLifecycleOwner(), elderEntry -> {
+                    if (elderEntry != null) {
+                        gatherElderlyLotData(elderEntry);
+                        elderlyBundle.putInt(ELDERLY_LOT_ID, elderEntry.getParkingElderlyID());
+                    }
+                });
 
         cancelParkingLotElderly.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction().remove(this).commit());
@@ -113,9 +109,15 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         saveParkingLotElderly.setOnClickListener(v -> {
             if (verifyEmptyFields()) {
                 ParkingLotElderlyEntry newEntry = newElderlyEntry();
-                ViewModelEntry.insertElderlyParkingLot(newEntry);
-                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
-                saveAttempt = 1;
+                if (elderlyBundle.getInt(ELDERLY_LOT_ID) > 0) {
+                    newEntry.setParkingElderlyID(elderlyBundle.getInt(ELDERLY_LOT_ID));
+                    ViewModelEntry.updateElderlyParkingLot(newEntry);
+                    Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                } else {
+                    ViewModelEntry.insertElderlyParkingLot(newEntry);
+                    Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                }
+                closeElderlyFragment();
             }
         });
     }
@@ -219,6 +221,37 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
             }
         }
         return i == 0;
+    }
+
+    private void gatherElderlyLotData(ParkingLotElderlyEntry elderlyEntry) {
+        hasVacancy.check(hasVacancy.getChildAt(elderlyEntry.getHasElderlyVacancy()).getId());
+        if (elderlyEntry.getHasElderlyVacancy() == 1) {
+            totalVacancyValue.setText(String.valueOf(elderlyEntry.getTotalElderlyVacancy()));
+            hasVerticalSign.check(hasVerticalSign.getChildAt(elderlyEntry.getHasVisualElderlyVertSign()).getId());
+            if (elderlyEntry.getHasVisualElderlyVertSign() == 1)
+                verticalSignObsValue.setText(elderlyEntry.getVisualElderlyVertSignObs());
+            hasHorizontalSign.check(hasHorizontalSign.getChildAt(elderlyEntry.getHasVisualElderlyHorizSign()).getId());
+            if (elderlyEntry.getHasVisualElderlyHorizSign() == 1) {
+                horizontalSignWidthValue.setText(String.valueOf(elderlyEntry.getVisualElderlyHorizSignWidth()));
+                horizontalSignLengthValue.setText(String.valueOf(elderlyEntry.getVisualElderlyHorizSignLength()));
+                horizontalSignObsValue.setText(elderlyEntry.getVisualElderlyHorizSignObs());
+            }
+            hasPictogram.check(hasPictogram.getChildAt(elderlyEntry.getHasPictogramElderly()).getId());
+            if (elderlyEntry.getHasPictogramElderly() == 1) {
+                pictogramWidthValue.setText(String.valueOf(elderlyEntry.getPictogramElderlyWidth()));
+                pictogramLengthValue.setText(String.valueOf(elderlyEntry.getPictogramElderlyLength()));
+                pictogramObsValue.setText(elderlyEntry.getPictogramElderlyObs());
+            }
+        }
+    }
+
+    private void closeElderlyFragment() {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        if (elderlyBundle.getInt(ELDERLY_LOT_ID) > 0) {
+            fragmentManager.popBackStack(InspectionActivity.PARKING_LIST, 0);
+        } else {
+            fragmentManager.popBackStack(ParkingLotListFragment.NEW_PARKING_ENTRY, 0);
+        }
     }
 
     public int getCheckedRadio(RadioGroup radio) {
@@ -412,8 +445,11 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
         String vertSingObs, horizontalSignObs, pictogramObs;
         ParkingLotElderlyEntry newEntry;
         if (getCheckedRadio(hasVacancy) == 0) {
-            newEntry = new ParkingLotElderlyEntry(schoolID, parkingLotID, getCheckedRadio(hasVacancy), null,
-                    null, null, null, null, null, null,
+//            TODO - Trocar tabela para tirar o ID da escola deste estacionamento
+            newEntry = new ParkingLotElderlyEntry(elderlyBundle.getInt(SchoolRegisterActivity.SCHOOL_ID),
+                    elderlyBundle.getInt(ParkingLotListFragment.PARKING_ID), getCheckedRadio(hasVacancy),
+                    null, null, null, null,
+                    null, null, null,
                     null, null, null, null);
         } else {
             totalVacancy = Integer.parseInt(Objects.requireNonNull(totalVacancyValue.getText()).toString());
@@ -450,9 +486,11 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
                     pictogramObs = Objects.requireNonNull(pictogramObsValue.getText()).toString();
             }
 
-            newEntry = new ParkingLotElderlyEntry(schoolID, parkingLotID, getCheckedRadio(hasVacancy), totalVacancy, getCheckedRadio(hasVerticalSign), vertSingObs,
-                    getCheckedRadio(hasHorizontalSign), horizontalSignWidth, horizontalSignLength, horizontalSignObs, getCheckedRadio(hasPictogram), pictogramWidth,
-                    pictogramLength, pictogramObs);
+            newEntry = new ParkingLotElderlyEntry(elderlyBundle.getInt(SchoolRegisterActivity.SCHOOL_ID),
+                    elderlyBundle.getInt(ParkingLotListFragment.PARKING_ID), getCheckedRadio(hasVacancy),
+                    totalVacancy, getCheckedRadio(hasVerticalSign), vertSingObs, getCheckedRadio(hasHorizontalSign),
+                    horizontalSignWidth, horizontalSignLength, horizontalSignObs, getCheckedRadio(hasPictogram),
+                    pictogramWidth, pictogramLength, pictogramObs);
 
         }
         return newEntry;
