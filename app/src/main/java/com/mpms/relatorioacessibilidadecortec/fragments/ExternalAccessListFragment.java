@@ -98,7 +98,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
 
-
+        extListBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID,0);
     }
 
     @Override

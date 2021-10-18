@@ -90,6 +90,8 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+
+        fountainBundle.putInt(WaterFountainFragment.FOUNTAIN_ID, 0);
     }
 
     @Override

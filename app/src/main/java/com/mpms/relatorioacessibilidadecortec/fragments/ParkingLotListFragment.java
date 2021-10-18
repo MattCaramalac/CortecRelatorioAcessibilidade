@@ -54,7 +54,6 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
             parkingBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
-            parkingBundle.putInt(PARKING_ID, 0);
         }
     }
 
@@ -94,6 +93,8 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+
+        parkingBundle.putInt(PARKING_ID, 0);
     }
 
     private void openParkingLotFragment() {

@@ -92,6 +92,8 @@ public class OtherSpacesListFragment extends Fragment implements OnEntryClickLis
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+
+        otherBundle.putInt(OTHER_SPACE_ID, 0);
     }
 
     private void OpenOtherSpacesFragment() {

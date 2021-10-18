@@ -92,6 +92,8 @@ public class RestroomListFragment extends Fragment implements OnEntryClickListen
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+
+        restListBundle.putInt(RestroomFragment.RESTROOM_ID,0);
     }
 
     @Override
