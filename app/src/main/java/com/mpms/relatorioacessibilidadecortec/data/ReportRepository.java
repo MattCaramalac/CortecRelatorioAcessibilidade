@@ -635,8 +635,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> sidewalkEntryDao.insertSidewalkEntry(sidewalkEntry));
     }
 
-    public LiveData<List<SidewalkEntry>> getAllSidewalks() {
-        return sidewalkEntryDao.getAllSidewalks();
+    public LiveData<List<SidewalkEntry>> getAllSidewalks(int schoolID) {
+        return sidewalkEntryDao.getAllSidewalks(schoolID);
     }
 
     public LiveData<SidewalkEntry> getSidewalkEntry(int sidewalkID) {

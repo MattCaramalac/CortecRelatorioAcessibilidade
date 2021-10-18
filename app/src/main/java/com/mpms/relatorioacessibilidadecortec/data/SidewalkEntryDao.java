@@ -16,8 +16,8 @@ public interface SidewalkEntryDao {
     @Insert
     void insertSidewalkEntry(SidewalkEntry SidewalkEntry);
 
-    @Query("SELECT * FROM SidewalkEntry ORDER BY schoolEntryID DESC")
-    LiveData<List<SidewalkEntry>> getAllSidewalks();
+    @Query("SELECT * FROM SidewalkEntry WHERE schoolEntryID == :schoolID ORDER BY sidewalkID DESC")
+    LiveData<List<SidewalkEntry>> getAllSidewalks(int schoolID);
 
     @Query("SELECT * FROM SidewalkEntry WHERE sidewalkID == :sidewalkID")
     LiveData<SidewalkEntry> getSidewalkEntry(int sidewalkID);

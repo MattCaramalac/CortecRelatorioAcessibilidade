@@ -57,6 +57,7 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<RestroomEntry>> allRestSchool;
     public LiveData<List<OtherSpaces>> allOtherSpaces;
     public LiveData<List<ParkingLotEntry>> allParkingLots;
+    public LiveData<List<SidewalkEntry>> allSidewalks;
     public final LiveData<List<SchoolEntry>> allEntries;
     public final LiveData<List<RoomEntry>> allRooms;
 
@@ -593,8 +594,9 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertSidewalkEntry(sidewalkEntry));
     }
 
-    public LiveData<List<SidewalkEntry>> getAllSidewalks() {
-        return repository.getAllSidewalks();
+    public LiveData<List<SidewalkEntry>> getAllSidewalks(int schoolID) {
+        allSidewalks = repository.getAllSidewalks(schoolID);
+        return allSidewalks;
     }
 
     public LiveData<SidewalkEntry> getSidewalkEntry(int sidewalkID) {
