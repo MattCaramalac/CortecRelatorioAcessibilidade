@@ -77,7 +77,8 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
                     recyclerView.addItemDecoration(dividerItemDecoration);
                 });
 
-        closeExtAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+        closeExtAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
+                .beginTransaction().remove(this).commit());
 
         addExtAccess.setOnClickListener(v -> {
             ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance();

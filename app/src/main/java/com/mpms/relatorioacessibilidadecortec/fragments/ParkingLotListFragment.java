@@ -81,7 +81,8 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
 
         addParkingLot.setOnClickListener(v -> openParkingLotFragment());
 
-        closeParkingList.setOnClickListener(v -> requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit());
+        closeParkingList.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
+                .beginTransaction().remove(this).commit());
     }
 
     private void instantiateParkingListViews(View v) {

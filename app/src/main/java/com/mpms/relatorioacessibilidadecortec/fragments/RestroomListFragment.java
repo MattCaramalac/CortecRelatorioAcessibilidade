@@ -77,7 +77,8 @@ public class RestroomListFragment extends Fragment implements OnEntryClickListen
                     recyclerView.addItemDecoration(dividerItemDecoration);
                 });
 
-        closeRestroomList.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+        closeRestroomList.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
+                .beginTransaction().remove(this).commit());
 
         addRestroom.setOnClickListener(v -> OpenRestFragment());
 

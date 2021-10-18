@@ -78,7 +78,8 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
 
         addFountain.setOnClickListener(v -> OpenFountainFragment());
 
-        closeFountainList.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+        closeFountainList.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
+                .beginTransaction().remove(this).commit());
     }
 
     private void instantiateWaterListViews(View v) {
