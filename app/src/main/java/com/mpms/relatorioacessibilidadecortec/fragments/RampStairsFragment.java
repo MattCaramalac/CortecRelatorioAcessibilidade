@@ -25,9 +25,6 @@ import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
-import java.util.Objects;
-
-
 public class RampStairsFragment extends Fragment {
 
     public static final String RAMP_OR_STAIRS = "RAMP_OR_STAIRS";
@@ -40,7 +37,6 @@ public class RampStairsFragment extends Fragment {
     private int updateEntry = 0;
 
     Bundle rampStairsBundle = new Bundle();
-    Bundle schoolData = new Bundle();
 
     TextInputLayout rampStairsLocField, quantFlightField;
     TextInputEditText rampStairsLocValue, quantFlightValue;
@@ -57,48 +53,88 @@ public class RampStairsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static RampStairsFragment newInstance(int dropdownChoice) {
-        RampStairsFragment rampStairsFragment = new RampStairsFragment();
-        rampStairsFragment.setChosenRaStOption(dropdownChoice);
-        return rampStairsFragment;
-    }
-
-    public void setChosenRaStOption(int choice) {
-        chosenOption = choice;
+    public static RampStairsFragment newInstance() {
+        return new RampStairsFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (this.getArguments() != null) {
+            rampStairsBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            rampStairsBundle.putInt(RAMP_OR_STAIRS, this.getArguments().getInt(RAMP_OR_STAIRS));
+            rampStairsBundle.putInt(RAMP_STAIRS_ID, this.getArguments().getInt(RAMP_STAIRS_ID));
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        View rootView = inflater.inflate(R.layout.fragment_ramp_stairs, container, false);
-
-        schoolData = this.getArguments();
-        if (schoolData != null) {
-            rampStairsBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, schoolData.getInt(SchoolRegisterActivity.SCHOOL_ID));
-            rampStairsBundle.putInt(RAMP_OR_STAIRS, chosenOption);
-            if (rampStairsBundle.getInt(InspectionActivity.ALLOW_UPDATE) == 0)
-                rampStairsBundle.putInt(RAMP_STAIRS_ID,0);
-        }
-
-
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
-        modelEntry = new ViewModelEntry(requireActivity().getApplication());
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_ramp_stairs, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        instantiateRampStairsViews(view);
+        setRampStairsTemplate(rampStairsBundle.getInt(RAMP_OR_STAIRS));
+
+//      Usado quando um novo cadastro é realizado, colocando o ID no bundle e chamando o próximo fragmento
+        modelEntry.getLastRampStairsEntry().observe(getViewLifecycleOwner(), rampStairs -> {
+            if (recentEntry == 1) {
+                recentEntry = 0;
+                int rampStairsID = rampStairs.getRampStairsID();
+                rampStairsBundle.putInt(RAMP_STAIRS_ID, rampStairsID);
+                openFlightFragment();
+            }
+        });
+
+//      Usado quando uma entrada deve ser atualizada,
+        modelEntry.getRampStairsEntry(rampStairsBundle.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), update -> {
+            if (updateEntry == 1) {
+                updateEntry = 0;
+                openFlightFragment();
+            }
+        });
+
+//      Preenchimento dos campos da tela
+        if (rampStairsBundle.getInt(RAMP_STAIRS_ID) > 0)
+            modelEntry.getRampStairsEntry(rampStairsBundle.getInt(RAMP_STAIRS_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherRampStairsEntry);
+
+//        modelFragments.getRampStairsBundle().observe(getViewLifecycleOwner(), rampStairs -> {
+//            if (rampStairs != null) {
+//                modelEntry.getRampStairsEntry(rampStairs.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), this::gatherRampStairsEntry);
+//            }
+//        });
+
+        proceedRegister.setOnClickListener(v -> {
+            if (checkRampStairsFields()) {
+                if (rampStairsBundle.getInt(RAMP_STAIRS_ID) == 0) {
+                    rampStairsBundle.putInt(InspectionActivity.ALLOW_UPDATE, 1);
+                    RampStairsEntry newEntry = newRampOrStaircase(rampStairsBundle);
+                    ViewModelEntry.insertRampStairs(newEntry);
+                    recentEntry = 1;
+                } else if (rampStairsBundle.getInt(RAMP_STAIRS_ID) > 0) {
+//                    Testar para verificar se não causa novas entradas
+                    rampStairsBundle.putInt(InspectionActivity.ALLOW_UPDATE, 1);
+                    RampStairsEntry upEntry = newRampOrStaircase(rampStairsBundle);
+                    upEntry.setRampStairsID(rampStairsBundle.getInt(RAMP_STAIRS_ID));
+                    ViewModelEntry.updateRampStairs(upEntry);
+                    updateEntry = 1;
+                } else {
+                    errorEscape();
+                }
+            }
+        });
+
+        cancelRampStairs.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
+                .popBackStack(InspectionActivity.RAMP_STAIRS_LIST, 0));
+    }
+
+    private void instantiateRampStairsViews(View view) {
         rampStairsLocField = view.findViewById(R.id.ramp_stairs_location_field);
         quantFlightField = view.findViewById(R.id.flight_ramp_stairs_field);
 
@@ -110,37 +146,9 @@ public class RampStairsFragment extends Fragment {
         cancelRampStairs = view.findViewById(R.id.cancel_ramp_stairs);
         proceedRegister = view.findViewById(R.id.save_ramp_stairs);
 
-        setRampStairsTemplate(chosenOption);
-
-
-        proceedRegister.setOnClickListener(v -> {
-            if(checkRampStairsFields()) {
-                int rampStairsID = rampStairsBundle.getInt(RAMP_STAIRS_ID, 0);
-                if (rampStairsID == 0) {
-                    rampStairsBundle.putInt(InspectionActivity.ALLOW_UPDATE, 1);
-                    RampStairsEntry newEntry = newRampOrStaircase(rampStairsBundle);
-                    ViewModelEntry.insertRampStairs(newEntry);
-                    recentEntry = 1;
-                } else if (rampStairsID > 0) {
-//                    Testar para verificar se não causa novas entradas
-                    rampStairsBundle.putInt(InspectionActivity.ALLOW_UPDATE, 1);
-                    RampStairsEntry upEntry = newRampOrStaircase(rampStairsBundle);
-                    upEntry.setRampStairsID(rampStairsID);
-                    ViewModelEntry.updateRampStairs(upEntry);
-                    updateEntry = 1;
-                } else {
-                    errorEscape();
-                }
-
-            }
-        });
-
-        //        TODO - Atualizar método para retornar à listagem de escadas/rampas cadastradas quando ela for implementada (em vez de fechar o frag)
-        cancelRampStairs.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
-
-
-        }
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+    }
 
     public void setRampStairsTemplate(int pickedOption) {
         switch (pickedOption) {
@@ -158,58 +166,33 @@ public class RampStairsFragment extends Fragment {
                 errorEscape();
                 break;
         }
+    }
 
-        //      Usado quando um novo cadastro é realizado, colocando o ID no bundle e chamando o próximo fragmento
-        modelEntry.getLastRampStairsEntry().observe(getViewLifecycleOwner(), rampStairs -> {
-            if (recentEntry == 1) {
-                recentEntry = 0;
-                int rampStairsID = rampStairs.getRampStairsID();
-                rampStairsBundle.putInt(RAMP_STAIRS_ID, rampStairsID);
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                RampStairsFlightFragment flightFragment = RampStairsFlightFragment.newInstance();
-                flightFragment.setArguments(rampStairsBundle);
-                fragmentTransaction.replace(R.id.show_fragment_selected, flightFragment).addToBackStack(null).commit();
-            }
-        });
-
-//      Usado quando uma entrada deve ser atualizada,
-        modelEntry.getRampStairsEntry(rampStairsBundle.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), update -> {
-            if (updateEntry == 1) {
-                updateEntry = 0;
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                RampStairsFlightFragment flightFragment = RampStairsFlightFragment.newInstance();
-                flightFragment.setArguments(rampStairsBundle);
-                fragmentTransaction.replace(R.id.show_fragment_selected, flightFragment).addToBackStack(null).commit();
-            }
-        });
-
-//      Preenchimento dos campos da tela
-        modelFragments.getRampStairsBundle().observe(getViewLifecycleOwner(), rampStairs -> {
-            if (rampStairs != null) {
-                modelEntry.getRampStairsEntry(rampStairs.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), this::gatherRampStairsEntry);
-            }
-        });
-
+    private void openFlightFragment() {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        RampStairsFlightFragment flightFragment = RampStairsFlightFragment.newInstance();
+        flightFragment.setArguments(rampStairsBundle);
+        fragmentTransaction.replace(R.id.show_fragment_selected, flightFragment).addToBackStack(null).commit();
     }
 
     public RampStairsEntry newRampOrStaircase(Bundle bundle) {
-        rampStairsLocation = Objects.requireNonNull(rampStairsLocValue.getText()).toString();
-        rampStairsFlightQuantity = Integer.parseInt(Objects.requireNonNull(quantFlightValue.getText()).toString());
+        rampStairsLocation = String.valueOf(rampStairsLocValue.getText());
+        rampStairsFlightQuantity = Integer.parseInt(String.valueOf(quantFlightValue.getText()));
         rampStairsBundle.putInt(NUMBER_FLIGHTS, rampStairsFlightQuantity);
 
-        return new RampStairsEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), chosenOption, rampStairsLocation, rampStairsFlightQuantity);
+        return new RampStairsEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), bundle.getInt(RAMP_OR_STAIRS),
+                rampStairsLocation, rampStairsFlightQuantity);
     }
 
     public boolean checkRampStairsFields() {
         clearRampStairsFieldError();
         int error = 0;
-        if (TextUtils.isEmpty(rampStairsLocValue.getText())){
+        if (TextUtils.isEmpty(rampStairsLocValue.getText())) {
             error++;
             rampStairsLocField.setError(getString(R.string.blank_field_error));
         }
-        if (TextUtils.isEmpty(quantFlightValue.getText())){
+        if (TextUtils.isEmpty(quantFlightValue.getText())) {
             error++;
             quantFlightField.setError(getString(R.string.blank_field_error));
         }
@@ -226,11 +209,10 @@ public class RampStairsFragment extends Fragment {
         quantFlightValue.setText(String.valueOf(rampStairs.getFlightsQuantity()));
     }
 
-    public void errorEscape(){
+    public void errorEscape() {
         Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
         requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
-
 
 
 }

@@ -213,7 +213,7 @@ public class RampStairsFlightFragment extends Fragment {
             updateFlight = 0;
             clearFlightFields();
         } else {
-            RampStairsFragment rampStairs = RampStairsFragment.newInstance(newEntryBundle.getInt(RampStairsFragment.RAMP_OR_STAIRS));
+            RampStairsFragment rampStairs = RampStairsFragment.newInstance();
             rampStairs.setArguments(newEntryBundle);
             Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
             fragmentTransaction.replace(R.id.show_fragment_selected, rampStairs).addToBackStack(null).commit();

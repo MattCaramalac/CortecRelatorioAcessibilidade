@@ -119,7 +119,7 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
     }
 
     private void openRampStairsFragment() {
-        RampStairsFragment rampStairsFragment = RampStairsFragment.newInstance(rampStairsListBundle.getInt(RAMP_OR_STAIRS));
+        RampStairsFragment rampStairsFragment = RampStairsFragment.newInstance();
         rampStairsListBundle.putInt(InspectionActivity.ALLOW_UPDATE, 0);
         rampStairsFragment.setArguments(rampStairsListBundle);
         fragmentManager = requireActivity().getSupportFragmentManager();
