@@ -11,7 +11,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragme
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestroomListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkListFragment;
@@ -26,6 +26,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     public static final String OTHERS_LIST = "OTHERS_LIST";
     public static final String SIDEWALK_LIST = "SIDEWALK_LIST";
     public static final String ALLOW_UPDATE = "ALLOW_UPDATE";
+    public static final String RAMP_STAIRS_LIST = "RAMP_STAIRS_LIST";
     Bundle fragmentSchoolID = new Bundle();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -122,11 +123,11 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public void displayStairsRampListFragment(int chosenItem) {
-        RampStairsFragment rampStairsFragment = RampStairsFragment.newInstance(chosenItem);
+        RampStairsListFragment rampStairsList = RampStairsListFragment.newInstance(chosenItem);
         fragmentSchoolID.putInt(ALLOW_UPDATE, 0);
-        rampStairsFragment.setArguments(fragmentSchoolID);
+        rampStairsList.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, rampStairsFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.show_fragment_selected, rampStairsList).addToBackStack(RAMP_STAIRS_LIST).commit();
     }
 }
 

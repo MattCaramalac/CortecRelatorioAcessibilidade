@@ -59,6 +59,8 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<ParkingLotEntry>> allParkingLots;
     public LiveData<List<SidewalkEntry>> allSidewalks;
     public LiveData<List<SidewalkSlopeEntry>> allSidewalkSlopes;
+    public LiveData<List<RampStairsEntry>> allRampsSchool;
+    public LiveData<List<RampStairsEntry>> allStairsSchool;
     public final LiveData<List<SchoolEntry>> allEntries;
     public final LiveData<List<RoomEntry>> allRooms;
 
@@ -392,6 +394,16 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public LiveData<List<RampStairsEntry>> getAllRampStairsFromSchool(int schoolID) {
         return repository.getAllRampStairsFromSchool(schoolID);
+    }
+
+    public LiveData<List<RampStairsEntry>> getAllRampsFromSchool(int schoolID, int rampIdentifier) {
+        allRampsSchool = repository.getAllRampsFromSchool(schoolID, rampIdentifier);
+        return allRampsSchool;
+    }
+
+    public LiveData<List<RampStairsEntry>> getAllStairsFromSchool(int schoolID, int stairsIdentifier) {
+        allStairsSchool = repository.getAllStairsFromSchool(schoolID,stairsIdentifier);
+        return allStairsSchool;
     }
 
     public LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID) {

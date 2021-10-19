@@ -435,6 +435,14 @@ public class ReportRepository {
         return rampStairsEntryDao.getAllRampStairsFromSchool(schoolID);
     }
 
+    public LiveData<List<RampStairsEntry>> getAllRampsFromSchool(int schoolID, int rampIdentifier) {
+        return rampStairsEntryDao.getAllRampsFromSchool(schoolID, rampIdentifier);
+    }
+
+    public LiveData<List<RampStairsEntry>> getAllStairsFromSchool(int schoolID, int stairsIdentifier) {
+        return rampStairsEntryDao.getAllStairsFromSchool(schoolID,stairsIdentifier);
+    }
+
     public LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID) {
         return rampStairsEntryDao.getRampStairsEntry(rampStairsID);
     }

@@ -19,6 +19,12 @@ public interface RampStairsEntryDao {
     @Query("SELECT * FROM RampStairsEntry WHERE schoolID == :schoolID ORDER BY rampStairsID DESC")
     LiveData<List<RampStairsEntry>> getAllRampStairsFromSchool(int schoolID);
 
+    @Query("SELECT * FROM RampStairsEntry WHERE schoolID == :schoolID AND rampStairsIdentifier == :rampIdentifier ORDER BY rampStairsID DESC")
+    LiveData<List<RampStairsEntry>> getAllRampsFromSchool(int schoolID, int rampIdentifier);
+
+    @Query("SELECT * FROM RampStairsEntry WHERE schoolID == :schoolID AND rampStairsIdentifier == :stairsIdentifier ORDER BY rampStairsID DESC")
+    LiveData<List<RampStairsEntry>> getAllStairsFromSchool(int schoolID, int stairsIdentifier);
+
     @Query("SELECT * FROM RampStairsEntry WHERE rampStairsID == :rampStairsID")
     LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID);
 
