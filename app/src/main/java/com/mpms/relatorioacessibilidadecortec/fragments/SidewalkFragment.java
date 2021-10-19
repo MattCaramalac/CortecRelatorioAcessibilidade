@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSidewalkSlopeDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
@@ -380,10 +379,6 @@ public class SidewalkFragment extends Fragment {
         sidewalkTactileFloorStatusField.setErrorEnabled(false);
         sidewalkObligatorySlopeError.setVisibility(View.GONE);
         sidewalkHasSlopeError.setVisibility(View.GONE);
-    }
-
-    private void openSlopeDialog() {
-        AddSidewalkSlopeDialog.sidewalkSlope(requireActivity().getSupportFragmentManager(), sidewalkData);
     }
 
     private void openSidewalkSlopeFragment() {

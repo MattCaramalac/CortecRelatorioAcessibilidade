@@ -67,7 +67,7 @@ public class AddSidewalkSlopeDialogDeprecated extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
-        View view = inflater.inflate(R.layout.fragment_add_sidewalk_slope_dialog_deprecated, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_sidewalk_slope_dialog, container, false);
         toolbar = view.findViewById(R.id.sidewalk_slope_toolbar);
         return view;
 
