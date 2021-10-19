@@ -17,7 +17,7 @@ public class HeaderNames {
             "Rampa",
             "Refeitório",
             "Sala de Aula",
-            "Sala de Informática",
+            "Sala de Tecnologia",
             "Sala de Recursos",
             "Sala dos Professores",
             "Secretaria",

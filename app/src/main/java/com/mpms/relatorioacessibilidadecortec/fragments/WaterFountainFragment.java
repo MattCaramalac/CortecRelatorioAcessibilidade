@@ -30,7 +30,7 @@ public class WaterFountainFragment extends Fragment {
     ViewModelFragments modelFragments;
     ViewModelEntry modelEntry;
 
-    Bundle fountainBundle = new Bundle();
+    Bundle waterFountainBundle = new Bundle();
 
     RadioGroup typeWaterFountain;
     TextView typeWaterFountainError;
@@ -48,8 +48,8 @@ public class WaterFountainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            fountainBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
-            fountainBundle.putInt(FOUNTAIN_ID, this.getArguments().getInt(FOUNTAIN_ID));
+            waterFountainBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            waterFountainBundle.putInt(FOUNTAIN_ID, this.getArguments().getInt(FOUNTAIN_ID));
         }
     }
 
@@ -68,16 +68,16 @@ public class WaterFountainFragment extends Fragment {
 
         typeWaterFountain.setOnCheckedChangeListener(this::typeFountainListener);
 
-        if (fountainBundle.getInt(FOUNTAIN_ID) > 0) {
-            modelEntry.getOneWaterFountain(fountainBundle.getInt(FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::gatherFountainInfo);
+        if (waterFountainBundle.getInt(FOUNTAIN_ID) > 0) {
+            modelEntry.getOneWaterFountain(waterFountainBundle.getInt(FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::gatherFountainInfo);
         }
 
         modelFragments.getFountainBundle().observe(getViewLifecycleOwner(), bundle -> {
             if (bundle != null) {
-                bundle.putInt(SchoolRegisterActivity.SCHOOL_ID, fountainBundle.getInt(SchoolRegisterActivity.SCHOOL_ID));
+                bundle.putInt(SchoolRegisterActivity.SCHOOL_ID, waterFountainBundle.getInt(SchoolRegisterActivity.SCHOOL_ID));
                 WaterFountainEntry newFountain = createFountain(bundle);
-                if (fountainBundle.getInt(FOUNTAIN_ID) > 0) {
-                    newFountain.setWaterFountainID(fountainBundle.getInt(FOUNTAIN_ID));
+                if (waterFountainBundle.getInt(FOUNTAIN_ID) > 0) {
+                    newFountain.setWaterFountainID(waterFountainBundle.getInt(FOUNTAIN_ID));
                     ViewModelEntry.updateWaterFountain(newFountain);
                     Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
                     modelFragments.setFountainFragData(null);

@@ -43,7 +43,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/morning_hours_start_field"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             app:layout_constraintTop_toTopOf="@+id/morning_hours_start_field" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/morning_hours_end_field"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/afternoon_hours_start_field"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
             app:layout_constraintTop_toTopOf="@+id/afternoon_hours_start_field" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/afternoon_hours_end_field"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/evening_hours_start_field"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
             android:enabled="false"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/evening_hours_end_field"
             android:layout_width="75dp"
             android:layout_height="wrap_content"
@@ -233,14 +233,14 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/working_hours_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/working_hours_error_message"
             android:hint="@string/hint_obs"
-            android:layout_marginTop="@dimen/top_margins">
+            android:layout_marginTop="@dimen/usual_padding">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/working_hours_obs_value"
@@ -252,7 +252,7 @@
                 android:scrollbars="vertical"
                 android:gravity="start"
                 android:scrollHorizontally="false"
-                android:lines="3"/>
+                android:lines="@integer/multiline_obs_field"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -278,7 +278,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/maternal_first_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -310,7 +310,7 @@
             app:layout_constraintTop_toTopOf="@+id/maternal_first_level_field" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/maternal_last_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -340,7 +340,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/pre_school_first_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -372,7 +372,7 @@
             app:layout_constraintTop_toTopOf="@+id/pre_school_first_level_field" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/pre_school_last_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -402,7 +402,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/elementary_first_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -435,7 +435,7 @@
             app:layout_constraintTop_toTopOf="@+id/elementary_first_level_field" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/elementary_last_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -466,7 +466,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/middle_school_first_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -499,7 +499,7 @@
             app:layout_constraintTop_toTopOf="@+id/middle_school_first_level_field" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/middle_school_last_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -530,7 +530,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/high_school_first_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -563,7 +563,7 @@
             app:layout_constraintTop_toTopOf="@+id/high_school_first_level_field" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/high_school_last_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -594,7 +594,7 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/EJA_first_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -626,7 +626,7 @@
             app:layout_constraintTop_toTopOf="@+id/EJA_first_level_field" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/EJA_last_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -658,14 +658,14 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/school_services_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/school_services_error_message"
             android:hint="@string/hint_obs"
-            android:layout_marginTop="@dimen/top_margins">
+            android:layout_marginTop="@dimen/usual_padding">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/school_services_obs_value"
@@ -673,7 +673,7 @@
                 android:layout_height="match_parent"
                 android:gravity="start"
                 android:inputType="textMultiLine"
-                android:lines="3"
+                android:lines="@integer/multiline_obs_field"
                 android:overScrollMode="always"
                 android:scrollbarStyle="outsideInset"
                 android:scrollbars="vertical"

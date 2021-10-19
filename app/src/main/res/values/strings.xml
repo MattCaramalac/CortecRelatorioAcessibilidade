@@ -358,7 +358,7 @@
     <string name="hint_paper_holder_distance">Distância entre papeleira e vaso sanitário</string>
     <string name="hint_sidewalk_slope_identification">Localização do Rebaixamento</string>
     <string name="hint_slope_width">Largura do Rebaixamento</string>
-    <string name="hint_inclination_slope">Inclinação Frontal Rebaixamento</string>
+    <string name="hint_inclination_slope">Inclinação Longitudinal do Rebaixamento</string>
     <string name="hint_left_brim_slope">Inclinação Aba Esquerda do Rebaixamento</string>
     <string name="hint_right_brim_slope">Inclinação Aba Direita do Rebaixamento</string>
     <string name="label_has_tactile_floor_header">O rebaixamento possui piso tátil?</string>
@@ -405,4 +405,15 @@
     <string name="header_school_register">Cadastro da Instituição Vistoriada</string>
     <string name="header_school_info_work_services">Cadastro das Informações da Instituição</string>
     <string name="check_box_maternal">Maternal:</string>
+
+    <string name="first_measurement_perc">Medição 1(%)</string>
+    <string name="long_measurement_header">Medições de Inclinação Longitudinal</string>
+    <string name="sidewalk_slope_register_header">Cadastro de Rebaixamentos</string>
+    <string name="second_measure_perc">Medição 2(%)</string>
+    <string name="third_measure_perc">Medição 3(%)</string>
+    <string name="fourth_measure_perc">Medição 4(%)</string>
+    <string name="fifth_measure_perc">Medição 5(%)</string>
+    <string name="sixth_measure_perc">Medição 6(%)</string>
+    <string name="left_wing_slope_header">Medições de Inclinação Aba Esquerda</string>
+    <string name="right_wing_measure_header">Medições de Inclinação Aba Direita</string>
 </resources>

@@ -21,7 +21,7 @@
     <integer name="max_length_hour">5</integer>
     <integer name="max_length_date">10</integer>
     <integer name="max_length_phone">13</integer>
-    <integer name="multiline_obs_field">3</integer>
+    <integer name="multiline_obs_field">5</integer>
 
     <integer name="weight_one">1</integer>
     <dimen name="fab_margin">16dp</dimen>
