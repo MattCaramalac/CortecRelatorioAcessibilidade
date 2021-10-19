@@ -29,7 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import static com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment.SIDEWALK_ID;
 
-public class AddSidewalkSlopeDialog extends DialogFragment {
+public class AddSidewalkSlopeDialogDeprecated extends DialogFragment {
 
     private Toolbar toolbar;
 
@@ -49,8 +49,8 @@ public class AddSidewalkSlopeDialog extends DialogFragment {
     ViewModelDialog modelDialog;
     int slopeCounter = 0;
 
-    public static AddSidewalkSlopeDialog sidewalkSlope(FragmentManager fragmentManager, Bundle bundle) {
-        AddSidewalkSlopeDialog sidewalkSlope = new AddSidewalkSlopeDialog();
+    public static AddSidewalkSlopeDialogDeprecated sidewalkSlope(FragmentManager fragmentManager, Bundle bundle) {
+        AddSidewalkSlopeDialogDeprecated sidewalkSlope = new AddSidewalkSlopeDialogDeprecated();
         sidewalkSlope.show(fragmentManager, "SLOPE_DIALOG");
         sidewalkBundle = bundle;
         return sidewalkSlope;
@@ -67,7 +67,7 @@ public class AddSidewalkSlopeDialog extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
-        View view = inflater.inflate(R.layout.fragment_add_sidewalk_slope_dialog, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_sidewalk_slope_dialog_deprecated, container, false);
         toolbar = view.findViewById(R.id.sidewalk_slope_toolbar);
         return view;
 
@@ -107,15 +107,9 @@ public class AddSidewalkSlopeDialog extends DialogFragment {
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        modelDialog.setSidewalkSlopeCounter(slopeCounter);
-    }
-
     private void instantiateSidewalkSlopeViews(View v) {
 //        TextInputLayout
-        slopeLocationField = v.findViewById(R.id.slope_identification_field);
+        slopeLocationField = v.findViewById(R.id.slope_locale_field);
         slopeWidthField = v.findViewById(R.id.slope_width_field);
         frontalInclinationField = v.findViewById(R.id.slope_frontal_inclination_field);
         leftInclinationField = v.findViewById(R.id.left_brim_inclination_field);

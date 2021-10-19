@@ -40,7 +40,7 @@
             android:paddingEnd="@dimen/usual_padding">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/slope_identification_field"
+                android:id="@+id/slope_locale_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
@@ -63,7 +63,7 @@
                 android:layout_marginTop="@dimen/top_margins"
                 android:hint="@string/hint_slope_width"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slope_identification_field">
+                app:layout_constraintTop_toBottomOf="@id/slope_locale_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/slope_width_value"
@@ -142,7 +142,8 @@
                 app:layout_constraintTop_toBottomOf="@id/has_tactile_floor_header"
                 android:orientation="horizontal">
 
-                <RadioButton
+                q
+                -*  <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
