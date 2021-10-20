@@ -164,12 +164,10 @@
     <string name="label_parking_lot_has_PDMR_vacancy">Estacionamento possui vagas para PCD e PMR?</string>
     <string name="label_has_Vertical_PDMR_sign">Vagas para PCD e PMR possuem sinalização vertical?</string>
     <string name="hint_PDMR_vertical_sign_obs">Observações Sinalização Vertical</string>
-    <string name="label_has_horizontal_PDMR_sign">Possui sinalização Horizontal para Vagas PDMR?</string>
-    <string name="hint_PDMR_horizontal_sign_width">Largura Sinalização Horizontal</string>
-    <string name="hint_PDMR_horizontal_sign_length">Comprimento Sinalização Horizontal</string>
-    <string name="hint_PDMR_horizontal_sign_obs">Observações Sinalização Horizontal</string>
+    <string name="label_parking_horizontal_sign_header">Sinalização Horizontal</string>
+    <string name="label_parking_vertical_sign_header">Sinalização Vertical</string>
     <string name="label_security_zone_PDMR">As Vagas para PCD e PMR possuem faixa adicional?</string>
-    <string name="hint_security_zone_PDMR_width">Largura da Faixa Adicional</string>
+    <string name="hint_security_zone_PDMR_width">Largura da Faixa Adicional (m)</string>
     <string name="hint_security_zone_PDMR_obs">Observações Faixa Adicional</string>
     <string name="label_PDMR_SIA">As vagas possuem SIA para PCD ou PMR?</string>
     <string name="hint_PDMR_SIA_width">Largura SIA</string>
@@ -178,8 +176,8 @@
     <string name="label_radio_button_PDMR_vacancy">VAGAS PARA PDMR</string>
     <string name="hint_parking_lot_floor_type">Tipo de Piso do Estacionamento</string>
     <string name="label_button_proceed_register">CONTINUAR</string>
-    <string name="label_frag_parking_lot_PDMR">Estacionamento - Vagas PCD e PMR</string>
-    <string name="label_frag_parking_lot_elderly">Estacionamento - Vagas para Idosos</string>
+    <string name="label_frag_parking_lot_PDMR">Cadastro - Vagas PCD e PMR</string>
+    <string name="label_frag_parking_lot_elderly">Cadastro - Vagas para Idosos</string>
     <string name="label_floor_sign_elderly">Há indicação no piso do tipo da vaga?</string>
     <string name="label_has_elderly_vacancy">Estacionamento possui vagas para idosos?</string>
     <string name="hint_total_vacancy_elderly">Total de Vagas para Idosos</string>
@@ -421,4 +419,12 @@
     <string name="right_wing_measure_header">Medições de Inclinação Aba Direita</string>
     <string name="hint_fountain_location">Localização do Bebedouro</string>
     <string name="label_different_height_spouts_header">O bebedouro possui bicas de alturas distintas?</string>
+    <string name="hint_vert_sign_length">Comprimento sinalização vertical (m)</string>
+    <string name="hint_vacancy_length">Comprimento da vaga (m)</string>
+    <string name="hint_vacancy_width">Largura da vaga (m)</string>
+    <string name="hint_vert_sign_width">Largura sinalização vertical (m)</string>
+    <string name="hint_limiter_width">Largura da faixa delimitadora vaga (m)</string>
+    <string name="label_elderly_vert_sign_hader">A vaga para idosos possui sinalização vertical?</string>
+    <string name="label_vacancy_limiter">Delimitações da vaga</string>
+    <string name="hint_parking_vacancy_obs">Observações sobre a vaga</string>
 </resources>

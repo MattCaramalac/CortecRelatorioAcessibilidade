@@ -125,34 +125,28 @@ public class ParkingLotElderlyFragment extends Fragment implements ParkingLotInt
     private void instantiateElderlyViews(View view) {
         layout = view.findViewById(R.id.parking_lot_elderly_constraint_layout);
 
-        fragHeader = view.findViewById(R.id.frag_parking_lot_elderly_header);
         vacancyHeader = view.findViewById(R.id.parking_lot_elderly_vacancy_header);
         verticalSignHeader = view.findViewById(R.id.vertical_sign_elderly_header);
-        horizontalSignHeader = view.findViewById(R.id.horizontal_sign_elderly_header);
         pictogramHeader = view.findViewById(R.id.elderly_pictogram_header);
         vacancyError = view.findViewById(R.id.elderly_vacancy_error);
         verticalSignError = view.findViewById(R.id.elderly_vertical_sign_error);
-        horizontalSignError = view.findViewById(R.id.elderly_horizontal_sign_error);
         pictogramError = view.findViewById(R.id.elderly_pictogram_error);
 
         hasVacancy = view.findViewById(R.id.parking_lot_elderly_vacancy_radio);
         hasVerticalSign = view.findViewById(R.id.vertical_sign_elderly_radio);
-        hasHorizontalSign = view.findViewById(R.id.horizontal_sign_elderly_radio);
         hasPictogram = view.findViewById(R.id.elderly_pictogram_radio);
 
-        totalVacancyField = view.findViewById(R.id.parking_lot_elderly_vacancy_field);
         verticalSignObsField = view.findViewById(R.id.vertical_sign_elderly_obs_field);
-        horizontalSignWidthField = view.findViewById(R.id.elderly_horizontal_sign_width_field);
-        horizontalSignLengthField = view.findViewById(R.id.elderly_horizontal_sign_length_field);
+        horizontalSignWidthField = view.findViewById(R.id.elder_vacancy_length_field);
+        horizontalSignLengthField = view.findViewById(R.id.elderly_vacancy_width_field);
         horizontalSignObsField = view.findViewById(R.id.horizontal_sign_elderly_obs_field);
         pictogramWidthField = view.findViewById(R.id.elderly_pictogram_width_field);
         pictogramLengthField = view.findViewById(R.id.elderly_pictogram_length_field);
         pictogramObsField = view.findViewById(R.id.elderly_pictogram_obs_field);
 
-        totalVacancyValue = view.findViewById(R.id.parking_lot_elderly_vacancy_value);
         verticalSignObsValue = view.findViewById(R.id.vertical_sign_elderly_obs_value);
-        horizontalSignWidthValue = view.findViewById(R.id.elderly_horizontal_sign_width_value);
-        horizontalSignLengthValue = view.findViewById(R.id.elderly_horizontal_sign_length_value);
+        horizontalSignWidthValue = view.findViewById(R.id.elderly_horizontal_sign_length_value);
+        horizontalSignLengthValue = view.findViewById(R.id.elderly_vacancy_width_value);
         horizontalSignObsValue = view.findViewById(R.id.horizontal_sign_elderly_obs_value);
         pictogramWidthValue = view.findViewById(R.id.elderly_pictogram_width_value);
         pictogramLengthValue = view.findViewById(R.id.elderly_pictogram_length_value);

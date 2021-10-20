@@ -1,375 +1,371 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ParkingLotElderlyFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/parking_lot_elderly_constraint_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/frag_parking_lot_elderly_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_frag_parking_lot_elderly"
-            android:textSize="@dimen/section_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:id="@+id/parking_lot_elderly_vacancy_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_has_elderly_vacancy"
-            android:textSize="@dimen/section_header"
-            android:layout_marginTop="@dimen/top_margins"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/frag_parking_lot_elderly_header" />
-
-        <RadioGroup
-            android:id="@+id/parking_lot_elderly_vacancy_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parking_lot_elderly_vacancy_header">
-
-            <RadioButton
-                android:id="@+id/elderly_vacancy_radio_button_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no" />
-
-            <RadioButton
-                android:id="@+id/elderly_vacancy_radio_button_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/elderly_vacancy_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/parking_lot_elderly_vacancy_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/parking_lot_elderly_vacancy_field"
+    <TextView
+        android:id="@+id/parking_lot_elderly_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_total_vacancy_elderly"
+        android:text="@string/label_frag_parking_lot_elderly"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elderly_vacancy_error"
-        android:layout_marginTop="@dimen/top_margins">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/parking_lot_elderly_vacancy_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="number" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/vertical_sign_elderly_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_has_vertical_sign_elderly_vacancy"
-            android:textSize="@dimen/section_header"
-            android:layout_marginTop="@dimen/top_margins"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parking_lot_elderly_vacancy_field"/>
-
-        <RadioGroup
-            android:id="@+id/vertical_sign_elderly_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vertical_sign_elderly_header">
-
-            <RadioButton
-                android:id="@+id/elderly_vertical_sign_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                />
-
-            <RadioButton
-                android:id="@+id/elderly_vertical_sign_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/elderly_vertical_sign_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/vertical_sign_elderly_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/vertical_sign_elderly_obs_field"
+    <ScrollView
+        android:id="@+id/parking_elderly_scrollview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_PDMR_vertical_sign_obs"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.85"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elderly_vertical_sign_error"
-        android:layout_marginTop="@dimen/top_margins">
+        app:layout_constraintTop_toBottomOf="@id/parking_lot_elderly_header" >
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/vertical_sign_elderly_obs_value"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/parking_lot_elderly_constraint_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textMultiLine"
-            android:overScrollMode="always"
-            android:scrollbarStyle="outsideInset"
-            android:scrollbars="vertical"
-            android:gravity="start"
-            android:scrollHorizontally="false"
-            android:lines="3" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/horizontal_sign_elderly_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_horizontal_sign_elderly_vacancy"
-            android:textSize="@dimen/section_header"
-            android:layout_marginTop="@dimen/top_margins"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/vertical_sign_elderly_obs_field"/>
-
-        <RadioGroup
-            android:id="@+id/horizontal_sign_elderly_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontal_sign_elderly_header">
-
-            <RadioButton
-                android:id="@+id/horizontal_sign_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                />
-
-            <RadioButton
-                android:id="@+id/horizontal_sign_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/elderly_horizontal_sign_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/horizontal_sign_elderly_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/elderly_horizontal_sign_width_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_PDMR_horizontal_sign_width"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elderly_horizontal_sign_error"
-        android:layout_marginTop="@dimen/top_margins">
-
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/elderly_horizontal_sign_width_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/elderly_horizontal_sign_length_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elderly_horizontal_sign_width_field"
-        android:layout_marginTop="@dimen/top_margins"
-        android:hint="@string/hint_PDMR_horizontal_sign_length">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/elderly_horizontal_sign_length_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/horizontal_sign_elderly_obs_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/top_margins"
-        android:hint="@string/hint_PDMR_horizontal_sign_obs"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elderly_horizontal_sign_length_field">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/horizontal_sign_elderly_obs_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textMultiLine"
-            android:overScrollMode="always"
-            android:scrollbarStyle="outsideInset"
-            android:scrollbars="vertical"
-            android:gravity="start"
-            android:scrollHorizontally="false"
-            android:lines="3" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content">
 
             <TextView
-            android:id="@+id/elderly_pictogram_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_pictogram_vacancy_elderly"
-            android:textSize="@dimen/section_header"
-            android:layout_marginTop="@dimen/top_margins"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontal_sign_elderly_obs_field"/>
-
-        <RadioGroup
-            android:id="@+id/elderly_pictogram_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/elderly_pictogram_header"
-            >
-
-            <RadioButton
-                android:id="@+id/elderly_pictogram_no"
-                android:layout_width="wrap_content"
+                android:id="@+id/vertical_sign_header"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                />
+                android:text="@string/label_parking_vertical_sign_header"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioButton
-                android:id="@+id/elderly_pictogram_yes"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/vertical_sign_elderly_header"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                />
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/label_elderly_vert_sign_hader"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vertical_sign_header" />
 
-        </RadioGroup>
+            <RadioGroup
+                android:id="@+id/vertical_sign_elderly_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vertical_sign_elderly_header">
 
-        <TextView
-            android:id="@+id/elderly_pictogram_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/elderly_pictogram_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+                <RadioButton
+                    android:id="@+id/elderly_vertical_sign_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/elderly_pictogram_width_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elderly_pictogram_error"
-        android:layout_marginTop="@dimen/top_margins"
-        android:hint="@string/hint_elderly_pictogram_width">
+                <RadioButton
+                    android:id="@+id/elderly_vertical_sign_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/elderly_vertical_sign_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vertical_sign_elderly_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/vertical_sign_elder_length_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_vert_sign_length"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/elderly_vertical_sign_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/vertical_sign_PCD_length_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/vertical_sign_elder_width_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_vert_sign_width"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vertical_sign_elder_length_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/vertical_sign_PCD_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/vertical_sign_elderly_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_PDMR_vertical_sign_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/elderly_vertical_sign_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/vertical_sign_elderly_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/horizontal_sign_elder_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_parking_horizontal_sign_header"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vertical_sign_elderly_obs_field" />
+
+            <TextView
+                android:id="@+id/elderly_vacancy_limiter_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/label_vacancy_limiter"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_sign_elder_header" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/elder_vacancy_length_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_vacancy_length"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/elderly_vacancy_limiter_header">
 
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/elderly_pictogram_width_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/elderly_horizontal_sign_length_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/elderly_vacancy_width_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_vacancy_width"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/elder_vacancy_length_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/elderly_vacancy_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/elderly_vacancy_limiter_width_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_limiter_width"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/elderly_vacancy_width_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/elderly_vacancy_limiter_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/elderly_pictogram_length_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="@integer/weight_one"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elderly_pictogram_width_field"
-        android:layout_marginTop="@dimen/top_margins"
-        android:hint="@string/label_elderly_pictogram_length">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/horizontal_sign_elderly_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_parking_vacancy_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/elderly_vacancy_limiter_width_field">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/elderly_pictogram_length_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/horizontal_sign_elderly_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/elderly_pictogram_obs_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/top_margins"
-        android:hint="@string/label_elderly_pictogram_obs"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elderly_pictogram_length_field">
+            <TextView
+                android:id="@+id/elderly_pictogram_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_floor_sign_elderly"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontal_sign_elderly_obs_field" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/elderly_pictogram_obs_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="textMultiLine"
-            android:overScrollMode="always"
-            android:scrollbarStyle="outsideInset"
-            android:scrollbars="vertical"
-            android:gravity="start"
-            android:scrollHorizontally="false"
-            android:lines="3" />
+            <RadioGroup
+                android:id="@+id/elderly_pictogram_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/elderly_pictogram_header">
 
-    </com.google.android.material.textfield.TextInputLayout>
+                <RadioButton
+                    android:id="@+id/elderly_pictogram_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
+
+                <RadioButton
+                    android:id="@+id/elderly_pictogram_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/elderly_pictogram_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/elderly_pictogram_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/elderly_pictogram_width_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_elderly_sign_width"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/elderly_pictogram_error"
+                android:visibility="gone">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/elderly_pictogram_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/elderly_pictogram_length_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/label_elderly_sign_length"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/elderly_pictogram_width_field"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/elderly_pictogram_length_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/elderly_pictogram_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/label_elderly_sign_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/elderly_pictogram_length_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/elderly_pictogram_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save_parking_lot_elderly"
@@ -379,7 +375,7 @@
         android:text="@string/label_button_save"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elderly_pictogram_obs_field" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_parking_lot_elderly"
@@ -392,7 +388,4 @@
         app:layout_constraintBaseline_toBaselineOf="@id/save_parking_lot_elderly"
         app:layout_constraintStart_toStartOf="parent" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>

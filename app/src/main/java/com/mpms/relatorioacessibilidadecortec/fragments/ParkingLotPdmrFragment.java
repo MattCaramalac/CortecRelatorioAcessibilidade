@@ -117,7 +117,7 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
     private void instantiatePDMRViews(View view) {
         layout = view.findViewById(R.id.parking_lot_PDMR_constraint_layout);
 
-        fragHeader = view.findViewById(R.id.frag_parking_lot_PDMR_header);
+        fragHeader = view.findViewById(R.id.parking_lot_PCD_PMR_header);
         vacancyHeader = view.findViewById(R.id.parking_lot_PDMR_vacancy_header);
         verticalSignHeader = view.findViewById(R.id.vertical_sign_PDMR_header);
         horizontalSignHeader = view.findViewById(R.id.horizontal_sign_PDMR_header);
@@ -125,20 +125,17 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
         siaHeader = view.findViewById(R.id.PDMR_SIA_header);
         pdmrVacancyError = view.findViewById(R.id.PDMR_vacancy_error);
         verticalSignError = view.findViewById(R.id.vertical_sign_error);
-        horizontalSignError = view.findViewById(R.id.horizontal_sign_error);
         safetyZoneError = view.findViewById(R.id.safety_zone_error);
         siaError = view.findViewById(R.id.PDMR_SIA_error);
 
         hasVacancy = view.findViewById(R.id.parking_lot_PDMR_vacancy_radio);
         hasVerticalSign = view.findViewById(R.id.vertical_sign_PDMR_radio);
-        hasHorizontalSign = view.findViewById(R.id.horizontal_sign_PDMR_radio);
         hasSafetyZone = view.findViewById(R.id.safety_zone_PDMR_radio);
         hasSiaPdmr = view.findViewById(R.id.PDMR_SIA_radio);
 
-        totalVacancyField = view.findViewById(R.id.parking_lot_PDMR_vacancy_field);
         verticalSignObsField = view.findViewById(R.id.vertical_sign_PDMR_obs_field);
-        horizontalSignWidthField = view.findViewById(R.id.PDMR_horizontal_sign_width_field);
-        horizontalSignLengthField = view.findViewById(R.id.PDMR_horizontal_sign_length_field);
+        horizontalSignWidthField = view.findViewById(R.id.PCD_vacancy_length_field);
+        horizontalSignLengthField = view.findViewById(R.id.PCD_vacancy_width_field);
         horizontalSignObsField = view.findViewById(R.id.horizontal_sign_PDMR_obs_field);
         safetyZoneWidthField = view.findViewById(R.id.safety_zone_PDMR_width_field);
         safetyZoneObsField = view.findViewById(R.id.safety_zone_PDMR_obs_field);
@@ -146,10 +143,9 @@ public class ParkingLotPdmrFragment extends Fragment implements ParkingLotInterf
         siaLengthField = view.findViewById(R.id.PDMR_SIA_length_field);
         siaObsField = view.findViewById(R.id.PDMR_SIA_obs_field);
 
-        totalVacancyValue = view.findViewById(R.id.parking_lot_PDMR_vacancy_value);
         verticalSignObsValue = view.findViewById(R.id.vertical_sign_PDMR_obs_value);
-        horizontalSignWidthValue = view.findViewById(R.id.PDMR_horizontal_sign_width_value);
-        horizontalSignLengthValue = view.findViewById(R.id.PDMR_horizontal_sign_length_value);
+        horizontalSignWidthValue = view.findViewById(R.id.PCD_vacancy_length_value);
+        horizontalSignLengthValue = view.findViewById(R.id.PCD_vacancy_width_value);
         horizontalSignObsValue = view.findViewById(R.id.horizontal_sign_PDMR_obs_value);
         safetyZoneWidthValue = view.findViewById(R.id.safety_zone_PDMR_width_value);
         safetyZoneObsValue = view.findViewById(R.id.safety_zone_PDMR_obs_value);

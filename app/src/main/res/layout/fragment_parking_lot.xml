@@ -1,129 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ParkingLotFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
+        android:id="@+id/parking_lot_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/parking_lot_header"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textSize="@dimen/section_header"
-            android:text="@string/label_parking_lot_header"/>
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/parking_lot_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_parking_lot_type"
-            app:layout_constraintTop_toBottomOf="@id/parking_lot_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/top_margins"
-            android:textSize="@dimen/section_header"/>
-
-        <RadioGroup
-            android:id="@+id/parking_lot_type_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parking_lot_type"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/label_radio_button_internal"/>
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/label_radio_button_external"/>
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/parking_lot_type_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/parking_lot_type_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/parking_lot_vacancy_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parking_lot_type_error"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_parking_lot_total_vacancy">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/parking_lot_vacancy_value"
+            <TextView
+                android:id="@+id/parking_lot_header"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="number"/>
+                android:layout_height="wrap_content"
+                android:text="@string/label_parking_lot_header"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/parking_lot_floor_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parking_lot_vacancy_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_parking_lot_floor_type">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/parking_lot_floor_value"
+            <TextView
+                android:id="@+id/parking_lot_type"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textAutoCorrect"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_parking_lot_type"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parking_lot_header" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <RadioGroup
+                android:id="@+id/parking_lot_type_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parking_lot_type">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/label_radio_button_internal" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/label_radio_button_external" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/parking_lot_type_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parking_lot_type_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/parking_lot_floor_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_parking_lot_floor_type"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parking_lot_type_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/parking_lot_floor_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textAutoCorrect" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/parking_lot_PDMR_vacancy_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/label_parking_lot_has_PDMR_vacancy"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parking_lot_floor_field" />
+
+            <RadioGroup
+                android:id="@+id/parking_lot_PDMR_vacancy_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parking_lot_PDMR_vacancy_header">
+
+                <RadioButton
+                    android:id="@+id/PDMR_vacancy_radio_button_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
+
+                <RadioButton
+                    android:id="@+id/PDMR_vacancy_radio_button_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/PDMR_vacancy_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parking_lot_PDMR_vacancy_radio" />
+
+            <TextView
+                android:id="@+id/parking_lot_elderly_vacancy_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_has_elderly_vacancy"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/PDMR_vacancy_error" />
+
+            <RadioGroup
+                android:id="@+id/parking_lot_elderly_vacancy_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parking_lot_elderly_vacancy_header">
+
+                <RadioButton
+                    android:id="@+id/elderly_vacancy_radio_button_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
+
+                <RadioButton
+                    android:id="@+id/elderly_vacancy_radio_button_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/elderly_vacancy_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parking_lot_elderly_vacancy_radio" />
 
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_parking_lot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/top_margins"
-            android:text="@string/label_button_proceed_register"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parking_lot_floor_field" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_parking_lot"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/top_margins"
-            android:text="@string/label_button_cancel"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@id/save_parking_lot"
-            app:layout_constraintStart_toStartOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_parking_lot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_button_proceed_register"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_parking_lot"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_button_cancel"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/save_parking_lot"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

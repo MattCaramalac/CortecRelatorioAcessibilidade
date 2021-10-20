@@ -109,10 +109,8 @@ public class ParkingLotFragment extends Fragment {
 //        TextView
         parkingLotTypeError = view.findViewById(R.id.parking_lot_type_error);
 //        TextInputLayout
-        totalVacancyField = view.findViewById(R.id.parking_lot_vacancy_field);
         parkingLotFloorTypeField = view.findViewById(R.id.parking_lot_floor_field);
 //        TextInputEditText
-        totalVacancyValue = view.findViewById(R.id.parking_lot_vacancy_value);
         parkingLotFloorTypeValue = view.findViewById(R.id.parking_lot_floor_value);
     }
 
