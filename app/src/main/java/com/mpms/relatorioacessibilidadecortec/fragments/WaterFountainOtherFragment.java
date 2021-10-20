@@ -140,10 +140,10 @@ public class WaterFountainOtherFragment extends Fragment {
         switch (index) {
             case 0:
                 cupHolderHeightValue.setText(null);
-                cupHolderHeightField.setEnabled(false);
+                cupHolderHeightField.setVisibility(View.GONE);
                 break;
             case 1:
-                cupHolderHeightField.setEnabled(true);
+                cupHolderHeightField.setVisibility(View.VISIBLE);
                 break;
             default:
                 break;
@@ -184,7 +184,7 @@ public class WaterFountainOtherFragment extends Fragment {
         hasCupHolder.clearCheck();
         faucetHeightValue.setText(null);
         cupHolderHeightValue.setText(null);
-        cupHolderHeightField.setEnabled(false);
+        cupHolderHeightField.setVisibility(View.GONE);
     }
 
     public int getCheckedIndex(RadioGroup group) {

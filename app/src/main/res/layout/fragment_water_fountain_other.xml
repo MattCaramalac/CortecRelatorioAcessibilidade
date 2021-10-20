@@ -60,12 +60,13 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/other_water_fountain_faucet_height_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/water_fountain_lateral_approx_error"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_faucet_height">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -127,14 +128,15 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/other_water_fountain_cup_holder_height_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/water_fountain_has_cup_holder_error"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_cup_holder_height"
-            android:enabled="false">
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/other_water_fountain_cup_holder_height_value"
@@ -145,10 +147,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/other_water_fountain_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/other_water_fountain_cup_holder_height_field"
             android:hint="@string/hint_obs">

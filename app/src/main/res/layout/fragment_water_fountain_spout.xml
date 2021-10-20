@@ -11,11 +11,99 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/label_other_water_fountain_allow_approx"
+            android:id="@+id/label_different_heights_fountain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/label_different_height_spouts_header"
+            android:textSize="@dimen/section_header"/>
+
+        <RadioGroup
+            android:id="@+id/spout_different_heights_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/label_different_heights_fountain"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/spout_different_heights_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="14sp"
+                android:textColor="@color/black"/>
+
+            <RadioButton
+                android:id="@+id/spout_different_heights_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="14sp"
+                android:textColor="@color/black"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/different_heights_fountain_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/spout_different_heights_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+<!--        Hint será setado pela própria classe-->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/highest_spout_height_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/different_heights_fountain_error"
+            android:layout_marginTop="@dimen/usual_padding"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/highest_spout_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/lowest_spout_height_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/highest_spout_height_field"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_lowest_spout_height"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lowest_spout_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/label_other_water_fountain_allow_approx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/lowest_spout_height_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/usual_padding"
             android:text="@string/label_allow_frontal_approx"
             android:textSize="@dimen/section_header"/>
 
@@ -60,47 +148,15 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/highest_spout_height_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/water_fountain_frontal_approx_error"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_highest_spout_height">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/highest_spout_height_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lowest_spout_height_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/highest_spout_height_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_lowest_spout_height">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/lowest_spout_height_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/free_space_height_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lowest_spout_height_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_free_space_lowest_spout">
+            app:layout_constraintTop_toBottomOf="@id/water_fountain_frontal_approx_error"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_frontal_approx_low_spout"
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/free_space_height_value"
@@ -111,10 +167,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/spout_water_fountain_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/free_space_height_field"
             android:hint="@string/hint_obs">

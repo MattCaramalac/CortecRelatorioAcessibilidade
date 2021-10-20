@@ -137,8 +137,10 @@
 
     <string name="hint_blackboard_height">Altura da Lousa</string>
     <string name="label_distance_shelves">Distância entre as estantes é igual ou maior que 90 centímetros?</string>
-    <string name="label_PCR_maneuver">Existem bolsões para manobras de PCR à cada 15 metros?</string>
-    <string name="label_computer_accessibility">Ao menos 5% dos terminais de consulta por computadores e acesso à Internet são acessíveis para PCR e PMR?</string>
+    <string name="label_PCR_maneuver">Existem bolsões para manobras de PCR nos corredores entre as estantes
+        à cada 15 metros?</string>
+    <string name="label_computer_accessibility">Ao menos 5% dos terminais de consulta por computadores
+        e acesso à Internet são acessíveis para PCR e PMR?</string>
     <string name="hint_total_vacancy_PDMR">Total de Vagas para PDMR</string>
     <string name="hint_PCR_space">Espaço PCR</string>
     <string name="label_possible_180_turn">É possível realizar um giro de 180º?</string>
@@ -159,34 +161,34 @@
     <string name="label_parking_lot_type">Tipo de Estacionamento</string>
     <string name="label_radio_button_internal">INTERNO</string>
     <string name="label_radio_button_external">EXTERNO</string>
-    <string name="label_parking_lot_has_PDMR_vacancy">Estacionamento possui vagas para PDMR?</string>
-    <string name="label_has_Vertical_PDMR_sign">Possui Sinalização Vertical para Vagas PDMR?</string>
+    <string name="label_parking_lot_has_PDMR_vacancy">Estacionamento possui vagas para PCD e PMR?</string>
+    <string name="label_has_Vertical_PDMR_sign">Vagas para PCD e PMR possuem sinalização vertical?</string>
     <string name="hint_PDMR_vertical_sign_obs">Observações Sinalização Vertical</string>
     <string name="label_has_horizontal_PDMR_sign">Possui sinalização Horizontal para Vagas PDMR?</string>
     <string name="hint_PDMR_horizontal_sign_width">Largura Sinalização Horizontal</string>
     <string name="hint_PDMR_horizontal_sign_length">Comprimento Sinalização Horizontal</string>
     <string name="hint_PDMR_horizontal_sign_obs">Observações Sinalização Horizontal</string>
-    <string name="label_security_zone_PDMR">As Vagas para PDMR Possuem Faixa de Segurança?</string>
-    <string name="hint_security_zone_PDMR_width">Largura da Faixa de Segurança</string>
-    <string name="hint_security_zone_PDMR_obs">Observações Faixa de Segurança</string>
-    <string name="label_PDMR_SIA">As Vagas Possuem SIA para PDMR?</string>
+    <string name="label_security_zone_PDMR">As Vagas para PCD e PMR possuem faixa adicional?</string>
+    <string name="hint_security_zone_PDMR_width">Largura da Faixa Adicional</string>
+    <string name="hint_security_zone_PDMR_obs">Observações Faixa Adicional</string>
+    <string name="label_PDMR_SIA">As vagas possuem SIA para PCD ou PMR?</string>
     <string name="hint_PDMR_SIA_width">Largura SIA</string>
     <string name="hint_PDMR_SIA_lenght">Comprimento SIA</string>
     <string name="label_radio_button_elderly_vacancy">VAGAS PARA IDOSOS</string>
     <string name="label_radio_button_PDMR_vacancy">VAGAS PARA PDMR</string>
     <string name="hint_parking_lot_floor_type">Tipo de Piso do Estacionamento</string>
     <string name="label_button_proceed_register">CONTINUAR</string>
-    <string name="label_frag_parking_lot_PDMR">Estacionamento - Vagas PDMR</string>
+    <string name="label_frag_parking_lot_PDMR">Estacionamento - Vagas PCD e PMR</string>
     <string name="label_frag_parking_lot_elderly">Estacionamento - Vagas para Idosos</string>
-    <string name="label_pictogram_vacancy_elderly">Vagas possuem pictograma para identificação?</string>
+    <string name="label_floor_sign_elderly">Há indicação no piso do tipo da vaga?</string>
     <string name="label_has_elderly_vacancy">Estacionamento possui vagas para idosos?</string>
     <string name="hint_total_vacancy_elderly">Total de Vagas para Idosos</string>
     <string name="label_has_vertical_sign_elderly_vacancy">Possui sinalização vertical para vagas de idosos?</string>
     <string name="label_horizontal_sign_elderly_vacancy">Possui sinalização horizontal para vaga de idosos?</string>
-    <string name="hint_elderly_pictogram_width">Largura do Pictograma</string>
-    <string name="label_elderly_pictogram_length">Comprimento do Pictograma</string>
-    <string name="label_elderly_pictogram_obs">Observações Pictograma</string>
-    <string name="hint_PDMR_SIA_obs">Observações sobre SIA</string>
+    <string name="hint_elderly_sign_width">Largura da identificação da vaga</string>
+    <string name="label_elderly_sign_length">Comprimento da identificação da vaga</string>
+    <string name="label_elderly_sign_obs">Observações da identificação da vaga</string>
+    <string name="hint_PDMR_SIA_obs">Observações SIA</string>
     <string name="label_parking_lot_header">Estacionamento</string>
     <string name="label_sidewalk_header">Calçada</string>
     <string name="hint_conservation_status_special_floor">Estado de conservação Piso Tátil</string>
@@ -194,9 +196,10 @@
     <string name="label_slope_register">Cadastro de rebaixamentos e suas dimensões</string>
     <string name="label_status_special_floor">O piso tátil está em bom estado de conservação?</string>
     <string name="label_allow_frontal_approx">Bebedouro permite Aproximação Frontal?</string>
-    <string name="hint_highest_spout_height">Altura da Bica Mais Alta</string>
-    <string name="hint_lowest_spout_height">Altura da Bica Mais Baixa</string>
-    <string name="hint_free_space_lowest_spout">Espaço Livre Abaixo da Bica Mais Baixa</string>
+    <string name="hint_highest_spout_height">Altura da bica mais alta (m)</string>
+    <string name="hint_lowest_spout_height">Altura da bica mais baixa (m)</string>
+    <string name="hint_only_spout_height">Altura da bica (m)</string>
+    <string name="hint_frontal_approx_low_spout">Aproximação frontal bica mais baixa (m)</string>
     <string name="label_water_fountain_header">Bebedouros</string>
     <string name="label_allow_lateral_approx">Bebedouro permite aproximação lateral?</string>
     <string name="hint_faucet_height">Altura da torneira do bebedouro</string>
@@ -214,7 +217,7 @@
     <string name="label_radio_inclination_sill">Soleira com Desnível</string>
     <string name="label_radio_step_sill">Soleira com Degrau</string>
     <string name="label_radio_slope_sill">Soleira com Rampa</string>
-    <string name="label_radio_no_sill">Sem Soleira</string>
+    <string name="label_radio_leveled_sill">Soleira Nivelada</string>
     <string name="hint_door_location">Localização da Porta</string>
     <string name="label_sill_type_door">Tipo de Soleira da Porta</string>
     <string name="hint_sill_type_obs">Observações sobre a soleira</string>
@@ -416,4 +419,6 @@
     <string name="sixth_measure_perc">Medição 6(%)</string>
     <string name="left_wing_slope_header">Medições de Inclinação Aba Esquerda</string>
     <string name="right_wing_measure_header">Medições de Inclinação Aba Direita</string>
+    <string name="hint_fountain_location">Localização do Bebedouro</string>
+    <string name="label_different_height_spouts_header">O bebedouro possui bicas de alturas distintas?</string>
 </resources>
