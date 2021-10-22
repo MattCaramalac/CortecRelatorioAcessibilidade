@@ -100,7 +100,7 @@
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_floor_field" />
 
             <RadioGroup
-                android:id="@+id/parking_lot_PDMR_vacancy_radio"
+                android:id="@+id/parking_lot_PCD_vacancy_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -124,7 +124,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/PDMR_vacancy_error"
+                android:id="@+id/PCD_vacancy_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/empty_fields"
@@ -132,7 +132,7 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/parking_lot_PDMR_vacancy_radio" />
+                app:layout_constraintTop_toBottomOf="@id/parking_lot_PCD_vacancy_radio" />
 
             <TextView
                 android:id="@+id/parking_lot_elderly_vacancy_header"
@@ -142,7 +142,7 @@
                 android:text="@string/label_has_elderly_vacancy"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/PDMR_vacancy_error" />
+                app:layout_constraintTop_toBottomOf="@id/PCD_vacancy_error" />
 
             <RadioGroup
                 android:id="@+id/parking_lot_elderly_vacancy_radio"

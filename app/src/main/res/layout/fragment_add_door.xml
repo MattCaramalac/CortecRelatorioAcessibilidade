@@ -94,7 +94,7 @@
                 <RadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/label_radio_no_sill"
+                    android:text="@string/label_radio_leveled_sill"
                     android:textSize="@dimen/radio_button_text"/>
 
                 <RadioButton

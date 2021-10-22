@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ParkingLotPdmrFragment">
+    tools:context=".fragments.ParkingLotPcdFragment">
 
     <TextView
         android:id="@+id/parking_lot_PCD_PMR_header"
@@ -127,7 +127,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/vertical_sign_PDMR_obs_field"
+                android:id="@+id/vertical_sign_PCD_obs_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
                 app:layout_constraintTop_toBottomOf="@id/vertical_sign_PCD_width_field">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/vertical_sign_PDMR_obs_value"
+                    android:id="@+id/vertical_sign_PCD_obs_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="start"
@@ -160,7 +160,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vertical_sign_PDMR_obs_field" />
+                app:layout_constraintTop_toBottomOf="@id/vertical_sign_PCD_obs_field" />
 
             <TextView
                 android:id="@+id/vacancy_size_header"
@@ -231,16 +231,16 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/horizontal_sign_PDMR_obs_field"
+                android:id="@+id/PCD_vacancy_obs_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
+                android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_parking_vacancy_obs"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/PCD_vacancy_limiter_width_field">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/horizontal_sign_PDMR_obs_value"
+                    android:id="@+id/PCD_vacancy_obs_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="start"
@@ -254,22 +254,22 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/safety_zone_PDMR_header"
+                android:id="@+id/safety_zone_PCD_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins"
                 android:text="@string/label_security_zone_PDMR"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/horizontal_sign_PDMR_obs_field" />
+                app:layout_constraintTop_toBottomOf="@id/PCD_vacancy_obs_field" />
 
             <RadioGroup
-                android:id="@+id/safety_zone_PDMR_radio"
+                android:id="@+id/safety_zone_PCD_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/safety_zone_PDMR_header">
+                app:layout_constraintTop_toBottomOf="@id/safety_zone_PCD_header">
 
                 <RadioButton
                     android:id="@+id/safety_zone_no"
@@ -296,10 +296,10 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/safety_zone_PDMR_radio" />
+                app:layout_constraintTop_toBottomOf="@id/safety_zone_PCD_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/safety_zone_PDMR_width_field"
+                android:id="@+id/safety_zone_PCD_width_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -310,7 +310,7 @@
                 android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/safety_zone_PDMR_width_value"
+                    android:id="@+id/safety_zone_PCD_width_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textAutoCorrect" />
@@ -318,17 +318,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/safety_zone_PDMR_obs_field"
+                android:id="@+id/safety_zone_PCD_obs_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_security_zone_PDMR_obs"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/safety_zone_PDMR_width_field">
+                app:layout_constraintTop_toBottomOf="@id/safety_zone_PCD_width_field">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/safety_zone_PDMR_obs_value"
+                    android:id="@+id/safety_zone_PCD_obs_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="start"
@@ -342,22 +342,22 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/PDMR_SIA_header"
+                android:id="@+id/PCD_SIA_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins"
                 android:text="@string/label_PDMR_SIA"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/safety_zone_PDMR_obs_field" />
+                app:layout_constraintTop_toBottomOf="@id/safety_zone_PCD_obs_field" />
 
             <RadioGroup
-                android:id="@+id/PDMR_SIA_radio"
+                android:id="@+id/PCD_SIA_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/PDMR_SIA_header">
+                app:layout_constraintTop_toBottomOf="@id/PCD_SIA_header">
 
                 <RadioButton
                     android:id="@+id/SIA_no"
@@ -376,7 +376,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/PDMR_SIA_error"
+                android:id="@+id/PCD_SIA_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/empty_fields"
@@ -384,22 +384,22 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/PDMR_SIA_radio" />
+                app:layout_constraintTop_toBottomOf="@id/PCD_SIA_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/PDMR_SIA_width_field"
+                android:id="@+id/PCD_SIA_width_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_PDMR_SIA_width"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/PDMR_SIA_error"
+                app:layout_constraintTop_toBottomOf="@id/PCD_SIA_error"
                 android:visibility="gone">
 
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/PDMR_SIA_width_value"
+                    android:id="@+id/PCD_SIA_width_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal" />
@@ -408,7 +408,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/PDMR_SIA_length_field"
+                android:id="@+id/PCD_SIA_length_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -416,11 +416,11 @@
                 android:layout_weight="@integer/weight_one"
                 android:hint="@string/hint_PDMR_SIA_lenght"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/PDMR_SIA_width_field"
+                app:layout_constraintTop_toBottomOf="@id/PCD_SIA_width_field"
                 android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/PDMR_SIA_length_value"
+                    android:id="@+id/PCD_SIA_length_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal" />
@@ -428,17 +428,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/PDMR_SIA_obs_field"
+                android:id="@+id/PCD_SIA_obs_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_PDMR_SIA_obs"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/PDMR_SIA_length_field">
+                app:layout_constraintTop_toBottomOf="@id/PCD_SIA_length_field">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/PDMR_SIA_obs_value"
+                    android:id="@+id/PCD_SIA_obs_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="start"
@@ -456,7 +456,7 @@
     </ScrollView>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/save_parking_lot_pdmr"
+        android:id="@+id/save_parking_lot_pcd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/top_margins"
@@ -466,14 +466,14 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/cancel_parking_lot_pdmr"
+        android:id="@+id/cancel_parking_lot_pcd"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/top_margins"
         android:text="@string/label_button_cancel"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@id/save_parking_lot_pdmr"
+        app:layout_constraintBaseline_toBaselineOf="@id/save_parking_lot_pcd"
         app:layout_constraintStart_toStartOf="parent" />
 
 
