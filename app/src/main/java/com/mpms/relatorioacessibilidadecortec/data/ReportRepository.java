@@ -13,7 +13,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
@@ -55,7 +55,7 @@ public class ReportRepository {
     private final OtherSpacesDao otherSpacesDao;
     private final ParkingLotEntryDao parkingLotEntryDao;
     private final ParkingLotElderlyDao parkingLotElderlyDao;
-    private final ParkingLotPdmrDao parkingLotPdmrDao;
+    private final ParkingLotPcdDao parkingLotPcdDao;
     private final RoomEntryDao roomEntryDao;
     private final DoorEntryDao doorEntryDao;
     private final FreeSpaceEntryDao freeSpaceEntryDao;
@@ -88,7 +88,7 @@ public class ReportRepository {
         externalAccessDao = db.externalAccessDao();
         otherSpacesDao = db.otherSpacesDao();
         parkingLotEntryDao = db.parkingLotEntryDao();
-        parkingLotPdmrDao = db.parkingLotPdmrDao();
+        parkingLotPcdDao = db.parkingLotPdmrDao();
         parkingLotElderlyDao = db.parkingLotElderlyDao();
         roomEntryDao = db.roomEntryDao();
         doorEntryDao = db.doorEntryDao();
@@ -261,8 +261,12 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> parkingLotElderlyDao.insertElderlyParkingLot(elderlyEntry));
     }
 
-    public LiveData<ParkingLotElderlyEntry> selectElderlyParkingLot(int parkingLotID) {
-        return parkingLotElderlyDao.selectElderlyParkingLot(parkingLotID);
+    public LiveData<List<ParkingLotElderlyEntry>> selectAllElderlyParkingLot(int parkingLotID) {
+        return parkingLotElderlyDao.selectAllElderlyParkingLot(parkingLotID);
+    }
+
+    public LiveData<ParkingLotElderlyEntry> selectOneElderlyParkingLot(int parkingElderlyID) {
+        return parkingLotElderlyDao.selectOneElderlyParkingLot(parkingElderlyID);
     }
 
     public void updateElderlyParkingLot(ParkingLotElderlyEntry parkingLotElderlyEntry) {
@@ -275,20 +279,24 @@ public class ReportRepository {
         }
     }
 
-    public void insertPdmrParkingLot(ParkingLotPDMREntry pdmrEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotPdmrDao.insertPdmrParkingLot(pdmrEntry));
+    public void insertPcdParkingLot(ParkingLotPCDEntry pdmrEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotPcdDao.insertPcdParkingLot(pdmrEntry));
     }
 
-    public LiveData<ParkingLotPDMREntry> selectPdmrParkingLot(int parkingLotID) {
-        return parkingLotPdmrDao.selectPdmrParkingLot(parkingLotID);
+    public LiveData<List<ParkingLotPCDEntry>> selectAllPcdParkingLot(int parkingLotID) {
+        return parkingLotPcdDao.selectAllPcdParkingLot(parkingLotID);
     }
 
-    public void updatePdmrParkingLot(ParkingLotPDMREntry pdmrEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotPdmrDao.updatePdmrParkingLot(pdmrEntry));
+    public LiveData<ParkingLotPCDEntry> selectOnePcdParkingLot(int parkingPcdID) {
+        return parkingLotPcdDao.selectOnePcdParkingLot(parkingPcdID);
     }
 
-    public void deletePdmrParkingLot(int parkingLotID) {
-            ReportDatabase.dbWriteExecutor.execute(() -> parkingLotPdmrDao.deleteOnePdmrParkingLot(parkingLotID));
+    public void updatePcdParkingLot(ParkingLotPCDEntry pdmrEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> parkingLotPcdDao.updatePcdParkingLot(pdmrEntry));
+    }
+
+    public void deletePcdParkingLot(int parkingLotID) {
+            ReportDatabase.dbWriteExecutor.execute(() -> parkingLotPcdDao.deleteOnePcdParkingLot(parkingLotID));
     }
 
     public void insertRoomEntry(RoomEntry roomEntry) {

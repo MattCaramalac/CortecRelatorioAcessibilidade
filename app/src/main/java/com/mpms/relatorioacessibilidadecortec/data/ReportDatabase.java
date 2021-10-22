@@ -18,7 +18,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
@@ -45,12 +45,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {SchoolEntry.class, WaterFountainEntry.class, OtherSpaces.class, ExternalAccess.class,
-        ParkingLotEntry.class, ParkingLotPDMREntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
+        ParkingLotEntry.class, ParkingLotPCDEntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class, RampStairsHandrailEntry.class,
-        RampStairsRailingEntry.class}, version = 26)
+        RampStairsRailingEntry.class}, version = 27)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -79,7 +79,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                         ParkingLotEntryDao parkingLotEntryDao = INSTANCE.parkingLotEntryDao();
                     });
                     dbWriteExecutor.execute(() -> {
-                        ParkingLotPdmrDao parkingLotPdmrDao = INSTANCE.parkingLotPdmrDao();
+                        ParkingLotPcdDao parkingLotPcdDao = INSTANCE.parkingLotPdmrDao();
                     });
                     dbWriteExecutor.execute(() -> {
                         ParkingLotElderlyDao parkingLotElderlyDao = INSTANCE.parkingLotElderlyDao();
@@ -497,6 +497,31 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_26_27 = new Migration(26,27) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE ParkingLotEntry");
+            database.execSQL("DROP TABLE ParkingLotPDMREntry");
+            database.execSQL("DROP TABLE ParkingLotElderlyEntry");
+            database.execSQL("CREATE TABLE ParkingLotEntry(parkingLotID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolID INTEGER NOT NULL," +
+                    "typeParkingLot INTEGER NOT NULL, parkingLotFloorType TEXT, hasPCDVacancy INTEGER NOT NULL, hasElderVacancy INTEGER NOT NULL," +
+                    "FOREIGN KEY (schoolID) REFERENCES SchoolEntry(cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE ParkingLotPCDEntry(parkingPcdID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                    "parkingLotID INTEGER NOT NULL, hasVisualPcdVertSign INTEGER NOT NULL, vertPcdSignLength REAL, vertPcdSignWidth REAL," +
+                    "vertPcdSignObs TEXT, pcdVacancyLength REAL NOT NULL, pcdVacancyWidth REAL NOT NULL, pcdVacancyLimitWidth REAL NOT NULL," +
+                    "pcdVacancyObs TEXT, hasSecurityZone INTEGER NOT NULL, securityZoneWidth REAL, securityZoneObs TEXT," +
+                    "hasPcdSia INTEGER NOT NULL, pcdSiaWidth REAL, pcdSiaLength REAL, pcdSiaObs TEXT, FOREIGN KEY (parkingLotID)" +
+                    "REFERENCES ParkingLotEntry (parkingLotID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE ParkingLotElderlyEntry(parkingElderlyID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                    "parkingLotID INTEGER NOT NULL, hasElderlyVertSign INTEGER NOT NULL, elderlyVertSignLength REAL," +
+                    "elderlyVertSingWidth REAL, elderlyVertSignObs TEXT, elderlyVacancyLength REAL NOT NULL," +
+                    "elderlyVacancyWidth REAL NOT NULL, elderlyVacancyLimiterWidth REAL NOT NULL, elderlyVacancyObs TEXT," +
+                    "hasElderlyFloorIndicator INTEGER NOT NULL, floorIndicatorLength REAL, floorIndicatorWidth REAL, " +
+                    "floorIndicatorObs TEXT, FOREIGN KEY (parkingLotID) REFERENCES ParkingLotEntry(parkingLotID)" +
+                    "ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ReportDatabase.class) {
@@ -506,7 +531,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12,
                                     MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17, MIGRATION_17_18,
                                     MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23, MIGRATION_23_24,
-                                    MIGRATION_24_25, MIGRATION_25_26).build();
+                                    MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27).build();
                 }
             }
         }
@@ -520,7 +545,7 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract OtherSpacesDao otherSpacesDao();
     public abstract ParkingLotEntryDao parkingLotEntryDao();
     public abstract ParkingLotElderlyDao parkingLotElderlyDao();
-    public abstract ParkingLotPdmrDao parkingLotPdmrDao();
+    public abstract ParkingLotPcdDao parkingLotPdmrDao();
     public abstract RoomEntryDao roomEntryDao();
     public abstract DoorEntryDao doorEntryDao();
     public abstract SwitchEntryDao switchEntryDao();

@@ -17,7 +17,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPDMREntry;
+import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
@@ -61,6 +61,8 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<SidewalkSlopeEntry>> allSidewalkSlopes;
     public LiveData<List<RampStairsEntry>> allRampsSchool;
     public LiveData<List<RampStairsEntry>> allStairsSchool;
+    public LiveData<List<ParkingLotPCDEntry>> allPcdLots;
+    public LiveData<List<ParkingLotElderlyEntry>> allElderLots;
     public final LiveData<List<SchoolEntry>> allEntries;
     public final LiveData<List<RoomEntry>> allRooms;
 
@@ -175,16 +177,16 @@ public class ViewModelEntry extends AndroidViewModel {
             repository.deleteElderlyParkingLot(parkingLotID);
     }
 
-    public static void insertPdmrParkingLot(ParkingLotPDMREntry pdmrEntry) {
-        repository.insertPdmrParkingLot(pdmrEntry);
+    public static void insertPcdParkingLot(ParkingLotPCDEntry pcdEntry) {
+        repository.insertPcdParkingLot(pcdEntry);
     }
 
-    public static void updatePdmrParkingLot(ParkingLotPDMREntry pdmrEntry) {
-        repository.updatePdmrParkingLot(pdmrEntry);
+    public static void updatePcdParkingLot(ParkingLotPCDEntry pcdEntry) {
+        repository.updatePcdParkingLot(pcdEntry);
     }
 
     public static void deletePdmrParkingLot(int parkingLotID) {
-            repository.deletePdmrParkingLot(parkingLotID);
+            repository.deletePcdParkingLot(parkingLotID);
     }
 
     //Quando vou retornar o valor, preciso colocar a variável com o valor, NÃO o método.
@@ -244,12 +246,22 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.selectLastInsertedParkingLot();
     }
 
-    public LiveData<ParkingLotElderlyEntry> getElderlyParkingLot(int parkingLotID) {
-        return repository.selectElderlyParkingLot(parkingLotID);
+    public LiveData<List<ParkingLotElderlyEntry>> getAllElderlyParkingLot(int parkingLotID) {
+        allElderLots = repository.selectAllElderlyParkingLot(parkingLotID);
+        return allElderLots;
     }
 
-    public LiveData<ParkingLotPDMREntry> getPdmrParkingLot(int parkingLotID) {
-        return repository.selectPdmrParkingLot(parkingLotID);
+    public LiveData<List<ParkingLotPCDEntry>> getAllPcdParkingLot(int parkingLotID) {
+        allPcdLots = repository.selectAllPcdParkingLot(parkingLotID);
+        return allPcdLots;
+    }
+
+    public LiveData<ParkingLotElderlyEntry> getOneElderlyParkingLot(int parkingElderlyID) {
+        return repository.selectOneElderlyParkingLot(parkingElderlyID);
+    }
+
+    public LiveData<ParkingLotPCDEntry> getOnePcdParkingLot(int parkingPcdID) {
+        return repository.selectOnePcdParkingLot(parkingPcdID);
     }
 
     public static void insertRoomEntry(RoomEntry roomEntry) {

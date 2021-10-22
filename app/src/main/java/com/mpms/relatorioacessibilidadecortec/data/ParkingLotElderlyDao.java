@@ -8,6 +8,8 @@ import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 
+import java.util.List;
+
 @Dao
 public interface ParkingLotElderlyDao {
 
@@ -15,7 +17,10 @@ public interface ParkingLotElderlyDao {
     void insertElderlyParkingLot(ParkingLotElderlyEntry elderlyEntry);
 
     @Query("SELECT * FROM ParkingLotElderlyEntry WHERE parkingLotID == :parkingLotID")
-    LiveData<ParkingLotElderlyEntry> selectElderlyParkingLot(int parkingLotID);
+    LiveData<List<ParkingLotElderlyEntry>> selectAllElderlyParkingLot(int parkingLotID);
+
+    @Query("SELECT * FROM ParkingLotElderlyEntry WHERE parkingElderlyID == :parkingElderlyID")
+    LiveData<ParkingLotElderlyEntry> selectOneElderlyParkingLot(int parkingElderlyID);
 
     @Update
     void updateElderlyParkingLot(ParkingLotElderlyEntry parkingLotElderlyEntry);

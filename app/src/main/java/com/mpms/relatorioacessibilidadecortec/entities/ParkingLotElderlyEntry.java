@@ -1,183 +1,162 @@
 package com.mpms.relatorioacessibilidadecortec.entities;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = {
-        @ForeignKey(entity = SchoolEntry.class,
-                parentColumns = "cadID",
-                childColumns = "schoolEntryID",
-                onDelete = CASCADE, onUpdate = CASCADE),
-        @ForeignKey(entity = ParkingLotEntry.class,
-                parentColumns = "parkingLotID",
-                childColumns = "parkingLotID",
-                onDelete = CASCADE, onUpdate = CASCADE)})
+@Entity(foreignKeys =
+        @ForeignKey(entity = ParkingLotEntry.class, parentColumns = "parkingLotID", childColumns = "parkingLotID",
+                onDelete = CASCADE, onUpdate = CASCADE))
 public class ParkingLotElderlyEntry {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer parkingElderlyID;
-    @NonNull
-    private Integer schoolEntryID;
-    @NonNull
-    private Integer parkingLotID;
+    private int parkingElderlyID;
+    private int parkingLotID;
 
-    private Integer hasElderlyVacancy;
-    private Integer totalElderlyVacancy;
-    private Integer hasVisualElderlyVertSign;
-    private String visualElderlyVertSignObs;
-    private Integer hasVisualElderlyHorizSign;
-    private Double visualElderlyHorizSignWidth;
-    private Double visualElderlyHorizSignLength;
-    private String visualElderlyHorizSignObs;
-    private Integer hasPictogramElderly;
-    private Double pictogramElderlyWidth;
-    private Double pictogramElderlyLength;
-    private String pictogramElderlyObs;
+    private int hasElderlyVertSign;
+    private Double elderlyVertSignLength;
+    private Double elderlyVertSingWidth;
+    private String elderlyVertSignObs;
+    private double elderlyVacancyLength;
+    private double elderlyVacancyWidth;
+    private double elderlyVacancyLimiterWidth;
+    private String elderlyVacancyObs;
+    private int hasElderlyFloorIndicator;
+    private Double floorIndicatorLength;
+    private Double floorIndicatorWidth;
+    private String floorIndicatorObs;
 
-    public ParkingLotElderlyEntry(@NonNull Integer schoolEntryID, @NonNull Integer parkingLotID, Integer hasElderlyVacancy,
-                                  Integer totalElderlyVacancy, Integer hasVisualElderlyVertSign, String visualElderlyVertSignObs,
-                                  Integer hasVisualElderlyHorizSign, Double visualElderlyHorizSignWidth,
-                                  Double visualElderlyHorizSignLength, String visualElderlyHorizSignObs, Integer hasPictogramElderly,
-                                  Double pictogramElderlyWidth, Double pictogramElderlyLength, String pictogramElderlyObs) {
-        this.schoolEntryID = schoolEntryID;
-        this.parkingLotID = parkingLotID;
-        this.hasElderlyVacancy = hasElderlyVacancy;
-        this.totalElderlyVacancy = totalElderlyVacancy;
-        this.hasVisualElderlyVertSign = hasVisualElderlyVertSign;
-        this.visualElderlyVertSignObs = visualElderlyVertSignObs;
-        this.hasVisualElderlyHorizSign = hasVisualElderlyHorizSign;
-        this.visualElderlyHorizSignWidth = visualElderlyHorizSignWidth;
-        this.visualElderlyHorizSignLength = visualElderlyHorizSignLength;
-        this.visualElderlyHorizSignObs = visualElderlyHorizSignObs;
-        this.hasPictogramElderly = hasPictogramElderly;
-        this.pictogramElderlyWidth = pictogramElderlyWidth;
-        this.pictogramElderlyLength = pictogramElderlyLength;
-        this.pictogramElderlyObs = pictogramElderlyObs;
-    }
-
-    public Integer getParkingElderlyID() {
+    public int getParkingElderlyID() {
         return parkingElderlyID;
     }
 
-    public void setParkingElderlyID(Integer parkingElderlyID) {
+    public void setParkingElderlyID(int parkingElderlyID) {
         this.parkingElderlyID = parkingElderlyID;
     }
 
-    @NonNull
-    public Integer getSchoolEntryID() {
-        return schoolEntryID;
-    }
-
-    public void setSchoolEntryID(@NonNull Integer schoolEntryID) {
-        this.schoolEntryID = schoolEntryID;
-    }
-
-    @NonNull
-    public Integer getParkingLotID() {
+    public int getParkingLotID() {
         return parkingLotID;
     }
 
-    public void setParkingLotID(@NonNull Integer parkingLotID) {
+    public void setParkingLotID(int parkingLotID) {
         this.parkingLotID = parkingLotID;
     }
 
-    public Integer getHasElderlyVacancy() {
-        return hasElderlyVacancy;
+    public int getHasElderlyVertSign() {
+        return hasElderlyVertSign;
     }
 
-    public void setHasElderlyVacancy(Integer hasElderlyVacancy) {
-        this.hasElderlyVacancy = hasElderlyVacancy;
+    public void setHasElderlyVertSign(int hasElderlyVertSign) {
+        this.hasElderlyVertSign = hasElderlyVertSign;
     }
 
-    public Integer getTotalElderlyVacancy() {
-        return totalElderlyVacancy;
+    public Double getElderlyVertSignLength() {
+        return elderlyVertSignLength;
     }
 
-    public void setTotalElderlyVacancy(Integer totalElderlyVacancy) {
-        this.totalElderlyVacancy = totalElderlyVacancy;
+    public void setElderlyVertSignLength(Double elderlyVertSignLength) {
+        this.elderlyVertSignLength = elderlyVertSignLength;
     }
 
-    public Integer getHasVisualElderlyVertSign() {
-        return hasVisualElderlyVertSign;
+    public Double getElderlyVertSingWidth() {
+        return elderlyVertSingWidth;
     }
 
-    public void setHasVisualElderlyVertSign(Integer hasVisualElderlyVertSign) {
-        this.hasVisualElderlyVertSign = hasVisualElderlyVertSign;
+    public void setElderlyVertSingWidth(Double elderlyVertSingWidth) {
+        this.elderlyVertSingWidth = elderlyVertSingWidth;
     }
 
-    public String getVisualElderlyVertSignObs() {
-        return visualElderlyVertSignObs;
+    public String getElderlyVertSignObs() {
+        return elderlyVertSignObs;
     }
 
-    public void setVisualElderlyVertSignObs(String visualElderlyVertSignObs) {
-        this.visualElderlyVertSignObs = visualElderlyVertSignObs;
+    public void setElderlyVertSignObs(String elderlyVertSignObs) {
+        this.elderlyVertSignObs = elderlyVertSignObs;
     }
 
-    public Integer getHasVisualElderlyHorizSign() {
-        return hasVisualElderlyHorizSign;
+    public double getElderlyVacancyLength() {
+        return elderlyVacancyLength;
     }
 
-    public void setHasVisualElderlyHorizSign(Integer hasVisualElderlyHorizSign) {
-        this.hasVisualElderlyHorizSign = hasVisualElderlyHorizSign;
+    public void setElderlyVacancyLength(double elderlyVacancyLength) {
+        this.elderlyVacancyLength = elderlyVacancyLength;
     }
 
-    public Double getVisualElderlyHorizSignWidth() {
-        return visualElderlyHorizSignWidth;
+    public double getElderlyVacancyWidth() {
+        return elderlyVacancyWidth;
     }
 
-    public void setVisualElderlyHorizSignWidth(Double visualElderlyHorizSignWidth) {
-        this.visualElderlyHorizSignWidth = visualElderlyHorizSignWidth;
+    public void setElderlyVacancyWidth(double elderlyVacancyWidth) {
+        this.elderlyVacancyWidth = elderlyVacancyWidth;
     }
 
-    public Double getVisualElderlyHorizSignLength() {
-        return visualElderlyHorizSignLength;
+    public double getElderlyVacancyLimiterWidth() {
+        return elderlyVacancyLimiterWidth;
     }
 
-    public void setVisualElderlyHorizSignLength(Double visualElderlyHorizSignLength) {
-        this.visualElderlyHorizSignLength = visualElderlyHorizSignLength;
+    public void setElderlyVacancyLimiterWidth(double elderlyVacancyLimiterWidth) {
+        this.elderlyVacancyLimiterWidth = elderlyVacancyLimiterWidth;
     }
 
-    public String getVisualElderlyHorizSignObs() {
-        return visualElderlyHorizSignObs;
+    public String getElderlyVacancyObs() {
+        return elderlyVacancyObs;
     }
 
-    public void setVisualElderlyHorizSignObs(String visualElderlyHorizSignObs) {
-        this.visualElderlyHorizSignObs = visualElderlyHorizSignObs;
+    public void setElderlyVacancyObs(String elderlyVacancyObs) {
+        this.elderlyVacancyObs = elderlyVacancyObs;
     }
 
-    public Integer getHasPictogramElderly() {
-        return hasPictogramElderly;
+    public int getHasElderlyFloorIndicator() {
+        return hasElderlyFloorIndicator;
     }
 
-    public void setHasPictogramElderly(Integer hasPictogramElderly) {
-        this.hasPictogramElderly = hasPictogramElderly;
+    public void setHasElderlyFloorIndicator(int hasElderlyFloorIndicator) {
+        this.hasElderlyFloorIndicator = hasElderlyFloorIndicator;
     }
 
-    public Double getPictogramElderlyWidth() {
-        return pictogramElderlyWidth;
+    public Double getFloorIndicatorLength() {
+        return floorIndicatorLength;
     }
 
-    public void setPictogramElderlyWidth(Double pictogramElderlyWidth) {
-        this.pictogramElderlyWidth = pictogramElderlyWidth;
+    public void setFloorIndicatorLength(Double floorIndicatorLength) {
+        this.floorIndicatorLength = floorIndicatorLength;
     }
 
-    public Double getPictogramElderlyLength() {
-        return pictogramElderlyLength;
+    public Double getFloorIndicatorWidth() {
+        return floorIndicatorWidth;
     }
 
-    public void setPictogramElderlyLength(Double pictogramElderlyLength) {
-        this.pictogramElderlyLength = pictogramElderlyLength;
+    public void setFloorIndicatorWidth(Double floorIndicatorWidth) {
+        this.floorIndicatorWidth = floorIndicatorWidth;
     }
 
-    public String getPictogramElderlyObs() {
-        return pictogramElderlyObs;
+    public String getFloorIndicatorObs() {
+        return floorIndicatorObs;
     }
 
-    public void setPictogramElderlyObs(String pictogramElderlyObs) {
-        this.pictogramElderlyObs = pictogramElderlyObs;
+    public void setFloorIndicatorObs(String floorIndicatorObs) {
+        this.floorIndicatorObs = floorIndicatorObs;
+    }
+
+    public ParkingLotElderlyEntry(int parkingLotID, int hasElderlyVertSign, Double elderlyVertSignLength,
+                                  Double elderlyVertSingWidth, String elderlyVertSignObs, double elderlyVacancyLength,
+                                  double elderlyVacancyWidth, double elderlyVacancyLimiterWidth, String elderlyVacancyObs,
+                                  int hasElderlyFloorIndicator, Double floorIndicatorLength, Double floorIndicatorWidth,
+                                  String floorIndicatorObs) {
+        this.parkingLotID = parkingLotID;
+        this.hasElderlyVertSign = hasElderlyVertSign;
+        this.elderlyVertSignLength = elderlyVertSignLength;
+        this.elderlyVertSingWidth = elderlyVertSingWidth;
+        this.elderlyVertSignObs = elderlyVertSignObs;
+        this.elderlyVacancyLength = elderlyVacancyLength;
+        this.elderlyVacancyWidth = elderlyVacancyWidth;
+        this.elderlyVacancyLimiterWidth = elderlyVacancyLimiterWidth;
+        this.elderlyVacancyObs = elderlyVacancyObs;
+        this.hasElderlyFloorIndicator = hasElderlyFloorIndicator;
+        this.floorIndicatorLength = floorIndicatorLength;
+        this.floorIndicatorWidth = floorIndicatorWidth;
+        this.floorIndicatorObs = floorIndicatorObs;
     }
 }

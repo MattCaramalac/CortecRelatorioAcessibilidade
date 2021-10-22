@@ -8,47 +8,40 @@ import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys = @ForeignKey(entity = SchoolEntry.class,
         parentColumns = "cadID",
-        childColumns = "schoolEntryID",
+        childColumns = "schoolID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class ParkingLotEntry {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer parkingLotID;
-    private Integer schoolEntryID;
-    private Integer typeParkingLot;
-    private Integer totalParkingVacancy;
+    private int parkingLotID;
+    private int schoolID;
+    private int typeParkingLot;
     private String parkingLotFloorType;
+    private int hasPCDVacancy;
+    private int hasElderVacancy;
 
-    public Integer getParkingLotID() {
+    public int getParkingLotID() {
         return parkingLotID;
     }
 
-    public void setParkingLotID(Integer parkingLotID) {
+    public void setParkingLotID(int parkingLotID) {
         this.parkingLotID = parkingLotID;
     }
 
-    public Integer getSchoolEntryID() {
-        return schoolEntryID;
+    public int getSchoolID() {
+        return schoolID;
     }
 
-    public void setSchoolEntryID(Integer schoolEntryID) {
-        this.schoolEntryID = schoolEntryID;
+    public void setSchoolID(int schoolEntryID) {
+        this.schoolID = schoolEntryID;
     }
 
-    public Integer getTypeParkingLot() {
+    public int getTypeParkingLot() {
         return typeParkingLot;
     }
 
-    public void setTypeParkingLot(Integer typeParkingLot) {
+    public void setTypeParkingLot(int typeParkingLot) {
         this.typeParkingLot = typeParkingLot;
-    }
-
-    public Integer getTotalParkingVacancy() {
-        return totalParkingVacancy;
-    }
-
-    public void setTotalParkingVacancy(Integer totalParkingVacancy) {
-        this.totalParkingVacancy = totalParkingVacancy;
     }
 
     public String getParkingLotFloorType() {
@@ -59,10 +52,27 @@ public class ParkingLotEntry {
         this.parkingLotFloorType = parkingLotFloorType;
     }
 
-    public ParkingLotEntry(Integer schoolEntryID, Integer typeParkingLot, Integer totalParkingVacancy, String parkingLotFloorType) {
-        this.schoolEntryID = schoolEntryID;
+    public int getHasPCDVacancy() {
+        return hasPCDVacancy;
+    }
+
+    public void setHasPCDVacancy(int hasPCDVacancy) {
+        this.hasPCDVacancy = hasPCDVacancy;
+    }
+
+    public int getHasElderVacancy() {
+        return hasElderVacancy;
+    }
+
+    public void setHasElderVacancy(int hasElderVacancy) {
+        this.hasElderVacancy = hasElderVacancy;
+    }
+
+    public ParkingLotEntry(int schoolID, int typeParkingLot, String parkingLotFloorType, int hasPCDVacancy, int hasElderVacancy) {
+        this.schoolID = schoolID;
         this.typeParkingLot = typeParkingLot;
-        this.totalParkingVacancy = totalParkingVacancy;
         this.parkingLotFloorType = parkingLotFloorType;
+        this.hasPCDVacancy = hasPCDVacancy;
+        this.hasElderVacancy = hasElderVacancy;
     }
 }
