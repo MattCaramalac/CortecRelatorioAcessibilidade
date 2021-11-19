@@ -23,6 +23,7 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/sidewalk_location_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,7 +31,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sidewalk_header"
-            android:layout_marginTop="@dimen/top_margins">
+            android:layout_marginTop="@dimen/usual_padding">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sidewalk_location_value"
@@ -39,13 +40,63 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/label_sidewalk_conservation_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_location_field"
+            android:textSize="@dimen/section_header"
+            android:text="A calçada se encontra em bom estado de conservação?"
+            android:layout_marginTop="@dimen/top_margins"/>
+
+        <RadioGroup
+            android:id="@+id/radio_sidewalk_conservation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_sidewalk_conservation_header"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_sidewalk_cons_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:id="@+id/radio_sidewalk_cons_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text"
+                />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/sidewalk_cons_status_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_conservation"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/sidewalk_status_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sidewalk_location_field"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_cons_status_error"
             android:hint="@string/hint_sidewalk_status">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -64,10 +115,11 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/sidewalk_width_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_sidewalk_width"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -179,6 +231,7 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/sidewalk_special_floor_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -202,62 +255,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/label_sidewalk_obligatory_slope_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/section_header"
-            android:text="@string/label_obligatory_slope_sidewalk"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sidewalk_special_floor_obs_field"
-            android:layout_marginTop="@dimen/top_margins"/>
-
-        <RadioGroup
-            android:id="@+id/radio_obligatory_sidewalk_slope"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_sidewalk_obligatory_slope_header"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radio_obligatory_sidewalk_slope_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
-
-            <RadioButton
-                android:id="@+id/radio_obligatory_sidewalk_slope_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text"
-                />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/obligatory_slope_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/radio_obligatory_sidewalk_slope"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <TextView
             android:id="@+id/label_sidewalk_has_slope_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/section_header"
             android:text="@string/label_sidewalk_slope"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/obligatory_slope_error"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_special_floor_obs_field"
             android:layout_marginTop="@dimen/top_margins"/>
 
         <RadioGroup
@@ -325,6 +329,7 @@
             />
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/sidewalk_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

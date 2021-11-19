@@ -37,12 +37,12 @@ public class SidewalkFragment extends Fragment {
 
     TextInputLayout sidewalkLocationField, sidewalkStatusField, sidewalkWidthField, sidewalkTactileFloorStatusField, sidewalkObsField;
     TextInputEditText sidewalkLocationValue, sidewalkStatusValue, sidewalkWidthValue, sidewalkTactileFloorStatusValue, sidewalkObsValue;
-    RadioGroup hasTactileFloor, statusTactileFloor, obligatorySlope, hasSlope;
+    RadioGroup sidewalkConsStatusRadio, hasTactileFloor, statusTactileFloor, hasSlope;
     TextView tactileFloorLabel, slopeRegisterLabel, tactileFloorError, tactileFloorStatusError, sidewalkObligatorySlopeError, sidewalkHasSlopeError;
     Button saveSidewalk, cancelSidewalk, addSlope;
 
     String sidewalkLocation, sidewalkStatus, sidewalkTactileFloorStatus, sidewalkObs;
-    Integer hasTactFloor, tactileFloorStatus, sidewalkObligatorySlope, sidewalkHasSlope;
+    Integer sidewalkGoodStatus, hasTactFloor, tactileFloorStatus, sidewalkHasSlope;
     Double sidewalkWidth;
 
     ArrayList<TextInputEditText> sidewalkObsArray = new ArrayList<>();
@@ -253,16 +253,15 @@ public class SidewalkFragment extends Fragment {
         sidewalkTactileFloorStatusValue = view.findViewById(R.id.sidewalk_special_floor_obs_value);
         sidewalkObsValue = view.findViewById(R.id.sidewalk_obs_value);
 
+        sidewalkConsStatusRadio = view.findViewById(R.id.radio_sidewalk_conservation);
         hasTactileFloor = view.findViewById(R.id.radio_sidewalk_special_floor);
         statusTactileFloor = view.findViewById(R.id.radio_status_special_floor);
-        obligatorySlope = view.findViewById(R.id.radio_obligatory_sidewalk_slope);
         hasSlope = view.findViewById(R.id.radio_sidewalk_slope);
 
         slopeRegisterLabel = view.findViewById(R.id.label_sidewalk_slope_register);
         tactileFloorLabel = view.findViewById(R.id.label_status_special_floor);
         tactileFloorError = view.findViewById(R.id.has_tactile_floor_error);
         tactileFloorStatusError = view.findViewById(R.id.tactile_floor_status_error);
-        sidewalkObligatorySlopeError = view.findViewById(R.id.obligatory_slope_error);
         sidewalkHasSlopeError = view.findViewById(R.id.sidewalk_has_slope_error);
 
         saveSidewalk = view.findViewById(R.id.save_sidewalk);
@@ -276,6 +275,7 @@ public class SidewalkFragment extends Fragment {
     private void gatherSidewalkData(SidewalkEntry sidewalk) {
 //        TODO - Alterar forma de recuperação de dados, alteração opções da calçada
         sidewalkLocationValue.setText(sidewalk.getSidewalkLocation());
+        sidewalkConsStatusRadio.check(sidewalkConsStatusRadio.getChildAt(sidewalk.getSidewalkConservationStatus()).getId());
         sidewalkStatusValue.setText(sidewalk.getSidewalkConservationStatus());
         sidewalkWidthValue.setText(String.valueOf(sidewalk.getWidthSidewalk()));
         hasTactileFloor.check(hasTactileFloor.getChildAt(sidewalk.getSidewalkHasTactileFloor()).getId());
@@ -283,12 +283,12 @@ public class SidewalkFragment extends Fragment {
             statusTactileFloor.check(statusTactileFloor.getChildAt(sidewalk.getTactileFloorConservationStatus()).getId());
             sidewalkTactileFloorStatusValue.setText(sidewalk.getTactileFloorObs());
         }
-        obligatorySlope.check(obligatorySlope.getChildAt(sidewalk.getObligatorySidewalkSlope()).getId());
         hasSlope.check(hasSlope.getChildAt(sidewalk.getSidewalkHasSlope()).getId());
         sidewalkObsValue.setText(sidewalk.getSidewalkObs());
     }
 
     private void initialLayout() {
+        sidewalkStatusField.setVisibility(View.GONE);
         tactileFloorLabel.setVisibility(View.GONE);
         statusTactileFloor.setVisibility(View.GONE);
         sidewalkTactileFloorStatusField.setVisibility(View.GONE);
@@ -297,8 +297,7 @@ public class SidewalkFragment extends Fragment {
     }
 
     private void hasSpecialFloorListener(RadioGroup radioGroup, int checkedID) {
-        View radioButton = radioGroup.findViewById(checkedID);
-        int index = radioGroup.indexOfChild(radioButton);
+        int index = radioGroup.indexOfChild(radioGroup.findViewById(checkedID));
 
         if (index == 1) {
             tactileFloorLabel.setVisibility(View.VISIBLE);
@@ -314,8 +313,7 @@ public class SidewalkFragment extends Fragment {
     }
 
     private void hasSlopeListener(RadioGroup radioGroup, int checkedID) {
-        View radioButton = radioGroup.findViewById(checkedID);
-        int index = radioGroup.indexOfChild(radioButton);
+        int index = radioGroup.indexOfChild(radioGroup.findViewById(checkedID));
 
         if (index == 1) {
             slopeRegisterLabel.setVisibility(View.VISIBLE);
@@ -359,10 +357,6 @@ public class SidewalkFragment extends Fragment {
                 i++;
             }
         }
-        if (getCheckedSidewalkRadioButton(obligatorySlope) == -1) {
-            sidewalkObligatorySlopeError.setVisibility(View.VISIBLE);
-            i++;
-        }
         if (getCheckedSidewalkRadioButton(hasSlope) == -1) {
             sidewalkHasSlopeError.setVisibility(View.VISIBLE);
             i++;
@@ -392,6 +386,7 @@ public class SidewalkFragment extends Fragment {
 
     private SidewalkEntry newSidewalk(Bundle bundle) {
         sidewalkLocation = String.valueOf(sidewalkLocationValue.getText());
+        sidewalkGoodStatus = getCheckedSidewalkRadioButton(sidewalkConsStatusRadio);
         sidewalkStatus = String.valueOf(sidewalkStatusValue.getText());
         if (!TextUtils.isEmpty(sidewalkWidthValue.getText()))
             sidewalkWidth = Double.valueOf(String.valueOf(sidewalkWidthValue.getText()));
@@ -400,12 +395,11 @@ public class SidewalkFragment extends Fragment {
             tactileFloorStatus = getCheckedSidewalkRadioButton(statusTactileFloor);
             sidewalkTactileFloorStatus = String.valueOf(sidewalkTactileFloorStatusValue.getText());
         }
-        sidewalkObligatorySlope = getCheckedSidewalkRadioButton(obligatorySlope);
         sidewalkHasSlope = getCheckedSidewalkRadioButton(hasSlope);
         sidewalkObs = String.valueOf(sidewalkObsValue.getText());
 
-        return new SidewalkEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), sidewalkLocation, sidewalkStatus, sidewalkWidth,
-                hasTactFloor, tactileFloorStatus, sidewalkTactileFloorStatus, sidewalkObligatorySlope, sidewalkHasSlope, sidewalkObs);
+        return new SidewalkEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID),sidewalkLocation,sidewalkGoodStatus,sidewalkStatus,sidewalkWidth,
+                hasTactFloor,tactileFloorStatus,sidewalkTactileFloorStatus,sidewalkHasSlope, sidewalkObs);
     }
 
     private void resetInitialLayout() {
@@ -420,7 +414,6 @@ public class SidewalkFragment extends Fragment {
         sidewalkObsValue.setText(null);
         hasTactileFloor.clearCheck();
         statusTactileFloor.clearCheck();
-        obligatorySlope.clearCheck();
         hasSlope.clearCheck();
         tactileFloorLabel.setVisibility(View.GONE);
         statusTactileFloor.setVisibility(View.GONE);

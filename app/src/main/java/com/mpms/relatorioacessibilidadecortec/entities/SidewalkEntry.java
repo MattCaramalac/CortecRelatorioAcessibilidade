@@ -15,26 +15,26 @@ public class SidewalkEntry {
     private int schoolEntryID;
 
     private String sidewalkLocation;
-    private String sidewalkConservationStatus;
+    private Integer sidewalkConservationStatus;
+    private String sidewalkConservationObs;
     private Double widthSidewalk;
     private Integer sidewalkHasTactileFloor;
     private Integer tactileFloorConservationStatus;
     private String tactileFloorObs;
-    private Integer obligatorySidewalkSlope;
     private Integer sidewalkHasSlope;
     private String sidewalkObs;
 
-    public SidewalkEntry(int schoolEntryID, String sidewalkLocation, String sidewalkConservationStatus, Double widthSidewalk,
-                         Integer sidewalkHasTactileFloor, Integer tactileFloorConservationStatus, String tactileFloorObs,
-                         Integer obligatorySidewalkSlope, Integer sidewalkHasSlope, String sidewalkObs) {
+    public SidewalkEntry(int schoolEntryID, String sidewalkLocation, Integer sidewalkConservationStatus, String sidewalkConservationObs,
+                         Double widthSidewalk, Integer sidewalkHasTactileFloor, Integer tactileFloorConservationStatus, String tactileFloorObs,
+                         Integer sidewalkHasSlope, String sidewalkObs) {
         this.schoolEntryID = schoolEntryID;
         this.sidewalkLocation = sidewalkLocation;
         this.sidewalkConservationStatus = sidewalkConservationStatus;
+        this.sidewalkConservationObs = sidewalkConservationObs;
         this.widthSidewalk = widthSidewalk;
         this.sidewalkHasTactileFloor = sidewalkHasTactileFloor;
         this.tactileFloorConservationStatus = tactileFloorConservationStatus;
         this.tactileFloorObs = tactileFloorObs;
-        this.obligatorySidewalkSlope = obligatorySidewalkSlope;
         this.sidewalkHasSlope = sidewalkHasSlope;
         this.sidewalkObs = sidewalkObs;
     }
@@ -63,12 +63,20 @@ public class SidewalkEntry {
         this.sidewalkLocation = sidewalkLocation;
     }
 
-    public String getSidewalkConservationStatus() {
+    public Integer getSidewalkConservationStatus() {
         return sidewalkConservationStatus;
     }
 
-    public void setSidewalkConservationStatus(String sidewalkConservationStatus) {
+    public void setSidewalkConservationStatus(Integer sidewalkConservationStatus) {
         this.sidewalkConservationStatus = sidewalkConservationStatus;
+    }
+
+    public String getSidewalkConservationObs() {
+        return sidewalkConservationObs;
+    }
+
+    public void setSidewalkConservationObs(String sidewalkConservationObs) {
+        this.sidewalkConservationObs = sidewalkConservationObs;
     }
 
     public Double getWidthSidewalk() {
@@ -101,14 +109,6 @@ public class SidewalkEntry {
 
     public void setTactileFloorObs(String tactileFloorObs) {
         this.tactileFloorObs = tactileFloorObs;
-    }
-
-    public Integer getObligatorySidewalkSlope() {
-        return obligatorySidewalkSlope;
-    }
-
-    public void setObligatorySidewalkSlope(Integer obligatorySidewalkSlope) {
-        this.obligatorySidewalkSlope = obligatorySidewalkSlope;
     }
 
     public Integer getSidewalkHasSlope() {
