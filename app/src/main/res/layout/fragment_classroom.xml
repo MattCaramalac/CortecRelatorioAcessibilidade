@@ -6,6 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ChildFragments.ClassroomFragment">
 
+<!-- TODO - Trocar este campo por um botão para adicionar ou remover alturas de lousas (fazer tabela???)   -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

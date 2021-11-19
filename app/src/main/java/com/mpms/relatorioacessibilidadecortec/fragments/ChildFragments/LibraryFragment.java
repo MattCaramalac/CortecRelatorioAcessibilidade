@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
@@ -23,7 +22,6 @@ public class LibraryFragment extends Fragment {
     RadioGroup distanceShelvesAcceptable, maneuverPcrAcceptable, computersAccessible;
 
     ViewModelFragments modelFragments;
-    ViewModelEntry modelEntry;
 
     public static final String DISTANCE_SHELVES = "DISTANCE_SHELVES";
     public static final String MANEUVER_PCR = "MANEUVER_PCR";
@@ -46,7 +44,6 @@ public class LibraryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
         return inflater.inflate(R.layout.fragment_library, container, false);
     }
 
@@ -54,10 +51,7 @@ public class LibraryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        distanceShelvesAcceptable = view.findViewById(R.id.distance_shelves_radio);
-        maneuverPcrAcceptable = view.findViewById(R.id.PCR_maneuver_radio);
-        computersAccessible = view.findViewById(R.id.computer_accessibility_radio);
-
+        libraryInstantiateView(view);
 
         modelFragments.getSaveAttemptRoom().observe(getViewLifecycleOwner(), roomAttempt -> {
             if (Objects.equals(modelFragments.getSaveAttemptRoom().getValue(), 1)) {
@@ -77,26 +71,15 @@ public class LibraryFragment extends Fragment {
         });
     }
 
-//    modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
-//        if (Objects.equals(modelFragments.getSaveAttempt().getValue(), 1)) {
-//            if (hasNoEmptyFields()) {
-//                Bundle otherData = new Bundle();
-//                otherData.putInt(ALLOW_LATERAL, getCheckedIndex(allowLateralApprox));
-//                otherData.putDouble(FAUCET_HEIGHT, Double.parseDouble(Objects.requireNonNull(faucetHeightValue.getText()).toString()));
-//                otherData.putInt(HAS_CUP_HOLDER, getCheckedIndex(hasCupHolder));
-//                if (getCheckedIndex(hasCupHolder) == 1) {
-//                    otherData.putDouble(CUP_HOLDER_HEIGHT, Double.parseDouble(Objects.requireNonNull(cupHolderHeightValue.getText()).toString()));
-//                }
-//                modelFragments.setFountainBundle(otherData);
-//                clearFields();
-//                Objects.requireNonNull(getParentFragment()).getChildFragmentManager().beginTransaction().remove(this).commit();
-//            }
-//            modelFragments.setSaveAttemptFountain(0);
-//
-//        }
-//
-//    });
-//}
+    public void libraryInstantiateView(View view) {
+//        RadioGroups
+        distanceShelvesAcceptable = view.findViewById(R.id.distance_shelves_radio);
+        maneuverPcrAcceptable = view.findViewById(R.id.PCR_maneuver_radio);
+        computersAccessible = view.findViewById(R.id.computer_accessibility_radio);
+//        ViewModel
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+
+    }
 
     public boolean checkEmptyLibraryFields() {
         int error = 0;

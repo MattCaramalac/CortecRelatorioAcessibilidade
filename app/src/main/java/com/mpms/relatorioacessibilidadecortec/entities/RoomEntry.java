@@ -1,87 +1,93 @@
 package com.mpms.relatorioacessibilidadecortec.entities;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = SchoolEntry.class,
-        parentColumns = "cadID",
-        childColumns = "schoolEntryID",
+@Entity(foreignKeys = @ForeignKey(entity = SchoolEntry.class, parentColumns = "cadID", childColumns = "schoolEntryID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class RoomEntry {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer roomID;
-    private Integer schoolEntryID;
-    private Integer roomType;
+    private int roomID;
+    private int schoolEntryID;
+    private int roomType;
+    private String roomLocation;
     private Integer roomHasVisualVertSing;
     private String roomObsVisualVertSign;
     private Integer roomHasTactileSing;
     private String roomObsTactileSign;
+    private Integer roomHasLooseCarpet;
+    private String looseCarpetObs;
 
     private Integer libraryDistanceShelvesOK;
     private Integer libraryPcrManeuversOK;
     private Integer libraryAccessiblePcOK;
 
-    private Integer cafeteriaTurnAroundPossible;
-
-    private Double classroomBlackboardHeight;
-
-    private Integer secretFixedSeats;
+    private Integer secretHasFixedSeats;
     private Integer secretHasPcrSpace;
     private Double secretWidthPcrSpace;
     private Double secretLengthPcrSpace;
-    private Integer secretTurnAroundPossible;
+    private String secretPCRSpaceObs;
 
-    public RoomEntry(Integer schoolEntryID, Integer roomType, Integer roomHasVisualVertSing, String roomObsVisualVertSign,
-                     Integer roomHasTactileSing, String roomObsTactileSign, Integer libraryDistanceShelvesOK,
-                     Integer libraryPcrManeuversOK, Integer libraryAccessiblePcOK, Integer cafeteriaTurnAroundPossible,
-                     Double classroomBlackboardHeight, Integer secretFixedSeats, Integer secretHasPcrSpace,
-                     Double secretWidthPcrSpace, Double secretLengthPcrSpace, Integer secretTurnAroundPossible) {
+    private String roomObs;
+
+    public RoomEntry(int schoolEntryID, int roomType, String roomLocation, Integer roomHasVisualVertSing, String roomObsVisualVertSign,
+                     Integer roomHasTactileSing, String roomObsTactileSign, Integer roomHasLooseCarpet, String looseCarpetObs,
+                     Integer libraryDistanceShelvesOK, Integer libraryPcrManeuversOK, Integer libraryAccessiblePcOK, Integer secretHasFixedSeats,
+                     Integer secretHasPcrSpace, Double secretWidthPcrSpace, Double secretLengthPcrSpace, String secretPCRSpaceObs, String roomObs) {
         this.schoolEntryID = schoolEntryID;
         this.roomType = roomType;
+        this.roomLocation = roomLocation;
         this.roomHasVisualVertSing = roomHasVisualVertSing;
         this.roomObsVisualVertSign = roomObsVisualVertSign;
         this.roomHasTactileSing = roomHasTactileSing;
         this.roomObsTactileSign = roomObsTactileSign;
+        this.roomHasLooseCarpet = roomHasLooseCarpet;
+        this.looseCarpetObs = looseCarpetObs;
         this.libraryDistanceShelvesOK = libraryDistanceShelvesOK;
         this.libraryPcrManeuversOK = libraryPcrManeuversOK;
         this.libraryAccessiblePcOK = libraryAccessiblePcOK;
-        this.cafeteriaTurnAroundPossible = cafeteriaTurnAroundPossible;
-        this.classroomBlackboardHeight = classroomBlackboardHeight;
-        this.secretFixedSeats = secretFixedSeats;
+        this.secretHasFixedSeats = secretHasFixedSeats;
         this.secretHasPcrSpace = secretHasPcrSpace;
         this.secretWidthPcrSpace = secretWidthPcrSpace;
         this.secretLengthPcrSpace = secretLengthPcrSpace;
-        this.secretTurnAroundPossible = secretTurnAroundPossible;
+        this.secretPCRSpaceObs = secretPCRSpaceObs;
+        this.roomObs = roomObs;
     }
 
-    @NonNull
-    public Integer getRoomID() {
+    public int getRoomID() {
         return roomID;
     }
 
-    public void setRoomID(@NonNull Integer roomID) {
+    public void setRoomID(int roomID) {
         this.roomID = roomID;
     }
 
-    public Integer getSchoolEntryID() {
+    public int getSchoolEntryID() {
         return schoolEntryID;
     }
 
-    public void setSchoolEntryID(Integer schoolEntryID) {
+    public void setSchoolEntryID(int schoolEntryID) {
         this.schoolEntryID = schoolEntryID;
     }
 
-    public Integer getRoomType() {
+    public int getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(Integer roomType) {
+    public void setRoomType(int roomType) {
         this.roomType = roomType;
+    }
+
+    public String getRoomLocation() {
+        return roomLocation;
+    }
+
+    public void setRoomLocation(String roomLocation) {
+        this.roomLocation = roomLocation;
     }
 
     public Integer getRoomHasVisualVertSing() {
@@ -140,28 +146,12 @@ public class RoomEntry {
         this.libraryAccessiblePcOK = libraryAccessiblePcOK;
     }
 
-    public Integer getCafeteriaTurnAroundPossible() {
-        return cafeteriaTurnAroundPossible;
+    public Integer getSecretHasFixedSeats() {
+        return secretHasFixedSeats;
     }
 
-    public void setCafeteriaTurnAroundPossible(Integer cafeteriaTurnAroundPossible) {
-        this.cafeteriaTurnAroundPossible = cafeteriaTurnAroundPossible;
-    }
-
-    public Double getClassroomBlackboardHeight() {
-        return classroomBlackboardHeight;
-    }
-
-    public void setClassroomBlackboardHeight(Double classroomBlackboardHeight) {
-        this.classroomBlackboardHeight = classroomBlackboardHeight;
-    }
-
-    public Integer getSecretFixedSeats() {
-        return secretFixedSeats;
-    }
-
-    public void setSecretFixedSeats(Integer secretFixedSeats) {
-        this.secretFixedSeats = secretFixedSeats;
+    public void setSecretHasFixedSeats(Integer secretHasFixedSeats) {
+        this.secretHasFixedSeats = secretHasFixedSeats;
     }
 
     public Integer getSecretHasPcrSpace() {
@@ -188,11 +178,35 @@ public class RoomEntry {
         this.secretLengthPcrSpace = secretLengthPcrSpace;
     }
 
-    public Integer getSecretTurnAroundPossible() {
-        return secretTurnAroundPossible;
+    public Integer getRoomHasLooseCarpet() {
+        return roomHasLooseCarpet;
     }
 
-    public void setSecretTurnAroundPossible(Integer secretTurnAroundPossible) {
-        this.secretTurnAroundPossible = secretTurnAroundPossible;
+    public void setRoomHasLooseCarpet(Integer roomHasLooseCarpet) {
+        this.roomHasLooseCarpet = roomHasLooseCarpet;
+    }
+
+    public String getLooseCarpetObs() {
+        return looseCarpetObs;
+    }
+
+    public void setLooseCarpetObs(String looseCarpetObs) {
+        this.looseCarpetObs = looseCarpetObs;
+    }
+
+    public String getRoomObs() {
+        return roomObs;
+    }
+
+    public void setRoomObs(String roomObs) {
+        this.roomObs = roomObs;
+    }
+
+    public String getSecretPCRSpaceObs() {
+        return secretPCRSpaceObs;
+    }
+
+    public void setSecretPCRSpaceObs(String secretPCRSpaceObs) {
+        this.secretPCRSpaceObs = secretPCRSpaceObs;
     }
 }

@@ -23,13 +23,13 @@
     <string name="hint_city_school">Cidade</string>
     <string name="hint_contact_phone1">Telefone Contato 1</string>
     <string name="hint_contact_phone2">Telefone Contato 2</string>
-    <string name="hint_name_principal">Nome Diretor(a) da Instituição</string>
+    <string name="hint_name_district">Distrito</string>
     <string name="hint_name_responsible_visit">Nome do Acompanhante da Visita</string>
     <string name="hint_total_students">Total de Estudantes</string>
     <string name="hint_total_students_pcd">Estudantes PCD</string>
     <string name="hint_total_workers">Total de Funcionários</string>
     <string name="hint_total_workers_pcd">Funcionários PCD</string>
-    <string name="hint_total_workers_libras">Funcionários Capacitados Libras</string>
+    <string name="hint_total_workers_libras">Quantidade Funcionários Capacitados Libras</string>
     <string name="hint_date_inspection">Data Inspeção</string>
     <string name="hint_address_street">Endereço da Instituição</string>
     <string name="hint_visit_team">Membros da Equipe de Inspeção</string>
@@ -144,7 +144,7 @@
     <string name="hint_total_vacancy_PDMR">Total de Vagas para PDMR</string>
     <string name="hint_PCR_space">Espaço PCR</string>
     <string name="label_possible_180_turn">É possível realizar um giro de 180º?</string>
-    <string name="label_has_PCR_space">Secretaria possui Espaço para PCR?</string>
+    <string name="label_secretariat_fixed_seats">Secretaria possui bancos fixos?</string>
     <string name="hint_PCR_space_width">Largura Espaço PCR</string>
     <string name="hint_PCR_space_depth">Profund. Espaço PCR</string>
     <string name="label_water_fountain_type">Tipo de Bebedouro</string>
@@ -189,7 +189,7 @@
     <string name="hint_PDMR_SIA_obs">Observações SIA</string>
     <string name="label_parking_lot_header">Estacionamento</string>
     <string name="label_sidewalk_header">Calçada</string>
-    <string name="hint_conservation_status_special_floor">Estado de conservação Piso Tátil</string>
+    <string name="hint_conservation_status_special_floor">Estado Conservação Piso Tátil</string>
     <string name="label_obligatory_slope_sidewalk">É obrigatório ter rebaixamento nesta calçada?</string>
     <string name="label_slope_register">Cadastro de rebaixamentos e suas dimensões</string>
     <string name="label_status_special_floor">O piso tátil está em bom estado de conservação?</string>
@@ -392,6 +392,7 @@
     <string name="check_box_evening">Noturno:</string>
     <string name="check_box_afternoon">Vespertino:</string>
     <string name="check_box_pre_school">Pré-Escola:</string>
+    <string name="check_box_elementary_middle">Fundamental:</string>
     <string name="check_box_elementary">Fundamental I:</string>
     <string name="check_box_middle_school">Fundamental II:</string>
     <string name="check_box_high_school">Ensino Médio:</string>
@@ -427,4 +428,12 @@
     <string name="label_elderly_vert_sign_hader">A vaga para idosos possui sinalização vertical?</string>
     <string name="label_vacancy_limiter">Delimitações da vaga</string>
     <string name="hint_parking_vacancy_obs">Observações sobre a vaga</string>
+    <string name="label_has_carpet_header">Possui tapete e/ou capacho solto?</string>
+    <string name="hint_libras_obs">Observações Funcionários Capacitados em Libras</string>
+    <string name="high_school_checkbox_hint">Do 1º ao 3º ano</string>
+    <string name="label_radio_month">Meses</string>
+    <string name="label_radio_years">Anos</string>
+    <string name="hint_oldest_age">Idade Final</string>
+    <string name="hint_youngest_age">Idade Inicial</string>
+    <string name="label_has_libras_workers_header">A instituição possui profissionais capacitados em Libras?</string>
 </resources>

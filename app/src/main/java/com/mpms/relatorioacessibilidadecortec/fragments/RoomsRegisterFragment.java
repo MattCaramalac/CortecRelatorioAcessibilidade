@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddCounterDialog;
@@ -42,25 +42,29 @@ import java.util.Objects;
 
 public class RoomsRegisterFragment extends Fragment {
 
+//    TODO - Implementar o método de recuperação de dados já cadastrados para a atualização
+
     public static final String ROOM_TYPE = "ROOM_TYPE";
     public static final String ROOM_ID_VALUE = "ROOM_ID_VALUE";
     private static int chosenOption;
+
+    TextInputLayout roomLocationField, obsVisualSignField, obsTactileSignField, obsLooseCarpetField, roomObsField;
+    TextInputEditText roomLocationValue, obsVisualSignValue, obsTactileSignValue, obsLooseCarpetValue, roomObsValue;
+    MaterialButton cancelRoomRegister, saveRoomRegister, doorRegister, switchRegister, windowRegister, tableRegister, freeSpaceRegister;
+    RadioGroup hasVisualSignRadio, hasTactileSignRadio, hasLooseCarpetRadio;
+
+    Integer hasVisSign, hasTactSign, hasLooseCarpet, libShelvesDistOK, libPcrManeuverOK, libAccessPcOK, secFixedSeat, secHasPcrSpace;
+    Double classBoardHeight, secWidthPcrSpace, secDepthPcrSpace;
+    String roomLocation, obsVisSign, obsTactSign, obsLooseCarpet, secObsPCRSpace, obsRoom;
     public int update = 0;
     public int recentRoomID = 0;
     private int buttonChoice = -1;
-    Button cancelRoomRegister, saveRoomRegister, doorRegister, switchRegister, windowRegister, tableRegister, freeSpaceRegister;
-    RadioGroup hasVisualSign, hasTactileSign;
-    TextInputLayout obsVisualSignField, obsTactileSignField;
-    TextInputEditText obsVisualSignValue, obsTactileSignValue;
-    Integer hasVisSign, hasTactSign, libShelvesDistOK, libPcrManeuverOK, libAccessPcOK, cafeSpinOK, secFixedSeat, secHasPcrSpace,
-            secSpinOK;
-    Double classBoardHeight, secWidthPcrSpace, secDepthPcrSpace;
-    String obsVisSign, obsTactSign;
+
     FragmentManager manager;
     Bundle roomBundleID = new Bundle();
-    Bundle schoolData = new Bundle();
-    private ViewModelFragments modelFragments;
-    private ViewModelEntry modelEntry;
+
+    ViewModelFragments modelFragments;
+    ViewModelEntry modelEntry;
 
     ArrayList<TextInputEditText> roomObsArray = new ArrayList<>();
 
@@ -90,16 +94,10 @@ public class RoomsRegisterFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_rooms_register, container, false);
         setHeaderText(rootView);
 
-        schoolData = this.getArguments();
-        if (schoolData != null) {
-            roomBundleID.putInt(SchoolRegisterActivity.SCHOOL_ID, schoolData.getInt(SchoolRegisterActivity.SCHOOL_ID));
+        if (this.getArguments() != null) {
+            roomBundleID.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
             roomBundleID.putInt(ROOM_TYPE, chosenOption);
         }
-
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
-        modelEntry = new ViewModelEntry(requireActivity().getApplication());
-
-        manager = getChildFragmentManager();
 
         switch (chosenOption) {
             case 3:
@@ -222,6 +220,19 @@ public class RoomsRegisterFragment extends Fragment {
     }
 
     private void instantiateRoomViews(View view) {
+//        TextInputLayout
+        roomLocationField = view.findViewById(R.id.room_location_field);
+        obsVisualSignField = view.findViewById(R.id.visual_sign_obs_field);
+        obsTactileSignField = view.findViewById(R.id.tactile_sign_obs_field);
+        obsLooseCarpetField = view.findViewById(R.id.carpet_obs_field);
+        roomObsField = view.findViewById(R.id.room_obs_field);
+//        TextInputEditText
+        roomLocationValue = view.findViewById(R.id.room_location_value);
+        obsVisualSignValue = view.findViewById(R.id.visual_sign_obs_value);
+        obsTactileSignValue = view.findViewById(R.id.tactile_sign_obs_value);
+        obsLooseCarpetValue = view.findViewById(R.id.carpet_obs_value);
+        roomObsValue = view.findViewById(R.id.room_obs_value);
+//        MaterialButton
         cancelRoomRegister = view.findViewById(R.id.cancel_room);
         saveRoomRegister = view.findViewById(R.id.save_room);
         doorRegister = view.findViewById(R.id.room_add_door_button);
@@ -229,15 +240,16 @@ public class RoomsRegisterFragment extends Fragment {
         windowRegister = view.findViewById(R.id.room_add_window_button);
         tableRegister = view.findViewById(R.id.room_add_tables_button);
         freeSpaceRegister = view.findViewById(R.id.room_add_free_space_button);
+//        RadioGroup
+        hasVisualSignRadio = view.findViewById(R.id.room_has_visual_sign_radio);
+        hasTactileSignRadio = view.findViewById(R.id.room_has_tactile_sign_radio);
+        hasLooseCarpetRadio = view.findViewById(R.id.room_has_carpet_radio);
+//        ViewModel
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+//        FragmentManager
+        manager = getChildFragmentManager();
 
-        hasVisualSign = view.findViewById(R.id.room_has_visual_sign_radio);
-        hasTactileSign = view.findViewById(R.id.room_has_tactile_sign_radio);
-
-        obsVisualSignField = view.findViewById(R.id.visual_sign_obs_field);
-        obsTactileSignField = view.findViewById(R.id.tactile_sign_obs_field);
-
-        obsVisualSignValue = view.findViewById(R.id.visual_sign_obs_value);
-        obsTactileSignValue = view.findViewById(R.id.tactile_sign_obs_value);
     }
 
     private boolean scrollingField(View v, MotionEvent event) {
@@ -251,6 +263,8 @@ public class RoomsRegisterFragment extends Fragment {
     private void addObsFieldsToArray() {
         roomObsArray.add(obsVisualSignValue);
         roomObsArray.add(obsTactileSignValue);
+        roomObsArray.add(obsLooseCarpetValue);
+        roomObsArray.add(roomObsValue);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -320,32 +334,42 @@ public class RoomsRegisterFragment extends Fragment {
     }
 
     public void clearRoomFields() {
-        hasTactileSign.clearCheck();
-        hasVisualSign.clearCheck();
+        hasTactileSignRadio.clearCheck();
+        hasVisualSignRadio.clearCheck();
+        hasLooseCarpetRadio.clearCheck();
         obsTactileSignValue.setText(null);
         obsVisualSignValue.setText(null);
+        obsLooseCarpetValue.setText(null);
+        roomObsValue.setText(null);
     }
 
     public boolean checkEmptyRoomFields() {
         int i = 0;
-        if (hasVisualSign.getCheckedRadioButtonId() == -1) {
+        if (hasVisualSignRadio.getCheckedRadioButtonId() == -1) {
             i++;
         }
-        if (hasTactileSign.getCheckedRadioButtonId() == -1) {
+        if (hasTactileSignRadio.getCheckedRadioButtonId() == -1) {
             i++;
         }
         return i == 0;
     }
 
     public RoomEntry newRoomEntry(Bundle bundle) {
-        if (hasVisualSign.getCheckedRadioButtonId() != -1)
-            hasVisSign = getCheckedRadioButton(hasVisualSign);
+        roomLocation = String.valueOf(roomLocationValue.getText());
+        if (hasVisualSignRadio.getCheckedRadioButtonId() != -1)
+            hasVisSign = getCheckedRadioButton(hasVisualSignRadio);
         if (!TextUtils.isEmpty(obsVisualSignValue.getText()))
-            obsVisSign = Objects.requireNonNull(obsVisualSignValue.getText()).toString();
-        if (hasTactileSign.getCheckedRadioButtonId() != -1)
-            hasTactSign = getCheckedRadioButton(hasTactileSign);
+            obsVisSign = String.valueOf(obsVisualSignValue.getText());
+        if (hasTactileSignRadio.getCheckedRadioButtonId() != -1)
+            hasTactSign = getCheckedRadioButton(hasTactileSignRadio);
         if (!TextUtils.isEmpty(obsTactileSignValue.getText()))
-            obsTactSign = Objects.requireNonNull(obsTactileSignValue.getText()).toString();
+            obsTactSign = String.valueOf(obsTactileSignValue.getText());
+        if (hasLooseCarpetRadio.getCheckedRadioButtonId() != -1)
+            hasLooseCarpet = getCheckedRadioButton(hasLooseCarpetRadio);
+        if (!TextUtils.isEmpty(obsLooseCarpetValue.getText()))
+            obsLooseCarpet = String.valueOf(obsVisualSignValue.getText());
+        if (!TextUtils.isEmpty(roomObsValue.getText()))
+            obsRoom = String.valueOf(roomObsValue.getText());
 
         switch (chosenOption) {
             case 3:
@@ -353,26 +377,24 @@ public class RoomsRegisterFragment extends Fragment {
                 libPcrManeuverOK = bundle.getInt(LibraryFragment.MANEUVER_PCR, 0);
                 libAccessPcOK = bundle.getInt(LibraryFragment.COMPUTER_ACCESSIBLE, 0);
                 break;
-            case 10:
-                cafeSpinOK = bundle.getInt(CafeteriaFragment.CAFE_SPIN, 0);
-                break;
             case 11:
+//                TODO - Alterar para cadastro de quadros negros depois, será removido
                 classBoardHeight = bundle.getDouble(ClassroomFragment.BOARD_HEIGHT, 0.0);
                 break;
             case 15:
-                secFixedSeat = bundle.getInt(SecretariatFragment.FIXED_SEATS, 0);
+                secFixedSeat = bundle.getInt(SecretariatFragment.HAS_FIXED_SEATS, 0);
                 secHasPcrSpace = bundle.getInt(SecretariatFragment.HAS_PCR_SPACE, 0);
                 secWidthPcrSpace = bundle.getDouble(SecretariatFragment.PCR_WIDTH, 0.0);
                 secDepthPcrSpace = bundle.getDouble(SecretariatFragment.PCR_DEPTH, 0.0);
-                secSpinOK = bundle.getInt(SecretariatFragment.SECRETARIAT_SPIN, 0);
+                secObsPCRSpace = bundle.getString(SecretariatFragment.PCR_OBS, null);
                 break;
             default:
                 break;
         }
 
-        return new RoomEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), chosenOption, hasVisSign, obsVisSign, hasTactSign,
-                obsTactSign, libShelvesDistOK, libPcrManeuverOK, libAccessPcOK, cafeSpinOK, classBoardHeight, secFixedSeat,
-                secHasPcrSpace, secWidthPcrSpace, secDepthPcrSpace, secSpinOK);
+        return new RoomEntry(roomBundleID.getInt(SchoolRegisterActivity.SCHOOL_ID), chosenOption, roomLocation, hasVisSign,
+                obsVisSign, hasTactSign, obsTactSign, hasLooseCarpet, obsLooseCarpet, libShelvesDistOK, libPcrManeuverOK,
+                libAccessPcOK, secFixedSeat, secHasPcrSpace, secWidthPcrSpace, secDepthPcrSpace, secObsPCRSpace, obsRoom);
     }
 
     private void addDoorDialog() {
