@@ -50,7 +50,7 @@ import java.util.concurrent.Executors;
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class, RampStairsHandrailEntry.class,
-        RampStairsRailingEntry.class}, version = 27)
+        RampStairsRailingEntry.class}, version = 28)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -522,6 +522,70 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_27_28 = new Migration(27,28) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE SchoolEntry_Backup(cadID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolName TEXT, schoolAddress TEXT, " +
+                    "addressComplement TEXT, addressNumber TEXT, addressNeighborhood TEXT, nameCity TEXT, nameDistrict TEXT, contactPhone1 TEXT, contactPhone2 TEXT, " +
+                    "nameResponsibleVisit TEXT, nameInspectionTeam TEXT, hasMorningClasses INTEGER, morningStart TEXT, morningEnd TEXT, hasAfternoonClasses INTEGER, " +
+                    "afternoonStart TEXT, afternoonEnd TEXT, hasEveningClasses INTEGER, eveningStart TEXT, eveningEnd TEXT, workingHoursObs TEXT, hasNursery INTEGER, " +
+                    "hasDayCare INTEGER, hasMaternal INTEGER, maternalFirstGrade TEXT, maternalLastGrade TEXT, hasPreschool INTEGER, preschoolFirstGrade TEXT, " +
+                    "preschoolLastGrade TEXT, hasElementaryMiddle INTEGER, elementaryMiddleFirstGrade TEXT, elementaryMiddleLastGrade TEXT, hasHighSchool INTEGER, " +
+                    "highFirstGrade TEXT, highLastGrade TEXT, hasEja INTEGER, ejaFirstGrade TEXT, ejaLastGrade TEXT, servicesObs TEXT, youngestStudentAge INTEGER, " +
+                    "monthYearYoungest INTEGER, oldestStudentAge INTEGER, monthYearOldest INTEGER, numberStudents INTEGER, numberStudentsPCD INTEGER, " +
+                    "studentsPCDDescription TEXT, numberWorkers INTEGER, numberWorkersPCD INTEGER, workersPCDDescription TEXT, hasWorkersLibras INTEGER, " +
+                    "numberWorkersLibras INTEGER, workersLibrasDescriptions TEXT, initialDateInspection TEXT, finalDateInspection TEXT)");
+            database.execSQL("INSERT INTO SchoolEntry_Backup(cadID, schoolName, schoolAddress, addressComplement, addressNumber, addressNeighborhood, nameCity, " +
+                    "contactPhone1, contactPhone2, nameResponsibleVisit, nameInspectionTeam, hasMorningClasses, morningStart, morningEnd, hasAfternoonClasses, " +
+                    "afternoonStart, afternoonEnd, hasEveningClasses, eveningStart, eveningEnd, workingHoursObs, hasMaternal, maternalFirstGrade, maternalLastGrade, " +
+                    "hasPreschool, preschoolFirstGrade, preschoolLastGrade, hasHighSchool, highFirstGrade, highLastGrade, hasEja, ejaFirstGrade, ejaLastGrade, servicesObs, " +
+                    "numberStudents, numberStudentsPCD, studentsPCDDescription, numberWorkers, numberWorkersPCD, workersPCDDescription, numberWorkersLibras, " +
+                    "initialDateInspection, finalDateInspection) SELECT cadID, schoolName, schoolAddress, addressComplement, addressNumber, addressNeighborhood, nameCity, " +
+                    "contactPhone1, contactPhone2, nameResponsibleVisit, nameInspectionTeam, hasMorningClasses, morningStart, morningEnd, hasAfternoonClasses, afternoonStart, " +
+                    "afternoonEnd, hasEveningClasses, eveningStart, eveningEnd, workingHoursObs, hasMaternal, maternalFirstGrade, maternalLastGrade, hasPreschool, " +
+                    "preschoolFirstGrade, preschoolLastGrade, hasHighSchool, highFirstGrade, highLastGrade, hasEja, ejaFirstGrade, ejaLastGrade, servicesObs, numberStudents, " +
+                    "numberStudentsPCD, studentsPcdDescription, numberWorkers, numberWorkersPcd, workersPcdDescription, numberWorkersLibras, dateInspection, " +
+                    "dateInspectionEnd FROM SchoolEntry");
+            database.execSQL("DROP TABLE SchoolEntry");
+            database.execSQL("ALTER TABLE SchoolEntry_Backup RENAME TO SchoolEntry");
+
+            database.execSQL("CREATE TABLE WaterFountainEntry_Backup(waterFountainID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolEntryID INTEGER NOT NULL, " +
+                    "fountainLocation TEXT, typeWaterFountain INTEGER, otherAllowSideApproximation INTEGER, otherFaucetHeight REAL, otherHasCupHolder INTEGER, " +
+                    "otherCupHolderHeight REAL, hasSpoutsDifferentHeights INTEGER, highestSpoutHeight REAL, lowestSpoutHeight REAL, spoutAllowFrontalApproximation INTEGER, " +
+                    "frontalApproxLowestSpout REAL, fountainObs TEXT, FOREIGN KEY (schoolEntryID) REFERENCES SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO WaterFountainEntry_Backup (waterFountainID, schoolEntryID, typeWaterFountain, otherAllowSideApproximation, otherFaucetHeight, " +
+                    "otherHasCupHolder, otherCupHolderHeight, highestSpoutHeight, lowestSpoutHeight, spoutAllowFrontalApproximation, frontalApproxLowestSpout) " +
+                    "SELECT waterFountainID, schoolEntryID, typeWaterFountain, otherAllowSideApproximation, otherFaucetHeight, otherHasCupHolder, otherCupHolderHeight, " +
+                    "highestSpoutHeight, lowestSpoutHeight, spoutAllowFrontalApproximation, freeSpaceLowestSpout FROM WaterFountainEntry");
+            database.execSQL("DROP TABLE WaterFountainEntry");
+            database.execSQL("ALTER TABLE WaterFountainEntry_Backup RENAME TO WaterFountainEntry");
+
+            database.execSQL("CREATE TABLE RoomEntry_backup (roomID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolEntryID INTEGER NOT NULL, roomType INTEGER NOT NULL, " +
+                    "roomLocation TEXT, roomHasVisualVertSing INTEGER, roomObsVisualVertSign TEXT, roomHasTactileSing INTEGER, roomObsTactileSign TEXT, " +
+                    "roomHasLooseCarpet INTEGER, looseCarpetObs TEXT, libraryDistanceShelvesOK INTEGER, libraryPcrManeuversOK INTEGER, libraryAccessiblePcOK INTEGER, " +
+                    "secretHasFixedSeats INTEGER, secretHasPcrSpace INTEGER, secretWidthPcrSpace REAL, secretLengthPcrSpace REAL, secretPCRSpaceObs TEXT, roomObs TEXT, " +
+                    "FOREIGN KEY (schoolEntryID) REFERENCES SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO RoomEntry_backup (roomID, schoolEntryID, roomType, roomHasVisualVertSing, roomObsVisualVertSign, roomHasTactileSing, " +
+                    "roomObsTactileSign, libraryDistanceShelvesOK, libraryPcrManeuversOK, libraryAccessiblePcOK, secretHasFixedSeats, secretHasPcrSpace, " +
+                    "secretWidthPcrSpace, secretLengthPcrSpace) SELECT roomID, schoolEntryID, roomType, roomHasVisualVertSing, roomObsVisualVertSign, roomHasTactileSing, " +
+                    "roomObsTactileSign, libraryDistanceShelvesOK, libraryPcrManeuversOK, libraryAccessiblePcOK, secretFixedSeats, secretHasPcrSpace, secretWidthPcrSpace, " +
+                    "secretLengthPcrSpace FROM RoomEntry");
+            database.execSQL("DROP TABLE RoomEntry");
+            database.execSQL("ALTER TABLE RoomEntry_backup RENAME TO RoomEntry");
+
+            database.execSQL("CREATE TABLE SidewalkEntry_backup (sidewalkID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolEntryID INTEGER NOT NULL, " +
+                    "sidewalkLocation TEXT, sidewalkConservationStatus INTEGER, sidewalkConservationObs TEXT, widthSidewalk REAL, sidewalkHasTactileFloor INTEGER, " +
+                    "tactileFloorConservationStatus INTEGER, tactileFloorObs TEXT, sidewalkHasSlope INTEGER, sidewalkObs TEXT, FOREIGN KEY (schoolEntryID) " +
+                    "REFERENCES SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO SidewalkEntry_backup (sidewalkID, schoolEntryID, sidewalkLocation, sidewalkConservationObs, widthSidewalk, " +
+                    "sidewalkHasTactileFloor, tactileFloorConservationStatus, tactileFloorObs,sidewalkHasSlope, sidewalkObs) SELECT sidewalkID, schoolEntryID, " +
+                    "sidewalkLocation, sidewalkConservationStatus, widthSidewalk, sidewalkHasTactileFloor, tactileFloorConservationStatus, tactileFloorObs, sidewalkHasSlope, " +
+                    "sidewalkObs FROM SidewalkEntry");
+            database.execSQL("DROP TABLE SidewalkEntry");
+            database.execSQL("ALTER TABLE SidewalkEntry_backup RENAME TO SidewalkEntry");
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ReportDatabase.class) {
@@ -531,7 +595,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12,
                                     MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17, MIGRATION_17_18,
                                     MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23, MIGRATION_23_24,
-                                    MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27).build();
+                                    MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27, MIGRATION_27_28).build();
                 }
             }
         }
