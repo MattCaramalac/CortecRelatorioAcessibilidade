@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
@@ -27,14 +29,16 @@ public class WaterFountainFragment extends Fragment {
 
     public static final String FOUNTAIN_ID = "FOUNTAIN_ID";
 
-    ViewModelFragments modelFragments;
-    ViewModelEntry modelEntry;
-
-    Bundle waterFountainBundle = new Bundle();
-
+    TextInputLayout fountainLocationField;
+    TextInputEditText fountainLocationValue;
     RadioGroup typeWaterFountain;
     TextView typeWaterFountainError;
     Button cancelWaterFountain, saveWaterFountain;
+
+    Bundle waterFountainBundle = new Bundle();
+
+    ViewModelFragments modelFragments;
+    ViewModelEntry modelEntry;
 
     public WaterFountainFragment() {
         // Required empty public constructor
@@ -104,16 +108,20 @@ public class WaterFountainFragment extends Fragment {
     }
 
     private void instantiateFountainViews(View view) {
+//        TextInputLayout
+        fountainLocationField = view.findViewById(R.id.water_fountain_location_field);
+//        TextInputEditText
+        fountainLocationValue = view.findViewById(R.id.water_fountain_location_value);
+//        RadioGroup
         typeWaterFountain = view.findViewById(R.id.fountain_type_radio);
-
+//        TextView
         typeWaterFountainError = view.findViewById(R.id.water_fountain_type_error);
-
+//        MaterialButtons
         cancelWaterFountain = view.findViewById(R.id.cancel_waterfountain);
         saveWaterFountain = view.findViewById(R.id.save_waterfountain);
-
+//        ViewModels
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
-
     }
 
     public void typeFountainListener(RadioGroup group, int checkedID) {
@@ -133,12 +141,16 @@ public class WaterFountainFragment extends Fragment {
 
     private void gatherFountainInfo(WaterFountainEntry waterFountain) {
         Bundle fountainFrag = new Bundle();
+        fountainLocationValue.setText(waterFountain.getFountainLocation());
         typeWaterFountain.check(typeWaterFountain.getChildAt(waterFountain.getTypeWaterFountain()).getId());
         if (waterFountain.getTypeWaterFountain() == 0) {
-            fountainFrag.putInt(WaterFountainSpoutFragment.ALLOW_FRONTAL, waterFountain.getSpoutAllowFrontalApproximation());
+            if (waterFountain.getHasSpoutsDifferentHeights() != null) {
+                fountainFrag.putInt(WaterFountainSpoutFragment.HAS_DIFFERENT_HEIGHTS, waterFountain.getHasSpoutsDifferentHeights());
+                fountainFrag.putDouble(WaterFountainSpoutFragment.LOWEST_SPOUT, waterFountain.getLowestSpoutHeight());
+            }
             fountainFrag.putDouble(WaterFountainSpoutFragment.HIGHEST_SPOUT, waterFountain.getHighestSpoutHeight());
-            fountainFrag.putDouble(WaterFountainSpoutFragment.LOWEST_SPOUT, waterFountain.getLowestSpoutHeight());
-            fountainFrag.putDouble(WaterFountainSpoutFragment.FREE_SPACE_SPOUT, waterFountain.getFreeSpaceLowestSpout());
+            fountainFrag.putInt(WaterFountainSpoutFragment.ALLOW_FRONTAL, waterFountain.getSpoutAllowFrontalApproximation());
+            fountainFrag.putDouble(WaterFountainSpoutFragment.FRONTAL_APPROX_SPOUT, waterFountain.getFrontalApproxLowestSpout());
             fountainFrag.putString(WaterFountainSpoutFragment.SPOUT_FOUNTAIN_OBS, waterFountain.getFountainObs());
         } else {
             fountainFrag.putInt(WaterFountainOtherFragment.ALLOW_LATERAL, waterFountain.getOtherAllowSideApproximation());
@@ -172,16 +184,18 @@ public class WaterFountainFragment extends Fragment {
 
     public WaterFountainEntry createFountain(Bundle bundle) {
         int choice = getCheckedFountainType(typeWaterFountain);
+        String fountainLocation = String.valueOf(fountainLocationValue.getText());
         if (choice == 0) {
-            return new WaterFountainEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), choice, null,
-                    null, null, null, bundle.getInt(WaterFountainSpoutFragment.ALLOW_FRONTAL),
+            return new WaterFountainEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), fountainLocation, choice, null,
+                    null, null, null, bundle.getInt(WaterFountainSpoutFragment.HAS_DIFFERENT_HEIGHTS),
                     bundle.getDouble(WaterFountainSpoutFragment.HIGHEST_SPOUT), bundle.getDouble(WaterFountainSpoutFragment.LOWEST_SPOUT),
-                    bundle.getDouble(WaterFountainSpoutFragment.FREE_SPACE_SPOUT), bundle.getString(WaterFountainSpoutFragment.SPOUT_FOUNTAIN_OBS));
+                    bundle.getInt(WaterFountainSpoutFragment.ALLOW_FRONTAL), bundle.getDouble(WaterFountainSpoutFragment.FRONTAL_APPROX_SPOUT),
+                    bundle.getString(WaterFountainSpoutFragment.SPOUT_FOUNTAIN_OBS));
         } else {
-            return new WaterFountainEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), choice,
+            return new WaterFountainEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), fountainLocation, choice,
                     bundle.getInt(WaterFountainOtherFragment.ALLOW_LATERAL), bundle.getDouble(WaterFountainOtherFragment.FAUCET_HEIGHT),
                     bundle.getInt(WaterFountainOtherFragment.HAS_CUP_HOLDER), bundle.getDouble(WaterFountainOtherFragment.CUP_HOLDER_HEIGHT),
-                    null, null, null, null,
+                    null, null, null, null, null,
                     bundle.getString(WaterFountainOtherFragment.OTHER_FOUNTAIN_OBS));
         }
     }

@@ -1,6 +1,5 @@
 package com.mpms.relatorioacessibilidadecortec.entities;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -12,10 +11,9 @@ import static androidx.room.ForeignKey.CASCADE;
 public class WaterFountainEntry {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer waterFountainID;
-    @NonNull
-    private Integer schoolEntryID;
-    @NonNull
+    private int waterFountainID;
+    private int schoolEntryID;
+    private String fountainLocation;
     private Integer typeWaterFountain;
 
     private Integer otherAllowSideApproximation;
@@ -23,54 +21,62 @@ public class WaterFountainEntry {
     private Integer otherHasCupHolder;
     private Double otherCupHolderHeight;
 
-    private Integer spoutAllowFrontalApproximation;
+    private Integer hasSpoutsDifferentHeights;
     private Double highestSpoutHeight;
     private Double lowestSpoutHeight;
-    private Double freeSpaceLowestSpout;
+    private Integer spoutAllowFrontalApproximation;
+    private Double frontalApproxLowestSpout;
 
     private String fountainObs;
 
-    public WaterFountainEntry(@NonNull Integer schoolEntryID, @NonNull Integer typeWaterFountain, Integer otherAllowSideApproximation,
-                              Double otherFaucetHeight, Integer otherHasCupHolder, Double otherCupHolderHeight,
-                              Integer spoutAllowFrontalApproximation, Double highestSpoutHeight, Double lowestSpoutHeight,
-                              Double freeSpaceLowestSpout, String fountainObs) {
+    public WaterFountainEntry(int schoolEntryID, String fountainLocation, Integer typeWaterFountain, Integer otherAllowSideApproximation,
+                              Double otherFaucetHeight, Integer otherHasCupHolder, Double otherCupHolderHeight, Integer hasSpoutsDifferentHeights,
+                              Double highestSpoutHeight, Double lowestSpoutHeight, Integer spoutAllowFrontalApproximation,
+                              Double frontalApproxLowestSpout, String fountainObs) {
         this.schoolEntryID = schoolEntryID;
+        this.fountainLocation = fountainLocation;
         this.typeWaterFountain = typeWaterFountain;
         this.otherAllowSideApproximation = otherAllowSideApproximation;
         this.otherFaucetHeight = otherFaucetHeight;
         this.otherHasCupHolder = otherHasCupHolder;
         this.otherCupHolderHeight = otherCupHolderHeight;
-        this.spoutAllowFrontalApproximation = spoutAllowFrontalApproximation;
+        this.hasSpoutsDifferentHeights = hasSpoutsDifferentHeights;
         this.highestSpoutHeight = highestSpoutHeight;
         this.lowestSpoutHeight = lowestSpoutHeight;
-        this.freeSpaceLowestSpout = freeSpaceLowestSpout;
+        this.spoutAllowFrontalApproximation = spoutAllowFrontalApproximation;
+        this.frontalApproxLowestSpout = frontalApproxLowestSpout;
         this.fountainObs = fountainObs;
     }
 
-    @NonNull
-    public Integer getWaterFountainID() {
+    public int getWaterFountainID() {
         return waterFountainID;
     }
 
-    public void setWaterFountainID(@NonNull Integer waterFountainID) {
+    public void setWaterFountainID(int waterFountainID) {
         this.waterFountainID = waterFountainID;
     }
 
-    @NonNull
-    public Integer getSchoolEntryID() {
+    public int getSchoolEntryID() {
         return schoolEntryID;
     }
 
-    public void setSchoolEntryID(@NonNull Integer schoolEntryID) {
+    public void setSchoolEntryID(int schoolEntryID) {
         this.schoolEntryID = schoolEntryID;
     }
 
-    @NonNull
+    public String getFountainLocation() {
+        return fountainLocation;
+    }
+
+    public void setFountainLocation(String fountainLocation) {
+        this.fountainLocation = fountainLocation;
+    }
+
     public Integer getTypeWaterFountain() {
         return typeWaterFountain;
     }
 
-    public void setTypeWaterFountain(@NonNull Integer typeWaterFountain) {
+    public void setTypeWaterFountain(Integer typeWaterFountain) {
         this.typeWaterFountain = typeWaterFountain;
     }
 
@@ -106,12 +112,12 @@ public class WaterFountainEntry {
         this.otherCupHolderHeight = otherCupHolderHeight;
     }
 
-    public Integer getSpoutAllowFrontalApproximation() {
-        return spoutAllowFrontalApproximation;
+    public Integer getHasSpoutsDifferentHeights() {
+        return hasSpoutsDifferentHeights;
     }
 
-    public void setSpoutAllowFrontalApproximation(Integer spoutAllowFrontalApproximation) {
-        this.spoutAllowFrontalApproximation = spoutAllowFrontalApproximation;
+    public void setHasSpoutsDifferentHeights(Integer hasSpoutsDifferentHeights) {
+        this.hasSpoutsDifferentHeights = hasSpoutsDifferentHeights;
     }
 
     public Double getHighestSpoutHeight() {
@@ -130,12 +136,20 @@ public class WaterFountainEntry {
         this.lowestSpoutHeight = lowestSpoutHeight;
     }
 
-    public Double getFreeSpaceLowestSpout() {
-        return freeSpaceLowestSpout;
+    public Integer getSpoutAllowFrontalApproximation() {
+        return spoutAllowFrontalApproximation;
     }
 
-    public void setFreeSpaceLowestSpout(Double freeSpaceLowestSpout) {
-        this.freeSpaceLowestSpout = freeSpaceLowestSpout;
+    public void setSpoutAllowFrontalApproximation(Integer spoutAllowFrontalApproximation) {
+        this.spoutAllowFrontalApproximation = spoutAllowFrontalApproximation;
+    }
+
+    public Double getFrontalApproxLowestSpout() {
+        return frontalApproxLowestSpout;
+    }
+
+    public void setFrontalApproxLowestSpout(Double frontalApproxLowestSpout) {
+        this.frontalApproxLowestSpout = frontalApproxLowestSpout;
     }
 
     public String getFountainObs() {
