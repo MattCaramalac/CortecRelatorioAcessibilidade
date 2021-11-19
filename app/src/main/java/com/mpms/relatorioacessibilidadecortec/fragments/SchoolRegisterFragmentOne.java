@@ -24,11 +24,11 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 public class SchoolRegisterFragmentOne extends Fragment {
 
     TextInputLayout schoolNameField, addressStreetField, addressComplementField, addressNumberField, addressNeighborhoodField,
-            addressCityField, principalNameField, contactPhoneOneField, contactPhoneTwoField, responsibleField, inspectionTeamField;
+            addressCityField, schoolDistrictField, contactPhoneOneField, contactPhoneTwoField, responsibleField, inspectionTeamField;
     TextInputEditText schoolNameValue, addressStreetValue, addressComplementValue, addressNumberValue, addressNeighborhoodValue,
-            addressCityValue, principalNameValue, contactPhoneOneValue, contactPhoneTwoValue, responsibleValue, inspectionTeamValue;
+            addressCityValue, schoolDistrictValue, contactPhoneOneValue, contactPhoneTwoValue, responsibleValue, inspectionTeamValue;
 
-    String schoolName, addressStreet, addressComplement, addressNumber, addressNeighborhood, addressCity, principalName,
+    String schoolName, addressStreet, addressComplement, addressNumber, addressNeighborhood, addressCity, districtName,
             contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam;
 
     ViewModelEntry modelEntry;
@@ -92,7 +92,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
         addressNumberField = view.findViewById(R.id.address_number_field);
         addressNeighborhoodField = view.findViewById(R.id.address_neighborhood_field);
         addressCityField = view.findViewById(R.id.address_city_field);
-        principalNameField = view.findViewById(R.id.name_principal_field);
+        schoolDistrictField = view.findViewById(R.id.school_district_field);
         contactPhoneOneField = view.findViewById(R.id.first_telephone_number_field);
         contactPhoneTwoField = view.findViewById(R.id.second_telephone_number_field);
         responsibleField = view.findViewById(R.id.name_responsible_field);
@@ -104,7 +104,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
         addressNumberValue = view.findViewById(R.id.address_number_value);
         addressNeighborhoodValue = view.findViewById(R.id.address_neighborhood_value);
         addressCityValue = view.findViewById(R.id.address_city_value);
-        principalNameValue = view.findViewById(R.id.name_principal_value);
+        schoolDistrictValue = view.findViewById(R.id.school_district_value);
         contactPhoneOneValue = view.findViewById(R.id.first_telephone_number_value);
         contactPhoneTwoValue = view.findViewById(R.id.second_telephone_number_value);
         responsibleValue = view.findViewById(R.id.name_responsible_value);
@@ -155,7 +155,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
         addressNumberValue.setText(school.getAddressNumber());
         addressNeighborhoodValue.setText(school.getAddressNeighborhood());
         addressCityValue.setText(school.getNameCity());
-        principalNameValue.setText(school.getNameDirector());
+        schoolDistrictValue.setText(school.getNameDistrict());
         contactPhoneOneValue.setText(school.getContactPhone1());
         contactPhoneTwoValue.setText(school.getContactPhone2());
         responsibleValue.setText(school.getNameResponsibleVisit());
@@ -185,10 +185,6 @@ public class SchoolRegisterFragmentOne extends Fragment {
             i++;
             addressCityField.setError(getString(R.string.blank_field_error));
         }
-        if (TextUtils.isEmpty(principalNameValue.getText())) {
-            i++;
-            principalNameField.setError(getString(R.string.blank_field_error));
-        }
         if (TextUtils.isEmpty(contactPhoneOneValue.getText())) {
             i++;
             contactPhoneOneField.setError(getString(R.string.blank_field_error));
@@ -210,7 +206,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
         addressNumberField.setErrorEnabled(false);
         addressNeighborhoodField.setErrorEnabled(false);
         addressCityField.setErrorEnabled(false);
-        principalNameField.setErrorEnabled(false);
+        schoolDistrictField.setErrorEnabled(false);
         contactPhoneOneField.setErrorEnabled(false);
         responsibleField.setErrorEnabled(false);
         inspectionTeamField.setErrorEnabled(false);
@@ -223,19 +219,20 @@ public class SchoolRegisterFragmentOne extends Fragment {
         addressNumber = String.valueOf(addressNumberValue.getText());
         addressNeighborhood = String.valueOf(addressNeighborhoodValue.getText());
         addressCity = String.valueOf(addressCityValue.getText());
-        principalName = String.valueOf(principalNameValue.getText());
+        districtName = String.valueOf(schoolDistrictValue.getText());
         contactPhoneOne = String.valueOf(contactPhoneOneValue.getText());
         contactPhoneTwo = String.valueOf(contactPhoneTwoValue.getText());
         responsible = String.valueOf(responsibleValue.getText());
         inspectionTeam = String.valueOf(inspectionTeamValue.getText());
 
-        return new SchoolEntry(schoolName, addressStreet, addressComplement, addressNumber, addressNeighborhood, addressCity, principalName,
+        return new SchoolEntry(schoolName, addressStreet, addressComplement, addressNumber, addressNeighborhood, addressCity, districtName,
                 contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, null,
+                null, null);
     }
 
     private SchoolRegisterOne updateRegisterOne(Bundle bundle) {
@@ -245,14 +242,14 @@ public class SchoolRegisterFragmentOne extends Fragment {
         addressNumber = String.valueOf(addressNumberValue.getText());
         addressNeighborhood = String.valueOf(addressNeighborhoodValue.getText());
         addressCity = String.valueOf(addressCityValue.getText());
-        principalName = String.valueOf(principalNameValue.getText());
+        districtName = String.valueOf(schoolDistrictValue.getText());
         contactPhoneOne = String.valueOf(contactPhoneOneValue.getText());
         contactPhoneTwo = String.valueOf(contactPhoneTwoValue.getText());
         responsible = String.valueOf(responsibleValue.getText());
         inspectionTeam = String.valueOf(inspectionTeamValue.getText());
 
         return new SchoolRegisterOne(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), schoolName, addressStreet, addressComplement, addressNumber,
-                addressNeighborhood, addressCity, principalName, contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam);
+                addressNeighborhood, addressCity, districtName, contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam);
     }
 
 

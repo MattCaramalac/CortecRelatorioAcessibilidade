@@ -7,14 +7,14 @@ import androidx.room.PrimaryKey;
 public class SchoolEntry {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer cadID;
+    private int cadID;
     private String schoolName;
     private String schoolAddress;
     private String addressComplement;
     private String addressNumber;
     private String addressNeighborhood;
     private String nameCity;
-    private String nameDirector;
+    private String nameDistrict;
     private String contactPhone1;
     private String contactPhone2;
     private String nameResponsibleVisit;
@@ -29,18 +29,17 @@ public class SchoolEntry {
     private String eveningStart;
     private String eveningEnd;
     private String workingHoursObs;
+    private Integer hasNursery;
+    private Integer hasDayCare;
     private Integer hasMaternal;
     private String maternalFirstGrade;
     private String maternalLastGrade;
     private Integer hasPreschool;
     private String preschoolFirstGrade;
     private String preschoolLastGrade;
-    private Integer hasElementarySchool;
-    private String elementaryFirstGrade;
-    private String elementaryLastGrade;
-    private Integer hasMiddleSchool;
-    private String middleFirstGrade;
-    private String middleLastGrade;
+    private Integer hasElementaryMiddle;
+    private String elementaryMiddleFirstGrade;
+    private String elementaryMiddleLastGrade;
     private Integer hasHighSchool;
     private String highFirstGrade;
     private String highLastGrade;
@@ -48,36 +47,40 @@ public class SchoolEntry {
     private String ejaFirstGrade;
     private String ejaLastGrade;
     private String servicesObs;
-    private Integer youngestStudent;
-    private Integer oldestStudent;
+    private Integer youngestStudentAge;
+    private Integer monthYearYoungest;
+    private Integer oldestStudentAge;
+    private Integer monthYearOldest;
     private Integer numberStudents;
-    private Integer numberStudentsPcd;
-    private String studentsPcdDescription;
+    private Integer numberStudentsPCD;
+    private String studentsPCDDescription;
     private Integer numberWorkers;
+    private Integer numberWorkersPCD;
+    private String workersPCDDescription;
+    private Integer hasWorkersLibras;
     private Integer numberWorkersLibras;
-    private Integer numberWorkersPcd;
-    private String workersPcdDescription;
-    private String dateInspection;
-    private String dateInspectionEnd;
+    private String workersLibrasDescriptions;
+    private String initialDateInspection;
+    private String finalDateInspection;
 
     public SchoolEntry(String schoolName, String schoolAddress, String addressComplement, String addressNumber, String addressNeighborhood,
-                       String nameCity, String nameDirector, String contactPhone1, String contactPhone2, String nameResponsibleVisit,
+                       String nameCity, String nameDistrict, String contactPhone1, String contactPhone2, String nameResponsibleVisit,
                        String nameInspectionTeam, Integer hasMorningClasses, String morningStart, String morningEnd, Integer hasAfternoonClasses,
-                       String afternoonStart, String afternoonEnd, Integer hasEveningClasses, String eveningStart, String eveningEnd,
-                       String workingHoursObs, Integer hasMaternal, String maternalFirstGrade, String maternalLastGrade, Integer hasPreschool,
-                       String preschoolFirstGrade, String preschoolLastGrade, Integer hasElementarySchool, String elementaryFirstGrade,
-                       String elementaryLastGrade, Integer hasMiddleSchool, String middleFirstGrade, String middleLastGrade, Integer hasHighSchool,
-                       String highFirstGrade, String highLastGrade, Integer hasEja, String ejaFirstGrade, String ejaLastGrade, String servicesObs,
-                       Integer youngestStudent, Integer oldestStudent, Integer numberStudents, Integer numberStudentsPcd, String studentsPcdDescription,
-                       Integer numberWorkers, Integer numberWorkersLibras, Integer numberWorkersPcd, String workersPcdDescription, String dateInspection,
-                       String dateInspectionEnd) {
+                       String afternoonStart, String afternoonEnd, Integer hasEveningClasses, String eveningStart, String eveningEnd, String workingHoursObs,
+                       Integer hasNursery, Integer hasDayCare, Integer hasMaternal, String maternalFirstGrade, String maternalLastGrade, Integer hasPreschool,
+                       String preschoolFirstGrade, String preschoolLastGrade, Integer hasElementaryMiddle, String elementaryMiddleFirstGrade,
+                       String elementaryMiddleLastGrade, Integer hasHighSchool, String highFirstGrade, String highLastGrade, Integer hasEja, String ejaFirstGrade,
+                       String ejaLastGrade, String servicesObs, Integer youngestStudentAge, Integer monthYearYoungest, Integer oldestStudentAge, Integer monthYearOldest,
+                       Integer numberStudents, Integer numberStudentsPCD, String studentsPCDDescription, Integer numberWorkers, Integer numberWorkersPCD,
+                       String workersPCDDescription, Integer hasWorkersLibras, Integer numberWorkersLibras, String workersLibrasDescriptions,
+                       String initialDateInspection, String finalDateInspection) {
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
         this.addressComplement = addressComplement;
         this.addressNumber = addressNumber;
         this.addressNeighborhood = addressNeighborhood;
         this.nameCity = nameCity;
-        this.nameDirector = nameDirector;
+        this.nameDistrict = nameDistrict;
         this.contactPhone1 = contactPhone1;
         this.contactPhone2 = contactPhone2;
         this.nameResponsibleVisit = nameResponsibleVisit;
@@ -92,18 +95,17 @@ public class SchoolEntry {
         this.eveningStart = eveningStart;
         this.eveningEnd = eveningEnd;
         this.workingHoursObs = workingHoursObs;
+        this.hasNursery = hasNursery;
+        this.hasDayCare = hasDayCare;
         this.hasMaternal = hasMaternal;
         this.maternalFirstGrade = maternalFirstGrade;
         this.maternalLastGrade = maternalLastGrade;
         this.hasPreschool = hasPreschool;
         this.preschoolFirstGrade = preschoolFirstGrade;
         this.preschoolLastGrade = preschoolLastGrade;
-        this.hasElementarySchool = hasElementarySchool;
-        this.elementaryFirstGrade = elementaryFirstGrade;
-        this.elementaryLastGrade = elementaryLastGrade;
-        this.hasMiddleSchool = hasMiddleSchool;
-        this.middleFirstGrade = middleFirstGrade;
-        this.middleLastGrade = middleLastGrade;
+        this.hasElementaryMiddle = hasElementaryMiddle;
+        this.elementaryMiddleFirstGrade = elementaryMiddleFirstGrade;
+        this.elementaryMiddleLastGrade = elementaryMiddleLastGrade;
         this.hasHighSchool = hasHighSchool;
         this.highFirstGrade = highFirstGrade;
         this.highLastGrade = highLastGrade;
@@ -111,24 +113,28 @@ public class SchoolEntry {
         this.ejaFirstGrade = ejaFirstGrade;
         this.ejaLastGrade = ejaLastGrade;
         this.servicesObs = servicesObs;
-        this.youngestStudent = youngestStudent;
-        this.oldestStudent = oldestStudent;
+        this.youngestStudentAge = youngestStudentAge;
+        this.monthYearYoungest = monthYearYoungest;
+        this.oldestStudentAge = oldestStudentAge;
+        this.monthYearOldest = monthYearOldest;
         this.numberStudents = numberStudents;
-        this.numberStudentsPcd = numberStudentsPcd;
-        this.studentsPcdDescription = studentsPcdDescription;
+        this.numberStudentsPCD = numberStudentsPCD;
+        this.studentsPCDDescription = studentsPCDDescription;
         this.numberWorkers = numberWorkers;
+        this.numberWorkersPCD = numberWorkersPCD;
+        this.workersPCDDescription = workersPCDDescription;
+        this.hasWorkersLibras = hasWorkersLibras;
         this.numberWorkersLibras = numberWorkersLibras;
-        this.numberWorkersPcd = numberWorkersPcd;
-        this.workersPcdDescription = workersPcdDescription;
-        this.dateInspection = dateInspection;
-        this.dateInspectionEnd = dateInspectionEnd;
+        this.workersLibrasDescriptions = workersLibrasDescriptions;
+        this.initialDateInspection = initialDateInspection;
+        this.finalDateInspection = finalDateInspection;
     }
 
-    public Integer getCadID() {
+    public int getCadID() {
         return cadID;
     }
 
-    public void setCadID(Integer cadID) {
+    public void setCadID(int cadID) {
         this.cadID = cadID;
     }
 
@@ -180,12 +186,12 @@ public class SchoolEntry {
         this.nameCity = nameCity;
     }
 
-    public String getNameDirector() {
-        return nameDirector;
+    public String getNameDistrict() {
+        return nameDistrict;
     }
 
-    public void setNameDirector(String nameDirector) {
-        this.nameDirector = nameDirector;
+    public void setNameDistrict(String nameDistrict) {
+        this.nameDistrict = nameDistrict;
     }
 
     public String getContactPhone1() {
@@ -300,6 +306,22 @@ public class SchoolEntry {
         this.workingHoursObs = workingHoursObs;
     }
 
+    public Integer getHasNursery() {
+        return hasNursery;
+    }
+
+    public void setHasNursery(Integer hasNursery) {
+        this.hasNursery = hasNursery;
+    }
+
+    public Integer getHasDayCare() {
+        return hasDayCare;
+    }
+
+    public void setHasDayCare(Integer hasDayCare) {
+        this.hasDayCare = hasDayCare;
+    }
+
     public Integer getHasMaternal() {
         return hasMaternal;
     }
@@ -348,52 +370,28 @@ public class SchoolEntry {
         this.preschoolLastGrade = preschoolLastGrade;
     }
 
-    public Integer getHasElementarySchool() {
-        return hasElementarySchool;
+    public Integer getHasElementaryMiddle() {
+        return hasElementaryMiddle;
     }
 
-    public void setHasElementarySchool(Integer hasElementarySchool) {
-        this.hasElementarySchool = hasElementarySchool;
+    public void setHasElementaryMiddle(Integer hasElementaryMiddle) {
+        this.hasElementaryMiddle = hasElementaryMiddle;
     }
 
-    public String getElementaryFirstGrade() {
-        return elementaryFirstGrade;
+    public String getElementaryMiddleFirstGrade() {
+        return elementaryMiddleFirstGrade;
     }
 
-    public void setElementaryFirstGrade(String elementaryFirstGrade) {
-        this.elementaryFirstGrade = elementaryFirstGrade;
+    public void setElementaryMiddleFirstGrade(String elementaryMiddleFirstGrade) {
+        this.elementaryMiddleFirstGrade = elementaryMiddleFirstGrade;
     }
 
-    public String getElementaryLastGrade() {
-        return elementaryLastGrade;
+    public String getElementaryMiddleLastGrade() {
+        return elementaryMiddleLastGrade;
     }
 
-    public void setElementaryLastGrade(String elementaryLastGrade) {
-        this.elementaryLastGrade = elementaryLastGrade;
-    }
-
-    public Integer getHasMiddleSchool() {
-        return hasMiddleSchool;
-    }
-
-    public void setHasMiddleSchool(Integer hasMiddleSchool) {
-        this.hasMiddleSchool = hasMiddleSchool;
-    }
-
-    public String getMiddleFirstGrade() {
-        return middleFirstGrade;
-    }
-
-    public void setMiddleFirstGrade(String middleFirstGrade) {
-        this.middleFirstGrade = middleFirstGrade;
-    }
-
-    public String getMiddleLastGrade() {
-        return middleLastGrade;
-    }
-
-    public void setMiddleLastGrade(String middleLastGrade) {
-        this.middleLastGrade = middleLastGrade;
+    public void setElementaryMiddleLastGrade(String elementaryMiddleLastGrade) {
+        this.elementaryMiddleLastGrade = elementaryMiddleLastGrade;
     }
 
     public Integer getHasHighSchool() {
@@ -452,20 +450,36 @@ public class SchoolEntry {
         this.servicesObs = servicesObs;
     }
 
-    public Integer getYoungestStudent() {
-        return youngestStudent;
+    public Integer getYoungestStudentAge() {
+        return youngestStudentAge;
     }
 
-    public void setYoungestStudent(Integer youngestStudent) {
-        this.youngestStudent = youngestStudent;
+    public void setYoungestStudentAge(Integer youngestStudentAge) {
+        this.youngestStudentAge = youngestStudentAge;
     }
 
-    public Integer getOldestStudent() {
-        return oldestStudent;
+    public Integer getMonthYearYoungest() {
+        return monthYearYoungest;
     }
 
-    public void setOldestStudent(Integer oldestStudent) {
-        this.oldestStudent = oldestStudent;
+    public void setMonthYearYoungest(Integer monthYearYoungest) {
+        this.monthYearYoungest = monthYearYoungest;
+    }
+
+    public Integer getOldestStudentAge() {
+        return oldestStudentAge;
+    }
+
+    public void setOldestStudentAge(Integer oldestStudentAge) {
+        this.oldestStudentAge = oldestStudentAge;
+    }
+
+    public Integer getMonthYearOldest() {
+        return monthYearOldest;
+    }
+
+    public void setMonthYearOldest(Integer monthYearOldest) {
+        this.monthYearOldest = monthYearOldest;
     }
 
     public Integer getNumberStudents() {
@@ -476,20 +490,20 @@ public class SchoolEntry {
         this.numberStudents = numberStudents;
     }
 
-    public Integer getNumberStudentsPcd() {
-        return numberStudentsPcd;
+    public Integer getNumberStudentsPCD() {
+        return numberStudentsPCD;
     }
 
-    public void setNumberStudentsPcd(Integer numberStudentsPcd) {
-        this.numberStudentsPcd = numberStudentsPcd;
+    public void setNumberStudentsPCD(Integer numberStudentsPCD) {
+        this.numberStudentsPCD = numberStudentsPCD;
     }
 
-    public String getStudentsPcdDescription() {
-        return studentsPcdDescription;
+    public String getStudentsPCDDescription() {
+        return studentsPCDDescription;
     }
 
-    public void setStudentsPcdDescription(String studentsPcdDescription) {
-        this.studentsPcdDescription = studentsPcdDescription;
+    public void setStudentsPCDDescription(String studentsPCDDescription) {
+        this.studentsPCDDescription = studentsPCDDescription;
     }
 
     public Integer getNumberWorkers() {
@@ -500,6 +514,30 @@ public class SchoolEntry {
         this.numberWorkers = numberWorkers;
     }
 
+    public Integer getNumberWorkersPCD() {
+        return numberWorkersPCD;
+    }
+
+    public void setNumberWorkersPCD(Integer numberWorkersPCD) {
+        this.numberWorkersPCD = numberWorkersPCD;
+    }
+
+    public String getWorkersPCDDescription() {
+        return workersPCDDescription;
+    }
+
+    public void setWorkersPCDDescription(String workersPCDDescription) {
+        this.workersPCDDescription = workersPCDDescription;
+    }
+
+    public Integer getHasWorkersLibras() {
+        return hasWorkersLibras;
+    }
+
+    public void setHasWorkersLibras(Integer hasWorkersLibras) {
+        this.hasWorkersLibras = hasWorkersLibras;
+    }
+
     public Integer getNumberWorkersLibras() {
         return numberWorkersLibras;
     }
@@ -508,35 +546,27 @@ public class SchoolEntry {
         this.numberWorkersLibras = numberWorkersLibras;
     }
 
-    public Integer getNumberWorkersPcd() {
-        return numberWorkersPcd;
+    public String getWorkersLibrasDescriptions() {
+        return workersLibrasDescriptions;
     }
 
-    public void setNumberWorkersPcd(Integer numberWorkersPcd) {
-        this.numberWorkersPcd = numberWorkersPcd;
+    public void setWorkersLibrasDescriptions(String workersLibrasDescriptions) {
+        this.workersLibrasDescriptions = workersLibrasDescriptions;
     }
 
-    public String getWorkersPcdDescription() {
-        return workersPcdDescription;
+    public String getInitialDateInspection() {
+        return initialDateInspection;
     }
 
-    public void setWorkersPcdDescription(String workersPcdDescription) {
-        this.workersPcdDescription = workersPcdDescription;
+    public void setInitialDateInspection(String initialDateInspection) {
+        this.initialDateInspection = initialDateInspection;
     }
 
-    public String getDateInspection() {
-        return dateInspection;
+    public String getFinalDateInspection() {
+        return finalDateInspection;
     }
 
-    public void setDateInspection(String dateInspection) {
-        this.dateInspection = dateInspection;
-    }
-
-    public String getDateInspectionEnd() {
-        return dateInspectionEnd;
-    }
-
-    public void setDateInspectionEnd(String dateInspectionEnd) {
-        this.dateInspectionEnd = dateInspectionEnd;
+    public void setFinalDateInspection(String finalDateInspection) {
+        this.finalDateInspection = finalDateInspection;
     }
 }

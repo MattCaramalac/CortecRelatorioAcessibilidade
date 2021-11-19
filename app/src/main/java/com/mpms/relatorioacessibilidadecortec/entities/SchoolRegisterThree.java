@@ -8,33 +8,42 @@ public class SchoolRegisterThree {
 
     @PrimaryKey
     private Integer cadID;
-    private Integer youngestStudent;
-    private Integer oldestStudent;
+    private Integer youngestStudentAge;
+    private Integer monthYearYoungest;
+    private Integer oldestStudentAge;
+    private Integer monthYearOldest;
     private Integer numberStudents;
-    private Integer numberStudentsPcd;
-    private String studentsPcdDescription;
+    private Integer numberStudentsPCD;
+    private String studentsPCDDescription;
     private Integer numberWorkers;
-    private Integer numberWorkersPcd;
-    private String workersPcdDescription;
+    private Integer numberWorkersPCD;
+    private String workersPCDDescription;
+    private Integer hasWorkersLibras;
     private Integer numberWorkersLibras;
-    private String dateInspection;
-    private String dateInspectionEnd;
+    private String workersLibrasDescriptions;
+    private String initialDateInspection;
+    private String finalDateInspection;
 
-    public SchoolRegisterThree(Integer cadID, Integer youngestStudent, Integer oldestStudent, Integer numberStudents, Integer numberStudentsPcd,
-                               String studentsPcdDescription, Integer numberWorkers, Integer numberWorkersPcd, String workersPcdDescription,
-                               Integer numberWorkersLibras, String startingDateInspection, String dateInspectionEnd) {
+    public SchoolRegisterThree(Integer cadID, Integer youngestStudentAge, Integer monthYearYoungest, Integer oldestStudentAge, Integer monthYearOldest,
+                               Integer numberStudents, Integer numberStudentsPCD, String studentsPCDDescription, Integer numberWorkers,
+                               Integer numberWorkersPCD, String workersPCDDescription, Integer hasWorkersLibras, Integer numberWorkersLibras,
+                               String workersLibrasDescription, String initialDateInspection, String finalDateInspection) {
         this.cadID = cadID;
-        this.youngestStudent = youngestStudent;
-        this.oldestStudent = oldestStudent;
+        this.youngestStudentAge = youngestStudentAge;
+        this.monthYearYoungest = monthYearYoungest;
+        this.oldestStudentAge = oldestStudentAge;
+        this.monthYearOldest = monthYearOldest;
         this.numberStudents = numberStudents;
-        this.numberStudentsPcd = numberStudentsPcd;
-        this.studentsPcdDescription = studentsPcdDescription;
+        this.numberStudentsPCD = numberStudentsPCD;
+        this.studentsPCDDescription = studentsPCDDescription;
         this.numberWorkers = numberWorkers;
-        this.numberWorkersPcd = numberWorkersPcd;
-        this.workersPcdDescription = workersPcdDescription;
+        this.numberWorkersPCD = numberWorkersPCD;
+        this.workersPCDDescription = workersPCDDescription;
+        this.hasWorkersLibras = hasWorkersLibras;
         this.numberWorkersLibras = numberWorkersLibras;
-        this.dateInspection = startingDateInspection;
-        this.dateInspectionEnd = dateInspectionEnd;
+        this.workersLibrasDescriptions = workersLibrasDescription;
+        this.initialDateInspection = initialDateInspection;
+        this.finalDateInspection = finalDateInspection;
     }
 
     public Integer getCadID() {
@@ -45,20 +54,36 @@ public class SchoolRegisterThree {
         this.cadID = cadID;
     }
 
-    public Integer getYoungestStudent() {
-        return youngestStudent;
+    public Integer getYoungestStudentAge() {
+        return youngestStudentAge;
     }
 
-    public void setYoungestStudent(Integer youngestStudent) {
-        this.youngestStudent = youngestStudent;
+    public void setYoungestStudentAge(Integer youngestStudentAge) {
+        this.youngestStudentAge = youngestStudentAge;
     }
 
-    public Integer getOldestStudent() {
-        return oldestStudent;
+    public Integer getMonthYearYoungest() {
+        return monthYearYoungest;
     }
 
-    public void setOldestStudent(Integer oldestStudent) {
-        this.oldestStudent = oldestStudent;
+    public void setMonthYearYoungest(Integer monthYearYoungest) {
+        this.monthYearYoungest = monthYearYoungest;
+    }
+
+    public Integer getOldestStudentAge() {
+        return oldestStudentAge;
+    }
+
+    public void setOldestStudentAge(Integer oldestStudentAge) {
+        this.oldestStudentAge = oldestStudentAge;
+    }
+
+    public Integer getMonthYearOldest() {
+        return monthYearOldest;
+    }
+
+    public void setMonthYearOldest(Integer monthYearOldest) {
+        this.monthYearOldest = monthYearOldest;
     }
 
     public Integer getNumberStudents() {
@@ -69,20 +94,20 @@ public class SchoolRegisterThree {
         this.numberStudents = numberStudents;
     }
 
-    public Integer getNumberStudentsPcd() {
-        return numberStudentsPcd;
+    public Integer getNumberStudentsPCD() {
+        return numberStudentsPCD;
     }
 
-    public void setNumberStudentsPcd(Integer numberStudentsPcd) {
-        this.numberStudentsPcd = numberStudentsPcd;
+    public void setNumberStudentsPCD(Integer numberStudentsPCD) {
+        this.numberStudentsPCD = numberStudentsPCD;
     }
 
-    public String getStudentsPcdDescription() {
-        return studentsPcdDescription;
+    public String getStudentsPCDDescription() {
+        return studentsPCDDescription;
     }
 
-    public void setStudentsPcdDescription(String studentsPcdDescription) {
-        this.studentsPcdDescription = studentsPcdDescription;
+    public void setStudentsPCDDescription(String studentsPCDDescription) {
+        this.studentsPCDDescription = studentsPCDDescription;
     }
 
     public Integer getNumberWorkers() {
@@ -93,20 +118,28 @@ public class SchoolRegisterThree {
         this.numberWorkers = numberWorkers;
     }
 
-    public Integer getNumberWorkersPcd() {
-        return numberWorkersPcd;
+    public Integer getNumberWorkersPCD() {
+        return numberWorkersPCD;
     }
 
-    public void setNumberWorkersPcd(Integer numberWorkersPcd) {
-        this.numberWorkersPcd = numberWorkersPcd;
+    public void setNumberWorkersPCD(Integer numberWorkersPCD) {
+        this.numberWorkersPCD = numberWorkersPCD;
     }
 
-    public String getWorkersPcdDescription() {
-        return workersPcdDescription;
+    public String getWorkersPCDDescription() {
+        return workersPCDDescription;
     }
 
-    public void setWorkersPcdDescription(String workersPcdDescription) {
-        this.workersPcdDescription = workersPcdDescription;
+    public void setWorkersPCDDescription(String workersPCDDescription) {
+        this.workersPCDDescription = workersPCDDescription;
+    }
+
+    public Integer getHasWorkersLibras() {
+        return hasWorkersLibras;
+    }
+
+    public void setHasWorkersLibras(Integer hasWorkersLibras) {
+        this.hasWorkersLibras = hasWorkersLibras;
     }
 
     public Integer getNumberWorkersLibras() {
@@ -117,19 +150,27 @@ public class SchoolRegisterThree {
         this.numberWorkersLibras = numberWorkersLibras;
     }
 
-    public String getDateInspection() {
-        return dateInspection;
+    public String getWorkersLibrasDescriptions() {
+        return workersLibrasDescriptions;
     }
 
-    public void setDateInspection(String dateInspection) {
-        this.dateInspection = dateInspection;
+    public void setWorkersLibrasDescriptions(String workersLibrasDescription) {
+        this.workersLibrasDescriptions = workersLibrasDescription;
     }
 
-    public String getDateInspectionEnd() {
-        return dateInspectionEnd;
+    public String getInitialDateInspection() {
+        return initialDateInspection;
     }
 
-    public void setDateInspectionEnd(String dateInspectionEnd) {
-        this.dateInspectionEnd = dateInspectionEnd;
+    public void setInitialDateInspection(String initialDateInspection) {
+        this.initialDateInspection = initialDateInspection;
+    }
+
+    public String getFinalDateInspection() {
+        return finalDateInspection;
+    }
+
+    public void setFinalDateInspection(String finalDateInspection) {
+        this.finalDateInspection = finalDateInspection;
     }
 }

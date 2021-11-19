@@ -27,23 +27,22 @@ public class SchoolRegisterFragmentTwo extends Fragment {
 
     TextInputLayout morningStartField, morningEndField, afternoonStartField, afternoonEndField, eveningStartField,
             eveningEndField, workHoursObsField, maternalStartField, maternalEndField, preSchoolStartField, preSchoolEndField,
-            elementaryStartField, elementaryEndField, middleStartField, middleEndField, highStartField, highEndField, ejaStartField,
+            elementaryMiddleStartField, elementaryMiddleEndField, highStartField, highEndField, ejaStartField,
             ejaEndField, servicesObsField;
     TextInputEditText morningStartValue, morningEndValue, afternoonStartValue, afternoonEndValue, eveningStartValue,
             eveningEndValue, workHoursObsValue, maternalStartValue, maternalEndValue, preSchoolStartValue, preSchoolEndValue,
-            elementaryStartValue, elementaryEndValue, middleStartValue, middleEndValue, highStartValue, highEndValue, ejaStartValue,
+            elementaryMiddleStartValue, elementaryMiddleEndValue, highStartValue, highEndValue, ejaStartValue,
             ejaEndValue, servicesObsValue;
-    MaterialCheckBox morningCheck, afternoonCheck, eveningCheck, maternalCheck, preSchoolCheck, elementaryCheck, middleCheck,
+    MaterialCheckBox morningCheck, afternoonCheck, eveningCheck, nurseryCheck, daycareCheck, maternalCheck, preSchoolCheck, elementaryMiddleCheck,
             highCheck, ejaCheck;
     TextView workingHoursError, servicesError;
 
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
 
-    Integer hasMorning, hasAfternoon, hasEvening, hasMaternal, hasPreSchool, hasElementary, hasMiddle, hasHigh, hasEja;
-    String morningStart, morningEnd, afternoonStart, afternoonEnd, eveningStart, eveningEnd, workingHoursObs, maternalStart,
-            maternalEnd, preSchoolStart, preSchoolEnd, elementaryStart, elementaryEnd, middleStart, middleEnd, highStart,
-            highEnd, ejaStart, ejaEnd, servicesObs;
+    Integer hasMorning, hasAfternoon, hasEvening, hasNursery, hasDaycare, hasMaternal, hasPreSchool, hasElementaryMiddle, hasHigh, hasEja;
+    String morningStart, morningEnd, afternoonStart, afternoonEnd, eveningStart, eveningEnd, workingHoursObs, maternalStart, maternalEnd,
+            preSchoolStart, preSchoolEnd, elementaryMiddleStart, elementaryMiddleEnd, highStart, highEnd, ejaStart, ejaEnd, servicesObs;
 
     static Bundle bundleFragTwo = new Bundle();
 
@@ -115,10 +114,8 @@ public class SchoolRegisterFragmentTwo extends Fragment {
         maternalEndField = v.findViewById(R.id.maternal_last_level_field);
         preSchoolStartField = v.findViewById(R.id.pre_school_first_level_field);
         preSchoolEndField = v.findViewById(R.id.pre_school_last_level_field);
-        elementaryStartField = v.findViewById(R.id.elementary_first_level_field);
-        elementaryEndField = v.findViewById(R.id.elementary_last_level_field);
-        middleStartField = v.findViewById(R.id.middle_school_first_level_field);
-        middleEndField = v.findViewById(R.id.middle_school_last_level_field);
+        elementaryMiddleStartField = v.findViewById(R.id.elem_middle_school_first_level_field);
+        elementaryMiddleEndField = v.findViewById(R.id.elem_middle_school_last_level_field);
         highStartField = v.findViewById(R.id.high_school_first_level_field);
         highEndField = v.findViewById(R.id.high_school_last_level_field);
         ejaStartField = v.findViewById(R.id.EJA_first_level_field);
@@ -136,10 +133,8 @@ public class SchoolRegisterFragmentTwo extends Fragment {
         maternalEndValue = v.findViewById(R.id.maternal_last_level_value);
         preSchoolStartValue = v.findViewById(R.id.pre_school_first_level_value);
         preSchoolEndValue = v.findViewById(R.id.pre_school_last_level_value);
-        elementaryStartValue = v.findViewById(R.id.elementary_first_level_value);
-        elementaryEndValue = v.findViewById(R.id.elementary_last_level_value);
-        middleStartValue = v.findViewById(R.id.middle_school_first_level_value);
-        middleEndValue = v.findViewById(R.id.middle_school_last_level_value);
+        elementaryMiddleStartValue = v.findViewById(R.id.elem_middle_school_first_level_value);
+        elementaryMiddleEndValue = v.findViewById(R.id.elem_middle_school_last_level_value);
         highStartValue = v.findViewById(R.id.high_school_first_level_value);
         highEndValue = v.findViewById(R.id.high_school_last_level_value);
         ejaStartValue = v.findViewById(R.id.EJA_first_level_value);
@@ -156,10 +151,11 @@ public class SchoolRegisterFragmentTwo extends Fragment {
         morningCheck = v.findViewById(R.id.checkbox_morning_hours);
         afternoonCheck = v.findViewById(R.id.checkbox_afternoon_hours);
         eveningCheck = v.findViewById(R.id.checkbox_evening_hours);
+        nurseryCheck = v.findViewById(R.id.checkbox_nursery);
+        daycareCheck = v.findViewById(R.id.checkbox_day_care);
         maternalCheck = v.findViewById(R.id.checkbox_maternal_classes);
         preSchoolCheck = v.findViewById(R.id.checkbox_pre_school_classes);
-        elementaryCheck = v.findViewById(R.id.checkbox_elementary_classes);
-        middleCheck = v.findViewById(R.id.checkbox_middle_school_classes);
+        elementaryMiddleCheck = v.findViewById(R.id.checkbox_elem_middle_school_classes);
         highCheck = v.findViewById(R.id.checkbox_high_school_classes);
         ejaCheck = v.findViewById(R.id.checkbox_EJA_classes);
 //        TextView
@@ -192,8 +188,8 @@ public class SchoolRegisterFragmentTwo extends Fragment {
             i++;
             workingHoursError.setVisibility(View.VISIBLE);
         }
-        if (!maternalCheck.isChecked() && !preSchoolCheck.isChecked() && !elementaryCheck.isChecked() &&
-                !middleCheck.isChecked() && !highCheck.isChecked() && !ejaCheck.isChecked()) {
+        if (!nurseryCheck.isChecked() && !daycareCheck.isChecked() && !maternalCheck.isChecked() && !preSchoolCheck.isChecked()
+                && !elementaryMiddleCheck.isChecked() && !highCheck.isChecked() && !ejaCheck.isChecked()) {
             i++;
             servicesError.setVisibility(View.VISIBLE);
         }
@@ -207,13 +203,8 @@ public class SchoolRegisterFragmentTwo extends Fragment {
             i++;
             servicesError.setVisibility(View.VISIBLE);
         }
-        if (elementaryCheck.isChecked() &&
-                (TextUtils.isEmpty(elementaryStartValue.getText()) ||TextUtils.isEmpty(elementaryEndValue.getText()))) {
-            i++;
-            servicesError.setVisibility(View.VISIBLE);
-        }
-        if (middleCheck.isChecked() &&
-                (TextUtils.isEmpty(middleStartValue.getText()) ||TextUtils.isEmpty(middleEndValue.getText()))) {
+        if (elementaryMiddleCheck.isChecked() &&
+                (TextUtils.isEmpty(elementaryMiddleStartValue.getText()) ||TextUtils.isEmpty(elementaryMiddleEndValue.getText()))) {
             i++;
             servicesError.setVisibility(View.VISIBLE);
         }
@@ -259,6 +250,10 @@ public class SchoolRegisterFragmentTwo extends Fragment {
             eveningEndValue.setText(school.getEveningEnd());
         }
         workHoursObsValue.setText(school.getWorkingHoursObs());
+        if (school.getHasNursery() != null && school.getHasNursery() == 1)
+            nurseryCheck.setChecked(true);
+        if (school.getHasDayCare() != null && school.getHasDayCare() == 1)
+            daycareCheck.setChecked(true);
         if (school.getHasMaternal() != null && school.getHasMaternal() == 1) {
             maternalCheck.setChecked(true);
             maternalStartField.setEnabled(true);
@@ -273,19 +268,12 @@ public class SchoolRegisterFragmentTwo extends Fragment {
             preSchoolStartValue.setText(school.getPreschoolFirstGrade());
             preSchoolEndValue.setText(school.getPreschoolLastGrade());
         }
-        if (school.getHasElementarySchool() != null && school.getHasElementarySchool() == 1) {
-            elementaryCheck.setChecked(true);
-            elementaryStartField.setEnabled(true);
-            elementaryEndField.setEnabled(true);
-            elementaryStartValue.setText(school.getElementaryFirstGrade());
-            elementaryEndValue.setText(school.getElementaryLastGrade());
-        }
-        if (school.getHasMiddleSchool() != null && school.getHasMiddleSchool() == 1) {
-            middleCheck.setChecked(true);
-            middleStartField.setEnabled(true);
-            middleEndField.setEnabled(true);
-            middleStartValue.setText(school.getMiddleFirstGrade());
-            middleEndValue.setText(school.getMiddleLastGrade());
+        if (school.getHasElementaryMiddle() != null && school.getHasElementaryMiddle() == 1) {
+            elementaryMiddleCheck.setChecked(true);
+            elementaryMiddleStartField.setEnabled(true);
+            elementaryMiddleEndField.setEnabled(true);
+            elementaryMiddleStartValue.setText(school.getElementaryMiddleFirstGrade());
+            elementaryMiddleEndValue.setText(school.getElementaryMiddleLastGrade());
         }
         if (school.getHasHighSchool() != null && school.getHasHighSchool() == 1) {
             highCheck.setChecked(true);
@@ -360,26 +348,15 @@ public class SchoolRegisterFragmentTwo extends Fragment {
                 preSchoolEndField.setEnabled(false);
             }
         });
-        elementaryCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        elementaryMiddleCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                elementaryStartField.setEnabled(true);
-                elementaryEndField.setEnabled(true);
+                elementaryMiddleStartField.setEnabled(true);
+                elementaryMiddleEndField.setEnabled(true);
             } else {
-                elementaryStartValue.setText(null);
-                elementaryEndValue.setText(null);
-                elementaryStartField.setEnabled(false);
-                elementaryEndField.setEnabled(false);
-            }
-        });
-        middleCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                middleStartField.setEnabled(true);
-                middleEndField.setEnabled(true);
-            } else {
-                middleStartValue.setText(null);
-                middleEndValue.setText(null);
-                middleStartField.setEnabled(false);
-                middleEndField.setEnabled(false);
+                elementaryMiddleStartValue.setText(null);
+                elementaryMiddleEndValue.setText(null);
+                elementaryMiddleStartField.setEnabled(false);
+                elementaryMiddleEndField.setEnabled(false);
             }
         });
         highCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -434,15 +411,10 @@ public class SchoolRegisterFragmentTwo extends Fragment {
             preSchoolStart = String.valueOf(preSchoolStartValue.getText());
             preSchoolEnd = String.valueOf(preSchoolEndValue.getText());
         }
-        if (elementaryCheck.isChecked()) {
-            hasElementary = 1;
-            elementaryStart = String.valueOf(elementaryStartValue.getText());
-            elementaryEnd = String.valueOf(elementaryEndValue.getText());
-        }
-        if (middleCheck.isChecked()) {
-            hasMiddle = 1;
-            middleStart = String.valueOf(middleStartValue.getText());
-            middleEnd = String.valueOf(middleEndValue.getText());
+        if (elementaryMiddleCheck.isChecked()) {
+            hasElementaryMiddle = 1;
+            elementaryMiddleStart = String.valueOf(elementaryMiddleStartValue.getText());
+            elementaryMiddleEnd = String.valueOf(elementaryMiddleEndValue.getText());
         }
         if (highCheck.isChecked()) {
             hasHigh = 1;
@@ -457,8 +429,8 @@ public class SchoolRegisterFragmentTwo extends Fragment {
         servicesObs = String.valueOf(servicesObsValue.getText());
 
         return new SchoolRegisterTwo(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), hasMorning, morningStart, morningEnd,
-                hasAfternoon, afternoonStart, afternoonEnd, hasEvening, eveningStart, eveningEnd, workingHoursObs, hasMaternal,
-                maternalStart, maternalEnd, hasPreSchool, preSchoolStart, preSchoolEnd, hasElementary, elementaryStart, elementaryEnd,
-                hasMiddle, middleStart, middleEnd, hasHigh, highStart, highEnd, hasEja, ejaStart, ejaEnd, servicesObs);
+                hasAfternoon, afternoonStart, afternoonEnd, hasEvening, eveningStart, eveningEnd, workingHoursObs, hasNursery,
+                hasDaycare, hasMaternal, maternalStart, maternalEnd, hasPreSchool, preSchoolStart, preSchoolEnd, hasElementaryMiddle,
+                elementaryMiddleStart, elementaryMiddleEnd, hasHigh, highStart, highEnd, hasEja, ejaStart, ejaEnd, servicesObs);
     }
 }

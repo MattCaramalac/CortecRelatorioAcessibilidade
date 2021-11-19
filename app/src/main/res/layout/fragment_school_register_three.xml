@@ -35,13 +35,14 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/students_newest_age_field"
-            android:layout_width="60dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/students_ages_header"
-            app:layout_constraintEnd_toStartOf="@id/students_ages_text_to"
             app:layout_constraintStart_toStartOf="parent"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/usual_padding">
+            app:layout_constraintEnd_toStartOf="@id/youngest_age_month_year_radio"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
+            android:hint="@string/hint_youngest_age">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/students_newest_age_value"
@@ -52,27 +53,43 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/students_ages_text_to"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/youngest_age_month_year_radio"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/up_to"
-            android:textColor="@color/black"
-            android:textSize="@dimen/section_header"
-            app:layout_constraintBottom_toBottomOf="@+id/students_newest_age_field"
-            app:layout_constraintEnd_toStartOf="@id/students_oldest_age_field"
+            app:layout_constraintTop_toTopOf="@id/students_newest_age_field"
+            app:layout_constraintBottom_toBottomOf="@id/students_newest_age_field"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/students_newest_age_field"
-            app:layout_constraintTop_toTopOf="@+id/students_newest_age_field" />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label_radio_month"
+                android:textSize="@dimen/radio_button_text"/>
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label_radio_years"
+                android:textSize="@dimen/radio_button_text"/>
+
+        </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/students_oldest_age_field"
-            android:layout_width="60dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@id/students_newest_age_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/students_ages_text_to"
-            android:gravity="center">
+            app:layout_constraintTop_toBottomOf="@id/students_newest_age_field"
+            app:layout_constraintEnd_toStartOf="@id/oldest_age_month_year_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:layout_marginEnd="@dimen/usual_padding"
+            android:hint="@string/hint_oldest_age">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/students_oldest_age_value"
@@ -83,6 +100,32 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <RadioGroup
+            android:id="@+id/oldest_age_month_year_radio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/students_oldest_age_field"
+            app:layout_constraintBottom_toBottomOf="@id/students_oldest_age_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/students_oldest_age_field"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label_radio_month"
+                android:textSize="@dimen/radio_button_text"/>
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/label_radio_years"
+                android:textSize="@dimen/radio_button_text"/>
+
+        </RadioGroup>
+
         <TextView
             android:id="@+id/students_age_error_message"
             android:layout_width="match_parent"
@@ -90,7 +133,7 @@
             android:text="@string/empty_fields"
             android:textSize="14sp"
             android:textColor="@color/error_message"
-            app:layout_constraintTop_toBottomOf="@id/students_oldest_age_field"
+            app:layout_constraintTop_toBottomOf="@id/oldest_age_month_year_radio"
             app:layout_constraintStart_toStartOf="parent"
             android:visibility="gone"
             />
@@ -223,16 +266,61 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-<!--        TODO - adicionar uma pergunta S/N para verificar se tem funcionários-->
+        <TextView
+            android:id="@+id/label_has_libras_workers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/description_pcd_workers_field"
+            android:text="@string/label_has_libras_workers_header"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:textSize="@dimen/section_header"/>
+
+        <RadioGroup
+            android:id="@+id/has_libras_workers_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_has_libras_workers">
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_option_size"/>
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_option_size"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/libras_workers_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/has_libras_workers_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/total_workers_libras_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/description_pcd_workers_field"
+            app:layout_constraintTop_toBottomOf="@id/has_libras_workers_radio"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_total_workers_libras">
+            android:hint="@string/hint_total_workers_libras"
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/total_workers_libras_value"
@@ -244,9 +332,35 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/initial_date_inspection_field"
+            android:id="@+id/libras_workers_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/total_workers_libras_field"
+            android:hint="@string/hint_libras_obs"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:visibility="gone"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/libras_workers_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/initial_date_inspection_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/libras_workers_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"

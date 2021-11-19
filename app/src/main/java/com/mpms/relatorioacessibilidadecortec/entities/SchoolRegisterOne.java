@@ -14,14 +14,14 @@ public class SchoolRegisterOne {
     private String addressNumber;
     private String addressNeighborhood;
     private String nameCity;
-    private String nameDirector;
+    private String nameDistrict;
     private String contactPhone1;
     private String contactPhone2;
     private String nameResponsibleVisit;
     private String nameInspectionTeam;
 
     public SchoolRegisterOne(Integer schoolID, String schoolName, String schoolAddress, String addressComplement, String addressNumber,
-                             String addressNeighborhood, String nameCity, String nameDirector, String contactPhone1, String contactPhone2,
+                             String addressNeighborhood, String nameCity, String nameDistrict, String contactPhone1, String contactPhone2,
                              String nameResponsibleVisit, String nameInspectionTeam) {
         this.cadID = schoolID;
         this.schoolName = schoolName;
@@ -30,7 +30,7 @@ public class SchoolRegisterOne {
         this.addressNumber = addressNumber;
         this.addressNeighborhood = addressNeighborhood;
         this.nameCity = nameCity;
-        this.nameDirector = nameDirector;
+        this.nameDistrict = nameDistrict;
         this.contactPhone1 = contactPhone1;
         this.contactPhone2 = contactPhone2;
         this.nameResponsibleVisit = nameResponsibleVisit;
@@ -93,12 +93,12 @@ public class SchoolRegisterOne {
         this.nameCity = nameCity;
     }
 
-    public String getNameDirector() {
-        return nameDirector;
+    public String getNameDistrict() {
+        return nameDistrict;
     }
 
-    public void setNameDirector(String nameDirector) {
-        this.nameDirector = nameDirector;
+    public void setNameDistrict(String nameDistrict) {
+        this.nameDistrict = nameDistrict;
     }
 
     public String getContactPhone1() {

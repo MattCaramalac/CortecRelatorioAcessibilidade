@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,17 +43,19 @@ import java.util.TimeZone;
 public class SchoolRegisterFragmentThree extends Fragment {
 
     TextInputLayout startAgeField, finalAgeField, totalStudentsField, totalStudentsPcdField, studentPcdDescriptionField,
-            totalWorkersField, totalWorkersPcdField, workersPcdDescriptionField, totalWorkersLibrasField, startInspectionDateField,
-            endInspectionDateField;
+            totalWorkersField, totalWorkersPcdField, workersPcdDescriptionField, totalWorkersLibrasField, workersLibrasDescriptionField,
+            initialDateInspectionField, finalDateInspectionField;
     TextInputEditText startAgeValue, finalAgeValue, totalStudentsValue, totalStudentsPcdValue, studentPcdDescriptionValue,
-            totalWorkersValue, totalWorkersPcdValue, workersPcdDescriptionValue, totalWorkersLibrasValue, startInspectionDateValue,
-            endInspectionDateValue;
-    TextView studentsAgeError;
+            totalWorkersValue, totalWorkersPcdValue, workersPcdDescriptionValue, totalWorkersLibrasValue, workersLibrasDescriptionValue,
+            initialDateInspectionValue, finalDateInspectionValue;
+    RadioGroup youngestMonthYearRadio, oldestMonthYearRadio, hasWorkersLibras;
+    TextView studentsAgeError, librasWorkersError;
     MaterialDatePicker<Long> initialDate, finalDate;
     CalendarConstraints.Builder constraints;
 
-    Integer youngestStudent, oldestStudent, totalStudents, totalPcdStudents, totalEmployees, totalPcdEmployees, librasEmployees;
-    String studentsPcdDescription, employeesPcdDescription, startingDateInspection, endDateInspection;
+    Integer youngestStudent, youngestMonthYear, oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents, totalEmployees,
+            totalPcdEmployees, hasLibrasEmployees, totalLibrasEmployees;
+    String studentsPcdDescription, employeesPcdDescription, librasDescriptions, initialDateInspection, finalDateInspection;
 
     int defaultColor;
 
@@ -67,7 +70,6 @@ public class SchoolRegisterFragmentThree extends Fragment {
     Configuration configuration = new Configuration();
     Date date;
 
-
     public static SchoolRegisterFragmentThree newInstance(Bundle bundle) {
         SchoolRegisterFragmentThree fragmentThree = new SchoolRegisterFragmentThree();
         fragmentThree.setArguments(bundle);
@@ -78,7 +80,6 @@ public class SchoolRegisterFragmentThree extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -93,7 +94,8 @@ public class SchoolRegisterFragmentThree extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateSchoolFragThree(view);
-        allowSidewalkObsScroll();
+        allowSchoolThreeObsScroll();
+        hasWorkersLibras.setOnCheckedChangeListener(this::librasListener);
 
         if (bundleFragThree.getInt(SchoolRegisterActivity.SCHOOL_ID) > 0)
             modelEntry.getEntry(bundleFragThree.getInt(SchoolRegisterActivity.SCHOOL_ID)).observe(getViewLifecycleOwner(), this::gatherSchoolDataFragThree);
@@ -133,8 +135,9 @@ public class SchoolRegisterFragmentThree extends Fragment {
         totalWorkersPcdField = v.findViewById(R.id.total_pcd_workers_field);
         workersPcdDescriptionField = v.findViewById(R.id.description_pcd_workers_field);
         totalWorkersLibrasField = v.findViewById(R.id.total_workers_libras_field);
-        startInspectionDateField = v.findViewById(R.id.initial_date_inspection_field);
-        endInspectionDateField = v.findViewById(R.id.final_date_inspection_field);
+        workersLibrasDescriptionField = v.findViewById(R.id.libras_workers_obs_field);
+        initialDateInspectionField = v.findViewById(R.id.initial_date_inspection_field);
+        finalDateInspectionField = v.findViewById(R.id.final_date_inspection_field);
 //        TextInputEditText
         startAgeValue = v.findViewById(R.id.students_newest_age_value);
         finalAgeValue = v.findViewById(R.id.students_oldest_age_value);
@@ -145,18 +148,24 @@ public class SchoolRegisterFragmentThree extends Fragment {
         totalWorkersPcdValue = v.findViewById(R.id.total_pcd_workers_value);
         workersPcdDescriptionValue = v.findViewById(R.id.description_pcd_workers_value);
         totalWorkersLibrasValue = v.findViewById(R.id.total_workers_libras_value);
-        startInspectionDateValue = v.findViewById(R.id.initial_date_inspection_value);
-        endInspectionDateValue = v.findViewById(R.id.final_date_inspection_value);
+        workersLibrasDescriptionValue = v.findViewById(R.id.libras_workers_obs_value);
+        initialDateInspectionValue = v.findViewById(R.id.initial_date_inspection_value);
+        finalDateInspectionValue = v.findViewById(R.id.final_date_inspection_value);
+//        RadioGroups
+        youngestMonthYearRadio = v.findViewById(R.id.youngest_age_month_year_radio);
+        oldestMonthYearRadio = v.findViewById(R.id.oldest_age_month_year_radio);
+        hasWorkersLibras = v.findViewById(R.id.has_libras_workers_radio);
 //        TextView
         studentsAgeError = v.findViewById(R.id.students_age_error_message);
+        librasWorkersError = v.findViewById(R.id.libras_workers_error);
 //        Default Color
         defaultColor = startAgeField.getBoxStrokeColor();
 //        ViewModels
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
 //        Date ClickListeners
-        startInspectionDateValue.setOnClickListener(this::showDatePicker);
-        endInspectionDateValue.setOnClickListener(this::showDatePicker);
+        initialDateInspectionValue.setOnClickListener(this::showDatePicker);
+        finalDateInspectionValue.setOnClickListener(this::showDatePicker);
 //        ViewModels
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
@@ -167,12 +176,14 @@ public class SchoolRegisterFragmentThree extends Fragment {
         int i = 0;
         if (TextUtils.isEmpty(startAgeValue.getText())) {
             i++;
-            startAgeField.setBoxStrokeColor(getResources().getColor(R.color.error_message, requireActivity().getTheme()));
-            studentsAgeError.setVisibility(View.VISIBLE);
+            startAgeField.setError(getString(R.string.blank_field_error));
         }
         if (TextUtils.isEmpty(finalAgeValue.getText())) {
             i++;
-            finalAgeField.setBoxStrokeColor(getResources().getColor(R.color.error_message, requireActivity().getTheme()));
+            finalAgeField.setError(getString(R.string.blank_field_error));
+        }
+        if (youngestMonthYearRadio.getCheckedRadioButtonId() == -1 || oldestMonthYearRadio.getCheckedRadioButtonId() == -1) {
+            i++;
             studentsAgeError.setVisibility(View.VISIBLE);
         }
         if (TextUtils.isEmpty(totalStudentsValue.getText())) {
@@ -199,21 +210,38 @@ public class SchoolRegisterFragmentThree extends Fragment {
             i++;
             studentPcdDescriptionField.setError(getString(R.string.blank_field_error));
         }
+        if (getCheckedIndex(hasWorkersLibras) == -1) {
+            i++;
+            librasWorkersError.setVisibility(View.VISIBLE);
+        } else if (getCheckedIndex(hasWorkersLibras) == 1) {
+            if (TextUtils.isEmpty(totalWorkersLibrasValue.getText())) {
+                i++;
+                totalWorkersLibrasField.setError(getString(R.string.blank_field_error));
+            }
+            if (TextUtils.isEmpty(workersLibrasDescriptionValue.getText())) {
+                i++;
+                workersLibrasDescriptionField.setError(getString(R.string.blank_field_error));
+            }
+        }
         if (TextUtils.isEmpty(totalWorkersLibrasValue.getText())) {
             i++;
             totalWorkersLibrasField.setError(getString(R.string.blank_field_error));
         }
-        if (TextUtils.isEmpty(startInspectionDateValue.getText())) {
+        if (TextUtils.isEmpty(initialDateInspectionValue.getText())) {
             i++;
-            startInspectionDateField.setError(getString(R.string.blank_field_error));
+            initialDateInspectionField.setError(getString(R.string.blank_field_error));
         }
 
         return i == 0;
     }
 
+    private int getCheckedIndex(RadioGroup radio) {
+        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
+    }
+
     private void clearEmptyFieldsFragThreeErrors() {
-        startAgeField.setBoxStrokeColor(defaultColor);
-        finalAgeField.setBoxStrokeColor(defaultColor);
+        startAgeField.setErrorEnabled(false);
+        finalAgeField.setErrorEnabled(false);
         studentsAgeError.setVisibility(View.GONE);
         totalStudentsField.setErrorEnabled(false);
         totalStudentsPcdField.setErrorEnabled(false);
@@ -221,40 +249,62 @@ public class SchoolRegisterFragmentThree extends Fragment {
         totalWorkersField.setErrorEnabled(false);
         totalWorkersPcdField.setErrorEnabled(false);
         workersPcdDescriptionField.setErrorEnabled(false);
+        librasWorkersError.setVisibility(View.GONE);
         totalWorkersLibrasField.setErrorEnabled(false);
-        startInspectionDateField.setErrorEnabled(false);
-        endInspectionDateField.setErrorEnabled(false);
+        workersLibrasDescriptionField.setErrorEnabled(false);
+        initialDateInspectionField.setErrorEnabled(false);
+        finalDateInspectionField.setErrorEnabled(false);
 
     }
 
     private void gatherSchoolDataFragThree(SchoolEntry school) {
-        if (school.getYoungestStudent() != null)
-            startAgeValue.setText(String.valueOf(school.getYoungestStudent()));
-        if (school.getOldestStudent() != null)
-            finalAgeValue.setText(String.valueOf(school.getOldestStudent()));
+        if (school.getYoungestStudentAge() != null)
+            startAgeValue.setText(String.valueOf(school.getYoungestStudentAge()));
+        if (school.getMonthYearYoungest() != null)
+            youngestMonthYearRadio.check(youngestMonthYearRadio.getChildAt(school.getMonthYearYoungest()).getId());
+        if (school.getOldestStudentAge() != null)
+            finalAgeValue.setText(String.valueOf(school.getOldestStudentAge()));
+        if (school.getMonthYearOldest() != null)
+            oldestMonthYearRadio.check(oldestMonthYearRadio.getChildAt(school.getMonthYearYoungest()).getId());
         if (school.getNumberStudents() != null)
             totalStudentsValue.setText(String.valueOf(school.getNumberStudents()));
-        if (school.getNumberStudentsPcd() != null)
-            totalStudentsPcdValue.setText(String.valueOf(school.getNumberStudentsPcd()));
-        studentPcdDescriptionValue.setText(school.getStudentsPcdDescription());
+        if (school.getNumberStudentsPCD() != null)
+            totalStudentsPcdValue.setText(String.valueOf(school.getNumberStudentsPCD()));
+        studentPcdDescriptionValue.setText(school.getStudentsPCDDescription());
         if (school.getNumberWorkers() != null)
             totalWorkersValue.setText(String.valueOf(school.getNumberWorkers()));
-        if (school.getNumberWorkersPcd() != null)
-            totalWorkersPcdValue.setText(String.valueOf(school.getNumberWorkersPcd()));
-        workersPcdDescriptionValue.setText(school.getWorkersPcdDescription());
+        if (school.getNumberWorkersPCD() != null)
+            totalWorkersPcdValue.setText(String.valueOf(school.getNumberWorkersPCD()));
+        workersPcdDescriptionValue.setText(school.getWorkersPCDDescription());
+        if (school.getHasWorkersLibras() != null)
+            hasWorkersLibras.check(hasWorkersLibras.getChildAt(school.getHasWorkersLibras()).getId());
         if (school.getNumberWorkersLibras() != null)
             totalWorkersLibrasValue.setText(String.valueOf(school.getNumberWorkersLibras()));
-        startInspectionDateValue.setText(school.getDateInspection());
-        endInspectionDateValue.setText(school.getDateInspectionEnd());
+        workersLibrasDescriptionValue.setText(school.getWorkersLibrasDescriptions());
+        initialDateInspectionValue.setText(school.getInitialDateInspection());
+        finalDateInspectionValue.setText(school.getFinalDateInspection());
+    }
+
+    private void librasListener(RadioGroup radio, int checkedID) {
+        int index = getCheckedIndex(radio);
+        if (index == 1) {
+            totalWorkersLibrasField.setVisibility(View.VISIBLE);
+            workersLibrasDescriptionField.setVisibility(View.VISIBLE);
+        } else {
+            totalWorkersLibrasValue.setText(null);
+            workersLibrasDescriptionValue.setText(null);
+            totalWorkersLibrasField.setVisibility(View.GONE);
+            workersLibrasDescriptionField.setVisibility(View.GONE);
+        }
     }
 
     private void showDatePicker(View view) {
         TimeZone utc = TimeZone.getDefault();
         int offset = utc.getOffset(new Date().getTime()) * -1;
         //        MaterialDatePickers
-        if (view == startInspectionDateValue) {
-            if (!TextUtils.isEmpty(endInspectionDateValue.getText())) {
-                long endInspection = stringToLongConverter(String.valueOf(endInspectionDateValue.getText()));
+        if (view == initialDateInspectionValue) {
+            if (!TextUtils.isEmpty(finalDateInspectionValue.getText())) {
+                long endInspection = stringToLongConverter(String.valueOf(finalDateInspectionValue.getText()));
                 constraints = new CalendarConstraints.Builder().setValidator(DateValidatorPointBackward.before(endInspection));
                 initialDate = MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR).
                         setSelection(MaterialDatePicker.todayInUtcMilliseconds()).setTitleText(R.string.date_picker_start_inspection).
@@ -264,10 +314,10 @@ public class SchoolRegisterFragmentThree extends Fragment {
                         setSelection(MaterialDatePicker.todayInUtcMilliseconds()).setTitleText(R.string.date_picker_start_inspection).build();
             }
             initialDate.show(requireActivity().getSupportFragmentManager(), "DATE_PICKER");
-            initialDate.addOnPositiveButtonClickListener(selection -> startInspectionDateValue.setText(longToStringConverter(selection+offset)));
-        } else if (view == endInspectionDateValue) {
-            if (!TextUtils.isEmpty(startInspectionDateValue.getText())) {
-                long startInspection = stringToLongConverter(String.valueOf(startInspectionDateValue.getText()));
+            initialDate.addOnPositiveButtonClickListener(selection -> initialDateInspectionValue.setText(longToStringConverter(selection+offset)));
+        } else if (view == finalDateInspectionValue) {
+            if (!TextUtils.isEmpty(initialDateInspectionValue.getText())) {
+                long startInspection = stringToLongConverter(String.valueOf(initialDateInspectionValue.getText()));
                 constraints = new CalendarConstraints.Builder().setValidator(DateValidatorPointForward.from(startInspection));
                 finalDate = MaterialDatePicker.Builder.datePicker().setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR).
                         setSelection(MaterialDatePicker.todayInUtcMilliseconds()).setTitleText(R.string.date_picker_end_inspection).
@@ -277,7 +327,7 @@ public class SchoolRegisterFragmentThree extends Fragment {
                         setSelection(MaterialDatePicker.todayInUtcMilliseconds()).setTitleText(R.string.date_picker_end_inspection).build();
             }
             finalDate.show(requireActivity().getSupportFragmentManager(), "DATE_PICKER");
-            finalDate.addOnPositiveButtonClickListener(selection -> endInspectionDateValue.setText(longToStringConverter(selection+offset)));
+            finalDate.addOnPositiveButtonClickListener(selection -> finalDateInspectionValue.setText(longToStringConverter(selection+offset)));
         }
     }
 
@@ -309,26 +359,36 @@ public class SchoolRegisterFragmentThree extends Fragment {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void allowSidewalkObsScroll() {
+    private void allowSchoolThreeObsScroll() {
         studentPcdDescriptionValue.setOnTouchListener(this::scrollingField);
         workersPcdDescriptionValue.setOnTouchListener(this::scrollingField);
     }
 
     private SchoolRegisterThree updateRegisterThree(Bundle bundle) {
         youngestStudent = Integer.valueOf(String.valueOf(startAgeValue.getText()));
+        youngestMonthYear = getCheckedIndex(youngestMonthYearRadio);
         oldestStudent = Integer.valueOf(String.valueOf(finalAgeValue.getText()));
+        oldestMonthYear = getCheckedIndex(oldestMonthYearRadio);
         totalStudents = Integer.valueOf(String.valueOf(totalStudentsValue.getText()));
         totalPcdStudents = Integer.valueOf(String.valueOf(totalStudentsPcdValue.getText()));
+        studentsPcdDescription = String.valueOf(studentPcdDescriptionValue.getText());
         totalEmployees = Integer.valueOf(String.valueOf(totalWorkersValue.getText()));
         totalPcdEmployees = Integer.valueOf(String.valueOf(totalWorkersPcdValue.getText()));
-        librasEmployees = Integer.valueOf(String.valueOf(totalWorkersLibrasValue.getText()));
-        studentsPcdDescription = String.valueOf(studentPcdDescriptionValue.getText());
         employeesPcdDescription = String.valueOf(workersPcdDescriptionValue.getText());
-        startingDateInspection = String.valueOf(startInspectionDateValue.getText());
-        endDateInspection = String.valueOf(endInspectionDateValue.getText());
+        hasLibrasEmployees = getCheckedIndex(hasWorkersLibras);
+        if (hasLibrasEmployees == 1) {
+            totalLibrasEmployees = Integer.valueOf(String.valueOf(totalWorkersLibrasValue.getText()));
+            librasDescriptions = String.valueOf(workersLibrasDescriptionValue.getText());
+        } else {
+            totalLibrasEmployees = null;
+            librasDescriptions = null;
+        }
+        initialDateInspection = String.valueOf(initialDateInspectionValue.getText());
+        finalDateInspection = String.valueOf(finalDateInspectionValue.getText());
 
-        return new SchoolRegisterThree(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), youngestStudent, oldestStudent, totalStudents,
-                totalPcdStudents, studentsPcdDescription, totalEmployees, totalPcdEmployees, employeesPcdDescription, librasEmployees,
-                startingDateInspection, endDateInspection);
+        return new SchoolRegisterThree(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), youngestStudent, youngestMonthYear,
+                oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents, studentsPcdDescription, totalEmployees,
+                totalPcdEmployees, employeesPcdDescription, hasLibrasEmployees, totalLibrasEmployees, librasDescriptions,
+                initialDateInspection, finalDateInspection);
     }
 }
