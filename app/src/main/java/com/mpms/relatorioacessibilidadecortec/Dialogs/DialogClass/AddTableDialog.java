@@ -24,6 +24,7 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.TableTypeF
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -66,7 +67,7 @@ public class AddTableDialog extends DialogFragment {
         toolbar = view.findViewById(R.id.table_toolbar);
         modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
 
-        if (roomBundle.getInt(RoomsRegisterFragment.ROOM_TYPE) == 11) {
+        if (roomBundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 11) {
             getChildFragmentManager().beginTransaction().replace(R.id.table_type_child_fragment, new TableTypeFragment()).commit();
         }
 
@@ -95,7 +96,7 @@ public class AddTableDialog extends DialogFragment {
 
         saveTable.setOnClickListener(v -> {
             if(checkEmptyTableFields()) {
-                if (roomBundle.getInt(RoomsRegisterFragment.ROOM_TYPE) == 11) {
+                if (roomBundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 11) {
                     modelDialog.setSaveTableAttempt(1);
                 } else {
                     TableEntry newTabEntry = newTableEntry(roomBundle);
@@ -190,7 +191,7 @@ public class AddTableDialog extends DialogFragment {
         widthTable = null;
         frontalApprox = null;
         tableObs = null;
-        if (bundle.getInt(RoomsRegisterFragment.ROOM_TYPE) == 11) {
+        if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 11) {
             tableType = bundle.getInt(TableTypeFragment.TABLE_TYPE);
             isClassroom = 1;
         }

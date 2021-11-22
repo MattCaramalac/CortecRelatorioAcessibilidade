@@ -303,8 +303,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> roomEntryDao.insertRoomEntry(roomEntry));
     }
 
-    public LiveData<List<RoomEntry>> getAllRooms() {
-        return  roomEntryDao.getAllRooms();
+    public LiveData<List<RoomEntry>> getAllRoomsInSchool(int schoolID, int roomType) {
+        return  roomEntryDao.getAllRoomsInSchool(schoolID, roomType);
     }
 
     public LiveData<RoomEntry> getRoomEntry(int roomID) {

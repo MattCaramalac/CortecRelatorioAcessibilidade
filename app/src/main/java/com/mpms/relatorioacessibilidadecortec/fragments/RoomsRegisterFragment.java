@@ -40,16 +40,17 @@ import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment.ROOM_TYPE;
+
 public class RoomsRegisterFragment extends Fragment {
 
 //    TODO - Implementar o método de recuperação de dados já cadastrados para a atualização
 
-    public static final String ROOM_TYPE = "ROOM_TYPE";
     public static final String ROOM_ID_VALUE = "ROOM_ID_VALUE";
-    private static int chosenOption;
 
     TextInputLayout roomLocationField, obsVisualSignField, obsTactileSignField, obsLooseCarpetField, roomObsField;
     TextInputEditText roomLocationValue, obsVisualSignValue, obsTactileSignValue, obsLooseCarpetValue, roomObsValue;
+    TextView visualSignError, tactileSignError, carpetError;
     MaterialButton cancelRoomRegister, saveRoomRegister, doorRegister, switchRegister, windowRegister, tableRegister, freeSpaceRegister;
     RadioGroup hasVisualSignRadio, hasTactileSignRadio, hasLooseCarpetRadio;
 
@@ -61,7 +62,7 @@ public class RoomsRegisterFragment extends Fragment {
     private int buttonChoice = -1;
 
     FragmentManager manager;
-    Bundle roomBundleID = new Bundle();
+    Bundle roomRegBundle = new Bundle();
 
     ViewModelFragments modelFragments;
     ViewModelEntry modelEntry;
@@ -72,14 +73,8 @@ public class RoomsRegisterFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static RoomsRegisterFragment newInstance(int dropdownChoice) {
-        RoomsRegisterFragment roomsRegisterFragment = new RoomsRegisterFragment();
-        roomsRegisterFragment.setChosenOption(dropdownChoice);
-        return roomsRegisterFragment;
-    }
-
-    public void setChosenOption(int choice) {
-        RoomsRegisterFragment.chosenOption = choice;
+    public static RoomsRegisterFragment newInstance() {
+        return new RoomsRegisterFragment();
     }
 
     @Override
@@ -95,11 +90,11 @@ public class RoomsRegisterFragment extends Fragment {
         setHeaderText(rootView);
 
         if (this.getArguments() != null) {
-            roomBundleID.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
-            roomBundleID.putInt(ROOM_TYPE, chosenOption);
+            roomRegBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            roomRegBundle.putInt(ROOM_TYPE, this.getArguments().getInt(ROOM_TYPE));
         }
 
-        switch (chosenOption) {
+        switch (roomRegBundle.getInt(ROOM_TYPE)) {
             case 3:
                 getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new LibraryFragment()).commit();
                 break;
@@ -127,7 +122,7 @@ public class RoomsRegisterFragment extends Fragment {
         allowRoomObsScroll();
 
         modelFragments.getCounterClick().observe(getViewLifecycleOwner(), counter -> {
-            if(Objects.equals(modelFragments.counterClick.getValue(), 1)) {
+            if (Objects.equals(modelFragments.counterClick.getValue(), 1)) {
                 buttonChoice = 5;
                 saveUpdateDialogClick();
                 modelFragments.setCounterClick(0);
@@ -139,38 +134,38 @@ public class RoomsRegisterFragment extends Fragment {
         modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> {
             if (update == 0 && buttonChoice != -1) {
 //                recentRoomID = lastRoom.getRoomID();
-                roomBundleID.putInt(ROOM_ID_VALUE, lastRoom.getRoomID());
+                roomRegBundle.putInt(ROOM_ID_VALUE, lastRoom.getRoomID());
                 update++;
             }
 
-                switch (buttonChoice) {
-                    case 0:
-                        addDoorDialog();
-                        break;
-                    case 1:
-                        addSwitchDialog();
-                        break;
-                    case 2:
-                        addWindowDialog();
-                        break;
-                    case 3:
-                        addTableDialog();
-                        break;
-                    case 4:
-                        addFreeSpaceDialog();
-                        break;
-                    case 5:
-                        addCounterDialog();
-                        break;
-                    default:
-                        break;
-                }
-                buttonChoice = -1;
+            switch (buttonChoice) {
+                case 0:
+                    addDoorDialog();
+                    break;
+                case 1:
+                    addSwitchDialog();
+                    break;
+                case 2:
+                    addWindowDialog();
+                    break;
+                case 3:
+                    addTableDialog();
+                    break;
+                case 4:
+                    addFreeSpaceDialog();
+                    break;
+                case 5:
+                    addCounterDialog();
+                    break;
+                default:
+                    break;
+            }
+            buttonChoice = -1;
         });
 
         modelFragments.getRoomBundle().observe(getViewLifecycleOwner(), roomBundle -> {
             if (roomBundle != null) {
-                roomBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, roomBundleID.getInt(SchoolRegisterActivity.SCHOOL_ID));
+                roomBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, roomRegBundle.getInt(SchoolRegisterActivity.SCHOOL_ID));
                 if (update == 0) {
                     RoomEntry newEntry = newRoomEntry(roomBundle);
                     ViewModelEntry.insertRoomEntry(newEntry);
@@ -232,6 +227,10 @@ public class RoomsRegisterFragment extends Fragment {
         obsTactileSignValue = view.findViewById(R.id.tactile_sign_obs_value);
         obsLooseCarpetValue = view.findViewById(R.id.carpet_obs_value);
         roomObsValue = view.findViewById(R.id.room_obs_value);
+//        TextView
+        visualSignError = view.findViewById(R.id.visual_sign_error);
+        tactileSignError = view.findViewById(R.id.tactile_sign_error);
+        carpetError = view.findViewById(R.id.carpet_error);
 //        MaterialButton
         cancelRoomRegister = view.findViewById(R.id.cancel_room);
         saveRoomRegister = view.findViewById(R.id.save_room);
@@ -270,12 +269,13 @@ public class RoomsRegisterFragment extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     private void allowRoomObsScroll() {
         addObsFieldsToArray();
-        for (TextInputEditText obsScroll :roomObsArray) {
+        for (TextInputEditText obsScroll : roomObsArray) {
             obsScroll.setOnTouchListener(this::scrollingField);
         }
     }
 
     public void saveRoomEntry() {
+        int chosenOption = roomRegBundle.getInt(ROOM_TYPE);
         if (chosenOption == 3 || chosenOption == 10 || chosenOption == 11 || chosenOption == 15) {
             if (update >= 0) {
                 if (checkEmptyRoomFields())
@@ -289,15 +289,17 @@ public class RoomsRegisterFragment extends Fragment {
         } else if (chosenOption > 0) {
             if (update == 0) {
                 if (checkEmptyRoomFields()) {
-                    RoomEntry newEntry = newRoomEntry(roomBundleID);
+                    RoomEntry newEntry = newRoomEntry(roomRegBundle);
                     ViewModelEntry.insertRoomEntry(newEntry);
                     clearRoomFields();
+                    Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 } else
                     Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
             } else if (update > 0) {
-                RoomEntry newEntry = newRoomEntry(roomBundleID);
-                newEntry.setRoomID(roomBundleID.getInt(ROOM_ID_VALUE));
+                RoomEntry newEntry = newRoomEntry(roomRegBundle);
+                newEntry.setRoomID(roomRegBundle.getInt(ROOM_ID_VALUE));
                 ViewModelEntry.updateRoom(newEntry);
+                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 clearRoomFields();
             } else {
                 Toast.makeText(getContext(), "Houve um Erro. Favor, recomeçar cadastro", Toast.LENGTH_SHORT).show();
@@ -309,12 +311,12 @@ public class RoomsRegisterFragment extends Fragment {
 
     public void saveUpdateDialogClick() {
         if (update == 0) {
-            RoomEntry newEntry = newRoomEntry(roomBundleID);
+            RoomEntry newEntry = newRoomEntry(roomRegBundle);
             ViewModelEntry.insertRoomEntry(newEntry);
         } else if (update > 0) {
 //            TODO - Clicar nos botões para adicionar dados da sala NÃO deve atualizar o cadastro da sala até que a mesma seja atualizada no botão salvar
-            RoomEntry newEntry = newRoomEntry(roomBundleID);
-            newEntry.setRoomID(roomBundleID.getInt(ROOM_ID_VALUE));
+            RoomEntry newEntry = newRoomEntry(roomRegBundle);
+            newEntry.setRoomID(roomRegBundle.getInt(ROOM_ID_VALUE));
             ViewModelEntry.updateRoom(newEntry);
         } else {
             Toast.makeText(getContext(), "Houve um Erro. Favor, recomeçar cadastro", Toast.LENGTH_SHORT).show();
@@ -324,6 +326,7 @@ public class RoomsRegisterFragment extends Fragment {
     }
 
     public void setHeaderText(View v) {
+        int chosenOption = roomRegBundle.getInt(ROOM_TYPE);
         TextView headerText = v.findViewById(R.id.room_register_header);
         String headerNames = HeaderNames.headerNames[chosenOption];
         headerText.setText(headerNames);
@@ -334,6 +337,7 @@ public class RoomsRegisterFragment extends Fragment {
     }
 
     public void clearRoomFields() {
+        roomLocationValue.setText(null);
         hasTactileSignRadio.clearCheck();
         hasVisualSignRadio.clearCheck();
         hasLooseCarpetRadio.clearCheck();
@@ -344,28 +348,45 @@ public class RoomsRegisterFragment extends Fragment {
     }
 
     public boolean checkEmptyRoomFields() {
+        clearRoomErrors();
         int i = 0;
+        if (TextUtils.isEmpty(roomLocationValue.getText())) {
+            i++;
+            roomLocationField.setError(getString(R.string.blank_field_error));
+        }
         if (hasVisualSignRadio.getCheckedRadioButtonId() == -1) {
             i++;
+            visualSignError.setVisibility(View.VISIBLE);
         }
         if (hasTactileSignRadio.getCheckedRadioButtonId() == -1) {
             i++;
+            tactileSignError.setVisibility(View.VISIBLE);
+        }
+        if (hasLooseCarpetRadio.getCheckedRadioButtonId() == -1) {
+            i++;
+            carpetError.setVisibility(View.VISIBLE);
         }
         return i == 0;
     }
 
+    private void clearRoomErrors() {
+        roomLocationField.setErrorEnabled(false);
+        visualSignError.setVisibility(View.GONE);
+        tactileSignError.setVisibility(View.GONE);
+        carpetError.setVisibility(View.GONE);
+    }
+
     public RoomEntry newRoomEntry(Bundle bundle) {
+        int chosenOption = roomRegBundle.getInt(ROOM_TYPE);
+
         roomLocation = String.valueOf(roomLocationValue.getText());
-        if (hasVisualSignRadio.getCheckedRadioButtonId() != -1)
-            hasVisSign = getCheckedRadioButton(hasVisualSignRadio);
+        hasVisSign = getCheckedRadioButton(hasVisualSignRadio);
         if (!TextUtils.isEmpty(obsVisualSignValue.getText()))
             obsVisSign = String.valueOf(obsVisualSignValue.getText());
-        if (hasTactileSignRadio.getCheckedRadioButtonId() != -1)
-            hasTactSign = getCheckedRadioButton(hasTactileSignRadio);
+        hasTactSign = getCheckedRadioButton(hasTactileSignRadio);
         if (!TextUtils.isEmpty(obsTactileSignValue.getText()))
             obsTactSign = String.valueOf(obsTactileSignValue.getText());
-        if (hasLooseCarpetRadio.getCheckedRadioButtonId() != -1)
-            hasLooseCarpet = getCheckedRadioButton(hasLooseCarpetRadio);
+        hasLooseCarpet = getCheckedRadioButton(hasLooseCarpetRadio);
         if (!TextUtils.isEmpty(obsLooseCarpetValue.getText()))
             obsLooseCarpet = String.valueOf(obsVisualSignValue.getText());
         if (!TextUtils.isEmpty(roomObsValue.getText()))
@@ -392,33 +413,33 @@ public class RoomsRegisterFragment extends Fragment {
                 break;
         }
 
-        return new RoomEntry(roomBundleID.getInt(SchoolRegisterActivity.SCHOOL_ID), chosenOption, roomLocation, hasVisSign,
+        return new RoomEntry(roomRegBundle.getInt(SchoolRegisterActivity.SCHOOL_ID), chosenOption, roomLocation, hasVisSign,
                 obsVisSign, hasTactSign, obsTactSign, hasLooseCarpet, obsLooseCarpet, libShelvesDistOK, libPcrManeuverOK,
                 libAccessPcOK, secFixedSeat, secHasPcrSpace, secWidthPcrSpace, secDepthPcrSpace, secObsPCRSpace, obsRoom);
     }
 
     private void addDoorDialog() {
-        AddDoorDialog.displayDoorDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
+        AddDoorDialog.displayDoorDialog(requireActivity().getSupportFragmentManager(), roomRegBundle);
     }
 
     private void addSwitchDialog() {
-        AddSwitchDialog.displaySwitchDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
+        AddSwitchDialog.displaySwitchDialog(requireActivity().getSupportFragmentManager(), roomRegBundle);
     }
 
     private void addWindowDialog() {
-        AddWindowDialog.displayWindowDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
+        AddWindowDialog.displayWindowDialog(requireActivity().getSupportFragmentManager(), roomRegBundle);
     }
 
     private void addFreeSpaceDialog() {
-        AddFreeSpaceDialog.displayFreeSpaceDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
+        AddFreeSpaceDialog.displayFreeSpaceDialog(requireActivity().getSupportFragmentManager(), roomRegBundle);
     }
 
     private void addTableDialog() {
-        AddTableDialog.addTableDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
+        AddTableDialog.addTableDialog(requireActivity().getSupportFragmentManager(), roomRegBundle);
     }
 
     private void addCounterDialog() {
-        AddCounterDialog.displayCounterDialog(requireActivity().getSupportFragmentManager(), roomBundleID);
+        AddCounterDialog.displayCounterDialog(requireActivity().getSupportFragmentManager(), roomRegBundle);
     }
 
 }

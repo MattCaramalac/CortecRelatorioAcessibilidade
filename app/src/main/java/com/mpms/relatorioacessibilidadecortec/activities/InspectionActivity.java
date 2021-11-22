@@ -13,7 +13,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestroomListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainListFragment;
 
@@ -27,6 +27,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     public static final String SIDEWALK_LIST = "SIDEWALK_LIST";
     public static final String ALLOW_UPDATE = "ALLOW_UPDATE";
     public static final String RAMP_STAIRS_LIST = "RAMP_STAIRS_LIST";
+    public static final String ROOM_LIST = "ROOM_LIST";
     Bundle fragmentSchoolID = new Bundle();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -102,10 +103,10 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public void displayRoomsRegisterListFragment(int chosenItem) {
-        RoomsRegisterFragment roomsRegisterFragment = RoomsRegisterFragment.newInstance(chosenItem);
-        roomsRegisterFragment.setArguments(fragmentSchoolID);
+        RoomRegisterListFragment roomList = RoomRegisterListFragment.newInstance(chosenItem);
+        roomList.setArguments(fragmentSchoolID);
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, roomsRegisterFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.show_fragment_selected, roomList).addToBackStack(ROOM_LIST).commit();
     }
 
     public void displayParkingLotListFragment() {

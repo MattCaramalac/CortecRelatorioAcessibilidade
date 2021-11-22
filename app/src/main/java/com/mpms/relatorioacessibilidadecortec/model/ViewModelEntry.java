@@ -63,14 +63,13 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<RampStairsEntry>> allStairsSchool;
     public LiveData<List<ParkingLotPCDEntry>> allPcdLots;
     public LiveData<List<ParkingLotElderlyEntry>> allElderLots;
+    public LiveData<List<RoomEntry>> allRooms;
     public final LiveData<List<SchoolEntry>> allEntries;
-    public final LiveData<List<RoomEntry>> allRooms;
 
     public ViewModelEntry(@NonNull Application application) {
         super(application);
         repository = new ReportRepository(application);
         allEntries = repository.getAllSchoolEntries();
-        allRooms = repository.getAllRooms();
     }
 
     public static void insertSchool(SchoolEntry schoolEntry) {
@@ -268,8 +267,9 @@ public class ViewModelEntry extends AndroidViewModel {
        repository.insertRoomEntry(roomEntry);
     }
 
-    public LiveData<List<RoomEntry>> getAllRooms() {
-        return  repository.getAllRooms();
+    public LiveData<List<RoomEntry>> getAllRoomsInSchool(int schoolID, int roomType) {
+        allRooms = repository.getAllRoomsInSchool(schoolID, roomType);
+        return  allRooms;
     }
 
     public LiveData<RoomEntry> getRoomEntry(int roomID) {
