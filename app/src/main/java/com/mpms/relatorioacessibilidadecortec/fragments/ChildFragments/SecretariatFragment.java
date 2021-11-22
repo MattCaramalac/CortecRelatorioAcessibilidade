@@ -64,7 +64,7 @@ public class SecretariatFragment extends Fragment {
         hasFixedSeatsRadio.setOnCheckedChangeListener(this::secretariatRadioListener);
         hasPCRSpaceRadio.setOnCheckedChangeListener(this::secretariatRadioListener);
 
-        addCounter.setOnClickListener( v-> modelFragments.setCounterClick(1));
+        addCounter.setOnClickListener( v-> modelFragments.setAddRegister(true));
 
         modelFragments.getSaveAttemptRoom().observe(getViewLifecycleOwner(), saveAttempt -> {
            if (saveAttempt == 1) {

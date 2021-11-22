@@ -78,6 +78,7 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
 
         instantiateRampStairsListViews(view);
 
+//        TODO - Trocar o Dao/Repository/ViewModel para apenas uma opção, seguir exemplo das salas
         if (rampStairsListBundle.getInt(RAMP_OR_STAIRS) == 7) {
             modelEntry.getAllStairsFromSchool(rampStairsListBundle.getInt(SchoolRegisterActivity.SCHOOL_ID),
                     rampStairsListBundle.getInt(RAMP_OR_STAIRS)).observe(getViewLifecycleOwner(), stairsList -> {

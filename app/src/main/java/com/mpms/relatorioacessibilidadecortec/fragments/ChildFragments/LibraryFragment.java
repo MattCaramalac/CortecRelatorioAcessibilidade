@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
@@ -22,6 +24,7 @@ public class LibraryFragment extends Fragment {
     RadioGroup distanceShelvesAcceptable, maneuverPcrAcceptable, computersAccessible;
 
     ViewModelFragments modelFragments;
+    ViewModelEntry modelEntry;
 
     public static final String DISTANCE_SHELVES = "DISTANCE_SHELVES";
     public static final String MANEUVER_PCR = "MANEUVER_PCR";
@@ -53,6 +56,13 @@ public class LibraryFragment extends Fragment {
 
         libraryInstantiateView(view);
 
+        modelFragments.getGatherRoomData().observe(getViewLifecycleOwner(), gather -> {
+            if (gather > 0) {
+                modelEntry.getRoomEntry(gather).observe(getViewLifecycleOwner(), this::gatherLibraryData);
+                modelFragments.setGatherRoomData(0);
+            }
+        });
+
         modelFragments.getSaveAttemptRoom().observe(getViewLifecycleOwner(), roomAttempt -> {
             if (Objects.equals(modelFragments.getSaveAttemptRoom().getValue(), 1)) {
                 if (checkEmptyLibraryFields()) {
@@ -71,17 +81,23 @@ public class LibraryFragment extends Fragment {
         });
     }
 
-    public void libraryInstantiateView(View view) {
+    private void libraryInstantiateView(View view) {
 //        RadioGroups
         distanceShelvesAcceptable = view.findViewById(R.id.distance_shelves_radio);
         maneuverPcrAcceptable = view.findViewById(R.id.PCR_maneuver_radio);
         computersAccessible = view.findViewById(R.id.computer_accessibility_radio);
 //        ViewModel
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
-
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
     }
 
-    public boolean checkEmptyLibraryFields() {
+    private void gatherLibraryData(RoomEntry room) {
+        distanceShelvesAcceptable.check(distanceShelvesAcceptable.getChildAt(room.getLibraryDistanceShelvesOK()).getId());
+        maneuverPcrAcceptable.check(maneuverPcrAcceptable.getChildAt(room.getLibraryPcrManeuversOK()).getId());
+        computersAccessible.check(computersAccessible.getChildAt(room.getLibraryAccessiblePcOK()).getId());
+    }
+
+    private boolean checkEmptyLibraryFields() {
         int error = 0;
         if (distanceShelvesAcceptable.getCheckedRadioButtonId() == -1) {
             error++;
@@ -96,11 +112,11 @@ public class LibraryFragment extends Fragment {
         return error == 0;
     }
 
-    public int getCheckedRadio(RadioGroup radio) {
+    private int getCheckedRadio(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
-    public void clearLibraryRadio() {
+    private void clearLibraryRadio() {
         distanceShelvesAcceptable.clearCheck();
         maneuverPcrAcceptable.clearCheck();
         computersAccessible.clearCheck();

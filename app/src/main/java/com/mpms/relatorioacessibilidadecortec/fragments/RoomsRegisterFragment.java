@@ -29,8 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddWindowDialo
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.CafeteriaFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ClassroomFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ClassCafeFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.LibraryFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SecretariatFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -38,7 +37,6 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment.ROOM_TYPE;
 
@@ -92,17 +90,18 @@ public class RoomsRegisterFragment extends Fragment {
         if (this.getArguments() != null) {
             roomRegBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
             roomRegBundle.putInt(ROOM_TYPE, this.getArguments().getInt(ROOM_TYPE));
+            roomRegBundle.putInt(ROOM_ID_VALUE, this.getArguments().getInt(ROOM_ID_VALUE));
         }
 
         switch (roomRegBundle.getInt(ROOM_TYPE)) {
             case 3:
                 getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new LibraryFragment()).commit();
                 break;
+//                TODO - Implementar o botão atuando em lousas E balcões
             case 10:
-                getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new CafeteriaFragment()).commit();
-                break;
             case 11:
-                getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new ClassroomFragment()).commit();
+                getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment,
+                        ClassCafeFragment.newInstance(roomRegBundle.getInt(ROOM_TYPE))).commit();
                 break;
             case 15:
                 getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new SecretariatFragment()).commit();
@@ -121,11 +120,16 @@ public class RoomsRegisterFragment extends Fragment {
         instantiateRoomViews(view);
         allowRoomObsScroll();
 
-        modelFragments.getCounterClick().observe(getViewLifecycleOwner(), counter -> {
-            if (Objects.equals(modelFragments.counterClick.getValue(), 1)) {
+        if (roomRegBundle.getInt(ROOM_ID_VALUE) > 0) {
+            modelEntry.getRoomEntry(roomRegBundle.getInt(ROOM_ID_VALUE)).observe(getViewLifecycleOwner(), this::gatherRoomData);
+            modelFragments.setGatherRoomData(roomRegBundle.getInt(ROOM_ID_VALUE));
+        }
+
+        modelFragments.getAddRegister().observe(getViewLifecycleOwner(), counter -> {
+            if (counter) {
                 buttonChoice = 5;
                 saveUpdateDialogClick();
-                modelFragments.setCounterClick(0);
+                modelFragments.setAddRegister(false);
             }
         });
 
@@ -249,6 +253,16 @@ public class RoomsRegisterFragment extends Fragment {
 //        FragmentManager
         manager = getChildFragmentManager();
 
+    }
+
+    private void gatherRoomData(RoomEntry room) {
+        roomLocationValue.setText(room.getRoomLocation());
+        hasVisualSignRadio.check(hasVisualSignRadio.getChildAt(room.getRoomHasVisualVertSing()).getId());
+        obsVisualSignValue.setText(room.getRoomObsVisualVertSign());
+        hasTactileSignRadio.check(hasTactileSignRadio.getChildAt(room.getRoomHasTactileSing()).getId());
+        obsTactileSignValue.setText(room.getRoomObsTactileSign());
+        hasLooseCarpetRadio.check(hasLooseCarpetRadio.getChildAt(room.getRoomHasLooseCarpet()).getId());
+        roomObsValue.setText(room.getRoomObs());
     }
 
     private boolean scrollingField(View v, MotionEvent event) {
@@ -397,10 +411,6 @@ public class RoomsRegisterFragment extends Fragment {
                 libShelvesDistOK = bundle.getInt(LibraryFragment.DISTANCE_SHELVES, 0);
                 libPcrManeuverOK = bundle.getInt(LibraryFragment.MANEUVER_PCR, 0);
                 libAccessPcOK = bundle.getInt(LibraryFragment.COMPUTER_ACCESSIBLE, 0);
-                break;
-            case 11:
-//                TODO - Alterar para cadastro de quadros negros depois, será removido
-                classBoardHeight = bundle.getDouble(ClassroomFragment.BOARD_HEIGHT, 0.0);
                 break;
             case 15:
                 secFixedSeat = bundle.getInt(SecretariatFragment.HAS_FIXED_SEATS, 0);
