@@ -97,7 +97,7 @@
     <string name="label_button_cancel">CANCELAR</string>
 
     <string name="hint_sidewalk_address">Rua Localização da Calçada</string>
-    <string name="hint_sidewalk_status">Estado Conservação da Calçada</string>
+    <string name="hint_sidewalk_status">Observações Conservação da Calçada</string>
     <string name="hint_sidewalk_width">Largura da Calçada</string>
     <string name="label_has_special_floor">Esta calçada possui piso tátil?</string>
     <string name="label_sidewalk_slope">Esta calçada possui rebaixamento?</string>
@@ -189,7 +189,7 @@
     <string name="hint_PDMR_SIA_obs">Observações SIA</string>
     <string name="label_parking_lot_header">Estacionamento</string>
     <string name="label_sidewalk_header">Calçada</string>
-    <string name="hint_conservation_status_special_floor">Estado Conservação Piso Tátil</string>
+    <string name="hint_conservation_status_special_floor">Observações Conservação do Piso Tátil</string>
     <string name="label_obligatory_slope_sidewalk">É obrigatório ter rebaixamento nesta calçada?</string>
     <string name="label_slope_register">Cadastro de rebaixamentos e suas dimensões</string>
     <string name="label_status_special_floor">O piso tátil está em bom estado de conservação?</string>
