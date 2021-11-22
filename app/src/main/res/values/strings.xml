@@ -436,4 +436,7 @@
     <string name="hint_oldest_age">Idade Final</string>
     <string name="hint_youngest_age">Idade Inicial</string>
     <string name="label_has_libras_workers_header">A instituição possui profissionais capacitados em Libras?</string>
+    <string name="hint_room_location">Identificação/Localização do Ambiente</string>
+    <string name="hint_carpet_obs">Observações Tapete ou Capacho</string>
+    <string name="label_blackboard_register">Cadastro de Lousas</string>
 </resources>

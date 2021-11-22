@@ -30,6 +30,14 @@ public class ViewModelFragments extends ViewModel {
         return saveAttemptRooms;
     }
 
+    public final MutableLiveData<Integer> gatherRoomData = new MutableLiveData<>();
+    public void setGatherRoomData (Integer integer) {
+        gatherRoomData.setValue(integer);
+    }
+    public LiveData<Integer> getGatherRoomData() {
+        return gatherRoomData;
+    }
+
     private final MutableLiveData<Bundle> roomBundle = new MutableLiveData<>();
     public void setRoomBundle(Bundle bundle) {
         roomBundle.setValue(bundle);
@@ -38,12 +46,12 @@ public class ViewModelFragments extends ViewModel {
         return roomBundle;
     }
 
-    public final MutableLiveData<Integer> counterClick = new MutableLiveData<>();
-    public void setCounterClick (Integer integer) {
-        counterClick.setValue(integer);
+    public final MutableLiveData<Boolean> addRegister = new MutableLiveData<>();
+    public void setAddRegister(Boolean bool) {
+        addRegister.setValue(bool);
     }
-    public LiveData<Integer> getCounterClick() {
-        return counterClick;
+    public LiveData<Boolean> getAddRegister() {
+        return addRegister;
     }
 
     public final MutableLiveData<Bundle> rampStairsBundle = new MutableLiveData<>();
