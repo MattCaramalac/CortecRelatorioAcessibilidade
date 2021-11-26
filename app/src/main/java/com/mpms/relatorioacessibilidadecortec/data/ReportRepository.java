@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.mpms.relatorioacessibilidadecortec.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
@@ -80,6 +81,7 @@ public class ReportRepository {
     private final RampInclinationDao rampInclinationDao;
     private final RampStairsHandrailDao handrailDao;
     private final RampStairsRailingDao railingDao;
+    private final BlockSpaceDao blockSpaceDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -114,6 +116,7 @@ public class ReportRepository {
         rampInclinationDao = db.rampInclinationDao();
         handrailDao = db.rampStairsHandrailDao();
         railingDao = db.rampStairsRailingDao();
+        blockSpaceDao = db.blockSpaceDao();
 
     }
 
@@ -151,6 +154,34 @@ public class ReportRepository {
 
     public void deleteOneSchoolEntry(SchoolEntry schoolEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.deleteOne(schoolEntry));
+    }
+
+    public void insertBlockSpace(BlockSpaceEntry blockSpace) {
+        ReportDatabase.dbWriteExecutor.execute(() -> blockSpaceDao.insertBlockSpace(blockSpace));
+    }
+
+    public LiveData<List<BlockSpaceEntry>> getBlockSpaceFromSchool(int schoolID) {
+        return blockSpaceDao.getBlockSpaceFromSchool(schoolID);
+    }
+
+    public LiveData<BlockSpaceEntry> getSpecificBlockSpace(int blockSpaceID) {
+        return blockSpaceDao.getSpecificBlockSpace(blockSpaceID);
+    }
+
+    public LiveData<BlockSpaceEntry> getLastBlockSpace(int blockSpaceType) {
+        return blockSpaceDao.getSpecificBlockSpace(blockSpaceType);
+    }
+
+    public void updateBlockSpace (BlockSpaceEntry blockSpace) {
+        ReportDatabase.dbWriteExecutor.execute(() -> blockSpaceDao.updateBlockSpace(blockSpace));
+    }
+
+    public void deleteBlockSpace(int blockSpaceID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> blockSpaceDao.deleteBlockSpace(blockSpaceID));
+    }
+
+    public void deleteAllBlockSpacesSchool(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> blockSpaceDao.deleteAllBlockSpacesSchool(schoolID));
     }
 
     public LiveData<List<WaterFountainEntry>> getAllFountainsInSchool(int schoolEntryID) {

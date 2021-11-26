@@ -70,9 +70,9 @@ public class SchoolRegisterActivity extends AppCompatActivity {
                     manager.beginTransaction().replace(R.id.show_register_school_fragment, fragmentThree).addToBackStack(null).commit();
                 } else if (schoolReg.getBoolean(NEXT_ACTIVITY)) {
                     modelFragments.setSaveUpdateSchoolReg(null);
-                    Intent itemInspectionIntent = new Intent(this, InspectionActivity.class);
-                    itemInspectionIntent.putExtra(SCHOOL_BUNDLE, schoolRegBundle);
-                    startActivity(itemInspectionIntent);
+                    Intent blockSpaceIntent = new Intent(this, BlockRegisterActivity.class);
+                    blockSpaceIntent.putExtra(SCHOOL_BUNDLE, schoolRegBundle);
+                    startActivity(blockSpaceIntent);
                 }
             }
         });

@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.mpms.relatorioacessibilidadecortec.data.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.ReportRepository;
+import com.mpms.relatorioacessibilidadecortec.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
@@ -64,6 +65,7 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<ParkingLotPCDEntry>> allPcdLots;
     public LiveData<List<ParkingLotElderlyEntry>> allElderLots;
     public LiveData<List<RoomEntry>> allRooms;
+    public LiveData<List<BlockSpaceEntry>> allBlockSpaces;
     public final LiveData<List<SchoolEntry>> allEntries;
 
     public ViewModelEntry(@NonNull Application application) {
@@ -74,10 +76,6 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void insertSchool(SchoolEntry schoolEntry) {
         repository.insertSchoolEntry(schoolEntry);
-    }
-
-    public static void updateSchool(SchoolEntry schoolEntry) {
-        repository.updateSchoolEntry(schoolEntry);
     }
 
     public static void updateSchoolRegOne(SchoolRegisterOne... regOne) {
@@ -808,6 +806,35 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public LiveData<Integer> countRampInclination(int flightID) {
         return repository.countRampInclination(flightID);
+    }
+
+    public static void insertBlockSpace(BlockSpaceEntry blockSpace) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertBlockSpace(blockSpace));
+    }
+
+    public LiveData<List<BlockSpaceEntry>> getBlockSpaceFromSchool(int schoolID) {
+        allBlockSpaces = repository.getBlockSpaceFromSchool(schoolID);
+        return allBlockSpaces;
+    }
+
+    public LiveData<BlockSpaceEntry> getSpecificBlockSpace(int blockSpaceID) {
+        return repository.getSpecificBlockSpace(blockSpaceID);
+    }
+
+    public LiveData<BlockSpaceEntry> getLastBlockSpace(int blockSpaceType) {
+        return repository.getSpecificBlockSpace(blockSpaceType);
+    }
+
+    public static void updateBlockSpace (BlockSpaceEntry blockSpace) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateBlockSpace(blockSpace));
+    }
+
+    public static void deleteBlockSpace(int blockSpaceID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteBlockSpace(blockSpaceID));
+    }
+
+    public static void deleteAllBlockSpacesSchool(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllBlockSpacesSchool(schoolID));
     }
 
 }

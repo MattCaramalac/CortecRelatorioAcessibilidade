@@ -17,7 +17,6 @@ import com.mpms.relatorioacessibilidadecortec.adapter.RecyclerViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
-import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnEntryClickListener {
@@ -26,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
     private ViewModelEntry viewModelEntry;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
-    private List<SchoolEntry> schoolEntryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

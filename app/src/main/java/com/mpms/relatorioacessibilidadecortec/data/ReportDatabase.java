@@ -157,6 +157,10 @@ public abstract class ReportDatabase extends RoomDatabase {
                         RampStairsHandrailDao handrailDao = INSTANCE.rampStairsHandrailDao();
                     });
 
+                    dbWriteExecutor.execute(() -> {
+                        BlockSpaceDao blockSpaceDao = INSTANCE.blockSpaceDao();
+                    });
+
                 }
             };
 
@@ -634,5 +638,6 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract RampInclinationDao rampInclinationDao();
     public abstract RampStairsHandrailDao rampStairsHandrailDao();
     public abstract RampStairsRailingDao rampStairsRailingDao();
+    public abstract BlockSpaceDao blockSpaceDao();
 
 }
