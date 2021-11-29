@@ -168,8 +168,8 @@ public class ReportRepository {
         return blockSpaceDao.getSpecificBlockSpace(blockSpaceID);
     }
 
-    public LiveData<BlockSpaceEntry> getLastBlockSpace(int blockSpaceType) {
-        return blockSpaceDao.getSpecificBlockSpace(blockSpaceType);
+    public LiveData<BlockSpaceEntry> getLastBlockSpace(int schoolID, int blockSpaceType) {
+        return blockSpaceDao.getLastBlockSpace(schoolID, blockSpaceType);
     }
 
     public void updateBlockSpace (BlockSpaceEntry blockSpace) {
@@ -208,8 +208,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> waterFountainDao.deleteAllFountainsFromSchool(schoolID));
     }
 
-    public LiveData<List<ExternalAccess>> getAllExternalAccessesInSchool(int schoolEntryID) {
-        return externalAccessDao.getAllSchoolExternalAccesses(schoolEntryID);
+    public LiveData<List<ExternalAccess>> getAllExternalAccessesInSchool(int blockID) {
+        return externalAccessDao.getAllSchoolExternalAccesses(blockID);
     }
 
     public LiveData<ExternalAccess> getOneExternalAccess(int externalAccessID) {
@@ -232,8 +232,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> externalAccessDao.deleteOneExternalAccess(externalAccessID));
     }
 
-    public void deleteAllExternalAccesses(int schoolID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> externalAccessDao.deleteAllExternalAccessesFromSchool(schoolID));
+    public void deleteAllExternalAccesses(int blockID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> externalAccessDao.deleteAllExternalAccessesFromSchool(blockID));
     }
 
     public void insertOtherSpace(OtherSpaces otherSpaces){

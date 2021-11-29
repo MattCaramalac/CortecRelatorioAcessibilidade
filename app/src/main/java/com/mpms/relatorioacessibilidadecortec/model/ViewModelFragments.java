@@ -108,6 +108,12 @@ public class ViewModelFragments extends ViewModel {
         return dataFromFragToActivity;
     }
 
+    public final MutableLiveData<Bundle> dataFromActivityToFrag = new MutableLiveData<>();
+    public void setDataFromActivityToFrag(Bundle bundle) { dataFromActivityToFrag.setValue(bundle); }
+    public LiveData<Bundle> getDataFromActivityToFrag() {
+        return dataFromActivityToFrag;
+    }
+
     public final MutableLiveData<Bundle> sendFountainFragData = new MutableLiveData<>();
     public void setFountainFragData(Bundle bundle) { sendFountainFragData.setValue(bundle); }
     public LiveData<Bundle> getFountainFragData() {

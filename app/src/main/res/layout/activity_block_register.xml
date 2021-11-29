@@ -14,14 +14,15 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.23"
+        app:layout_constraintHeight_percent="0.30"
         class="com.mpms.relatorioacessibilidadecortec.fragments.BlockRegisterFragment"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/show_block_spaces_registered"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.75"
+        app:layout_constraintHeight_percent="0.68
+"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/createBlockRegister"

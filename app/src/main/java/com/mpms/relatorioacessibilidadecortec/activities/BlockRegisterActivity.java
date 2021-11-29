@@ -17,6 +17,7 @@ import com.mpms.relatorioacessibilidadecortec.adapter.BlockSpaceRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
 
@@ -27,9 +28,11 @@ public class BlockRegisterActivity extends AppCompatActivity implements OnEntryC
     public static final String BLOCK_SPACE_REGISTER = "BLOCK_SPACE_REGISTER";
 
     private ViewModelEntry modelEntry;
+    private ViewModelFragments modelFragments;
     private RecyclerView recyclerView;
     private BlockSpaceRecViewAdapter blockSpaceAdapter;
-    Bundle schoolRegister = new Bundle();
+
+    Bundle blockRegister = new Bundle();
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -38,11 +41,12 @@ public class BlockRegisterActivity extends AppCompatActivity implements OnEntryC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block_register);
-        schoolRegister = getIntent().getBundleExtra(SchoolRegisterActivity.SCHOOL_BUNDLE);
+        blockRegister = getIntent().getBundleExtra(SchoolRegisterActivity.SCHOOL_BUNDLE);
 
         instantiateViews();
-    }
 
+        modelFragments.setDataFromActivityToFrag(blockRegister);
+    }
 
 
     private void instantiateViews() {
@@ -52,8 +56,9 @@ public class BlockRegisterActivity extends AppCompatActivity implements OnEntryC
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 //        ViewModel
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(BlockRegisterActivity.this.getApplication()).create(ViewModelEntry.class);
+        modelFragments = new ViewModelProvider(this).get(ViewModelFragments.class);
 //        RecyclerView Setting
-        modelEntry.getBlockSpaceFromSchool(schoolRegister.getInt(SCHOOL_ID)).observe(this, blockSpace -> {
+        modelEntry.getBlockSpaceFromSchool(blockRegister.getInt(SCHOOL_ID)).observe(this, blockSpace -> {
             blockSpaceAdapter = new BlockSpaceRecViewAdapter(blockSpace, BlockRegisterActivity.this, this);
             recyclerView.setAdapter(blockSpaceAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -64,7 +69,7 @@ public class BlockRegisterActivity extends AppCompatActivity implements OnEntryC
 
     @Override
     public void OnEntryClick(int position) {
-        BlockSpaceEntry blockSpace = modelEntry.getBlockSpaceFromSchool(schoolRegister.getInt(SCHOOL_ID)).getValue().get(position);
+        BlockSpaceEntry blockSpace = modelEntry.allBlockSpaces.getValue().get(position);
 
         Intent registerComponents = new Intent(BlockRegisterActivity.this, InspectionActivity.class);
         registerComponents.putExtra(BLOCK_SPACE_REGISTER, blockSpace.getBlockSpaceID());

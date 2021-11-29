@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.mpms.relatorioacessibilidadecortec.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
@@ -50,7 +51,7 @@ import java.util.concurrent.Executors;
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class, RampStairsHandrailEntry.class,
-        RampStairsRailingEntry.class}, version = 28)
+        RampStairsRailingEntry.class, BlockSpaceEntry.class}, version = 29)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -304,7 +305,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                     "FOREIGN KEY (externalAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE)");
             database.execSQL("CREATE TABLE PayPhoneEntry(payPhoneID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, externalAccessID INTEGER NOT NULL," +
                     "phoneRefPoint TEXT, phoneOpHeight REAL, hasTactileFloor INTEGER, payPhoneObs TEXT, FOREIGN KEY (externalAccessID) " +
-                    "REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE)");
+                    "REFERENCES ExternalAccess (extAccessID) ON UPDATE CASCADE ON DELETE CASCADE)");
         }
     };
 
@@ -590,6 +591,26 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_28_29 = new Migration(28,29) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE BlockSpaceEntry(blockSpaceID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolID INTEGER NOT NULL, " +
+                    "blockSpaceType INTEGER NOT NULL, blockSpaceNumber INTEGER NOT NULL, FOREIGN KEY (schoolID) REFERENCES SchoolEntry (cadID) " +
+                    "ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("CREATE TABLE ExternalAccess_Backup(externalAccessID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, " +
+                    "accessLocation TEXT, entranceType INTEGER, extAccessObs TEXT, hasSIA INTEGER, obsSIA TEXT, floorType TEXT, gateWidth REAL, " +
+                    "gateHasTracks INTEGER, gateTrackHeight REAL, gateHasTrackRamp INTEGER, gateSillType INTEGER, sillInclinationHeight REAL, sillStepHeight REAL, " +
+                    "sillSlopeAngle REAL, sillSlopeWidth REAL, gateSillObs TEXT, gateHasObstacles INTEGER, gateHasPayphones INTEGER, gateHasIntercom INTEGER, " +
+                    "intercomHeight REAL, gateHasSoundSign INTEGER, FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO ExternalAccess_Backup (externalAccessID, blockID, entranceType, extAccessObs, hasSIA, floorType, gateWidth, gateTrackHeight, " +
+                    "gateHasTrackRamp, gateHasObstacles, gateHasPayphones) SELECT externalAccessID, schoolEntryID, entranceType, externalObs, hasSIA, floorType, " +
+                    "gateWidth,gateTrailHeight, gateHasTrailRamp, gateHasObstacles, gateHasPayphones FROM ExternalAccess");
+            database.execSQL("DROP TABLE ExternalAccess");
+            database.execSQL("ALTER TABLE ExternalAccess_Backup RENAME TO ExternalAccess");
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ReportDatabase.class) {
@@ -599,7 +620,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12,
                                     MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17, MIGRATION_17_18,
                                     MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23, MIGRATION_23_24,
-                                    MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27, MIGRATION_27_28).build();
+                                    MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27, MIGRATION_27_28, MIGRATION_28_29).build();
                 }
             }
         }

@@ -9,13 +9,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+
+import static com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity.SCHOOL_ID;
 
 public class BlockRegisterFragment extends Fragment {
 
@@ -23,9 +26,14 @@ public class BlockRegisterFragment extends Fragment {
     public static final String NEXT_ENTRY = "NEXT_ENTRY";
 
     MaterialButton newBlock, newSpace, saveQuit;
+
     ViewModelEntry modelEntry;
+    ViewModelFragments modelFragments;
 
     Bundle blockBundle = new Bundle();
+
+    int blockClick = 0;
+    int spaceClick = 0;
 
     public BlockRegisterFragment() {
         // Required empty public constructor
@@ -38,9 +46,6 @@ public class BlockRegisterFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            blockBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
-        }
     }
 
     @Override
@@ -56,32 +61,40 @@ public class BlockRegisterFragment extends Fragment {
 
         instantiateBlockRegisterViews(view);
 
+        modelFragments.getDataFromActivityToFrag().observe(getViewLifecycleOwner(), bundle -> blockBundle.putInt(SCHOOL_ID, bundle.getInt(SCHOOL_ID)));
+
         newBlock.setOnClickListener(v -> {
+            blockClick++;
             blockBundle.putInt(BLOCK_OR_SPACE, 0);
-            modelEntry.getLastBlockSpace(0).observe(getViewLifecycleOwner(), block -> {
-                if (block == null) {
+            modelEntry.getLastBlockSpace(blockBundle.getInt(SCHOOL_ID), 0).observe(getViewLifecycleOwner(), block -> {
+                if (block == null && blockClick > 0) {
                     blockBundle.putInt(NEXT_ENTRY, 1);
                     BlockSpaceEntry newEntry = newBlock(blockBundle);
                     ViewModelEntry.insertBlockSpace(newEntry);
-                } else {
+                    blockClick--;
+                } else if (block != null && blockClick > 0) {
                     blockBundle.putInt(NEXT_ENTRY, block.getBlockSpaceNumber() + 1);
                     BlockSpaceEntry newEntry = newBlock(blockBundle);
                     ViewModelEntry.insertBlockSpace(newEntry);
+                    blockClick--;
                 }
             });
         });
 
         newSpace.setOnClickListener(v -> {
+            spaceClick++;
             blockBundle.putInt(BLOCK_OR_SPACE, 1);
-            modelEntry.getLastBlockSpace(1).observe(getViewLifecycleOwner(), block -> {
-                if (block == null) {
+            modelEntry.getLastBlockSpace(blockBundle.getInt(SCHOOL_ID), 1).observe(getViewLifecycleOwner(), space -> {
+                if (space == null && spaceClick > 0) {
                     blockBundle.putInt(NEXT_ENTRY, 1);
                     BlockSpaceEntry newEntry = newBlock(blockBundle);
                     ViewModelEntry.insertBlockSpace(newEntry);
-                } else {
-                    blockBundle.putInt(NEXT_ENTRY, block.getBlockSpaceNumber() + 1);
+                    spaceClick--;
+                } else if (space != null && spaceClick > 0) {
+                    blockBundle.putInt(NEXT_ENTRY, space.getBlockSpaceNumber() + 1);
                     BlockSpaceEntry newEntry = newBlock(blockBundle);
                     ViewModelEntry.insertBlockSpace(newEntry);
+                    spaceClick--;
                 }
             });
         });
@@ -101,10 +114,11 @@ public class BlockRegisterFragment extends Fragment {
         saveQuit = view.findViewById(R.id.save_quit_block_register);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
     }
 
     private BlockSpaceEntry newBlock(Bundle bundle) {
-        return new BlockSpaceEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), bundle.getInt(BLOCK_OR_SPACE), bundle.getInt(NEXT_ENTRY));
+        return new BlockSpaceEntry(bundle.getInt(SCHOOL_ID), bundle.getInt(BLOCK_OR_SPACE), bundle.getInt(NEXT_ENTRY));
     }
 
 }

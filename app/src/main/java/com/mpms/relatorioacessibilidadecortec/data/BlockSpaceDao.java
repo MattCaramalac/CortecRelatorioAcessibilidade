@@ -16,14 +16,15 @@ public interface BlockSpaceDao {
     @Insert
     void insertBlockSpace(BlockSpaceEntry blockSpace);
 
-    @Query("SELECT * FROM BlockSpaceEntry WHERE schoolID == :schoolID ORDER BY blockSpaceID ASC")
+    @Query("SELECT * FROM BlockSpaceEntry WHERE schoolID == :schoolID ORDER BY blockSpaceType ASC")
     LiveData<List<BlockSpaceEntry>> getBlockSpaceFromSchool(int schoolID);
 
     @Query("SELECT * FROM BlockSpaceEntry WHERE blockSpaceID == :blockSpaceID")
     LiveData<BlockSpaceEntry> getSpecificBlockSpace(int blockSpaceID);
 
-    @Query("SELECT MAX(blockSpaceNumber) FROM BlockSpaceEntry WHERE blockSpaceType == :blockSpaceType")
-    LiveData<BlockSpaceEntry> getLastBlockSpace(int blockSpaceType);
+    @Query("SELECT * FROM BlockSpaceEntry WHERE schoolID == :schoolID " +
+            " AND blockSpaceNumber == (SELECT MAX(blockSpaceNumber) from BlockSpaceEntry WHERE blockSpaceType == :blockSpaceType)")
+    LiveData<BlockSpaceEntry> getLastBlockSpace(int schoolID, int blockSpaceType);
 
     @Update
     void updateBlockSpace (BlockSpaceEntry blockSpace);
