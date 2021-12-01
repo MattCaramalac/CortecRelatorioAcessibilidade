@@ -14,6 +14,13 @@
         <item>INFERIOR DIREITO</item>
     </string-array>
 
+    <string-array name="multi_radio_sill_type">
+        <item>NIVELADA</item>
+        <item>COM DESNÍVEL</item>
+        <item>COM DEGRAU</item>
+        <item>COM RAMPA</item>
+    </string-array>
+
     <string name="app_name">Relatório Acessibilidade Cortec</string>
 
     <string name="header">Cadastro da Instituição</string>
@@ -439,4 +446,13 @@
     <string name="hint_room_location">Identificação/Localização do Ambiente</string>
     <string name="hint_carpet_obs">Observações Tapete ou Capacho</string>
     <string name="label_blackboard_register">Cadastro de Lousas</string>
+    <string name="label_gate_has_floor_tracks">O portão possui trilho no piso?</string>
+    <string name="label_gate_has_intercom">Entrada possui interfone?</string>
+    <string name="hint_intercom_height">Altura do Interfone</string>
+    <string name="label_sound_sign">Entrada possui sinal sonoro intermitente?</string>
+    <string name="header_block_space_register">Cadastro de Blocos e Espaços de Apoio</string>
+    <string name="new_block_button">Novo Bloco</string>
+    <string name="new_space_button">Novo Espaço de Apoio</string>
+    <string name="hint_ext_access_location">Localização do Acesso</string>
+    <string name="label_sill_type_gate">Tipo de Soleira do Portão</string>
 </resources>

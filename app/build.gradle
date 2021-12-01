@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.mpms.relatorioacessibilidadecortec"
         minSdkVersion 24
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
@@ -43,12 +43,13 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
+    implementation 'androidx.fragment:fragment:1.4.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -67,9 +68,9 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:2.3.0"
 
 // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.3.1"
-    implementation "androidx.lifecycle:lifecycle-livedata:2.3.1"
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.4.0"
 
     // RxJava support for Room
     implementation "android.arch.persistence.room:rxjava2:1.1.1"

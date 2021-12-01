@@ -21,17 +21,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/entrance_location_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_ext_access_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/external_access_header">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/entrance_location_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:id="@+id/label_external_access_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             android:text="@string/label_external_access_type"
             android:textSize="@dimen/section_header"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/external_access_header" />
+            app:layout_constraintTop_toBottomOf="@id/entrance_location_field" />
 
         <RadioGroup
             android:id="@+id/external_access_type_radio"
@@ -71,311 +86,23 @@
             app:layout_constraintStart_toStartOf="parent"
             />
 
-        <TextView
-            android:id="@+id/label_has_SIA"
+        <FrameLayout
+            android:id="@+id/external_access_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:text="@string/frag_ext_sia"
-            android:textSize="@dimen/section_header"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/external_access_type_error" />
+            app:layout_constraintTop_toBottomOf="@id/external_access_type_error"
+            android:layout_marginTop="@dimen/usual_padding"/>
 
-        <RadioGroup
-            android:id="@+id/has_SIA_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_has_SIA">
-
-            <RadioButton
-                android:id="@+id/radio_sia_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
-
-            <RadioButton
-                android:id="@+id/radio_sia_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/has_SIA_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/has_SIA_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/floor_type_ext_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_external_floor"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/has_SIA_error">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/floor_type_ext_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/gate_width_ext_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_ext_gate_width"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/floor_type_ext_field">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/gate_width_ext_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ext_trail_height_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_ext_trail_height"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_width_ext_field">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ext_trail_height_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/label_gate_has_trail_ramp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ext_trail_height_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:text="@string/frag_ext_trail_ledge"
-            android:textSize="@dimen/section_header" />
-
-        <RadioGroup
-            android:id="@+id/gate_has_trail_ramp_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_gate_has_trail_ramp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_doesnt_have_it"
-                android:textSize="@dimen/radio_button_text" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_has_it"
-                android:textSize="@dimen/radio_button_text" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_unnecessary"
-                android:textSize="@dimen/radio_button_text" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/has_trail_ramp_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/gate_has_trail_ramp_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_gate_trail_ramp_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/purple_200"
-            android:text="@string/label_add_frag_entry"
-            android:textColor="@color/black"
-            app:cornerRadius="3dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/has_trail_ramp_error"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/top_margins"
-            />
-
-        <TextView
-            android:id="@+id/label_entrance_obstacles"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_gate_trail_ramp_button"
-            android:layout_marginTop="@dimen/top_margins"
-            android:text="@string/frag_ext_gate_obstacles"
-            android:textSize="@dimen/section_header" />
-
-        <RadioGroup
-            android:id="@+id/gate_has_obstacles_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_entrance_obstacles"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/gate_has_obstacles_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
-
-
-            <RadioButton
-                android:id="@+id/gate_has_obstacles_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/gate_has_obstacles_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/gate_has_obstacles_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_gate_obstacles_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/purple_200"
-            android:text="@string/label_add_frag_entry"
-            android:textColor="@color/black"
-            app:cornerRadius="3dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_has_obstacles_error"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/top_margins"
-            />
-
-        <TextView
-            android:id="@+id/label_gate_has_payphones"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_gate_obstacles_button"
-            android:layout_marginTop="@dimen/top_margins"
-            android:text="@string/frag_ent_gate_payphone"
-            android:textSize="@dimen/section_header" />
-
-        <RadioGroup
-            android:id="@+id/gate_has_payphones_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_gate_has_payphones"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/gate_has_payphones_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
-
-            <RadioButton
-                android:id="@+id/gate_has_payphones_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/gate_has_payphones_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/gate_has_payphones_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_gate_payphones_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/purple_200"
-            android:text="@string/label_add_frag_entry"
-            android:textColor="@color/black"
-            app:cornerRadius="3dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_has_payphones_error"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/top_margins"
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/external_access_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_gate_payphones_button"
+            app:layout_constraintTop_toBottomOf="@id/external_access_layout"
             android:hint="@string/hint_obs">
 
             <com.google.android.material.textfield.TextInputEditText

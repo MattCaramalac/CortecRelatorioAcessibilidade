@@ -142,8 +142,8 @@ public class ViewModelEntry extends AndroidViewModel {
         repository.deleteAllSpaces(schoolID);
     }
 
-    public static void deleteAllExternalAccesses(int schoolID) {
-        repository.deleteAllExternalAccesses(schoolID);
+    public static void deleteAllExternalAccessesFromBlock(int blockID) {
+        repository.deleteAllExternalAccesses(blockID);
     }
 
     public static void insertParkingLot(ParkingLotEntry parkingLotEntry) {
@@ -208,8 +208,8 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getOneWaterFountain(waterFountainID);
     }
 
-    public LiveData<List<ExternalAccess>> getAllExternalAccessesInSchool(int schoolEntryID) {
-        allExtAccSchool = repository.getAllExternalAccessesInSchool(schoolEntryID);
+    public LiveData<List<ExternalAccess>> getAllExternalAccessesInOneBlock(int blockID) {
+        allExtAccSchool = repository.getAllExternalAccessesInSchool(blockID);
         return allExtAccSchool;
     }
 
@@ -821,8 +821,8 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getSpecificBlockSpace(blockSpaceID);
     }
 
-    public LiveData<BlockSpaceEntry> getLastBlockSpace(int blockSpaceType) {
-        return repository.getSpecificBlockSpace(blockSpaceType);
+    public LiveData<BlockSpaceEntry> getLastBlockSpace(int schoolID, int blockSpaceType) {
+        return repository.getLastBlockSpace(schoolID, blockSpaceType);
     }
 
     public static void updateBlockSpace (BlockSpaceEntry blockSpace) {

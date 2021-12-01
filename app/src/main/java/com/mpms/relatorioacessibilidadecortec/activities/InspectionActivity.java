@@ -17,6 +17,8 @@ import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainListFragment;
 
+import static com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity.*;
+
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
     public static final String PARKING_LIST = "PARKING_LIST";
@@ -28,7 +30,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     public static final String ALLOW_UPDATE = "ALLOW_UPDATE";
     public static final String RAMP_STAIRS_LIST = "RAMP_STAIRS_LIST";
     public static final String ROOM_LIST = "ROOM_LIST";
-    Bundle fragmentSchoolID = new Bundle();
+    Bundle blockSpaceBundle = new Bundle();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction;
@@ -37,7 +39,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspection);
-        fragmentSchoolID = getIntent().getBundleExtra(SchoolRegisterActivity.SCHOOL_BUNDLE);
+        blockSpaceBundle.putInt(BLOCK_SPACE_REGISTER, getIntent().getIntExtra(BLOCK_SPACE_REGISTER, 0));
     }
 
 
@@ -75,21 +77,21 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public void displayExtAccessListFragment() {
         ExternalAccessListFragment extAccessList = ExternalAccessListFragment.newInstance();
-        extAccessList.setArguments(fragmentSchoolID);
+        extAccessList.setArguments(blockSpaceBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, extAccessList).addToBackStack(EXTERNAL_LIST).commit();
     }
 
     public void displayRestroomListFragment() {
         RestroomListFragment restListFragment = RestroomListFragment.newInstance();
-        restListFragment.setArguments(fragmentSchoolID);
+        restListFragment.setArguments(blockSpaceBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, restListFragment).addToBackStack(REST_LIST).commit();
     }
 
     public void displayFountainListFragment() {
         WaterFountainListFragment waterListFrag = WaterFountainListFragment.newInstance();
-        waterListFrag.setArguments(fragmentSchoolID);
+        waterListFrag.setArguments(blockSpaceBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, waterListFrag).addToBackStack(WATER_LIST).commit();
 
@@ -97,36 +99,36 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public void displaySidewalkListFragment() {
         SidewalkListFragment sidewalkList = SidewalkListFragment.newInstance();
-        sidewalkList.setArguments(fragmentSchoolID);
+        sidewalkList.setArguments(blockSpaceBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, sidewalkList).addToBackStack(SIDEWALK_LIST).commit();
     }
 
     public void displayRoomsRegisterListFragment(int chosenItem) {
         RoomRegisterListFragment roomList = RoomRegisterListFragment.newInstance(chosenItem);
-        roomList.setArguments(fragmentSchoolID);
+        roomList.setArguments(blockSpaceBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, roomList).addToBackStack(ROOM_LIST).commit();
     }
 
     public void displayParkingLotListFragment() {
         ParkingLotListFragment parkingList = ParkingLotListFragment.newInstance();
-        parkingList.setArguments(fragmentSchoolID);
+        parkingList.setArguments(blockSpaceBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, parkingList).addToBackStack(PARKING_LIST).commit();
     }
 
     public void displayOtherSpacesListFragment() {
         OtherSpacesListFragment otherListFrag = OtherSpacesListFragment.newInstance();
-        otherListFrag.setArguments(fragmentSchoolID);
+        otherListFrag.setArguments(blockSpaceBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, otherListFrag).addToBackStack(OTHERS_LIST).commit();
     }
 
     public void displayStairsRampListFragment(int chosenItem) {
         RampStairsListFragment rampStairsList = RampStairsListFragment.newInstance(chosenItem);
-        fragmentSchoolID.putInt(ALLOW_UPDATE, 0);
-        rampStairsList.setArguments(fragmentSchoolID);
+        blockSpaceBundle.putInt(ALLOW_UPDATE, 0);
+        rampStairsList.setArguments(blockSpaceBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, rampStairsList).addToBackStack(RAMP_STAIRS_LIST).commit();
     }

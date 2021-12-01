@@ -7,7 +7,7 @@
     tools:context=".activities.InspectionActivity"
     android:padding="@dimen/margins">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/chooseItemMemorial"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,6 +25,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/chooseItemMemorial"
-        android:layout_marginTop="@dimen/top_margins"/>
+        android:layout_marginTop="@dimen/usual_padding"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,8 +16,8 @@ public interface ExternalAccessDao {
     @Insert
     void insertExternalAccess(ExternalAccess externalAccess);
 
-    @Query("SELECT * FROM ExternalAccess WHERE schoolEntryID == :schoolID ORDER BY externalAccessID DESC")
-    LiveData<List<ExternalAccess>> getAllSchoolExternalAccesses(int schoolID);
+    @Query("SELECT * FROM ExternalAccess WHERE blockID == :blockID ORDER BY externalAccessID DESC")
+    LiveData<List<ExternalAccess>> getAllSchoolExternalAccesses(int blockID);
 
     @Query("SELECT * FROM ExternalAccess WHERE externalAccessID == :externalAccessID")
     LiveData<ExternalAccess> getOneExternalAccess(int externalAccessID);
@@ -31,6 +31,6 @@ public interface ExternalAccessDao {
     @Query("DELETE FROM ExternalAccess WHERE externalAccessID == :externalAccessID")
     void deleteOneExternalAccess(int externalAccessID);
 
-    @Query("DELETE FROM ExternalAccess WHERE schoolEntryID == :schoolEntryID")
-    void deleteAllExternalAccessesFromSchool(int schoolEntryID);
+    @Query("DELETE FROM ExternalAccess WHERE blockID == :blockID")
+    void deleteAllExternalAccessesFromSchool(int blockID);
 }

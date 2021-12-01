@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.ExtAccRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
@@ -51,7 +51,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            extListBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            extListBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
         }
     }
 
@@ -68,7 +68,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
 
         instantiateExtAccListViews(view);
 
-        modelEntry.getAllExternalAccessesInSchool(extListBundle.getInt(SchoolRegisterActivity.SCHOOL_ID))
+        modelEntry.getAllExternalAccessesInOneBlock(extListBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER))
                 .observe(getViewLifecycleOwner(), extAccess -> {
                     extAccAdapter = new ExtAccRecViewAdapter(extAccess, requireActivity(), this);
                     recyclerView.setAdapter(extAccAdapter);
