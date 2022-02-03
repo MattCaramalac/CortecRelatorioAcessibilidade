@@ -27,6 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSwitchDialo
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddTableDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddWindowDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ClassCafeFragment;
@@ -53,7 +54,7 @@ public class RoomsRegisterFragment extends Fragment {
     RadioGroup hasVisualSignRadio, hasTactileSignRadio, hasLooseCarpetRadio;
 
     Integer hasVisSign, hasTactSign, hasLooseCarpet, libShelvesDistOK, libPcrManeuverOK, libAccessPcOK, secFixedSeat, secHasPcrSpace;
-    Double classBoardHeight, secWidthPcrSpace, secDepthPcrSpace;
+    Double secWidthPcrSpace, secDepthPcrSpace;
     String roomLocation, obsVisSign, obsTactSign, obsLooseCarpet, secObsPCRSpace, obsRoom;
     public int update = 0;
     public int recentRoomID = 0;
@@ -212,8 +213,10 @@ public class RoomsRegisterFragment extends Fragment {
             saveUpdateDialogClick();
         });
 
-        cancelRoomRegister.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
+        cancelRoomRegister.setOnClickListener(v -> {
+            roomRegBundle = null;
+            requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.ROOM_LIST, 0);
+        });
 
         saveRoomRegister.setOnClickListener(v -> saveRoomEntry());
     }

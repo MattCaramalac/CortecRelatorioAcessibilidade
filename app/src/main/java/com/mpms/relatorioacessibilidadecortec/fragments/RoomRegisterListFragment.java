@@ -43,7 +43,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
 
     Bundle roomBundle = new Bundle();
 
-    public RoomRegisterListFragment(){
+    public RoomRegisterListFragment() {
         // Required empty public constructor
     }
 
@@ -81,16 +81,19 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
 
         modelEntry.getAllRoomsInSchool(roomBundle.getInt(SchoolRegisterActivity.SCHOOL_ID), roomBundle.getInt(ROOM_TYPE))
                 .observe(getViewLifecycleOwner(), rooms -> {
-            roomAdapter = new RoomRecViewAdapter(rooms, requireActivity(), this);
-            recyclerView.setAdapter(roomAdapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-            recyclerView.addItemDecoration(dividerItemDecoration);
+                    roomAdapter = new RoomRecViewAdapter(rooms, requireActivity(), this);
+                    recyclerView.setAdapter(roomAdapter);
+                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                    dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+                    recyclerView.addItemDecoration(dividerItemDecoration);
+                });
 
-            addRoom.setOnClickListener(v -> openRoomFragment());
-
-            closeRoomList.setOnClickListener(v-> requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit());
+        addRoom.setOnClickListener(v -> {
+            roomBundle.putInt(RoomsRegisterFragment.ROOM_ID_VALUE, 0);
+            openRoomFragment();
         });
+
+        closeRoomList.setOnClickListener(v -> requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit());
     }
 
     private void instantiateRoomListViews(View view) {
