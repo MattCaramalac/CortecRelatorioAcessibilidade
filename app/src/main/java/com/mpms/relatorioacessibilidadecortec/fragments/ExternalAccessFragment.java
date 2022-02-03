@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,8 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccess
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 import static com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment.FRAG_DATA;
 import static com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment.SOCIAL_FRAG;
@@ -45,7 +48,12 @@ public class ExternalAccessFragment extends Fragment {
 
     ArrayList<String> fragData = new ArrayList<>();
 
+    ArrayList<String> extFrag = new ArrayList<>(Arrays.
+            asList(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
+
     public static final String EXT_ACCESS_ID = "EXT_ACCESS_ID";
+    public static final String EXT_ARRAY = "EXT_ARRAY";
+    public static final String EXT_GATHER_DATA = "EXT_GATHER_DATA";
 
     int existingEntry = 0;
     int recentEntry = 0;
@@ -88,6 +96,7 @@ public class ExternalAccessFragment extends Fragment {
 
         if (extBundle.getInt(EXT_ACCESS_ID) > 0) {
             modelEntry.getOneExternalAccess(extBundle.getInt(EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), this::gatherExtAccessInfo);
+            getChildFragmentManager().setFragmentResult(EXT_GATHER_DATA, extBundle);
             existingEntry = 1;
         }
 
@@ -118,7 +127,7 @@ public class ExternalAccessFragment extends Fragment {
 ////                    TODO - Alterar método de gravação de dados, precisa alterar a tabela também
 //                    if (newAccess != null)
 //                        ViewModelEntry.insertExternalAccess(newAccess);
-//                    Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), R.string.register_created_message, Toast.LENGTH_SHORT).show();
 //                    clearFields();
 //                } else if (upCounter > 0) {
 //                    ExternalAccess upAccess = newExtAccess(extBundle);
@@ -150,7 +159,11 @@ public class ExternalAccessFragment extends Fragment {
             if (extBundle.getInt(EXT_ACCESS_ID) != 0) {
 
             } else {
-                ViewModelEntry.insertExternalAccess(extAccess);
+                if(!Objects.equals(extFrag.get(18), "false")) {
+                    ViewModelEntry.insertExternalAccess(extAccess);
+                    clearExtAccessFields();
+                    Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
+                }
             }
 
         });
@@ -181,7 +194,6 @@ public class ExternalAccessFragment extends Fragment {
         entranceLocationValue.setText(extAccess.getAccessLocation());
         entranceTypeRadio.check(entranceTypeRadio.getChildAt(extAccess.getEntranceType()).getId());
         externalAccessObsValue.setText(extAccess.getExtAccessObs());
-//        TODO - implementar o envio de dados para os fragmentos filhos
     }
 
     private int getRadioCheckIndex(RadioGroup radio) {
@@ -216,11 +228,14 @@ public class ExternalAccessFragment extends Fragment {
         if (TextUtils.isEmpty(entranceLocationValue.getText())) {
             errors++;
             entranceLocationField.setError(getText(R.string.blank_field_error));
-        }
+            extFrag.set(18, "false");
+        } else
+            extFrag.set(18, null);
         if (entranceTypeRadio.getCheckedRadioButtonId() == -1) {
             accessTypeError.setVisibility(View.VISIBLE);
             errors++;
         } else {
+            fragComm.putStringArrayList(EXT_ARRAY, extFrag);
             getChildFragmentManager().setFragmentResult(EXT_ACCESS_SAVE_ATTEMPT, fragComm);
         }
         return errors == 0;
@@ -231,7 +246,7 @@ public class ExternalAccessFragment extends Fragment {
         accessTypeError.setVisibility(View.GONE);
     }
 
-    public void clearFields() {
+    private void clearExtAccessFields() {
         entranceLocationValue.setText(null);
         entranceTypeRadio.clearCheck();
         externalAccessObsValue.setText(null);

@@ -455,4 +455,5 @@
     <string name="new_space_button">Novo Espaço de Apoio</string>
     <string name="hint_ext_access_location">Localização do Acesso</string>
     <string name="label_sill_type_gate">Tipo de Soleira do Portão</string>
+    <string name="register_created_message">Cadastro efetuado com sucesso!</string>
 </resources>
