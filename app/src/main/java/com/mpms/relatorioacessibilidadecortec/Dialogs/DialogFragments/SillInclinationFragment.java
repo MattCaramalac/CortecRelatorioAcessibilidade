@@ -14,8 +14,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -27,6 +30,10 @@ public class SillInclinationFragment extends Fragment {
     TextInputEditText sillInclinationValue;
 
     ViewModelDialog modelDialog;
+
+    ArrayList<String> childData = new ArrayList<>();
+
+    Bundle inclinationBundle = new Bundle();
 
     public SillInclinationFragment() {
         // Required empty public constructor
@@ -53,9 +60,10 @@ public class SillInclinationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sillInclinationField = view.findViewById(R.id.sill_inclination_height_field);
-        sillInclinationValue = view.findViewById(R.id.sill_inclination_height_value);
 
+        instantiateInclinationSillView(view);
+
+        //        TODO - Retirar esse model dialog quando remover o DoorDialog
         modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
 
         modelDialog.getRestDoorBundle().observe(getViewLifecycleOwner(), this::gatherInclinationData);
@@ -72,27 +80,45 @@ public class SillInclinationFragment extends Fragment {
             }
         });
 
+        getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
+            childData = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
+            if (checkEmptyInclinationField()) {
+                inclinationBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
+                getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, inclinationBundle);
+            } else
+                getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, bundle);
+        });
+
     }
 
-    public boolean checkEmptyInclinationField() {
+    private void instantiateInclinationSillView(View view) {
+//        TextInputLayout
+        sillInclinationField = view.findViewById(R.id.sill_inclination_height_field);
+//        TextInputEditText
+        sillInclinationValue = view.findViewById(R.id.sill_inclination_height_value);
+    }
+
+    private boolean checkEmptyInclinationField() {
         clearErrorInclinationSill();
         int error = 0;
         if (TextUtils.isEmpty(sillInclinationValue.getText())) {
             error++;
             sillInclinationField.setError(getString(R.string.blank_field_error));
-        }
+        } else
+            childData.set(8, String.valueOf(sillInclinationValue.getText()));
+
         return error == 0;
     }
 
-    public void clearErrorInclinationSill() {
+    private void clearErrorInclinationSill() {
         sillInclinationField.setErrorEnabled(false);
     }
 
-    public void clearInclinationFieldSill() {
+    private void clearInclinationFieldSill() {
         sillInclinationValue.setText(null);
     }
 
-    public void gatherInclinationData(Bundle bundle) {
+    private void gatherInclinationData(Bundle bundle) {
         sillInclinationValue.setText(String.valueOf(bundle.getDouble(HEIGHT_INCLINED_SILL)));
     }
 }

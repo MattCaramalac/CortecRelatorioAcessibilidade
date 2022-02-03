@@ -57,7 +57,7 @@ public class LibraryFragment extends Fragment {
         libraryInstantiateView(view);
 
         modelFragments.getGatherRoomData().observe(getViewLifecycleOwner(), gather -> {
-            if (gather > 0) {
+            if (gather != null && gather > 0) {
                 modelEntry.getRoomEntry(gather).observe(getViewLifecycleOwner(), this::gatherLibraryData);
                 modelFragments.setGatherRoomData(0);
             }

@@ -14,8 +14,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -27,6 +30,10 @@ public class SillStepFragment extends Fragment {
     TextInputEditText stepHeightValue;
 
     ViewModelDialog modelDialog;
+
+    ArrayList<String> childData = new ArrayList<>();
+
+    Bundle sillStepBundle = new Bundle();
 
 
     public SillStepFragment() {
@@ -56,6 +63,7 @@ public class SillStepFragment extends Fragment {
         stepHeightField = view.findViewById(R.id.sill_step_height_field);
         stepHeightValue = view.findViewById(R.id.sill_step_height_value);
 
+        //        TODO - Retirar esse model dialog quando remover o DoorDialog
         modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
 
         modelDialog.getRestDoorBundle().observe(getViewLifecycleOwner(), this::gatherStepData);
@@ -71,27 +79,38 @@ public class SillStepFragment extends Fragment {
                 modelDialog.setSaveDoorAttempt(0);
             }
         });
+
+        getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
+            childData = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
+            if (checkEmptySillStepField()) {
+                sillStepBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
+                getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, sillStepBundle);
+            } else
+                getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, bundle);
+        });
     }
 
-    public boolean checkEmptySillStepField() {
+    private boolean checkEmptySillStepField() {
         clearEmptyErrorStepField();
         int error = 0;
         if (TextUtils.isEmpty(stepHeightValue.getText())) {
             stepHeightField.setError(getString(R.string.blank_field_error));
             error++;
-        }
+        } else
+            childData.set(9, String.valueOf(stepHeightValue.getText()));
+
         return error == 0;
     }
 
-    public void clearEmptyErrorStepField() {
+    private void clearEmptyErrorStepField() {
         stepHeightField.setErrorEnabled(false);
     }
 
-    public void clearStepField() {
+    private void clearStepField() {
         stepHeightValue.setText(null);
     }
 
-    public void gatherStepData(Bundle bundle) {
+    private void gatherStepData(Bundle bundle) {
         stepHeightValue.setText(String.valueOf(bundle.getDouble(STEP_HEIGHT)));
     }
 }

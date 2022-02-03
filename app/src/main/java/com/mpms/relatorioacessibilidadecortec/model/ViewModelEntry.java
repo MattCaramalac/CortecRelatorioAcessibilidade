@@ -68,6 +68,8 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<BlockSpaceEntry>> allBlockSpaces;
     public final LiveData<List<SchoolEntry>> allEntries;
 
+    public LiveData<ExternalAccess> oneAccess;
+
     public ViewModelEntry(@NonNull Application application) {
         super(application);
         repository = new ReportRepository(application);
@@ -214,7 +216,8 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public LiveData<ExternalAccess> getOneExternalAccess(int externalAccessID) {
-        return repository.getOneExternalAccess(externalAccessID);
+        oneAccess = repository.getOneExternalAccess(externalAccessID);
+        return oneAccess;
     }
 
     public LiveData<ExternalAccess> getLastExternalAccess() {
