@@ -23,9 +23,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillInclinationFragment;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillSlopeFragment;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillStepFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillInclinationFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;

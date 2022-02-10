@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments;
+package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,9 +14,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment;
+import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -31,9 +33,14 @@ public class SillInclinationFragment extends Fragment {
 
     ViewModelDialog modelDialog;
 
+    ViewModelEntry modelEntry;
+
+    ViewModelFragments modelFragments;
+
     ArrayList<String> childData = new ArrayList<>();
 
     Bundle inclinationBundle = new Bundle();
+    Bundle extAccessDataInfo = new Bundle();
 
     public SillInclinationFragment() {
         // Required empty public constructor
@@ -63,14 +70,11 @@ public class SillInclinationFragment extends Fragment {
 
         instantiateInclinationSillView(view);
 
-        //        TODO - Retirar esse model dialog quando remover o DoorDialog
-        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
-
-        modelDialog.getRestDoorBundle().observe(getViewLifecycleOwner(), this::gatherInclinationData);
+        modelDialog.getRestDoorBundle().observe(getViewLifecycleOwner(), this::gatherInclinationDataDialog);
 
         modelDialog.getSaveDoorAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
             if (Objects.equals(modelDialog.getSaveDoorAttempt().getValue(), 1)) {
-                if (checkEmptyInclinationField()) {
+                if (doesNotHaveEmptyInclinationField()) {
                     Bundle bundle = new Bundle();
                     bundle.putDouble(HEIGHT_INCLINED_SILL, Double.parseDouble(Objects.requireNonNull(sillInclinationValue.getText()).toString()));
                     modelDialog.setDoorInfo(bundle);
@@ -80,15 +84,26 @@ public class SillInclinationFragment extends Fragment {
             }
         });
 
+        if (extAccessDataInfo != null && extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
+            modelEntry.getOneExternalAccess(extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherInclinationData);
+        }
+
         getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
             childData = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
-            if (checkEmptyInclinationField()) {
-                inclinationBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
-                getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, inclinationBundle);
+            if (doesNotHaveEmptyInclinationField()) {
+                childData.set(18, null);
             } else
-                getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, bundle);
+                childData.set(18, "false");
+            inclinationBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
+            getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, inclinationBundle);
         });
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     private void instantiateInclinationSillView(View view) {
@@ -96,9 +111,16 @@ public class SillInclinationFragment extends Fragment {
         sillInclinationField = view.findViewById(R.id.sill_inclination_height_field);
 //        TextInputEditText
         sillInclinationValue = view.findViewById(R.id.sill_inclination_height_value);
+        //        TODO - Retirar esse model dialog quando remover o DoorDialog
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+//        ViewModel
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+//        Bundle
+        extAccessDataInfo = modelFragments.getExtAccessLoadInfo().getValue();
     }
 
-    private boolean checkEmptyInclinationField() {
+    private boolean doesNotHaveEmptyInclinationField() {
         clearErrorInclinationSill();
         int error = 0;
         if (TextUtils.isEmpty(sillInclinationValue.getText())) {
@@ -118,7 +140,12 @@ public class SillInclinationFragment extends Fragment {
         sillInclinationValue.setText(null);
     }
 
-    private void gatherInclinationData(Bundle bundle) {
+//    TODO - Retirar esse método de carregamento de dados assim que tirar o Dialog
+    private void gatherInclinationDataDialog(Bundle bundle) {
         sillInclinationValue.setText(String.valueOf(bundle.getDouble(HEIGHT_INCLINED_SILL)));
+    }
+
+    private void gatherInclinationData(ExternalAccess access) {
+        sillInclinationValue.setText(String.valueOf(access.getSillInclinationHeight()));
     }
 }

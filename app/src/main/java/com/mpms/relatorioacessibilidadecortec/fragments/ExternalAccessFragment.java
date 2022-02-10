@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -24,6 +25,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessVehicleFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +37,8 @@ import static com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.Ex
 public class ExternalAccessFragment extends Fragment {
 
     public static final String EXT_ACCESS_SAVE_ATTEMPT = "EXT_ACCESS_SAVE_ATTEMPT";
+    public static final String EXT_ACCESS_ID = "EXT_ACCESS_ID";
+    public static final String EXT_ARRAY = "EXT_ARRAY";
 
     RadioGroup entranceTypeRadio;
     TextInputLayout entranceLocationField, externalAccessObsField;
@@ -51,16 +55,12 @@ public class ExternalAccessFragment extends Fragment {
     ArrayList<String> extFrag = new ArrayList<>(Arrays.
             asList(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
 
-    public static final String EXT_ACCESS_ID = "EXT_ACCESS_ID";
-    public static final String EXT_ARRAY = "EXT_ARRAY";
-    public static final String EXT_GATHER_DATA = "EXT_GATHER_DATA";
 
     int existingEntry = 0;
-    int recentEntry = 0;
-
-    private int lastExtAccess;
 
     private ViewModelEntry modelEntry;
+
+    private ViewModelFragments modelFragments;
 
     public ExternalAccessFragment() {
         // Required empty public constructor
@@ -96,76 +96,42 @@ public class ExternalAccessFragment extends Fragment {
 
         if (extBundle.getInt(EXT_ACCESS_ID) > 0) {
             modelEntry.getOneExternalAccess(extBundle.getInt(EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), this::gatherExtAccessInfo);
-            getChildFragmentManager().setFragmentResult(EXT_GATHER_DATA, extBundle);
-            existingEntry = 1;
+            modelFragments.setExtAccessLoadInfo(extBundle);
+            existingEntry++;
         }
 
-//      Como a verificação estava ocorrendo depois do dialogo ser criado, coloca-se o chamado do dialogo dentro do observer
-//      Para garantir que o bundle receba o ID necessário. (existe solução mais elegante?)
-//        TODO - Procurar solução possivelmente mais elegante
-//        modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), lastAccess -> {
-//            if (recentEntry == 1) {
-//                lastExtAccess = lastAccess.getExternalAccessID();
-//                extBundle.putInt(EXT_ACCESS_ID, lastExtAccess);
-////                buttonClicked(extButtonChoice);
-//                extButtonChoice = -1;
-//            }
-//        });
+//        TODO - Verificar no frag. filho método para abrir novos frags e salvar parcialmente os dados
 
-        cancelExternalAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
-
-        saveExternalAccess.setOnClickListener(v -> {
-//            TODO - Implementar método de update também
-            if (checkEmptyFields()) {
-
-            }
-
-
-//            if (checkEmptyFields()) {
-//                if (upCounter == 0) {
-//                    ExternalAccess newAccess = newExtAccess(extBundle);
-////                    TODO - Alterar método de gravação de dados, precisa alterar a tabela também
-//                    if (newAccess != null)
-//                        ViewModelEntry.insertExternalAccess(newAccess);
-//                    Toast.makeText(getContext(), R.string.register_created_message, Toast.LENGTH_SHORT).show();
-//                    clearFields();
-//                } else if (upCounter > 0) {
-//                    ExternalAccess upAccess = newExtAccess(extBundle);
-//                    if (recentEntry == 1) {
-//                        upAccess.setExternalAccessID(lastExtAccess);
-//                        recentEntry = 0;
-//                    }
-//                    if (existingEntry == 1) {
-//                        upAccess.setExternalAccessID(extBundle.getInt(EXT_ACCESS_ID));
-//                        existingEntry = 0;
-//                    }
-////                    TODO - Alterar método de gravação de dados, precisa alterar a tabela também
-//                    if (upAccess != null)
-//                        ViewModelEntry.updateExternalAccess(upAccess);
-//                    Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
-//                    clearFields();
-//                    requireActivity().getSupportFragmentManager().popBackStackImmediate();
-//                } else {
-//                    Toast.makeText(getContext(), "Algo inesperado ocorreu. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
-//                    clearFields();
-//                }
-//            } else
-//                Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-        });
 
         getChildFragmentManager().setFragmentResultListener(FRAG_DATA, this, (key, bundle) -> {
             fragData = bundle.getStringArrayList(SOCIAL_FRAG);
+            checkEmptyFields();
             ExternalAccess extAccess = newExtAccess(extBundle, fragData);
             if (extBundle.getInt(EXT_ACCESS_ID) != 0) {
-
+                extAccess.setExternalAccessID(extBundle.getInt(EXT_ACCESS_ID));
+                ViewModelEntry.updateExternalAccess(extAccess);
+                clearExtAccessFields();
+                Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
+                modelFragments.setExtAccessLoadInfo(null);
+                requireActivity().getSupportFragmentManager().popBackStackImmediate();
             } else {
                 if(!Objects.equals(extFrag.get(18), "false")) {
                     ViewModelEntry.insertExternalAccess(extAccess);
                     clearExtAccessFields();
                     Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
+                    modelFragments.setExtAccessLoadInfo(null);
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
+                    extFrag.set(18, null);
                 }
             }
+        });
 
+        cancelExternalAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+
+        saveExternalAccess.setOnClickListener(v -> {
+            fragComm.putStringArrayList(EXT_ARRAY, extFrag);
+            getChildFragmentManager().setFragmentResult(EXT_ACCESS_SAVE_ATTEMPT, fragComm);
         });
 
     }
@@ -186,6 +152,7 @@ public class ExternalAccessFragment extends Fragment {
         cancelExternalAccess = view.findViewById(R.id.cancel_ext_access);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
 
         entranceTypeRadio.setOnCheckedChangeListener(this::radioGroupActivation);
     }
@@ -222,23 +189,16 @@ public class ExternalAccessFragment extends Fragment {
         externalAccessObsValue.setOnTouchListener(this::scrollingField);
     }
 
-    public boolean checkEmptyFields() {
+    public void checkEmptyFields() {
         clearExternalAccessErrors();
-        int errors = 0;
         if (TextUtils.isEmpty(entranceLocationValue.getText())) {
-            errors++;
             entranceLocationField.setError(getText(R.string.blank_field_error));
             extFrag.set(18, "false");
-        } else
-            extFrag.set(18, null);
+        }
         if (entranceTypeRadio.getCheckedRadioButtonId() == -1) {
             accessTypeError.setVisibility(View.VISIBLE);
-            errors++;
-        } else {
-            fragComm.putStringArrayList(EXT_ARRAY, extFrag);
-            getChildFragmentManager().setFragmentResult(EXT_ACCESS_SAVE_ATTEMPT, fragComm);
+            extFrag.set(18, "false");
         }
-        return errors == 0;
     }
 
     public void clearExternalAccessErrors() {
@@ -258,7 +218,8 @@ public class ExternalAccessFragment extends Fragment {
         String location, extAccessObs, obsSIA, floorType, gateSillObs;
         Integer entranceType, hasSIA = null, gateHasTracks = null, gateHasTrackRamp = null, gateSillType = null, gateHasObstacles = null,
                 gateHasPayphone = null, gateHasIntercom = null, gateHasSoundSign = null;
-        Double gateWidth = null, gateTrackHeight = null, sillInclinationHeight = null, sillStepHeight = null, sillSlopeAngle = null, sillSlopeWidth = null, intercomHeight = null;
+        Double gateWidth = null, gateTrackHeight = null, sillInclinationHeight = null, sillStepHeight = null, sillSlopeAngle = null,
+                sillSlopeWidth = null, intercomHeight = null;
 
         location = String.valueOf(entranceLocationValue.getText());
         extAccessObs = String.valueOf(externalAccessObsValue.getText());

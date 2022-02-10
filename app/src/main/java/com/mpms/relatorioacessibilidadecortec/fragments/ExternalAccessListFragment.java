@@ -23,6 +23,7 @@ import com.mpms.relatorioacessibilidadecortec.adapter.ExtAccRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.Objects;
 
@@ -35,6 +36,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
     private ExtAccRecViewAdapter extAccAdapter;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    ViewModelFragments modelFragments;
 
     Bundle extListBundle = new Bundle();
 
@@ -89,6 +91,13 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        extListBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID,0);
+        modelFragments.setExtAccessLoadInfo(null);
+    }
+
     private void instantiateExtAccListViews(View v) {
         closeExtAccess = v.findViewById(R.id.close_items_entries_list);
         addExtAccess = v.findViewById(R.id.add_items_entries);
@@ -98,6 +107,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
 
         extListBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID,0);
     }

@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments;
+package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,9 +14,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment;
+import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -32,7 +34,12 @@ public class SillSlopeFragment extends Fragment {
 
     ViewModelDialog modelDialog;
 
+    ViewModelEntry modelEntry;
+
+    ViewModelFragments modelFragments;
+
     Bundle sillSlopeBundle = new Bundle();
+    Bundle extAccessDataInfo = new Bundle();
 
     ArrayList<String> childData = new ArrayList<>();
 
@@ -63,14 +70,11 @@ public class SillSlopeFragment extends Fragment {
 
         instantiateSillSlopeViews(view);
 
-//        TODO - Retirar esse model dialog quando remover o DoorDialog
-        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
-
-        modelDialog.getRestDoorBundle().observe(getViewLifecycleOwner(), this::gatherSlopeData);
+        modelDialog.getRestDoorBundle().observe(getViewLifecycleOwner(), this::gatherSlopeDataDialog);
 
         modelDialog.getSaveDoorAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
             if (Objects.equals(modelDialog.getSaveDoorAttempt().getValue(), 1)) {
-                if (checkEmptySlopeFields()) {
+                if (doesNotHaveEmptySlopeFields()) {
                     Bundle bundle = new Bundle();
                     bundle.putDouble(SLOPE_INCLINATION, Double.parseDouble(Objects.requireNonNull(sillSlopeAngleValue.getText()).toString()));
                     bundle.putDouble(SLOPE_WIDTH, Double.parseDouble(Objects.requireNonNull(sillSlopeWidthValue.getText()).toString()));
@@ -81,13 +85,19 @@ public class SillSlopeFragment extends Fragment {
             }
         });
 
+        if (extAccessDataInfo != null && extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
+            modelEntry.getOneExternalAccess(extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherSlopeData);
+        }
+
         getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
             childData = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
-            if (checkEmptySlopeFields()) {
-                sillSlopeBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
-                getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, sillSlopeBundle);
-            } else
-                getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, bundle);
+            if (doesNotHaveEmptySlopeFields())
+                childData.set(18, null);
+            else
+                childData.set(18, "false");
+            sillSlopeBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
+            getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, sillSlopeBundle);
         });
     }
 
@@ -98,9 +108,16 @@ public class SillSlopeFragment extends Fragment {
 //        TextInputEditText
         sillSlopeAngleValue = view.findViewById(R.id.sill_slope_value);
         sillSlopeWidthValue = view.findViewById(R.id.sill_slope_width_value);
+        //        TODO - Retirar esse model dialog quando remover o DoorDialog
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+//        ViewModel
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        //        Bundle
+        extAccessDataInfo = modelFragments.getExtAccessLoadInfo().getValue();
     }
 
-    private boolean checkEmptySlopeFields() {
+    private boolean doesNotHaveEmptySlopeFields() {
         clearEmptyFieldErrors();
         int error = 0;
         if (TextUtils.isEmpty(sillSlopeAngleValue.getText())) {
@@ -126,8 +143,14 @@ public class SillSlopeFragment extends Fragment {
         sillSlopeAngleValue.setText(null);
     }
 
-    private void gatherSlopeData(Bundle bundle) {
+    //    TODO - Retirar esse método de carregamento de dados assim que tirar o Dialog
+    private void gatherSlopeDataDialog(Bundle bundle) {
         sillSlopeWidthValue.setText(String.valueOf(bundle.getDouble(SLOPE_WIDTH)));
         sillSlopeAngleValue.setText(String.valueOf(bundle.getDouble(SLOPE_INCLINATION)));
+    }
+
+    private void gatherSlopeData(ExternalAccess access) {
+        sillSlopeWidthValue.setText(String.valueOf(access.getSillSlopeWidth()));
+        sillSlopeAngleValue.setText(String.valueOf(access.getSillSlopeAngle()));
     }
 }

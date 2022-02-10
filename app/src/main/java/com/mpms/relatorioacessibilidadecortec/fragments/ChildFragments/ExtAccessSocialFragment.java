@@ -15,22 +15,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillInclinationFragment;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillSlopeFragment;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.SillStepFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
-
-import static com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT;
 
 public class ExtAccessSocialFragment extends Fragment {
 
@@ -48,9 +45,13 @@ public class ExtAccessSocialFragment extends Fragment {
 
     ViewModelEntry modelEntry;
 
+    ViewModelFragments modelFragments;
+
     FragmentManager manager;
 
     ArrayList<String> socialFrag = new ArrayList<>();
+
+    Bundle extAccessDataInfo = new Bundle();
 
     public ExtAccessSocialFragment() {
         // Required empty public constructor
@@ -75,29 +76,30 @@ public class ExtAccessSocialFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //    TODO - Implementar contadores de registros, impedir gravação sem ao menos um registro salvo (quando marcado sim)
-
-
         super.onViewCreated(view, savedInstanceState);
         instantiateSocialViews(view);
-//        FragmentManager agora possui "Result Listener", não necessitando mais do VM para poder passar dados
-        getParentFragmentManager().setFragmentResultListener(EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
+
+        extAccessDataInfo = modelFragments.getExtAccessLoadInfo().getValue();
+
+        if (extAccessDataInfo != null && extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
+            modelEntry.getOneExternalAccess(extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherSocialFragData);
+        }
+
+        getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
             if (sillTypeRadio.getCheckedRadioButtonIndex() > 0) {
-                getChildFragmentManager().setFragmentResult(EXT_ACCESS_SAVE_ATTEMPT, bundle);
+                getChildFragmentManager().setFragmentResult(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, bundle);
             } else {
                 socialFrag = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
                 if (socialFragDoesNotHaveEmptyFields()) {
-                    bundle.putStringArrayList(SOCIAL_FRAG, socialFrag);
-                    getParentFragmentManager().setFragmentResult(FRAG_DATA, bundle);
-                }
+                    socialFrag.set(18, null);
+                } else
+                    socialFrag.set(18, "false");
+                bundle.putStringArrayList(SOCIAL_FRAG, socialFrag);
+                getParentFragmentManager().setFragmentResult(FRAG_DATA, bundle);
+
             }
         });
-
-//        TODO - Corrigir a captação de dados
-        getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_GATHER_DATA, this,
-                (key, bundle) -> {
-                    modelEntry.getOneExternalAccess(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
-                            .observe(getViewLifecycleOwner(), this::gatherSocialFragData);
-                });
 
         getChildFragmentManager().setFragmentResultListener(FRAG_DATA, this, (key, bundle) -> {
             socialFrag = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
@@ -106,6 +108,13 @@ public class ExtAccessSocialFragment extends Fragment {
                 getParentFragmentManager().setFragmentResult(FRAG_DATA, bundle);
             }
         });
+
+//        TODO - Adicionar as telas de fragmento para o cadastro em questão
+        addTrackRampButton.setOnClickListener(v -> {});
+
+        addObstaclesButton.setOnClickListener(v -> {});
+
+        addPayphoneButton.setOnClickListener(v -> {});
 
     }
 
@@ -150,6 +159,7 @@ public class ExtAccessSocialFragment extends Fragment {
         sillFragment = v.findViewById(R.id.ext_access_sill_fragment);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
 //        Fragment Manager
         manager = getChildFragmentManager();
 //        Obs Fields Scrolling
@@ -163,6 +173,8 @@ public class ExtAccessSocialFragment extends Fragment {
 //        MultiRadio Listeners
         sillTypeRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
                 (view, r) -> extAccessMultiRadioListener(sillTypeRadio));
+//        Bundles
+
 
     }
 
@@ -229,12 +241,11 @@ public class ExtAccessSocialFragment extends Fragment {
         floorTypeValue.setText(access.getFloorType());
         gateWidthValue.setText(String.valueOf(access.getGateWidth()));
         hasGateTracksRadio.check(hasGateTracksRadio.getChildAt(access.getGateHasTracks()).getId());
-        if (access.getGateHasTracks() == 1)
+        if (access.getGateHasTracks() == 1) {
             trackHeightValue.setText(String.valueOf(access.getGateTrackHeight()));
-        sillTypeRadio.checkAt(access.getGateSillType());
-        if (access.getGateSillType() > 0) {
+            hasTrackRampRadio.check(hasTrackRampRadio.getChildAt(access.getGateHasTrackRamp()).getId());
         }
-//            TODO - criar a comunicação com os filhos
+        sillTypeRadio.checkAt(access.getGateSillType());
         sillObsValue.setText(access.getGateSillObs());
         hasObstaclesRadio.check(hasObstaclesRadio.getChildAt(access.getGateHasObstacles()).getId());
         hasPayphoneRadio.check(hasPayphoneRadio.getChildAt(access.getGateHasPayphones()).getId());

@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments;
+package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,9 +14,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment;
+import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -31,10 +33,14 @@ public class SillStepFragment extends Fragment {
 
     ViewModelDialog modelDialog;
 
+    ViewModelEntry modelEntry;
+
+    ViewModelFragments modelFragments;
+
     ArrayList<String> childData = new ArrayList<>();
 
     Bundle sillStepBundle = new Bundle();
-
+    Bundle extAccessDataInfo = new Bundle();
 
     public SillStepFragment() {
         // Required empty public constructor
@@ -60,13 +66,9 @@ public class SillStepFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        stepHeightField = view.findViewById(R.id.sill_step_height_field);
-        stepHeightValue = view.findViewById(R.id.sill_step_height_value);
+        instantiateSillStepViews(view);
 
-        //        TODO - Retirar esse model dialog quando remover o DoorDialog
-        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
-
-        modelDialog.getRestDoorBundle().observe(getViewLifecycleOwner(), this::gatherStepData);
+        modelDialog.getRestDoorBundle().observe(getViewLifecycleOwner(), this::gatherStepDataDialog);
 
         modelDialog.getSaveDoorAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
             if(Objects.equals(modelDialog.getSaveDoorAttempt().getValue(), 1)) {
@@ -80,14 +82,34 @@ public class SillStepFragment extends Fragment {
             }
         });
 
+        if (extAccessDataInfo != null && extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
+            modelEntry.getOneExternalAccess(extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherStepData);
+        }
+
         getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
             childData = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
             if (checkEmptySillStepField()) {
-                sillStepBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
-                getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, sillStepBundle);
+                childData.set(18, null);
             } else
-                getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, bundle);
+                childData.set(18, "false");
+            sillStepBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
+            getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, sillStepBundle);
         });
+    }
+
+    private void instantiateSillStepViews(View view) {
+//        TextInputLayout
+        stepHeightField = view.findViewById(R.id.sill_step_height_field);
+//        TextInputEditText
+        stepHeightValue = view.findViewById(R.id.sill_step_height_value);
+        //        TODO - Retirar esse model dialog quando remover o DoorDialog
+        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+//        ViewModels
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        //        Bundle
+        extAccessDataInfo = modelFragments.getExtAccessLoadInfo().getValue();
     }
 
     private boolean checkEmptySillStepField() {
@@ -110,7 +132,11 @@ public class SillStepFragment extends Fragment {
         stepHeightValue.setText(null);
     }
 
-    private void gatherStepData(Bundle bundle) {
+    private void gatherStepDataDialog(Bundle bundle) {
         stepHeightValue.setText(String.valueOf(bundle.getDouble(STEP_HEIGHT)));
+    }
+
+    private void gatherStepData(ExternalAccess access) {
+        stepHeightValue.setText(String.valueOf(access.getSillStepHeight()));
     }
 }

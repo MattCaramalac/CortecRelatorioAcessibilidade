@@ -120,4 +120,10 @@ public class ViewModelFragments extends ViewModel {
         return sendFountainFragData;
     }
 
+    public final MutableLiveData<Bundle> extAccessLoadInfo = new MutableLiveData<>();
+    public void setExtAccessLoadInfo(Bundle bundle) { extAccessLoadInfo.setValue(bundle); }
+    public LiveData<Bundle> getExtAccessLoadInfo() {
+        return extAccessLoadInfo;
+    }
+
 }
