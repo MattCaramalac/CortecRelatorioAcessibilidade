@@ -18,15 +18,20 @@ public class PayPhoneEntry {
     private int externalAccessID;
 
     private String phoneRefPoint;
-    private Double phoneOpHeight;
-    private Integer hasTactileFloor;
+    private double phoneKeyboardHeight;
+    private double phoneHeight;
+    private int hasTactileFloor;
+    private int phoneIsWorking;
     private String payPhoneObs;
 
-    public PayPhoneEntry(int externalAccessID, String phoneRefPoint, Double phoneOpHeight, Integer hasTactileFloor, String payPhoneObs) {
+    public PayPhoneEntry(int externalAccessID, String phoneRefPoint, double phoneKeyboardHeight, double phoneHeight, int hasTactileFloor,
+                         int phoneIsWorking, String payPhoneObs) {
         this.externalAccessID = externalAccessID;
         this.phoneRefPoint = phoneRefPoint;
-        this.phoneOpHeight = phoneOpHeight;
+        this.phoneKeyboardHeight = phoneKeyboardHeight;
+        this.phoneHeight = phoneHeight;
         this.hasTactileFloor = hasTactileFloor;
+        this.phoneIsWorking = phoneIsWorking;
         this.payPhoneObs = payPhoneObs;
     }
 
@@ -54,20 +59,36 @@ public class PayPhoneEntry {
         this.phoneRefPoint = phoneRefPoint;
     }
 
-    public Double getPhoneOpHeight() {
-        return phoneOpHeight;
+    public double getPhoneKeyboardHeight() {
+        return phoneKeyboardHeight;
     }
 
-    public void setPhoneOpHeight(Double phoneOpHeight) {
-        this.phoneOpHeight = phoneOpHeight;
+    public void setPhoneKeyboardHeight(double phoneKeyboardHeight) {
+        this.phoneKeyboardHeight = phoneKeyboardHeight;
     }
 
-    public Integer getHasTactileFloor() {
+    public double getPhoneHeight() {
+        return phoneHeight;
+    }
+
+    public void setPhoneHeight(double phoneHeight) {
+        this.phoneHeight = phoneHeight;
+    }
+
+    public int getHasTactileFloor() {
         return hasTactileFloor;
     }
 
-    public void setHasTactileFloor(Integer hasTactileFloor) {
+    public void setHasTactileFloor(int hasTactileFloor) {
         this.hasTactileFloor = hasTactileFloor;
+    }
+
+    public int getPhoneIsWorking() {
+        return phoneIsWorking;
+    }
+
+    public void setPhoneIsWorking(int phoneIsWorking) {
+        this.phoneIsWorking = phoneIsWorking;
     }
 
     public String getPayPhoneObs() {

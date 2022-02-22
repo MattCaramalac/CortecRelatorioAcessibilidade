@@ -1,41 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Dialogs.DialogClass.AddPayPhoneDialog">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/gate_payphone_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:backgroundTint="@color/white"
-        app:elevation="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/gate_payphone_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:padding="8dp"
-            app:contentInsetStartWithNavigation="0dp" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+    tools:context=".fragments.ChildRegisters.PayPhoneFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/gate_payphone_app_bar"
-        android:paddingStart="@dimen/usual_padding"
-        android:paddingEnd="@dimen/usual_padding">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/gate_payphone_ref_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
@@ -53,16 +30,36 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/gate_payphone_op_height_field"
+            android:id="@+id/payphone_keyboard_height_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_op_height_payphone"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_height_keyboard_payphone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gate_payphone_ref_field">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/gate_payphone_op_height_value"
+                android:id="@+id/payphone_keyboard_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/payphone_phone_height_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_height_phone_payphone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/payphone_keyboard_height_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/payphone_phone_height_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -78,7 +75,7 @@
             android:text="@string/label_payphone_has_tactile_floor"
             android:textSize="@dimen/section_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_payphone_op_height_field" />
+            app:layout_constraintTop_toBottomOf="@id/payphone_phone_height_field" />
 
         <RadioGroup
             android:id="@+id/payphone_tactile_floor_radio"
@@ -115,14 +112,60 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/payphone_tactile_floor_radio" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/gate_payphone_obs_field"
+        <TextView
+            android:id="@+id/payphone_working_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
+            android:text="@string/label_payphone_working"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_payphone_floor_error" />
+
+        <RadioGroup
+            android:id="@+id/payphone_working_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/payphone_working_label">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/payphone_working_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/payphone_working_radio" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/gate_payphone_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_public_phone_obs"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_payphone_floor_error">
+            app:layout_constraintTop_toBottomOf="@id/payphone_working_error">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/gate_payphone_obs_value"
@@ -159,7 +202,6 @@
             app:layout_constraintBaseline_toBaselineOf="@id/save_gate_payphone"
             app:layout_constraintStart_toStartOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</RelativeLayout>
+</ScrollView>

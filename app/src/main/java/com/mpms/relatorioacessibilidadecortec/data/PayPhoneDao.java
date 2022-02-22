@@ -20,7 +20,7 @@ public interface PayPhoneDao {
     LiveData<List<PayPhoneEntry>> selectAllPayPhones(int externalAccessID);
 
     @Query("SELECT * FROM PayPhoneEntry WHERE payPhoneID == :payPhoneID")
-    LiveData<List<PayPhoneEntry>> selectPayPhoneEntry(int payPhoneID);
+    LiveData<PayPhoneEntry> selectPayPhoneEntry(int payPhoneID);
 
     @Update
     void updatePayPhone (PayPhoneEntry payPhone);
