@@ -6,19 +6,25 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = SchoolEntry.class,
-        parentColumns = "cadID",
-        childColumns = "schoolID",
+@Entity(foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class ParkingLotEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int parkingLotID;
-    private int schoolID;
+    private int blockID;
     private int typeParkingLot;
     private String parkingLotFloorType;
     private int hasPCDVacancy;
     private int hasElderVacancy;
+
+    public ParkingLotEntry(int blockID, int typeParkingLot, String parkingLotFloorType, int hasPCDVacancy, int hasElderVacancy) {
+        this.blockID = blockID;
+        this.typeParkingLot = typeParkingLot;
+        this.parkingLotFloorType = parkingLotFloorType;
+        this.hasPCDVacancy = hasPCDVacancy;
+        this.hasElderVacancy = hasElderVacancy;
+    }
 
     public int getParkingLotID() {
         return parkingLotID;
@@ -28,12 +34,12 @@ public class ParkingLotEntry {
         this.parkingLotID = parkingLotID;
     }
 
-    public int getSchoolID() {
-        return schoolID;
+    public int getBlockID() {
+        return blockID;
     }
 
-    public void setSchoolID(int schoolEntryID) {
-        this.schoolID = schoolEntryID;
+    public void setBlockID(int blockID) {
+        this.blockID = blockID;
     }
 
     public int getTypeParkingLot() {
@@ -65,14 +71,6 @@ public class ParkingLotEntry {
     }
 
     public void setHasElderVacancy(int hasElderVacancy) {
-        this.hasElderVacancy = hasElderVacancy;
-    }
-
-    public ParkingLotEntry(int schoolID, int typeParkingLot, String parkingLotFloorType, int hasPCDVacancy, int hasElderVacancy) {
-        this.schoolID = schoolID;
-        this.typeParkingLot = typeParkingLot;
-        this.parkingLotFloorType = parkingLotFloorType;
-        this.hasPCDVacancy = hasPCDVacancy;
         this.hasElderVacancy = hasElderVacancy;
     }
 }

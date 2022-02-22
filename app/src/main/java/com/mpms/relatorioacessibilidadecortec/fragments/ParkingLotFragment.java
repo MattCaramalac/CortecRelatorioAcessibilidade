@@ -19,8 +19,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
@@ -55,7 +55,7 @@ public class ParkingLotFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            parkingBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            parkingBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
             parkingBundle.putInt(ParkingLotListFragment.PARKING_ID, this.getArguments().getInt(ParkingLotListFragment.PARKING_ID));
         }
     }
@@ -219,7 +219,7 @@ public class ParkingLotFragment extends Fragment {
         String floorType = String.valueOf(parkingLotFloorTypeValue.getText());
         pcdVacancy = getCheckedRadio(hasPcdVacancy);
         elderVacancy = getCheckedRadio(hasElderlyVacancy);
-        return new ParkingLotEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), getCheckedRadio(parkingLotType),
+        return new ParkingLotEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), getCheckedRadio(parkingLotType),
                 floorType, pcdVacancy, elderVacancy);
     }
 

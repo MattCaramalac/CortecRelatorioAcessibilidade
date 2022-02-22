@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.ParkingRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
@@ -53,7 +53,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            parkingBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            parkingBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
         }
     }
 
@@ -70,7 +70,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
 
         instantiateParkingListViews(view);
 
-        modelEntry.getAllParkingLots(parkingBundle.getInt(SchoolRegisterActivity.SCHOOL_ID))
+        modelEntry.getAllParkingLots(parkingBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER))
                 .observe(getViewLifecycleOwner(), parkingLot -> {
                     parkingAdapter = new ParkingRecViewAdapter(parkingLot, requireActivity(), this);
                     recyclerView.setAdapter(parkingAdapter);
