@@ -8,7 +8,7 @@
     tools:context=".fragments.BlockRegisterFragment">
 
     <TextView
-        android:id="@+id/identifier_header"
+        android:id="@+id/block_identifier_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
         android:backgroundTint="@color/purple_200"
         android:text="@string/new_space_button"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/identifier_header"
+        app:layout_constraintTop_toBottomOf="@id/block_identifier_header"
         app:layout_constraintStart_toEndOf="@id/add_new_block_button"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/top_margins"/>

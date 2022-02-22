@@ -62,6 +62,7 @@
     <string name="wrong_input_error">Este campo só aceita números</string>
     <string name="invalid_input_error">Este número é inválido</string>
     <string name="empty_fields">Um ou mais campos não foram preenchidos</string>
+    <string name="unexpected_error">Ocorreu um erro. Por Favor, tente novamente!"</string>
 
     <string name="working_hours">Horário de Funcionamento:</string>
     <string name="offered_services">Serviços Prestados pela Instituição:</string>
@@ -250,19 +251,21 @@
     <string name="radio_option_teacher_table">MESA PROFESSOR</string>
     <string name="radio_option_student_table">MESA ALUNO</string>
     <string name="hint_location_free_space">Localização da faixa livre</string>
-    <string name="gate_obstacle_location_hint">Ponto de Referência Cancela Entrada</string>
+    <string name="gate_obstacle_location_hint">Ponto de Referência Obstáculo de Entrada</string>
     <string name="label_gate_obstacle_situation">O tipo de acesso está de acordo com a norma?</string>
-    <string name="hint_gate_obstacles_obs">Obserações sobre a cancela</string>
+    <string name="hint_gate_obstacles_obs">Obserações sobre o obstáculo</string>
     <string name="dialog_add_gate_obstacle_header">Adicionar Cancelas</string>
-    <string name="label_gate_obs_type_header">Qual é o tipo de acesso utilizado pela PCD?</string>
+    <string name="label_gate_obs_type_header">Qual é o tipo de acesso utilizado?</string>
     <string name="radio_option_gate">PORTA DE ACESSO</string>
     <string name="radio_option_gate_bar">CANCELA</string>
     <string name="hint_gate_door_width">Largura Portão de Acesso</string>
     <string name="hint_gate_barrier_height">Altura do Comando da Cancela</string>
     <string name="hint_gate_barrier_width">Largura da Cancela</string>
     <string name="hint_payphone_ref_location">Ponto de referência telefone público</string>
-    <string name="hint_op_height_payphone">Altura operacional do telefone público</string>
-    <string name="label_payphone_has_tactile_floor">O telefone público possui piso tátil a sua frente?</string>
+    <string name="hint_height_keyboard_payphone">Altura operacional do teclado</string>
+    <string name="hint_height_phone_payphone">Altura operacional do fone</string>
+    <string name="label_payphone_has_tactile_floor">O equipamento possui piso tátil ao seu entorno?</string>
+    <string name="label_payphone_working">O equipamento está funcionando corretamente?</string>
     <string name="hint_public_phone_obs">Observações sobre o telefone público</string>
     <string name="dialog_add_payphone_header">Adicionar Telefones Públicos</string>
     <string name="hint_counter_location">Localização do balcão</string>
@@ -456,4 +459,7 @@
     <string name="hint_ext_access_location">Localização do Acesso</string>
     <string name="label_sill_type_gate">Tipo de Soleira do Portão</string>
     <string name="register_created_message">Cadastro efetuado com sucesso!</string>
+    <string name="register_updated_message">Cadastro atualizado com sucesso!</string>
+    <string name="header_text_obstacle_register">Cadastro de Obstáculos</string>
+    <string name="header_text_payphone_register">Cadastro de Telefones Públicos</string>
 </resources>

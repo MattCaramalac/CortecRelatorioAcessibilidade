@@ -223,15 +223,10 @@ public class SchoolRegisterFragmentThree extends Fragment {
                 workersLibrasDescriptionField.setError(getString(R.string.blank_field_error));
             }
         }
-        if (TextUtils.isEmpty(totalWorkersLibrasValue.getText())) {
-            i++;
-            totalWorkersLibrasField.setError(getString(R.string.blank_field_error));
-        }
         if (TextUtils.isEmpty(initialDateInspectionValue.getText())) {
             i++;
             initialDateInspectionField.setError(getString(R.string.blank_field_error));
         }
-
         return i == 0;
     }
 
