@@ -96,7 +96,14 @@ public class SillInclinationFragment extends Fragment {
             } else
                 childData.set(18, "false");
             inclinationBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
-            getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, inclinationBundle);
+            getParentFragmentManager().setFragmentResult(ExternalAccessFragment.FRAG_DATA, inclinationBundle);
+        });
+
+        getParentFragmentManager().setFragmentResultListener(ExtAccessSocialFragment.TEMP_SOCIAL_FRAG, this, (key,bundle) -> {
+            ArrayList<String> tempData = bundle.getStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA);
+            gatherTempData(tempData);
+            bundle.putStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA, tempData);
+            getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.CHILD_TEMP_DATA, bundle);
         });
 
     }
@@ -130,6 +137,11 @@ public class SillInclinationFragment extends Fragment {
             childData.set(8, String.valueOf(sillInclinationValue.getText()));
 
         return error == 0;
+    }
+
+    private void gatherTempData(ArrayList<String> arrayList) {
+        if (!TextUtils.isEmpty(sillInclinationValue.getText()))
+            arrayList.set(8, String.valueOf(sillInclinationValue.getText()));
     }
 
     private void clearErrorInclinationSill() {

@@ -24,6 +24,8 @@ import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessVehicleFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.GateObsListFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.PayPhoneListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
@@ -31,14 +33,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment.FRAG_DATA;
-import static com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment.SOCIAL_FRAG;
-
 public class ExternalAccessFragment extends Fragment {
 
     public static final String EXT_ACCESS_SAVE_ATTEMPT = "EXT_ACCESS_SAVE_ATTEMPT";
     public static final String EXT_ACCESS_ID = "EXT_ACCESS_ID";
     public static final String EXT_ARRAY = "EXT_ARRAY";
+    public static final String EXT_SCREEN = "EXT_SCREEN";
+    public static final String CHILD_FRAG_DATA = "CHILD_FRAG_DATA";
+    public static final String FRAG_DATA = "FRAG_DATA";
 
     RadioGroup entranceTypeRadio;
     TextInputLayout entranceLocationField, externalAccessObsField;
@@ -50,11 +52,13 @@ public class ExternalAccessFragment extends Fragment {
     Bundle extBundle = new Bundle();
     Bundle fragComm = new Bundle();
 
+    Fragment substitutionFrag;
+
     ArrayList<String> fragData = new ArrayList<>();
 
     ArrayList<String> extFrag = new ArrayList<>(Arrays.
-            asList(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null));
-
+            asList(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+                    null, null, null, null, null, null, null, null));
 
     int existingEntry = 0;
 
@@ -93,38 +97,65 @@ public class ExternalAccessFragment extends Fragment {
 
         instantiateExternalAccessViews(view);
         allowExternalObsScroll();
+        modelFragments.setExtAccessLoadInfo(extBundle);
 
         if (extBundle.getInt(EXT_ACCESS_ID) > 0) {
             modelEntry.getOneExternalAccess(extBundle.getInt(EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), this::gatherExtAccessInfo);
-            modelFragments.setExtAccessLoadInfo(extBundle);
             existingEntry++;
         }
 
-//        TODO - Verificar no frag. filho método para abrir novos frags e salvar parcialmente os dados
-
+//        TODO - Resolver o carregamento incorreto de dados após salvar novo registro que clicou nos botões
+        modelFragments.getExtAccessLoadInfo().observe(getViewLifecycleOwner(), tempDataBundle -> {
+            if (tempDataBundle != null && tempDataBundle.getInt(EXT_ACCESS_ID) != 0) {
+                extBundle.putInt(EXT_ACCESS_ID, tempDataBundle.getInt(EXT_ACCESS_ID));
+                modelEntry.getOneExternalAccess(tempDataBundle.getInt(EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), this::gatherExtAccessInfo);
+            }
+        });
 
         getChildFragmentManager().setFragmentResultListener(FRAG_DATA, this, (key, bundle) -> {
-            fragData = bundle.getStringArrayList(SOCIAL_FRAG);
-            checkEmptyFields();
+            fragData = bundle.getStringArrayList(CHILD_FRAG_DATA);
+            checkEmptyFields(fragData);
             ExternalAccess extAccess = newExtAccess(extBundle, fragData);
             if (extBundle.getInt(EXT_ACCESS_ID) != 0) {
-                extAccess.setExternalAccessID(extBundle.getInt(EXT_ACCESS_ID));
-                ViewModelEntry.updateExternalAccess(extAccess);
-                clearExtAccessFields();
-                Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
-                modelFragments.setExtAccessLoadInfo(null);
-                requireActivity().getSupportFragmentManager().popBackStackImmediate();
+                if (!Objects.equals(fragData.get(18), "false")) {
+                    extAccess.setExternalAccessID(extBundle.getInt(EXT_ACCESS_ID));
+                    ViewModelEntry.updateExternalAccess(extAccess);
+                    clearExtAccessFields();
+                    modelFragments.setExtAccessLoadInfo(null);
+                    extBundle.putInt(EXT_ACCESS_ID, 0);
+                    Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
+                    if (existingEntry > 0)
+                        requireActivity().getSupportFragmentManager().popBackStackImmediate();
+                }
             } else {
-                if(!Objects.equals(extFrag.get(18), "false")) {
+                if (!Objects.equals(fragData.get(18), "false")) {
                     ViewModelEntry.insertExternalAccess(extAccess);
                     clearExtAccessFields();
                     Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     modelFragments.setExtAccessLoadInfo(null);
                 } else {
-                    Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     extFrag.set(18, null);
                 }
             }
+        });
+
+        getChildFragmentManager().setFragmentResultListener(ExtAccessSocialFragment.TEMP_SOCIAL_FRAG, this, (key, bundle) -> {
+            ArrayList<String> tempSocialDataArray = bundle.getStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA);
+            if (extBundle.getInt(EXT_ACCESS_ID) == 0) {
+                ExternalAccess tempAccess = newExtAccess(extBundle, tempSocialDataArray);
+                ViewModelEntry.insertExternalAccess(tempAccess);
+                clearExtAccessFields();
+            }
+            modelFragments.setExtAccessLoadInfo(bundle);
+            if (tempSocialDataArray.get(19).equals("1")) {
+                substitutionFrag = new GateObsListFragment();
+            } else if (tempSocialDataArray.get(19).equals("2"))
+                substitutionFrag = new PayPhoneListFragment();
+            else
+                return;
+            substitutionFrag.setArguments(extBundle);
+            getParentFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, substitutionFrag).
+                    addToBackStack(EXT_SCREEN).commit();
         });
 
         cancelExternalAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
@@ -173,6 +204,7 @@ public class ExternalAccessFragment extends Fragment {
             accessType = new ExtAccessVehicleFragment();
         else
             accessType = new ExtAccessSocialFragment();
+        accessType.setArguments(extBundle);
         getChildFragmentManager().beginTransaction().replace(R.id.external_access_layout, accessType).commit();
     }
 
@@ -189,19 +221,19 @@ public class ExternalAccessFragment extends Fragment {
         externalAccessObsValue.setOnTouchListener(this::scrollingField);
     }
 
-    public void checkEmptyFields() {
+    private void checkEmptyFields(ArrayList<String> array) {
         clearExternalAccessErrors();
         if (TextUtils.isEmpty(entranceLocationValue.getText())) {
             entranceLocationField.setError(getText(R.string.blank_field_error));
-            extFrag.set(18, "false");
+            array.set(18, "false");
         }
         if (entranceTypeRadio.getCheckedRadioButtonId() == -1) {
             accessTypeError.setVisibility(View.VISIBLE);
-            extFrag.set(18, "false");
+            array.set(18, "false");
         }
     }
 
-    public void clearExternalAccessErrors() {
+    private void clearExternalAccessErrors() {
         entranceLocationField.setErrorEnabled(false);
         accessTypeError.setVisibility(View.GONE);
     }
@@ -214,12 +246,12 @@ public class ExternalAccessFragment extends Fragment {
         accessType = null;
     }
 
-    public ExternalAccess newExtAccess(Bundle bundle, ArrayList<String> arrayList) {
+    private ExternalAccess newExtAccess(Bundle bundle, ArrayList<String> arrayList) {
         String location, extAccessObs, obsSIA, floorType, gateSillObs;
-        Integer entranceType, hasSIA = null, gateHasTracks = null, gateHasTrackRamp = null, gateSillType = null, gateHasObstacles = null,
-                gateHasPayphone = null, gateHasIntercom = null, gateHasSoundSign = null;
-        Double gateWidth = null, gateTrackHeight = null, sillInclinationHeight = null, sillStepHeight = null, sillSlopeAngle = null,
-                sillSlopeWidth = null, intercomHeight = null;
+        Integer entranceType, hasSIA = null, gateHasTracks = null, gateHasTrackRamp = null, trackRampQnt = null, gateSillType = null,
+                gateHasObstacles = null, gateHasPayphone = null, gateHasIntercom = null, gateHasSoundSign = null;
+        Double gateWidth = null, gateTrackHeight = null, trackRamp1 = null, trackRamp2 = null, trackRamp3 = null, trackRamp4 = null,
+                sillInclinationHeight = null, sillStepHeight = null, sillSlopeAngle = null, sillSlopeWidth = null, intercomHeight = null;
 
         location = String.valueOf(entranceLocationValue.getText());
         extAccessObs = String.valueOf(externalAccessObsValue.getText());
@@ -236,6 +268,16 @@ public class ExternalAccessFragment extends Fragment {
             gateTrackHeight = Double.valueOf(arrayList.get(5));
         if (arrayList.get(6) != null)
             gateHasTrackRamp = Integer.valueOf(arrayList.get(6));
+        if (arrayList.get(20) != null && !TextUtils.equals(arrayList.get(20), ""))
+            trackRampQnt = Integer.valueOf(arrayList.get(20));
+        if (arrayList.get(21) != null && !TextUtils.equals(arrayList.get(21), ""))
+            trackRamp1 = Double.valueOf(arrayList.get(21));
+        if (arrayList.get(22) != null && !TextUtils.equals(arrayList.get(22), ""))
+            trackRamp2 = Double.valueOf(arrayList.get(22));
+        if (arrayList.get(23) != null && !TextUtils.equals(arrayList.get(23), ""))
+            trackRamp3 = Double.valueOf(arrayList.get(23));
+        if (arrayList.get(24) != null && !TextUtils.equals(arrayList.get(24), ""))
+            trackRamp4 = Double.valueOf(arrayList.get(24));
         if (arrayList.get(7) != null)
             gateSillType = Integer.valueOf(arrayList.get(7));
         if (arrayList.get(8) != null)
@@ -259,8 +301,8 @@ public class ExternalAccessFragment extends Fragment {
             gateHasSoundSign = Integer.valueOf(arrayList.get(17));
 
         return new ExternalAccess(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), location, entranceType, extAccessObs, hasSIA, obsSIA, floorType, gateWidth,
-                gateHasTracks, gateTrackHeight, gateHasTrackRamp, gateSillType, sillInclinationHeight, sillStepHeight, sillSlopeAngle, sillSlopeWidth, gateSillObs,
-                gateHasObstacles, gateHasPayphone, gateHasIntercom, intercomHeight, gateHasSoundSign);
+                gateHasTracks, gateTrackHeight, gateHasTrackRamp, trackRampQnt, trackRamp1, trackRamp2, trackRamp3, trackRamp4, gateSillType, sillInclinationHeight,
+                sillStepHeight, sillSlopeAngle, sillSlopeWidth, gateSillObs, gateHasObstacles, gateHasPayphone, gateHasIntercom, intercomHeight, gateHasSoundSign);
     }
 
 }

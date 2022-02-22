@@ -97,7 +97,14 @@ public class SillSlopeFragment extends Fragment {
             else
                 childData.set(18, "false");
             sillSlopeBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
-            getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, sillSlopeBundle);
+            getParentFragmentManager().setFragmentResult(ExternalAccessFragment.FRAG_DATA, sillSlopeBundle);
+        });
+
+        getParentFragmentManager().setFragmentResultListener(ExtAccessSocialFragment.TEMP_SOCIAL_FRAG, this, (key,bundle) -> {
+            ArrayList<String> tempData = bundle.getStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA);
+            gatherTempData(tempData);
+            bundle.putStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA, tempData);
+            getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.CHILD_TEMP_DATA, bundle);
         });
     }
 
@@ -131,6 +138,13 @@ public class SillSlopeFragment extends Fragment {
         } else
             childData.set(11, String.valueOf(sillSlopeWidthValue.getText()));
         return error == 0;
+    }
+
+    private void gatherTempData(ArrayList<String> arrayList) {
+        if (!TextUtils.isEmpty(sillSlopeAngleValue.getText()))
+            arrayList.set(10, String.valueOf(sillSlopeAngleValue.getText()));
+        if (!TextUtils.isEmpty(sillSlopeWidthValue.getText()))
+            arrayList.set(11, String.valueOf(sillSlopeWidthValue.getText()));
     }
 
     private void clearEmptyFieldErrors() {

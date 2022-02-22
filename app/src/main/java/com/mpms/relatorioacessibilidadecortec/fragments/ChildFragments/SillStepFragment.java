@@ -94,7 +94,14 @@ public class SillStepFragment extends Fragment {
             } else
                 childData.set(18, "false");
             sillStepBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
-            getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.FRAG_DATA, sillStepBundle);
+            getParentFragmentManager().setFragmentResult(ExternalAccessFragment.FRAG_DATA, sillStepBundle);
+        });
+
+        getParentFragmentManager().setFragmentResultListener(ExtAccessSocialFragment.TEMP_SOCIAL_FRAG, this, (key,bundle) -> {
+            ArrayList<String> tempData = bundle.getStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA);
+            gatherTempData(tempData);
+            bundle.putStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA, tempData);
+            getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.CHILD_TEMP_DATA, bundle);
         });
     }
 
@@ -122,6 +129,11 @@ public class SillStepFragment extends Fragment {
             childData.set(9, String.valueOf(stepHeightValue.getText()));
 
         return error == 0;
+    }
+
+    private void gatherTempData(ArrayList<String> arrayList) {
+        if (!TextUtils.isEmpty(stepHeightValue.getText()))
+            arrayList.set(9, String.valueOf(stepHeightValue.getText()));
     }
 
     private void clearEmptyErrorStepField() {

@@ -25,6 +25,11 @@ public class ExternalAccess {
     private Integer gateHasTracks;
     private Double gateTrackHeight;
     private Integer gateHasTrackRamp;
+    private Integer trackRampQuantity;
+    private Double trackRampMeasure1;
+    private Double trackRampMeasure2;
+    private Double trackRampMeasure3;
+    private Double trackRampMeasure4;
     private Integer gateSillType;
     private Double sillInclinationHeight;
     private Double sillStepHeight;
@@ -38,10 +43,12 @@ public class ExternalAccess {
     private Integer gateHasSoundSign;
 
 
-    public ExternalAccess(int blockID, String accessLocation, int entranceType, String extAccessObs, Integer hasSIA, String obsSIA, String floorType,
-                          Double gateWidth, Integer gateHasTracks, Double gateTrackHeight, Integer gateHasTrackRamp, Integer gateSillType,
-                          Double sillInclinationHeight, Double sillStepHeight, Double sillSlopeAngle, Double sillSlopeWidth, String gateSillObs,
-                          Integer gateHasObstacles, Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, Integer gateHasSoundSign) {
+    public ExternalAccess(int blockID, String accessLocation, Integer entranceType, String extAccessObs, Integer hasSIA, String obsSIA,
+                          String floorType, Double gateWidth, Integer gateHasTracks, Double gateTrackHeight, Integer gateHasTrackRamp,
+                          Integer trackRampQuantity, Double trackRampMeasure1, Double trackRampMeasure2, Double trackRampMeasure3,
+                          Double trackRampMeasure4, Integer gateSillType, Double sillInclinationHeight, Double sillStepHeight,
+                          Double sillSlopeAngle, Double sillSlopeWidth, String gateSillObs, Integer gateHasObstacles,
+                          Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, Integer gateHasSoundSign) {
         this.blockID = blockID;
         this.accessLocation = accessLocation;
         this.entranceType = entranceType;
@@ -53,6 +60,11 @@ public class ExternalAccess {
         this.gateHasTracks = gateHasTracks;
         this.gateTrackHeight = gateTrackHeight;
         this.gateHasTrackRamp = gateHasTrackRamp;
+        this.trackRampQuantity = trackRampQuantity;
+        this.trackRampMeasure1 = trackRampMeasure1;
+        this.trackRampMeasure2 = trackRampMeasure2;
+        this.trackRampMeasure3 = trackRampMeasure3;
+        this.trackRampMeasure4 = trackRampMeasure4;
         this.gateSillType = gateSillType;
         this.sillInclinationHeight = sillInclinationHeight;
         this.sillStepHeight = sillStepHeight;
@@ -70,8 +82,8 @@ public class ExternalAccess {
         return externalAccessID;
     }
 
-    public void setExternalAccessID(int extAccessID) {
-        this.externalAccessID = extAccessID;
+    public void setExternalAccessID(int externalAccessID) {
+        this.externalAccessID = externalAccessID;
     }
 
     public int getBlockID() {
@@ -160,6 +172,46 @@ public class ExternalAccess {
 
     public void setGateHasTrackRamp(Integer gateHasTrackRamp) {
         this.gateHasTrackRamp = gateHasTrackRamp;
+    }
+
+    public Integer getTrackRampQuantity() {
+        return trackRampQuantity;
+    }
+
+    public void setTrackRampQuantity(Integer trackRampQuantity) {
+        this.trackRampQuantity = trackRampQuantity;
+    }
+
+    public Double getTrackRampMeasure1() {
+        return trackRampMeasure1;
+    }
+
+    public void setTrackRampMeasure1(Double trackRampMeasure1) {
+        this.trackRampMeasure1 = trackRampMeasure1;
+    }
+
+    public Double getTrackRampMeasure2() {
+        return trackRampMeasure2;
+    }
+
+    public void setTrackRampMeasure2(Double trackRampMeasure2) {
+        this.trackRampMeasure2 = trackRampMeasure2;
+    }
+
+    public Double getTrackRampMeasure3() {
+        return trackRampMeasure3;
+    }
+
+    public void setTrackRampMeasure3(Double trackRampMeasure3) {
+        this.trackRampMeasure3 = trackRampMeasure3;
+    }
+
+    public Double getTrackRampMeasure4() {
+        return trackRampMeasure4;
+    }
+
+    public void setTrackRampMeasure4(Double trackRampMeasure4) {
+        this.trackRampMeasure4 = trackRampMeasure4;
     }
 
     public Integer getGateSillType() {
