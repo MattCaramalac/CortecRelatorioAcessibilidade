@@ -20,7 +20,7 @@ public interface GateObsDao {
     LiveData<List<GateObsEntry>> selectAllGateObsEntries(int externalAccessID);
 
     @Query("SELECT * FROM GateObsEntry WHERE gateObsID == :gateObsID")
-    LiveData<List<GateObsEntry>> selectGateObsEntry(int gateObsID);
+    LiveData<GateObsEntry> selectGateObsEntry(int gateObsID);
 
     @Update
     void updateGateObs (GateObsEntry gateObs);

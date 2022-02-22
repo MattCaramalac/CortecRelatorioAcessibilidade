@@ -1,40 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dialogs.DialogClass.AddGateObsDialog">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/gate_obstacles_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:backgroundTint="@color/white"
-        app:elevation="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/gate_obstacles_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:padding="8dp"
-            app:contentInsetStartWithNavigation="0dp" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+    tools:context=".fragments.ChildRegisters.GateObsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/gate_obstacles_app_bar"
         android:paddingStart="@dimen/usual_padding"
         android:paddingEnd="@dimen/usual_padding">
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/gate_obstacle_location_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,41 +30,41 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/label_gate_obstacle_situation"
+            android:id="@+id/label_gate_obstacle_type"
+            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_location_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:text="@string/label_gate_obstacle_situation"
-            android:textSize="@dimen/section_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_location_field" />
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="@string/label_gate_obs_type_header"
+            android:textSize="@dimen/section_header"/>
 
         <RadioGroup
-            android:id="@+id/gate_obstacle_situation_radio"
+            android:id="@+id/gate_obstacle_type_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_gate_obstacle_situation">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_gate_obstacle_type"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_option_gate_bar"
+                android:layout_weight="@integer/weight_one"
+                android:textSize="@dimen/radio_button_text"/>
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text" />
+                android:text="@string/radio_option_gate"
+                android:textSize="@dimen/radio_button_text"/>
 
         </RadioGroup>
 
         <TextView
-            android:id="@+id/gate_obstacle_situation_error"
+            android:id="@+id/gate_obstacle_type_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/empty_fields"
@@ -93,17 +72,18 @@
             android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_situation_radio" />
+            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_type_radio" />
 
         <FrameLayout
             android:id="@+id/gate_obs_type_child_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_situation_error" />
+            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_type_error" />
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/gate_obstacle_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -148,4 +128,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</RelativeLayout>
+</ScrollView>
