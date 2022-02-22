@@ -118,15 +118,14 @@ public class SidewalkSlopeFragment extends Fragment {
                 }
                 rightFields.get(rightCounter).setVisibility(View.VISIBLE);
                 rightCounter++;
-            } else {
+            } else
                 Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
-            }
         });
 
         deleteLong.setOnClickListener(v -> {
             if (longCounter > 0) {
-                longFields.get(longCounter-1).getEditText().setText(null);
-                longFields.get(longCounter-1).setVisibility(View.GONE);
+                longFields.get(longCounter - 1).getEditText().setText(null);
+                longFields.get(longCounter - 1).setVisibility(View.GONE);
                 longCounter--;
                 if (longCounter == 0)
                     deleteLong.setVisibility(View.GONE);
@@ -135,8 +134,8 @@ public class SidewalkSlopeFragment extends Fragment {
 
         deleteLeft.setOnClickListener(v -> {
             if (leftCounter > 0) {
-                leftFields.get(leftCounter-1).getEditText().setText(null);
-                leftFields.get(leftCounter-1).setVisibility(View.GONE);
+                leftFields.get(leftCounter - 1).getEditText().setText(null);
+                leftFields.get(leftCounter - 1).setVisibility(View.GONE);
                 leftCounter--;
                 if (leftCounter == 0)
                     deleteLeft.setVisibility(View.GONE);
@@ -145,8 +144,8 @@ public class SidewalkSlopeFragment extends Fragment {
 
         deleteRight.setOnClickListener(v -> {
             if (rightCounter > 0) {
-                rightFields.get(rightCounter-1).getEditText().setText(null);
-                rightFields.get(rightCounter-1).setVisibility(View.GONE);
+                rightFields.get(rightCounter - 1).getEditText().setText(null);
+                rightFields.get(rightCounter - 1).setVisibility(View.GONE);
                 rightCounter--;
                 if (rightCounter == 0)
                     deleteRight.setVisibility(View.GONE);

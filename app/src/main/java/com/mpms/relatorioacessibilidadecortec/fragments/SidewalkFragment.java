@@ -22,8 +22,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SidewalkSlopeListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
@@ -69,7 +69,7 @@ public class SidewalkFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            sidewalkData.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            sidewalkData.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
             sidewalkData.putInt(SIDEWALK_ID, this.getArguments().getInt(SIDEWALK_ID));
         }
     }
@@ -396,7 +396,7 @@ public class SidewalkFragment extends Fragment {
         sidewalkHasSlope = getCheckedSidewalkRadioButton(hasSlope);
         sidewalkObs = String.valueOf(sidewalkObsValue.getText());
 
-        return new SidewalkEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID),sidewalkLocation,sidewalkGoodStatus,sidewalkStatus,sidewalkWidth,
+        return new SidewalkEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER),sidewalkLocation,sidewalkGoodStatus,sidewalkStatus,sidewalkWidth,
                 hasTactFloor,tactileFloorStatus,sidewalkTactileFloorStatus,sidewalkHasSlope, sidewalkObs);
     }
 

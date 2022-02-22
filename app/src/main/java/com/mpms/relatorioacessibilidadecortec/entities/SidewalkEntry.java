@@ -6,13 +6,13 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = SchoolEntry.class, parentColumns = "cadID", childColumns = "schoolEntryID",
+@Entity(foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class SidewalkEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int sidewalkID;
-    private int schoolEntryID;
+    private int blockID;
 
     private String sidewalkLocation;
     private Integer sidewalkConservationStatus;
@@ -24,10 +24,10 @@ public class SidewalkEntry {
     private Integer sidewalkHasSlope;
     private String sidewalkObs;
 
-    public SidewalkEntry(int schoolEntryID, String sidewalkLocation, Integer sidewalkConservationStatus, String sidewalkConservationObs,
-                         Double widthSidewalk, Integer sidewalkHasTactileFloor, Integer tactileFloorConservationStatus, String tactileFloorObs,
-                         Integer sidewalkHasSlope, String sidewalkObs) {
-        this.schoolEntryID = schoolEntryID;
+    public SidewalkEntry(int blockID, String sidewalkLocation, Integer sidewalkConservationStatus, String sidewalkConservationObs, Double widthSidewalk,
+                         Integer sidewalkHasTactileFloor, Integer tactileFloorConservationStatus, String tactileFloorObs, Integer sidewalkHasSlope,
+                         String sidewalkObs) {
+        this.blockID = blockID;
         this.sidewalkLocation = sidewalkLocation;
         this.sidewalkConservationStatus = sidewalkConservationStatus;
         this.sidewalkConservationObs = sidewalkConservationObs;
@@ -47,12 +47,12 @@ public class SidewalkEntry {
         this.sidewalkID = sidewalkID;
     }
 
-    public int getSchoolEntryID() {
-        return schoolEntryID;
+    public int getBlockID() {
+        return blockID;
     }
 
-    public void setSchoolEntryID(int schoolEntryID) {
-        this.schoolEntryID = schoolEntryID;
+    public void setBlockID(int blockID) {
+        this.blockID = blockID;
     }
 
     public String getSidewalkLocation() {

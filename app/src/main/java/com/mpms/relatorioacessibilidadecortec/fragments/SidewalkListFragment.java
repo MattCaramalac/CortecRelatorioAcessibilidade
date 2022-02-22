@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.SidewalkRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.entities.SidewalkEntry;
@@ -52,7 +52,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            sidewalkBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            sidewalkBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
     }
 
     @Nullable
@@ -68,7 +68,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
 
         instantiateSidewalkListViews(view);
 
-        modelEntry.getAllSidewalks(sidewalkBundle.getInt(SchoolRegisterActivity.SCHOOL_ID))
+        modelEntry.getAllSidewalks(sidewalkBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER))
                 .observe(getViewLifecycleOwner(), sidewalkEntryList -> {
                     sidewalkAdapter = new SidewalkRecViewAdapter(sidewalkEntryList, requireActivity(), this);
                     recyclerView.setAdapter(sidewalkAdapter);

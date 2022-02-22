@@ -16,8 +16,8 @@ public interface SidewalkEntryDao {
     @Insert
     void insertSidewalkEntry(SidewalkEntry SidewalkEntry);
 
-    @Query("SELECT * FROM SidewalkEntry WHERE schoolEntryID == :schoolID ORDER BY sidewalkID DESC")
-    LiveData<List<SidewalkEntry>> getAllSidewalks(int schoolID);
+    @Query("SELECT * FROM SidewalkEntry WHERE blockID == :blockID ORDER BY sidewalkID DESC")
+    LiveData<List<SidewalkEntry>> getAllSidewalks(int blockID);
 
     @Query("SELECT * FROM SidewalkEntry WHERE sidewalkID == :sidewalkID")
     LiveData<SidewalkEntry> getSidewalkEntry(int sidewalkID);
@@ -31,6 +31,6 @@ public interface SidewalkEntryDao {
     @Query("DELETE FROM SidewalkEntry WHERE sidewalkID == :sidewalkID")
     void deleteSidewalk(int sidewalkID);
 
-    @Query("DELETE FROM SidewalkEntry WHERE schoolEntryID == :schoolID")
-    void deleteAllSidewalksFromSchool(int schoolID);
+    @Query("DELETE FROM SidewalkEntry WHERE blockID == :blockID")
+    void deleteAllSidewalksFromSchool(int blockID);
 }
