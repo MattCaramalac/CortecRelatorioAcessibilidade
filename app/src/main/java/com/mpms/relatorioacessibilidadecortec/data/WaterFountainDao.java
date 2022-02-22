@@ -16,8 +16,8 @@ public interface WaterFountainDao {
     @Insert
     void insertWaterFountain(WaterFountainEntry waterFountain);
 
-    @Query("SELECT * FROM WaterFountainEntry WHERE schoolEntryID == :schoolID ORDER BY waterFountainID DESC")
-    LiveData<List<WaterFountainEntry>> getAllSchoolWaterFountains(int schoolID);
+    @Query("SELECT * FROM WaterFountainEntry WHERE blockID == :blockID ORDER BY waterFountainID DESC")
+    LiveData<List<WaterFountainEntry>> getAllSchoolWaterFountains(int blockID);
 
     @Query("SELECT * FROM WaterFountainEntry WHERE waterFountainID == :waterFountain")
     LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountain);
@@ -28,8 +28,8 @@ public interface WaterFountainDao {
     @Query("DELETE FROM WaterFountainEntry WHERE waterFountainID == :waterFountainID")
     void deleteOneWaterFountain(int waterFountainID);
 
-    @Query("DELETE FROM WaterFountainEntry WHERE schoolEntryID == :schoolEntryID")
-    void deleteAllFountainsFromSchool(int schoolEntryID);
+    @Query("DELETE FROM WaterFountainEntry WHERE blockID == :blockID")
+    void deleteAllFountainsFromSchool(int blockID);
 
 
 }

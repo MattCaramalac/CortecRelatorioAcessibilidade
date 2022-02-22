@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.WaterRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.entities.WaterFountainEntry;
@@ -50,7 +50,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            fountainBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            fountainBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
         }
     }
 
@@ -67,7 +67,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
 
         instantiateWaterListViews(view);
 
-        modelEntry.getAllFountainsInSchool(fountainBundle.getInt(SchoolRegisterActivity.SCHOOL_ID)).
+        modelEntry.getAllFountainsInSchool(fountainBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER)).
                 observe(getViewLifecycleOwner(), fountainEntry -> {
                     fountainAdapter = new WaterRecViewAdapter(fountainEntry, requireActivity(), this);
                     recyclerView.setAdapter(fountainAdapter);

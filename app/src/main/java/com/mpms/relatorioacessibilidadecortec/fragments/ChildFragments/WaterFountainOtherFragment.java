@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.fragments;
+package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -24,11 +24,11 @@ import java.util.Objects;
 
 public class WaterFountainOtherFragment extends Fragment {
 
-    static final String ALLOW_LATERAL = "ALLOW_LATERAL";
-    static final String FAUCET_HEIGHT = "FAUCET_HEIGHT";
-    static final String HAS_CUP_HOLDER = "HAS_CUP_HOLDER";
-    static final String CUP_HOLDER_HEIGHT = "CUP_HOLDER_HEIGHT";
-    static final String OTHER_FOUNTAIN_OBS = "OTHER_FOUNTAIN_OBS";
+    public static final String ALLOW_LATERAL = "ALLOW_LATERAL";
+    public static final String FAUCET_HEIGHT = "FAUCET_HEIGHT";
+    public static final String HAS_CUP_HOLDER = "HAS_CUP_HOLDER";
+    public static final String CUP_HOLDER_HEIGHT = "CUP_HOLDER_HEIGHT";
+    public static final String OTHER_FOUNTAIN_OBS = "OTHER_FOUNTAIN_OBS";
 
     ViewModelFragments modelFragments;
     TextView lateralApproxError, hasCupHolderError;
@@ -165,7 +165,7 @@ public class WaterFountainOtherFragment extends Fragment {
             hasCupHolderError.setVisibility(View.VISIBLE);
             errors++;
         }
-        if (cupHolderHeightField.isEnabled() && TextUtils.isEmpty(cupHolderHeightValue.getText())) {
+        if (getCheckedIndex(hasCupHolder) == 1 && TextUtils.isEmpty(cupHolderHeightValue.getText())) {
             cupHolderHeightField.setError(getString(R.string.blank_field_error));
             errors++;
         }

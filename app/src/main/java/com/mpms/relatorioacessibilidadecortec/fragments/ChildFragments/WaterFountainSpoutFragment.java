@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.fragments;
+package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -24,12 +24,12 @@ import java.util.Objects;
 
 public class WaterFountainSpoutFragment extends Fragment {
 
-    static final String HAS_DIFFERENT_HEIGHTS = "HAS_DIFFERENT_HEIGHTS";
-    static final String HIGHEST_SPOUT = "HIGHEST_SPOUT";
-    static final String LOWEST_SPOUT = "LOWEST_SPOUT";
-    static final String ALLOW_FRONTAL = "ALLOW_FRONTAL";
-    static final String FRONTAL_APPROX_SPOUT = "FRONTAL_APPROX_SPOUT";
-    static final String SPOUT_FOUNTAIN_OBS = "SPOUT_FOUNTAIN_OBS";
+    public static final String HAS_DIFFERENT_HEIGHTS = "HAS_DIFFERENT_HEIGHTS";
+    public static final String HIGHEST_SPOUT = "HIGHEST_SPOUT";
+    public static final String LOWEST_SPOUT = "LOWEST_SPOUT";
+    public static final String ALLOW_FRONTAL = "ALLOW_FRONTAL";
+    public static final String FRONTAL_APPROX_SPOUT = "FRONTAL_APPROX_SPOUT";
+    public static final String SPOUT_FOUNTAIN_OBS = "SPOUT_FOUNTAIN_OBS";
 
     TextInputLayout highestSpoutField, lowestSpoutField, frontalApproxSpoutField, spoutObsField;
     TextInputEditText highestSpoutValue, lowestSpoutValue, frontalApproxSpoutValue, spoutObsValue;

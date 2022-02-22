@@ -6,13 +6,13 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = SchoolEntry.class, parentColumns = "cadID", childColumns = "schoolEntryID",
+@Entity(foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class WaterFountainEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int waterFountainID;
-    private int schoolEntryID;
+    private int blockID;
     private String fountainLocation;
     private Integer typeWaterFountain;
 
@@ -29,11 +29,10 @@ public class WaterFountainEntry {
 
     private String fountainObs;
 
-    public WaterFountainEntry(int schoolEntryID, String fountainLocation, Integer typeWaterFountain, Integer otherAllowSideApproximation,
-                              Double otherFaucetHeight, Integer otherHasCupHolder, Double otherCupHolderHeight, Integer hasSpoutsDifferentHeights,
-                              Double highestSpoutHeight, Double lowestSpoutHeight, Integer spoutAllowFrontalApproximation,
-                              Double frontalApproxLowestSpout, String fountainObs) {
-        this.schoolEntryID = schoolEntryID;
+    public WaterFountainEntry(int blockID, String fountainLocation, Integer typeWaterFountain, Integer otherAllowSideApproximation, Double otherFaucetHeight,
+                              Integer otherHasCupHolder, Double otherCupHolderHeight, Integer hasSpoutsDifferentHeights, Double highestSpoutHeight,
+                              Double lowestSpoutHeight, Integer spoutAllowFrontalApproximation, Double frontalApproxLowestSpout, String fountainObs) {
+        this.blockID = blockID;
         this.fountainLocation = fountainLocation;
         this.typeWaterFountain = typeWaterFountain;
         this.otherAllowSideApproximation = otherAllowSideApproximation;
@@ -56,12 +55,12 @@ public class WaterFountainEntry {
         this.waterFountainID = waterFountainID;
     }
 
-    public int getSchoolEntryID() {
-        return schoolEntryID;
+    public int getBlockID() {
+        return blockID;
     }
 
-    public void setSchoolEntryID(int schoolEntryID) {
-        this.schoolEntryID = schoolEntryID;
+    public void setBlockID(int blockID) {
+        this.blockID = blockID;
     }
 
     public String getFountainLocation() {
