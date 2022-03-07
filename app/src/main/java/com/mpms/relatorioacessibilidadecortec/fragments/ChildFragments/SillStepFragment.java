@@ -15,7 +15,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
@@ -40,7 +42,8 @@ public class SillStepFragment extends Fragment {
     ArrayList<String> childData = new ArrayList<>();
 
     Bundle sillStepBundle = new Bundle();
-    Bundle extAccessDataInfo = new Bundle();
+    Bundle extAccessData = new Bundle();
+    Bundle playData = new Bundle();
 
     public SillStepFragment() {
         // Required empty public constructor
@@ -71,7 +74,7 @@ public class SillStepFragment extends Fragment {
         modelDialog.getRestDoorBundle().observe(getViewLifecycleOwner(), this::gatherStepDataDialog);
 
         modelDialog.getSaveDoorAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
-            if(Objects.equals(modelDialog.getSaveDoorAttempt().getValue(), 1)) {
+            if (Objects.equals(modelDialog.getSaveDoorAttempt().getValue(), 1)) {
                 if (checkEmptySillStepField()) {
                     Bundle bundle = new Bundle();
                     bundle.putDouble(STEP_HEIGHT, Double.parseDouble(Objects.requireNonNull(stepHeightValue.getText()).toString()));
@@ -82,9 +85,14 @@ public class SillStepFragment extends Fragment {
             }
         });
 
-        if (extAccessDataInfo != null && extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
-            modelEntry.getOneExternalAccess(extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
-                    .observe(getViewLifecycleOwner(), this::gatherStepData);
+        if (extAccessData != null && extAccessData.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
+            modelEntry.getOneExternalAccess(extAccessData.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherStepExtAccData);
+        }
+
+        if (playData != null && playData.getInt(PlaygroundFragment.PLAY_ID) != 0) {
+            modelEntry.getOnePlayground(playData.getInt(PlaygroundFragment.PLAY_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherStepPlayData);
         }
 
         getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
@@ -97,11 +105,16 @@ public class SillStepFragment extends Fragment {
             getParentFragmentManager().setFragmentResult(ExternalAccessFragment.FRAG_DATA, sillStepBundle);
         });
 
-        getParentFragmentManager().setFragmentResultListener(ExtAccessSocialFragment.TEMP_SOCIAL_FRAG, this, (key,bundle) -> {
+        getParentFragmentManager().setFragmentResultListener(ExtAccessSocialFragment.TEMP_SOCIAL_FRAG, this, (key, bundle) -> {
             ArrayList<String> tempData = bundle.getStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA);
             gatherTempData(tempData);
             bundle.putStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA, tempData);
             getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.CHILD_TEMP_DATA, bundle);
+        });
+
+        getParentFragmentManager().setFragmentResultListener(PlaygroundFragment.PLAY_SAVE_ATTEMPT, this, (key, bundle) -> {
+            checkEmptyPlaySillStep(bundle);
+            getParentFragmentManager().setFragmentResult(PlaygroundFragment.PLAY_SILL_DATA, bundle);
         });
     }
 
@@ -116,7 +129,8 @@ public class SillStepFragment extends Fragment {
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
         //        Bundle
-        extAccessDataInfo = modelFragments.getExtAccessLoadInfo().getValue();
+        extAccessData = modelFragments.getExtAccessLoadInfo().getValue();
+        playData = modelFragments.getPlaygroundLoadInfo().getValue();
     }
 
     private boolean checkEmptySillStepField() {
@@ -129,6 +143,17 @@ public class SillStepFragment extends Fragment {
             childData.set(9, String.valueOf(stepHeightValue.getText()));
 
         return error == 0;
+    }
+
+    private void checkEmptyPlaySillStep(Bundle bundle) {
+        clearEmptyErrorStepField();
+        if (TextUtils.isEmpty(stepHeightValue.getText())) {
+            stepHeightField.setError(getString(R.string.blank_field_error));
+            bundle.putBoolean(PlaygroundFragment.ALLOW_PLAY_REGISTER, false);
+        } else {
+            bundle.putDouble(STEP_HEIGHT, Double.parseDouble(String.valueOf(stepHeightValue.getText())));
+            bundle.putBoolean(PlaygroundFragment.ALLOW_PLAY_REGISTER, true);
+        }
     }
 
     private void gatherTempData(ArrayList<String> arrayList) {
@@ -148,7 +173,13 @@ public class SillStepFragment extends Fragment {
         stepHeightValue.setText(String.valueOf(bundle.getDouble(STEP_HEIGHT)));
     }
 
-    private void gatherStepData(ExternalAccess access) {
-        stepHeightValue.setText(String.valueOf(access.getSillStepHeight()));
+    private void gatherStepExtAccData(ExternalAccess access) {
+        if (access.getSillStepHeight() != null)
+            stepHeightValue.setText(String.valueOf(access.getSillStepHeight()));
+    }
+
+    private void gatherStepPlayData(PlaygroundEntry playEntry) {
+        if (playEntry.getStepSillHeight() != null)
+            stepHeightValue.setText(String.valueOf(playEntry.getStepSillHeight()));
     }
 }

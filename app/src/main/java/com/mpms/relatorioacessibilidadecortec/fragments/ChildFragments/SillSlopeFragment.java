@@ -15,7 +15,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
@@ -39,7 +41,8 @@ public class SillSlopeFragment extends Fragment {
     ViewModelFragments modelFragments;
 
     Bundle sillSlopeBundle = new Bundle();
-    Bundle extAccessDataInfo = new Bundle();
+    Bundle extAccessData = new Bundle();
+    Bundle playgroundData = new Bundle();
 
     ArrayList<String> childData = new ArrayList<>();
 
@@ -85,9 +88,14 @@ public class SillSlopeFragment extends Fragment {
             }
         });
 
-        if (extAccessDataInfo != null && extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
-            modelEntry.getOneExternalAccess(extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
-                    .observe(getViewLifecycleOwner(), this::gatherSlopeData);
+        if (extAccessData != null && extAccessData.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
+            modelEntry.getOneExternalAccess(extAccessData.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherSlopeExtAccData);
+        }
+
+        if (playgroundData != null && playgroundData.getInt(PlaygroundFragment.PLAY_ID) != 0) {
+            modelEntry.getOnePlayground(playgroundData.getInt(PlaygroundFragment.PLAY_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherSlopePlayData);
         }
 
         getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
@@ -100,15 +108,20 @@ public class SillSlopeFragment extends Fragment {
             getParentFragmentManager().setFragmentResult(ExternalAccessFragment.FRAG_DATA, sillSlopeBundle);
         });
 
-        getParentFragmentManager().setFragmentResultListener(ExtAccessSocialFragment.TEMP_SOCIAL_FRAG, this, (key,bundle) -> {
+        getParentFragmentManager().setFragmentResultListener(ExtAccessSocialFragment.TEMP_SOCIAL_FRAG, this, (key, bundle) -> {
             ArrayList<String> tempData = bundle.getStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA);
             gatherTempData(tempData);
             bundle.putStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA, tempData);
             getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.CHILD_TEMP_DATA, bundle);
         });
+
+        getParentFragmentManager().setFragmentResultListener(PlaygroundFragment.PLAY_SAVE_ATTEMPT, this, (key, bundle) -> {
+            checkEmptyPlaySillSlope(bundle);
+            getParentFragmentManager().setFragmentResult(PlaygroundFragment.PLAY_SILL_DATA, bundle);
+        });
     }
 
-    private void instantiateSillSlopeViews (View view) {
+    private void instantiateSillSlopeViews(View view) {
 //        TextInputLayout
         sillSlopeAngleField = view.findViewById(R.id.sill_slope_field);
         sillSlopeWidthField = view.findViewById(R.id.sill_slope_width_field);
@@ -121,7 +134,8 @@ public class SillSlopeFragment extends Fragment {
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
         //        Bundle
-        extAccessDataInfo = modelFragments.getExtAccessLoadInfo().getValue();
+        extAccessData = modelFragments.getExtAccessLoadInfo().getValue();
+        playgroundData = modelFragments.getPlaygroundLoadInfo().getValue();
     }
 
     private boolean doesNotHaveEmptySlopeFields() {
@@ -138,6 +152,24 @@ public class SillSlopeFragment extends Fragment {
         } else
             childData.set(11, String.valueOf(sillSlopeWidthValue.getText()));
         return error == 0;
+    }
+
+    private void checkEmptyPlaySillSlope(Bundle bundle) {
+        clearEmptyFieldErrors();
+        int i = 0;
+        if (TextUtils.isEmpty(sillSlopeAngleValue.getText())) {
+            sillSlopeAngleField.setError(getString(R.string.blank_field_error));
+            i++;
+        } else
+            bundle.putDouble(SLOPE_INCLINATION, Double.parseDouble(String.valueOf(sillSlopeAngleValue.getText())));
+
+        if (TextUtils.isEmpty(sillSlopeWidthValue.getText())) {
+            sillSlopeWidthField.setError(getString(R.string.blank_field_error));
+            i++;
+        } else
+            bundle.putDouble(SLOPE_WIDTH, Double.parseDouble(String.valueOf(sillSlopeWidthValue.getText())));
+
+        bundle.putBoolean(PlaygroundFragment.ALLOW_PLAY_REGISTER, i <= 0);
     }
 
     private void gatherTempData(ArrayList<String> arrayList) {
@@ -163,8 +195,17 @@ public class SillSlopeFragment extends Fragment {
         sillSlopeAngleValue.setText(String.valueOf(bundle.getDouble(SLOPE_INCLINATION)));
     }
 
-    private void gatherSlopeData(ExternalAccess access) {
-        sillSlopeWidthValue.setText(String.valueOf(access.getSillSlopeWidth()));
-        sillSlopeAngleValue.setText(String.valueOf(access.getSillSlopeAngle()));
+    private void gatherSlopeExtAccData(ExternalAccess access) {
+        if (access.getSillSlopeWidth() != null)
+            sillSlopeWidthValue.setText(String.valueOf(access.getSillSlopeWidth()));
+        if (access.getSillSlopeAngle() != null)
+            sillSlopeAngleValue.setText(String.valueOf(access.getSillSlopeAngle()));
+    }
+
+    private void gatherSlopePlayData(PlaygroundEntry playEntry) {
+        if (playEntry.getSlopeSillWidth() != null)
+            sillSlopeWidthValue.setText(String.valueOf(playEntry.getSlopeSillWidth()));
+        if (playEntry.getSlopeSillAngle() != null)
+            sillSlopeAngleValue.setText(String.valueOf(playEntry.getSlopeSillAngle()));
     }
 }

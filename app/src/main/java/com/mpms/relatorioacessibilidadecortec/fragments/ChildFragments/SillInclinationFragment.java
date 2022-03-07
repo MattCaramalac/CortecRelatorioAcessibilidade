@@ -15,7 +15,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
@@ -40,7 +42,8 @@ public class SillInclinationFragment extends Fragment {
     ArrayList<String> childData = new ArrayList<>();
 
     Bundle inclinationBundle = new Bundle();
-    Bundle extAccessDataInfo = new Bundle();
+    Bundle extAccessData = new Bundle();
+    Bundle playgroundData = new Bundle();
 
     public SillInclinationFragment() {
         // Required empty public constructor
@@ -84,9 +87,14 @@ public class SillInclinationFragment extends Fragment {
             }
         });
 
-        if (extAccessDataInfo != null && extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
-            modelEntry.getOneExternalAccess(extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
-                    .observe(getViewLifecycleOwner(), this::gatherInclinationData);
+        if (extAccessData != null && extAccessData.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
+            modelEntry.getOneExternalAccess(extAccessData.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherInclinationExtAccData);
+        }
+
+        if (playgroundData != null && playgroundData.getInt(PlaygroundFragment.PLAY_ID) != 0) {
+            modelEntry.getOnePlayground(playgroundData.getInt(PlaygroundFragment.PLAY_ID))
+                    .observe(getViewLifecycleOwner(), this::gatherInclinationPlayData);
         }
 
         getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
@@ -99,18 +107,18 @@ public class SillInclinationFragment extends Fragment {
             getParentFragmentManager().setFragmentResult(ExternalAccessFragment.FRAG_DATA, inclinationBundle);
         });
 
-        getParentFragmentManager().setFragmentResultListener(ExtAccessSocialFragment.TEMP_SOCIAL_FRAG, this, (key,bundle) -> {
+        getParentFragmentManager().setFragmentResultListener(ExtAccessSocialFragment.TEMP_SOCIAL_FRAG, this, (key, bundle) -> {
             ArrayList<String> tempData = bundle.getStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA);
             gatherTempData(tempData);
             bundle.putStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA, tempData);
             getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.CHILD_TEMP_DATA, bundle);
         });
 
-    }
+        getParentFragmentManager().setFragmentResultListener(PlaygroundFragment.PLAY_SAVE_ATTEMPT, this, (key, bundle) -> {
+            checkEmptyPlaySillInclination(bundle);
+            getParentFragmentManager().setFragmentResult(PlaygroundFragment.PLAY_SILL_DATA, bundle);
+        });
 
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     private void instantiateInclinationSillView(View view) {
@@ -124,7 +132,8 @@ public class SillInclinationFragment extends Fragment {
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
 //        Bundle
-        extAccessDataInfo = modelFragments.getExtAccessLoadInfo().getValue();
+        extAccessData = modelFragments.getExtAccessLoadInfo().getValue();
+        playgroundData = modelFragments.getPlaygroundLoadInfo().getValue();
     }
 
     private boolean doesNotHaveEmptyInclinationField() {
@@ -144,6 +153,17 @@ public class SillInclinationFragment extends Fragment {
             arrayList.set(8, String.valueOf(sillInclinationValue.getText()));
     }
 
+    private void checkEmptyPlaySillInclination(Bundle bundle) {
+        clearErrorInclinationSill();
+        if (TextUtils.isEmpty(sillInclinationValue.getText())) {
+            sillInclinationField.setError(getString(R.string.blank_field_error));
+            bundle.putBoolean(PlaygroundFragment.ALLOW_PLAY_REGISTER, false);
+        } else {
+            bundle.putDouble(HEIGHT_INCLINED_SILL, Double.parseDouble(String.valueOf(sillInclinationValue.getText())));
+            bundle.putBoolean(PlaygroundFragment.ALLOW_PLAY_REGISTER, true);
+        }
+    }
+
     private void clearErrorInclinationSill() {
         sillInclinationField.setErrorEnabled(false);
     }
@@ -152,12 +172,18 @@ public class SillInclinationFragment extends Fragment {
         sillInclinationValue.setText(null);
     }
 
-//    TODO - Retirar esse método de carregamento de dados assim que tirar o Dialog
+    //    TODO - Retirar esse método de carregamento de dados assim que tirar o Dialog
     private void gatherInclinationDataDialog(Bundle bundle) {
         sillInclinationValue.setText(String.valueOf(bundle.getDouble(HEIGHT_INCLINED_SILL)));
     }
 
-    private void gatherInclinationData(ExternalAccess access) {
-        sillInclinationValue.setText(String.valueOf(access.getSillInclinationHeight()));
+    private void gatherInclinationExtAccData(ExternalAccess access) {
+        if (access.getSillInclinationHeight() != null)
+            sillInclinationValue.setText(String.valueOf(access.getSillInclinationHeight()));
+    }
+
+    private void gatherInclinationPlayData(PlaygroundEntry playEntry) {
+        if (playEntry.getInclinationSillHeight() != null)
+            sillInclinationValue.setText(String.valueOf(playEntry.getInclinationSillHeight()));
     }
 }
