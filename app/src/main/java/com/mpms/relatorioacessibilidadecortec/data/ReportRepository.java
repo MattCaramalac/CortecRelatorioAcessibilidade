@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.mpms.relatorioacessibilidadecortec.entities.AdmEquipEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
@@ -16,6 +17,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsHandrailEntry;
@@ -82,6 +84,8 @@ public class ReportRepository {
     private final RampStairsHandrailDao handrailDao;
     private final RampStairsRailingDao railingDao;
     private final BlockSpaceDao blockSpaceDao;
+    private final AdmEquipDao admEquipDao;
+    private final PlaygroundEntryDao playgroundEntryDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -117,6 +121,8 @@ public class ReportRepository {
         handrailDao = db.rampStairsHandrailDao();
         railingDao = db.rampStairsRailingDao();
         blockSpaceDao = db.blockSpaceDao();
+        admEquipDao = db.admEquipDao();
+        playgroundEntryDao = db.playgroundEntryDao();
 
     }
 
@@ -402,7 +408,7 @@ public class ReportRepository {
         return gateObsDao.selectAllGateObsEntries(externalAccessID);
     }
 
-    public LiveData<List<GateObsEntry>> selectGateObsEntry(int gateObsID) {
+    public LiveData<GateObsEntry> selectGateObsEntry(int gateObsID) {
         return gateObsDao.selectGateObsEntry(gateObsID);
     }
 
@@ -426,7 +432,7 @@ public class ReportRepository {
         return payPhoneDao.selectAllPayPhones(SchoolEntryID);
     }
 
-    public LiveData<List<PayPhoneEntry>> selectPayPhoneEntry(int payPhoneID) {
+    public LiveData<PayPhoneEntry> selectPayPhoneEntry(int payPhoneID) {
         return payPhoneDao.selectPayPhoneEntry(payPhoneID);
     }
 
@@ -868,6 +874,54 @@ public class ReportRepository {
 
     public LiveData<Integer> countRampInclination(int flightID) {
         return rampInclinationDao.countRampInclination(flightID);
+    }
+
+    public void insertAdmEquip(AdmEquipEntry admEquip) {
+        ReportDatabase.dbWriteExecutor.execute(() -> admEquipDao.insertAdmEquip(admEquip));
+    }
+
+    public LiveData<List<AdmEquipEntry>> getAllAdmEquipsPerBlock(int blockID) {
+        return admEquipDao.getAllAdmEquipsPerBlock(blockID);
+    }
+
+    public LiveData<AdmEquipEntry> getOneAdmEquip(int admEquipID) {
+        return admEquipDao.getOneAdmEquip(admEquipID);
+    }
+
+    public void updateAdmEquip(AdmEquipEntry admEquip) {
+        ReportDatabase.dbWriteExecutor.execute(() -> admEquipDao.updateAdmEquip(admEquip));
+    }
+
+    public void deleteOneAdmEquip(int admEquipID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> admEquipDao.deleteOneAdmEquip(admEquipID));
+    }
+
+    public void deleteAllAdmEquipsFromBlock(int blockID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> admEquipDao.deleteAllAdmEquipsFromBlock(blockID));
+    }
+
+    public void insertPlayground(PlaygroundEntry play) {
+        ReportDatabase.dbWriteExecutor.execute(() -> playgroundEntryDao.insertPlayground(play));
+    }
+
+    public LiveData<List<PlaygroundEntry>> getAllPlaygroundsPerBlock(int blockID) {
+        return playgroundEntryDao.getAllPlaygroundsPerBlock(blockID);
+    }
+
+    public LiveData<PlaygroundEntry> getOnePlayground(int playgroundID) {
+        return playgroundEntryDao.getOnePlayground(playgroundID);
+    }
+
+    public void updatePlayground(PlaygroundEntry play) {
+        ReportDatabase.dbWriteExecutor.execute(() -> playgroundEntryDao.updatePlayground(play));
+    }
+
+    public void deleteOnePlayground(int playgroundID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> playgroundEntryDao.deleteOnePlayground(playgroundID));
+    }
+
+    public void deleteAllPlaygroundsFromBlock(int blockID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> playgroundEntryDao.deleteAllPlaygroundsFromBlock(blockID));
     }
 
     public void deleteAllEntries() {

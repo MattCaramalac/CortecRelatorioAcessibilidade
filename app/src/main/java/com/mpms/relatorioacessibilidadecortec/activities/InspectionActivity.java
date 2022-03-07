@@ -7,17 +7,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.fragments.AdmEquipListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestroomListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainListFragment;
 
-import static com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity.*;
+import static com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity.BLOCK_SPACE_REGISTER;
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
@@ -30,6 +32,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     public static final String ALLOW_UPDATE = "ALLOW_UPDATE";
     public static final String RAMP_STAIRS_LIST = "RAMP_STAIRS_LIST";
     public static final String ROOM_LIST = "ROOM_LIST";
+    public static final String ADM_EQUIP_LIST = "ADM_EQUIP_LIST";
+    public static final String PLAYGROUND_LIST = "PLAYGROUND_LIST";
     Bundle blockSpaceBundle = new Bundle();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -50,7 +54,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 displayExtAccessListFragment();
                 break;
             case 1:
-                displayRestroomListFragment();
+//                displayRestroomListFragment();
                 break;
             case 2:
                 displayFountainListFragment();
@@ -67,6 +71,12 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 break;
             case 16:
                 displayOtherSpacesListFragment();
+                break;
+            case 17:
+                displayAdmEquipListFragment();
+                break;
+            case 18:
+                displayPlaygroundListFragment();
                 break;
             default:
                 displayRoomsRegisterListFragment(choice);
@@ -131,6 +141,20 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         rampStairsList.setArguments(blockSpaceBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, rampStairsList).addToBackStack(RAMP_STAIRS_LIST).commit();
+    }
+
+    public void displayAdmEquipListFragment() {
+        AdmEquipListFragment admEquipList = AdmEquipListFragment.newInstance();
+        admEquipList.setArguments(blockSpaceBundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.show_fragment_selected, admEquipList).addToBackStack(ADM_EQUIP_LIST).commit();
+    }
+
+    public void displayPlaygroundListFragment() {
+        PlaygroundListFragment playListFragment = PlaygroundListFragment.newInstance();
+        playListFragment.setArguments(blockSpaceBundle);
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.show_fragment_selected, playListFragment).addToBackStack(PLAYGROUND_LIST).commit();
     }
 }
 

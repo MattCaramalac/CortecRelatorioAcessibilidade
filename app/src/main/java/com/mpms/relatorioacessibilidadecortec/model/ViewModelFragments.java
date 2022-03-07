@@ -126,4 +126,10 @@ public class ViewModelFragments extends ViewModel {
         return extAccessLoadInfo;
     }
 
+    public final MutableLiveData<Bundle> playgroundLoadInfo = new MutableLiveData<>();
+    public void setPlaygroundLoadInfo(Bundle bundle) { playgroundLoadInfo.setValue(bundle); }
+    public LiveData<Bundle> getPlaygroundLoadInfo() {
+        return playgroundLoadInfo;
+    }
+
 }

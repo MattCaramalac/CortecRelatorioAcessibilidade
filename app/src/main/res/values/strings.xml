@@ -462,4 +462,23 @@
     <string name="register_updated_message">Cadastro atualizado com sucesso!</string>
     <string name="header_text_obstacle_register">Cadastro de Obstáculos</string>
     <string name="header_text_payphone_register">Cadastro de Telefones Públicos</string>
+    <string name="header_adm_equip">Equipamentos Administrativos</string>
+    <string name="hint_adm_equip_location">Localização dos equipamentos</string>
+    <string name="header_has_bell_command">Local possui comando para o sinal sonoro?</string>
+    <string name="hint_bell_command_height">Altura do Comando (m)</string>
+    <string name="hint_bell_command_obs">Observações do Comando</string>
+    <string name="header_has_internal_phone">Local possui o fone interno do interfone?</string>
+    <string name="hint_int_phone_height">Altura do fone interno (m)</string>
+    <string name="hint_int_phone_obs">Observações do Interfone</string>
+    <string name="header_biometry">Local possui o equipamento de ponto biométrico?</string>
+    <string name="hint_biometry_height">Altura do relógio de ponto (m)</string>
+    <string name="hint_biometry_obs">Observações do relógio de ponto</string>
+    <string name="header_adm_equip_register">Cadastro Equip. Administrativo</string>
+    <string name="hint_playground_location">Localização ou Referência</string>
+    <string name="header_accessible_play_floor">O piso do playground pode ser considerado acessível?</string>
+    <string name="hint_playground_floor_obs">Observações sobre o piso</string>
+    <string name="header_accessible_play_equip">O brinquedos do playground podem ser considerados acessíveis?</string>
+    <string name="hint_play_equip_obs">Observações sobre os brinquedos</string>
+    <string name="hint_playground_obs">Outras observações sobre o playground</string>
+    <string name="header_playground_register">Cadastro de Playgrounds</string>
 </resources>

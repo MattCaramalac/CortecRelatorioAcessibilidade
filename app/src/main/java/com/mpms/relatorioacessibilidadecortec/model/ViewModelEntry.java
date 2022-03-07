@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.mpms.relatorioacessibilidadecortec.data.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.ReportRepository;
+import com.mpms.relatorioacessibilidadecortec.entities.AdmEquipEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.DoorEntry;
@@ -20,6 +21,7 @@ import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.PayPhoneEntry;
+import com.mpms.relatorioacessibilidadecortec.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.entities.RampStairsHandrailEntry;
@@ -66,6 +68,10 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<ParkingLotElderlyEntry>> allElderLots;
     public LiveData<List<RoomEntry>> allRooms;
     public LiveData<List<BlockSpaceEntry>> allBlockSpaces;
+    public LiveData<List<PayPhoneEntry>> allPayPhones;
+    public LiveData<List<GateObsEntry>> allGateObs;
+    public LiveData<List<AdmEquipEntry>> allAdmEquip;
+    public LiveData<List<PlaygroundEntry>> allPlaygrounds;
     public final LiveData<List<SchoolEntry>> allEntries;
 
     public LiveData<ExternalAccess> oneAccess;
@@ -268,7 +274,7 @@ public class ViewModelEntry extends AndroidViewModel {
        repository.insertRoomEntry(roomEntry);
     }
 
-    public LiveData<List<RoomEntry>> getAllRoomsInSchool(int schoolID, int roomType) {
+    public LiveData<List<RoomEntry>> getAllRoomsInBlock(int schoolID, int roomType) {
         allRooms = repository.getAllRoomsInSchool(schoolID, roomType);
         return  allRooms;
     }
@@ -333,11 +339,12 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertGateObs(gateObs));
     }
 
-    public LiveData<List<GateObsEntry>> selectAllGateObsEntries(int externalAccessID) {
-        return repository.selectAllGateObsEntries(externalAccessID);
+    public LiveData<List<GateObsEntry>> getAllGateObsEntries(int externalAccessID) {
+        allGateObs = repository.selectAllGateObsEntries(externalAccessID);
+        return allGateObs;
     }
 
-    public LiveData<List<GateObsEntry>> selectGateObsEntry(int gateObsID) {
+    public LiveData<GateObsEntry> getOneGateObsEntry(int gateObsID) {
         return repository.selectGateObsEntry(gateObsID);
     }
 
@@ -357,11 +364,12 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertPayPhone(payPhone));
     }
 
-    public LiveData<List<PayPhoneEntry>> selectAllPayPhones(int externalAccessID) {
-        return repository.selectAllPayPhones(externalAccessID);
+    public LiveData<List<PayPhoneEntry>> getAllPayPhones(int externalAccessID) {
+        allPayPhones = repository.selectAllPayPhones(externalAccessID);
+        return allPayPhones;
     }
 
-    public LiveData<List<PayPhoneEntry>> selectPayPhoneEntry(int payPhoneID) {
+    public LiveData<PayPhoneEntry> getPayPhoneEntry(int payPhoneID) {
         return repository.selectPayPhoneEntry(payPhoneID);
     }
 
@@ -838,6 +846,56 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteAllBlockSpacesSchool(int schoolID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllBlockSpacesSchool(schoolID));
+    }
+
+    public static void insertAdmEquip(AdmEquipEntry admEquip) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertAdmEquip(admEquip));
+    }
+
+    public LiveData<List<AdmEquipEntry>> getAllAdmEquipsPerBlock(int blockID) {
+        allAdmEquip = repository.getAllAdmEquipsPerBlock(blockID);
+        return allAdmEquip;
+    }
+
+    public LiveData<AdmEquipEntry> getOneAdmEquip(int admEquipID) {
+        return repository.getOneAdmEquip(admEquipID);
+    }
+
+    public static void updateAdmEquip(AdmEquipEntry admEquip) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateAdmEquip(admEquip));
+    }
+
+    public static void deleteOneAdmEquip(int admEquipID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneAdmEquip(admEquipID));
+    }
+
+    public static void deleteAllAdmEquipsFromBlock(int blockID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllAdmEquipsFromBlock(blockID));
+    }
+
+    public static void insertPlayground(PlaygroundEntry play) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertPlayground(play));
+    }
+
+    public LiveData<List<PlaygroundEntry>> getAllPlaygroundsPerBlock(int blockID) {
+        allPlaygrounds =repository.getAllPlaygroundsPerBlock(blockID);
+        return allPlaygrounds;
+    }
+
+    public LiveData<PlaygroundEntry> getOnePlayground(int playgroundID) {
+        return repository.getOnePlayground(playgroundID);
+    }
+
+    public static void updatePlayground(PlaygroundEntry play) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updatePlayground(play));
+    }
+
+    public static void deleteOnePlayground(int playgroundID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOnePlayground(playgroundID));
+    }
+
+    public static void deleteAllPlaygroundsFromBlock(int blockID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllPlaygroundsFromBlock(blockID));
     }
 
 }
