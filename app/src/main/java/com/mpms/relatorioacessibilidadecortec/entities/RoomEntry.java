@@ -6,13 +6,13 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = SchoolEntry.class, parentColumns = "cadID", childColumns = "schoolEntryID",
+@Entity(foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class RoomEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int roomID;
-    private int schoolEntryID;
+    private int blockID;
     private int roomType;
     private String roomLocation;
     private Integer roomHasVisualVertSing;
@@ -34,11 +34,11 @@ public class RoomEntry {
 
     private String roomObs;
 
-    public RoomEntry(int schoolEntryID, int roomType, String roomLocation, Integer roomHasVisualVertSing, String roomObsVisualVertSign,
+    public RoomEntry(int blockID, int roomType, String roomLocation, Integer roomHasVisualVertSing, String roomObsVisualVertSign,
                      Integer roomHasTactileSing, String roomObsTactileSign, Integer roomHasLooseCarpet, String looseCarpetObs,
                      Integer libraryDistanceShelvesOK, Integer libraryPcrManeuversOK, Integer libraryAccessiblePcOK, Integer secretHasFixedSeats,
                      Integer secretHasPcrSpace, Double secretWidthPcrSpace, Double secretLengthPcrSpace, String secretPCRSpaceObs, String roomObs) {
-        this.schoolEntryID = schoolEntryID;
+        this.blockID = blockID;
         this.roomType = roomType;
         this.roomLocation = roomLocation;
         this.roomHasVisualVertSing = roomHasVisualVertSing;
@@ -66,12 +66,12 @@ public class RoomEntry {
         this.roomID = roomID;
     }
 
-    public int getSchoolEntryID() {
-        return schoolEntryID;
+    public int getBlockID() {
+        return blockID;
     }
 
-    public void setSchoolEntryID(int schoolEntryID) {
-        this.schoolEntryID = schoolEntryID;
+    public void setBlockID(int schoolEntryID) {
+        this.blockID = schoolEntryID;
     }
 
     public int getRoomType() {

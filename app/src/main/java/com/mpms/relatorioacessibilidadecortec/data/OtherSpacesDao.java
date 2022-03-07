@@ -16,8 +16,8 @@ public interface OtherSpacesDao {
     @Insert
     void insertOtherSpace(OtherSpaces otherSpaces);
 
-    @Query("SELECT * FROM OtherSpaces WHERE schoolEntryID == :schoolEntryID ORDER BY otherSpacesID DESC")
-    LiveData<List<OtherSpaces>> selectAllSpaces(int schoolEntryID);
+    @Query("SELECT * FROM OtherSpaces WHERE blockID == :blockID ORDER BY otherSpacesID DESC")
+    LiveData<List<OtherSpaces>> selectAllSpaces(int blockID);
 
     @Query("SELECT * FROM OtherSpaces WHERE otherSpacesID == :otherID")
     LiveData<OtherSpaces> selectOneSpace(int otherID);
@@ -28,6 +28,6 @@ public interface OtherSpacesDao {
     @Query("DELETE FROM OtherSpaces WHERE otherSpacesID == :otherID")
     void deleteOneSpace(int otherID);
 
-    @Query("DELETE FROM OtherSpaces WHERE schoolEntryID == :schoolID")
-    void deleteAllSpaces(int schoolID);
+    @Query("DELETE FROM OtherSpaces WHERE blockID == :blockID")
+    void deleteAllSpaces(int blockID);
 }

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.OtherSpacesRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
@@ -52,7 +52,7 @@ public class OtherSpacesListFragment extends Fragment implements OnEntryClickLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            otherBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            otherBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
         }
     }
 
@@ -69,7 +69,7 @@ public class OtherSpacesListFragment extends Fragment implements OnEntryClickLis
 
         instantiateOtherListViews(view);
 
-        modelEntry.getAllOtherSpaces(otherBundle.getInt(SchoolRegisterActivity.SCHOOL_ID)).
+        modelEntry.getAllOtherSpaces(otherBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER)).
                 observe(getViewLifecycleOwner(), otherSpaces -> {
                     othersAdapter = new OtherSpacesRecViewAdapter(otherSpaces, requireActivity(), this);
                     recyclerView.setAdapter(othersAdapter);

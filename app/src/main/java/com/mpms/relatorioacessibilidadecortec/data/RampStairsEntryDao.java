@@ -16,14 +16,14 @@ public interface RampStairsEntryDao {
     @Insert
     void insertRampStairs(RampStairsEntry ramp);
 
-    @Query("SELECT * FROM RampStairsEntry WHERE schoolID == :schoolID ORDER BY rampStairsID DESC")
-    LiveData<List<RampStairsEntry>> getAllRampStairsFromSchool(int schoolID);
+    @Query("SELECT * FROM RampStairsEntry WHERE blockID == :blockID ORDER BY rampStairsID DESC")
+    LiveData<List<RampStairsEntry>> getAllRampStairsFromSchool(int blockID);
 
-    @Query("SELECT * FROM RampStairsEntry WHERE schoolID == :schoolID AND rampStairsIdentifier == :rampIdentifier ORDER BY rampStairsID DESC")
-    LiveData<List<RampStairsEntry>> getAllRampsFromSchool(int schoolID, int rampIdentifier);
+    @Query("SELECT * FROM RampStairsEntry WHERE blockID == :blockID AND rampStairsIdentifier == :rampIdentifier ORDER BY rampStairsID DESC")
+    LiveData<List<RampStairsEntry>> getAllRampsFromSchool(int blockID, int rampIdentifier);
 
-    @Query("SELECT * FROM RampStairsEntry WHERE schoolID == :schoolID AND rampStairsIdentifier == :stairsIdentifier ORDER BY rampStairsID DESC")
-    LiveData<List<RampStairsEntry>> getAllStairsFromSchool(int schoolID, int stairsIdentifier);
+    @Query("SELECT * FROM RampStairsEntry WHERE blockID == :blockID AND rampStairsIdentifier == :stairsIdentifier ORDER BY rampStairsID DESC")
+    LiveData<List<RampStairsEntry>> getAllStairsFromSchool(int blockID, int stairsIdentifier);
 
     @Query("SELECT * FROM RampStairsEntry WHERE rampStairsID == :rampStairsID")
     LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID);
@@ -34,8 +34,8 @@ public interface RampStairsEntryDao {
     @Query("DELETE FROM RampStairsEntry WHERE rampStairsID == :rampStairsID")
     void deleteOneRampStairs(int rampStairsID);
 
-    @Query("DELETE FROM RampStairsEntry WHERE schoolID == :schoolID")
-    void deleteAllRampStairsFromSchool(int schoolID);
+    @Query("DELETE FROM RampStairsEntry WHERE blockID == :blockID")
+    void deleteAllRampStairsFromSchool(int blockID);
 
     @Update
     void updateRampStairs(RampStairsEntry ramp);

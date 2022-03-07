@@ -6,19 +6,19 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = @ForeignKey(entity = SchoolEntry.class, parentColumns = "cadID",
-        childColumns = "schoolID", onDelete = CASCADE, onUpdate = CASCADE))
+@Entity (foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
+        onDelete = CASCADE, onUpdate = CASCADE))
 public class RampStairsEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int rampStairsID;
-    private int schoolID;
+    private int blockID;
     private int rampStairsIdentifier;
     private String rampStairsLocation;
     private int flightsQuantity;
 
-    public RampStairsEntry(int schoolID, int rampStairsIdentifier, String rampStairsLocation, int flightsQuantity) {
-        this.schoolID = schoolID;
+    public RampStairsEntry(int blockID, int rampStairsIdentifier, String rampStairsLocation, int flightsQuantity) {
+        this.blockID = blockID;
         this.rampStairsIdentifier = rampStairsIdentifier;
         this.rampStairsLocation = rampStairsLocation;
         this.flightsQuantity = flightsQuantity;
@@ -32,12 +32,12 @@ public class RampStairsEntry {
         this.rampStairsID = rampStairsID;
     }
 
-    public int getSchoolID() {
-        return schoolID;
+    public int getBlockID() {
+        return blockID;
     }
 
-    public void setSchoolID(int schoolID) {
-        this.schoolID = schoolID;
+    public void setBlockID(int schoolID) {
+        this.blockID = schoolID;
     }
 
     public int getRampStairsIdentifier() {

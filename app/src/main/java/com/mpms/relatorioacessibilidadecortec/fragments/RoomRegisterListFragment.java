@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RoomRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
@@ -62,9 +62,8 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            roomBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            roomBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
             roomBundle.putInt(ROOM_TYPE, chosenOption);
-//            TODO - Inserir ID do bloco cadastrado no bundle para poder salvar nas tabelas
         }
     }
 
@@ -79,7 +78,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         super.onViewCreated(view, savedInstanceState);
         instantiateRoomListViews(view);
 
-        modelEntry.getAllRoomsInSchool(roomBundle.getInt(SchoolRegisterActivity.SCHOOL_ID), roomBundle.getInt(ROOM_TYPE))
+        modelEntry.getAllRoomsInBlock(roomBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), roomBundle.getInt(ROOM_TYPE))
                 .observe(getViewLifecycleOwner(), rooms -> {
                     roomAdapter = new RoomRecViewAdapter(rooms, requireActivity(), this);
                     recyclerView.setAdapter(roomAdapter);

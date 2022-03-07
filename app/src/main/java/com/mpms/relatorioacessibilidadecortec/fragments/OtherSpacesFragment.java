@@ -20,8 +20,8 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
@@ -51,7 +51,7 @@ public class OtherSpacesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            otherBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            otherBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
             otherBundle.putInt(OtherSpacesListFragment.OTHER_SPACE_ID, this.getArguments().getInt(OtherSpacesListFragment.OTHER_SPACE_ID));
         }
     }
@@ -154,7 +154,7 @@ public class OtherSpacesFragment extends Fragment {
     }
 
     public OtherSpaces createOtherSpace() {
-        return new OtherSpaces(otherBundle.getInt(SchoolRegisterActivity.SCHOOL_ID),
+        return new OtherSpaces(otherBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER),
                 Objects.requireNonNull(otherSpacesNameValue.getText()).toString(),
                 Objects.requireNonNull(otherSpacesDescriptionValue.getText()).toString(),
                 checkedRadio(isAccessible));

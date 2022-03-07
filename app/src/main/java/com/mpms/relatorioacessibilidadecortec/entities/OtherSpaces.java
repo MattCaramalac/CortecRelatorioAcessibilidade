@@ -6,21 +6,19 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = @ForeignKey(entity = SchoolEntry.class,
-        parentColumns = "cadID",
-        childColumns = "schoolEntryID",
+@Entity (foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class OtherSpaces {
 
     @PrimaryKey(autoGenerate = true)
     private int otherSpacesID;
-    private int schoolEntryID;
+    private int blockID;
     private String otherSpaceName;
     private String otherSpaceDescription;
     private int isAccessible;
 
-    public OtherSpaces(int schoolEntryID, String otherSpaceName, String otherSpaceDescription, int isAccessible) {
-        this.schoolEntryID = schoolEntryID;
+    public OtherSpaces(int blockID, String otherSpaceName, String otherSpaceDescription, int isAccessible) {
+        this.blockID = blockID;
         this.otherSpaceName = otherSpaceName;
         this.otherSpaceDescription = otherSpaceDescription;
         this.isAccessible = isAccessible;
@@ -34,12 +32,12 @@ public class OtherSpaces {
         this.otherSpacesID = otherSpacesID;
     }
 
-    public int getSchoolEntryID() {
-        return schoolEntryID;
+    public int getBlockID() {
+        return blockID;
     }
 
-    public void setSchoolEntryID(int schoolEntryID) {
-        this.schoolEntryID = schoolEntryID;
+    public void setBlockID(int schoolEntryID) {
+        this.blockID = schoolEntryID;
     }
 
     public String getOtherSpaceName() {

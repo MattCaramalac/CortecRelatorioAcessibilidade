@@ -27,8 +27,8 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddSwitchDialo
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddTableDialog;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddWindowDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ClassCafeFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.LibraryFragment;
@@ -89,7 +89,7 @@ public class RoomsRegisterFragment extends Fragment {
         setHeaderText(rootView);
 
         if (this.getArguments() != null) {
-            roomRegBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            roomRegBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
             roomRegBundle.putInt(ROOM_TYPE, this.getArguments().getInt(ROOM_TYPE));
             roomRegBundle.putInt(ROOM_ID_VALUE, this.getArguments().getInt(ROOM_ID_VALUE));
         }
@@ -170,7 +170,7 @@ public class RoomsRegisterFragment extends Fragment {
 
         modelFragments.getRoomBundle().observe(getViewLifecycleOwner(), roomBundle -> {
             if (roomBundle != null) {
-                roomBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, roomRegBundle.getInt(SchoolRegisterActivity.SCHOOL_ID));
+                roomBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, roomRegBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
                 if (update == 0) {
                     RoomEntry newEntry = newRoomEntry(roomBundle);
                     ViewModelEntry.insertRoomEntry(newEntry);
@@ -426,7 +426,7 @@ public class RoomsRegisterFragment extends Fragment {
                 break;
         }
 
-        return new RoomEntry(roomRegBundle.getInt(SchoolRegisterActivity.SCHOOL_ID), chosenOption, roomLocation, hasVisSign,
+        return new RoomEntry(roomRegBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), chosenOption, roomLocation, hasVisSign,
                 obsVisSign, hasTactSign, obsTactSign, hasLooseCarpet, obsLooseCarpet, libShelvesDistOK, libPcrManeuverOK,
                 libAccessPcOK, secFixedSeat, secHasPcrSpace, secWidthPcrSpace, secDepthPcrSpace, secObsPCRSpace, obsRoom);
     }
