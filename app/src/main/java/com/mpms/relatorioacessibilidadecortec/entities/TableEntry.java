@@ -7,9 +7,7 @@ import androidx.room.PrimaryKey;
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity (foreignKeys = {
-        @ForeignKey(entity = SchoolEntry.class,
-                parentColumns = "cadID",
-                childColumns = "schoolID",
+        @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
                 onDelete = CASCADE, onUpdate = CASCADE),
         @ForeignKey(entity = RoomEntry.class,
                 parentColumns = "roomID",
@@ -19,7 +17,7 @@ public class TableEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int tableID;
-    private int schoolID;
+    private int blockID;
     private int roomID;
     private int isClassroom;
     private Integer tableType;
@@ -29,9 +27,9 @@ public class TableEntry {
     private Double tableFrontalApprox;
     private String tableObs;
 
-    public TableEntry(int schoolID, int roomID, int isClassroom, Integer tableType, Double inferiorBorderHeight,
+    public TableEntry(int blockID, int roomID, int isClassroom, Integer tableType, Double inferiorBorderHeight,
                       Double superiorBorderHeight, Double tableWidth, Double tableFrontalApprox, String tableObs) {
-        this.schoolID = schoolID;
+        this.blockID = blockID;
         this.roomID = roomID;
         this.isClassroom = isClassroom;
         this.tableType = tableType;
@@ -50,12 +48,12 @@ public class TableEntry {
         this.tableID = tableID;
     }
 
-    public int getSchoolID() {
-        return schoolID;
+    public int getBlockID() {
+        return blockID;
     }
 
-    public void setSchoolID(int schoolID) {
-        this.schoolID = schoolID;
+    public void setBlockID(int blockID) {
+        this.blockID = blockID;
     }
 
     public int getRoomID() {

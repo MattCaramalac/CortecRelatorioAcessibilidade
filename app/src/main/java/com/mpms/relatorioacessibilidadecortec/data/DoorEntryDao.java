@@ -16,8 +16,8 @@ public interface DoorEntryDao {
     @Insert
     void insertDoor(DoorEntry door);
 
-    @Query("SELECT * FROM DoorEntry WHERE schoolID == :schoolID AND roomID == :roomID")
-    LiveData<List<DoorEntry>> getDoorsFromRoom(int schoolID, int roomID);
+    @Query("SELECT * FROM DoorEntry WHERE blockID == :blockID AND roomID == :roomID")
+    LiveData<List<DoorEntry>> getDoorsFromRoom(int blockID, int roomID);
 
     @Query("SELECT * FROM DoorEntry WHERE doorID == :doorID")
     LiveData<DoorEntry> getSpecificDoor(int doorID);
@@ -28,6 +28,6 @@ public interface DoorEntryDao {
     @Query("DELETE FROM DoorEntry WHERE doorID == :doorID")
     void deleteDoor(int doorID);
 
-    @Query("DELETE FROM DoorEntry WHERE schoolID == :schoolID AND roomID == :roomID")
-    void deleteAllDoorsFromRoom(int schoolID, int roomID);
+    @Query("DELETE FROM DoorEntry WHERE blockID == :blockID AND roomID == :roomID")
+    void deleteAllDoorsFromRoom(int blockID, int roomID);
 }

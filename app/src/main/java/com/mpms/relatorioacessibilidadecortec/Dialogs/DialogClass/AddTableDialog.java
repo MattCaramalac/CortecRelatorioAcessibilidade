@@ -22,7 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogFragments.TableTypeFragment;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
@@ -88,7 +88,7 @@ public class AddTableDialog extends DialogFragment {
                 roomBundle.putInt(TableTypeFragment.TABLE_TYPE,tableBundle.getInt(TableTypeFragment.TABLE_TYPE));
                 TableEntry newTabEntry = newTableEntry(roomBundle);
                 ViewModelEntry.insertTablesEntry(newTabEntry);
-                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                 clearTableFields();
                 modelDialog.setTableInfo(null);
             }
@@ -202,7 +202,7 @@ public class AddTableDialog extends DialogFragment {
         if (!TextUtils.isEmpty(tableObsValue.getText()))
             tableObs = Objects.requireNonNull(tableObsValue.getText()).toString();
 
-        return new TableEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID),bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+        return new TableEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER),bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
                 isClassroom, tableType,lowestBorder, highestBorder, widthTable, frontalApprox, tableObs);
     }
 

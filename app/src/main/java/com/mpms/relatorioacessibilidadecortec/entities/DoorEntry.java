@@ -7,9 +7,7 @@ import androidx.room.PrimaryKey;
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity (foreignKeys = {
-        @ForeignKey(entity = SchoolEntry.class,
-                parentColumns = "cadID",
-                childColumns = "schoolID",
+        @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
                 onDelete = CASCADE, onUpdate = CASCADE),
         @ForeignKey(entity = RoomEntry.class,
                 parentColumns = "roomID",
@@ -19,7 +17,7 @@ public class DoorEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int doorID;
-    private int schoolID;
+    private int blockID;
     private int roomID;
     private String doorLocation;
     private Double doorWidth;
@@ -30,9 +28,9 @@ public class DoorEntry {
     private Double sillSlopeWidth;
     private String doorObs;
 
-    public DoorEntry(int schoolID, int roomID, String doorLocation, Double doorWidth, Integer doorSillType, Double sillInclinationHeight,
+    public DoorEntry(int blockID, int roomID, String doorLocation, Double doorWidth, Integer doorSillType, Double sillInclinationHeight,
                      Double sillStepHeight, Double sillSlopeHeight, Double sillSlopeWidth, String doorObs) {
-        this.schoolID = schoolID;
+        this.blockID = blockID;
         this.roomID = roomID;
         this.doorLocation = doorLocation;
         this.doorWidth = doorWidth;
@@ -52,12 +50,12 @@ public class DoorEntry {
         this.doorID = doorID;
     }
 
-    public int getSchoolID() {
-        return schoolID;
+    public int getBlockID() {
+        return blockID;
     }
 
-    public void setSchoolID(int schoolID) {
-        this.schoolID = schoolID;
+    public void setblockID(int blockID) {
+        this.blockID = blockID;
     }
 
     public int getRoomID() {

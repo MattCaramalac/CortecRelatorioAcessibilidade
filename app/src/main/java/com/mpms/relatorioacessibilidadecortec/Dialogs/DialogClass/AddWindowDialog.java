@@ -20,7 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.WindowEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -73,7 +73,7 @@ public class AddWindowDialog extends DialogFragment {
             if(checkEmptyWindowFields()) {
                 WindowEntry newWindow = newWindowEntry(roomBundle);
                 ViewModelEntry.insertWindowEntry(newWindow);
-                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                 clearWindowsFields();
             }
         });
@@ -148,7 +148,7 @@ public class AddWindowDialog extends DialogFragment {
         else
             windowObs = null;
 
-        return new WindowEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID),bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+        return new WindowEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER),bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
                 windowLocation,windowSillHeight,windowObs);
     }
 

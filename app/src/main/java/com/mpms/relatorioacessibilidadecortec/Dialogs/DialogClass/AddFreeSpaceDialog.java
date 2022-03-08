@@ -20,7 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -73,7 +73,7 @@ public class AddFreeSpaceDialog extends DialogFragment {
             if (checkEmptyFreeSpaceFields()) {
                 FreeSpaceEntry newFreeSpace = newFreeSpace(roomBundle);
                 ViewModelEntry.insertFreeSpaceEntry(newFreeSpace);
-                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                 clearFreeSpaceFields();
             }
         });
@@ -148,7 +148,7 @@ public class AddFreeSpaceDialog extends DialogFragment {
         else
             freeSpaceObs = null;
 
-        return new FreeSpaceEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+        return new FreeSpaceEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
                 freeSpaceLocation, freeSpaceWidth, freeSpaceObs);
     }
 

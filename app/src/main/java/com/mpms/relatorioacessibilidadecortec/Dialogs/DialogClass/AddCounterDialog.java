@@ -78,7 +78,7 @@ public class AddCounterDialog extends DialogFragment {
             if(checkEmptyCounterFields()) {
                 CounterEntry newCounter = newCounter(counterBundle);
                 ViewModelEntry.insertCounter(newCounter);
-                Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                 clearCounterFields();
             }
         });
