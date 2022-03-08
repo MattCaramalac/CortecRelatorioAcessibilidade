@@ -33,12 +33,12 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/slope_locale_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_sidewalk_slope_identification"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/slope_locale_value"
@@ -49,13 +49,13 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/slope_width_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_slope_width"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slope_locale_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:layout_constraintTop_toBottomOf="@id/slope_locale_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/slope_width_value"
@@ -80,8 +80,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="@string/label_add_frag_entry"
                 android:backgroundTint="@color/purple_200"
+                android:text="@string/label_add_frag_entry"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -92,28 +92,27 @@
                 android:id="@+id/delete_long_measurement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/teal_200"
+                android:src="@drawable/ic_delete_field"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/add_longitudinal_measurement"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/add_longitudinal_measurement"
                 app:layout_constraintTop_toTopOf="@id/add_longitudinal_measurement"
-                app:layout_constraintBottom_toBottomOf="@id/add_longitudinal_measurement"
-                android:src="@drawable/ic_delete_field"
-                android:backgroundTint="@color/teal_200"
-                android:visibility="gone"
                 tools:ignore="ContentDescription" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/slope_longitudinal_1_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/first_measurement_perc"
-                android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_longitudinal_measurement"
-                app:layout_constraintEnd_toStartOf="@id/slope_longitudinal_2_field"
-                android:layout_marginEnd="@dimen/usual_padding"
                 android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintEnd_toStartOf="@id/slope_longitudinal_2_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_longitudinal_measurement">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/slope_longitudinal_1_value"
@@ -125,17 +124,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/slope_longitudinal_2_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/second_measure_perc"
+                android:visibility="gone"
                 android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toEndOf="@id/slope_longitudinal_1_field"
                 app:layout_constraintBaseline_toBaselineOf="@id/slope_longitudinal_1_field"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/usual_padding"
-                android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:layout_constraintStart_toEndOf="@id/slope_longitudinal_1_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/slope_longitudinal_2_value"
@@ -147,17 +146,16 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/slope_longitudinal_3_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/third_measure_perc"
-                android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slope_longitudinal_1_field"
-                app:layout_constraintEnd_toStartOf="@id/slope_longitudinal_4_field"
-                android:layout_marginEnd="@dimen/usual_padding"
                 android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintEnd_toStartOf="@id/slope_longitudinal_4_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/slope_longitudinal_1_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/slope_longitudinal_3_value"
@@ -169,17 +167,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/slope_longitudinal_4_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/fourth_measure_perc"
+                android:visibility="gone"
                 android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toEndOf="@id/slope_longitudinal_3_field"
                 app:layout_constraintBaseline_toBaselineOf="@id/slope_longitudinal_3_field"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/usual_padding"
-                android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:layout_constraintStart_toEndOf="@id/slope_longitudinal_3_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/slope_longitudinal_4_value"
@@ -189,49 +187,61 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/slope_longitudinal_5_field"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/longitudinal_fields_error"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/fifth_measure_perc"
-                android:weightSum="@integer/weight_one"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slope_longitudinal_3_field"
-                app:layout_constraintEnd_toStartOf="@id/slope_longitudinal_6_field"
-                android:layout_marginEnd="@dimen/usual_padding"
-                android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:layout_constraintTop_toBottomOf="@id/slope_longitudinal_3_field" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/slope_longitudinal_5_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="numberDecimal" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/slope_longitudinal_6_field"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/has_left_wing_header"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/sixth_measure_perc"
-                android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toEndOf="@id/slope_longitudinal_5_field"
-                app:layout_constraintBaseline_toBaselineOf="@id/slope_longitudinal_5_field"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/usual_padding"
+                android:text="@string/header_has_left_wing_inclination"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/longitudinal_fields_error" />
+
+            <RadioGroup
+                android:id="@+id/has_left_wing_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_left_wing_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/has_left_wing_header_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
                 android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/slope_longitudinal_6_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="numberDecimal" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_left_wing_radio" />
 
             <TextView
                 android:id="@+id/left_wing_inclination_header"
@@ -240,18 +250,20 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/left_wing_slope_header"
                 android:textSize="@dimen/section_header"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slope_longitudinal_5_field" />
+                app:layout_constraintTop_toBottomOf="@id/has_left_wing_header_error" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_left_wing_measurement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="@string/label_add_frag_entry"
                 android:backgroundTint="@color/purple_200"
+                android:text="@string/label_add_frag_entry"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/left_wing_inclination_header" />
@@ -260,28 +272,27 @@
                 android:id="@+id/delete_left_measurement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/teal_200"
+                android:src="@drawable/ic_delete_field"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/add_left_wing_measurement"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/add_left_wing_measurement"
                 app:layout_constraintTop_toTopOf="@id/add_left_wing_measurement"
-                app:layout_constraintBottom_toBottomOf="@id/add_left_wing_measurement"
-                android:src="@drawable/ic_delete_field"
-                android:backgroundTint="@color/teal_200"
-                android:visibility="gone"
                 tools:ignore="ContentDescription" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/left_wing_1_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/first_measurement_perc"
-                android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_left_wing_measurement"
-                app:layout_constraintEnd_toStartOf="@id/left_wing_2_field"
-                android:layout_marginEnd="@dimen/usual_padding"
                 android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintEnd_toStartOf="@id/left_wing_2_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_left_wing_measurement">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/left_wing_1_value"
@@ -293,17 +304,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/left_wing_2_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/second_measure_perc"
+                android:visibility="gone"
                 android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toEndOf="@id/left_wing_1_field"
                 app:layout_constraintBaseline_toBaselineOf="@id/left_wing_1_field"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/usual_padding"
-                android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:layout_constraintStart_toEndOf="@id/left_wing_1_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/left_wing_2_value"
@@ -315,17 +326,16 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/left_wing_3_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/third_measure_perc"
-                android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/left_wing_1_field"
-                app:layout_constraintEnd_toStartOf="@id/left_wing_4_field"
-                android:layout_marginEnd="@dimen/usual_padding"
                 android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintEnd_toStartOf="@id/left_wing_4_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/left_wing_1_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/left_wing_3_value"
@@ -337,17 +347,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/left_wing_4_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/fourth_measure_perc"
+                android:visibility="gone"
                 android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toEndOf="@id/left_wing_3_field"
                 app:layout_constraintBaseline_toBaselineOf="@id/left_wing_3_field"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/usual_padding"
-                android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:layout_constraintStart_toEndOf="@id/left_wing_3_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/left_wing_4_value"
@@ -357,49 +367,61 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/left_wing_5_field"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/left_wing_fields_error"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/fifth_measure_perc"
-                android:weightSum="@integer/weight_one"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/left_wing_3_field"
-                app:layout_constraintEnd_toStartOf="@id/left_wing_6_field"
-                android:layout_marginEnd="@dimen/usual_padding"
-                android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:layout_constraintTop_toBottomOf="@id/left_wing_3_field" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/left_wing_5_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="numberDecimal" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/left_wing_6_field"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/has_right_wing_header"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/sixth_measure_perc"
-                android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toEndOf="@id/left_wing_5_field"
-                app:layout_constraintBaseline_toBaselineOf="@id/left_wing_5_field"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/usual_padding"
+                android:text="@string/header_has_right_wing_inclination"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/left_wing_fields_error" />
+
+            <RadioGroup
+                android:id="@+id/has_right_wing_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_right_wing_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/has_right_wing_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
                 android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/left_wing_6_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="numberDecimal" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_right_wing_radio" />
 
             <TextView
                 android:id="@+id/right_wing_inclination_header"
@@ -408,18 +430,20 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/right_wing_measure_header"
                 android:textSize="@dimen/section_header"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/left_wing_5_field" />
+                app:layout_constraintTop_toBottomOf="@id/has_right_wing_error" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_right_wing_measurement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="@string/label_add_frag_entry"
                 android:backgroundTint="@color/purple_200"
+                android:text="@string/label_add_frag_entry"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/right_wing_inclination_header" />
@@ -428,28 +452,27 @@
                 android:id="@+id/delete_right_measurement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/teal_200"
+                android:src="@drawable/ic_delete_field"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/add_right_wing_measurement"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/add_right_wing_measurement"
                 app:layout_constraintTop_toTopOf="@id/add_right_wing_measurement"
-                app:layout_constraintBottom_toBottomOf="@id/add_right_wing_measurement"
-                android:src="@drawable/ic_delete_field"
-                android:backgroundTint="@color/teal_200"
-                android:visibility="gone"
                 tools:ignore="ContentDescription" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/right_wing_1_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/first_measurement_perc"
-                android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_right_wing_measurement"
-                app:layout_constraintEnd_toStartOf="@id/right_wing_2_field"
-                android:layout_marginEnd="@dimen/usual_padding"
                 android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintEnd_toStartOf="@id/right_wing_2_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_right_wing_measurement">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/right_wing_1_value"
@@ -461,17 +484,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/right_wing_2_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/second_measure_perc"
+                android:visibility="gone"
                 android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toEndOf="@id/right_wing_1_field"
                 app:layout_constraintBaseline_toBaselineOf="@id/right_wing_1_field"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/usual_padding"
-                android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:layout_constraintStart_toEndOf="@id/right_wing_1_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/right_wing_2_value"
@@ -483,17 +506,16 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/right_wing_3_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/third_measure_perc"
-                android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/right_wing_1_field"
-                app:layout_constraintEnd_toStartOf="@id/right_wing_4_field"
-                android:layout_marginEnd="@dimen/usual_padding"
                 android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintEnd_toStartOf="@id/right_wing_4_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/right_wing_1_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/right_wing_3_value"
@@ -505,17 +527,17 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/right_wing_4_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/fourth_measure_perc"
+                android:visibility="gone"
                 android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toEndOf="@id/right_wing_3_field"
                 app:layout_constraintBaseline_toBaselineOf="@id/right_wing_3_field"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/usual_padding"
-                android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:layout_constraintStart_toEndOf="@id/right_wing_3_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/right_wing_4_value"
@@ -525,49 +547,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/right_wing_5_field"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/right_wing_fields_error"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/fifth_measure_perc"
-                android:weightSum="@integer/weight_one"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/right_wing_3_field"
-                app:layout_constraintEnd_toStartOf="@id/right_wing_6_field"
-                android:layout_marginEnd="@dimen/usual_padding"
-                android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/right_wing_5_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="numberDecimal" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/right_wing_6_field"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/sixth_measure_perc"
-                android:weightSum="@integer/weight_one"
-                app:layout_constraintStart_toEndOf="@id/right_wing_5_field"
-                app:layout_constraintBaseline_toBaselineOf="@id/right_wing_5_field"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="@dimen/usual_padding"
-                android:visibility="gone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/right_wing_6_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="numberDecimal" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@id/right_wing_3_field" />
 
             <TextView
                 android:id="@+id/has_tactile_floor_header"
@@ -577,7 +566,7 @@
                 android:text="@string/label_has_tactile_floor_header"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/right_wing_5_field" />
+                app:layout_constraintTop_toBottomOf="@id/right_wing_fields_error" />
 
             <RadioGroup
                 android:id="@+id/slope_has_tactile_floor_radio"
@@ -615,14 +604,109 @@
                 app:layout_constraintTop_toBottomOf="@id/slope_has_tactile_floor_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/slope_obs_field"
+                android:id="@+id/slope_tactile_floor_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/hint_obs"
+                android:hint="@string/hint_tactile_floor_obs"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slope_has_tactile_floor_error"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:layout_constraintTop_toBottomOf="@id/slope_has_tactile_floor_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/slope_tactile_floor_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/slope_has_accessible_floor_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/header_accessible_slope_floor"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/slope_tactile_floor_obs_field" />
+
+            <RadioGroup
+                android:id="@+id/slope_has_accessible_floor_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/slope_has_accessible_floor_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/slope_has_accessible_floor_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/slope_has_accessible_floor_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/slope_accessible_floor_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_slope_floor_obs"
+                app:helperText="@string/helper_not_accessible_floor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/slope_has_accessible_floor_error"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/slope_accessible_floor_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/slope_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_slope_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/slope_accessible_floor_obs_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/slope_obs_value"

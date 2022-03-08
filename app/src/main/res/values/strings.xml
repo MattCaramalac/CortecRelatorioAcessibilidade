@@ -481,4 +481,11 @@
     <string name="hint_play_equip_obs">Observações sobre os brinquedos</string>
     <string name="hint_playground_obs">Outras observações sobre o playground</string>
     <string name="header_playground_register">Cadastro de Playgrounds</string>
+    <string name="header_has_left_wing_inclination">Rebaixamento possui inclinação da aba esquerda?</string>
+    <string name="header_has_right_wing_inclination">Rebaixamento possui inclinação da aba direita?</string>
+    <string name="header_accessible_slope_floor">O piso do rebaixamento é acessível?</string>
+    <string name="hint_slope_floor_obs">Observações Piso do Rebaixamento</string>
+    <string name="helper_not_accessible_floor">Patologias, motivos para não ser considerado acessível</string>
+    <string name="hint_slope_obs">Observações sobre o rebaixamento</string>
+    <string name="register_error_try_again">Ocorreu um erro. Por favor, tente novamente</string>
 </resources>

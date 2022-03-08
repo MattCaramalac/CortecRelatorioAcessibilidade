@@ -127,7 +127,7 @@ public class SidewalkFragment extends Fragment {
                     recentRegister = 0;
                     updateRegister = 0;
                     sidewalkData.putInt(SIDEWALK_ID, 0);
-                    Toast.makeText(getContext(), "Ocorreu um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.register_error_try_again), Toast.LENGTH_SHORT).show();
                 }
             } else if (sidewalkData.getInt(SIDEWALK_ID) > 0) {
                 if (updateRegister >= 0) {
@@ -137,13 +137,13 @@ public class SidewalkFragment extends Fragment {
                     recentRegister = 0;
                     updateRegister = 0;
                     sidewalkData.putInt(SIDEWALK_ID, 0);
-                    Toast.makeText(getContext(), "Ocorreu um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.register_error_try_again), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 updateRegister = 0;
                 recentRegister = 0;
                 sidewalkData.putInt(SIDEWALK_ID, 0);
-                Toast.makeText(getContext(), "Ocorreu um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.register_error_try_again), Toast.LENGTH_SHORT).show();
             }
         });
 

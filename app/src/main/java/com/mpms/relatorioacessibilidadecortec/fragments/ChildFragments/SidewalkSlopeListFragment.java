@@ -28,7 +28,7 @@ import java.util.Objects;
 
 public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickListener {
 
-    public static final String SIDEWALK_SLOPE_ID = "SIDEWALK_SLOPE_ID";
+
 
     MaterialButton closeSideSlopeList, addSideSlope;
 
@@ -102,7 +102,7 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
     @Override
     public void OnEntryClick(int position) {
         SidewalkSlopeEntry slopeEntry = modelEntry.allSidewalkSlopes.getValue().get(position);
-        sideSlopeBundle.putInt(SIDEWALK_SLOPE_ID, slopeEntry.getSidewalkSlopeID());
+        sideSlopeBundle.putInt(SidewalkSlopeFragment.SIDEWALK_SLOPE_ID, slopeEntry.getSidewalkSlopeID());
         openSideSlopeFragment();
     }
 }
