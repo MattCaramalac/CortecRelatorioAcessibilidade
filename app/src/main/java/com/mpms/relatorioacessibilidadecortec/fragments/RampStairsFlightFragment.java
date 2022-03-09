@@ -26,7 +26,7 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddStairsMirro
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.AddStairsStepDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
-import com.mpms.relatorioacessibilidadecortec.entities.FlightsRampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
@@ -279,7 +279,7 @@ public class RampStairsFlightFragment extends Fragment {
         borderSignIdentifiableRadioError = view.findViewById(R.id.border_sign_identifiable_error);
 
         rampStairsWidthField = view.findViewById(R.id.ramp_staircase_width_field);
-        tactileSignObsField = view.findViewById(R.id.tactile_sign_obs_field);
+        tactileSignObsField = view.findViewById(R.id.pavement_tact_sign_obs_field);
         tactileFloorObsField = view.findViewById(R.id.tactile_floor_obs_field);
         borderSignWidthField = view.findViewById(R.id.border_signal_width_field);
         borderSignObsField = view.findViewById(R.id.border_signal_obs_field);

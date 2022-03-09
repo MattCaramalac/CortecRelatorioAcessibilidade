@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.entities.RampInclinationEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsFlightFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;

@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.entities.RampStairsHandrailEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 

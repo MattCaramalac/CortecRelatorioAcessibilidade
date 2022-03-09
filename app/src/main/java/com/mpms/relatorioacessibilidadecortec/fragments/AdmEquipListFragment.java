@@ -22,7 +22,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.AdmEquipRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
-import com.mpms.relatorioacessibilidadecortec.entities.AdmEquipEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.AdmEquipEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.Objects;

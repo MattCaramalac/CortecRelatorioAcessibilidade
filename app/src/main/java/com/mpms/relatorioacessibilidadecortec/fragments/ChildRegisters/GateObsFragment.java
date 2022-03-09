@@ -20,7 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.entities.GateObsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.GateObsBarrierFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.GateObsDoorFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;

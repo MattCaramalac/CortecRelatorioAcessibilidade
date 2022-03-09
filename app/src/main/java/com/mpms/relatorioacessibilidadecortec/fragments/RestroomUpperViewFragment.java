@@ -20,7 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.entities.RestroomUpViewEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomUpViewEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 public class RestroomUpperViewFragment extends Fragment {

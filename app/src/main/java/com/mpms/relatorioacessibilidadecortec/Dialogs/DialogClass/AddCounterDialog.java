@@ -20,7 +20,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.entities.CounterEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -184,6 +184,6 @@ public class AddCounterDialog extends DialogFragment {
         if (!TextUtils.isEmpty(counterObsValue.getText()))
             counterObs = Objects.requireNonNull(counterLocationValue.getText()).toString();
 
-        return new CounterEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),counterLocation, upperEdge, lowerEdge, frontalApprox, counterObs);
+        return new CounterEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID),counterLocation, upperEdge, lowerEdge, frontalApprox, counterObs);
     }
 }

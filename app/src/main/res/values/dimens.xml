@@ -8,6 +8,7 @@
     <dimen name="margin_radio_twoOp">72dp</dimen>
 
     <dimen name="section_header">18sp</dimen>
+    <dimen name="section_header_big">22sp</dimen>
     <dimen name="radio_button_text">15sp</dimen>
     <dimen name="error_message">12sp</dimen>
     <dimen name="radio_option_size">15sp</dimen>

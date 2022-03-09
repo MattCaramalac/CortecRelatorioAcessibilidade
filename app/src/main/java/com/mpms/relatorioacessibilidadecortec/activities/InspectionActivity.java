@@ -10,7 +10,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.fragments.AdmEquipListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
-import com.mpms.relatorioacessibilidadecortec.fragments.OtherSpacesListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
@@ -27,7 +26,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     public static final String EXTERNAL_LIST = "EXTERNAL_LIST";
     public static final String REST_LIST = "REST_LIST";
     public static final String WATER_LIST = "WATER_LIST";
-    public static final String OTHERS_LIST = "OTHERS_LIST";
     public static final String SIDEWALK_LIST = "SIDEWALK_LIST";
     public static final String ALLOW_UPDATE = "ALLOW_UPDATE";
     public static final String RAMP_STAIRS_LIST = "RAMP_STAIRS_LIST";
@@ -68,9 +66,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 break;
             case 8:
                 displayParkingLotListFragment();
-                break;
-            case 16:
-                displayOtherSpacesListFragment();
                 break;
             case 17:
                 displayAdmEquipListFragment();
@@ -126,13 +121,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         parkingList.setArguments(blockSpaceBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, parkingList).addToBackStack(PARKING_LIST).commit();
-    }
-
-    public void displayOtherSpacesListFragment() {
-        OtherSpacesListFragment otherListFrag = OtherSpacesListFragment.newInstance();
-        otherListFrag.setArguments(blockSpaceBundle);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, otherListFrag).addToBackStack(OTHERS_LIST).commit();
     }
 
     public void displayStairsRampListFragment(int chosenItem) {

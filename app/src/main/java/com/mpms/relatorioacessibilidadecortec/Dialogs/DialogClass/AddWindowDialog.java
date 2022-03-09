@@ -21,7 +21,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
-import com.mpms.relatorioacessibilidadecortec.entities.WindowEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
@@ -148,7 +148,7 @@ public class AddWindowDialog extends DialogFragment {
         else
             windowObs = null;
 
-        return new WindowEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER),bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+        return new WindowEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER),bundle.getInt(RoomsRegisterFragment.ROOM_ID),
                 windowLocation,windowSillHeight,windowObs);
     }
 

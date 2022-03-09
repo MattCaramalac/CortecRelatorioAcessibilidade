@@ -22,7 +22,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.ParkElderRecViewAdapter;
-import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotElderlyEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.Objects;

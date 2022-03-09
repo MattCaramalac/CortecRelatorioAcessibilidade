@@ -21,8 +21,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.RestroomSinkOne;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomSinkEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomSinkOne;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.ArrayList;

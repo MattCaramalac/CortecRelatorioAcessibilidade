@@ -678,7 +678,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/hint_slope_floor_obs"
+                android:hint="@string/hint_accessible_floor_obs"
                 app:helperText="@string/helper_not_accessible_floor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/slope_has_accessible_floor_error"

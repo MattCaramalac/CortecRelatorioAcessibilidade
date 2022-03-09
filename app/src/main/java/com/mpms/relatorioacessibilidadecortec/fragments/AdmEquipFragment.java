@@ -18,7 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
-import com.mpms.relatorioacessibilidadecortec.entities.AdmEquipEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.AdmEquipEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 public class AdmEquipFragment extends Fragment {

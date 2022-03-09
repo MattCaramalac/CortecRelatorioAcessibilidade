@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.entities.ParkingLotEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 
 import java.util.List;
 

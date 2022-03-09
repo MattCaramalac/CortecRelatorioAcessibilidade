@@ -21,7 +21,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
-import com.mpms.relatorioacessibilidadecortec.entities.FreeSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
@@ -148,7 +148,7 @@ public class AddFreeSpaceDialog extends DialogFragment {
         else
             freeSpaceObs = null;
 
-        return new FreeSpaceEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), bundle.getInt(RoomsRegisterFragment.ROOM_ID_VALUE),
+        return new FreeSpaceEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), bundle.getInt(RoomsRegisterFragment.ROOM_ID),
                 freeSpaceLocation, freeSpaceWidth, freeSpaceObs);
     }
 

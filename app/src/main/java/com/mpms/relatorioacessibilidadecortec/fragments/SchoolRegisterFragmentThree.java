@@ -24,8 +24,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
-import com.mpms.relatorioacessibilidadecortec.entities.SchoolEntry;
-import com.mpms.relatorioacessibilidadecortec.entities.SchoolRegisterThree;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterThree;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
