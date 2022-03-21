@@ -22,7 +22,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RoomRecViewAdapter;
-import com.mpms.relatorioacessibilidadecortec.entities.RoomEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.Objects;
@@ -41,7 +41,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
-    Bundle roomBundle = new Bundle();
+    Bundle roomListBundle = new Bundle();
 
     public RoomRegisterListFragment() {
         // Required empty public constructor
@@ -62,8 +62,8 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            roomBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
-            roomBundle.putInt(ROOM_TYPE, chosenOption);
+            roomListBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            roomListBundle.putInt(ROOM_TYPE, chosenOption);
         }
     }
 
@@ -78,7 +78,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         super.onViewCreated(view, savedInstanceState);
         instantiateRoomListViews(view);
 
-        modelEntry.getAllRoomsInBlock(roomBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), roomBundle.getInt(ROOM_TYPE))
+        modelEntry.getAllRoomsInBlock(roomListBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), roomListBundle.getInt(ROOM_TYPE))
                 .observe(getViewLifecycleOwner(), rooms -> {
                     roomAdapter = new RoomRecViewAdapter(rooms, requireActivity(), this);
                     recyclerView.setAdapter(roomAdapter);
@@ -87,18 +87,21 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
                     recyclerView.addItemDecoration(dividerItemDecoration);
                 });
 
-        addRoom.setOnClickListener(v -> {
-            roomBundle.putInt(RoomsRegisterFragment.ROOM_ID_VALUE, 0);
-            openRoomFragment();
-        });
+        addRoom.setOnClickListener(v -> openRoomFragment());
 
         closeRoomList.setOnClickListener(v -> requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        roomListBundle.putInt(RoomsRegisterFragment.ROOM_ID, 0);
     }
 
     private void instantiateRoomListViews(View view) {
 //        TextView
         roomListIdentifier = view.findViewById(R.id.identifier_header);
-        roomListIdentifier.setText(roomHeader(roomBundle));
+        roomListIdentifier.setText(roomHeader(roomListBundle));
 //        MaterialButtons
         closeRoomList = view.findViewById(R.id.cancel_child_items_entries);
         addRoom = view.findViewById(R.id.add_child_items_entries);
@@ -112,39 +115,45 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
     }
 
-    private String roomHeader(Bundle bundle) {
-        if (bundle.getInt(ROOM_TYPE) == 3)
-            return "Cadastro de Bibliotecas";
-        else if (bundle.getInt(ROOM_TYPE) == 5)
-            return "Cadastro de Coordenações";
-        else if (bundle.getInt(ROOM_TYPE) == 6)
-            return "Cadastro de Diretorias";
-        else if (bundle.getInt(ROOM_TYPE) == 10)
-            return "Cadastro de Refeitórios";
-        else if (bundle.getInt(ROOM_TYPE) == 11)
-            return "Cadastro de Salas de Aula";
-        else if (bundle.getInt(ROOM_TYPE) == 12)
-            return "Cadastro Salas de Tecnologia";
-        else if (bundle.getInt(ROOM_TYPE) == 13)
-            return "Cadastro Salas de Recursos";
-        else if (bundle.getInt(ROOM_TYPE) == 14)
-            return "Cadastro Salas dos Professores";
-        else
-            return "Cadastro de Secretarias";
+    public static String roomHeader(Bundle bundle) {
+        switch (bundle.getInt(ROOM_TYPE)) {
+            case 3:
+                return "Cadastro de Bibliotecas";
+            case 5:
+                return "Cadastro de Coordenações";
+            case 6:
+                return "Cadastro de Diretorias";
+            case 10:
+                return "Cadastro de Refeitórios";
+            case 11:
+                return "Cadastro de Salas de Aula";
+            case 12:
+                return "Cadastro Salas de Tecnologia";
+            case 13:
+                return "Cadastro Salas de Recursos";
+            case 14:
+                return "Cadastro Salas dos Professores";
+            case 15:
+                return "Cadastro de Secretarias";
+            case 16:
+                return "Cadastro de Outros Ambientes";
+            default:
+                return "";
+        }
     }
 
     private void openRoomFragment() {
         RoomsRegisterFragment roomFragment = RoomsRegisterFragment.newInstance();
         fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        roomFragment.setArguments(roomBundle);
+        roomFragment.setArguments(roomListBundle);
         fragmentTransaction.replace(R.id.show_fragment_selected, roomFragment).addToBackStack(null).commit();
     }
 
     @Override
     public void OnEntryClick(int position) {
         RoomEntry roomEntry = modelEntry.allRooms.getValue().get(position);
-        roomBundle.putInt(RoomsRegisterFragment.ROOM_ID_VALUE, roomEntry.getRoomID());
+        roomListBundle.putInt(RoomsRegisterFragment.ROOM_ID, roomEntry.getRoomID());
         openRoomFragment();
     }
 }
