@@ -12,31 +12,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/sill_slope_field"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_sill_slope_inclination">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/sill_slope_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/sill_slope_width_field"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sill_slope_field"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="@dimen/usual_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_sill_slope_width"
-            app:errorEnabled="true">
+            android:hint="@string/hint_sill_slope_width">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sill_slope_width_value"
@@ -45,6 +27,142 @@
                 android:inputType="numberDecimal"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/label_add_slope_measure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="@string/header_slope_measure_register"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sill_slope_width_field"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_slope_measure_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:backgroundTint="@color/purple_200"
+            android:text="@string/label_add_frag_entry"
+            android:textColor="@color/black"
+            app:cornerRadius="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_add_slope_measure"/>
+
+        <ImageButton
+            android:id="@+id/delete_slope_measure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/add_slope_measure_button"
+            app:layout_constraintTop_toTopOf="@id/add_slope_measure_button"
+            app:layout_constraintBottom_toBottomOf="@id/add_slope_measure_button"
+            android:src="@drawable/ic_delete_field"
+            android:backgroundTint="@color/teal_200"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/slope_measure_1_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/first_measurement_perc"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_slope_measure_button"
+            app:layout_constraintEnd_toStartOf="@id/slope_measure_2_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/slope_measure_1_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/slope_measure_2_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/second_measure_perc"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toEndOf="@id/slope_measure_1_field"
+            app:layout_constraintBaseline_toBaselineOf="@id/slope_measure_1_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/slope_measure_2_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/slope_measure_3_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/third_measure_perc"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/slope_measure_1_field"
+            app:layout_constraintEnd_toStartOf="@id/slope_measure_4_field"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/slope_measure_3_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/slope_measure_4_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/fourth_measure_perc"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toEndOf="@id/slope_measure_3_field"
+            app:layout_constraintBaseline_toBaselineOf="@id/slope_measure_3_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/slope_measure_4_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/slope_measure_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/slope_measure_3_field"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

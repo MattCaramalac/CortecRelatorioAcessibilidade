@@ -9,9 +9,11 @@ import androidx.lifecycle.LiveData;
 import com.mpms.relatorioacessibilidadecortec.data.database.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.database.ReportRepository;
 import com.mpms.relatorioacessibilidadecortec.data.entities.AdmEquipEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
@@ -72,6 +74,14 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<GateObsEntry>> allGateObs;
     public LiveData<List<AdmEquipEntry>> allAdmEquip;
     public LiveData<List<PlaygroundEntry>> allPlaygrounds;
+    public LiveData<List<DoorEntry>> allDoors;
+    public LiveData<List<SwitchEntry>> allSwitches;
+    public LiveData<List<WindowEntry>> allWindows;
+    public LiveData<List<TableEntry>> allTables;
+    public LiveData<List<FreeSpaceEntry>> allFreeSpaces;
+    public LiveData<List<BlackboardEntry>> allBlackboards;
+    public LiveData<List<CounterEntry>> allCounters;
+    public LiveData<List<DoorLockEntry>> allDoorLocks;
     public final LiveData<List<SchoolEntry>> allEntries;
 
     public LiveData<ExternalAccess> oneAccess;
@@ -299,12 +309,17 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertDoorEntry(doorEntry));
     }
 
-    public  LiveData<List<DoorEntry>> getDoorsFromRoom(int schoolID, int roomID) {
-        return repository.getDoorsFromRoom(schoolID, roomID);
+    public  LiveData<List<DoorEntry>> getDoorsFromRoom(int roomID) {
+        allDoors = repository.getDoorsFromRoom(roomID);
+        return allDoors;
     }
 
     public LiveData<DoorEntry> getSpecificDoor(int doorId) {
         return repository.getSpecificDoor(doorId);
+    }
+
+    public LiveData<DoorEntry> getLastDoorEntry() {
+        return repository.getLastDoorEntry();
     }
 
     public static void updateDoor(DoorEntry doorEntry) {
@@ -316,23 +331,107 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public static void deleteAllDoorsFromRoom(int schoolID, int roomID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllDoorsFromRoom(schoolID, roomID));
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllDoorsFromRoom(roomID));
     }
 
     public static void insertFreeSpaceEntry(FreeSpaceEntry freeSpace) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertFreeSpace(freeSpace));
     }
 
+    public LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRoom(int roomID) {
+        allFreeSpaces = repository.selectFreeSpaceFromRoom(roomID);
+        return allFreeSpaces;
+    }
+
+    public LiveData<FreeSpaceEntry> selectSpecificFreeSpace(int freeSpaceID) {
+        return repository.selectSpecificFreeSpace(freeSpaceID);
+    }
+
+    public static void updateFreeSpace(FreeSpaceEntry freeSpace) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateFreeSpace(freeSpace));
+    }
+
+    public static void deleteFreeSpace(int freeSpaceID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteFreeSpace(freeSpaceID));
+    }
+
+    public static void deleteAllFreeSpaceFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllFreeSpaceFromRoom(roomID));
+    }
+
     public static void insertWindowEntry(WindowEntry windowEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertWindow(windowEntry));
+    }
+
+    public LiveData<List<WindowEntry>> selectWindowsFromRoom(int roomID) {
+        allWindows = repository.selectWindowsFromRoom(roomID);
+        return allWindows;
+    }
+
+    public LiveData<WindowEntry> selectSpecificWindow(int windowID) {
+        return repository.selectSpecificWindow(windowID);
+    }
+
+    public static void updateWindowEntry(WindowEntry windowEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateWindowEntry(windowEntry));
+    }
+
+    public static void deleteWindow(int windowID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteWindow(windowID));
+    }
+
+    public static void deleteAllWindowsFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllWindowsFromRoom(roomID));
     }
 
     public static void insertSwitchEntry(SwitchEntry switchEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertSwitch(switchEntry));
     }
 
+    public LiveData<List<SwitchEntry>> getSwitchesFromRoom(int roomID) {
+        allSwitches = repository.selectSwitchesFromRoom(roomID);
+        return allSwitches;
+    }
+
+    public LiveData<SwitchEntry> getSpecificSwitch(int switchID) {
+        return repository.selectSpecificSwitch(switchID);
+    }
+
+    public static void updateSwitch(SwitchEntry switchEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSwitch(switchEntry));
+    }
+
+    public static void deleteSwitch(int switchID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteSwitch(switchID));
+    }
+
+    public static void deleteAllSwitchesFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllSwitchesFromRoom(roomID));
+    }
+
     public static void insertTablesEntry(TableEntry tableEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertTable(tableEntry));
+    }
+
+    public LiveData<List<TableEntry>> selectTablesFromRoom(int roomID) {
+        allTables = repository.selectTablesFromRoom(roomID);
+        return allTables;
+    }
+
+    public LiveData<TableEntry> selectSpecificTable(int tableID) {
+        return repository.selectSpecificTable(tableID);
+    }
+
+    public static void updateTable(TableEntry table) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateTable(table));
+    }
+
+    public static void deleteTable(int tableID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteTable(tableID));
+    }
+
+    public static void deleteAllTablesFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllTablesFromRoom(roomID));
     }
 
     public static void insertGateObs (GateObsEntry gateObs) {
@@ -390,7 +489,8 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public LiveData<List<CounterEntry>> getCountersFromRoom(int roomID) {
-        return repository.getCountersFromRoom(roomID);
+        allCounters = repository.getCountersFromRoom(roomID);
+        return allCounters;
     }
 
     public LiveData<CounterEntry> getSpecificCounter(int counterID) {
@@ -896,6 +996,60 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteAllPlaygroundsFromBlock(int blockID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllPlaygroundsFromBlock(blockID));
+    }
+
+    public static void insertBlackboard(BlackboardEntry blackboard) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertBlackboard(blackboard));
+    }
+
+    public LiveData<List<BlackboardEntry>> getAllBlackboardsFromRoom(int roomID) {
+        allBlackboards = repository.getAllBlackboardsFromRoom(roomID);
+        return allBlackboards;
+    }
+
+    public LiveData<BlackboardEntry> getOneBlackboard(int blackboardID) {
+        return repository.getOneBlackboard(blackboardID);
+    }
+
+    public static void updateBlackboard (BlackboardEntry blackboard) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateBlackboard(blackboard));
+    }
+
+    public static void deleteBlackboard(int blackboardID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteBlackboard(blackboardID));
+    }
+
+    public static void deleteAllBlackboardsFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllBlackboardsFromRoom(roomID));
+    }
+
+    public static void insertDoorLock(DoorLockEntry doorLock) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertDoorLock(doorLock));
+    }
+
+    public LiveData<List<DoorLockEntry>> getDoorLocksFromDoor(int doorID) {
+        allDoorLocks = repository.getDoorLocksFromDoor(doorID);
+        return allDoorLocks;
+    }
+
+    public LiveData<DoorLockEntry> getOneDoorLock(int lockID) {
+        return repository.getOneDoorLock(lockID);
+    }
+
+    public LiveData<DoorLockEntry> getLastDoorLockEntry() {
+        return repository.getLastDoorLockEntry();
+    }
+
+    public static void updateDoorLock(DoorLockEntry doorLock) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateDoorLock(doorLock));
+    }
+
+    public static void deleteDoorLock(int lockID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteDoorLock(lockID));
+    }
+
+    public static void deleteAllDoorLocksFromDoor(int doorID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllDoorLocksFromDoor(doorID));
     }
 
 }

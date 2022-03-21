@@ -47,11 +47,23 @@
         </RadioGroup>
 
         <TextView
+            android:id="@+id/distance_shelves_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/distance_shelves_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
             android:id="@+id/label_PCR_maneuver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/distance_shelves_radio"
+            app:layout_constraintTop_toBottomOf="@id/distance_shelves_error"
             android:layout_marginTop="@dimen/top_margins"
             android:text="@string/label_PCR_maneuver"
             android:textSize="@dimen/section_header"/>
@@ -84,10 +96,22 @@
         </RadioGroup>
 
         <TextView
+            android:id="@+id/PCR_maneuver_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/PCR_maneuver_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
             android:id="@+id/label_computer_accessibility"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/PCR_maneuver_radio"
+            app:layout_constraintTop_toBottomOf="@id/PCR_maneuver_error"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/top_margins"
             android:text="@string/label_computer_accessibility"
@@ -119,6 +143,18 @@
                />
 
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/computer_accessibility_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/computer_accessibility_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
      </androidx.constraintlayout.widget.ConstraintLayout>
 

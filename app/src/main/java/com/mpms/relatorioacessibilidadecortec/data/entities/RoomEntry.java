@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey;
 import static androidx.room.ForeignKey.CASCADE;
 
 
-//TODO - Alterar a Tabela de Salas para acomodar modificações
 @Entity(foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class RoomEntry {
@@ -16,47 +15,49 @@ public class RoomEntry {
     private int roomID;
     private int blockID;
     private int roomType;
+
     private String roomLocation;
-    private Integer roomHasVisualVertSing;
-    private String roomObsVisualVertSign;
-    private Integer roomHasTactileSing;
-    private String roomObsTactileSign;
+    private String roomDescription;
+    private Integer roomHasVertSing;
+    private String roomVertSignObs;
     private Integer roomHasLooseCarpet;
     private String looseCarpetObs;
+    private Integer roomAccessFloor;
+    private String accessFloorObs;
 
-    private Integer libraryDistanceShelvesOK;
-    private Integer libraryPcrManeuversOK;
-    private Integer libraryAccessiblePcOK;
+    private Integer libDistShelvesOK;
+    private Integer libPcrManeuversOK;
+    private Integer libAccessPcOK;
 
-    private Integer secretHasFixedSeats;
-    private Integer secretHasPcrSpace;
-    private Double secretWidthPcrSpace;
-    private Double secretLengthPcrSpace;
-    private String secretPCRSpaceObs;
+    private Integer secHasFixedSeats;
+    private Integer secHasPcrSpace;
+    private Double secPcrSpaceWidth;
+    private Double secPcrSpaceDepth;
+    private String secPCRSpaceObs;
 
     private String roomObs;
 
-    public RoomEntry(int blockID, int roomType, String roomLocation, Integer roomHasVisualVertSing, String roomObsVisualVertSign,
-                     Integer roomHasTactileSing, String roomObsTactileSign, Integer roomHasLooseCarpet, String looseCarpetObs,
-                     Integer libraryDistanceShelvesOK, Integer libraryPcrManeuversOK, Integer libraryAccessiblePcOK, Integer secretHasFixedSeats,
-                     Integer secretHasPcrSpace, Double secretWidthPcrSpace, Double secretLengthPcrSpace, String secretPCRSpaceObs, String roomObs) {
+    public RoomEntry(int blockID, int roomType, String roomLocation, String roomDescription, Integer roomHasVertSing, String roomVertSignObs, Integer roomHasLooseCarpet,
+                     String looseCarpetObs, Integer roomAccessFloor, String accessFloorObs, Integer libDistShelvesOK, Integer libPcrManeuversOK, Integer libAccessPcOK,
+                     Integer secHasFixedSeats, Integer secHasPcrSpace, Double secPcrSpaceWidth, Double secPcrSpaceDepth, String secPCRSpaceObs, String roomObs) {
         this.blockID = blockID;
         this.roomType = roomType;
         this.roomLocation = roomLocation;
-        this.roomHasVisualVertSing = roomHasVisualVertSing;
-        this.roomObsVisualVertSign = roomObsVisualVertSign;
-        this.roomHasTactileSing = roomHasTactileSing;
-        this.roomObsTactileSign = roomObsTactileSign;
+        this.roomDescription = roomDescription;
+        this.roomHasVertSing = roomHasVertSing;
+        this.roomVertSignObs = roomVertSignObs;
         this.roomHasLooseCarpet = roomHasLooseCarpet;
         this.looseCarpetObs = looseCarpetObs;
-        this.libraryDistanceShelvesOK = libraryDistanceShelvesOK;
-        this.libraryPcrManeuversOK = libraryPcrManeuversOK;
-        this.libraryAccessiblePcOK = libraryAccessiblePcOK;
-        this.secretHasFixedSeats = secretHasFixedSeats;
-        this.secretHasPcrSpace = secretHasPcrSpace;
-        this.secretWidthPcrSpace = secretWidthPcrSpace;
-        this.secretLengthPcrSpace = secretLengthPcrSpace;
-        this.secretPCRSpaceObs = secretPCRSpaceObs;
+        this.roomAccessFloor = roomAccessFloor;
+        this.accessFloorObs = accessFloorObs;
+        this.libDistShelvesOK = libDistShelvesOK;
+        this.libPcrManeuversOK = libPcrManeuversOK;
+        this.libAccessPcOK = libAccessPcOK;
+        this.secHasFixedSeats = secHasFixedSeats;
+        this.secHasPcrSpace = secHasPcrSpace;
+        this.secPcrSpaceWidth = secPcrSpaceWidth;
+        this.secPcrSpaceDepth = secPcrSpaceDepth;
+        this.secPCRSpaceObs = secPCRSpaceObs;
         this.roomObs = roomObs;
     }
 
@@ -72,8 +73,8 @@ public class RoomEntry {
         return blockID;
     }
 
-    public void setBlockID(int schoolEntryID) {
-        this.blockID = schoolEntryID;
+    public void setBlockID(int blockID) {
+        this.blockID = blockID;
     }
 
     public int getRoomType() {
@@ -92,92 +93,28 @@ public class RoomEntry {
         this.roomLocation = roomLocation;
     }
 
-    public Integer getRoomHasVisualVertSing() {
-        return roomHasVisualVertSing;
+    public String getRoomDescription() {
+        return roomDescription;
     }
 
-    public void setRoomHasVisualVertSing(Integer roomHasVisualVertSing) {
-        this.roomHasVisualVertSing = roomHasVisualVertSing;
+    public void setRoomDescription(String roomDescription) {
+        this.roomDescription = roomDescription;
     }
 
-    public String getRoomObsVisualVertSign() {
-        return roomObsVisualVertSign;
+    public Integer getRoomHasVertSing() {
+        return roomHasVertSing;
     }
 
-    public void setRoomObsVisualVertSign(String roomObsVisualVertSign) {
-        this.roomObsVisualVertSign = roomObsVisualVertSign;
+    public void setRoomHasVertSing(Integer roomHasVertSing) {
+        this.roomHasVertSing = roomHasVertSing;
     }
 
-    public Integer getRoomHasTactileSing() {
-        return roomHasTactileSing;
+    public String getRoomVertSignObs() {
+        return roomVertSignObs;
     }
 
-    public void setRoomHasTactileSing(Integer roomHasTactileSing) {
-        this.roomHasTactileSing = roomHasTactileSing;
-    }
-
-    public String getRoomObsTactileSign() {
-        return roomObsTactileSign;
-    }
-
-    public void setRoomObsTactileSign(String roomObsTactileSign) {
-        this.roomObsTactileSign = roomObsTactileSign;
-    }
-
-    public Integer getLibraryDistanceShelvesOK() {
-        return libraryDistanceShelvesOK;
-    }
-
-    public void setLibraryDistanceShelvesOK(Integer libraryDistanceShelvesOK) {
-        this.libraryDistanceShelvesOK = libraryDistanceShelvesOK;
-    }
-
-    public Integer getLibraryPcrManeuversOK() {
-        return libraryPcrManeuversOK;
-    }
-
-    public void setLibraryPcrManeuversOK(Integer libraryPcrManeuversOK) {
-        this.libraryPcrManeuversOK = libraryPcrManeuversOK;
-    }
-
-    public Integer getLibraryAccessiblePcOK() {
-        return libraryAccessiblePcOK;
-    }
-
-    public void setLibraryAccessiblePcOK(Integer libraryAccessiblePcOK) {
-        this.libraryAccessiblePcOK = libraryAccessiblePcOK;
-    }
-
-    public Integer getSecretHasFixedSeats() {
-        return secretHasFixedSeats;
-    }
-
-    public void setSecretHasFixedSeats(Integer secretHasFixedSeats) {
-        this.secretHasFixedSeats = secretHasFixedSeats;
-    }
-
-    public Integer getSecretHasPcrSpace() {
-        return secretHasPcrSpace;
-    }
-
-    public void setSecretHasPcrSpace(Integer secretHasPcrSpace) {
-        this.secretHasPcrSpace = secretHasPcrSpace;
-    }
-
-    public Double getSecretWidthPcrSpace() {
-        return secretWidthPcrSpace;
-    }
-
-    public void setSecretWidthPcrSpace(Double secretWidthPcrSpace) {
-        this.secretWidthPcrSpace = secretWidthPcrSpace;
-    }
-
-    public Double getSecretLengthPcrSpace() {
-        return secretLengthPcrSpace;
-    }
-
-    public void setSecretLengthPcrSpace(Double secretLengthPcrSpace) {
-        this.secretLengthPcrSpace = secretLengthPcrSpace;
+    public void setRoomVertSignObs(String roomVertSignObs) {
+        this.roomVertSignObs = roomVertSignObs;
     }
 
     public Integer getRoomHasLooseCarpet() {
@@ -196,19 +133,91 @@ public class RoomEntry {
         this.looseCarpetObs = looseCarpetObs;
     }
 
+    public Integer getRoomAccessFloor() {
+        return roomAccessFloor;
+    }
+
+    public void setRoomAccessFloor(Integer roomAccessFloor) {
+        this.roomAccessFloor = roomAccessFloor;
+    }
+
+    public String getAccessFloorObs() {
+        return accessFloorObs;
+    }
+
+    public void setAccessFloorObs(String accessFloorObs) {
+        this.accessFloorObs = accessFloorObs;
+    }
+
+    public Integer getLibDistShelvesOK() {
+        return libDistShelvesOK;
+    }
+
+    public void setLibDistShelvesOK(Integer libDistShelvesOK) {
+        this.libDistShelvesOK = libDistShelvesOK;
+    }
+
+    public Integer getLibPcrManeuversOK() {
+        return libPcrManeuversOK;
+    }
+
+    public void setLibPcrManeuversOK(Integer libPcrManeuversOK) {
+        this.libPcrManeuversOK = libPcrManeuversOK;
+    }
+
+    public Integer getLibAccessPcOK() {
+        return libAccessPcOK;
+    }
+
+    public void setLibAccessPcOK(Integer libAccessPcOK) {
+        this.libAccessPcOK = libAccessPcOK;
+    }
+
+    public Integer getSecHasFixedSeats() {
+        return secHasFixedSeats;
+    }
+
+    public void setSecHasFixedSeats(Integer secHasFixedSeats) {
+        this.secHasFixedSeats = secHasFixedSeats;
+    }
+
+    public Integer getSecHasPcrSpace() {
+        return secHasPcrSpace;
+    }
+
+    public void setSecHasPcrSpace(Integer secHasPcrSpace) {
+        this.secHasPcrSpace = secHasPcrSpace;
+    }
+
+    public Double getSecPcrSpaceWidth() {
+        return secPcrSpaceWidth;
+    }
+
+    public void setSecPcrSpaceWidth(Double secPcrSpaceWidth) {
+        this.secPcrSpaceWidth = secPcrSpaceWidth;
+    }
+
+    public Double getSecPcrSpaceDepth() {
+        return secPcrSpaceDepth;
+    }
+
+    public void setSecPcrSpaceDepth(Double secPcrSpaceDepth) {
+        this.secPcrSpaceDepth = secPcrSpaceDepth;
+    }
+
+    public String getSecPCRSpaceObs() {
+        return secPCRSpaceObs;
+    }
+
+    public void setSecPCRSpaceObs(String secPCRSpaceObs) {
+        this.secPCRSpaceObs = secPCRSpaceObs;
+    }
+
     public String getRoomObs() {
         return roomObs;
     }
 
     public void setRoomObs(String roomObs) {
         this.roomObs = roomObs;
-    }
-
-    public String getSecretPCRSpaceObs() {
-        return secretPCRSpaceObs;
-    }
-
-    public void setSecretPCRSpaceObs(String secretPCRSpaceObs) {
-        this.secretPCRSpaceObs = secretPCRSpaceObs;
     }
 }

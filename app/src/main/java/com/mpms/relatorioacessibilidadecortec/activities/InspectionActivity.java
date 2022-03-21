@@ -22,6 +22,13 @@ import static com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterAct
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
+    public static final String LOAD_CHILD_DATA = "LOAD_CHILD_DATA";
+    public static final String GATHER_CHILD_DATA = "GATHER_CHILD_DATA";
+    public static final String ADD_ITEM_REQUEST = "ADD_ITEM_REQUEST";
+    public static final String CHILD_DATA_LISTENER = "CHILD_DATA_LISTENER";
+    public static final String CHILD_DATA_COMPLETE = "CHILD_DATA_COMPLETE";
+    public static final String CLEAR_CHILD_DATA = "CLEAR_CHILD_DATA";
+
     public static final String PARKING_LIST = "PARKING_LIST";
     public static final String EXTERNAL_LIST = "EXTERNAL_LIST";
     public static final String REST_LIST = "REST_LIST";

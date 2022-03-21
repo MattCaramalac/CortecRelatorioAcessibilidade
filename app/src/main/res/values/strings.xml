@@ -21,6 +21,12 @@
         <item>COM RAMPA</item>
     </string-array>
 
+    <string-array name="multi_radio_lock_type">
+        <item>PORTA CADEADO</item>
+        <item>TRAVA DESLIZANTE</item>
+        <item>OUTRO DISPOSITIVO</item>
+    </string-array>
+
     <string name="app_name">Relatório Acessibilidade Cortec</string>
 
     <string name="header">Cadastro da Instituição</string>
@@ -114,7 +120,7 @@
     <string name="hint_visual_signal">Sinalização Visual</string>
     <string name="hint_visual_signals">Sinalização Visual Vertical</string>
     <string name="label_room_entrance_door">Dimensões da Porta de Entrada</string>
-    <string name="hint_door_width">Largura da Porta</string>
+    <string name="hint_door_width">Largura do Vão Livre</string>
     <string name="hint_uneven_door">Desvível da Porta</string>
     <string name="label_door_ramp">Porta com rampa?</string>
     <string name="hint_window_height">Altura do comando da janela</string>
@@ -143,7 +149,7 @@
     <string name="hint_frontal_approx">Aproximação Frontal</string>
     <string name="hint_PCR_spaces">Espaço PCR</string>
 
-    <string name="hint_blackboard_height">Altura da Lousa</string>
+    <string name="hint_blackboard_height">Altura da Borda Inferior da Lousa</string>
     <string name="label_distance_shelves">Distância entre as estantes é igual ou maior que 90 centímetros?</string>
     <string name="label_PCR_maneuver">Existem bolsões para manobras de PCR nos corredores entre as estantes
         à cada 15 metros?</string>
@@ -161,7 +167,7 @@
     <string name="label_window_register">Cadastro de Janelas e Suas Dimensões</string>
     <string name="label_room_has_visual_signal">Possui Sinalização Visual Vertical?</string>
     <string name="hint_sign_observations">Observações da Sinalização</string>
-    <string name="label_room_has_tactile_sign">Possui Sinalização Tátil Adjacente à Porta?</string>
+    <string name="label_room_has_tactile_sign">Existe Sinalização Tátil Adjacente à Porta?</string>
     <string name="label_door_register">Cadastro de Portas e Suas Dimensões</string>
     <string name="label_switch_register">Cadastro de Interruptores e Suas Informações</string>
     <string name="label_free_spaces">Cadastro de Faixas Livres</string>
@@ -247,7 +253,7 @@
     <string name="hint_inferior_border_table_height">Altura da borda inferior da mesa</string>
     <string name="hint_table_width">Largura da mesa</string>
     <string name="hint_frontal_approx_table">Medida da aproximação frontal</string>
-    <string name="label_table_type_header">Tipo de mesa analisada</string>
+    <string name="label_table_type_header">Tipo de mesa a ser cadastrada</string>
     <string name="radio_option_teacher_table">MESA PROFESSOR</string>
     <string name="radio_option_student_table">MESA ALUNO</string>
     <string name="hint_location_free_space">Localização da faixa livre</string>
@@ -271,7 +277,7 @@
     <string name="hint_counter_location">Localização do balcão</string>
     <string name="hint_counter_upper_edge">Altura da borda superior</string>
     <string name="hint_counter_lower_edge">Altura da borda inferior</string>
-    <string name="hint_counter_frontal_approx">Aproximação frontal do balcão</string>
+    <string name="hint_counter_frontal_approx">Medida de aproximação frontal do balcão</string>
     <string name="hint_counter_obs">Observações sobre o balcão</string>
     <string name="dialog_add_counter_header">Adicionar Balcão</string>
     <string name="label_stairs_register">Cadastro de Escadarias</string>
@@ -488,4 +494,25 @@
     <string name="helper_not_accessible_floor">Patologias, motivos para não ser considerado acessível</string>
     <string name="hint_slope_obs">Observações sobre o rebaixamento</string>
     <string name="register_error_try_again">Ocorreu um erro. Por favor, tente novamente</string>
+    <string name="header_door_register">Cadastro de Portas</string>
+    <string name="label_door_has_locks">A porta possui dispositivos para travamento? (Porta-cadeados, Travas deslizantes, etc.)</string>
+    <string name="hint_door_handle_obs">Observações sobre a maçaneta</string>
+    <string name="header_switch_register">Cadastro de Interruptores</string>
+    <string name="header_window_register">Cadastro de Janelas</string>
+    <string name="header_table_register">Cadastro de Mesas</string>
+
+    <string name="header_free_space_register">Cadastro de Faixas Livres</string>
+    <string name="hint_blackboard_location">Localização da lousa</string>
+    <string name="header_counter_register">Cadastro de Balcões</string>
+    <string name="header_slope_measure_register">Medidas de inclinação da rampa</string>
+    <string name="header_door_lock_register">Cadastro de Dispositivos de Travamento</string>
+    <string name="hint_other_lock_type">Descrição do Tipo de Dispositivo</string>
+    <string name="hint_door_lock_height">Altura do Dispositivo</string>
+    <string name="radio_button_lever_type_handle">ALAVANCA</string>
+    <string name="radio_button_other_type_handle">OUTROS TIPOS</string>
+    <string name="label_accessible_floor_header">O piso pode ser considerado acessível?</string>
+    <string name="header_lock_type">Tipo de Dispositivo de Travamento</string>
+    <string name="header_sec_has_pcr_space">Secretaria possui espaço sinalizado para PCR ao lado dos bancos fixos?</string>
+    <string name="header_handle_type">Qual tipo de maçaneta a porta apresenta?</string>
+    <string name="header_lock_type_register">Cadastro de Dispositivos de Travamento</string>
 </resources>

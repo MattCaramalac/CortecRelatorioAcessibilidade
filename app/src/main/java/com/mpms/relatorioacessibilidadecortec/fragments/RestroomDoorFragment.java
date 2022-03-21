@@ -214,7 +214,7 @@ public class RestroomDoorFragment extends Fragment {
         return new RestroomDoorUpdate(bundle.getInt(RestroomFragment.RESTROOM_ID),doorWidth,doorHasSIA,doorSIAObs,
                 doorOpenExtDir, doorOpenDirObs, doorHasVertSign, doorVertSignObs,doorSillType,
                 bundle.getDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL),bundle.getDouble(SillStepFragment.STEP_HEIGHT),
-                bundle.getDouble(SillSlopeFragment.SLOPE_INCLINATION), bundle.getDouble(SillSlopeFragment.SLOPE_WIDTH),
+                bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_1), bundle.getDouble(SillSlopeFragment.SLOPE_WIDTH),
                 doorSillObs,doorHasTactSign, doorTactSignObs, doorHasInternalCoat,doorInternalCoatObs,doorHasHorHandle,
                 doorHorHandleHeight, doorHorHandleLength, doorHorHandleObs);
     }
@@ -294,7 +294,7 @@ public class RestroomDoorFragment extends Fragment {
                     break;
                 case 3:
                     doorSillBundle.putDouble(SillSlopeFragment.SLOPE_WIDTH, restroomEntry.getSlopeSillWidth());
-                    doorSillBundle.putDouble(SillSlopeFragment.SLOPE_INCLINATION, restroomEntry.getSlopeSillInclination());
+                    doorSillBundle.putDouble(SillSlopeFragment.SLOPE_ANGLE_1, restroomEntry.getSlopeSillInclination());
                     break;
             }
             modelDialog.setRestDoorBundle(doorSillBundle);

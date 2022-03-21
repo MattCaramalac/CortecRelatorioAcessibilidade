@@ -120,16 +120,22 @@ public class ViewModelFragments extends ViewModel {
         return sendFountainFragData;
     }
 
-    public final MutableLiveData<Bundle> extAccessLoadInfo = new MutableLiveData<>();
-    public void setExtAccessLoadInfo(Bundle bundle) { extAccessLoadInfo.setValue(bundle); }
-    public LiveData<Bundle> getExtAccessLoadInfo() {
+    public final MutableLiveData<Integer> extAccessLoadInfo = new MutableLiveData<>();
+    public void setExtAccessLoadInfo(Integer integer) { extAccessLoadInfo.setValue(integer); }
+    public LiveData<Integer> getExtAccessLoadInfo() {
         return extAccessLoadInfo;
     }
 
-    public final MutableLiveData<Bundle> playgroundLoadInfo = new MutableLiveData<>();
-    public void setPlaygroundLoadInfo(Bundle bundle) { playgroundLoadInfo.setValue(bundle); }
-    public LiveData<Bundle> getPlaygroundLoadInfo() {
-        return playgroundLoadInfo;
+    public final MutableLiveData<Integer> newRoomID = new MutableLiveData<>();
+    public void setNewRoomID(Integer i) { newRoomID.setValue(i); }
+    public LiveData<Integer> getNewRoomID() {
+        return newRoomID;
+    }
+
+    public final MutableLiveData<Integer> newChildRegID = new MutableLiveData<>();
+    public void setNewChildRegID(Integer i) { newChildRegID.setValue(i); }
+    public LiveData<Integer> getNewChildRegID() {
+        return newChildRegID;
     }
 
 }

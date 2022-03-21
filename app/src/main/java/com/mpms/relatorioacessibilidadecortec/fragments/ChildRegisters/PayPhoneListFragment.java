@@ -99,7 +99,7 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
 
     @Override
     public void onDestroyView() {
-        modelFragments.setExtAccessLoadInfo(payPhoneBundle);
+        modelFragments.setExtAccessLoadInfo(payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID));
         super.onDestroyView();
 
     }
