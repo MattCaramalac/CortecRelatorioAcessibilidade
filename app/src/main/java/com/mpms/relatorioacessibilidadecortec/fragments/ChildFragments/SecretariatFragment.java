@@ -7,17 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 public class SecretariatFragment extends Fragment {
@@ -30,11 +31,11 @@ public class SecretariatFragment extends Fragment {
 
     TextInputLayout pcrSpaceWidthField, pcrSpaceDepthField, pcrSpaceObsField;
     TextInputEditText pcrSpaceWidthValue, pcrSpaceDepthValue, pcrSpaceObsValue;
-    MaterialButton addCounter;
     RadioGroup hasFixedSeatsRadio, hasPCRSpaceRadio;
     TextView fixedSeatsError, PCRSpaceHeader, PCRSpaceError;
 
     ViewModelFragments modelFragments;
+    ViewModelEntry modelEntry;
 
     public SecretariatFragment() {
         // Required empty public constructor
@@ -61,31 +62,21 @@ public class SecretariatFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         secretariatInstantiateView(view);
-        hasFixedSeatsRadio.setOnCheckedChangeListener(this::secretariatRadioListener);
-        hasPCRSpaceRadio.setOnCheckedChangeListener(this::secretariatRadioListener);
 
-        addCounter.setOnClickListener( v-> modelFragments.setAddRegister(true));
+        getParentFragmentManager().setFragmentResultListener(RoomsRegisterFragment.LOAD_FRAG_DATA, this, (key, bundle) ->
+                modelEntry.getRoomEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID)).observe(getViewLifecycleOwner(), this::loadSecretariatData));
 
-        modelFragments.getSaveAttemptRoom().observe(getViewLifecycleOwner(), saveAttempt -> {
-           if (saveAttempt == 1) {
-               if (checkEmptySecretariatFields()) {
-                   Bundle secretBundle = new Bundle();
-                   secretBundle.putInt(HAS_FIXED_SEATS, getCheckedRadio(hasFixedSeatsRadio));
-                   if (getCheckedRadio(hasFixedSeatsRadio) == 1) {
-                       secretBundle.putInt(HAS_PCR_SPACE, getCheckedRadio(hasPCRSpaceRadio));
-                       if (getCheckedRadio(hasPCRSpaceRadio) == 1) {
-                           secretBundle.putDouble(PCR_WIDTH, Double.parseDouble(String.valueOf(pcrSpaceWidthValue.getText())));
-                           secretBundle.putDouble(PCR_DEPTH, Double.parseDouble(String.valueOf(pcrSpaceDepthValue.getText())));
-                       }
-                       secretBundle.putString(PCR_OBS, String.valueOf(pcrSpaceObsValue.getText()));
-                   }
-                   modelFragments.setRoomBundle(secretBundle);
-                   clearSecretariatFields();
-               } else
-                   Toast.makeText(getContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
-               modelFragments.setSaveAttemptRooms(0);
-           }
+        getParentFragmentManager().setFragmentResultListener(InspectionActivity.GATHER_CHILD_DATA, this, (key, bundle) -> {
+            if (!bundle.getBoolean(InspectionActivity.ADD_ITEM_REQUEST)) {
+                bundle.putBoolean(RoomsRegisterFragment.CHILD_DATA_COMPLETE, checkEmptySecretariatFields());
+            }
+            gatherSecData(bundle);
+            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
         });
+
+        getParentFragmentManager().setFragmentResultListener(InspectionActivity.CLEAR_CHILD_DATA, this, (key, bundle) -> clearSecretariatFields());
+
+
     }
 
     public void secretariatInstantiateView(View view) {
@@ -104,10 +95,11 @@ public class SecretariatFragment extends Fragment {
 //        RadioGroup
         hasFixedSeatsRadio = view.findViewById(R.id.has_fixed_seats_radio);
         hasPCRSpaceRadio = view.findViewById(R.id.has_PCR_space_radio);
-//        MaterialButton
-        addCounter = view.findViewById(R.id.secretariat_add_counter_button);
 //        ViewModel
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+//        Listeners
+        hasFixedSeatsRadio.setOnCheckedChangeListener(this::secretariatRadioListener);
+        hasPCRSpaceRadio.setOnCheckedChangeListener(this::secretariatRadioListener);
     }
 
     public void secretariatRadioListener(RadioGroup radio, int checkedID) {
@@ -143,6 +135,43 @@ public class SecretariatFragment extends Fragment {
 
     public int getCheckedRadio(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
+    }
+
+    public void gatherSecData(Bundle bundle) {
+        bundle.putInt(HAS_FIXED_SEATS, getCheckedRadio(hasFixedSeatsRadio));
+        if (getCheckedRadio(hasFixedSeatsRadio) == 1) {
+            bundle.putInt(HAS_PCR_SPACE, getCheckedRadio(hasPCRSpaceRadio));
+            if (getCheckedRadio(hasFixedSeatsRadio) == 1) {
+                if (!TextUtils.isEmpty(pcrSpaceWidthValue.getText()))
+                bundle.putDouble(PCR_WIDTH, Double.parseDouble(String.valueOf(pcrSpaceWidthValue.getText())));
+                if (!TextUtils.isEmpty(pcrSpaceDepthValue.getText()))
+                    bundle.putDouble(PCR_DEPTH, Double.parseDouble(String.valueOf(pcrSpaceDepthValue.getText())));
+                if (!TextUtils.isEmpty(pcrSpaceObsValue.getText()))
+                    bundle.putString(PCR_OBS, String.valueOf(pcrSpaceObsValue.getText()));
+            }
+        }
+    }
+
+    public void loadSecretariatData(RoomEntry room) {
+        if (room.getSecHasFixedSeats() != null && room.getSecHasFixedSeats() > -1) {
+            hasFixedSeatsRadio.check(hasFixedSeatsRadio.getChildAt(room.getSecHasFixedSeats()).getId());
+            if (room.getSecHasFixedSeats() == 1) {
+                if (room.getSecHasPcrSpace() != null && room.getSecHasPcrSpace() > -1) {
+                    hasPCRSpaceRadio.check(hasPCRSpaceRadio.getChildAt(room.getSecHasPcrSpace()).getId());
+                    if (room.getSecHasPcrSpace() == 1) {
+                        if (room.getSecPcrSpaceWidth() != null)
+                            pcrSpaceWidthValue.setText(String.valueOf(room.getSecPcrSpaceWidth()));
+                        if (room.getSecPcrSpaceDepth() != null)
+                            pcrSpaceDepthValue.setText(String.valueOf(room.getSecPcrSpaceDepth()));
+                        if (room.getSecPCRSpaceObs() != null) {
+                            pcrSpaceObsValue.setText(room.getSecPCRSpaceObs());
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
 
     public boolean checkEmptySecretariatFields() {

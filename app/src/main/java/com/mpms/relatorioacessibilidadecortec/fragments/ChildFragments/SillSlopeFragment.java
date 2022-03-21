@@ -5,46 +5,54 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class SillSlopeFragment extends Fragment {
 
-    public static final String SLOPE_INCLINATION = "SLOPE_INCLINATION";
+    public static final String SLOPE_QNT = "SLOPE_QNT";
+    public static final String SLOPE_ANGLE_1 = "SLOPE_ANGLE_1";
+    public static final String SLOPE_ANGLE_2 = "SLOPE_ANGLE_2";
+    public static final String SLOPE_ANGLE_3 = "SLOPE_ANGLE_3";
+    public static final String SLOPE_ANGLE_4 = "SLOPE_ANGLE_4";
     public static final String SLOPE_WIDTH = "SLOPE_WIDTH";
 
-    TextInputLayout sillSlopeAngleField, sillSlopeWidthField;
-    TextInputEditText sillSlopeAngleValue, sillSlopeWidthValue;
-
-    ViewModelDialog modelDialog;
+    TextInputLayout slopeAngleField1, slopeAngleField2, slopeAngleField3, slopeAngleField4, sillSlopeWidthField;
+    TextInputEditText slopeAngleValue1, slopeAngleValue2, slopeAngleValue3, slopeAngleValue4, sillSlopeWidthValue;
+    MaterialButton addAngle;
+    ImageButton delAngle;
+    TextView angleError;
 
     ViewModelEntry modelEntry;
 
-    ViewModelFragments modelFragments;
-
     Bundle sillSlopeBundle = new Bundle();
-    Bundle extAccessData = new Bundle();
-    Bundle playgroundData = new Bundle();
 
     ArrayList<String> childData = new ArrayList<>();
+    ArrayList<TextInputLayout> slopeAngleArray = new ArrayList<>();
+
+    int measureQnt = 1;
 
     public SillSlopeFragment() {
         // Required empty public constructor
@@ -73,139 +81,171 @@ public class SillSlopeFragment extends Fragment {
 
         instantiateSillSlopeViews(view);
 
-        modelDialog.getRestDoorBundle().observe(getViewLifecycleOwner(), this::gatherSlopeDataDialog);
+        addAngle.setOnClickListener(v -> {
+            if (measureQnt < 1) {
+                measureQnt = 1;
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (measureQnt < 4) {
+                if (measureQnt == 1)
+                    delAngle.setVisibility(View.VISIBLE);
+                slopeAngleArray.get(measureQnt).setVisibility(View.VISIBLE);
+                measureQnt++;
+            } else
+                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+        });
 
-        modelDialog.getSaveDoorAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
-            if (Objects.equals(modelDialog.getSaveDoorAttempt().getValue(), 1)) {
-                if (doesNotHaveEmptySlopeFields()) {
-                    Bundle bundle = new Bundle();
-                    bundle.putDouble(SLOPE_INCLINATION, Double.parseDouble(Objects.requireNonNull(sillSlopeAngleValue.getText()).toString()));
-                    bundle.putDouble(SLOPE_WIDTH, Double.parseDouble(Objects.requireNonNull(sillSlopeWidthValue.getText()).toString()));
-                    modelDialog.setDoorInfo(bundle);
-                    clearSlopeFields();
-                }
-                modelDialog.setSaveDoorAttempt(0);
+        delAngle.setOnClickListener(v -> {
+            if (measureQnt > 1) {
+                slopeAngleArray.get(measureQnt - 1).getEditText().setText(null);
+                slopeAngleArray.get(measureQnt - 1).setVisibility(View.GONE);
+                measureQnt--;
+                if (measureQnt == 1)
+                    delAngle.setVisibility(View.GONE);
             }
         });
 
-        if (extAccessData != null && extAccessData.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
-            modelEntry.getOneExternalAccess(extAccessData.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
-                    .observe(getViewLifecycleOwner(), this::gatherSlopeExtAccData);
-        }
-
-        if (playgroundData != null && playgroundData.getInt(PlaygroundFragment.PLAY_ID) != 0) {
-            modelEntry.getOnePlayground(playgroundData.getInt(PlaygroundFragment.PLAY_ID))
-                    .observe(getViewLifecycleOwner(), this::gatherSlopePlayData);
-        }
-
-        getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
-            childData = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
-            if (doesNotHaveEmptySlopeFields())
-                childData.set(18, null);
-            else
-                childData.set(18, "false");
-            sillSlopeBundle.putStringArrayList(ExternalAccessFragment.EXT_ARRAY, childData);
-            getParentFragmentManager().setFragmentResult(ExternalAccessFragment.FRAG_DATA, sillSlopeBundle);
+        getParentFragmentManager().setFragmentResultListener(InspectionActivity.LOAD_CHILD_DATA, this, (key, bundle) -> {
+            if (bundle.getInt(DoorFragment.DOOR_ID) > 0) {
+                modelEntry.getSpecificDoor(bundle.getInt(DoorFragment.DOOR_ID)).observe(getViewLifecycleOwner(), this::loadSlopeDoorData);
+            } else if (bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0) {
+                modelEntry.getOneExternalAccess(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
+                        .observe(getViewLifecycleOwner(), this::gatherSlopeExtAccData);
+            } else if (bundle.getInt(PlaygroundFragment.PLAY_ID) > 0) {
+                modelEntry.getOnePlayground(bundle.getInt(PlaygroundFragment.PLAY_ID))
+                        .observe(getViewLifecycleOwner(), this::gatherSlopePlayData);
+            }
         });
 
-        getParentFragmentManager().setFragmentResultListener(ExtAccessSocialFragment.TEMP_SOCIAL_FRAG, this, (key, bundle) -> {
-            ArrayList<String> tempData = bundle.getStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA);
-            gatherTempData(tempData);
-            bundle.putStringArrayList(ExtAccessSocialFragment.TEMP_FRAG_DATA, tempData);
-            getParentFragmentManager().setFragmentResult(ExtAccessSocialFragment.CHILD_TEMP_DATA, bundle);
-        });
-
-        getParentFragmentManager().setFragmentResultListener(PlaygroundFragment.PLAY_SAVE_ATTEMPT, this, (key, bundle) -> {
-            checkEmptyPlaySillSlope(bundle);
-            getParentFragmentManager().setFragmentResult(PlaygroundFragment.PLAY_SILL_DATA, bundle);
+        getParentFragmentManager().setFragmentResultListener(InspectionActivity.GATHER_CHILD_DATA, this, (key, bundle) -> {
+            checkSlopeNoEmptyFields(bundle);
+            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
         });
     }
 
     private void instantiateSillSlopeViews(View view) {
 //        TextInputLayout
-        sillSlopeAngleField = view.findViewById(R.id.sill_slope_field);
+        slopeAngleField1 = view.findViewById(R.id.slope_measure_1_field);
+        slopeAngleField2 = view.findViewById(R.id.slope_measure_2_field);
+        slopeAngleField3 = view.findViewById(R.id.slope_measure_3_field);
+        slopeAngleField4 = view.findViewById(R.id.slope_measure_4_field);
         sillSlopeWidthField = view.findViewById(R.id.sill_slope_width_field);
 //        TextInputEditText
-        sillSlopeAngleValue = view.findViewById(R.id.sill_slope_value);
+        slopeAngleValue1 = view.findViewById(R.id.slope_measure_1_value);
+        slopeAngleValue2 = view.findViewById(R.id.slope_measure_2_value);
+        slopeAngleValue3 = view.findViewById(R.id.slope_measure_3_value);
+        slopeAngleValue4 = view.findViewById(R.id.slope_measure_4_value);
         sillSlopeWidthValue = view.findViewById(R.id.sill_slope_width_value);
-        //        TODO - Retirar esse model dialog quando remover o DoorDialog
-        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+//        MaterialButton
+        addAngle = view.findViewById(R.id.add_slope_measure_button);
+//        ImageButton
+        delAngle = view.findViewById(R.id.delete_slope_measure);
+//        TextView
+        angleError = view.findViewById(R.id.slope_measure_error);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
-        //        Bundle
-        extAccessData = modelFragments.getExtAccessLoadInfo().getValue();
-        playgroundData = modelFragments.getPlaygroundLoadInfo().getValue();
+
+        addFieldsToArray();
     }
 
-    private boolean doesNotHaveEmptySlopeFields() {
+    private void addFieldsToArray() {
+        slopeAngleArray.add(slopeAngleField1);
+        slopeAngleArray.add(slopeAngleField2);
+        slopeAngleArray.add(slopeAngleField3);
+        slopeAngleArray.add(slopeAngleField4);
+    }
+
+    private boolean checkSlopeNoEmptyFields(Bundle bundle) {
         clearEmptyFieldErrors();
         int error = 0;
-        if (TextUtils.isEmpty(sillSlopeAngleValue.getText())) {
-            sillSlopeAngleField.setError(getString(R.string.blank_field_error));
-            error++;
-        } else
-            childData.set(10, String.valueOf(sillSlopeAngleValue.getText()));
         if (TextUtils.isEmpty(sillSlopeWidthValue.getText())) {
             sillSlopeWidthField.setError(getString(R.string.blank_field_error));
             error++;
-        } else
-            childData.set(11, String.valueOf(sillSlopeWidthValue.getText()));
-        return error == 0;
-    }
-
-    private void checkEmptyPlaySillSlope(Bundle bundle) {
-        clearEmptyFieldErrors();
-        int i = 0;
-        if (TextUtils.isEmpty(sillSlopeAngleValue.getText())) {
-            sillSlopeAngleField.setError(getString(R.string.blank_field_error));
-            i++;
-        } else
-            bundle.putDouble(SLOPE_INCLINATION, Double.parseDouble(String.valueOf(sillSlopeAngleValue.getText())));
-
-        if (TextUtils.isEmpty(sillSlopeWidthValue.getText())) {
-            sillSlopeWidthField.setError(getString(R.string.blank_field_error));
-            i++;
         } else
             bundle.putDouble(SLOPE_WIDTH, Double.parseDouble(String.valueOf(sillSlopeWidthValue.getText())));
 
-        bundle.putBoolean(PlaygroundFragment.ALLOW_PLAY_REGISTER, i <= 0);
-    }
-
-    private void gatherTempData(ArrayList<String> arrayList) {
-        if (!TextUtils.isEmpty(sillSlopeAngleValue.getText()))
-            arrayList.set(10, String.valueOf(sillSlopeAngleValue.getText()));
-        if (!TextUtils.isEmpty(sillSlopeWidthValue.getText()))
-            arrayList.set(11, String.valueOf(sillSlopeWidthValue.getText()));
+        bundle.putInt(SLOPE_QNT, measureQnt);
+        switch (measureQnt) {
+            case 4:
+                if (TextUtils.isEmpty(slopeAngleValue4.getText())) {
+                    angleError.setVisibility(View.VISIBLE);
+                    error++;
+                } else
+                    bundle.putDouble(SLOPE_ANGLE_4, Double.parseDouble(String.valueOf(slopeAngleValue4.getText())));
+            case 3:
+                if (TextUtils.isEmpty(slopeAngleValue3.getText())) {
+                    angleError.setVisibility(View.VISIBLE);
+                    error++;
+                } else
+                    bundle.putDouble(SLOPE_ANGLE_3, Double.parseDouble(String.valueOf(slopeAngleValue3.getText())));
+            case 2:
+                if (TextUtils.isEmpty(slopeAngleValue2.getText())) {
+                    angleError.setVisibility(View.VISIBLE);
+                    error++;
+                } else
+                    bundle.putDouble(SLOPE_ANGLE_2, Double.parseDouble(String.valueOf(slopeAngleValue2.getText())));
+            case 1:
+                if (TextUtils.isEmpty(slopeAngleValue1.getText())) {
+                    angleError.setVisibility(View.VISIBLE);
+                    error++;
+                } else
+                    bundle.putDouble(SLOPE_ANGLE_1, Double.parseDouble(String.valueOf(slopeAngleValue1.getText())));
+                break;
+            default:
+                break;
+        }
+        if (!bundle.getBoolean(InspectionActivity.ADD_ITEM_REQUEST)) {
+            bundle.putBoolean(RoomsRegisterFragment.CHILD_DATA_COMPLETE, error == 0);
+        }
+        return error == 0;
     }
 
     private void clearEmptyFieldErrors() {
-        sillSlopeAngleField.setErrorEnabled(false);
+        angleError.setVisibility(View.GONE);
         sillSlopeWidthField.setErrorEnabled(false);
     }
 
-    private void clearSlopeFields() {
-        sillSlopeWidthValue.setText(null);
-        sillSlopeAngleValue.setText(null);
-    }
-
-    //    TODO - Retirar esse método de carregamento de dados assim que tirar o Dialog
-    private void gatherSlopeDataDialog(Bundle bundle) {
-        sillSlopeWidthValue.setText(String.valueOf(bundle.getDouble(SLOPE_WIDTH)));
-        sillSlopeAngleValue.setText(String.valueOf(bundle.getDouble(SLOPE_INCLINATION)));
-    }
-
+    //TODO - Corrigir o carregamento de dados para pegar todos os 4 campos de inclinação
     private void gatherSlopeExtAccData(ExternalAccess access) {
         if (access.getSillSlopeWidth() != null)
             sillSlopeWidthValue.setText(String.valueOf(access.getSillSlopeWidth()));
         if (access.getSillSlopeAngle() != null)
-            sillSlopeAngleValue.setText(String.valueOf(access.getSillSlopeAngle()));
+            slopeAngleValue1.setText(String.valueOf(access.getSillSlopeAngle()));
     }
 
     private void gatherSlopePlayData(PlaygroundEntry playEntry) {
         if (playEntry.getSlopeSillWidth() != null)
             sillSlopeWidthValue.setText(String.valueOf(playEntry.getSlopeSillWidth()));
         if (playEntry.getSlopeSillAngle() != null)
-            sillSlopeAngleValue.setText(String.valueOf(playEntry.getSlopeSillAngle()));
+            slopeAngleValue1.setText(String.valueOf(playEntry.getSlopeSillAngle()));
+    }
+
+    private void loadSlopeDoorData(DoorEntry doorEntry) {
+        if (doorEntry.getSillSlopeWidth() != null)
+            sillSlopeWidthValue.setText(String.valueOf(doorEntry.getSillSlopeWidth()));
+        switch (doorEntry.getSillSlopeQnt()) {
+            case 4:
+                slopeAngleField4.setVisibility(View.VISIBLE);
+                if (doorEntry.getSillSlopeAngle4() != null)
+                    slopeAngleValue4.setText(String.valueOf(doorEntry.getSillSlopeAngle4()));
+            case 3:
+                slopeAngleField3.setVisibility(View.VISIBLE);
+                if (doorEntry.getSillSlopeAngle3() != null)
+                    slopeAngleValue3.setText(String.valueOf(doorEntry.getSillSlopeAngle3()));
+            case 2:
+                slopeAngleField2.setVisibility(View.VISIBLE);
+                if (doorEntry.getSillSlopeAngle2() != null)
+                    slopeAngleValue2.setText(String.valueOf(doorEntry.getSillSlopeAngle2()));
+            case 1:
+                slopeAngleField1.setVisibility(View.VISIBLE);
+                if (doorEntry.getSillSlopeAngle1() != null)
+                    slopeAngleValue1.setText(String.valueOf(doorEntry.getSillSlopeAngle1()));
+                break;
+            default:
+                break;
+        }
+
+
+
+
     }
 }
