@@ -16,8 +16,8 @@ public interface WindowEntryDao {
     @Insert
     void insertWindow(WindowEntry windowEntry);
 
-    @Query("SELECT * FROM WindowEntry WHERE blockID == :blockID AND roomID == :roomID")
-    LiveData<List<WindowEntry>> selectWindowsFromRoom(int blockID, int roomID);
+    @Query("SELECT * FROM WindowEntry WHERE roomID == :roomID")
+    LiveData<List<WindowEntry>> selectWindowsFromRoom(int roomID);
 
     @Query("SELECT * FROM WindowEntry WHERE windowID == :windowID")
     LiveData<WindowEntry> selectSpecificWindow(int windowID);
@@ -28,6 +28,6 @@ public interface WindowEntryDao {
     @Query("DELETE FROM WindowEntry WHERE windowID == :windowID")
     void deleteWindow(int windowID);
 
-    @Query("DELETE FROM WindowEntry WHERE blockID == :blockID AND roomID == :roomID")
-    void deleteAllWindowsFromRoom(int blockID, int roomID);
+    @Query("DELETE FROM WindowEntry WHERE roomID == :roomID")
+    void deleteAllWindowsFromRoom(int roomID);
 }

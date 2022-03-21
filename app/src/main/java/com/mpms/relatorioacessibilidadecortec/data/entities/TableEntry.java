@@ -6,32 +6,24 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = {
-        @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
-                onDelete = CASCADE, onUpdate = CASCADE),
-        @ForeignKey(entity = RoomEntry.class,
-                parentColumns = "roomID",
-                childColumns = "roomID",
-                onDelete = CASCADE, onUpdate = CASCADE)})
+@Entity (foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class TableEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int tableID;
-    private int blockID;
     private int roomID;
-    private int isClassroom;
+    private int roomType;
     private Integer tableType;
-    private Double inferiorBorderHeight;
-    private Double superiorBorderHeight;
-    private Double tableWidth;
-    private Double tableFrontalApprox;
+    private double inferiorBorderHeight;
+    private double superiorBorderHeight;
+    private double tableWidth;
+    private double tableFrontalApprox;
     private String tableObs;
 
-    public TableEntry(int blockID, int roomID, int isClassroom, Integer tableType, Double inferiorBorderHeight,
-                      Double superiorBorderHeight, Double tableWidth, Double tableFrontalApprox, String tableObs) {
-        this.blockID = blockID;
+    public TableEntry(int roomID, int roomType, Integer tableType, double inferiorBorderHeight, double superiorBorderHeight, double tableWidth,
+                      double tableFrontalApprox, String tableObs) {
         this.roomID = roomID;
-        this.isClassroom = isClassroom;
+        this.roomType = roomType;
         this.tableType = tableType;
         this.inferiorBorderHeight = inferiorBorderHeight;
         this.superiorBorderHeight = superiorBorderHeight;
@@ -48,14 +40,6 @@ public class TableEntry {
         this.tableID = tableID;
     }
 
-    public int getBlockID() {
-        return blockID;
-    }
-
-    public void setBlockID(int blockID) {
-        this.blockID = blockID;
-    }
-
     public int getRoomID() {
         return roomID;
     }
@@ -64,12 +48,12 @@ public class TableEntry {
         this.roomID = roomID;
     }
 
-    public int getIsClassroom() {
-        return isClassroom;
+    public int getRoomType() {
+        return roomType;
     }
 
-    public void setIsClassroom(int isClassroom) {
-        this.isClassroom = isClassroom;
+    public void setRoomType(int roomType) {
+        this.roomType = roomType;
     }
 
     public Integer getTableType() {
@@ -80,35 +64,35 @@ public class TableEntry {
         this.tableType = tableType;
     }
 
-    public Double getInferiorBorderHeight() {
+    public double getInferiorBorderHeight() {
         return inferiorBorderHeight;
     }
 
-    public void setInferiorBorderHeight(Double inferiorBorderHeight) {
+    public void setInferiorBorderHeight(double inferiorBorderHeight) {
         this.inferiorBorderHeight = inferiorBorderHeight;
     }
 
-    public Double getSuperiorBorderHeight() {
+    public double getSuperiorBorderHeight() {
         return superiorBorderHeight;
     }
 
-    public void setSuperiorBorderHeight(Double superiorBorderHeight) {
+    public void setSuperiorBorderHeight(double superiorBorderHeight) {
         this.superiorBorderHeight = superiorBorderHeight;
     }
 
-    public Double getTableWidth() {
+    public double getTableWidth() {
         return tableWidth;
     }
 
-    public void setTableWidth(Double tableWidth) {
+    public void setTableWidth(double tableWidth) {
         this.tableWidth = tableWidth;
     }
 
-    public Double getTableFrontalApprox() {
+    public double getTableFrontalApprox() {
         return tableFrontalApprox;
     }
 
-    public void setTableFrontalApprox(Double tableFrontalApprox) {
+    public void setTableFrontalApprox(double tableFrontalApprox) {
         this.tableFrontalApprox = tableFrontalApprox;
     }
 

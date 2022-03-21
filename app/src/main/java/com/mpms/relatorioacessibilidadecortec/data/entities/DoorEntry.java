@@ -6,39 +6,56 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = {
-        @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
-                onDelete = CASCADE, onUpdate = CASCADE),
-        @ForeignKey(entity = RoomEntry.class,
-                parentColumns = "roomID",
-                childColumns = "roomID",
-                onDelete = CASCADE, onUpdate = CASCADE)})
+@Entity (foreignKeys = @ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID",
+                onDelete = CASCADE, onUpdate = CASCADE))
 public class DoorEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int doorID;
-    private int blockID;
     private int roomID;
+
     private String doorLocation;
     private Double doorWidth;
+    private Integer doorHandleType;
+    private Double doorHandleHeight;
+    private String doorHandleObs;
+    private Integer doorHasLocks;
+    private Integer doorHasTactileSign;
+    private String doorTactileSignObs;
     private Integer doorSillType;
     private Double sillInclinationHeight;
     private Double sillStepHeight;
-    private Double sillSlopeHeight;
+    private Integer sillSlopeQnt;
+    private Double sillSlopeAngle1;
+    private Double sillSlopeAngle2;
+    private Double sillSlopeAngle3;
+    private Double sillSlopeAngle4;
     private Double sillSlopeWidth;
+    private String doorSillObs;
     private String doorObs;
 
-    public DoorEntry(int blockID, int roomID, String doorLocation, Double doorWidth, Integer doorSillType, Double sillInclinationHeight,
-                     Double sillStepHeight, Double sillSlopeHeight, Double sillSlopeWidth, String doorObs) {
-        this.blockID = blockID;
+    public DoorEntry(int roomID, String doorLocation, Double doorWidth, Integer doorHandleType, Double doorHandleHeight, String doorHandleObs, Integer doorHasLocks,
+                     Integer doorHasTactileSign, String doorTactileSignObs, Integer doorSillType, Double sillInclinationHeight, Double sillStepHeight, Integer sillSlopeQnt,
+                     Double sillSlopeAngle1, Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth, String doorSillObs, String doorObs) {
         this.roomID = roomID;
         this.doorLocation = doorLocation;
         this.doorWidth = doorWidth;
+        this.doorHandleType = doorHandleType;
+        this.doorHandleHeight = doorHandleHeight;
+        this.doorHandleObs = doorHandleObs;
+        this.doorHasLocks = doorHasLocks;
+        this.doorHasTactileSign = doorHasTactileSign;
+        this.doorTactileSignObs = doorTactileSignObs;
         this.doorSillType = doorSillType;
         this.sillInclinationHeight = sillInclinationHeight;
         this.sillStepHeight = sillStepHeight;
-        this.sillSlopeHeight = sillSlopeHeight;
+        this.sillSlopeQnt = sillSlopeQnt;
+        this.sillSlopeAngle1 = sillSlopeAngle1;
+        this.sillSlopeAngle2 = sillSlopeAngle2;
+        this.sillSlopeAngle3 = sillSlopeAngle3;
+        this.sillSlopeAngle4 = sillSlopeAngle4;
         this.sillSlopeWidth = sillSlopeWidth;
+        this.doorSillObs = doorSillObs;
         this.doorObs = doorObs;
     }
 
@@ -48,14 +65,6 @@ public class DoorEntry {
 
     public void setDoorID(int doorID) {
         this.doorID = doorID;
-    }
-
-    public int getBlockID() {
-        return blockID;
-    }
-
-    public void setblockID(int blockID) {
-        this.blockID = blockID;
     }
 
     public int getRoomID() {
@@ -106,12 +115,44 @@ public class DoorEntry {
         this.sillStepHeight = sillStepHeight;
     }
 
-    public Double getSillSlopeHeight() {
-        return sillSlopeHeight;
+    public Integer getSillSlopeQnt() {
+        return sillSlopeQnt;
     }
 
-    public void setSillSlopeHeight(Double sillSlopeHeight) {
-        this.sillSlopeHeight = sillSlopeHeight;
+    public void setSillSlopeQnt(Integer sillSlopeQnt) {
+        this.sillSlopeQnt = sillSlopeQnt;
+    }
+
+    public Double getSillSlopeAngle1() {
+        return sillSlopeAngle1;
+    }
+
+    public void setSillSlopeAngle1(Double sillSlopeAngle1) {
+        this.sillSlopeAngle1 = sillSlopeAngle1;
+    }
+
+    public Double getSillSlopeAngle2() {
+        return sillSlopeAngle2;
+    }
+
+    public void setSillSlopeAngle2(Double sillSlopeAngle2) {
+        this.sillSlopeAngle2 = sillSlopeAngle2;
+    }
+
+    public Double getSillSlopeAngle3() {
+        return sillSlopeAngle3;
+    }
+
+    public void setSillSlopeAngle3(Double sillSlopeAngle3) {
+        this.sillSlopeAngle3 = sillSlopeAngle3;
+    }
+
+    public Double getSillSlopeAngle4() {
+        return sillSlopeAngle4;
+    }
+
+    public void setSillSlopeAngle4(Double sillSlopeAngle4) {
+        this.sillSlopeAngle4 = sillSlopeAngle4;
     }
 
     public Double getSillSlopeWidth() {
@@ -128,5 +169,61 @@ public class DoorEntry {
 
     public void setDoorObs(String doorObs) {
         this.doorObs = doorObs;
+    }
+
+    public Integer getDoorHandleType() {
+        return doorHandleType;
+    }
+
+    public void setDoorHandleType(Integer doorHandleType) {
+        this.doorHandleType = doorHandleType;
+    }
+
+    public Double getDoorHandleHeight() {
+        return doorHandleHeight;
+    }
+
+    public void setDoorHandleHeight(Double doorHandleHeight) {
+        this.doorHandleHeight = doorHandleHeight;
+    }
+
+    public String getDoorHandleObs() {
+        return doorHandleObs;
+    }
+
+    public void setDoorHandleObs(String doorHandleObs) {
+        this.doorHandleObs = doorHandleObs;
+    }
+
+    public Integer getDoorHasLocks() {
+        return doorHasLocks;
+    }
+
+    public void setDoorHasLocks(Integer doorHasLocks) {
+        this.doorHasLocks = doorHasLocks;
+    }
+
+    public Integer getDoorHasTactileSign() {
+        return doorHasTactileSign;
+    }
+
+    public void setDoorHasTactileSign(Integer doorHasTactileSign) {
+        this.doorHasTactileSign = doorHasTactileSign;
+    }
+
+    public String getDoorTactileSignObs() {
+        return doorTactileSignObs;
+    }
+
+    public void setDoorTactileSignObs(String doorTactileSignObs) {
+        this.doorTactileSignObs = doorTactileSignObs;
+    }
+
+    public String getDoorSillObs() {
+        return doorSillObs;
+    }
+
+    public void setDoorSillObs(String doorSillObs) {
+        this.doorSillObs = doorSillObs;
     }
 }

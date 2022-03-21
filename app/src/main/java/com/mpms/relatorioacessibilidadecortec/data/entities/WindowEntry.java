@@ -6,28 +6,20 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = {
-        @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
-                onDelete = CASCADE, onUpdate = CASCADE),
-        @ForeignKey(entity = RoomEntry.class,
-                parentColumns = "roomID",
-                childColumns = "roomID",
-                onDelete = CASCADE, onUpdate = CASCADE)})
+@Entity (foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class WindowEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int windowID;
-    private int blockID;
     private int roomID;
     private String windowLocation;
-    private Double windowSillHeight;
+    private Double windowCommandHeight;
     private String windowObs;
 
-    public WindowEntry(int blockID, int roomID, String windowLocation, Double windowSillHeight, String windowObs) {
-        this.blockID = blockID;
+    public WindowEntry(int roomID, String windowLocation, Double windowCommandHeight, String windowObs) {
         this.roomID = roomID;
         this.windowLocation = windowLocation;
-        this.windowSillHeight = windowSillHeight;
+        this.windowCommandHeight = windowCommandHeight;
         this.windowObs = windowObs;
     }
 
@@ -37,14 +29,6 @@ public class WindowEntry {
 
     public void setWindowID(int windowID) {
         this.windowID = windowID;
-    }
-
-    public int getBlockID() {
-        return blockID;
-    }
-
-    public void setBlockID(int blockID) {
-        this.blockID = blockID;
     }
 
     public int getRoomID() {
@@ -63,12 +47,12 @@ public class WindowEntry {
         this.windowLocation = windowLocation;
     }
 
-    public Double getWindowSillHeight() {
-        return windowSillHeight;
+    public Double getWindowCommandHeight() {
+        return windowCommandHeight;
     }
 
-    public void setWindowSillHeight(Double windowSillHeight) {
-        this.windowSillHeight = windowSillHeight;
+    public void setWindowCommandHeight(Double windowCommandHeight) {
+        this.windowCommandHeight = windowCommandHeight;
     }
 
     public String getWindowObs() {

@@ -16,8 +16,8 @@ public interface TableEntryDao {
     @Insert
     void insertTable(TableEntry table);
 
-    @Query("SELECT * FROM TableEntry WHERE blockID == :blockID AND roomID == :roomID")
-    LiveData<List<TableEntry>> selectTablesFromRoom(int blockID, int roomID);
+    @Query("SELECT * FROM TableEntry WHERE roomID == :roomID ORDER BY tableID DESC")
+    LiveData<List<TableEntry>> selectTablesFromRoom(int roomID);
 
     @Query("SELECT * FROM TableEntry WHERE tableID == :tableID")
     LiveData<TableEntry> selectSpecificTable(int tableID);
@@ -28,6 +28,6 @@ public interface TableEntryDao {
     @Query("DELETE FROM TableEntry WHERE tableID == :tableID")
     void deleteTable(int tableID);
 
-    @Query("DELETE FROM TableEntry WHERE blockID == :blockID AND roomID == :roomID")
-    void deleteAllTablesFromRoom(int blockID, int roomID);
+    @Query("DELETE FROM TableEntry WHERE roomID == :roomID")
+    void deleteAllTablesFromRoom(int roomID);
 }

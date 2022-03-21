@@ -6,26 +6,20 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = {
-        @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
-                onDelete = CASCADE, onUpdate = CASCADE),
-        @ForeignKey(entity = RoomEntry.class,
-                parentColumns = "roomID",
-                childColumns = "roomID",
+@Entity (foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID",
                 onDelete = CASCADE, onUpdate = CASCADE)})
 public class SwitchEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int switchID;
-    private int blockID;
     private int roomID;
+
     private String switchLocation;
     private String switchType;
     private Double switchHeight;
     private String switchObs;
 
-    public SwitchEntry(int blockID, int roomID, String switchLocation, String switchType, Double switchHeight, String switchObs) {
-        this.blockID = blockID;
+    public SwitchEntry(int roomID, String switchLocation, String switchType, Double switchHeight, String switchObs) {
         this.roomID = roomID;
         this.switchLocation = switchLocation;
         this.switchType = switchType;
@@ -39,14 +33,6 @@ public class SwitchEntry {
 
     public void setSwitchID(int switchID) {
         this.switchID = switchID;
-    }
-
-    public int getBlockID() {
-        return blockID;
-    }
-
-    public void setBlockID(int blockID) {
-        this.blockID = blockID;
     }
 
     public int getRoomID() {

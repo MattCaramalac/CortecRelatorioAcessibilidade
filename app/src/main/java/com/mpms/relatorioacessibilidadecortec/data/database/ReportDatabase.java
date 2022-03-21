@@ -10,9 +10,11 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.mpms.relatorioacessibilidadecortec.data.Dao.AdmEquipDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.BlackboardEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlockSpaceDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.CounterEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorEntryDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorLockDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ExternalAccessDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FlightRampStairsDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FreeSpaceEntryDao;
@@ -44,9 +46,11 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.TableEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WaterFountainDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WindowEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.entities.AdmEquipEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
@@ -87,7 +91,7 @@ import java.util.concurrent.Executors;
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class, RampStairsHandrailEntry.class,
-        RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class, PlaygroundEntry.class}, version = 34)
+        RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class, PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 35)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -204,6 +208,14 @@ public abstract class ReportDatabase extends RoomDatabase {
 
                     dbWriteExecutor.execute(() -> {
                         PlaygroundEntryDao playgroundEntryDao = INSTANCE.playgroundEntryDao();
+                    });
+
+                    dbWriteExecutor.execute(() -> {
+                        BlackboardEntryDao blackboardEntryDao = INSTANCE.blackboardEntryDao();
+                    });
+
+                    dbWriteExecutor.execute(() -> {
+                        DoorLockDao doorLockDao = INSTANCE.doorLockDao();
                     });
 
                 }
@@ -750,7 +762,7 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-    static final Migration MIGRATION_33_34 = new Migration(33,34) {
+    static final Migration MIGRATION_33_34 = new Migration(33, 34) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("DROP TABLE DoorEntry");
@@ -780,6 +792,85 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_34_35 = new Migration(34, 35) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE BlackboardEntry (boardID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL, boardLocation TEXT, " +
+                    "infBorderHeight REAL NOT NULL, boardObs TEXT, FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("CREATE TABLE DoorLockEntry (lockID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, doorID INTEGER NOT NULL, lockType INTEGER NOT NULL," +
+                    "lockDesc TEXT, lockHeight REAL NOT NULL, lockObs TEXT, FOREIGN KEY (doorID) REFERENCES DoorEntry (doorID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("ALTER TABLE PlaygroundEntry ADD COLUMN slopeMeasureQnt INTEGER");
+            database.execSQL("ALTER TABLE PlaygroundEntry ADD COLUMN slopeSillAngle2 REAL");
+            database.execSQL("ALTER TABLE PlaygroundEntry ADD COLUMN slopeSillAngle3 REAL");
+            database.execSQL("ALTER TABLE PlaygroundEntry ADD COLUMN slopeSillAngle4 REAL");
+
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN slopeMeasureQnt INTEGER");
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN sillSlopeAngle2 REAL");
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN sillSlopeAngle3 REAL");
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN sillSlopeAngle4 REAL");
+
+
+            database.execSQL("CREATE TABLE DoorEntry_2(doorID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL," +
+                    "doorLocation TEXT, doorWidth REAL, doorHandleType INTEGER, doorHandleHeight REAL, doorHandleObs TEXT, doorHasLocks INTEGER," +
+                    "doorHasTactileSign INTEGER, doorTactileSignObs TEXT, doorSillType INTEGER, sillInclinationHeight REAL, sillStepHeight REAL, sillSlopeQnt INTEGER," +
+                    "sillSlopeAngle1 REAL, sillSlopeAngle2 REAL, sillSlopeAngle3 REAL, sillSlopeAngle4 REAL, sillSlopeWidth REAL, doorSillObs TEXT, doorObs TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO DoorEntry_2 (doorID, roomID, doorLocation, doorWidth, doorSillType, sillInclinationHeight, sillStepHeight, sillSlopeAngle1," +
+                    "sillSlopeWidth, doorObs) SELECT doorID, roomID, doorLocation, doorWidth, doorSillType, sillInclinationHeight, sillStepHeight, sillSlopeHeight," +
+                    "sillSlopeWidth, doorObs FROM DoorEntry");
+            database.execSQL("DROP TABLE DoorEntry");
+            database.execSQL("ALTER TABLE DoorEntry_2 RENAME TO DoorEntry");
+
+            database.execSQL("CREATE TABLE FreeSpaceEntry_2 (freeSpaceID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL, freeSpaceLocation TEXT," +
+                    "freeSpaceWidth REAL, freeSpaceObs TEXT, FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO FreeSpaceEntry_2(freeSpaceID, roomID, freeSpaceLocation, freeSpaceWidth, freeSpaceObs) SELECT freeSpaceID, roomID," +
+                    "freeSpaceLocation, freeSpaceWidth, freeSpaceObs FROM FreeSpaceEntry");
+            database.execSQL("DROP TABLE FreeSpaceEntry");
+            database.execSQL("ALTER TABLE FreeSpaceEntry_2 RENAME TO FreeSpaceEntry");
+
+            database.execSQL("CREATE TABLE RoomEntry_2 (roomID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, roomType INTEGER NOT NULL," +
+                    "roomLocation TEXT, roomDescription TEXT, roomHasVertSing INTEGER, roomVertSignObs TEXT, roomHasLooseCarpet INTEGER, looseCarpetObs TEXT," +
+                    "roomAccessFloor INTEGER, accessFloorObs TEXT, libDistShelvesOK INTEGER, libPcrManeuversOK INTEGER, libAccessPcOK INTEGER, secHasFixedSeats INTEGER," +
+                    "secHasPcrSpace INTEGER, secPcrSpaceWidth REAL, secPcrSpaceDepth REAL, secPCRSpaceObs TEXT, roomObs TEXT, FOREIGN KEY (blockID) " +
+                    "REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO RoomEntry_2 (roomID, blockID, roomType, roomLocation, roomHasVertSing, roomVertSignObs, roomHasLooseCarpet, looseCarpetObs," +
+                    "libDistShelvesOK, libPcrManeuversOK, libAccessPcOK, secHasFixedSeats, secHasPcrSpace, secPcrSpaceWidth, secPcrSpaceDepth, secPCRSpaceObs, roomObs)" +
+                    "SELECT roomID, blockID, roomType, roomLocation, roomHasVisualVertSing, roomObsVisualVertSign, roomHasLooseCarpet, looseCarpetObs, libraryDistanceShelvesOK," +
+                    "libraryPcrManeuversOK, libraryAccessiblePcOK, secretHasFixedSeats, secretHasPcrSpace, secretWidthPcrSpace, secretLengthPcrSpace, secretPCRSpaceObs," +
+                    "roomObs FROM RoomEntry");
+            database.execSQL("DROP TABLE RoomEntry");
+            database.execSQL("ALTER TABLE RoomEntry_2 RENAME TO RoomEntry");
+
+            database.execSQL("CREATE TABLE SwitchEntry_2 (switchID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL, switchLocation TEXT, switchType TEXT," +
+                    "switchHeight REAL, switchObs TEXT, FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO SwitchEntry_2 (switchID, roomID, switchLocation, switchType, switchHeight, switchObs) SELECT switchID, roomID, switchLocation, " +
+                    "switchType, switchHeight, switchObs FROM SwitchEntry");
+            database.execSQL("DROP TABLE SwitchEntry");
+            database.execSQL("ALTER TABLE SwitchEntry_2 RENAME TO SwitchEntry");
+
+            database.execSQL("CREATE TABLE TableEntry_2 (tableID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL, roomType INTEGER NOT NULL DEFAULT 0," +
+                    "tableType INTEGER, inferiorBorderHeight REAL NOT NULL, superiorBorderHeight REAL NOT NULL, tableWidth REAL NOT NULL, tableFrontalApprox REAL NOT NULL, " +
+                    "tableObs TEXT, FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO TableEntry_2 (tableID, roomID, tableType, inferiorBorderHeight, superiorBorderHeight, tableWidth, tableFrontalApprox," +
+                    "tableObs) SELECT tableID, roomID, tableType, inferiorBorderHeight, superiorBorderHeight, tableWidth, tableFrontalApprox, tableObs FROM TableEntry");
+            database.execSQL("DROP TABLE TableEntry");
+            database.execSQL("ALTER TABLE TableEntry_2 RENAME TO TableEntry");
+
+            database.execSQL("CREATE TABLE WindowEntry_2 (windowID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL, " +
+                    "windowLocation TEXT, windowCommandHeight REAL, windowObs TEXT, FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO WindowEntry_2 (windowID, roomID, windowLocation, windowCommandHeight, windowObs) SELECT windowID, roomID, windowLocation, " +
+                    "windowSillHeight, windowObs FROM WindowEntry");
+            database.execSQL("DROP TABLE WindowEntry");
+            database.execSQL("ALTER TABLE WindowEntry_2 RENAME TO WindowEntry");
+
+        }
+    };
+
+
+
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ReportDatabase.class) {
@@ -790,7 +881,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17, MIGRATION_17_18,
                                     MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23, MIGRATION_23_24,
                                     MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27, MIGRATION_27_28, MIGRATION_28_29, MIGRATION_29_30,
-                                    MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34).build();
+                                    MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35).build();
                 }
             }
         }
@@ -865,5 +956,9 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract AdmEquipDao admEquipDao();
 
     public abstract PlaygroundEntryDao playgroundEntryDao();
+
+    public abstract BlackboardEntryDao blackboardEntryDao();
+
+    public abstract DoorLockDao doorLockDao();
 
 }

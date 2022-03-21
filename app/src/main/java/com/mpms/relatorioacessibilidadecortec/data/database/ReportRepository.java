@@ -5,9 +5,11 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.mpms.relatorioacessibilidadecortec.data.Dao.AdmEquipDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.BlackboardEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlockSpaceDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.CounterEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorEntryDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorLockDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ExternalAccessDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FlightRampStairsDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FreeSpaceEntryDao;
@@ -39,9 +41,11 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.TableEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WaterFountainDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WindowEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.entities.AdmEquipEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
@@ -120,6 +124,8 @@ public class ReportRepository {
     private final BlockSpaceDao blockSpaceDao;
     private final AdmEquipDao admEquipDao;
     private final PlaygroundEntryDao playgroundEntryDao;
+    private final BlackboardEntryDao blackboardEntryDao;
+    private final DoorLockDao doorLockDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -157,6 +163,8 @@ public class ReportRepository {
         blockSpaceDao = db.blockSpaceDao();
         admEquipDao = db.admEquipDao();
         playgroundEntryDao = db.playgroundEntryDao();
+        blackboardEntryDao = db.blackboardEntryDao();
+        doorLockDao = db.doorLockDao();
 
     }
 
@@ -398,12 +406,16 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.insertDoor(doorEntry));
     }
 
-    public  LiveData<List<DoorEntry>> getDoorsFromRoom(int schoolID, int roomID) {
-        return doorEntryDao.getDoorsFromRoom(schoolID, roomID);
+    public  LiveData<List<DoorEntry>> getDoorsFromRoom(int roomID) {
+        return doorEntryDao.getDoorsFromRoom(roomID);
     }
 
     public LiveData<DoorEntry> getSpecificDoor(int doorId) {
         return doorEntryDao.getSpecificDoor(doorId);
+    }
+
+    public LiveData<DoorEntry> getLastDoorEntry() {
+        return doorEntryDao.getLastDoorEntry();
     }
 
     public void updateDoor(DoorEntry doorEntry) {
@@ -414,24 +426,104 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.deleteDoor(doorID));
     }
 
-    public void deleteAllDoorsFromRoom(int schoolID, int roomID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.deleteAllDoorsFromRoom(schoolID, roomID));
+    public void deleteAllDoorsFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.deleteAllDoorsFromRoom(roomID));
     }
 
     public void insertFreeSpace(FreeSpaceEntry freeSpace) {
         ReportDatabase.dbWriteExecutor.execute(() -> freeSpaceEntryDao.insertFreeSpace(freeSpace));
     }
 
+    public LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRoom(int roomID) {
+        return freeSpaceEntryDao.selectFreeSpaceFromRoom(roomID);
+    }
+
+    public LiveData<FreeSpaceEntry> selectSpecificFreeSpace(int freeSpaceID) {
+        return freeSpaceEntryDao.selectSpecificFreeSpace(freeSpaceID);
+    }
+
+    public void updateFreeSpace(FreeSpaceEntry freeSpace) {
+        ReportDatabase.dbWriteExecutor.execute(() -> freeSpaceEntryDao.updateFreeSpace(freeSpace));
+    }
+
+    public void deleteFreeSpace(int freeSpaceID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> freeSpaceEntryDao.deleteFreeSpace(freeSpaceID));
+    }
+
+    public void deleteAllFreeSpaceFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> freeSpaceEntryDao.deleteAllFreeSpaceFromRoom(roomID));
+    }
+
     public void insertSwitch(SwitchEntry switchEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> switchEntryDao.insertSwitch(switchEntry));
+    }
+
+    public LiveData<List<SwitchEntry>> selectSwitchesFromRoom(int roomID) {
+        return switchEntryDao.selectSwitchesFromRoom(roomID);
+    }
+
+    public LiveData<SwitchEntry> selectSpecificSwitch(int switchID) {
+        return switchEntryDao.selectSpecificSwitch(switchID);
+    }
+
+    public void updateSwitch(SwitchEntry switchEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> switchEntryDao.updateSwitch(switchEntry));
+    }
+
+    public void deleteSwitch(int switchID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> switchEntryDao.deleteSwitch(switchID));
+    }
+
+    public void deleteAllSwitchesFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> switchEntryDao.deleteAllSwitchesFromRoom(roomID));
     }
 
     public void insertWindow(WindowEntry windowEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> windowEntryDao.insertWindow(windowEntry));
     }
 
+    public LiveData<List<WindowEntry>> selectWindowsFromRoom(int roomID) {
+        return windowEntryDao.selectWindowsFromRoom(roomID);
+    }
+
+    public LiveData<WindowEntry> selectSpecificWindow(int windowID) {
+        return windowEntryDao.selectSpecificWindow(windowID);
+    }
+
+    public void updateWindowEntry(WindowEntry windowEntry) {
+        ReportDatabase.dbWriteExecutor.execute(() -> windowEntryDao.updateWindowEntry(windowEntry));
+    }
+
+    public void deleteWindow(int windowID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> windowEntryDao.deleteWindow(windowID));
+    }
+
+    public void deleteAllWindowsFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> windowEntryDao.deleteAllWindowsFromRoom(roomID));
+    }
+
     public void insertTable(TableEntry table) {
         ReportDatabase.dbWriteExecutor.execute(() -> tableEntryDao.insertTable(table));
+    }
+
+    public LiveData<List<TableEntry>> selectTablesFromRoom(int roomID) {
+        return tableEntryDao.selectTablesFromRoom(roomID);
+    }
+
+    public LiveData<TableEntry> selectSpecificTable(int tableID) {
+        return tableEntryDao.selectSpecificTable(tableID);
+    }
+
+    public void updateTable(TableEntry table) {
+        ReportDatabase.dbWriteExecutor.execute(() -> tableEntryDao.updateTable(table));
+    }
+
+    public void deleteTable(int tableID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> tableEntryDao.deleteTable(tableID));
+    }
+
+    public void deleteAllTablesFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> tableEntryDao.deleteAllTablesFromRoom(roomID));
     }
 
     public void insertGateObs (GateObsEntry gateObs) {
@@ -960,5 +1052,57 @@ public class ReportRepository {
 
     public void deleteAllEntries() {
         ReportDatabase.dbWriteExecutor.execute(schoolEntryDao::deleteAll);
+    }
+
+    public void insertBlackboard(BlackboardEntry blackboard) {
+        ReportDatabase.dbWriteExecutor.execute(() -> blackboardEntryDao.insertBlackboard(blackboard));
+    }
+
+    public LiveData<List<BlackboardEntry>> getAllBlackboardsFromRoom(int roomID) {
+        return blackboardEntryDao.getAllBlackboardsFromRoom(roomID);
+    }
+
+    public LiveData<BlackboardEntry> getOneBlackboard(int blackboardID) {
+        return blackboardEntryDao.getOneBlackboard(blackboardID);
+    }
+
+    public void updateBlackboard (BlackboardEntry blackboard) {
+        ReportDatabase.dbWriteExecutor.execute(() -> blackboardEntryDao.updateBlackboard(blackboard));
+    }
+
+    public void deleteBlackboard(int blackboardID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> blackboardEntryDao.deleteBlackboard(blackboardID));
+    }
+
+    public void deleteAllBlackboardsFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> blackboardEntryDao.deleteAllBlackboardsFromRoom(roomID));
+    }
+
+    public void insertDoorLock(DoorLockEntry doorLock) {
+        ReportDatabase.dbWriteExecutor.execute(() -> doorLockDao.insertDoorLock(doorLock));
+    }
+
+    public LiveData<List<DoorLockEntry>> getDoorLocksFromDoor(int doorID) {
+        return doorLockDao.getDoorLocksFromDoor(doorID);
+    }
+
+    public LiveData<DoorLockEntry> getOneDoorLock(int lockID) {
+        return doorLockDao.getOneDoorLock(lockID);
+    }
+
+    public LiveData<DoorLockEntry> getLastDoorLockEntry() {
+        return doorLockDao.getLastDoorLockEntry();
+    }
+
+    public void updateDoorLock(DoorLockEntry doorLock) {
+        ReportDatabase.dbWriteExecutor.execute(() -> doorLockDao.updateDoorLock(doorLock));
+    }
+
+    public void deleteDoorLock(int lockID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> doorLockDao.deleteDoorLock(lockID));
+    }
+
+    public void deleteAllDoorLocksFromDoor(int doorID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> doorLockDao.deleteAllDoorLocksFromDoor(doorID));
     }
 }

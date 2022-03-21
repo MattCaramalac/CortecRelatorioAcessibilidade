@@ -16,8 +16,8 @@ public interface FreeSpaceEntryDao {
     @Insert
     void insertFreeSpace(FreeSpaceEntry freeSpace);
 
-    @Query("SELECT * FROM FreeSpaceEntry WHERE blockID == :blockID AND roomID == :roomID")
-    LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRoom(int blockID, int roomID);
+    @Query("SELECT * FROM FreeSpaceEntry WHERE roomID == :roomID ORDER BY freeSpaceID DESC")
+    LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRoom(int roomID);
 
     @Query("SELECT * FROM FreeSpaceEntry WHERE freeSpaceID == :freeSpaceID")
     LiveData<FreeSpaceEntry> selectSpecificFreeSpace(int freeSpaceID);
@@ -28,6 +28,6 @@ public interface FreeSpaceEntryDao {
     @Query("DELETE FROM FreeSpaceEntry WHERE freeSpaceID == :freeSpaceID")
     void deleteFreeSpace(int freeSpaceID);
 
-    @Query("DELETE FROM FreeSpaceEntry WHERE blockID == :blockID AND roomID == :roomID")
-    void deleteAllFreeSpaceFromRoom(int blockID, int roomID);
+    @Query("DELETE FROM FreeSpaceEntry WHERE roomID == :roomID")
+    void deleteAllFreeSpaceFromRoom(int roomID);
 }

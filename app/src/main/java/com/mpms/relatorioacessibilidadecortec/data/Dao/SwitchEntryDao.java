@@ -16,8 +16,8 @@ public interface SwitchEntryDao {
     @Insert
     void insertSwitch(SwitchEntry switchEntry);
 
-    @Query("SELECT * FROM SwitchEntry WHERE blockID == :blockID AND roomID == :roomID")
-    LiveData<List<SwitchEntry>> selectSwitchesFromRoom(int blockID, int roomID);
+    @Query("SELECT * FROM SwitchEntry WHERE roomID == :roomID ORDER BY switchID DESC")
+    LiveData<List<SwitchEntry>> selectSwitchesFromRoom(int roomID);
 
     @Query("SELECT * FROM SwitchEntry WHERE switchID == :switchID")
     LiveData<SwitchEntry> selectSpecificSwitch(int switchID);
@@ -28,6 +28,6 @@ public interface SwitchEntryDao {
     @Query("DELETE FROM SwitchEntry WHERE switchID == :switchID")
     void deleteSwitch(int switchID);
 
-    @Query("DELETE FROM SwitchEntry WHERE blockID == :blockID AND roomID == :roomID")
-    void deleteAllSwitchesFromRoom(int blockID, int roomID);
+    @Query("DELETE FROM SwitchEntry WHERE roomID == :roomID")
+    void deleteAllSwitchesFromRoom(int roomID);
 }
