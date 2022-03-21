@@ -60,7 +60,6 @@ public class GateObsListFragment extends Fragment implements OnEntryClickListene
     }
 
     @Nullable
-    @org.jetbrains.annotations.Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_child_items_entries, container, false);
@@ -98,7 +97,7 @@ public class GateObsListFragment extends Fragment implements OnEntryClickListene
 
     @Override
     public void onDestroyView() {
-        modelFragments.setExtAccessLoadInfo(gateObsBundle);
+        modelFragments.setExtAccessLoadInfo(gateObsBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID));
         super.onDestroyView();
     }
 

@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillInclinationFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
@@ -36,9 +37,6 @@ import java.util.ArrayList;
 public class PlaygroundFragment extends Fragment {
 
     public static final String PLAY_ID = "PLAY_ID";
-    public static final String ALLOW_PLAY_REGISTER = "ALLOW_REGISTER";
-    public static final String PLAY_SAVE_ATTEMPT = "PLAY_SAVE_ATTEMPT";
-    public static final String PLAY_SILL_DATA = "PLAY_SILL_DATA";
 
     TextInputLayout playLocaleField, floorTypeField, playGateWidthField, playTrackHeightField, trackMeasureField1, trackMeasureField2,
             trackMeasureField3, trackMeasureField4, playGateSillObsField, floorObsField, toyObsField, playObsField;
@@ -92,7 +90,6 @@ public class PlaygroundFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         instantiatePlayViews(view);
         allowExternalObsScroll();
-        modelFragments.setPlaygroundLoadInfo(playBundle);
 
         if (playBundle.getInt(PLAY_ID) > 0)
             modelEntry.getOnePlayground(playBundle.getInt(PLAY_ID)).observe(getViewLifecycleOwner(), this::loadPlaygroundData);
@@ -122,7 +119,7 @@ public class PlaygroundFragment extends Fragment {
 
         savePlay.setOnClickListener(v -> {
             if (gateSillRadio.getCheckedRadioButtonIndex() > 0) {
-                getChildFragmentManager().setFragmentResult(PLAY_SAVE_ATTEMPT, childData);
+                getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, childData);
             } else {
                 if (checkEmptyPlayFields()) {
                     PlaygroundEntry newPlayEntry = newPlayground(playBundle);
@@ -137,14 +134,12 @@ public class PlaygroundFragment extends Fragment {
                         clearPlayFields();
                     }
                 }
-
             }
-
         });
 
         cancelPlay.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
-        getChildFragmentManager().setFragmentResultListener(PLAY_SILL_DATA, this, (key, bundle) -> {
+        getChildFragmentManager().setFragmentResultListener(InspectionActivity.CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (checkEmptyPlayFields()) {
                 bundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, playBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
                 PlaygroundEntry newPlayEntry = newPlayground(bundle);
@@ -342,6 +337,7 @@ public class PlaygroundFragment extends Fragment {
         return i <= 0;
     }
 
+//    TODO - corrigir este erro de limpeza
     private void clearPlayErrors() {
         playLocaleField.setErrorEnabled(false);
         floorTypeField.setErrorEnabled(false);
@@ -357,13 +353,15 @@ public class PlaygroundFragment extends Fragment {
 
     private PlaygroundEntry newPlayground(Bundle bundle) {
         String playLocale, floorType, sillObs, floorObs, toyObs, playObs;
-        Double playGateWidth, playTrackHeight = null, measure1 = null, measure2 = null, measure3 = null, measure4 = null, sillStep = null,
-                sillSlopeWidth = null, sillSlopeAngle = null, sillInclination = null;
-        Integer hasTrack, hasTrackRamp = null, sillType, accessibleFloor, accessibleToy;
+        double playGateWidth;
+        Double  playTrackHeight = null, measure1 = null, measure2 = null, measure3 = null, measure4 = null, sillStep = null,
+                sillSlopeWidth = null, sillSlopeAngle = null, slopeAngle2 = null, slopeAngle3 = null, slopeAngle4 = null, sillInclination = null;
+        int hasTrack, sillType, accessibleFloor, accessibleToy;
+        Integer hasTrackRamp = null, slopeQnt = null;
 
         playLocale = String.valueOf(playLocaleValue.getText());
         floorType = String.valueOf(floorTypeValue.getText());
-        playGateWidth = Double.valueOf(String.valueOf(playGateWidthValue.getText()));
+        playGateWidth = Double.parseDouble(String.valueOf(playGateWidthValue.getText()));
         hasTrack = getPlayCheckRadio(playGateTrackRadio);
         if (getPlayCheckRadio(playGateTrackRadio) == 1) {
             playTrackHeight = Double.valueOf(String.valueOf(playTrackHeightValue.getText()));
@@ -393,8 +391,19 @@ public class PlaygroundFragment extends Fragment {
                 sillStep = bundle.getDouble(SillStepFragment.STEP_HEIGHT);
                 break;
             case 3:
-                sillSlopeAngle = bundle.getDouble(SillSlopeFragment.SLOPE_INCLINATION);
-                sillSlopeWidth = bundle.getDouble(SillSlopeFragment.SLOPE_WIDTH);
+                slopeQnt = bundle.getInt(SillSlopeFragment.SLOPE_QNT);
+                switch (slopeQnt) {
+                    case 4:
+                        slopeAngle4 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_4);
+                    case 3:
+                        slopeAngle3 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_3);
+                    case 2:
+                        slopeAngle2 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_2);
+                    case 1:
+                        sillSlopeAngle = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_1);
+                        sillSlopeWidth = bundle.getDouble(SillSlopeFragment.SLOPE_WIDTH);
+                        break;
+                }
                 break;
         }
         sillObs = String.valueOf(playGateSillObsValue.getText());
@@ -406,7 +415,7 @@ public class PlaygroundFragment extends Fragment {
 
         return new PlaygroundEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), playLocale, floorType, playGateWidth, hasTrack, playTrackHeight, hasTrackRamp,
                 rampTrackCounter, measure1, measure2, measure3, measure4, sillType, sillInclination, sillStep, sillSlopeAngle, sillSlopeWidth, sillObs, accessibleFloor,
-                floorObs, accessibleToy, toyObs, playObs);
+                floorObs, accessibleToy, toyObs, playObs, slopeQnt, slopeAngle2, slopeAngle3, slopeAngle4);
     }
 
     private void clearPlayFields() {
@@ -489,7 +498,11 @@ public class PlaygroundFragment extends Fragment {
                 }
             }
         }
-        gateSillRadio.checkAt(playEntry.getPlayGateSillType());
+        if (playEntry.getPlayGateSillType() != null) {
+            gateSillRadio.checkAt(playEntry.getPlayGateSillType());
+            if (playEntry.getPlayGateSillType() > 0)
+                getChildFragmentManager().setFragmentResult(InspectionActivity.LOAD_CHILD_DATA, playBundle);
+        }
         if (playEntry.getSillObs() != null)
             playGateSillObsValue.setText(playEntry.getSillObs());
         accessibleFloorRadio.check(accessibleFloorRadio.getChildAt(playEntry.getAccessibleFloor()).getId());

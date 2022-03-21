@@ -23,8 +23,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
@@ -44,7 +46,7 @@ public class ExtAccessSocialFragment extends Fragment {
     TextView siaError, gateTrackError, hasTrackRampHeader, trackRampError, sillTypeError, obstaclesError, payphoneError,
             intercomError, trackRampValueError;
     TextInputLayout siaObsField, floorTypeField, gateWidthField, trackHeightField, sillObsField, intercomHeightField,
-        trackRampField1, trackRampField2, trackRampField3, trackRampField4;
+            trackRampField1, trackRampField2, trackRampField3, trackRampField4;
     TextInputEditText siaObsValue, floorTypeValue, gateWidthValue, trackHeightValue, sillObsValue, intercomHeightValue,
             trackRampValue1, trackRampValue2, trackRampValue3, trackRampValue4;
     MaterialButton addTrackRampButton, addObstaclesButton, addPayphoneButton;
@@ -63,7 +65,7 @@ public class ExtAccessSocialFragment extends Fragment {
     ArrayList<String> tempSocialFrag = new ArrayList<>();
     ArrayList<TextInputLayout> rampTrackFields = new ArrayList<>();
 
-    Bundle extAccessDataInfo = new Bundle();
+    Bundle extAccSocialBundle = new Bundle();
 
     public ExtAccessSocialFragment() {
         // Required empty public constructor
@@ -77,7 +79,7 @@ public class ExtAccessSocialFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            extAccessDataInfo.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
+            extAccSocialBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
         }
     }
 
@@ -95,35 +97,28 @@ public class ExtAccessSocialFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         instantiateSocialViews(view);
 
-        if (extAccessDataInfo != null && extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID) != 0) {
-            modelEntry.getOneExternalAccess(extAccessDataInfo.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
-                    .observe(getViewLifecycleOwner(), this::loadSocialFragData);
-        }
+        getParentFragmentManager().setFragmentResultListener(InspectionActivity.LOAD_CHILD_DATA, this, (key, bundle) ->
+                modelEntry.getOneExternalAccess(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
+                        .observe(getViewLifecycleOwner(), this::loadSocialFragData));
 
         getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
             if (sillTypeRadio.getCheckedRadioButtonIndex() > 0) {
-                getChildFragmentManager().setFragmentResult(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, bundle);
+                getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, bundle);
             } else {
                 socialFrag = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
-                if (!socialFragDoesNotHaveEmptyFields())
-                    socialFrag.set(18, "false");
+                bundle.putBoolean(InspectionActivity.CHILD_DATA_COMPLETE, socialFragDoesNotHaveEmptyFields());
                 bundle.putStringArrayList(ExternalAccessFragment.CHILD_FRAG_DATA, socialFrag);
-                getParentFragmentManager().setFragmentResult(ExternalAccessFragment.FRAG_DATA, bundle);
-
+                getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
             }
         });
 
-        getChildFragmentManager().setFragmentResultListener(ExternalAccessFragment.FRAG_DATA, this, (key, bundle) -> {
-            socialFrag = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
-            if (socialFragDoesNotHaveEmptyFields()) {
-                bundle.putStringArrayList(ExternalAccessFragment.CHILD_FRAG_DATA, socialFrag);
-                getParentFragmentManager().setFragmentResult(ExternalAccessFragment.FRAG_DATA, bundle);
-            }
+        getChildFragmentManager().setFragmentResultListener(InspectionActivity.CHILD_DATA_LISTENER, this, (key, bundle) -> {
+            bundle.putBoolean(RoomsRegisterFragment.CHILD_DATA_COMPLETE,
+                    socialFragDoesNotHaveEmptyFields() && bundle.getBoolean(RoomsRegisterFragment.CHILD_DATA_COMPLETE));
+            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
+
         });
 
-        getChildFragmentManager().setFragmentResultListener(CHILD_TEMP_DATA, this, (key, bundle) ->
-                getParentFragmentManager().setFragmentResult(TEMP_SOCIAL_FRAG, bundle)
-        );
 
         addTrackRampButton.setOnClickListener(v -> {
             if (rampTrackCounter < 0) {
@@ -148,20 +143,28 @@ public class ExtAccessSocialFragment extends Fragment {
             }
         });
 
-        addObstaclesButton.setOnClickListener(v -> addButtonClicked(1));
+        addObstaclesButton.setOnClickListener(this::addButtonClicked);
 
-        addPayphoneButton.setOnClickListener(v -> addButtonClicked(2));
+        addPayphoneButton.setOnClickListener(this::addButtonClicked);
 
     }
 
-    private void addButtonClicked(int i) {
-        tempSocialFrag = gatherSocialData(i);
+    private void addButtonClicked(View view) {
+        int buttonPressed;
+        if (view == addObstaclesButton) {
+            buttonPressed = 1;
+        } else {
+            buttonPressed = 2;
+        }
+        tempSocialFrag = gatherSocialData();
         Bundle tempSocialDataBundle = new Bundle();
-        tempSocialDataBundle.putStringArrayList(TEMP_FRAG_DATA, tempSocialFrag);
-        if (sillTypeRadio.getCheckedRadioButtonIndex() > 0)
-            getChildFragmentManager().setFragmentResult(TEMP_SOCIAL_FRAG, tempSocialDataBundle);
-        else
-            getParentFragmentManager().setFragmentResult(TEMP_SOCIAL_FRAG, tempSocialDataBundle);
+        tempSocialDataBundle.putStringArrayList(ExternalAccessFragment.CHILD_FRAG_DATA, tempSocialFrag);
+        tempSocialDataBundle.putInt(ExternalAccessFragment.CHILD_BUTTON_PRESS, buttonPressed);
+        if (sillTypeRadio.getCheckedRadioButtonIndex() > 0) {
+            tempSocialDataBundle.putBoolean(InspectionActivity.ADD_ITEM_REQUEST, true);
+            getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, tempSocialDataBundle);
+        } else
+            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, tempSocialDataBundle);
     }
 
     private void instantiateSocialViews(View v) {
@@ -335,8 +338,11 @@ public class ExtAccessSocialFragment extends Fragment {
             }
         }
 
-        if (access.getGateSillType() != null)
+        if (access.getGateSillType() != null) {
             sillTypeRadio.checkAt(access.getGateSillType());
+            if (access.getGateSillType() > 0)
+                getChildFragmentManager().setFragmentResult(InspectionActivity.LOAD_CHILD_DATA, extAccSocialBundle);
+        }
         if (access.getGateSillObs() != null)
             sillObsValue.setText(access.getGateSillObs());
         if (access.getGateHasObstacles() != null)
@@ -349,6 +355,8 @@ public class ExtAccessSocialFragment extends Fragment {
                 if (access.getIntercomHeight() != null)
                     intercomHeightValue.setText(String.valueOf(access.getIntercomHeight()));
         }
+
+
     }
 
     private void removeSillFragments() {
@@ -365,7 +373,7 @@ public class ExtAccessSocialFragment extends Fragment {
         return false;
     }
 
-    private ArrayList<String> gatherSocialData(int i) {
+    private ArrayList<String> gatherSocialData() {
         ArrayList<String> tempSocialData = new ArrayList<>(Arrays.
                 asList(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
                         null, null, null, null, null, null, null, null));
@@ -384,31 +392,30 @@ public class ExtAccessSocialFragment extends Fragment {
                 tempSocialData.set(5, String.valueOf(trackHeightValue.getText()));
             if (getCheckedRadioIndex(hasTrackRampRadio) != -1)
                 tempSocialData.set(6, String.valueOf(getCheckedRadioIndex(hasTrackRampRadio)));
-            tempSocialData.set(20, String.valueOf(rampTrackCounter));
+            tempSocialData.set(7, String.valueOf(rampTrackCounter));
             if (!TextUtils.isEmpty(trackRampValue1.getText()))
-                tempSocialData.set(21, String.valueOf(trackRampValue1.getText()));
+                tempSocialData.set(8, String.valueOf(trackRampValue1.getText()));
             if (!TextUtils.isEmpty(trackRampValue2.getText()))
-                tempSocialData.set(22, String.valueOf(trackRampValue2.getText()));
+                tempSocialData.set(9, String.valueOf(trackRampValue2.getText()));
             if (!TextUtils.isEmpty(trackRampValue3.getText()))
-                tempSocialData.set(23, String.valueOf(trackRampValue3.getText()));
+                tempSocialData.set(10, String.valueOf(trackRampValue3.getText()));
             if (!TextUtils.isEmpty(trackRampValue4.getText()))
-                tempSocialData.set(24, String.valueOf(trackRampValue4.getText()));
+                tempSocialData.set(11, String.valueOf(trackRampValue4.getText()));
         }
         if (sillTypeRadio.getCheckedRadioButtonIndex() != -1)
-            tempSocialData.set(7, String.valueOf(sillTypeRadio.getCheckedRadioButtonIndex()));
+            tempSocialData.set(12, String.valueOf(sillTypeRadio.getCheckedRadioButtonIndex()));
         if (sillObsValue.getText() != null)
-            tempSocialData.set(12, String.valueOf(sillObsValue.getText()));
+            tempSocialData.set(13, String.valueOf(sillObsValue.getText()));
         if (hasObstaclesRadio.getCheckedRadioButtonId() != -1)
-            tempSocialData.set(13, String.valueOf(getCheckedRadioIndex(hasObstaclesRadio)));
+            tempSocialData.set(14, String.valueOf(getCheckedRadioIndex(hasObstaclesRadio)));
         if (hasPayphoneRadio.getCheckedRadioButtonId() != -1)
-            tempSocialData.set(14, String.valueOf(getCheckedRadioIndex(hasPayphoneRadio)));
+            tempSocialData.set(15, String.valueOf(getCheckedRadioIndex(hasPayphoneRadio)));
         if (hasIntercomRadio.getCheckedRadioButtonId() != -1)
-            tempSocialData.set(15, String.valueOf(getCheckedRadioIndex(hasIntercomRadio)));
+            tempSocialData.set(16, String.valueOf(getCheckedRadioIndex(hasIntercomRadio)));
         if (getCheckedRadioIndex(hasIntercomRadio) == 1) {
             if (!TextUtils.isEmpty(intercomHeightValue.getText()))
-                tempSocialData.set(16, String.valueOf(intercomHeightValue.getText()));
+                tempSocialData.set(17, String.valueOf(intercomHeightValue.getText()));
         }
-        tempSocialData.set(19, String.valueOf(i));
         return tempSocialData;
     }
 
@@ -453,27 +460,23 @@ public class ExtAccessSocialFragment extends Fragment {
         if (TextUtils.isEmpty(trackRampValue1.getText()) && rampTrackCounter >= 1) {
             i++;
             trackRampValueError.setVisibility(View.VISIBLE);
-        } else
-            if (trackRampValue1.getText() != null)
-                socialFrag.set(21, String.valueOf(trackRampValue1.getText()));
+        } else if (trackRampValue1.getText() != null)
+            socialFrag.set(21, String.valueOf(trackRampValue1.getText()));
         if (TextUtils.isEmpty(trackRampValue2.getText()) && rampTrackCounter >= 2) {
             i++;
             trackRampValueError.setVisibility(View.VISIBLE);
-        } else
-            if (trackRampValue2.getText() != null)
-                socialFrag.set(22, String.valueOf(trackRampValue2.getText()));
+        } else if (trackRampValue2.getText() != null)
+            socialFrag.set(22, String.valueOf(trackRampValue2.getText()));
         if (TextUtils.isEmpty(trackRampValue3.getText()) && rampTrackCounter >= 3) {
             i++;
             trackRampValueError.setVisibility(View.VISIBLE);
-        } else
-            if (trackRampValue3.getText() != null)
-                socialFrag.set(23, String.valueOf(trackRampValue3.getText()));
+        } else if (trackRampValue3.getText() != null)
+            socialFrag.set(23, String.valueOf(trackRampValue3.getText()));
         if (TextUtils.isEmpty(trackRampValue4.getText()) && rampTrackCounter == 4) {
             i++;
             trackRampValueError.setVisibility(View.VISIBLE);
-        } else
-            if (trackRampValue4.getText() != null)
-                socialFrag.set(24, String.valueOf(trackRampValue4.getText()));
+        } else if (trackRampValue4.getText() != null)
+            socialFrag.set(24, String.valueOf(trackRampValue4.getText()));
         if (sillTypeRadio.getCheckedRadioButtonIndex() == -1) {
             i++;
             sillTypeError.setVisibility(View.VISIBLE);
