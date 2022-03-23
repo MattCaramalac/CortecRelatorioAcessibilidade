@@ -110,10 +110,10 @@
     <string name="label_button_save">GRAVAR</string>
     <string name="label_button_cancel">CANCELAR</string>
 
-    <string name="hint_sidewalk_address">Rua Localização da Calçada</string>
-    <string name="hint_sidewalk_status">Observações Conservação da Calçada</string>
-    <string name="hint_sidewalk_width">Largura da Calçada</string>
-    <string name="label_has_special_floor">Esta calçada possui piso tátil?</string>
+    <string name="hint_sidewalk_address">Rua de Localização da Calçada</string>
+    <string name="hint_sidewalk_status">Observações sobre acessibilidade do piso</string>
+    <string name="hint_sidewalk_width">Largura Total da Calçada (m)</string>
+    <string name="label_has_special_floor">Esta calçada possui composição de piso tátil direcional e de alerta?</string>
     <string name="label_sidewalk_slope">Esta calçada possui rebaixamento?</string>
     <string name="hint_ramp_width">Largura da Rampa</string>
     <string name="hint_ramp_slope">Inclinação da Rampa</string>
@@ -202,11 +202,11 @@
     <string name="label_elderly_sign_obs">Observações da identificação da vaga</string>
     <string name="hint_PDMR_SIA_obs">Observações SIA</string>
     <string name="label_parking_lot_header">Estacionamento</string>
-    <string name="label_sidewalk_header">Calçada</string>
+    <string name="label_sidewalk_header">Cadastro de Calçada</string>
     <string name="hint_conservation_status_special_floor">Observações Conservação do Piso Tátil</string>
     <string name="label_obligatory_slope_sidewalk">É obrigatório ter rebaixamento nesta calçada?</string>
     <string name="label_slope_register">Cadastro de rebaixamentos e suas dimensões</string>
-    <string name="label_status_special_floor">O piso tátil está em bom estado de conservação?</string>
+    <string name="label_special_floor_color">Piso tátil possui cor contrastante em relação ao piso da calçada?</string>
     <string name="label_allow_frontal_approx">Bebedouro permite Aproximação Frontal?</string>
     <string name="hint_highest_spout_height">Altura da bica mais alta (m)</string>
     <string name="hint_lowest_spout_height">Altura da bica mais baixa (m)</string>
@@ -515,4 +515,15 @@
     <string name="header_sec_has_pcr_space">Secretaria possui espaço sinalizado para PCR ao lado dos bancos fixos?</string>
     <string name="header_handle_type">Qual tipo de maçaneta a porta apresenta?</string>
     <string name="header_lock_type_register">Cadastro de Dispositivos de Travamento</string>
+    <string name="header_street_pavement">A via é pavimentada?</string>
+    <string name="hint_free_space_sidewalk_width">Largura da Faixa Livre da Calçada (m)</string>
+    <string name="hint_sidewalk_measurements_obs">Observações sobre medidas da calçada</string>
+    <string name="header_direction_special_floor_size">Dimensões do piso tátil direcional</string>
+    <string name="hint_length">Comprimento (m)</string>
+    <string name="hint_width">Largura (m)</string>
+    <string name="label_alert_special_floor_dimensions">Dimensões do piso tátil de alerta</string>
+    <string name="hint_aerial_obstacles">Descrição dos obstáculos aéreos</string>
+    <string name="header_side_has_aerial_obstacles">A calçada possui obstáculo aéreo?</string>
+    <string name="hint_lid_description">Descrição das tampas e desníveis</string>
+    <string name="header_sidewalk_lid">Calçada possui tampas de inspeção/visita ou outros desníveis maiores que 15mm em relação à superfície adjacente?</string>
 </resources>

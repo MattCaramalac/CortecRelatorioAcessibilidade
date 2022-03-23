@@ -91,7 +91,7 @@ import java.util.concurrent.Executors;
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class, RampStairsHandrailEntry.class,
-        RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class, PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 35)
+        RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class, PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 38)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -868,7 +868,40 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_35_36 = new Migration(35, 36) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE SidewalkEntry_2(sidewalkID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, sidewalkLocation TEXT," +
+                    "streetPavement INTEGER, sidewalkWidth REAL, sideFreeSpaceWidth REAL, sideMeasureObs TEXT, slopeMeasureQnt INTEGER, sideTransSlope1 REAL, " +
+                    "sideTransSlope2 REAL, sideTransSlope3 REAL, sideTransSlope4 REAL, sideTransSlope5 REAL, sideTransSlope6 REAL, hasSpecialFloor INTEGER, " +
+                    "specialFloorRightColor INTEGER, specialTileDirectionLength REAL, specialTileDirectionWidth REAL, specialTileAlertLength REAL, specialTileAlertWidth REAL, " +
+                    "specialFloorObs TEXT, sideFloorIsAccessible INTEGER, accessFloorObs TEXT, sideHasSlope INTEGER, sidewalkObs TEXT, " +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO SidewalkEntry_2 (sidewalkID, blockID, sidewalkLocation, sidewalkWidth, hasSpecialFloor, specialFloorObs, sideHasSlope, sidewalkObs)" +
+                    "SELECT sidewalkID, blockID, sidewalkLocation, widthSidewalk, sidewalkHasTactileFloor, tactileFloorObs, sidewalkHasSlope, sidewalkObs FROM SidewalkEntry");
+            database.execSQL("DROP TABLE SidewalkEntry");
+            database.execSQL("ALTER TABLE SidewalkEntry_2 RENAME TO SidewalkEntry");
+        }
+    };
 
+    static final Migration MIGRATION_36_37 = new Migration(36, 37) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN hasAerialObstacle INTEGER");
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN aerialObstacleDesc TEXT");
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN sidewalkHasLids INTEGER");
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN sidewalkLidDesc TEXT");
+        }
+    };
+
+    static final Migration MIGRATION_37_38 = new Migration(37, 38) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN sideConStatus INTEGER");
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN sideConsObs TEXT");
+
+        }
+    };
 
 
     public static ReportDatabase getDatabase(final Context context) {
@@ -881,7 +914,8 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_12_13, MIGRATION_13_14, MIGRATION_14_15, MIGRATION_15_16, MIGRATION_16_17, MIGRATION_17_18,
                                     MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23, MIGRATION_23_24,
                                     MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27, MIGRATION_27_28, MIGRATION_28_29, MIGRATION_29_30,
-                                    MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35).build();
+                                    MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35, MIGRATION_35_36,
+                                    MIGRATION_36_37, MIGRATION_37_38).build();
                 }
             }
         }

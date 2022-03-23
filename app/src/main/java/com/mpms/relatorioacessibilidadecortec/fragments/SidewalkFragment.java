@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,8 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
@@ -26,7 +26,6 @@ import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SidewalkSlopeListFragment;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.ArrayList;
@@ -35,17 +34,22 @@ public class SidewalkFragment extends Fragment {
 
     public static final String SIDEWALK_ID = "SIDEWALK_ID";
 
-    TextInputLayout sidewalkLocationField, sidewalkStatusField, sidewalkWidthField, sidewalkTactileFloorStatusField, sidewalkObsField;
-    TextInputEditText sidewalkLocationValue, sidewalkStatusValue, sidewalkWidthValue, sidewalkTactileFloorStatusValue, sidewalkObsValue;
-    RadioGroup sidewalkConsStatusRadio, hasTactileFloor, statusTactileFloor, hasSlope;
-    TextView tactileFloorLabel, slopeRegisterLabel, tactileFloorError, tactileFloorStatusError, sidewalkHasSlopeError;
-    Button saveSidewalk, cancelSidewalk, addSlope;
+    TextInputLayout sideLocationField, sideWidthField, sideFreeSpaceWidthField, sideMeasureObsField, sideTransSlopeField1, sideTransSlopeField2, sideTransSlopeField3,
+            sideTransSlopeField4, sideTransSlopeField5, sideTransSlopeField6, directionTileLengthField, directionTileWidthField, alertTileLengthField, alertTileWidthField,
+            tactileFloorObsField, accessFloorObsField, sidewalkObsField, aerialObsDescField, sidewalkLidDescField, sideConsObsField;
+    TextInputEditText sideLocationValue, sideWidthValue, sideFreeSpaceWidthValue, sideMeasureObsValue, sideTransSlopeValue1, sideTransSlopeValue2, sideTransSlopeValue3,
+            sideTransSlopeValue4, sideTransSlopeValue5, sideTransSlopeValue6, directionTileLengthValue, directionTileWidthValue, alertTileLengthValue, alertTileWidthValue,
+            tactileFloorObsValue, accessFloorObsValue, sidewalkObsValue, aerialObsDescValue, sidewalkLidDescValue, sideConsObsValue;
+    RadioGroup streetPavementRadio, hasTactileFloorRadio, tactileFloorColorRadio, accessibleFloorRadio, sideHasSlopeRadio, hasAerialObsRadio, hasLidRadio, sideConsRadio;
+    TextView streetPavementError, sideSlopeMeasureError, sideHasTactileFloorError, tactileFloorColorHeader, tactileFloorColorError, directionTileMeasureHeader,
+            directionTileMeasureError, alertTileMeasureHeader, alertTileMeasureError, accessFloorError, sideHasSlopeError, aerialError, lidError, sideConsError;
+    MaterialButton saveSidewalk, cancelSidewalk, addSlope, addSideMeasure;
+    ImageButton delSideMeasure;
 
-    String sidewalkLocation, sidewalkStatus, sidewalkTactileFloorStatus, sidewalkObs;
-    Integer sidewalkGoodStatus, hasTactFloor, tactileFloorStatus, sidewalkHasSlope;
-    Double sidewalkWidth;
+    int slopeMeasureQnt = 1;
 
     ArrayList<TextInputEditText> sidewalkObsArray = new ArrayList<>();
+    ArrayList<TextInputLayout> sideMeasureArray = new ArrayList<>();
 
     Bundle sidewalkData = new Bundle();
 
@@ -55,7 +59,6 @@ public class SidewalkFragment extends Fragment {
     int rowCounter = 0;
 
     ViewModelEntry modelEntry;
-    ViewModelDialog modelDialog;
 
     public SidewalkFragment() {
         // Required empty public constructor
@@ -86,15 +89,11 @@ public class SidewalkFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateSidewalkFragmentViews(view);
-        initialLayout();
-        allowSidewalkObsScroll();
 
-        hasTactileFloor.setOnCheckedChangeListener(this::hasSpecialFloorListener);
-        hasSlope.setOnCheckedChangeListener(this::hasSlopeListener);
 
         if (sidewalkData.getInt(SIDEWALK_ID) > 0) {
             modelEntry.getSidewalkEntry(sidewalkData.getInt(SIDEWALK_ID))
-                    .observe(getViewLifecycleOwner(), this::gatherSidewalkData);
+                    .observe(getViewLifecycleOwner(), this::loadSidewalkData);
             savedRegister = 1;
         }
 
@@ -111,6 +110,29 @@ public class SidewalkFragment extends Fragment {
                     if (slopeList != null && slopeList.size() > 0) {
                         rowCounter = slopeList.size();
                     }
+                });
+
+        addSideMeasure.setOnClickListener(v -> {
+            if (slopeMeasureQnt < 1) {
+                slopeMeasureQnt = 1;
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (slopeMeasureQnt < 6) {
+                if (slopeMeasureQnt == 1)
+                    delSideMeasure.setVisibility(View.VISIBLE);
+                sideMeasureArray.get(slopeMeasureQnt).setVisibility(View.VISIBLE);
+                slopeMeasureQnt++;
+            } else
+                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+        });
+
+        delSideMeasure.setOnClickListener(v -> {
+            if (slopeMeasureQnt > 1) {
+                sideMeasureArray.get(slopeMeasureQnt - 1).getEditText().setText(null);
+                sideMeasureArray.get(slopeMeasureQnt - 1).setVisibility(View.GONE);
+                slopeMeasureQnt--;
+                if (slopeMeasureQnt == 1)
+                    delSideMeasure.setVisibility(View.GONE);
+            }
         });
 
         addSlope.setOnClickListener(v -> {
@@ -147,16 +169,15 @@ public class SidewalkFragment extends Fragment {
             }
         });
 
-        cancelSidewalk.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
+        cancelSidewalk.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.SIDEWALK_LIST,0));
 
 
         saveSidewalk.setOnClickListener(v -> {
             if (checkEmptySidewalkFields()) {
                 if (sidewalkData.getInt(SIDEWALK_ID) == 0) {
-                    if (getCheckedSidewalkRadioButton(hasSlope) == 1 && rowCounter == 0) {
+                    if (getCheckedSidewalkRadioButton(sideHasSlopeRadio) == 1 && rowCounter == 0) {
                         Toast.makeText(getContext(), "Por favor, adicione rebaixamentos para esta calçada", Toast.LENGTH_LONG).show();
-                    } else if (getCheckedSidewalkRadioButton(hasSlope) == 0 && rowCounter > 0) {
+                    } else if (getCheckedSidewalkRadioButton(sideHasSlopeRadio) == 0 && rowCounter > 0) {
 //                        TODO - Deletar os slopes na hora de salvar. Chamar dialog - toast temporário.
                         Toast.makeText(getContext(), "A calçada possui rebaixamentos. Marque a opção correta ou delete os rebaixamentos", Toast.LENGTH_LONG).show();
                     } else {
@@ -181,9 +202,9 @@ public class SidewalkFragment extends Fragment {
                         }
                     }
                 } else if (sidewalkData.getInt(SIDEWALK_ID) > 0) {
-                    if (getCheckedSidewalkRadioButton(hasSlope) == 1 && rowCounter == 0) {
+                    if (getCheckedSidewalkRadioButton(sideHasSlopeRadio) == 1 && rowCounter == 0) {
                         Toast.makeText(getContext(), "Por favor, adicione rebaixamentos para esta calçada", Toast.LENGTH_LONG).show();
-                    } else if (getCheckedSidewalkRadioButton(hasSlope) == 0 && rowCounter > 0) {
+                    } else if (getCheckedSidewalkRadioButton(sideHasSlopeRadio) == 0 && rowCounter > 0) {
 //                        TODO - Deletar os slopes na hora de salvar. Chamar dialog - toast temporário.
                         Toast.makeText(getContext(), "A calçada possui rebaixamentos. Marque a opção correta ou delete os rebaixamentos", Toast.LENGTH_LONG).show();
                     } else {
@@ -194,7 +215,7 @@ public class SidewalkFragment extends Fragment {
                             Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
                             if (savedRegister == 1)
                                 requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.SIDEWALK_LIST, 0);
-                                else
+                            else
                                 resetInitialLayout();
                         } else {
                             updateRegister = 0;
@@ -227,97 +248,274 @@ public class SidewalkFragment extends Fragment {
     }
 
     private void addObsFieldsToArray() {
-        sidewalkObsArray.add(sidewalkStatusValue);
-        sidewalkObsArray.add(sidewalkTactileFloorStatusValue);
+        sidewalkObsArray.add(sideMeasureObsValue);
+        sidewalkObsArray.add(tactileFloorObsValue);
+        sidewalkObsArray.add(accessFloorObsValue);
         sidewalkObsArray.add(sidewalkObsValue);
+        sidewalkObsArray.add(sidewalkLidDescValue);
+        sidewalkObsArray.add(aerialObsDescValue);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void allowSidewalkObsScroll() {
         addObsFieldsToArray();
-        for (TextInputEditText obsScroll :sidewalkObsArray) {
+        for (TextInputEditText obsScroll : sidewalkObsArray) {
             obsScroll.setOnTouchListener(this::scrollingField);
         }
     }
 
     private void instantiateSidewalkFragmentViews(View view) {
-        sidewalkLocationField = view.findViewById(R.id.sidewalk_location_field);
-        sidewalkStatusField = view.findViewById(R.id.sidewalk_status_field);
-        sidewalkWidthField = view.findViewById(R.id.sidewalk_width_field);
-        sidewalkTactileFloorStatusField = view.findViewById(R.id.sidewalk_special_floor_obs_field);
+//        TextInputLayout
+        sideLocationField = view.findViewById(R.id.sidewalk_location_field);
+        sideWidthField = view.findViewById(R.id.sidewalk_width_field);
+        sideFreeSpaceWidthField = view.findViewById(R.id.sidewalk_free_space_field);
+        sideMeasureObsField = view.findViewById(R.id.sidewalk_measurements_obs_field);
+        sideTransSlopeField1 = view.findViewById(R.id.sidewalk_measure_1_field);
+        sideTransSlopeField2 = view.findViewById(R.id.sidewalk_measure_2_field);
+        sideTransSlopeField3 = view.findViewById(R.id.sidewalk_measure_3_field);
+        sideTransSlopeField4 = view.findViewById(R.id.sidewalk_measure_4_field);
+        sideTransSlopeField5 = view.findViewById(R.id.sidewalk_measure_5_field);
+        sideTransSlopeField6 = view.findViewById(R.id.sidewalk_measure_6_field);
+        directionTileLengthField = view.findViewById(R.id.direction_floor_length_field);
+        directionTileWidthField = view.findViewById(R.id.direction_floor_width_field);
+        alertTileLengthField = view.findViewById(R.id.alert_floor_length_field);
+        alertTileWidthField = view.findViewById(R.id.alert_floor_width_field);
+        tactileFloorObsField = view.findViewById(R.id.sidewalk_special_floor_obs_field);
+        accessFloorObsField = view.findViewById(R.id.accessible_sidewalk_field);
         sidewalkObsField = view.findViewById(R.id.sidewalk_obs_field);
-
-        sidewalkLocationValue = view.findViewById(R.id.sidewalk_location_value);
-        sidewalkStatusValue = view.findViewById(R.id.sidewalk_status_value);
-        sidewalkWidthValue = view.findViewById(R.id.sidewalk_width_value);
-        sidewalkTactileFloorStatusValue = view.findViewById(R.id.sidewalk_special_floor_obs_value);
+        aerialObsDescField = view.findViewById(R.id.aerial_obstacle_desc_field);
+        sidewalkLidDescField = view.findViewById(R.id.sidewalk_lid_desc_field);
+        sideConsObsField = view.findViewById(R.id.side_conservation_obs_field);
+//        TextInputEditText
+        sideLocationValue = view.findViewById(R.id.sidewalk_location_value);
+        sideWidthValue = view.findViewById(R.id.sidewalk_width_value);
+        sideFreeSpaceWidthValue = view.findViewById(R.id.sidewalk_free_space_value);
+        sideMeasureObsValue = view.findViewById(R.id.sidewalk_measurements_obs_value);
+        sideTransSlopeValue1 = view.findViewById(R.id.sidewalk_measure_1_value);
+        sideTransSlopeValue2 = view.findViewById(R.id.sidewalk_measure_2_value);
+        sideTransSlopeValue3 = view.findViewById(R.id.sidewalk_measure_3_value);
+        sideTransSlopeValue4 = view.findViewById(R.id.sidewalk_measure_4_value);
+        sideTransSlopeValue5 = view.findViewById(R.id.sidewalk_measure_5_value);
+        sideTransSlopeValue6 = view.findViewById(R.id.sidewalk_measure_6_value);
+        directionTileLengthValue = view.findViewById(R.id.direction_floor_length_value);
+        directionTileWidthValue = view.findViewById(R.id.direction_floor_width_value);
+        alertTileLengthValue = view.findViewById(R.id.alert_floor_length_value);
+        alertTileWidthValue = view.findViewById(R.id.alert_floor_width_value);
+        tactileFloorObsValue = view.findViewById(R.id.sidewalk_special_floor_obs_value);
+        accessFloorObsValue = view.findViewById(R.id.accessible_sidewalk_value);
         sidewalkObsValue = view.findViewById(R.id.sidewalk_obs_value);
-
-        sidewalkConsStatusRadio = view.findViewById(R.id.radio_sidewalk_conservation);
-        hasTactileFloor = view.findViewById(R.id.radio_sidewalk_special_floor);
-        statusTactileFloor = view.findViewById(R.id.radio_status_special_floor);
-        hasSlope = view.findViewById(R.id.radio_sidewalk_slope);
-
-        slopeRegisterLabel = view.findViewById(R.id.label_sidewalk_slope_register);
-        tactileFloorLabel = view.findViewById(R.id.label_status_special_floor);
-        tactileFloorError = view.findViewById(R.id.has_tactile_floor_error);
-        tactileFloorStatusError = view.findViewById(R.id.tactile_floor_status_error);
-        sidewalkHasSlopeError = view.findViewById(R.id.sidewalk_has_slope_error);
-
+        aerialObsDescValue = view.findViewById(R.id.aerial_obstacle_desc_value);
+        sidewalkLidDescValue = view.findViewById(R.id.sidewalk_lid_desc_value);
+        sideConsObsValue = view.findViewById(R.id.side_conservation_obs_value);
+//        RadioGroup
+        streetPavementRadio = view.findViewById(R.id.street_pavement_radio);
+        hasTactileFloorRadio = view.findViewById(R.id.radio_sidewalk_special_floor);
+        tactileFloorColorRadio = view.findViewById(R.id.special_floor_color_radio);
+        accessibleFloorRadio = view.findViewById(R.id.accessible_sidewalk_radio);
+        sideHasSlopeRadio = view.findViewById(R.id.radio_sidewalk_slope);
+        hasAerialObsRadio = view.findViewById(R.id.aerial_obstacle_radio);
+        hasLidRadio = view.findViewById(R.id.sidewalk_lid_radio);
+        sideConsRadio = view.findViewById(R.id.side_conservation_radio);
+//        TextView
+        streetPavementError = view.findViewById(R.id.street_pavement_error);
+        sideSlopeMeasureError = view.findViewById(R.id.sidewalk_measure_error);
+        sideHasTactileFloorError = view.findViewById(R.id.has_tactile_floor_error);
+        tactileFloorColorHeader = view.findViewById(R.id.label_special_floor_color);
+        tactileFloorColorError = view.findViewById(R.id.special_floor_color_error);
+        directionTileMeasureHeader = view.findViewById(R.id.label_direction_special_floor_size);
+        directionTileMeasureError = view.findViewById(R.id.direction_floor_measurements_error);
+        alertTileMeasureHeader = view.findViewById(R.id.label_alert_special_floor_size);
+        alertTileMeasureError = view.findViewById(R.id.alert_floor_measurements_error);
+        accessFloorError = view.findViewById(R.id.accessible_sidewalk_error);
+        sideHasSlopeError = view.findViewById(R.id.sidewalk_has_slope_error);
+        aerialError = view.findViewById(R.id.aerial_obstacle_error);
+        lidError = view.findViewById(R.id.sidewalk_lid_error);
+        sideConsError = view.findViewById(R.id.side_conservation_error);
+//        MaterialButton
         saveSidewalk = view.findViewById(R.id.save_sidewalk);
         cancelSidewalk = view.findViewById(R.id.cancel_sidewalk);
         addSlope = view.findViewById(R.id.add_sidewalk_slope);
-
+        addSideMeasure = view.findViewById(R.id.add_sidewalk_measure_button);
+//        ImageButton
+        delSideMeasure = view.findViewById(R.id.delete_sidewalk_measure);
+//        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
-        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
+//        Listeners
+        hasTactileFloorRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
+        tactileFloorColorRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
+        accessibleFloorRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
+        sideHasSlopeRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
+        hasLidRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
+        hasAerialObsRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
+
+//        Methods
+        allowSidewalkObsScroll();
+        sideMeasureArray.add(sideTransSlopeField1);
+        sideMeasureArray.add(sideTransSlopeField2);
+        sideMeasureArray.add(sideTransSlopeField3);
+        sideMeasureArray.add(sideTransSlopeField4);
+        sideMeasureArray.add(sideTransSlopeField5);
+        sideMeasureArray.add(sideTransSlopeField6);
     }
 
-    private void gatherSidewalkData(SidewalkEntry sidewalk) {
-        sidewalkLocationValue.setText(sidewalk.getSidewalkLocation());
-        sidewalkConsStatusRadio.check(sidewalkConsStatusRadio.getChildAt(sidewalk.getSidewalkConservationStatus()).getId());
-        sidewalkStatusValue.setText(sidewalk.getSidewalkConservationObs());
-        sidewalkWidthValue.setText(String.valueOf(sidewalk.getWidthSidewalk()));
-        hasTactileFloor.check(hasTactileFloor.getChildAt(sidewalk.getSidewalkHasTactileFloor()).getId());
-        if (sidewalk.getSidewalkHasTactileFloor() == 1) {
-            statusTactileFloor.check(statusTactileFloor.getChildAt(sidewalk.getTactileFloorConservationStatus()).getId());
-            sidewalkTactileFloorStatusValue.setText(sidewalk.getTactileFloorObs());
+    private void loadSidewalkData(SidewalkEntry sidewalk) {
+        if (sidewalk.getSidewalkLocation() != null)
+            sideLocationValue.setText(sidewalk.getSidewalkLocation());
+        if (sidewalk.getStreetPavement() != null && sidewalk.getStreetPavement() > -1)
+            streetPavementRadio.check(streetPavementRadio.getChildAt(sidewalk.getStreetPavement()).getId());
+        if (sidewalk.getSidewalkWidth() != null)
+            sideWidthValue.setText(String.valueOf(sidewalk.getSidewalkWidth()));
+        if (sidewalk.getSideFreeSpaceWidth() != null)
+            sideFreeSpaceWidthValue.setText(String.valueOf(sidewalk.getSideFreeSpaceWidth()));
+        if (sidewalk.getSideMeasureObs() != null)
+            sideMeasureObsValue.setText(sidewalk.getSideMeasureObs());
+        if (sidewalk.getSlopeMeasureQnt() != null)
+            slopeMeasureQnt = sidewalk.getSlopeMeasureQnt();
+
+        switch (slopeMeasureQnt) {
+            case 6:
+                if (sidewalk.getSideTransSlope6() != null) {
+                    sideTransSlopeField6.setVisibility(View.VISIBLE);
+                    sideTransSlopeValue6.setText(String.valueOf(sidewalk.getSideTransSlope6()));
+                }
+            case 5:
+                if (sidewalk.getSideTransSlope5() != null) {
+                    sideTransSlopeField5.setVisibility(View.VISIBLE);
+                    sideTransSlopeValue5.setText(String.valueOf(sidewalk.getSideTransSlope5()));
+                }
+            case 4:
+                if (sidewalk.getSideTransSlope4() != null) {
+                    sideTransSlopeField4.setVisibility(View.VISIBLE);
+                    sideTransSlopeValue4.setText(String.valueOf(sidewalk.getSideTransSlope4()));
+                }
+            case 3:
+                if (sidewalk.getSideTransSlope3() != null) {
+                    sideTransSlopeField3.setVisibility(View.VISIBLE);
+                    sideTransSlopeValue3.setText(String.valueOf(sidewalk.getSideTransSlope3()));
+                }
+            case 2:
+                if (sidewalk.getSideTransSlope2() != null) {
+                    sideTransSlopeField2.setVisibility(View.VISIBLE);
+                    sideTransSlopeValue2.setText(String.valueOf(sidewalk.getSideTransSlope2()));
+                }
+            case 1:
+                if (sidewalk.getSideTransSlope1() != null) {
+                    sideTransSlopeField1.setVisibility(View.VISIBLE);
+                    sideTransSlopeValue1.setText(String.valueOf(sidewalk.getSideTransSlope1()));
+                }
+                break;
+            default:
+                slopeMeasureQnt = 1;
+                break;
         }
-        hasSlope.check(hasSlope.getChildAt(sidewalk.getSidewalkHasSlope()).getId());
-        sidewalkObsValue.setText(sidewalk.getSidewalkObs());
-    }
 
-    private void initialLayout() {
-        tactileFloorLabel.setVisibility(View.GONE);
-        statusTactileFloor.setVisibility(View.GONE);
-        sidewalkTactileFloorStatusField.setVisibility(View.GONE);
-        slopeRegisterLabel.setVisibility(View.GONE);
-        addSlope.setVisibility(View.GONE);
-    }
+        if (sidewalk.getSideConStatus() != null && sidewalk.getSideConStatus() > -1)
+            sideConsRadio.check(sideConsRadio.getChildAt(sidewalk.getSideConStatus()).getId());
+        if (sidewalk.getSideConsObs() != null)
+            sideConsObsValue.setText(sidewalk.getSideConsObs());
 
-    private void hasSpecialFloorListener(RadioGroup radioGroup, int checkedID) {
-        int index = radioGroup.indexOfChild(radioGroup.findViewById(checkedID));
-
-        if (index == 1) {
-            tactileFloorLabel.setVisibility(View.VISIBLE);
-            statusTactileFloor.setVisibility(View.VISIBLE);
-            sidewalkTactileFloorStatusField.setVisibility(View.VISIBLE);
-        } else {
-            statusTactileFloor.clearCheck();
-            sidewalkTactileFloorStatusValue.setText(null);
-            tactileFloorLabel.setVisibility(View.GONE);
-            statusTactileFloor.setVisibility(View.GONE);
-            sidewalkTactileFloorStatusField.setVisibility(View.GONE);
+        if (sidewalk.getHasSpecialFloor() != null && sidewalk.getHasSpecialFloor() > -1) {
+            hasTactileFloorRadio.check(hasTactileFloorRadio.getChildAt(sidewalk.getHasSpecialFloor()).getId());
+            if (sidewalk.getHasSpecialFloor() == 1) {
+                if (sidewalk.getSpecialFloorRightColor() != null && sidewalk.getSpecialFloorRightColor() > -1)
+                    tactileFloorColorRadio.check(tactileFloorColorRadio.getChildAt(sidewalk.getSpecialFloorRightColor()).getId());
+                if (sidewalk.getSpecialTileDirectionLength() != null)
+                    directionTileLengthValue.setText(String.valueOf(sidewalk.getSpecialTileDirectionLength()));
+                if (sidewalk.getSpecialTileDirectionWidth() != null)
+                    directionTileWidthValue.setText(String.valueOf(sidewalk.getSpecialTileDirectionWidth()));
+                if (sidewalk.getSpecialTileAlertLength() != null)
+                    alertTileLengthValue.setText(String.valueOf(sidewalk.getSpecialTileAlertLength()));
+                if (sidewalk.getSpecialTileAlertWidth() != null)
+                    alertTileWidthValue.setText(String.valueOf(sidewalk.getSpecialTileAlertWidth()));
+            }
         }
+
+        if (sidewalk.getSpecialFloorObs() != null)
+            tactileFloorObsValue.setText(sidewalk.getSpecialFloorObs());
+
+        if (sidewalk.getSideFloorIsAccessible() != null && sidewalk.getSideFloorIsAccessible() > -1) {
+            accessibleFloorRadio.check(accessibleFloorRadio.getChildAt(sidewalk.getSideFloorIsAccessible()).getId());
+            if (sidewalk.getSideFloorIsAccessible() == 0) {
+                if (sidewalk.getAccessFloorObs() != null)
+                    accessFloorObsValue.setText(sidewalk.getAccessFloorObs());
+            }
+        }
+
+        if(sidewalk.getSidewalkHasLids() != null && sidewalk.getSidewalkHasLids() > -1) {
+            hasLidRadio.check(hasLidRadio.getChildAt(sidewalk.getSidewalkHasLids()).getId());
+            if (sidewalk.getSidewalkHasLids() == 1) {
+                if (sidewalk.getSidewalkLidDesc() != null)
+                    sidewalkLidDescValue.setText(sidewalk.getSidewalkLidDesc());
+            }
+        }
+
+        if(sidewalk.getHasAerialObstacle() != null && sidewalk.getHasAerialObstacle() > -1) {
+            hasAerialObsRadio.check(hasAerialObsRadio.getChildAt(sidewalk.getHasAerialObstacle()).getId());
+            if (sidewalk.getHasAerialObstacle() == 1) {
+                if (sidewalk.getAerialObstacleDesc() != null)
+                    aerialObsDescValue.setText(sidewalk.getAerialObstacleDesc());
+            }
+        }
+
+        if (sidewalk.getSideHasSlope() != null && sidewalk.getSideHasSlope() > -1)
+            sideHasSlopeRadio.check(sideHasSlopeRadio.getChildAt(sidewalk.getSideHasSlope()).getId());
+        if (sidewalk.getSidewalkObs() != null)
+            sidewalkObsValue.setText(sidewalk.getSidewalkObs());
+
     }
 
-    private void hasSlopeListener(RadioGroup radioGroup, int checkedID) {
-        int index = radioGroup.indexOfChild(radioGroup.findViewById(checkedID));
-        if (index == 1) {
-            slopeRegisterLabel.setVisibility(View.VISIBLE);
-            addSlope.setVisibility(View.VISIBLE);
-        } else {
-            slopeRegisterLabel.setVisibility(View.GONE);
-            addSlope.setVisibility(View.GONE);
+    private void sidewalkRadioListener(RadioGroup radio, int checkedID) {
+        int index = radio.indexOfChild(radio.findViewById(checkedID));
+        if (radio == hasTactileFloorRadio) {
+            if (index == 1) {
+                tactileFloorColorHeader.setVisibility(View.VISIBLE);
+                tactileFloorColorRadio.setVisibility(View.VISIBLE);
+                directionTileMeasureHeader.setVisibility(View.VISIBLE);
+                directionTileLengthField.setVisibility(View.VISIBLE);
+                directionTileWidthField.setVisibility(View.VISIBLE);
+                alertTileMeasureHeader.setVisibility(View.VISIBLE);
+                alertTileLengthField.setVisibility(View.VISIBLE);
+                alertTileWidthField.setVisibility(View.VISIBLE);
+            } else {
+                tactileFloorColorHeader.setVisibility(View.GONE);
+                tactileFloorColorRadio.setVisibility(View.GONE);
+                directionTileMeasureHeader.setVisibility(View.GONE);
+                directionTileLengthValue.setText(null);
+                directionTileLengthField.setVisibility(View.GONE);
+                directionTileWidthValue.setText(null);
+                directionTileWidthField.setVisibility(View.GONE);
+                alertTileMeasureHeader.setVisibility(View.GONE);
+                alertTileLengthValue.setText(null);
+                alertTileLengthField.setVisibility(View.GONE);
+                alertTileWidthValue.setText(null);
+                alertTileWidthField.setVisibility(View.GONE);
+            }
+        }  else if (radio == accessibleFloorRadio) {
+            if (index == 0) {
+                accessFloorObsField.setVisibility(View.VISIBLE);
+            } else {
+                accessFloorObsValue.setText(null);
+                accessFloorObsField.setVisibility(View.GONE);
+            }
+        } else if (radio == sideHasSlopeRadio) {
+            if (index == 1)
+                addSlope.setVisibility(View.VISIBLE);
+            else
+                addSlope.setVisibility(View.GONE);
+        } else if (radio == hasAerialObsRadio) {
+            if (index == 1)
+                aerialObsDescField.setVisibility(View.VISIBLE);
+            else {
+                aerialObsDescValue.setText(null);
+                aerialObsDescField.setVisibility(View.GONE);
+            }
+        } else if (radio == hasLidRadio) {
+            if (index == 1)
+                sidewalkLidDescField.setVisibility(View.VISIBLE);
+            else {
+                sidewalkLidDescValue.setText(null);
+                sidewalkLidDescField.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -328,49 +526,155 @@ public class SidewalkFragment extends Fragment {
     private boolean checkEmptySidewalkFields() {
         clearSidewalkEmptyFieldErrors();
         int i = 0;
-        if (TextUtils.isEmpty(sidewalkLocationValue.getText())) {
+
+        if (TextUtils.isEmpty(sideLocationValue.getText())) {
             i++;
-            sidewalkLocationField.setError(getString(R.string.blank_field_error));
+            sideLocationField.setError(getString(R.string.blank_field_error));
         }
-        if (getCheckedSidewalkRadioButton(sidewalkConsStatusRadio) == 0) {
-            if (TextUtils.isEmpty(sidewalkStatusValue.getText())) {
+
+        if (getCheckedSidewalkRadioButton(streetPavementRadio) == -1) {
+            i++;
+            streetPavementError.setVisibility(View.VISIBLE);
+        } else if (getCheckedSidewalkRadioButton(streetPavementRadio) == 0) {
+            if (TextUtils.isEmpty(sideMeasureObsValue.getText())) {
                 i++;
-                sidewalkStatusField.setError(getString(R.string.blank_field_error));
+                sideMeasureObsField.setError(getString(R.string.blank_field_error));
+            }
+        } else {
+            if (TextUtils.isEmpty(sideWidthValue.getText())) {
+                i++;
+                sideWidthField.setError(getString(R.string.blank_field_error));
+            }
+            if (TextUtils.isEmpty(sideFreeSpaceWidthValue.getText())) {
+                i++;
+                sideFreeSpaceWidthField.setError(getString(R.string.blank_field_error));
             }
         }
-        if (TextUtils.isEmpty(sidewalkWidthValue.getText())) {
-            i++;
-            sidewalkWidthField.setError(getString(R.string.blank_field_error));
-        }
-        if (getCheckedSidewalkRadioButton(hasTactileFloor) == -1) {
-            tactileFloorError.setVisibility(View.VISIBLE);
-            i++;
-        } else if (getCheckedSidewalkRadioButton(hasTactileFloor) == 1) {
-            if (getCheckedSidewalkRadioButton(statusTactileFloor) == -1) {
-                tactileFloorStatusError.setVisibility(View.VISIBLE);
-                i++;
-            } else if (getCheckedSidewalkRadioButton(statusTactileFloor) == 0) {
-                if (TextUtils.isEmpty(sidewalkTactileFloorStatusValue.getText())) {
-                    sidewalkTactileFloorStatusField.setError(getString(R.string.blank_field_error));
+
+        switch (slopeMeasureQnt) {
+            case 6:
+                if (TextUtils.isEmpty(sideTransSlopeValue6.getText())) {
                     i++;
+                    sideSlopeMeasureError.setVisibility(View.VISIBLE);
                 }
+            case 5:
+                if (TextUtils.isEmpty(sideTransSlopeValue5.getText())) {
+                    i++;
+                    sideSlopeMeasureError.setVisibility(View.VISIBLE);
+                }
+            case 4:
+                if (TextUtils.isEmpty(sideTransSlopeValue4.getText())) {
+                    i++;
+                    sideSlopeMeasureError.setVisibility(View.VISIBLE);
+                }
+            case 3:
+                if (TextUtils.isEmpty(sideTransSlopeValue3.getText())) {
+                    i++;
+                    sideSlopeMeasureError.setVisibility(View.VISIBLE);
+                }
+            case 2:
+                if (TextUtils.isEmpty(sideTransSlopeValue2.getText())) {
+                    i++;
+                    sideSlopeMeasureError.setVisibility(View.VISIBLE);
+                }
+            case 1:
+                if (TextUtils.isEmpty(sideTransSlopeValue1.getText())) {
+                    i++;
+                    sideSlopeMeasureError.setVisibility(View.VISIBLE);
+                }
+                break;
+            default:
+                break;
+        }
+
+        if (getCheckedSidewalkRadioButton(sideConsRadio) == -1) {
+            i++;
+            sideConsError.setVisibility(View.VISIBLE);
+        }
+
+        if (getCheckedSidewalkRadioButton(hasTactileFloorRadio) == -1) {
+            i++;
+            sideHasTactileFloorError.setVisibility(View.VISIBLE);
+        } else if (getCheckedSidewalkRadioButton(hasTactileFloorRadio) == 1) {
+            if (getCheckedSidewalkRadioButton(tactileFloorColorRadio) == -1) {
+                i++;
+                tactileFloorColorError.setVisibility(View.VISIBLE);
+            }
+            if (TextUtils.isEmpty(directionTileLengthValue.getText())) {
+                i++;
+                directionTileLengthField.setError(getString(R.string.blank_field_error));
+            }
+            if (TextUtils.isEmpty(directionTileWidthValue.getText())) {
+                i++;
+                directionTileWidthField.setError(getString(R.string.blank_field_error));
+            }
+            if (TextUtils.isEmpty(alertTileLengthValue.getText())) {
+                i++;
+                alertTileLengthField.setError(getString(R.string.blank_field_error));
+            }
+            if (TextUtils.isEmpty(alertTileWidthValue.getText())) {
+                i++;
+                alertTileWidthField.setError(getString(R.string.blank_field_error));
             }
         }
-        if (getCheckedSidewalkRadioButton(hasSlope) == -1) {
-            sidewalkHasSlopeError.setVisibility(View.VISIBLE);
+
+        if (getCheckedSidewalkRadioButton(accessibleFloorRadio) == -1) {
             i++;
+            accessFloorError.setVisibility(View.VISIBLE);
+        } else if (getCheckedSidewalkRadioButton(accessibleFloorRadio) == 0) {
+            if (TextUtils.isEmpty(accessFloorObsValue.getText())) {
+                i++;
+                accessFloorObsField.setError(getString(R.string.blank_field_error));
+            }
         }
+
+        if (getCheckedSidewalkRadioButton(hasAerialObsRadio) == -1) {
+            i++;
+            aerialError.setVisibility(View.VISIBLE);
+        } else if (getCheckedSidewalkRadioButton(hasAerialObsRadio) == 1) {
+            if (TextUtils.isEmpty(aerialObsDescValue.getText())) {
+                i++;
+                aerialObsDescField.setError(getString(R.string.blank_field_error));
+            }
+        }
+
+        if (getCheckedSidewalkRadioButton(hasLidRadio) == -1) {
+            i++;
+            lidError.setVisibility(View.VISIBLE);
+        } else if (getCheckedSidewalkRadioButton(hasLidRadio) == 1) {
+            if (TextUtils.isEmpty(sidewalkLidDescValue.getText())) {
+                i++;
+                sidewalkLidDescField.setError(getString(R.string.blank_field_error));
+            }
+        }
+
+        if (getCheckedSidewalkRadioButton(sideHasSlopeRadio) == -1) {
+            i++;
+            sideHasSlopeError.setVisibility(View.VISIBLE);
+        }
+
         return i == 0;
     }
 
     private void clearSidewalkEmptyFieldErrors() {
-        sidewalkLocationField.setErrorEnabled(false);
-        sidewalkStatusField.setErrorEnabled(false);
-        sidewalkWidthField.setErrorEnabled(false);
-        tactileFloorError.setVisibility(View.GONE);
-        tactileFloorStatusError.setVisibility(View.GONE);
-        sidewalkTactileFloorStatusField.setErrorEnabled(false);
-        sidewalkHasSlopeError.setVisibility(View.GONE);
+        sideLocationField.setErrorEnabled(false);
+        sideWidthField.setErrorEnabled(false);
+        sideFreeSpaceWidthField.setErrorEnabled(false);
+        sideMeasureObsField.setErrorEnabled(false);
+        accessFloorObsField.setErrorEnabled(false);
+        sidewalkLidDescField.setErrorEnabled(false);
+        aerialObsDescField.setErrorEnabled(false);
+        streetPavementError.setVisibility(View.GONE);
+        sideSlopeMeasureError.setVisibility(View.GONE);
+        sideHasTactileFloorError.setVisibility(View.GONE);
+        tactileFloorColorError.setVisibility(View.GONE);
+        directionTileMeasureError.setVisibility(View.GONE);
+        alertTileMeasureError.setVisibility(View.GONE);
+        accessFloorError.setVisibility(View.GONE);
+        sideHasSlopeError.setVisibility(View.GONE);
+        lidError.setVisibility(View.GONE);
+        aerialError.setVisibility(View.GONE);
+        sideConsError.setVisibility(View.GONE);
     }
 
     private void openSidewalkSlopeFragment() {
@@ -383,40 +687,151 @@ public class SidewalkFragment extends Fragment {
     }
 
     private SidewalkEntry newSidewalk(Bundle bundle) {
-        sidewalkLocation = String.valueOf(sidewalkLocationValue.getText());
-        sidewalkGoodStatus = getCheckedSidewalkRadioButton(sidewalkConsStatusRadio);
-        sidewalkStatus = String.valueOf(sidewalkStatusValue.getText());
-        if (!TextUtils.isEmpty(sidewalkWidthValue.getText()))
-            sidewalkWidth = Double.valueOf(String.valueOf(sidewalkWidthValue.getText()));
-        hasTactFloor = getCheckedSidewalkRadioButton(hasTactileFloor);
-        if (hasTactFloor == 1) {
-            tactileFloorStatus = getCheckedSidewalkRadioButton(statusTactileFloor);
-            sidewalkTactileFloorStatus = String.valueOf(sidewalkTactileFloorStatusValue.getText());
-        }
-        sidewalkHasSlope = getCheckedSidewalkRadioButton(hasSlope);
-        sidewalkObs = String.valueOf(sidewalkObsValue.getText());
+        String sideLocale = null, sideMeasureObs = null, tactFloorObs = null, accessFloorObs = null, sidewalkObs = null, aerialObsDesc = null, sidewalkLidsDesc = null, sideConsStatus = null;
+        Integer streetPavement = null, hasTactFloor = null, tactFloorColor = null, accessFloor = null, hasSlope = null, hasAerialObstacle = null, hasLids = null, consStatus = null;
+        Double sideWidth = null, sideFSpaceWidth = null, sideSlope1 = null, sideSlope2 = null, sideSlope3 = null, sideSlope4 = null, sideSlope5 = null,
+                sideSlope6 = null, tacTileDirLength = null, tacTileDirWidth = null, tacTileAlertLength = null, tacTileAlertWidth = null;
 
-        return new SidewalkEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER),sidewalkLocation,sidewalkGoodStatus,sidewalkStatus,sidewalkWidth,
-                hasTactFloor,tactileFloorStatus,sidewalkTactileFloorStatus,sidewalkHasSlope, sidewalkObs);
+        if (!TextUtils.isEmpty(sideLocationValue.getText()))
+            sideLocale = String.valueOf(sideLocationValue.getText());
+        if (getCheckedSidewalkRadioButton(streetPavementRadio) != -1)
+            streetPavement = getCheckedSidewalkRadioButton(streetPavementRadio);
+        if (!TextUtils.isEmpty(sideWidthValue.getText()))
+            sideWidth = Double.parseDouble(String.valueOf(sideWidthValue.getText()));
+        if (!TextUtils.isEmpty(sideFreeSpaceWidthValue.getText()))
+            sideFSpaceWidth = Double.parseDouble(String.valueOf(sideFreeSpaceWidthValue.getText()));
+        if (!TextUtils.isEmpty(sideMeasureObsValue.getText()))
+            sideMeasureObs = String.valueOf(sideMeasureObsValue.getText());
+        switch (slopeMeasureQnt) {
+            case 6:
+                if (!TextUtils.isEmpty(sideTransSlopeValue6.getText()))
+                    sideSlope6 = Double.parseDouble(String.valueOf(sideTransSlopeValue6.getText()));
+            case 5:
+                if (!TextUtils.isEmpty(sideTransSlopeValue5.getText()))
+                    sideSlope5 = Double.parseDouble(String.valueOf(sideTransSlopeValue5.getText()));
+            case 4:
+                if (!TextUtils.isEmpty(sideTransSlopeValue4.getText()))
+                    sideSlope4 = Double.parseDouble(String.valueOf(sideTransSlopeValue4.getText()));
+            case 3:
+                if (!TextUtils.isEmpty(sideTransSlopeValue3.getText()))
+                    sideSlope3 = Double.parseDouble(String.valueOf(sideTransSlopeValue3.getText()));
+            case 2:
+                if (!TextUtils.isEmpty(sideTransSlopeValue2.getText()))
+                    sideSlope2 = Double.parseDouble(String.valueOf(sideTransSlopeValue2.getText()));
+            case 1:
+                if (!TextUtils.isEmpty(sideTransSlopeValue1.getText()))
+                    sideSlope1 = Double.parseDouble(String.valueOf(sideTransSlopeValue1.getText()));
+                break;
+            default:
+                break;
+        }
+
+        if (getCheckedSidewalkRadioButton(hasTactileFloorRadio) != -1)
+            consStatus = getCheckedSidewalkRadioButton(hasTactileFloorRadio);
+        if(!TextUtils.isEmpty(sideConsObsValue.getText()))
+            sideConsStatus = String.valueOf(sideConsObsValue.getText());
+
+        if (getCheckedSidewalkRadioButton(hasTactileFloorRadio) != -1) {
+            hasTactFloor = getCheckedSidewalkRadioButton(hasTactileFloorRadio);
+            if (hasTactFloor == 1) {
+                if (getCheckedSidewalkRadioButton(tactileFloorColorRadio) != -1)
+                    tactFloorColor = getCheckedSidewalkRadioButton(tactileFloorColorRadio);
+                if (!TextUtils.isEmpty(directionTileLengthValue.getText()))
+                    tacTileDirLength = Double.parseDouble(String.valueOf(directionTileLengthValue.getText()));
+                if (!TextUtils.isEmpty(directionTileWidthValue.getText()))
+                    tacTileDirWidth = Double.parseDouble(String.valueOf(directionTileWidthValue.getText()));
+                if (!TextUtils.isEmpty(alertTileLengthValue.getText()))
+                    tacTileAlertLength = Double.parseDouble(String.valueOf(alertTileLengthValue.getText()));
+                if (!TextUtils.isEmpty(alertTileWidthValue.getText()))
+                    tacTileAlertWidth = Double.parseDouble(String.valueOf(alertTileWidthValue.getText()));
+            }
+        }
+
+        if (!TextUtils.isEmpty(tactileFloorObsValue.getText()))
+            tactFloorObs = String.valueOf(tactileFloorObsValue.getText());
+
+
+        if (getCheckedSidewalkRadioButton(accessibleFloorRadio) != -1) {
+            accessFloor = getCheckedSidewalkRadioButton(accessibleFloorRadio);
+            if (accessFloor == 0) {
+                if (!TextUtils.isEmpty(accessFloorObsValue.getText()))
+                    accessFloorObs = String.valueOf(accessFloorObsValue.getText());
+            }
+        }
+
+        if (getCheckedSidewalkRadioButton(hasLidRadio) != -1) {
+            hasLids = getCheckedSidewalkRadioButton(hasLidRadio);
+            if (hasLids == 1) {
+                if (!TextUtils.isEmpty(sidewalkLidDescValue.getText()))
+                    sidewalkLidsDesc = String.valueOf(sidewalkLidDescValue.getText());
+            }
+        }
+
+        if (getCheckedSidewalkRadioButton(hasAerialObsRadio) != -1) {
+            hasAerialObstacle = getCheckedSidewalkRadioButton(hasAerialObsRadio);
+            if (hasAerialObstacle == 1) {
+                if (!TextUtils.isEmpty(aerialObsDescValue.getText()))
+                    aerialObsDesc = String.valueOf(aerialObsDescValue.getText());
+            }
+        }
+
+        if (getCheckedSidewalkRadioButton(sideHasSlopeRadio) != -1)
+            hasSlope = getCheckedSidewalkRadioButton(sideHasSlopeRadio);
+
+        if (!TextUtils.isEmpty(sidewalkObsValue.getText()))
+            sidewalkObs = String.valueOf(sidewalkObsValue.getText());
+
+        return new SidewalkEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
+                sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirLength, tacTileDirWidth, tacTileAlertLength,
+                tacTileAlertWidth, tactFloorObs, accessFloor, accessFloorObs, hasSlope, sidewalkObs, hasAerialObstacle, aerialObsDesc, hasLids, sidewalkLidsDesc, consStatus, sideConsStatus);
+
     }
 
     private void resetInitialLayout() {
-        updateRegister = 0;
-        recentRegister = 0;
-        rowCounter = 0;
-        sidewalkData.remove(SIDEWALK_ID);
-        sidewalkLocationValue.setText(null);
-        sidewalkStatusValue.setText(null);
-        sidewalkWidthValue.setText(null);
-        sidewalkTactileFloorStatusValue.setText(null);
+        clearSidewalkFields();
+        slopeMeasureQnt = 1;
+        sideTransSlopeField2.setVisibility(View.GONE);
+        sideTransSlopeField3.setVisibility(View.GONE);
+        sideTransSlopeField4.setVisibility(View.GONE);
+        sideTransSlopeField5.setVisibility(View.GONE);
+        sideTransSlopeField6.setVisibility(View.GONE);
+        tactileFloorColorHeader.setVisibility(View.GONE);
+        tactileFloorColorRadio.setVisibility(View.GONE);
+        directionTileMeasureHeader.setVisibility(View.GONE);
+        alertTileMeasureHeader.setVisibility(View.GONE);
+        accessFloorObsField.setVisibility(View.GONE);
+        aerialObsDescField.setVisibility(View.GONE);
+        sidewalkLidDescField.setVisibility(View.GONE);
+    }
+
+    private void clearSidewalkFields() {
+        sideLocationValue.setText(null);
+        sideWidthValue.setText(null);
+        sideFreeSpaceWidthValue.setText(null);
+        sideMeasureObsValue.setText(null);
+        sideTransSlopeValue1.setText(null);
+        sideTransSlopeValue2.setText(null);
+        sideTransSlopeValue3.setText(null);
+        sideTransSlopeValue4.setText(null);
+        sideTransSlopeValue5.setText(null);
+        sideTransSlopeValue6.setText(null);
+        directionTileLengthValue.setText(null);
+        directionTileWidthValue.setText(null);
+        alertTileLengthValue.setText(null);
+        alertTileWidthValue.setText(null);
+        tactileFloorObsValue.setText(null);
+        accessFloorObsValue.setText(null);
         sidewalkObsValue.setText(null);
-        hasTactileFloor.clearCheck();
-        statusTactileFloor.clearCheck();
-        hasSlope.clearCheck();
-        tactileFloorLabel.setVisibility(View.GONE);
-        statusTactileFloor.setVisibility(View.GONE);
-        sidewalkTactileFloorStatusField.setVisibility(View.GONE);
-        slopeRegisterLabel.setVisibility(View.GONE);
-        addSlope.setVisibility(View.GONE);
+        accessFloorObsValue.setText(null);
+        aerialObsDescValue.setText(null);
+        sidewalkLidDescValue.setText(null);
+
+        streetPavementRadio.clearCheck();
+        hasTactileFloorRadio.clearCheck();
+        tactileFloorColorRadio.clearCheck();
+        accessibleFloorRadio.clearCheck();
+        sideHasSlopeRadio.clearCheck();
+        hasLidRadio.clearCheck();
+        hasAerialObsRadio.clearCheck();
     }
 }
