@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="0.80"
+        app:layout_constraintHeight_percent="0.83"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sidewalk_slope_header">
 
@@ -46,6 +46,7 @@
                     android:layout_height="match_parent" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/slope_width_field"
@@ -208,13 +209,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/longitudinal_fields_error" />
 
+            <TextView
+                android:id="@+id/left_wing_ref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/header_hint_referential"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_left_wing_header" />
+
             <RadioGroup
                 android:id="@+id/has_left_wing_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/has_left_wing_header">
+                app:layout_constraintTop_toBottomOf="@id/left_wing_ref">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -388,13 +398,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/left_wing_fields_error" />
 
+            <TextView
+                android:id="@+id/right_wing_ref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/header_hint_referential"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_right_wing_header" />
+
             <RadioGroup
                 android:id="@+id/has_right_wing_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/has_right_wing_header">
+                app:layout_constraintTop_toBottomOf="@id/right_wing_ref">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -698,6 +717,67 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/slope_street_junction_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/header_street_slope"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/slope_accessible_floor_obs_field" />
+
+            <com.whygraphics.multilineradiogroup.MultiLineRadioGroup
+                android:id="@+id/street_slope_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/slope_street_junction_header"
+                app:max_in_row="2"
+                app:radio_buttons="@array/multi_radio_sidewalk_slope" />
+
+            <TextView
+                android:id="@+id/slope_street_junction_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/street_slope_radio" />
+
+            <FrameLayout
+                android:id="@+id/street_slope_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/slope_street_junction_error"
+                android:layout_marginTop="@dimen/usual_padding"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/street_slope_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_obs_slope_street"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/street_slope_fragment">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/street_slope_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/slope_obs_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -706,7 +786,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_slope_obs"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slope_accessible_floor_obs_field">
+                app:layout_constraintTop_toBottomOf="@id/street_slope_obs_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/slope_obs_value"

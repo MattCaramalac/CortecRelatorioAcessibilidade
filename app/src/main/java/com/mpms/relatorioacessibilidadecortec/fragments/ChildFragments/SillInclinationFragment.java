@@ -17,13 +17,12 @@ import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-
-import java.util.ArrayList;
 
 
 public class SillInclinationFragment extends Fragment {
@@ -34,10 +33,6 @@ public class SillInclinationFragment extends Fragment {
     TextInputEditText sillInclinationValue;
 
     ViewModelEntry modelEntry;
-
-    ArrayList<String> childData = new ArrayList<>();
-
-    Bundle inclinationBundle = new Bundle();
 
     public SillInclinationFragment() {
         // Required empty public constructor
@@ -69,13 +64,16 @@ public class SillInclinationFragment extends Fragment {
 
         getParentFragmentManager().setFragmentResultListener(InspectionActivity.LOAD_CHILD_DATA, this, (key, bundle) -> {
             if (bundle.getInt(DoorFragment.DOOR_ID) > 0) {
-                modelEntry.getSpecificDoor(bundle.getInt(DoorFragment.DOOR_ID)).observe(getViewLifecycleOwner(), this::gatherInclinationDoorData);
+                modelEntry.getSpecificDoor(bundle.getInt(DoorFragment.DOOR_ID)).observe(getViewLifecycleOwner(), this::loadInclinationDoorData);
             } else if (bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0) {
                 modelEntry.getOneExternalAccess(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
-                        .observe(getViewLifecycleOwner(), this::gatherInclinationExtAccData);
+                        .observe(getViewLifecycleOwner(), this::loadInclinationExtAccData);
             } else if (bundle.getInt(PlaygroundFragment.PLAY_ID) > 0) {
                 modelEntry.getOnePlayground(bundle.getInt(PlaygroundFragment.PLAY_ID))
-                        .observe(getViewLifecycleOwner(), this::gatherInclinationPlayData);
+                        .observe(getViewLifecycleOwner(), this::loadInclinationPlayData);
+            } else if (bundle.getInt(SidewalkSlopeFragment.SIDEWALK_SLOPE_ID) > 0) {
+                modelEntry.getSidewalkSlopeEntry(bundle.getInt(SidewalkSlopeFragment.SIDEWALK_SLOPE_ID))
+                        .observe(getViewLifecycleOwner(), this::loadInclinationSlopeStreetData);
             }
         });
 
@@ -114,18 +112,22 @@ public class SillInclinationFragment extends Fragment {
         sillInclinationField.setErrorEnabled(false);
     }
 
-    private void gatherInclinationExtAccData(ExternalAccess access) {
+    private void loadInclinationExtAccData(ExternalAccess access) {
         if (access.getSillInclinationHeight() != null)
             sillInclinationValue.setText(String.valueOf(access.getSillInclinationHeight()));
     }
 
-    private void gatherInclinationPlayData(PlaygroundEntry playEntry) {
+    private void loadInclinationPlayData(PlaygroundEntry playEntry) {
         if (playEntry.getInclinationSillHeight() != null)
             sillInclinationValue.setText(String.valueOf(playEntry.getInclinationSillHeight()));
     }
 
-    private void gatherInclinationDoorData(DoorEntry doorEntry) {
+    private void loadInclinationDoorData(DoorEntry doorEntry) {
         if (doorEntry.getSillInclinationHeight() != null)
             sillInclinationValue.setText(String.valueOf(doorEntry.getSillInclinationHeight()));
+    }
+
+    private void loadInclinationSlopeStreetData(SidewalkSlopeEntry slopeEntry) {
+        sillInclinationValue.setText(String.valueOf(slopeEntry.getInclinationJunctionHeight()));
     }
 }

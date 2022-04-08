@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_sill_inclination_height"
-            app:errorEnabled="true">
+            app:helperText="Um desnível possui altura entre 0,5 até 2cm"
+            android:paddingBottom="@dimen/top_margins">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sill_inclination_height_value"

@@ -17,12 +17,11 @@ import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-
-import java.util.ArrayList;
 
 
 public class SillStepFragment extends Fragment {
@@ -33,10 +32,6 @@ public class SillStepFragment extends Fragment {
     TextInputEditText stepHeightValue;
 
     ViewModelEntry modelEntry;
-
-    ArrayList<String> childData = new ArrayList<>();
-
-    Bundle sillStepBundle = new Bundle();
 
     public SillStepFragment() {
         // Required empty public constructor
@@ -66,13 +61,16 @@ public class SillStepFragment extends Fragment {
 
         getParentFragmentManager().setFragmentResultListener(InspectionActivity.LOAD_CHILD_DATA, this, (key, bundle) -> {
             if (bundle.getInt(DoorFragment.DOOR_ID) > 0) {
-                modelEntry.getSpecificDoor(bundle.getInt(DoorFragment.DOOR_ID)).observe(getViewLifecycleOwner(), this::gatherStepDoorData);
+                modelEntry.getSpecificDoor(bundle.getInt(DoorFragment.DOOR_ID)).observe(getViewLifecycleOwner(), this::loadStepDoorData);
             } else if (bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0) {
                 modelEntry.getOneExternalAccess(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
-                        .observe(getViewLifecycleOwner(), this::gatherStepExtAccData);
+                        .observe(getViewLifecycleOwner(), this::loadStepExtAccData);
             } else if (bundle.getInt(PlaygroundFragment.PLAY_ID) > 0) {
                 modelEntry.getOnePlayground(bundle.getInt(PlaygroundFragment.PLAY_ID))
-                        .observe(getViewLifecycleOwner(), this::gatherStepPlayData);
+                        .observe(getViewLifecycleOwner(), this::loadStepPlayData);
+            } else if (bundle.getInt(SidewalkSlopeFragment.SIDEWALK_SLOPE_ID) > 0) {
+                modelEntry.getSidewalkSlopeEntry(bundle.getInt(SidewalkSlopeFragment.SIDEWALK_SLOPE_ID))
+                        .observe(getViewLifecycleOwner(), this::loadStepStreetSlopeData);
             }
         });
 
@@ -111,18 +109,22 @@ public class SillStepFragment extends Fragment {
         stepHeightField.setErrorEnabled(false);
     }
 
-    private void gatherStepExtAccData(ExternalAccess access) {
+    private void loadStepExtAccData(ExternalAccess access) {
         if (access.getSillStepHeight() != null)
             stepHeightValue.setText(String.valueOf(access.getSillStepHeight()));
     }
 
-    private void gatherStepPlayData(PlaygroundEntry playEntry) {
+    private void loadStepPlayData(PlaygroundEntry playEntry) {
         if (playEntry.getStepSillHeight() != null)
             stepHeightValue.setText(String.valueOf(playEntry.getStepSillHeight()));
     }
 
-    private void gatherStepDoorData(DoorEntry doorEntry) {
+    private void loadStepDoorData(DoorEntry doorEntry) {
         if (doorEntry.getSillStepHeight() != null)
             stepHeightValue.setText(String.valueOf(doorEntry.getSillStepHeight()));
+    }
+
+    private void loadStepStreetSlopeData(SidewalkSlopeEntry slopeEntry) {
+            stepHeightValue.setText(String.valueOf(slopeEntry.getStepJunctionHeight()));
     }
 }
