@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -29,7 +28,6 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillIncli
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
@@ -51,8 +49,6 @@ public class PlaygroundFragment extends Fragment {
     FragmentManager manager;
 
     ViewModelEntry modelEntry;
-
-    ViewModelFragments modelFragments;
 
     Bundle playBundle = new Bundle();
     Bundle childData = new Bundle();
@@ -209,7 +205,6 @@ public class PlaygroundFragment extends Fragment {
         manager = getChildFragmentManager();
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
 //        Listeners
         playGateTrackRadio.setOnCheckedChangeListener(this::playRadioListener);
         playGateTrackRampRadio.setOnCheckedChangeListener(this::playRadioListener);

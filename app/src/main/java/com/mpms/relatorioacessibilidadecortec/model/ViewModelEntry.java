@@ -14,6 +14,9 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
@@ -70,7 +73,8 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<ParkingLotElderlyEntry>> allElderLots;
     public LiveData<List<RoomEntry>> allRooms;
     public LiveData<List<BlockSpaceEntry>> allBlockSpaces;
-    public LiveData<List<PayPhoneEntry>> allPayPhones;
+    public LiveData<List<PayPhoneEntry>> allPayPhonesExtAccess;
+    public LiveData<List<PayPhoneEntry>> allPayPhonesSidewalk;
     public LiveData<List<GateObsEntry>> allGateObs;
     public LiveData<List<AdmEquipEntry>> allAdmEquip;
     public LiveData<List<PlaygroundEntry>> allPlaygrounds;
@@ -82,6 +86,7 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<BlackboardEntry>> allBlackboards;
     public LiveData<List<CounterEntry>> allCounters;
     public LiveData<List<DoorLockEntry>> allDoorLocks;
+    public LiveData<List<DoorLockEntry>> allDoorLocksGates;
     public final LiveData<List<SchoolEntry>> allEntries;
 
     public LiveData<ExternalAccess> oneAccess;
@@ -138,6 +143,18 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void updateExternalAccess(ExternalAccess externalAccess) {
         repository.updateExternalAccess(externalAccess);
+    }
+
+    public static void updateExtAccessRegOne(ExtAccessSocialOne... regOne) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateExtAccessRegOne(regOne));
+    }
+
+    public static void updateExtAccessRegTwo(ExtAccessSocialTwo... regTwo) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateExtAccessRegTwo(regTwo));
+    }
+
+    public static void updateExtAccessRegThree(ExtAccessSocialThree... regThree) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateExtAccessRegThree(regThree));
     }
 
     public static void deleteOneExternalAccess(int externalAccessID) {
@@ -463,9 +480,18 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertPayPhone(payPhone));
     }
 
-    public LiveData<List<PayPhoneEntry>> getAllPayPhones(int externalAccessID) {
-        allPayPhones = repository.selectAllPayPhones(externalAccessID);
-        return allPayPhones;
+    public LiveData<List<PayPhoneEntry>> getAllPayPhonesExtAccess(int externalAccessID) {
+        allPayPhonesExtAccess = repository.selectAllPayPhones(externalAccessID);
+        return allPayPhonesExtAccess;
+    }
+
+    public LiveData<List<PayPhoneEntry>> getAllPayPhonesSidewalk(int sidewalkID) {
+        allPayPhonesSidewalk = repository.selectAllPhonesSidewalk(sidewalkID);
+        return allPayPhonesSidewalk;
+    }
+
+    public void deleteAllPayPhonesSidewalk(int sidewalkID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllPayPhonesSidewalk(sidewalkID));
     }
 
     public LiveData<PayPhoneEntry> getPayPhoneEntry(int payPhoneID) {
@@ -1030,6 +1056,11 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<DoorLockEntry>> getDoorLocksFromDoor(int doorID) {
         allDoorLocks = repository.getDoorLocksFromDoor(doorID);
         return allDoorLocks;
+    }
+
+    public LiveData<List<DoorLockEntry>> getDoorLocksFromGates(int extID) {
+        allDoorLocksGates = repository.getDoorLocksFromGates(extID);
+        return allDoorLocksGates;
     }
 
     public LiveData<DoorLockEntry> getOneDoorLock(int lockID) {

@@ -59,7 +59,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 displayExtAccessListFragment();
                 break;
             case 1:
-//                displayRestroomListFragment();
+                displayRestroomListFragment();
                 break;
             case 2:
                 displayFountainListFragment();

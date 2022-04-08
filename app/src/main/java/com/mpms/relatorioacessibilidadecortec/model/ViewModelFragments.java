@@ -120,12 +120,6 @@ public class ViewModelFragments extends ViewModel {
         return sendFountainFragData;
     }
 
-    public final MutableLiveData<Integer> extAccessLoadInfo = new MutableLiveData<>();
-    public void setExtAccessLoadInfo(Integer integer) { extAccessLoadInfo.setValue(integer); }
-    public LiveData<Integer> getExtAccessLoadInfo() {
-        return extAccessLoadInfo;
-    }
-
     public final MutableLiveData<Integer> newRoomID = new MutableLiveData<>();
     public void setNewRoomID(Integer i) { newRoomID.setValue(i); }
     public LiveData<Integer> getNewRoomID() {

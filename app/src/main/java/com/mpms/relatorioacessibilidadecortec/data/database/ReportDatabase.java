@@ -91,7 +91,7 @@ import java.util.concurrent.Executors;
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class, RampStairsHandrailEntry.class,
-        RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class, PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 38)
+        RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class, PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 41)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -903,6 +903,77 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_38_39 = new Migration(38, 39) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE SidewalkSlopeEntry ADD COLUMN streetSlopeJunction INTEGER");
+            database.execSQL("ALTER TABLE SidewalkSlopeEntry ADD COLUMN inclinationJunctionHeight REAL");
+            database.execSQL("ALTER TABLE SidewalkSlopeEntry ADD COLUMN stepJunctionHeight REAL");
+            database.execSQL("ALTER TABLE SidewalkSlopeEntry ADD COLUMN streetSlopeObs TEXT");
+
+            database.execSQL("ALTER TABLE WaterFountainEntry ADD COLUMN fountainTypeObs TEXT");
+            database.execSQL("ALTER TABLE WaterFountainEntry ADD COLUMN lateralApproxObs TEXT");
+            database.execSQL("ALTER TABLE WaterFountainEntry ADD COLUMN spoutFrontalApproxDepth REAL");
+        }
+    };
+
+    static final Migration MIGRATION_39_40 = new Migration(39, 40) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE ExternalAccess2(externalAccessID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, " +
+                    "accessLocation TEXT, entranceType INTEGER, floorIsAccessible INTEGER, accessibleFloorObs TEXT, hasSIA INTEGER, obsSIA TEXT, " +
+                    "entranceGateType INTEGER, entranceGateDesc TEXT, freeSpaceWidth1 REAL, freeSpaceWidth2 REAL, gateHandleType INTEGER, gateHandleHeight REAL, gateObs TEXT," +
+                    "gateHasTracks INTEGER, gateTrackHeight REAL, gateHasTrackRamp INTEGER, trackRampQuantity INTEGER, trackRampMeasure1 REAL, trackRampMeasure2 REAL," +
+                    "trackRampMeasure3 REAL, trackRampMeasure4 REAL, gateSillType INTEGER, sillInclinationHeight REAL, sillStepHeight REAL, slopeMeasureQnt INTEGER," +
+                    "sillSlopeAngle REAL, sillSlopeAngle2 REAL, sillSlopeAngle3 REAL, sillSlopeAngle4 REAL, sillSlopeWidth REAL, gateSillObs TEXT, gateHasObstacles INTEGER," +
+                    "gateHasPayphones INTEGER, gateHasIntercom INTEGER, intercomHeight REAL, gateHasSoundSign INTEGER, extAccessObs TEXT," +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO ExternalAccess2 (externalAccessID, blockID, accessLocation, entranceType, hasSIA, obsSIA, gateHasTracks, gateTrackHeight," +
+                    "gateHasTrackRamp, trackRampQuantity, trackRampMeasure1, trackRampMeasure2, trackRampMeasure3, trackRampMeasure4, gateSillType, sillInclinationHeight," +
+                    "sillStepHeight, sillSlopeAngle, sillSlopeWidth, gateSillObs, gateHasObstacles, gateHasPayphones, gateHasIntercom, intercomHeight, gateHasSoundSign," +
+                    "extAccessObs) SELECT externalAccessID, blockID, accessLocation, entranceType, hasSIA, obsSIA, gateHasTracks, gateTrackHeight, gateHasTrackRamp," +
+                    "trackRampQuantity, trackRampMeasure1, trackRampMeasure2, trackRampMeasure3, trackRampMeasure4, gateSillType, sillInclinationHeight, sillStepHeight," +
+                    "sillSlopeAngle, sillSlopeWidth, gateSillObs, gateHasObstacles, gateHasPayphones, gateHasIntercom, intercomHeight, gateHasSoundSign, extAccessObs FROM ExternalAccess");
+            database.execSQL("DROP TABLE ExternalAccess");
+            database.execSQL("ALTER TABLE ExternalAccess2 RENAME TO ExternalAccess");
+
+//toDO - EVENTUALMENTE CRIAR UMA TABELA PARA O PORTÃO E ASSOCIAR COM DOORLOCK EM VEZ DE ASSOCIAR COM EXTACCESS
+            database.execSQL("CREATE TABLE DoorLockEntry2(lockID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, doorID INTEGER, extAccessID INTEGER, lockType INTEGER NOT NULL," +
+                    "lockDesc TEXT, lockHeight REAL NOT NULL, lockObs TEXT, FOREIGN KEY (doorID) REFERENCES DoorEntry (doorID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    " FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO DoorLockEntry2(lockID, doorID, lockType, lockDesc, lockHeight, lockObs) SELECT lockID, doorID, lockType, lockDesc, lockHeight, lockObs " +
+                    "FROM DoorLockEntry");
+            database.execSQL("DROP TABLE DoorLockEntry");
+            database.execSQL("ALTER TABLE DoorLockEntry2 RENAME TO DoorLockEntry");
+        }
+    };
+
+    static final Migration MIGRATION_40_41 = new Migration(40, 41) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE GateObsEntry2(gateObsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, externalAccessID INTEGER NOT NULL, accessRefPoint TEXT," +
+                    "accessType INTEGER, gateDoorHeight REAL, gateDoorWidth REAL, barrierHeight REAL, barrierWidth REAL, obsHasSia INTEGER, gateObstacleObs TEXT," +
+                    "FOREIGN KEY (externalAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO GateObsEntry2(gateObsID, externalAccessID, accessRefPoint, accessType, gateDoorWidth, barrierHeight, barrierWidth, gateObstacleObs) " +
+                    "SELECT gateObsID, externalAccessID, accessRefPoint, accessType, gateDoorWidth, barrierHeight, barrierWidth, gateObstacleObs FROM GateObsEntry");
+            database.execSQL("DROP TABLE GateObsEntry");
+            database.execSQL("ALTER TABLE GateObsEntry2 RENAME TO GateObsEntry");
+
+            database.execSQL("CREATE TABLE PayPhoneEntry2(payPhoneID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, extAccessID INTEGER, sidewalkID INTEGER," +
+                    "phoneRefPoint TEXT, phoneKeyboardHeight REAL NOT NULL, phoneHeight REAL NOT NULL, hasTactileFloor INTEGER NOT NULL, rightColorTactileFloor INTEGER," +
+                    "tactFloorLength REAL, tactFloorWidth REAL, tactFloorObs TEXT, phoneIsWorking INTEGER NOT NULL, payPhoneObs TEXT," +
+                    "FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntry (sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO PayPhoneEntry2 (payPhoneID, extAccessID, phoneRefPoint, phoneKeyboardHeight, phoneHeight, hasTactileFloor, phoneIsWorking, payPhoneObs)" +
+                    " SELECT payPhoneID, externalAccessID, phoneRefPoint, phoneKeyboardHeight, phoneHeight, hasTactileFloor, phoneIsWorking, payPhoneObs FROM PayPhoneEntry");
+            database.execSQL("DROP TABLE PayPhoneEntry");
+            database.execSQL("ALTER TABLE PayPhoneEntry2 RENAME TO PayPhoneEntry");
+
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN sideHasPayphones INTEGER");
+        }
+
+    };
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -915,7 +986,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23, MIGRATION_23_24,
                                     MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27, MIGRATION_27_28, MIGRATION_28_29, MIGRATION_29_30,
                                     MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35, MIGRATION_35_36,
-                                    MIGRATION_36_37, MIGRATION_37_38).build();
+                                    MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41).build();
                 }
             }
         }

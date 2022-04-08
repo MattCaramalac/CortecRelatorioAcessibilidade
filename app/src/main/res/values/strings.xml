@@ -21,10 +21,23 @@
         <item>COM RAMPA</item>
     </string-array>
 
+    <string-array name="multi_radio_sidewalk_slope">
+        <item>NIVELADA</item>
+        <item>COM DESNÍVEL</item>
+        <item>COM DEGRAU</item>
+        <item>OUTRA SITUAÇÃO</item>
+    </string-array>
+
     <string-array name="multi_radio_lock_type">
         <item>PORTA CADEADO</item>
         <item>TRAVA DESLIZANTE</item>
         <item>OUTRO DISPOSITIVO</item>
+    </string-array>
+
+    <string-array name="multi_radio_gate_type">
+        <item>FOLHA ÚNICA</item>
+        <item>FOLHA DUPLA</item>
+        <item>OUTRO TIPO</item>
     </string-array>
 
     <string name="app_name">Relatório Acessibilidade Cortec</string>
@@ -102,7 +115,7 @@
     <string name="radio_button_unnecessary">DESNECESSÁRIO</string>
     <string name="frag_ext_gate_obstacles">Entrada Possui Cancelas ou Catracas?</string>
     <string name="label_add_frag_entry">Adicionar</string>
-    <string name="frag_ent_gate_payphone">Entrada possui orelhões?</string>
+    <string name="frag_ent_gate_payphone">Entrada possui telefones públicos?</string>
 
     <string name="label_waterfountain_height">Altura do Bebedouro</string>
     <string name="label_cupholder_height">Altura do Porta-copos</string>
@@ -206,18 +219,18 @@
     <string name="hint_conservation_status_special_floor">Observações Conservação do Piso Tátil</string>
     <string name="label_obligatory_slope_sidewalk">É obrigatório ter rebaixamento nesta calçada?</string>
     <string name="label_slope_register">Cadastro de rebaixamentos e suas dimensões</string>
-    <string name="label_special_floor_color">Piso tátil possui cor contrastante em relação ao piso da calçada?</string>
+    <string name="label_special_floor_color">Piso tátil possui cor contrastante em relação ao piso?</string>
     <string name="label_allow_frontal_approx">Bebedouro permite Aproximação Frontal?</string>
     <string name="hint_highest_spout_height">Altura da bica mais alta (m)</string>
     <string name="hint_lowest_spout_height">Altura da bica mais baixa (m)</string>
     <string name="hint_only_spout_height">Altura da bica (m)</string>
-    <string name="hint_frontal_approx_low_spout">Aproximação frontal bica mais baixa (m)</string>
+    <string name="hint_height_frontal_approx_low_spout">Altura Aprox. Frontal Bica mais Baixa (m)</string>
     <string name="label_water_fountain_header">Bebedouros</string>
     <string name="label_allow_lateral_approx">Bebedouro permite aproximação lateral?</string>
-    <string name="hint_faucet_height">Altura da torneira do bebedouro</string>
+    <string name="hint_faucet_height">Altura do acionamento do bebedouro</string>
     <string name="label_fountain_has_cup_holder">Bebedouro possui porta-copos?</string>
     <string name="hint_cup_holder_height">Altura do porta-copos</string>
-    <string name="label_external_access_header">Acesso Externo</string>
+    <string name="label_external_access_header">Cadastro de Acesso Externo</string>
     <string name="label_external_access_type">Tipo de Acesso Externo</string>
     <string name="label_social_entrance_radio">ENTRADA SOCIAL</string>
     <string name="label_cars_entrance_radio">ENTRADA VEÍCULOS</string>
@@ -259,18 +272,17 @@
     <string name="hint_location_free_space">Localização da faixa livre</string>
     <string name="gate_obstacle_location_hint">Ponto de Referência Obstáculo de Entrada</string>
     <string name="label_gate_obstacle_situation">O tipo de acesso está de acordo com a norma?</string>
-    <string name="hint_gate_obstacles_obs">Obserações sobre o obstáculo</string>
+    <string name="hint_gate_obstacles_obs">Observações sobre o obstáculo</string>
     <string name="dialog_add_gate_obstacle_header">Adicionar Cancelas</string>
     <string name="label_gate_obs_type_header">Qual é o tipo de acesso utilizado?</string>
     <string name="radio_option_gate">PORTA DE ACESSO</string>
     <string name="radio_option_gate_bar">CANCELA</string>
-    <string name="hint_gate_door_width">Largura Portão de Acesso</string>
-    <string name="hint_gate_barrier_height">Altura do Comando da Cancela</string>
-    <string name="hint_gate_barrier_width">Largura da Cancela</string>
+    <string name="hint_gate_barrier_height">Altura do Comando</string>
+    <string name="hint_gate_barrier_width">Largura do Vão Livre</string>
     <string name="hint_payphone_ref_location">Ponto de referência telefone público</string>
     <string name="hint_height_keyboard_payphone">Altura operacional do teclado</string>
     <string name="hint_height_phone_payphone">Altura operacional do fone</string>
-    <string name="label_payphone_has_tactile_floor">O equipamento possui piso tátil ao seu entorno?</string>
+    <string name="label_payphone_has_tactile_floor">O equipamento possui piso tátil em seu entorno?</string>
     <string name="label_payphone_working">O equipamento está funcionando corretamente?</string>
     <string name="hint_public_phone_obs">Observações sobre o telefone público</string>
     <string name="dialog_add_payphone_header">Adicionar Telefones Públicos</string>
@@ -487,8 +499,8 @@
     <string name="hint_play_equip_obs">Observações sobre os brinquedos</string>
     <string name="hint_playground_obs">Outras observações sobre o playground</string>
     <string name="header_playground_register">Cadastro de Playgrounds</string>
-    <string name="header_has_left_wing_inclination">Rebaixamento possui inclinação da aba esquerda?</string>
-    <string name="header_has_right_wing_inclination">Rebaixamento possui inclinação da aba direita?</string>
+    <string name="header_has_left_wing_inclination">Rebaixamento possui aba esquerda?</string>
+    <string name="header_has_right_wing_inclination">Rebaixamento possui aba direita?</string>
     <string name="header_accessible_slope_floor">O piso do rebaixamento é acessível?</string>
     <string name="hint_accessible_floor_obs">Observações de Accessibilidade do Piso</string>
     <string name="helper_not_accessible_floor">Patologias, motivos para não ser considerado acessível</string>
@@ -526,4 +538,13 @@
     <string name="header_side_has_aerial_obstacles">A calçada possui obstáculo aéreo?</string>
     <string name="hint_lid_description">Descrição das tampas e desníveis</string>
     <string name="header_sidewalk_lid">Calçada possui tampas de inspeção/visita ou outros desníveis maiores que 15mm em relação à superfície adjacente?</string>
+    <string name="hint_obs_slope_street">Observações sobre a sarjeta e o rebaixamento</string>
+    <string name="header_street_slope">Qual o tipo de encontro entre o rebaixamento e a sarjeta da via pública?</string>
+    <string name="header_hint_referential">Referencial: Subida do Rebaixamento</string>
+    <string name="header_slope_near_pcd">Rebaixamento está próximo à vaga para PMR ou PCD?</string>
+    <string name="max_measure_limit_msg">O limite de medições foi atingido!</string>
+    <string name="hint_frontal_approx_depth">Profundidade Aprox. Frontal (m)</string>
+    <string name="hint_fountain_type_obs">Observações sobre o tipo de bebedouro</string>
+
+    <string name="header_social_entrance">Acesso Externo - Entrada Social</string>
 </resources>

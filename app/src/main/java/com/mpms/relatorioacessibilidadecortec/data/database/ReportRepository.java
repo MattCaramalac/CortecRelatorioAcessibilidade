@@ -46,6 +46,9 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
@@ -274,6 +277,18 @@ public class ReportRepository {
 
     public void updateExternalAccess(ExternalAccess externalAccess) {
         ReportDatabase.dbWriteExecutor.execute(() -> externalAccessDao.updateExternalAccess(externalAccess));
+    }
+
+    public void updateExtAccessRegOne(ExtAccessSocialOne... regOne) {
+        ReportDatabase.dbWriteExecutor.execute(() -> externalAccessDao.updateExtAccessRegOne(regOne));
+    }
+
+    public void updateExtAccessRegTwo(ExtAccessSocialTwo... regTwo) {
+        ReportDatabase.dbWriteExecutor.execute(() -> externalAccessDao.updateExtAccessRegTwo(regTwo));
+    }
+
+    public void updateExtAccessRegThree(ExtAccessSocialThree... regThree) {
+        ReportDatabase.dbWriteExecutor.execute(() -> externalAccessDao.updateExtAccessRegThree(regThree));
     }
 
     public void deleteOneExternalAccess(int externalAccessID) {
@@ -555,8 +570,17 @@ public class ReportRepository {
     }
 
     public LiveData<List<PayPhoneEntry>> selectAllPayPhones(int SchoolEntryID) {
-        return payPhoneDao.selectAllPayPhones(SchoolEntryID);
+        return payPhoneDao.selectAllPhonesExtAccess(SchoolEntryID);
     }
+
+    public LiveData<List<PayPhoneEntry>> selectAllPhonesSidewalk(int sidewalkID) {
+        return payPhoneDao.selectAllPhonesSidewalk(sidewalkID);
+    }
+
+    public void deleteAllPayPhonesSidewalk(int sidewalkID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.deleteAllPayPhonesSidewalk(sidewalkID));
+    }
+
 
     public LiveData<PayPhoneEntry> selectPayPhoneEntry(int payPhoneID) {
         return payPhoneDao.selectPayPhoneEntry(payPhoneID);
@@ -571,7 +595,7 @@ public class ReportRepository {
     }
 
    public void deleteAllPayPhones(int externalAccessID) {
-       ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.deleteAllPayPhones(externalAccessID));
+       ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.deleteAllPayPhonesExtAccess(externalAccessID));
    }
 
     public void insertCounter(CounterEntry counter) {
@@ -1084,6 +1108,10 @@ public class ReportRepository {
 
     public LiveData<List<DoorLockEntry>> getDoorLocksFromDoor(int doorID) {
         return doorLockDao.getDoorLocksFromDoor(doorID);
+    }
+
+    public LiveData<List<DoorLockEntry>> getDoorLocksFromGates(int extID) {
+        return doorLockDao.getDoorLocksFromGates(extID);
     }
 
     public LiveData<DoorLockEntry> getOneDoorLock(int lockID) {
