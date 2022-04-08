@@ -15,43 +15,27 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.GateObsBarrierFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.GateObsDoorFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
-import java.util.Objects;
-
 public class GateObsFragment extends Fragment {
 
-    public static final String GATE_OBS_SAVE_ATTEMPT = "GATE_OBS_SAVE_ATTEMPT";
-    public static final String GATE_OBS_CHILD_FRAG_DATA = "GATE_OBS_CHILD_FRAG_DATA";
-    public static final String GATE_OBS_EMPTY_CHECK = "GATE_OBS_EMPTY_CHECK";
     public static final String GATE_OBS_ID = "GATE_OBS_ID";
 
-    TextInputLayout referencePointField, obsField;
-    TextInputEditText referencePointValue, obsValue;
-    RadioGroup gateObsTypeRadio;
+    TextInputLayout referencePointField, commandHeightField, fSpaceWidthField, obsField;
+    TextInputEditText referencePointValue, commandHeightValue, fSpaceWidthValue, obsValue;
+    RadioGroup gateObsTypeRadio, gateObsSiaRadio;
     Button saveGateObs, cancelGateObs;
-    TextView gateObsTypeError;
+    TextView gateObsTypeError, gateObsSiaError;
 
     ViewModelEntry modelEntry;
 
-    FragmentManager manager;
-
-    Fragment gateChildFrag;
-
     Bundle obsBundle = new Bundle();
-
-    String referencePoint, obstacleObs;
-    Integer accessibleEntrance, accessType;
-    Double entranceGateWidth, gateBarrierHeight, gateBarrierWidth;
 
     public GateObsFragment() {
         // Required empty public constructor
@@ -83,48 +67,26 @@ public class GateObsFragment extends Fragment {
         instantiateGateObsViews(view);
         allowGateObsScroll();
 
-        gateObsTypeRadio.setOnCheckedChangeListener(((group, checkedId) -> {
-            int index = getCheckedRadio(group);
-            switch (index) {
-                case 0:
-                    gateChildFrag = new GateObsBarrierFragment();
-                    break;
-                case 1:
-                    gateChildFrag = new GateObsDoorFragment();
-                    break;
-                default:
-                    return;
-            }
-            gateChildFrag.setArguments(obsBundle);
-            getChildFragmentManager().beginTransaction().
-                    replace(R.id.gate_obs_type_child_fragment, gateChildFrag).commit();
-        }));
-
-        if (obsBundle.getInt(GATE_OBS_ID) != 0)
+        if (obsBundle.getInt(GATE_OBS_ID) > 0)
             modelEntry.getOneGateObsEntry(obsBundle.getInt(GATE_OBS_ID)).observe(getViewLifecycleOwner(), this::loadGateObsData);
 
-        getChildFragmentManager().setFragmentResultListener(GATE_OBS_CHILD_FRAG_DATA, this, (key, bundle) -> {
-            if (checkEmptyFields() && bundle.getInt(GATE_OBS_EMPTY_CHECK) != 1) {
-                GateObsEntry newObs = newObstacle(obsBundle);
-                if (obsBundle.getInt(GATE_OBS_ID) == 0) {
-                    ViewModelEntry.insertGateObs(newObs);
-                    Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
-                } else if (obsBundle.getInt(GATE_OBS_ID) > 0) {
-                    newObs.setGateObsID(obsBundle.getInt(GATE_OBS_ID));
-                    ViewModelEntry.updateGateObs(newObs);
-                    Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
-                }
-                obsBundle.putInt(GATE_OBS_ID, 0);
-                removeObsFragment();
-                clearGateObsFields();
-            }
-        });
-
         saveGateObs.setOnClickListener(v -> {
-            if (getCheckedRadio(gateObsTypeRadio) > -1)
-                getChildFragmentManager().setFragmentResult(GATE_OBS_SAVE_ATTEMPT, obsBundle);
-            else
-                checkEmptyFields();
+            if (checkEmptyFields()) {
+                GateObsEntry newObstacle = newGateObstacle(obsBundle);
+                if (obsBundle.getInt(GATE_OBS_ID) > 0) {
+                    newObstacle.setGateObsID(obsBundle.getInt(GATE_OBS_ID));
+                    ViewModelEntry.updateGateObs(newObstacle);
+                    Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
+                    requireActivity().getSupportFragmentManager().popBackStackImmediate();
+                } else if (obsBundle.getInt(GATE_OBS_ID) == 0) {
+                    ViewModelEntry.insertGateObs(newObstacle);
+                    Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
+                    clearGateObsFields();
+                } else {
+                    obsBundle.putInt(GATE_OBS_ID, 0);
+                    Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+                }
+            }
         });
 
         cancelGateObs.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
@@ -134,19 +96,23 @@ public class GateObsFragment extends Fragment {
     private void instantiateGateObsViews(View view) {
 //        TextInputLayout
         referencePointField = view.findViewById(R.id.gate_obstacle_location_field);
+        commandHeightField = view.findViewById(R.id.gate_obs_height_field);
+        fSpaceWidthField = view.findViewById(R.id.gate_obs_width_field);
         obsField = view.findViewById(R.id.gate_obstacle_obs_field);
 //        TextInputEditText
         referencePointValue = view.findViewById(R.id.gate_obstacle_location_value);
+        commandHeightValue = view.findViewById(R.id.gate_obs_height_value);
+        fSpaceWidthValue = view.findViewById(R.id.gate_obs_width_value);
         obsValue = view.findViewById(R.id.gate_obstacle_obs_value);
 //        RadioGroup
         gateObsTypeRadio = view.findViewById(R.id.gate_obstacle_type_radio);
+        gateObsSiaRadio = view.findViewById(R.id.obs_has_SIA_radio);
 //        MaterialButton
         saveGateObs = view.findViewById(R.id.save_gate_obstacle);
         cancelGateObs = view.findViewById(R.id.cancel_gate_obstacle);
 //        TextView
         gateObsTypeError = view.findViewById(R.id.gate_obstacle_type_error);
-//        FragmentManager
-        manager = getChildFragmentManager();
+        gateObsSiaError = view.findViewById(R.id.obs_has_SIA_error);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
     }
@@ -164,30 +130,25 @@ public class GateObsFragment extends Fragment {
         obsValue.setOnTouchListener(this::scrollingField);
     }
 
-    public GateObsEntry newObstacle(Bundle bundle) {
-        referencePoint = null;
-        accessType = null;
-        gateBarrierHeight = null;
-        gateBarrierWidth = null;
-        entranceGateWidth = null;
-        obstacleObs = null;
+    public GateObsEntry newGateObstacle(Bundle bundle) {
+        int accessType, obsHasSia;
+        Double barrierHeight = null, barrierWidth = null, gateHeight = null, gateWidth = null;
+        String referencePoint, obstacleObs = null;
 
-        if (referencePointValue.getText() != null)
-            referencePoint = Objects.requireNonNull(referencePointValue.getText()).toString();
-
+        referencePoint = String.valueOf(referencePointValue.getText());
         accessType = getCheckedRadio(gateObsTypeRadio);
-            if (accessType == 0) {
-                gateBarrierHeight = bundle.getDouble(GateObsBarrierFragment.OBS_BARRIER_HEIGHT);
-                gateBarrierWidth = bundle.getDouble(GateObsBarrierFragment.OBS_BARRIER_WIDTH);
+        if (accessType == 0) {
+            barrierHeight = Double.parseDouble(String.valueOf(commandHeightValue.getText()));
+            barrierWidth = Double.parseDouble(String.valueOf(fSpaceWidthValue.getText()));
+        } else if (accessType == 1) {
+            gateHeight = Double.parseDouble(String.valueOf(commandHeightValue.getText()));
+            gateWidth = Double.parseDouble(String.valueOf(fSpaceWidthValue.getText()));
+        }
+        obsHasSia = getCheckedRadio(gateObsSiaRadio);
+        obstacleObs = String.valueOf(obsValue.getText());
 
-            } else if (accessType == 1)
-                entranceGateWidth = bundle.getDouble(GateObsDoorFragment.OBS_GATE_WIDTH);
-
-        if (!TextUtils.isEmpty(obsValue.getText()))
-            obstacleObs = Objects.requireNonNull(obsValue.getText()).toString();
-
-        return new GateObsEntry(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID), referencePoint, accessibleEntrance, accessType,
-                entranceGateWidth, gateBarrierHeight, gateBarrierWidth, obstacleObs);
+        return new GateObsEntry(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID), referencePoint, accessType, gateHeight, gateWidth, barrierHeight, barrierWidth,
+                obsHasSia, obstacleObs);
 
     }
 
@@ -206,31 +167,55 @@ public class GateObsFragment extends Fragment {
             gateObsTypeError.setVisibility(View.VISIBLE);
             i++;
         }
+        if (TextUtils.isEmpty(commandHeightValue.getText())) {
+            commandHeightField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+        if (TextUtils.isEmpty(fSpaceWidthValue.getText())) {
+            fSpaceWidthField.setError(getString(R.string.blank_field_error));
+            i++;
+        }
+        if (gateObsSiaRadio.getCheckedRadioButtonId() == -1) {
+            gateObsSiaError.setVisibility(View.VISIBLE);
+            i++;
+        }
         return i == 0;
     }
 
     public void clearErrorsGateObs() {
         referencePointField.setErrorEnabled(false);
+        commandHeightField.setErrorEnabled(false);
+        fSpaceWidthField.setErrorEnabled(false);
         gateObsTypeError.setVisibility(View.GONE);
+        gateObsSiaError.setVisibility(View.GONE);
     }
 
     public void clearGateObsFields() {
         referencePointValue.setText(null);
+        commandHeightValue.setText(null);
+        fSpaceWidthValue.setText(null);
         obsValue.setText(null);
         gateObsTypeRadio.clearCheck();
-        removeObsFragment();
+        gateObsSiaRadio.clearCheck();
     }
 
-    public void removeObsFragment() {
-        Fragment gateObstacle = manager.findFragmentById(R.id.gate_obs_type_child_fragment);
-        if (gateObstacle != null)
-            manager.beginTransaction().remove(gateObstacle).commit();
-    }
-
-    public void loadGateObsData(GateObsEntry gateObs){
-        referencePointValue.setText(gateObs.getAccessRefPoint());
+    public void loadGateObsData(GateObsEntry gateObs) {
+        if (gateObs.getAccessRefPoint() != null)
+            referencePointValue.setText(gateObs.getAccessRefPoint());
         gateObsTypeRadio.check(gateObsTypeRadio.getChildAt(gateObs.getAccessType()).getId());
-        if (gateObs.getGateObstacleObs() != null)
-            obsValue.setText(gateObs.getGateObstacleObs());
+        if (gateObs.getAccessType() == 0) {
+            if (gateObs.getBarrierHeight() != null)
+                commandHeightValue.setText(String.valueOf(gateObs.getBarrierHeight()));
+            if (gateObs.getBarrierWidth() != null)
+                fSpaceWidthValue.setText(String.valueOf(gateObs.getBarrierWidth()));
+        } else {
+            if (gateObs.getGateDoorHeight() != null)
+                commandHeightValue.setText(String.valueOf(gateObs.getGateDoorHeight()));
+            if (gateObs.getGateDoorWidth() != null)
+                fSpaceWidthValue.setText(String.valueOf(gateObs.getGateDoorWidth()));
+        }
+        if (gateObs.getObsHasSia() != null)
+            gateObsSiaRadio.check(gateObsSiaRadio.getChildAt(gateObs.getObsHasSia()).getId());
+        obsValue.setText(gateObs.getGateObstacleObs());
     }
 }

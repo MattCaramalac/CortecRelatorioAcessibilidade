@@ -74,13 +74,85 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gate_obstacle_type_radio" />
 
-        <FrameLayout
-            android:id="@+id/gate_obs_type_child_fragment"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/gate_obs_height_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_type_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_gate_barrier_height">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/gate_obs_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/gate_obs_width_field"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_obstacle_type_error" />
+            app:layout_constraintTop_toBottomOf="@id/gate_obs_height_field"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_gate_barrier_width">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/gate_obs_width_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/label_obs_has_SIA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Obstáculo possui SIA?"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_obs_width_field" />
+
+        <RadioGroup
+            android:id="@+id/obs_has_SIA_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_obs_has_SIA">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/obs_has_SIA_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/obs_has_SIA_radio" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -88,8 +160,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_gate_obstacles_obs"
+            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_obs_type_child_fragment">
+            app:layout_constraintTop_toBottomOf="@id/obs_has_SIA_error">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/gate_obstacle_obs_value"
@@ -97,7 +170,7 @@
                 android:layout_height="match_parent"
                 android:gravity="start"
                 android:inputType="textMultiLine"
-                android:lines="3"
+                android:lines="@integer/multiline_obs_field"
                 android:overScrollMode="always"
                 android:scrollbarStyle="outsideInset"
                 android:scrollbars="vertical"

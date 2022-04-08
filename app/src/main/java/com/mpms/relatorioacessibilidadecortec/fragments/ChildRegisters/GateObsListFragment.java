@@ -95,12 +95,6 @@ public class GateObsListFragment extends Fragment implements OnEntryClickListene
         gateObsBundle.putInt(GateObsFragment.GATE_OBS_ID, 0);
     }
 
-    @Override
-    public void onDestroyView() {
-        modelFragments.setExtAccessLoadInfo(gateObsBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID));
-        super.onDestroyView();
-    }
-
     public void instantiateGateObsViews (View v) {
 //        TextView
         gateObsHeader = v.findViewById(R.id.identifier_header);
