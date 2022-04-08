@@ -18,9 +18,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
@@ -30,15 +32,16 @@ public class SidewalkSlopeFragment extends Fragment {
 
     TextInputLayout slopeLocaleField, slopeWidthField, longMeasureField1, longMeasureField2, longMeasureField3, longMeasureField4,
             leftMeasureField1, leftMeasureField2, leftMeasureField3, leftMeasureField4, rightMeasureField1, rightMeasureField2,
-            rightMeasureField3, rightMeasureField4, tactileFloorObsField, accessFloorObsField, slopeObsField;
+            rightMeasureField3, rightMeasureField4, tactileFloorObsField, accessFloorObsField, slopeObsField, slopeStreetObsField;
     TextInputEditText slopeLocaleValue, slopeWidthValue, longMeasureValue1, longMeasureValue2, longMeasureValue3, longMeasureValue4,
-            leftMeasureValue1, leftMeasureValue2, leftMeasureValue3, leftMeasureValue4,  rightMeasureValue1, rightMeasureValue2,
-            rightMeasureValue3, rightMeasureValue4, tactileFloorObsValue, accessFloorObsValue, slopeObsValue;
+            leftMeasureValue1, leftMeasureValue2, leftMeasureValue3, leftMeasureValue4, rightMeasureValue1, rightMeasureValue2,
+            rightMeasureValue3, rightMeasureValue4, tactileFloorObsValue, accessFloorObsValue, slopeObsValue, slopeStreetObsValue;
     MaterialButton longButton, leftButton, rightButton, cancelSlope, saveSlope;
     ImageButton deleteLong, deleteLeft, deleteRight;
-    RadioGroup hasTactileFloor, hasLeftWing, hasRightWing, slopeIsAccessible;
+    RadioGroup hasTactileFloor, hasLeftWing, hasRightWing, slopeIsAccessible, slopeNearPCD;
+    MultiLineRadioGroup slopeStreetJunction;
     TextView tactileFloorError, longitudinalError, leftWingRadioError, leftWingHeader, leftWingError, rightWingRadioError, rightWingHeader,
-            rightWingError, slopeAccessFloorRadioError;
+            rightWingError, slopeAccessFloorRadioError, streetSlopeError;
 
     Bundle slopeBundle = new Bundle();
 
@@ -90,20 +93,20 @@ public class SidewalkSlopeFragment extends Fragment {
         longButton.setOnClickListener(v -> {
             if (longCounter < 0) {
                 longCounter = 0;
-                Toast.makeText(getContext(), "Ocorreu um erro. Por Favor, tente novamente!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
             } else if (longCounter < 4) {
                 if (longCounter == 0)
                     deleteLong.setVisibility(View.VISIBLE);
                 longFields.get(longCounter).setVisibility(View.VISIBLE);
                 longCounter++;
             } else
-                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
         });
 
         leftButton.setOnClickListener(v -> {
             if (leftCounter < 0) {
                 leftCounter = 0;
-                Toast.makeText(getContext(), "Ocorreu um erro. Por Favor, tente novamente!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
             } else if (leftCounter < 4) {
                 if (leftCounter == 0) {
                     deleteLeft.setVisibility(View.VISIBLE);
@@ -111,7 +114,7 @@ public class SidewalkSlopeFragment extends Fragment {
                 leftFields.get(leftCounter).setVisibility(View.VISIBLE);
                 leftCounter++;
             } else {
-                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -126,7 +129,7 @@ public class SidewalkSlopeFragment extends Fragment {
                 rightFields.get(rightCounter).setVisibility(View.VISIBLE);
                 rightCounter++;
             } else
-                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
         });
 
         deleteLong.setOnClickListener(v -> {
@@ -159,28 +162,40 @@ public class SidewalkSlopeFragment extends Fragment {
             }
         });
 
+        getChildFragmentManager().setFragmentResultListener(InspectionActivity.CHILD_DATA_LISTENER, this, (key, bundle) -> {
+            if (checkSideSlopeEmptyFields() && bundle.getBoolean(InspectionActivity.CHILD_DATA_COMPLETE)) {
+                saveSideSlopeEntry(bundle);
+            }
+        });
+
         cancelSlope.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
         saveSlope.setOnClickListener(v -> {
-            if(checkSideSlopeEmptyFields()) {
-                SidewalkSlopeEntry newSlopeEntry = newSlope(slopeBundle);
-                if (slopeBundle.getInt(SIDEWALK_SLOPE_ID) > 0) {
-                    newSlopeEntry.setSidewalkSlopeID(slopeBundle.getInt(SIDEWALK_SLOPE_ID));
-                    ViewModelEntry.updateSidewalkSlope(newSlopeEntry);
-                    Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
-                    requireActivity().getSupportFragmentManager().popBackStackImmediate();
-                }
-                else if (slopeBundle.getInt(SIDEWALK_SLOPE_ID) == 0){
-                    ViewModelEntry.insertSidewalkSlopeEntry(newSlopeEntry);
-                    Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
-                    clearSideSlopeFields();
-                }
-                else {
-                    slopeBundle.putInt(SIDEWALK_SLOPE_ID, 0);
-                    Toast.makeText(getContext(), getString(R.string.register_error_try_again), Toast.LENGTH_SHORT).show();
+            if (slopeStreetJunction.getCheckedRadioButtonIndex() == 1 || slopeStreetJunction.getCheckedRadioButtonIndex() == 2) {
+                getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, slopeBundle);
+            } else {
+                if (checkSideSlopeEmptyFields()) {
+                    saveSideSlopeEntry(slopeBundle);
                 }
             }
         });
+    }
+
+    private void saveSideSlopeEntry(Bundle bundle) {
+        SidewalkSlopeEntry newSlopeEntry = newSlope(bundle);
+        if (bundle.getInt(SIDEWALK_SLOPE_ID) > 0) {
+            newSlopeEntry.setSidewalkSlopeID(bundle.getInt(SIDEWALK_SLOPE_ID));
+            ViewModelEntry.updateSidewalkSlope(newSlopeEntry);
+            Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
+            requireActivity().getSupportFragmentManager().popBackStackImmediate();
+        } else if (bundle.getInt(SIDEWALK_SLOPE_ID) == 0) {
+            ViewModelEntry.insertSidewalkSlopeEntry(newSlopeEntry);
+            Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
+            clearSideSlopeFields();
+        } else {
+            bundle.putInt(SIDEWALK_SLOPE_ID, 0);
+            Toast.makeText(getContext(), getString(R.string.register_error_try_again), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void instantiateSlopeViews(View view) {
@@ -202,6 +217,7 @@ public class SidewalkSlopeFragment extends Fragment {
         tactileFloorObsField = view.findViewById(R.id.slope_tactile_floor_obs_field);
         accessFloorObsField = view.findViewById(R.id.slope_accessible_floor_obs_field);
         slopeObsField = view.findViewById(R.id.slope_obs_field);
+        slopeStreetObsField = view.findViewById(R.id.street_slope_obs_field);
 //        TextInputEditText
         slopeLocaleValue = view.findViewById(R.id.slope_locale_value);
         slopeWidthValue = view.findViewById(R.id.slope_width_value);
@@ -220,6 +236,7 @@ public class SidewalkSlopeFragment extends Fragment {
         tactileFloorObsValue = view.findViewById(R.id.slope_tactile_floor_obs_value);
         accessFloorObsValue = view.findViewById(R.id.slope_accessible_floor_obs_value);
         slopeObsValue = view.findViewById(R.id.slope_obs_value);
+        slopeStreetObsValue = view.findViewById(R.id.street_slope_obs_value);
 //        MaterialButtons
         longButton = view.findViewById(R.id.add_longitudinal_measurement);
         leftButton = view.findViewById(R.id.add_left_wing_measurement);
@@ -235,6 +252,8 @@ public class SidewalkSlopeFragment extends Fragment {
         hasLeftWing = view.findViewById(R.id.has_left_wing_radio);
         hasRightWing = view.findViewById(R.id.has_right_wing_radio);
         slopeIsAccessible = view.findViewById(R.id.slope_has_accessible_floor_radio);
+//        MultilineRadioGroup
+        slopeStreetJunction = view.findViewById(R.id.street_slope_radio);
 //        TextView
         tactileFloorError = view.findViewById(R.id.slope_has_tactile_floor_error);
         longitudinalError = view.findViewById(R.id.longitudinal_fields_error);
@@ -245,7 +264,7 @@ public class SidewalkSlopeFragment extends Fragment {
         leftWingRadioError = view.findViewById(R.id.has_left_wing_header_error);
         rightWingRadioError = view.findViewById(R.id.has_right_wing_error);
         slopeAccessFloorRadioError = view.findViewById(R.id.slope_has_accessible_floor_error);
-
+        streetSlopeError = view.findViewById(R.id.slope_street_junction_error);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 
@@ -253,6 +272,8 @@ public class SidewalkSlopeFragment extends Fragment {
         hasRightWing.setOnCheckedChangeListener(this::slopeWingRadioListener);
         hasLeftWing.setOnCheckedChangeListener(this::slopeWingRadioListener);
         slopeIsAccessible.setOnCheckedChangeListener(this::slopeWingRadioListener);
+        slopeStreetJunction.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
+                (v, r) -> slopeMultiRadioListener(slopeStreetJunction));
     }
 
     private void addLayoutsToArrays() {
@@ -297,6 +318,28 @@ public class SidewalkSlopeFragment extends Fragment {
                 closeSlopeWingFields(radio);
             }
         }
+    }
+
+    private void slopeMultiRadioListener(MultiLineRadioGroup multi) {
+        int index = multi.getCheckedRadioButtonIndex();
+        switch (index) {
+            case 1:
+                getChildFragmentManager().beginTransaction().replace(R.id.street_slope_fragment, new SillInclinationFragment()).commit();
+                break;
+            case 2:
+                getChildFragmentManager().beginTransaction().replace(R.id.street_slope_fragment, new SillStepFragment()).commit();
+                break;
+            default:
+                removeStreetSlopeFragments();
+                break;
+        }
+    }
+
+    private void removeStreetSlopeFragments() {
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.street_slope_fragment);
+        if (fragment != null)
+            getChildFragmentManager().beginTransaction().remove(fragment).commit();
+
     }
 
     private void closeSlopeWingFields(RadioGroup radio) {
@@ -399,6 +442,12 @@ public class SidewalkSlopeFragment extends Fragment {
             accessFloorObsField.setVisibility(View.VISIBLE);
             accessFloorObsValue.setText(sideSlope.getAccessibleSlopeFloorObs());
         }
+        slopeStreetJunction.checkAt(sideSlope.getStreetSlopeJunction());
+        if (sideSlope.getStreetSlopeJunction() == 1 || sideSlope.getStreetSlopeJunction() == 2)
+            getChildFragmentManager().setFragmentResult(InspectionActivity.LOAD_CHILD_DATA, slopeBundle);
+        if (sideSlope.getStreetSlopeObs() != null) {
+            slopeStreetObsValue.setText(sideSlope.getStreetSlopeObs());
+        }
         if (sideSlope.getSlopeObs() != null)
             slopeObsValue.setText(sideSlope.getSlopeObs());
     }
@@ -475,7 +524,7 @@ public class SidewalkSlopeFragment extends Fragment {
                     break;
             }
         }
-        if(getSlopeCheckedRadio(hasRightWing) == -1) {
+        if (getSlopeCheckedRadio(hasRightWing) == -1) {
             i++;
             rightWingRadioError.setVisibility(View.VISIBLE);
         } else if (getSlopeCheckedRadio(hasRightWing) == 1) {
@@ -564,11 +613,11 @@ public class SidewalkSlopeFragment extends Fragment {
     }
 
     private SidewalkSlopeEntry newSlope(Bundle bundle) {
-        String slopeLocation, tactFloorObs, accessSlopeFloorObs, slopeObs;
+        String slopeLocation, tactFloorObs = null, accessSlopeFloorObs = null, slopeObs = null, junctionObs = null;
         double slopeWidth;
         Double long1 = null, long2 = null, long3 = null, long4 = null, left1 = null, left2 = null, left3 = null, left4 = null,
-                right1 = null, right2 = null, right3 = null, right4 = null;
-        int hasLeft, hasRight, hasTactile, hasAccess;
+                right1 = null, right2 = null, right3 = null, right4 = null, junInclHeight = null, junStepHeight = null;
+        int hasLeft, hasRight, hasTactile, hasAccess, streetJunction;
 
         slopeLocation = String.valueOf(slopeLocaleValue.getText());
         slopeWidth = Double.parseDouble(String.valueOf(slopeWidthValue.getText()));
@@ -611,14 +660,24 @@ public class SidewalkSlopeFragment extends Fragment {
                 break;
         }
         hasTactile = getSlopeCheckedRadio(hasTactileFloor);
-        tactFloorObs = String.valueOf(tactileFloorObsValue.getText());
+        if (!TextUtils.isEmpty(tactileFloorObsValue.getText()))
+            tactFloorObs = String.valueOf(tactileFloorObsValue.getText());
         hasAccess = getSlopeCheckedRadio(slopeIsAccessible);
-        accessSlopeFloorObs = String.valueOf(accessFloorObsValue.getText());
-        slopeObs = String.valueOf(slopeObsValue.getText());
+        if (!TextUtils.isEmpty(accessFloorObsValue.getText()))
+            accessSlopeFloorObs = String.valueOf(accessFloorObsValue.getText());
+        streetJunction = slopeStreetJunction.getCheckedRadioButtonId();
+        if (streetJunction == 1)
+            junInclHeight = bundle.getDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL);
+        else if (streetJunction == 2)
+            junStepHeight = bundle.getDouble(SillStepFragment.STEP_HEIGHT);
+        if (!TextUtils.isEmpty(slopeStreetObsValue.getText()))
+            junctionObs = String.valueOf(slopeStreetObsValue.getText());
+        if (!TextUtils.isEmpty(slopeObsValue.getText()))
+            slopeObs = String.valueOf(slopeObsValue.getText());
 
         return new SidewalkSlopeEntry(bundle.getInt(SidewalkFragment.SIDEWALK_ID), slopeLocation, slopeWidth, longCounter, long1, long2, long3, long4,
                 hasLeft, leftCounter, left1, left2, left3, left4, hasRight, rightCounter, right1, right2, right3, right4, hasTactile, tactFloorObs,
-                hasAccess, accessSlopeFloorObs, slopeObs);
+                hasAccess, accessSlopeFloorObs, streetJunction, junInclHeight, junStepHeight, junctionObs, slopeObs);
     }
 
 

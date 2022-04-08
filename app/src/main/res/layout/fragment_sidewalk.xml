@@ -369,7 +369,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/fourth_measure_perc"
+            android:hint="@string/sixth_measure_perc"
             android:weightSum="@integer/weight_one"
             app:layout_constraintStart_toEndOf="@id/sidewalk_measure_5_field"
             app:layout_constraintBaseline_toBaselineOf="@id/sidewalk_measure_5_field"
@@ -943,6 +943,78 @@
             android:text="@string/label_add_frag_entry"
             android:visibility="gone"/>
 
+       <TextView
+            android:id="@+id/label_sidewalk_has_payphone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/section_header"
+            android:text="Esta calçada possui telefone público?"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_sidewalk_slope"
+            android:layout_marginTop="@dimen/top_margins"/>
+
+        <RadioGroup
+            android:id="@+id/radio_sidewalk_payphone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_sidewalk_has_payphone"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text"
+                />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/sidewalk_has_payphone_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_payphone"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/label_sidewalk_payphone_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/section_header"
+            android:text="Cadastro de Telefones Públicos"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_has_payphone_error"
+            android:layout_marginTop="@dimen/top_margins"
+            android:visibility="gone"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_sidewalk_payphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_sidewalk_payphone_register"
+            android:backgroundTint="@color/purple_200"
+            android:textColor="@color/black"
+            app:cornerRadius="3dp"
+            android:text="@string/label_add_frag_entry"
+            android:visibility="gone"/>
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/sidewalk_obs_field"
@@ -950,7 +1022,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_sidewalk_slope"
+            app:layout_constraintTop_toBottomOf="@id/add_sidewalk_payphone"
             android:hint="@string/hint_obs">
 
             <com.google.android.material.textfield.TextInputEditText

@@ -43,6 +43,7 @@ public class SidewalkEntry {
     private String sidewalkLidDesc;
     private Integer sideConStatus;
     private String sideConsObs;
+    private Integer sideHasPayphones;
 
     public SidewalkEntry(int blockID, String sidewalkLocation, Integer streetPavement, Double sidewalkWidth, Double sideFreeSpaceWidth, String sideMeasureObs,
                          Integer slopeMeasureQnt, Double sideTransSlope1, Double sideTransSlope2, Double sideTransSlope3, Double sideTransSlope4,
@@ -50,7 +51,7 @@ public class SidewalkEntry {
                          Double specialTileDirectionLength, Double specialTileDirectionWidth, Double specialTileAlertLength, Double specialTileAlertWidth,
                          String specialFloorObs, Integer sideFloorIsAccessible, String accessFloorObs, Integer sideHasSlope, String sidewalkObs,
                          Integer hasAerialObstacle, String aerialObstacleDesc, Integer sidewalkHasLids, String sidewalkLidDesc, Integer sideConStatus,
-                         String sideConsObs) {
+                         String sideConsObs, Integer sideHasPayphones) {
         this.blockID = blockID;
         this.sidewalkLocation = sidewalkLocation;
         this.streetPavement = streetPavement;
@@ -81,6 +82,7 @@ public class SidewalkEntry {
         this.sidewalkLidDesc = sidewalkLidDesc;
         this.sideConStatus = sideConStatus;
         this.sideConsObs = sideConsObs;
+        this.sideHasPayphones = sideHasPayphones;
     }
 
     public int getSidewalkID() {
@@ -329,5 +331,13 @@ public class SidewalkEntry {
 
     public void setSideConsObs(String sideConsObs) {
         this.sideConsObs = sideConsObs;
+    }
+
+    public Integer getSideHasPayphones() {
+        return sideHasPayphones;
+    }
+
+    public void setSideHasPayphones(Integer sideHasPayphones) {
+        this.sideHasPayphones = sideHasPayphones;
     }
 }

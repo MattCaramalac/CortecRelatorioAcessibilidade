@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = SidewalkEntry.class, parentColumns = "sidewalkID", childColumns = "sidewalkID",
-        onDelete = CASCADE, onUpdate = CASCADE))
+@Entity(foreignKeys = {@ForeignKey(entity = SidewalkEntry.class, parentColumns = "sidewalkID", childColumns = "sidewalkID",
+        onDelete = CASCADE, onUpdate = CASCADE)})
 public class SidewalkSlopeEntry {
 
     @PrimaryKey(autoGenerate = true)
@@ -37,12 +37,17 @@ public class SidewalkSlopeEntry {
     private String tactileFloorObs;
     private int accessibleSlopeFloor;
     private String accessibleSlopeFloorObs;
+    private Integer streetSlopeJunction;
+    private Double inclinationJunctionHeight;
+    private Double stepJunctionHeight;
+    private String streetSlopeObs;
     private String slopeObs;
 
-    public SidewalkSlopeEntry(int sidewalkID, String slopeLocation, double slopeWidth, int longMeasureQnt, Double longMeasure1, Double longMeasure2, Double longMeasure3,
-                              Double longMeasure4, int hasLeftWingSlope, Integer leftWingMeasureQnt, Double leftMeasure1, Double leftMeasure2, Double leftMeasure3,
-                              Double leftMeasure4, int hasRightWingSlope, Integer rightWingMeasureQnt, Double rightMeasure1, Double rightMeasure2, Double rightMeasure3,
-                              Double rightMeasure4, int hasTactileFloor, String tactileFloorObs, int accessibleSlopeFloor, String accessibleSlopeFloorObs, String slopeObs) {
+    public SidewalkSlopeEntry(int sidewalkID, String slopeLocation, double slopeWidth, int longMeasureQnt, Double longMeasure1, Double longMeasure2,
+                              Double longMeasure3, Double longMeasure4, int hasLeftWingSlope, Integer leftWingMeasureQnt, Double leftMeasure1, Double leftMeasure2,
+                              Double leftMeasure3, Double leftMeasure4, int hasRightWingSlope, Integer rightWingMeasureQnt, Double rightMeasure1, Double rightMeasure2,
+                              Double rightMeasure3, Double rightMeasure4, int hasTactileFloor, String tactileFloorObs, int accessibleSlopeFloor, String accessibleSlopeFloorObs,
+                              Integer streetSlopeJunction, Double inclinationJunctionHeight, Double stepJunctionHeight, String streetSlopeObs, String slopeObs) {
         this.sidewalkID = sidewalkID;
         this.slopeLocation = slopeLocation;
         this.slopeWidth = slopeWidth;
@@ -67,6 +72,10 @@ public class SidewalkSlopeEntry {
         this.tactileFloorObs = tactileFloorObs;
         this.accessibleSlopeFloor = accessibleSlopeFloor;
         this.accessibleSlopeFloorObs = accessibleSlopeFloorObs;
+        this.streetSlopeJunction = streetSlopeJunction;
+        this.inclinationJunctionHeight = inclinationJunctionHeight;
+        this.stepJunctionHeight = stepJunctionHeight;
+        this.streetSlopeObs = streetSlopeObs;
         this.slopeObs = slopeObs;
     }
 
@@ -268,6 +277,38 @@ public class SidewalkSlopeEntry {
 
     public void setAccessibleSlopeFloorObs(String accessibleSlopeFloorObs) {
         this.accessibleSlopeFloorObs = accessibleSlopeFloorObs;
+    }
+
+    public Integer getStreetSlopeJunction() {
+        return streetSlopeJunction;
+    }
+
+    public void setStreetSlopeJunction(Integer streetSlopeJunction) {
+        this.streetSlopeJunction = streetSlopeJunction;
+    }
+
+    public Double getInclinationJunctionHeight() {
+        return inclinationJunctionHeight;
+    }
+
+    public void setInclinationJunctionHeight(Double inclinationJunctionHeight) {
+        this.inclinationJunctionHeight = inclinationJunctionHeight;
+    }
+
+    public Double getStepJunctionHeight() {
+        return stepJunctionHeight;
+    }
+
+    public void setStepJunctionHeight(Double stepJunctionHeight) {
+        this.stepJunctionHeight = stepJunctionHeight;
+    }
+
+    public String getStreetSlopeObs() {
+        return streetSlopeObs;
+    }
+
+    public void setStreetSlopeObs(String streetSlopeObs) {
+        this.streetSlopeObs = streetSlopeObs;
     }
 
     public String getSlopeObs() {

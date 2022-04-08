@@ -26,6 +26,7 @@ import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SidewalkSlopeListFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.PayPhoneListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.ArrayList;
@@ -40,10 +41,11 @@ public class SidewalkFragment extends Fragment {
     TextInputEditText sideLocationValue, sideWidthValue, sideFreeSpaceWidthValue, sideMeasureObsValue, sideTransSlopeValue1, sideTransSlopeValue2, sideTransSlopeValue3,
             sideTransSlopeValue4, sideTransSlopeValue5, sideTransSlopeValue6, directionTileLengthValue, directionTileWidthValue, alertTileLengthValue, alertTileWidthValue,
             tactileFloorObsValue, accessFloorObsValue, sidewalkObsValue, aerialObsDescValue, sidewalkLidDescValue, sideConsObsValue;
-    RadioGroup streetPavementRadio, hasTactileFloorRadio, tactileFloorColorRadio, accessibleFloorRadio, sideHasSlopeRadio, hasAerialObsRadio, hasLidRadio, sideConsRadio;
+    RadioGroup streetPavementRadio, hasTactileFloorRadio, tactileFloorColorRadio, accessibleFloorRadio, sideHasSlopeRadio, hasAerialObsRadio, hasLidRadio, sideConsRadio, payphoneRadio;
     TextView streetPavementError, sideSlopeMeasureError, sideHasTactileFloorError, tactileFloorColorHeader, tactileFloorColorError, directionTileMeasureHeader,
-            directionTileMeasureError, alertTileMeasureHeader, alertTileMeasureError, accessFloorError, sideHasSlopeError, aerialError, lidError, sideConsError;
-    MaterialButton saveSidewalk, cancelSidewalk, addSlope, addSideMeasure;
+            directionTileMeasureError, alertTileMeasureHeader, alertTileMeasureError, accessFloorError, sideHasSlopeError, aerialError, lidError, sideConsError,
+            payphoneError, payphoneHeader;
+    MaterialButton saveSidewalk, cancelSidewalk, addSlope, addSideMeasure, addPayphone;
     ImageButton delSideMeasure;
 
     int slopeMeasureQnt = 1;
@@ -57,6 +59,8 @@ public class SidewalkFragment extends Fragment {
     int recentRegister = 0;
     int savedRegister = 0;
     int rowCounter = 0;
+
+    int addButtonPressed = 0;
 
     ViewModelEntry modelEntry;
 
@@ -98,11 +102,22 @@ public class SidewalkFragment extends Fragment {
         }
 
         modelEntry.getLastSidewalkEntry().observe(getViewLifecycleOwner(), sidewalk -> {
-            if (recentRegister == 1) {
-                recentRegister = 0;
-                sidewalkData.putInt(SIDEWALK_ID, sidewalk.getSidewalkID());
-                openSidewalkSlopeFragment();
+            if (addButtonPressed == 1) {
+                addButtonPressed = 0;
+                if (recentRegister == 1) {
+                    recentRegister = 0;
+                    sidewalkData.putInt(SIDEWALK_ID, sidewalk.getSidewalkID());
+                    openSidewalkSlopeFragment();
+                }
+            } else if (addButtonPressed ==  2) {
+                addButtonPressed = 0;
+                if (recentRegister == 1) {
+                    recentRegister = 0;
+                    sidewalkData.putInt(SIDEWALK_ID, sidewalk.getSidewalkID());
+                    openPayPhoneListFragment();
+                }
             }
+
         });
 
         modelEntry.getAllSidewalkSlopes(sidewalkData.getInt(SIDEWALK_ID))
@@ -136,6 +151,7 @@ public class SidewalkFragment extends Fragment {
         });
 
         addSlope.setOnClickListener(v -> {
+            addButtonPressed = 1;
             if (sidewalkData.getInt(SIDEWALK_ID) == 0) {
                 if (updateRegister == 0) {
                     recentRegister++;
@@ -169,7 +185,42 @@ public class SidewalkFragment extends Fragment {
             }
         });
 
-        cancelSidewalk.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.SIDEWALK_LIST,0));
+        addPayphone.setOnClickListener(v -> {
+            addButtonPressed = 2;
+            if (sidewalkData.getInt(SIDEWALK_ID) == 0) {
+                if (updateRegister == 0) {
+                    recentRegister++;
+                    updateRegister++;
+                    SidewalkEntry newSidewalkEntry = newSidewalk(sidewalkData);
+                    ViewModelEntry.insertSidewalkEntry(newSidewalkEntry);
+                } else if (updateRegister > 0) {
+                    updateRegister++;
+                    openPayPhoneListFragment();
+                } else {
+                    recentRegister = 0;
+                    updateRegister = 0;
+                    sidewalkData.putInt(SIDEWALK_ID, 0);
+                    Toast.makeText(getContext(), getString(R.string.register_error_try_again), Toast.LENGTH_SHORT).show();
+                }
+            } else if (sidewalkData.getInt(SIDEWALK_ID) > 0) {
+                if (updateRegister >= 0) {
+                    updateRegister++;
+                    openPayPhoneListFragment();
+                } else {
+                    recentRegister = 0;
+                    updateRegister = 0;
+                    sidewalkData.putInt(SIDEWALK_ID, 0);
+                    Toast.makeText(getContext(), getString(R.string.register_error_try_again), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                updateRegister = 0;
+                recentRegister = 0;
+                sidewalkData.putInt(SIDEWALK_ID, 0);
+                Toast.makeText(getContext(), getString(R.string.register_error_try_again), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cancelSidewalk.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.SIDEWALK_LIST, 0));
 
 
         saveSidewalk.setOnClickListener(v -> {
@@ -316,6 +367,7 @@ public class SidewalkFragment extends Fragment {
         hasAerialObsRadio = view.findViewById(R.id.aerial_obstacle_radio);
         hasLidRadio = view.findViewById(R.id.sidewalk_lid_radio);
         sideConsRadio = view.findViewById(R.id.side_conservation_radio);
+        payphoneRadio = view.findViewById(R.id.radio_sidewalk_payphone);
 //        TextView
         streetPavementError = view.findViewById(R.id.street_pavement_error);
         sideSlopeMeasureError = view.findViewById(R.id.sidewalk_measure_error);
@@ -331,11 +383,14 @@ public class SidewalkFragment extends Fragment {
         aerialError = view.findViewById(R.id.aerial_obstacle_error);
         lidError = view.findViewById(R.id.sidewalk_lid_error);
         sideConsError = view.findViewById(R.id.side_conservation_error);
+        payphoneError = view.findViewById(R.id.sidewalk_has_payphone_error);
+        payphoneHeader = view.findViewById(R.id.label_sidewalk_payphone_register);
 //        MaterialButton
         saveSidewalk = view.findViewById(R.id.save_sidewalk);
         cancelSidewalk = view.findViewById(R.id.cancel_sidewalk);
         addSlope = view.findViewById(R.id.add_sidewalk_slope);
         addSideMeasure = view.findViewById(R.id.add_sidewalk_measure_button);
+        addPayphone = view.findViewById(R.id.add_sidewalk_payphone);
 //        ImageButton
         delSideMeasure = view.findViewById(R.id.delete_sidewalk_measure);
 //        ViewModel
@@ -347,6 +402,7 @@ public class SidewalkFragment extends Fragment {
         sideHasSlopeRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
         hasLidRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
         hasAerialObsRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
+        payphoneRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
 
 //        Methods
         allowSidewalkObsScroll();
@@ -441,7 +497,7 @@ public class SidewalkFragment extends Fragment {
             }
         }
 
-        if(sidewalk.getSidewalkHasLids() != null && sidewalk.getSidewalkHasLids() > -1) {
+        if (sidewalk.getSidewalkHasLids() != null && sidewalk.getSidewalkHasLids() > -1) {
             hasLidRadio.check(hasLidRadio.getChildAt(sidewalk.getSidewalkHasLids()).getId());
             if (sidewalk.getSidewalkHasLids() == 1) {
                 if (sidewalk.getSidewalkLidDesc() != null)
@@ -449,7 +505,7 @@ public class SidewalkFragment extends Fragment {
             }
         }
 
-        if(sidewalk.getHasAerialObstacle() != null && sidewalk.getHasAerialObstacle() > -1) {
+        if (sidewalk.getHasAerialObstacle() != null && sidewalk.getHasAerialObstacle() > -1) {
             hasAerialObsRadio.check(hasAerialObsRadio.getChildAt(sidewalk.getHasAerialObstacle()).getId());
             if (sidewalk.getHasAerialObstacle() == 1) {
                 if (sidewalk.getAerialObstacleDesc() != null)
@@ -459,6 +515,8 @@ public class SidewalkFragment extends Fragment {
 
         if (sidewalk.getSideHasSlope() != null && sidewalk.getSideHasSlope() > -1)
             sideHasSlopeRadio.check(sideHasSlopeRadio.getChildAt(sidewalk.getSideHasSlope()).getId());
+        if (sidewalk.getSideHasPayphones() != null && sidewalk.getSideHasPayphones() > -1)
+            payphoneRadio.check(payphoneRadio.getChildAt(sidewalk.getSideHasPayphones()).getId());
         if (sidewalk.getSidewalkObs() != null)
             sidewalkObsValue.setText(sidewalk.getSidewalkObs());
 
@@ -490,7 +548,7 @@ public class SidewalkFragment extends Fragment {
                 alertTileWidthValue.setText(null);
                 alertTileWidthField.setVisibility(View.GONE);
             }
-        }  else if (radio == accessibleFloorRadio) {
+        } else if (radio == accessibleFloorRadio) {
             if (index == 0) {
                 accessFloorObsField.setVisibility(View.VISIBLE);
             } else {
@@ -515,6 +573,14 @@ public class SidewalkFragment extends Fragment {
             else {
                 sidewalkLidDescValue.setText(null);
                 sidewalkLidDescField.setVisibility(View.GONE);
+            }
+        } else if (radio == payphoneRadio) {
+            if (index == 1) {
+                payphoneHeader.setVisibility(View.VISIBLE);
+                addPayphone.setVisibility(View.VISIBLE);
+            } else {
+                payphoneHeader.setVisibility(View.GONE);
+                addPayphone.setVisibility(View.GONE);
             }
         }
     }
@@ -653,6 +719,11 @@ public class SidewalkFragment extends Fragment {
             sideHasSlopeError.setVisibility(View.VISIBLE);
         }
 
+        if (getCheckedSidewalkRadioButton(payphoneRadio) == -1) {
+            i++;
+            payphoneError.setVisibility(View.VISIBLE);
+        }
+
         return i == 0;
     }
 
@@ -675,6 +746,7 @@ public class SidewalkFragment extends Fragment {
         lidError.setVisibility(View.GONE);
         aerialError.setVisibility(View.GONE);
         sideConsError.setVisibility(View.GONE);
+        payphoneError.setVisibility(View.GONE);
     }
 
     private void openSidewalkSlopeFragment() {
@@ -686,9 +758,18 @@ public class SidewalkFragment extends Fragment {
 
     }
 
+    private void openPayPhoneListFragment() {
+        PayPhoneListFragment phoneList = PayPhoneListFragment.newInstance();
+        phoneList.setArguments(sidewalkData);
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, phoneList).addToBackStack(null).commit();
+
+    }
+
     private SidewalkEntry newSidewalk(Bundle bundle) {
-        String sideLocale = null, sideMeasureObs = null, tactFloorObs = null, accessFloorObs = null, sidewalkObs = null, aerialObsDesc = null, sidewalkLidsDesc = null, sideConsStatus = null;
-        Integer streetPavement = null, hasTactFloor = null, tactFloorColor = null, accessFloor = null, hasSlope = null, hasAerialObstacle = null, hasLids = null, consStatus = null;
+        String sideLocale = null, sideMeasureObs = null, tactFloorObs = null, accessFloorObs = null, sidewalkObs = null, aerialObsDesc = null,
+                sidewalkLidsDesc = null, sideConsStatus = null;
+        Integer streetPavement = null, hasTactFloor = null, tactFloorColor = null, accessFloor = null, hasSlope = null, hasAerialObstacle = null, hasLids = null,
+                consStatus = null, hasPayphones = null;
         Double sideWidth = null, sideFSpaceWidth = null, sideSlope1 = null, sideSlope2 = null, sideSlope3 = null, sideSlope4 = null, sideSlope5 = null,
                 sideSlope6 = null, tacTileDirLength = null, tacTileDirWidth = null, tacTileAlertLength = null, tacTileAlertWidth = null;
 
@@ -728,7 +809,7 @@ public class SidewalkFragment extends Fragment {
 
         if (getCheckedSidewalkRadioButton(hasTactileFloorRadio) != -1)
             consStatus = getCheckedSidewalkRadioButton(hasTactileFloorRadio);
-        if(!TextUtils.isEmpty(sideConsObsValue.getText()))
+        if (!TextUtils.isEmpty(sideConsObsValue.getText()))
             sideConsStatus = String.valueOf(sideConsObsValue.getText());
 
         if (getCheckedSidewalkRadioButton(hasTactileFloorRadio) != -1) {
@@ -778,12 +859,16 @@ public class SidewalkFragment extends Fragment {
         if (getCheckedSidewalkRadioButton(sideHasSlopeRadio) != -1)
             hasSlope = getCheckedSidewalkRadioButton(sideHasSlopeRadio);
 
+        if (getCheckedSidewalkRadioButton(payphoneRadio) != -1)
+            hasPayphones = getCheckedSidewalkRadioButton(payphoneRadio);
+
         if (!TextUtils.isEmpty(sidewalkObsValue.getText()))
             sidewalkObs = String.valueOf(sidewalkObsValue.getText());
 
         return new SidewalkEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
                 sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirLength, tacTileDirWidth, tacTileAlertLength,
-                tacTileAlertWidth, tactFloorObs, accessFloor, accessFloorObs, hasSlope, sidewalkObs, hasAerialObstacle, aerialObsDesc, hasLids, sidewalkLidsDesc, consStatus, sideConsStatus);
+                tacTileAlertWidth, tactFloorObs, accessFloor, accessFloorObs, hasSlope, sidewalkObs, hasAerialObstacle, aerialObsDesc, hasLids, sidewalkLidsDesc, consStatus,
+                sideConsStatus, hasPayphones);
 
     }
 
@@ -802,6 +887,8 @@ public class SidewalkFragment extends Fragment {
         accessFloorObsField.setVisibility(View.GONE);
         aerialObsDescField.setVisibility(View.GONE);
         sidewalkLidDescField.setVisibility(View.GONE);
+        payphoneHeader.setVisibility(View.GONE);
+        addPayphone.setVisibility(View.GONE);
     }
 
     private void clearSidewalkFields() {
@@ -833,5 +920,6 @@ public class SidewalkFragment extends Fragment {
         sideHasSlopeRadio.clearCheck();
         hasLidRadio.clearCheck();
         hasAerialObsRadio.clearCheck();
+        payphoneRadio.clearCheck();
     }
 }
