@@ -21,6 +21,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.DoorLockRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
@@ -51,8 +52,10 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null)
+        if (this.getArguments() != null) {
             lockListBundle.putInt(DoorFragment.DOOR_ID, this.getArguments().getInt(DoorFragment.DOOR_ID));
+            lockListBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
+        }
     }
 
     @Nullable
@@ -62,18 +65,30 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateGateObsViews(view);
 
-        if (lockListBundle.getInt(DoorFragment.DOOR_ID) == 0) {
+        if (lockListBundle.getInt(DoorFragment.DOOR_ID) == 0 && lockListBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) == 0) {
             modelEntry.getLastDoorEntry().observe(getViewLifecycleOwner(), lastDoor ->
                     lockListBundle.putInt(DoorFragment.DOOR_ID, lastDoor.getDoorID()));
         }
 
-        modelEntry.getDoorLocksFromDoor(lockListBundle.getInt(DoorFragment.DOOR_ID)).observe(getViewLifecycleOwner(), lockList -> {
-            lockAdapter = new DoorLockRecViewAdapter(lockList, requireActivity(), this);
+//        Necessário para travar este observador. Quando trocar as tabelas, será mudado o método
+        if (lockListBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) == 0) {
+            modelEntry.getDoorLocksFromDoor(lockListBundle.getInt(DoorFragment.DOOR_ID)).observe(getViewLifecycleOwner(), lockList -> {
+                lockAdapter = new DoorLockRecViewAdapter(lockList, requireActivity(), this);
+                recyclerView.setAdapter(lockAdapter);
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+                recyclerView.addItemDecoration(dividerItemDecoration);
+            });
+        }
+
+
+        modelEntry.getDoorLocksFromGates(lockListBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), extLockList -> {
+            lockAdapter = new DoorLockRecViewAdapter(extLockList, requireActivity(), this);
             recyclerView.setAdapter(lockAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
             dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
@@ -94,7 +109,8 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewChildRegID(lockListBundle.getInt(DoorFragment.DOOR_ID));
+        if (lockListBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) == 0)
+            RoomsRegisterFragment.roomModelFragments.setNewChildRegID(lockListBundle.getInt(DoorFragment.DOOR_ID));
     }
 
     public void instantiateGateObsViews (View v) {
@@ -117,7 +133,13 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
 
     @Override
     public void OnEntryClick(int position) {
-        DoorLockEntry lockEntry = modelEntry.allDoorLocks.getValue().get(position);
+        DoorLockEntry lockEntry;
+        if (lockListBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) == 0) {
+            lockEntry = modelEntry.allDoorLocks.getValue().get(position);
+        }
+        else {
+            lockEntry = modelEntry.allDoorLocksGates.getValue().get(position);
+        }
         lockListBundle.putInt(DoorLockFragment.LOCK_ID, lockEntry.getLockID());
         openDoorLockFragment();
     }

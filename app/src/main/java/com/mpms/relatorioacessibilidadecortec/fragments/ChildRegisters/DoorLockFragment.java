@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
@@ -48,6 +49,7 @@ public class DoorLockFragment extends Fragment {
         if (getArguments() != null) {
             lockBundle.putInt(LOCK_ID, this.getArguments().getInt(LOCK_ID));
             lockBundle.putInt(DoorFragment.DOOR_ID, this.getArguments().getInt(DoorFragment.DOOR_ID));
+            lockBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
         }
     }
 
@@ -66,6 +68,7 @@ public class DoorLockFragment extends Fragment {
 
         if (lockBundle.getInt(LOCK_ID) > 0)
             modelEntry.getOneDoorLock(lockBundle.getInt(LOCK_ID)).observe(getViewLifecycleOwner(), this::loadDoorLockData);
+
 
         saveLock.setOnClickListener(v -> {
             if (doorLockNoEmptyFields()) {
@@ -165,9 +168,15 @@ public class DoorLockFragment extends Fragment {
     }
 
     private DoorLockEntry newDoorLock(Bundle bundle) {
+        Integer doorID = null, extAccessID = null;
         int lType;
         String lDesc = null, lObs = null;
         double lHeight;
+
+        if (bundle.getInt(DoorFragment.DOOR_ID) > 0)
+            doorID = bundle.getInt(DoorFragment.DOOR_ID);
+        else if (bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0)
+            extAccessID = bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID);
 
         lType = lockType.getCheckedRadioButtonIndex();
         if (lType == 2)
@@ -176,6 +185,6 @@ public class DoorLockFragment extends Fragment {
         if (lockObsValue.getText() != null)
             lObs = String.valueOf(lockObsValue.getText());
 
-        return new DoorLockEntry(bundle.getInt(DoorFragment.DOOR_ID), lType, lDesc, lHeight, lObs);
+        return new DoorLockEntry(doorID, extAccessID, lType, lDesc, lHeight, lObs);
     }
 }

@@ -6,20 +6,23 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = {@ForeignKey(entity = DoorEntry.class, parentColumns = "doorID", childColumns = "doorID", onDelete = CASCADE, onUpdate = CASCADE)})
+@Entity (foreignKeys = {@ForeignKey(entity = DoorEntry.class, parentColumns = "doorID", childColumns = "doorID", onDelete = CASCADE, onUpdate = CASCADE),
+                        @ForeignKey(entity = ExternalAccess.class, parentColumns = "externalAccessID", childColumns = "extAccessID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class DoorLockEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int lockID;
-    private int doorID;
+    private Integer doorID;
+    private Integer extAccessID;
 
     private int lockType;
     private String lockDesc;
     private double lockHeight;
     private String lockObs;
 
-    public DoorLockEntry(int doorID, int lockType, String lockDesc, double lockHeight, String lockObs) {
+    public DoorLockEntry(Integer doorID, Integer extAccessID, int lockType, String lockDesc, double lockHeight, String lockObs) {
         this.doorID = doorID;
+        this.extAccessID = extAccessID;
         this.lockType = lockType;
         this.lockDesc = lockDesc;
         this.lockHeight = lockHeight;
@@ -34,12 +37,8 @@ public class DoorLockEntry {
         this.lockID = lockID;
     }
 
-    public int getDoorID() {
+    public Integer getDoorID() {
         return doorID;
-    }
-
-    public void setDoorID(int doorID) {
-        this.doorID = doorID;
     }
 
     public int getLockType() {
@@ -72,5 +71,17 @@ public class DoorLockEntry {
 
     public void setLockObs(String lockObs) {
         this.lockObs = lockObs;
+    }
+
+    public void setDoorID(Integer doorID) {
+        this.doorID = doorID;
+    }
+
+    public Integer getExtAccessID() {
+        return extAccessID;
+    }
+
+    public void setExtAccessID(Integer extAccessID) {
+        this.extAccessID = extAccessID;
     }
 }
