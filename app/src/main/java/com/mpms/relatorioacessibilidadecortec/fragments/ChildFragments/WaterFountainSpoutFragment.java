@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -13,14 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
-
-import java.util.Objects;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 public class WaterFountainSpoutFragment extends Fragment {
 
@@ -28,30 +26,31 @@ public class WaterFountainSpoutFragment extends Fragment {
     public static final String HIGHEST_SPOUT = "HIGHEST_SPOUT";
     public static final String LOWEST_SPOUT = "LOWEST_SPOUT";
     public static final String ALLOW_FRONTAL = "ALLOW_FRONTAL";
-    public static final String FRONTAL_APPROX_SPOUT = "FRONTAL_APPROX_SPOUT";
-    public static final String SPOUT_FOUNTAIN_OBS = "SPOUT_FOUNTAIN_OBS";
+    public static final String FRONTAL_APPROX_HEIGHT = "FRONTAL_APPROX_HEIGHT";
+    public static final String FRONTAL_APPROX_DEPTH = "FRONTAL_APPROX_DEPTH";
 
-    TextInputLayout highestSpoutField, lowestSpoutField, frontalApproxSpoutField, spoutObsField;
-    TextInputEditText highestSpoutValue, lowestSpoutValue, frontalApproxSpoutValue, spoutObsValue;
+    TextInputLayout highestSpoutField, lowestSpoutField, frontalApproxHeightField, frontalApproxDepthField;
+    TextInputEditText highestSpoutValue, lowestSpoutValue, frontalApproxHeightValue, frontalApproxDepthValue;
     TextView diffHeightsError, allowApproxError;
     RadioGroup hasDiffHeightsSpouts, allowFrontalApprox;
 
-    ViewModelFragments modelFragments;
+    ViewModelEntry modelEntry;
+
+    Bundle childBundle = new Bundle();
 
     public WaterFountainSpoutFragment() {
         // Required empty public constructor
     }
 
     public static WaterFountainSpoutFragment newInstance() {
-        WaterFountainSpoutFragment fragment = new WaterFountainSpoutFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        return new WaterFountainSpoutFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (this.getArguments() != null)
+            childBundle.putInt(WaterFountainFragment.FOUNTAIN_ID, this.getArguments().getInt(WaterFountainFragment.FOUNTAIN_ID));
     }
 
     @Override
@@ -66,50 +65,37 @@ public class WaterFountainSpoutFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateSpoutFountainViews(view);
-        hasDiffHeightsSpouts.setOnCheckedChangeListener(this::waterSpoutListener);
-        allowFrontalApprox.setOnCheckedChangeListener(this::waterSpoutListener);
-        allowSpoutFountainObsScroll();
-
-        modelFragments.getFountainFragData().observe(getViewLifecycleOwner(), waterFrag -> {
-            if (waterFrag != null) {
-                gatherSpoutFountainData(waterFrag);
-            }
-        });
-
-        modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
-            if (Objects.equals(modelFragments.getSaveAttempt().getValue(), 1)) {
-                if (hasNoEmptyFields()) {
-                    Bundle spoutData = new Bundle();
-                    spoutData.putInt(HAS_DIFFERENT_HEIGHTS, getCheckedIndex(hasDiffHeightsSpouts));
-                    spoutData.putDouble(HIGHEST_SPOUT, Double.parseDouble(String.valueOf(highestSpoutValue.getText())));
-                    if (getCheckedIndex(hasDiffHeightsSpouts) == 1)
-                        spoutData.putDouble(LOWEST_SPOUT, Double.parseDouble(String.valueOf(lowestSpoutValue.getText())));
-                    spoutData.putInt(ALLOW_FRONTAL, getCheckedIndex(allowFrontalApprox));
-                    if (getCheckedIndex(allowFrontalApprox) == 1)
-                        spoutData.putDouble(FRONTAL_APPROX_SPOUT, Double.parseDouble(String.valueOf(frontalApproxSpoutValue.getText())));
-                    spoutData.putString(SPOUT_FOUNTAIN_OBS, String.valueOf(spoutObsValue.getText()));
-                    modelFragments.setFountainBundle(spoutData);
-                    clearFields();
-                    requireParentFragment().getChildFragmentManager().beginTransaction().remove(this).commit();
-                }
-                modelFragments.setSaveAttemptFountain(0);
-            }
-        });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (childBundle.getInt(WaterFountainFragment.FOUNTAIN_ID) > 0)
+            modelEntry.getOneWaterFountain(childBundle.getInt(WaterFountainFragment.FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadSpoutFountainData);
+
+//        getParentFragmentManager().setFragmentResultListener(InspectionActivity.LOAD_CHILD_DATA, this, (key, bundle) -> {
+//            modelEntry.getOneWaterFountain(bundle.getInt(WaterFountainFragment.FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadSpoutFountainData);
+//        });
+
+        getParentFragmentManager().setFragmentResultListener(InspectionActivity.GATHER_CHILD_DATA, this, (key, bundle) -> {
+            gatherSpoutFountainData(bundle);
+            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
+        });
+    }
 
 
     private void instantiateSpoutFountainViews(View view) {
 //        TextInputLayout
         highestSpoutField = view.findViewById(R.id.highest_spout_height_field);
         lowestSpoutField = view.findViewById(R.id.lowest_spout_height_field);
-        frontalApproxSpoutField = view.findViewById(R.id.free_space_height_field);
-        spoutObsField = view.findViewById(R.id.spout_water_fountain_obs_field);
+        frontalApproxHeightField = view.findViewById(R.id.frontal_approx_height_field);
+        frontalApproxDepthField = view.findViewById(R.id.frontal_approx_depth_field);
 //        TextInputEditText
         highestSpoutValue = view.findViewById(R.id.highest_spout_height_value);
         lowestSpoutValue = view.findViewById(R.id.lowest_spout_height_value);
-        frontalApproxSpoutValue = view.findViewById(R.id.free_space_height_value);
-        spoutObsValue = view.findViewById(R.id.spout_water_fountain_obs_value);
+        frontalApproxHeightValue = view.findViewById(R.id.frontal_approx_height_value);
+        frontalApproxDepthValue = view.findViewById(R.id.frontal_approx_depth_value);
 //        RadioGroup
         allowFrontalApprox = view.findViewById(R.id.spout_allow_approx_radio);
         hasDiffHeightsSpouts = view.findViewById(R.id.spout_different_heights_radio);
@@ -117,9 +103,13 @@ public class WaterFountainSpoutFragment extends Fragment {
         allowApproxError = view.findViewById(R.id.water_fountain_frontal_approx_error);
         diffHeightsError = view.findViewById(R.id.different_heights_fountain_error);
 //        ViewModel
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+//        modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Initial Layout
         highestSpoutField.setHint("Altura da Bica (m)");
+//        Listeners
+        hasDiffHeightsSpouts.setOnCheckedChangeListener(this::waterSpoutListener);
+        allowFrontalApprox.setOnCheckedChangeListener(this::waterSpoutListener);
     }
 
     private void waterSpoutListener(RadioGroup radio, int checkedID) {
@@ -133,39 +123,51 @@ public class WaterFountainSpoutFragment extends Fragment {
                 lowestSpoutValue.setText(null);
                 lowestSpoutField.setVisibility(View.GONE);
             }
-        }
-        else if (radio == allowFrontalApprox) {
-            if (checkIndex == 1)
-                frontalApproxSpoutField.setVisibility(View.VISIBLE);
-            else {
-                frontalApproxSpoutValue.setText(null);
-                frontalApproxSpoutField.setVisibility(View.GONE);
+        } else if (radio == allowFrontalApprox) {
+            if (checkIndex == 1) {
+                frontalApproxHeightField.setVisibility(View.VISIBLE);
+                frontalApproxDepthField.setVisibility(View.VISIBLE);
+            } else {
+                frontalApproxHeightValue.setText(null);
+                frontalApproxHeightField.setVisibility(View.GONE);
+                frontalApproxDepthValue.setText(null);
+                frontalApproxDepthField.setVisibility(View.GONE);
             }
         }
 
     }
 
-    private void gatherSpoutFountainData(Bundle bundle) {
-        hasDiffHeightsSpouts.check(hasDiffHeightsSpouts.getChildAt(bundle.getInt(HAS_DIFFERENT_HEIGHTS)).getId());
-        highestSpoutValue.setText(String.valueOf(bundle.getDouble(HIGHEST_SPOUT)));
-        lowestSpoutValue.setText(String.valueOf(bundle.getDouble(LOWEST_SPOUT)));
-        allowFrontalApprox.check(allowFrontalApprox.getChildAt(bundle.getInt(ALLOW_FRONTAL)).getId());
-        frontalApproxSpoutValue.setText(String.valueOf(bundle.getDouble(FRONTAL_APPROX_SPOUT)));
-        spoutObsValue.setText(bundle.getString(SPOUT_FOUNTAIN_OBS));
-    }
-
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
+    private void loadSpoutFountainData(WaterFountainEntry fountainEntry) {
+        hasDiffHeightsSpouts.check(hasDiffHeightsSpouts.getChildAt(fountainEntry.getHasSpoutsDifferentHeights()).getId());
+        switch (fountainEntry.getHasSpoutsDifferentHeights()) {
+            case 1:
+                lowestSpoutValue.setText(String.valueOf(fountainEntry.getLowestSpoutHeight()));
+            case 0:
+                highestSpoutValue.setText(String.valueOf(fountainEntry.getHighestSpoutHeight()));
+                break;
         }
-        return false;
+        allowFrontalApprox.check(allowFrontalApprox.getChildAt(fountainEntry.getSpoutAllowFrontalApproximation()).getId());
+        if (fountainEntry.getSpoutAllowFrontalApproximation() == 1) {
+            frontalApproxHeightValue.setText(String.valueOf(fountainEntry.getFrontalApproxLowestSpout()));
+            frontalApproxDepthValue.setText(String.valueOf(fountainEntry.getSpoutFrontalApproxDepth()));
+        }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowSpoutFountainObsScroll() {
-        spoutObsValue.setOnTouchListener(this::scrollingField);
+    private void gatherSpoutFountainData(Bundle bundle) {
+        bundle.putBoolean(InspectionActivity.CHILD_DATA_COMPLETE, hasNoEmptyFields());
+        if (hasNoEmptyFields()) {
+            bundle.putInt(HAS_DIFFERENT_HEIGHTS, getCheckedIndex(hasDiffHeightsSpouts));
+            bundle.putDouble(HIGHEST_SPOUT, Double.parseDouble(String.valueOf(highestSpoutValue.getText())));
+            if (getCheckedIndex(hasDiffHeightsSpouts) == 1)
+                bundle.putDouble(LOWEST_SPOUT, Double.parseDouble(String.valueOf(lowestSpoutValue.getText())));
+            bundle.putInt(ALLOW_FRONTAL, getCheckedIndex(allowFrontalApprox));
+            if (getCheckedIndex(allowFrontalApprox) == 1) {
+                bundle.putDouble(FRONTAL_APPROX_HEIGHT, Double.parseDouble(String.valueOf(frontalApproxHeightValue.getText())));
+                bundle.putDouble(FRONTAL_APPROX_DEPTH, Double.parseDouble(String.valueOf(frontalApproxDepthValue.getText())));
+            }
+        }
     }
+
 
     public boolean hasNoEmptyFields() {
         clearErrorMessages();
@@ -188,8 +190,12 @@ public class WaterFountainSpoutFragment extends Fragment {
             allowApproxError.setVisibility(View.VISIBLE);
             errors++;
         } else if (getCheckedIndex(allowFrontalApprox) == 1) {
-            if (TextUtils.isEmpty(frontalApproxSpoutValue.getText())) {
-                frontalApproxSpoutField.setError(getString(R.string.blank_field_error));
+            if (TextUtils.isEmpty(frontalApproxHeightValue.getText())) {
+                frontalApproxHeightField.setError(getString(R.string.blank_field_error));
+                errors++;
+            }
+            if (TextUtils.isEmpty(frontalApproxDepthValue.getText())) {
+                frontalApproxDepthField.setError(getString(R.string.blank_field_error));
                 errors++;
             }
         }
@@ -201,15 +207,7 @@ public class WaterFountainSpoutFragment extends Fragment {
         allowApproxError.setVisibility(View.GONE);
         highestSpoutField.setErrorEnabled(false);
         lowestSpoutField.setErrorEnabled(false);
-        frontalApproxSpoutField.setErrorEnabled(false);
-    }
-
-    public void clearFields() {
-        hasDiffHeightsSpouts.clearCheck();
-        allowFrontalApprox.clearCheck();
-        highestSpoutValue.setText(null);
-        lowestSpoutValue.setText(null);
-        frontalApproxSpoutValue.setText(null);
+        frontalApproxHeightField.setErrorEnabled(false);
     }
 
     public int getCheckedIndex(RadioGroup group) {

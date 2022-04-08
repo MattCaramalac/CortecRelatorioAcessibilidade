@@ -88,20 +88,68 @@
             app:layout_constraintStart_toStartOf="parent"
             />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/water_fountain_type_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_fountain_type_obs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/water_fountain_type_error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/water_fountain_type_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:lines="@integer/multiline_obs_field"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <FrameLayout
             android:id="@+id/water_fountain_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/water_fountain_type_error"
+            app:layout_constraintTop_toBottomOf="@id/water_fountain_type_obs_field"
             android:layout_marginTop="@dimen/top_margins"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/water_fountain_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/water_fountain_info"
+            android:hint="Outras Observações">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/water_fountain_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_waterfountain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/water_fountain_info"
+            app:layout_constraintTop_toBottomOf="@id/water_fountain_obs_field"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="@dimen/top_margins"
             android:text="@string/label_button_save"

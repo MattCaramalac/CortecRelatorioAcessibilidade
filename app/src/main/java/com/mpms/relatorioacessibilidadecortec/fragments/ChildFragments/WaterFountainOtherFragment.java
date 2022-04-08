@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -13,28 +11,31 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
-
-import java.util.Objects;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 public class WaterFountainOtherFragment extends Fragment {
 
     public static final String ALLOW_LATERAL = "ALLOW_LATERAL";
+    public static final String LAT_APPROX_OBS = "LAT_APPROX_OBS";
     public static final String FAUCET_HEIGHT = "FAUCET_HEIGHT";
     public static final String HAS_CUP_HOLDER = "HAS_CUP_HOLDER";
     public static final String CUP_HOLDER_HEIGHT = "CUP_HOLDER_HEIGHT";
-    public static final String OTHER_FOUNTAIN_OBS = "OTHER_FOUNTAIN_OBS";
 
-    ViewModelFragments modelFragments;
     TextView lateralApproxError, hasCupHolderError;
     RadioGroup allowLateralApprox, hasCupHolder;
-    TextInputLayout faucetHeightField, cupHolderHeightField, fountainObsField;
-    TextInputEditText faucetHeightValue, cupHolderHeightValue, fountainObsValue;
+    TextInputLayout faucetHeightField, cupHolderHeightField, latApproxObsField;
+    TextInputEditText faucetHeightValue, cupHolderHeightValue, latApproxObsValue;
+
+    ViewModelEntry modelEntry;
+
+    Bundle childBundle = new Bundle();
 
     public WaterFountainOtherFragment() {
         // Required empty public constructor
@@ -47,7 +48,8 @@ public class WaterFountainOtherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        if (this.getArguments() != null)
+            childBundle.putInt(WaterFountainFragment.FOUNTAIN_ID, this.getArguments().getInt(WaterFountainFragment.FOUNTAIN_ID));
     }
 
     @Override
@@ -62,92 +64,103 @@ public class WaterFountainOtherFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateOtherViews(view);
-        allowOtherFountainObsScroll();
+    }
 
-        hasCupHolder.setOnCheckedChangeListener(this::hasCupHolderListener);
+    @Override
+    public void onStart() {
+        super.onStart();
 
-        modelFragments.getFountainFragData().observe(getViewLifecycleOwner(), waterFrag -> {
-            if (waterFrag != null) {
-                gatherOtherFountainData(waterFrag);
-            }
+        if (childBundle.getInt(WaterFountainFragment.FOUNTAIN_ID) > 0)
+            modelEntry.getOneWaterFountain(childBundle.getInt(WaterFountainFragment.FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadOtherFountainData);
+
+        getParentFragmentManager().setFragmentResultListener(InspectionActivity.GATHER_CHILD_DATA, this, (key, bundle) -> {
+            gatherOtherFountainData(bundle);
+            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
         });
+    }
 
-        modelFragments.getSaveAttempt().observe(getViewLifecycleOwner(), saveAttempt -> {
-            if (Objects.equals(modelFragments.getSaveAttempt().getValue(), 1)) {
-                if (hasNoEmptyFields()) {
-                    Bundle otherData = new Bundle();
-                    otherData.putInt(ALLOW_LATERAL, getCheckedIndex(allowLateralApprox));
-                    otherData.putDouble(FAUCET_HEIGHT, Double.parseDouble(String.valueOf(faucetHeightValue.getText())));
-                    otherData.putInt(HAS_CUP_HOLDER, getCheckedIndex(hasCupHolder));
-                    if (getCheckedIndex(hasCupHolder) == 1) {
-                        otherData.putDouble(CUP_HOLDER_HEIGHT, Double.parseDouble(String.valueOf(cupHolderHeightValue.getText())));
-                    }
-                    if (!TextUtils.isEmpty(fountainObsValue.getText()))
-                        otherData.putString(OTHER_FOUNTAIN_OBS,String.valueOf(fountainObsValue.getText()));
-                    modelFragments.setFountainBundle(otherData);
-                    clearFields();
-                    requireParentFragment().getChildFragmentManager().beginTransaction().remove(this).commit();
-                }
-                modelFragments.setSaveAttemptFountain(0);
+    @Override
+    public void onResume() {
+        super.onResume();
+//        getParentFragmentManager().setFragmentResultListener(InspectionActivity.LOAD_CHILD_DATA, this, (key, bundle) -> {
+//
+//            modelEntry.getOneWaterFountain(bundle.getInt(WaterFountainFragment.FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadOtherFountainData);
+//        });
+    }
 
-            }
-
-        });
+    private void loadOtherFountainData(WaterFountainEntry fountainEntry) {
+        allowLateralApprox.check(allowLateralApprox.getChildAt(fountainEntry.getOtherAllowSideApproximation()).getId());
+        if (fountainEntry.getLateralApproxObs() != null)
+            latApproxObsValue.setText(fountainEntry.getLateralApproxObs());
+        faucetHeightValue.setText(String.valueOf(fountainEntry.getOtherFaucetHeight()));
+        hasCupHolder.check(hasCupHolder.getChildAt(fountainEntry.getOtherHasCupHolder()).getId());
+        if (fountainEntry.getOtherHasCupHolder() == 1)
+            cupHolderHeightValue.setText(String.valueOf(fountainEntry.getOtherCupHolderHeight()));
     }
 
     private void gatherOtherFountainData(Bundle bundle) {
-        allowLateralApprox.check(allowLateralApprox.getChildAt(bundle.getInt(ALLOW_LATERAL)).getId());
-        faucetHeightValue.setText(String.valueOf(bundle.getDouble(FAUCET_HEIGHT)));
-        hasCupHolder.check(hasCupHolder.getChildAt(bundle.getInt(HAS_CUP_HOLDER)).getId());
-        if (bundle.getInt(HAS_CUP_HOLDER) > 0)
-            cupHolderHeightValue.setText(String.valueOf(bundle.getDouble(CUP_HOLDER_HEIGHT)));
-        fountainObsValue.setText(bundle.getString(OTHER_FOUNTAIN_OBS));
+        bundle.putBoolean(InspectionActivity.CHILD_DATA_COMPLETE, hasNoEmptyFields());
+        if (hasNoEmptyFields()) {
+            bundle.putInt(ALLOW_LATERAL, getCheckedIndex(allowLateralApprox));
+            if (!TextUtils.isEmpty(latApproxObsValue.getText()))
+                bundle.putString(LAT_APPROX_OBS, String.valueOf(latApproxObsValue.getText()));
+            bundle.putDouble(FAUCET_HEIGHT, Double.parseDouble(String.valueOf(faucetHeightValue.getText())));
+            bundle.putInt(HAS_CUP_HOLDER, getCheckedIndex(hasCupHolder));
+            if (getCheckedIndex(hasCupHolder) == 1) {
+                bundle.putDouble(CUP_HOLDER_HEIGHT, Double.parseDouble(String.valueOf(cupHolderHeightValue.getText())));
+            }
+        }
+
     }
 
     private void instantiateOtherViews(View view) {
+//        TextView
         lateralApproxError = view.findViewById(R.id.water_fountain_lateral_approx_error);
         hasCupHolderError = view.findViewById(R.id.water_fountain_has_cup_holder_error);
-
+//        RadioGroup
         allowLateralApprox = view.findViewById(R.id.other_allow_approx_radio);
         hasCupHolder = view.findViewById(R.id.other_has_cup_holder_radio);
-
+//        TextInputLayout
         faucetHeightField = view.findViewById(R.id.other_water_fountain_faucet_height_field);
         cupHolderHeightField = view.findViewById(R.id.other_water_fountain_cup_holder_height_field);
-        fountainObsField = view.findViewById(R.id.other_water_fountain_obs_field);
-
+        latApproxObsField = view.findViewById(R.id.lateral_approx_obs_field);
+//        TextInputEditText
         faucetHeightValue = view.findViewById(R.id.other_water_fountain_faucet_height_value);
         cupHolderHeightValue = view.findViewById(R.id.other_water_fountain_cup_holder_height_value);
-        fountainObsValue = view.findViewById(R.id.other_water_fountain_obs_value);
+        latApproxObsValue = view.findViewById(R.id.lateral_approx_obs_value);
+//        ViewModel
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+//        Listeners
+        hasCupHolder.setOnCheckedChangeListener(this::otherRadioListener);
+        allowLateralApprox.setOnCheckedChangeListener(this::otherRadioListener);
     }
 
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowOtherFountainObsScroll() {
-            fountainObsValue.setOnTouchListener(this::scrollingField);
-    }
-
-    public void hasCupHolderListener(RadioGroup group, int checkedID) {
+    public void otherRadioListener(RadioGroup group, int checkedID) {
         View radioButton = group.findViewById(checkedID);
         int index = group.indexOfChild(radioButton);
 
-        switch (index) {
-            case 0:
-                cupHolderHeightValue.setText(null);
-                cupHolderHeightField.setVisibility(View.GONE);
-                break;
-            case 1:
-                cupHolderHeightField.setVisibility(View.VISIBLE);
-                break;
-            default:
-                break;
+        if (group == hasCupHolder) {
+            switch (index) {
+                case 0:
+                    cupHolderHeightValue.setText(null);
+                    cupHolderHeightField.setVisibility(View.GONE);
+                    break;
+                case 1:
+                    cupHolderHeightField.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    break;
+            }
+        } else if (group == allowLateralApprox) {
+            if (index == 0)
+                latApproxObsField.setVisibility(View.VISIBLE);
+            else {
+                latApproxObsValue.setText(null);
+                latApproxObsField.setVisibility(View.GONE);
+            }
         }
+
+
     }
 
     public boolean hasNoEmptyFields() {
@@ -177,14 +190,6 @@ public class WaterFountainOtherFragment extends Fragment {
         hasCupHolderError.setVisibility(View.GONE);
         faucetHeightField.setErrorEnabled(false);
         cupHolderHeightField.setErrorEnabled(false);
-    }
-
-    public void clearFields() {
-        allowLateralApprox.clearCheck();
-        hasCupHolder.clearCheck();
-        faucetHeightValue.setText(null);
-        cupHolderHeightValue.setText(null);
-        cupHolderHeightField.setVisibility(View.GONE);
     }
 
     public int getCheckedIndex(RadioGroup group) {

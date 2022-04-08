@@ -147,19 +147,20 @@
             app:layout_constraintStart_toStartOf="parent"
             />
 
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/free_space_height_field"
+            android:id="@+id/frontal_approx_height_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/water_fountain_frontal_approx_error"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_frontal_approx_low_spout"
+            android:hint="@string/hint_height_frontal_approx_low_spout"
             android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/free_space_height_value"
+                android:id="@+id/frontal_approx_height_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="numberDecimal"/>
@@ -168,28 +169,22 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/spout_water_fountain_obs_field"
+            android:id="@+id/frontal_approx_depth_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/free_space_height_field"
-            android:hint="@string/hint_obs">
+            app:layout_constraintTop_toBottomOf="@id/frontal_approx_height_field"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_frontal_approx_depth"
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/spout_water_fountain_obs_value"
+                android:id="@+id/frontal_approx_depth_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="@integer/multiline_obs_field"/>
+                android:inputType="numberDecimal"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
