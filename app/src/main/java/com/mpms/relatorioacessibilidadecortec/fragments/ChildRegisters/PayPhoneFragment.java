@@ -21,18 +21,17 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-
-import java.util.Objects;
 
 public class PayPhoneFragment extends Fragment {
 
     public static final String PHONE_ID = "PHONE_ID";
 
-    TextInputLayout payphoneRefField, keyboardHeightField, phoneHeightField, payphoneObsField;
-    TextInputEditText payphoneRefValue, keyboardHeightValue, phoneHeightValue, payphoneObsValue;
-    TextView payphoneFloorError, payphoneWorkingError;
-    RadioGroup payphoneTactileFloorRadio, payphoneWorkingRadio;
+    TextInputLayout payphoneRefField, keyboardHeightField, phoneHeightField, payphoneObsField, phoneTactileFloorLengthField, phoneTactileFloorWidthField, tactileFloorObsField;
+    TextInputEditText payphoneRefValue, keyboardHeightValue, phoneHeightValue, payphoneObsValue, phoneTactileFloorLengthValue, phoneTactileFloorWidthValue, tactileFloorObsValue;
+    TextView payphoneFloorError, payphoneTactileColorError, phoneTactColorHeader, phoneTactDimensionsHeader, phoneTactDimensionError, payphoneWorkingError;
+    RadioGroup payphoneTactileFloorRadio, payphoneTactileColorRadio, payphoneWorkingRadio;
     Button savePayphone, cancelPayphone;
 
     Bundle phoneBundle = new Bundle();
@@ -52,6 +51,7 @@ public class PayPhoneFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
             phoneBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
+            phoneBundle.putInt(SidewalkFragment.SIDEWALK_ID, this.getArguments().getInt(SidewalkFragment.SIDEWALK_ID));
             phoneBundle.putInt(PHONE_ID, this.getArguments().getInt(PHONE_ID));
         }
     }
@@ -67,7 +67,7 @@ public class PayPhoneFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         instantiatePayPhoneViews(view);
-        allowPayPhoneObsScroll();
+
 
         if (phoneBundle.getInt(PHONE_ID) > 0)
             modelEntry.getPayPhoneEntry(phoneBundle.getInt(PHONE_ID)).observe(getViewLifecycleOwner(), this::loadPayPhoneData);
@@ -78,13 +78,13 @@ public class PayPhoneFragment extends Fragment {
                 if (phoneBundle.getInt(PHONE_ID) == 0) {
                     ViewModelEntry.insertPayPhone(newPhone);
                     Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
-                }
-                else if (phoneBundle.getInt(PHONE_ID) > 0) {
+                    clearPhoneFields();
+                } else if (phoneBundle.getInt(PHONE_ID) > 0) {
                     newPhone.setPayPhoneID(phoneBundle.getInt(PHONE_ID));
                     ViewModelEntry.updatePayPhone(newPhone);
                     Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
+                    requireActivity().getSupportFragmentManager().popBackStackImmediate();
                 }
-                clearPhoneFields();
                 phoneBundle.putInt(PHONE_ID, 0);
             }
         });
@@ -99,22 +99,36 @@ public class PayPhoneFragment extends Fragment {
         keyboardHeightField = view.findViewById(R.id.payphone_keyboard_height_field);
         phoneHeightField = view.findViewById(R.id.payphone_phone_height_field);
         payphoneObsField = view.findViewById(R.id.gate_payphone_obs_field);
+        phoneTactileFloorLengthField = view.findViewById(R.id.phone_tact_floor_length_field);
+        phoneTactileFloorWidthField = view.findViewById(R.id.phone_tact_floor_width_field);
+        tactileFloorObsField = view.findViewById(R.id.phone_tact_floor_obs_field);
 //        TextInputEditText
         payphoneRefValue = view.findViewById(R.id.gate_payphone_ref_value);
         keyboardHeightValue = view.findViewById(R.id.payphone_keyboard_height_value);
         phoneHeightValue = view.findViewById(R.id.payphone_phone_height_value);
         payphoneObsValue = view.findViewById(R.id.gate_payphone_obs_value);
+        phoneTactileFloorLengthValue = view.findViewById(R.id.phone_tact_floor_length_value);
+        phoneTactileFloorWidthValue = view.findViewById(R.id.phone_tact_floor_width_value);
+        tactileFloorObsValue = view.findViewById(R.id.phone_tact_floor_obs_value);
 //        TextView
         payphoneFloorError = view.findViewById(R.id.gate_payphone_floor_error);
         payphoneWorkingError = view.findViewById(R.id.payphone_working_error);
+        payphoneTactileColorError = view.findViewById(R.id.payphone_tactile_color_error);
+        phoneTactColorHeader = view.findViewById(R.id.payphone_tactile_color_label);
+        phoneTactDimensionsHeader = view.findViewById(R.id.label_payphone_tactile_floor_dimensions);
+        phoneTactDimensionError = view.findViewById(R.id.payphone_tactile_dimension_error);
 //        RadioGroup
         payphoneTactileFloorRadio = view.findViewById(R.id.payphone_tactile_floor_radio);
         payphoneWorkingRadio = view.findViewById(R.id.payphone_working_radio);
+        payphoneTactileColorRadio = view.findViewById(R.id.payphone_tactile_color_radio);
 //        MaterialButton
         savePayphone = view.findViewById(R.id.save_gate_payphone);
         cancelPayphone = view.findViewById(R.id.cancel_gate_payphone);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+//
+        allowPayPhoneObsScroll();
+        payphoneTactileFloorRadio.setOnCheckedChangeListener(this::payphoneRadioListener);
     }
 
     private boolean scrollingField(View v, MotionEvent event) {
@@ -128,27 +142,62 @@ public class PayPhoneFragment extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     private void allowPayPhoneObsScroll() {
         payphoneObsValue.setOnTouchListener(this::scrollingField);
+        tactileFloorObsValue.setOnTouchListener(this::scrollingField);
     }
 
     private int getCheckedRadioFloor(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
+    private void payphoneRadioListener(RadioGroup radio, int checkedID) {
+        int index = radio.indexOfChild(radio.findViewById(checkedID));
+
+        if (index == 1) {
+            phoneTactColorHeader.setVisibility(View.VISIBLE);
+            payphoneTactileColorRadio.setVisibility(View.VISIBLE);
+            phoneTactDimensionsHeader.setVisibility(View.VISIBLE);
+            phoneTactileFloorLengthField.setVisibility(View.VISIBLE);
+            phoneTactileFloorWidthField.setVisibility(View.VISIBLE);
+        } else {
+            phoneTactColorHeader.setVisibility(View.GONE);
+            payphoneTactileColorRadio.clearCheck();
+            payphoneTactileColorRadio.setVisibility(View.GONE);
+            phoneTactDimensionsHeader.setVisibility(View.GONE);
+            phoneTactileFloorLengthValue.setText(null);
+            phoneTactileFloorLengthField.setVisibility(View.GONE);
+            phoneTactileFloorWidthValue.setText(null);
+            phoneTactileFloorWidthField.setVisibility(View.GONE);
+        }
+    }
+
     private PayPhoneEntry newPayPhone(Bundle bundle) {
-        String payphoneRefLocation = null, payphoneObs = null;
-        double keyboardHeight = 0, phoneHeight = 0;
+        Integer extID = null, sideID = null, rightColor = null;
+        int hasTactFloor, isWorking;
+        String payphoneRefLocation, tactFloorObs = null, payphoneObs = null;
+        double keyboardHeight, phoneHeight;
+        Double tactFloorLength = null, tactFloorWidth = null;
 
-        if (!TextUtils.isEmpty(payphoneRefValue.getText()))
-            payphoneRefLocation = Objects.requireNonNull(payphoneRefValue.getText()).toString();
-        if (!TextUtils.isEmpty(keyboardHeightValue.getText()))
-            keyboardHeight = Double.parseDouble(Objects.requireNonNull(keyboardHeightValue.getText()).toString());
-        if (!TextUtils.isEmpty(phoneHeightValue.getText()))
-            phoneHeight = Double.parseDouble(Objects.requireNonNull(keyboardHeightValue.getText()).toString());
+        if (bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0)
+            extID = bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID);
+        else if (bundle.getInt(SidewalkFragment.SIDEWALK_ID) > 0)
+            sideID = bundle.getInt(SidewalkFragment.SIDEWALK_ID);
+        payphoneRefLocation = String.valueOf(payphoneRefValue.getText());
+        keyboardHeight = Double.parseDouble(String.valueOf(keyboardHeightValue.getText()));
+        phoneHeight = Double.parseDouble(String.valueOf(keyboardHeightValue.getText()));
+        hasTactFloor = getCheckedRadioFloor(payphoneTactileFloorRadio);
+        if (hasTactFloor == 1) {
+            rightColor = getCheckedRadioFloor(payphoneTactileColorRadio);
+            tactFloorLength = Double.parseDouble(String.valueOf(phoneTactileFloorLengthValue.getText()));
+            tactFloorWidth = Double.parseDouble(String.valueOf(phoneTactileFloorWidthValue.getText()));
+            if (!TextUtils.isEmpty(tactileFloorObsValue.getText()))
+                tactFloorObs = String.valueOf(tactileFloorObsValue.getText());
+        }
+        isWorking = getCheckedRadioFloor(payphoneWorkingRadio);
         if (!TextUtils.isEmpty(payphoneObsValue.getText()))
-            payphoneObs = Objects.requireNonNull(payphoneObsValue.getText()).toString();
+            payphoneObs = String.valueOf(payphoneObsValue.getText());
 
-        return new PayPhoneEntry(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID), payphoneRefLocation, keyboardHeight, phoneHeight,
-                getCheckedRadioFloor(payphoneTactileFloorRadio), getCheckedRadioFloor(payphoneWorkingRadio), payphoneObs);
+        return new PayPhoneEntry(extID, sideID, payphoneRefLocation, keyboardHeight, phoneHeight, hasTactFloor, rightColor, tactFloorLength, tactFloorWidth, tactFloorObs,
+                isWorking, payphoneObs);
     }
 
     private boolean checkEmptyFields() {
@@ -162,24 +211,64 @@ public class PayPhoneFragment extends Fragment {
             error++;
             keyboardHeightField.setError(getString(R.string.blank_field_error));
         }
+        if (TextUtils.isEmpty(phoneHeightValue.getText())) {
+            error++;
+            phoneHeightField.setError(getString(R.string.blank_field_error));
+        }
         if (getCheckedRadioFloor(payphoneTactileFloorRadio) == -1) {
             error++;
             payphoneFloorError.setVisibility(View.VISIBLE);
+        } else if (getCheckedRadioFloor(payphoneTactileFloorRadio) == 1) {
+            if (getCheckedRadioFloor(payphoneTactileColorRadio) == -1) {
+                error++;
+                payphoneTactileColorError.setVisibility(View.VISIBLE);
+            }
+            if (TextUtils.isEmpty(phoneTactileFloorLengthValue.getText())) {
+                error++;
+//                phoneTactileFloorLengthField.setBoxStrokeColor(getResources().getColor(R.color.error_message, null));
+                phoneTactDimensionError.setVisibility(View.VISIBLE);
+            }
+            if (TextUtils.isEmpty(phoneTactileFloorWidthValue.getText())) {
+                error++;
+//                phoneTactileFloorLengthField.setBoxStrokeColor(getResources().getColor(R.color.error_message, null));
+                phoneTactDimensionError.setVisibility(View.VISIBLE);
+            }
         }
+        if (getCheckedRadioFloor(payphoneWorkingRadio) == -1) {
+            error++;
+            payphoneWorkingError.setVisibility(View.VISIBLE);
+        }
+
         return error == 0;
     }
 
     private void clearErrorsPayphone() {
         payphoneRefField.setErrorEnabled(false);
         keyboardHeightField.setErrorEnabled(false);
+        phoneHeightField.setErrorEnabled(false);
         payphoneFloorError.setVisibility(View.GONE);
+        payphoneTactileColorError.setVisibility(View.GONE);
+        phoneTactDimensionError.setVisibility(View.GONE);
+        payphoneWorkingError.setVisibility(View.GONE);
     }
 
     private void clearPhoneFields() {
         payphoneRefValue.setText(null);
         keyboardHeightValue.setText(null);
+        phoneHeightValue.setText(null);
         payphoneTactileFloorRadio.clearCheck();
+        payphoneTactileColorRadio.clearCheck();
+        phoneTactColorHeader.setVisibility(View.GONE);
+        payphoneTactileColorRadio.setVisibility(View.GONE);
+        phoneTactileFloorLengthValue.setText(null);
+        phoneTactileFloorWidthValue.setText(null);
+        tactileFloorObsValue.setText(null);
+        phoneTactDimensionsHeader.setVisibility(View.GONE);
+        phoneTactileFloorLengthField.setVisibility(View.GONE);
+        phoneTactileFloorWidthField.setVisibility(View.GONE);
+        tactileFloorObsField.setVisibility(View.GONE);
         payphoneObsValue.setText(null);
+        payphoneWorkingRadio.clearCheck();
     }
 
     private void loadPayPhoneData(PayPhoneEntry payPhone) {
@@ -187,7 +276,15 @@ public class PayPhoneFragment extends Fragment {
         keyboardHeightValue.setText(String.valueOf(payPhone.getPhoneKeyboardHeight()));
         phoneHeightValue.setText(String.valueOf(payPhone.getPhoneHeight()));
         payphoneTactileFloorRadio.check(payphoneTactileFloorRadio.getChildAt(payPhone.getHasTactileFloor()).getId());
+        if (payPhone.getHasTactileFloor() == 1) {
+            payphoneTactileColorRadio.check(payphoneTactileColorRadio.getChildAt(payPhone.getRightColorTactileFloor()).getId());
+            phoneTactileFloorLengthValue.setText(String.valueOf(payPhone.getTactFloorLength()));
+            phoneTactileFloorWidthValue.setText(String.valueOf(payPhone.getTactFloorWidth()));
+            if (payPhone.getTactFloorObs() != null)
+                tactileFloorObsValue.setText(payPhone.getTactFloorObs());
+        }
         payphoneWorkingRadio.check(payphoneWorkingRadio.getChildAt(payPhone.getPhoneIsWorking()).getId());
-        payphoneObsValue.setText(payPhone.getPayPhoneObs());
+        if (payPhone.getPayPhoneObs() != null)
+            payphoneObsValue.setText(payPhone.getPayPhoneObs());
     }
 }

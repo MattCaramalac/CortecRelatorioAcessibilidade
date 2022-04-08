@@ -16,8 +16,11 @@ public interface PayPhoneDao {
     @Insert
     void insertPayPhone (PayPhoneEntry payPhone);
 
-    @Query("SELECT * FROM PayPhoneEntry WHERE externalAccessID == :externalAccessID ORDER BY payPhoneID DESC")
-    LiveData<List<PayPhoneEntry>> selectAllPayPhones(int externalAccessID);
+    @Query("SELECT * FROM PayPhoneEntry WHERE extAccessID == :externalAccessID ORDER BY payPhoneID DESC")
+    LiveData<List<PayPhoneEntry>> selectAllPhonesExtAccess(int externalAccessID);
+
+    @Query("SELECT * FROM PayPhoneEntry WHERE sidewalkID == :sidewalkID ORDER BY payPhoneID DESC")
+    LiveData<List<PayPhoneEntry>> selectAllPhonesSidewalk(int sidewalkID);
 
     @Query("SELECT * FROM PayPhoneEntry WHERE payPhoneID == :payPhoneID")
     LiveData<PayPhoneEntry> selectPayPhoneEntry(int payPhoneID);
@@ -28,6 +31,9 @@ public interface PayPhoneDao {
     @Query("DELETE FROM PayPhoneEntry WHERE payPhoneID == :payPhoneID")
     void deletePayPhoneEntry(int payPhoneID);
 
-    @Query("DELETE FROM PayPhoneEntry WHERE externalAccessID == :externalAccessID")
-    void deleteAllPayPhones(int externalAccessID);
+    @Query("DELETE FROM PayPhoneEntry WHERE extAccessID == :externalAccessID")
+    void deleteAllPayPhonesExtAccess(int externalAccessID);
+
+    @Query("DELETE FROM PayPhoneEntry WHERE sidewalkID == :sidewalkID")
+    void deleteAllPayPhonesSidewalk(int sidewalkID);
 }

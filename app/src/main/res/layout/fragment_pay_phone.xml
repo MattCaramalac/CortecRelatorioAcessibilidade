@@ -10,6 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/header_payphone_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cadastro de Telefone Público"
+            android:textStyle="bold"
+            android:textSize="@dimen/section_header_big"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/gate_payphone_ref_field"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -18,7 +28,7 @@
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_payphone_ref_location"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/header_payphone_register">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/gate_payphone_ref_value"
@@ -42,7 +52,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/payphone_keyboard_height_value"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal">
 
             </com.google.android.material.textfield.TextInputEditText>
 
@@ -61,7 +72,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/payphone_phone_height_value"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal">
 
             </com.google.android.material.textfield.TextInputEditText>
 
@@ -113,14 +125,153 @@
             app:layout_constraintTop_toBottomOf="@id/payphone_tactile_floor_radio" />
 
         <TextView
-            android:id="@+id/payphone_working_label"
+            android:id="@+id/payphone_tactile_color_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_margins"
+            android:text="@string/label_special_floor_color"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_payphone_floor_error"
+            android:visibility="gone"/>
+
+        <RadioGroup
+            android:id="@+id/payphone_tactile_color_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/payphone_tactile_color_label"
+            android:visibility="gone">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/payphone_tactile_color_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/payphone_tactile_color_radio" />
+
+        <TextView
+            android:id="@+id/label_payphone_tactile_floor_dimensions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/label_alert_special_floor_dimensions"
+            android:textSize="@dimen/section_header"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/payphone_tactile_color_error"
+            android:visibility="gone"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phone_tact_floor_length_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_length"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_payphone_tactile_floor_dimensions"
+            app:layout_constraintEnd_toStartOf="@id/phone_tact_floor_width_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone_tact_floor_length_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phone_tact_floor_width_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_width"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toEndOf="@id/phone_tact_floor_length_field"
+            app:layout_constraintBaseline_toBaselineOf="@id/phone_tact_floor_length_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/usual_padding"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone_tact_floor_width_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/payphone_tactile_dimension_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/phone_tact_floor_length_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phone_tact_floor_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_tactile_floor_obs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/payphone_tactile_dimension_error"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone_tact_floor_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:lines="5"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <TextView
+            android:id="@+id/payphone_working_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
             android:text="@string/label_payphone_working"
             android:textSize="@dimen/section_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_payphone_floor_error" />
+            app:layout_constraintTop_toBottomOf="@id/phone_tact_floor_obs_field" />
 
         <RadioGroup
             android:id="@+id/payphone_working_radio"

@@ -23,6 +23,7 @@ import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.PayPhoneViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
@@ -53,10 +54,13 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     }
 
     @Override
-    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null)
+        if (this.getArguments() != null) {
             payPhoneBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
+            payPhoneBundle.putInt(SidewalkFragment.SIDEWALK_ID, this.getArguments().getInt(SidewalkFragment.SIDEWALK_ID));
+        }
+
     }
 
     @Nullable
@@ -67,23 +71,28 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         instantiatePayPhoneViews(view);
 
-        if (payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) == 0) {
-            modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), lastExtAccess ->
-                    payPhoneBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, lastExtAccess.getExternalAccessID()));
+        if (payPhoneBundle.getInt(SidewalkFragment.SIDEWALK_ID) == 0) {
+            modelEntry.getAllPayPhonesExtAccess(payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), payPhoneList -> {
+                payPhoneAdapter = new PayPhoneViewAdapter(payPhoneList, requireActivity(), this);
+                recyclerView.setAdapter(payPhoneAdapter);
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+                recyclerView.addItemDecoration(dividerItemDecoration);
+            });
+        } else if (payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) == 0) {
+            modelEntry.getAllPayPhonesSidewalk(payPhoneBundle.getInt(SidewalkFragment.SIDEWALK_ID)).observe(getViewLifecycleOwner(), payPhoneSideList -> {
+                payPhoneAdapter = new PayPhoneViewAdapter(payPhoneSideList, requireActivity(), this);
+                recyclerView.setAdapter(payPhoneAdapter);
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+                recyclerView.addItemDecoration(dividerItemDecoration);
+            });
         }
-
-        modelEntry.getAllPayPhones(payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), payPhoneList -> {
-            payPhoneAdapter = new PayPhoneViewAdapter(payPhoneList, requireActivity(), this);
-            recyclerView.setAdapter(payPhoneAdapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-            recyclerView.addItemDecoration(dividerItemDecoration);
-        });
 
         closePayPhoneList.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
@@ -98,15 +107,14 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     }
 
     @Override
-    public void onDestroyView() {
-        modelFragments.setExtAccessLoadInfo(payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID));
-        super.onDestroyView();
-
-    }
-
-    @Override
     public void OnEntryClick(int position) {
-        PayPhoneEntry phoneEntry = modelEntry.allPayPhones.getValue().get(position);
+        PayPhoneEntry phoneEntry;
+        if (payPhoneBundle.getInt(SidewalkFragment.SIDEWALK_ID) > 0)
+            phoneEntry = modelEntry.allPayPhonesSidewalk.getValue().get(position);
+        else if (payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0)
+            phoneEntry = modelEntry.allPayPhonesSidewalk.getValue().get(position);
+        else
+            return;
         payPhoneBundle.putInt(PayPhoneFragment.PHONE_ID, phoneEntry.getPayPhoneID());
         openPayphoneFragment();
     }
