@@ -16,12 +16,18 @@ public class ExternalAccess {
 
     private String accessLocation;
     private Integer entranceType;
-    private String extAccessObs;
+    private Integer floorIsAccessible;
+    private String accessibleFloorObs;
 
     private Integer hasSIA;
     private String obsSIA;
-    private String floorType;
-    private Double gateWidth;
+    private Integer entranceGateType;
+    private String entranceGateDesc;
+    private Double freeSpaceWidth1;
+    private Double freeSpaceWidth2;
+    private Integer gateHandleType;
+    private Double gateHandleHeight;
+    private String gateObs;
     private Integer gateHasTracks;
     private Double gateTrackHeight;
     private Integer gateHasTrackRamp;
@@ -33,7 +39,11 @@ public class ExternalAccess {
     private Integer gateSillType;
     private Double sillInclinationHeight;
     private Double sillStepHeight;
+    private Integer slopeMeasureQnt;
     private Double sillSlopeAngle;
+    private Double sillSlopeAngle2;
+    private Double sillSlopeAngle3;
+    private Double sillSlopeAngle4;
     private Double sillSlopeWidth;
     private String gateSillObs;
     private Integer gateHasObstacles;
@@ -41,26 +51,31 @@ public class ExternalAccess {
     private Integer gateHasIntercom;
     private Double intercomHeight;
     private Integer gateHasSoundSign;
-    private Integer slopeMeasureQnt;
-    private Double sillSlopeAngle2;
-    private Double sillSlopeAngle3;
-    private Double sillSlopeAngle4;
+
+    private String extAccessObs;
 
 
-    public ExternalAccess(int blockID, String accessLocation, Integer entranceType, String extAccessObs, Integer hasSIA, String obsSIA, String floorType,
-                          Double gateWidth, Integer gateHasTracks, Double gateTrackHeight, Integer gateHasTrackRamp, Integer trackRampQuantity,
-                          Double trackRampMeasure1, Double trackRampMeasure2, Double trackRampMeasure3, Double trackRampMeasure4, Integer gateSillType,
-                          Double sillInclinationHeight, Double sillStepHeight, Double sillSlopeAngle, Double sillSlopeWidth, String gateSillObs,
-                          Integer gateHasObstacles, Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, Integer gateHasSoundSign,
-                          Integer slopeMeasureQnt, Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4) {
+    public ExternalAccess(int blockID, String accessLocation, Integer entranceType, Integer floorIsAccessible, String accessibleFloorObs, Integer hasSIA, String obsSIA,
+                          Integer entranceGateType, String entranceGateDesc, Double freeSpaceWidth1, Double freeSpaceWidth2, Integer gateHandleType, Double gateHandleHeight,
+                          String gateObs, Integer gateHasTracks, Double gateTrackHeight, Integer gateHasTrackRamp, Integer trackRampQuantity, Double trackRampMeasure1,
+                          Double trackRampMeasure2, Double trackRampMeasure3, Double trackRampMeasure4, Integer gateSillType, Double sillInclinationHeight, Double sillStepHeight,
+                          Integer slopeMeasureQnt, Double sillSlopeAngle, Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth,
+                          String gateSillObs, Integer gateHasObstacles, Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, Integer gateHasSoundSign,
+                          String extAccessObs) {
         this.blockID = blockID;
         this.accessLocation = accessLocation;
         this.entranceType = entranceType;
-        this.extAccessObs = extAccessObs;
+        this.floorIsAccessible = floorIsAccessible;
+        this.accessibleFloorObs = accessibleFloorObs;
         this.hasSIA = hasSIA;
         this.obsSIA = obsSIA;
-        this.floorType = floorType;
-        this.gateWidth = gateWidth;
+        this.entranceGateType = entranceGateType;
+        this.entranceGateDesc = entranceGateDesc;
+        this.freeSpaceWidth1 = freeSpaceWidth1;
+        this.freeSpaceWidth2 = freeSpaceWidth2;
+        this.gateHandleType = gateHandleType;
+        this.gateHandleHeight = gateHandleHeight;
+        this.gateObs = gateObs;
         this.gateHasTracks = gateHasTracks;
         this.gateTrackHeight = gateTrackHeight;
         this.gateHasTrackRamp = gateHasTrackRamp;
@@ -72,7 +87,11 @@ public class ExternalAccess {
         this.gateSillType = gateSillType;
         this.sillInclinationHeight = sillInclinationHeight;
         this.sillStepHeight = sillStepHeight;
+        this.slopeMeasureQnt = slopeMeasureQnt;
         this.sillSlopeAngle = sillSlopeAngle;
+        this.sillSlopeAngle2 = sillSlopeAngle2;
+        this.sillSlopeAngle3 = sillSlopeAngle3;
+        this.sillSlopeAngle4 = sillSlopeAngle4;
         this.sillSlopeWidth = sillSlopeWidth;
         this.gateSillObs = gateSillObs;
         this.gateHasObstacles = gateHasObstacles;
@@ -80,10 +99,7 @@ public class ExternalAccess {
         this.gateHasIntercom = gateHasIntercom;
         this.intercomHeight = intercomHeight;
         this.gateHasSoundSign = gateHasSoundSign;
-        this.slopeMeasureQnt = slopeMeasureQnt;
-        this.sillSlopeAngle2 = sillSlopeAngle2;
-        this.sillSlopeAngle3 = sillSlopeAngle3;
-        this.sillSlopeAngle4 = sillSlopeAngle4;
+        this.extAccessObs = extAccessObs;
     }
 
     public int getExternalAccessID() {
@@ -118,6 +134,22 @@ public class ExternalAccess {
         this.entranceType = entranceType;
     }
 
+    public Integer getFloorIsAccessible() {
+        return floorIsAccessible;
+    }
+
+    public void setFloorIsAccessible(Integer floorIsAccessible) {
+        this.floorIsAccessible = floorIsAccessible;
+    }
+
+    public String getAccessibleFloorObs() {
+        return accessibleFloorObs;
+    }
+
+    public void setAccessibleFloorObs(String accessibleFloorObs) {
+        this.accessibleFloorObs = accessibleFloorObs;
+    }
+
     public String getExtAccessObs() {
         return extAccessObs;
     }
@@ -142,20 +174,52 @@ public class ExternalAccess {
         this.obsSIA = obsSIA;
     }
 
-    public String getFloorType() {
-        return floorType;
+    public Integer getEntranceGateType() {
+        return entranceGateType;
     }
 
-    public void setFloorType(String floorType) {
-        this.floorType = floorType;
+    public void setEntranceGateType(Integer entranceGateType) {
+        this.entranceGateType = entranceGateType;
     }
 
-    public Double getGateWidth() {
-        return gateWidth;
+    public Double getFreeSpaceWidth1() {
+        return freeSpaceWidth1;
     }
 
-    public void setGateWidth(Double gateWidth) {
-        this.gateWidth = gateWidth;
+    public void setFreeSpaceWidth1(Double freeSpaceWidth1) {
+        this.freeSpaceWidth1 = freeSpaceWidth1;
+    }
+
+    public Double getFreeSpaceWidth2() {
+        return freeSpaceWidth2;
+    }
+
+    public void setFreeSpaceWidth2(Double freeSpaceWidth2) {
+        this.freeSpaceWidth2 = freeSpaceWidth2;
+    }
+
+    public Integer getGateHandleType() {
+        return gateHandleType;
+    }
+
+    public void setGateHandleType(Integer gateHandleType) {
+        this.gateHandleType = gateHandleType;
+    }
+
+    public Double getGateHandleHeight() {
+        return gateHandleHeight;
+    }
+
+    public void setGateHandleHeight(Double gateHandleHeight) {
+        this.gateHandleHeight = gateHandleHeight;
+    }
+
+    public String getGateObs() {
+        return gateObs;
+    }
+
+    public void setGateObs(String gateObs) {
+        this.gateObs = gateObs;
     }
 
     public Integer getGateHasTracks() {
@@ -340,5 +404,13 @@ public class ExternalAccess {
 
     public void setSillSlopeAngle4(Double sillSlopeAngle4) {
         this.sillSlopeAngle4 = sillSlopeAngle4;
+    }
+
+    public String getEntranceGateDesc() {
+        return entranceGateDesc;
+    }
+
+    public void setEntranceGateDesc(String entranceGateDesc) {
+        this.entranceGateDesc = entranceGateDesc;
     }
 }

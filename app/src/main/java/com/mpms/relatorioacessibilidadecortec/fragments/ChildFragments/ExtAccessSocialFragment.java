@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -23,35 +22,29 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorLockListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ExtAccessSocialFragment extends Fragment {
 
-    public static final String TEMP_SOCIAL_FRAG = "TEMP_SOCIAL_FRAG";
-    public static final String TEMP_FRAG_DATA = "TEMP_FRAG_DATA";
-    public static final String CHILD_TEMP_DATA = "CHILD_TEMP_DATA";
+    public static final String NEW_REGISTER_ACCESS = "NEW_REGISTER_ACCESS";
 
-    RadioGroup hasSIARadio, hasGateTracksRadio, hasTrackRampRadio, hasObstaclesRadio, hasPayphoneRadio,
-            hasIntercomRadio;
-    MultiLineRadioGroup sillTypeRadio;
-    TextView siaError, gateTrackError, hasTrackRampHeader, trackRampError, sillTypeError, obstaclesError, payphoneError,
-            intercomError, trackRampValueError;
-    TextInputLayout siaObsField, floorTypeField, gateWidthField, trackHeightField, sillObsField, intercomHeightField,
+    RadioGroup hasSIARadio, gateHandleRadio, hasGateTracksRadio, hasTrackRampRadio;
+    MultiLineRadioGroup gateTypeRadio;
+    TextView siaError, gateTypeError, gateHandleHeader, gateHandleError, gateLockHeader, gateTrackError, hasTrackRampHeader, trackRampError, trackRampValueError;
+    TextInputLayout siaObsField, gateTypeDescField, freeSpaceWidthField1, freeSpaceWidthField2, gateHandleHeightField, gateObsField, trackHeightField,
             trackRampField1, trackRampField2, trackRampField3, trackRampField4;
-    TextInputEditText siaObsValue, floorTypeValue, gateWidthValue, trackHeightValue, sillObsValue, intercomHeightValue,
+    TextInputEditText siaObsValue, gateTypeDescValue, freeSpaceWidthValue1, freeSpaceWidthValue2, gateHandleHeightValue, gateObsValue, trackHeightValue,
             trackRampValue1, trackRampValue2, trackRampValue3, trackRampValue4;
-    MaterialButton addTrackRampButton, addObstaclesButton, addPayphoneButton;
+    MaterialButton addGateLockButton, addTrackRampButton, returnButton, continueButton;
     ImageButton delTrackRampButton;
-    FrameLayout sillFragment;
 
     ViewModelEntry modelEntry;
 
@@ -61,8 +54,6 @@ public class ExtAccessSocialFragment extends Fragment {
 
     int rampTrackCounter = 0;
 
-    ArrayList<String> socialFrag = new ArrayList<>();
-    ArrayList<String> tempSocialFrag = new ArrayList<>();
     ArrayList<TextInputLayout> rampTrackFields = new ArrayList<>();
 
     Bundle extAccSocialBundle = new Bundle();
@@ -90,35 +81,19 @@ public class ExtAccessSocialFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_ext_access_social, container, false);
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        //    TODO - Implementar contadores de registros, impedir gravação sem ao menos um registro salvo (quando marcado sim)
         super.onViewCreated(view, savedInstanceState);
         instantiateSocialViews(view);
 
-        getParentFragmentManager().setFragmentResultListener(InspectionActivity.LOAD_CHILD_DATA, this, (key, bundle) ->
-                modelEntry.getOneExternalAccess(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
-                        .observe(getViewLifecycleOwner(), this::loadSocialFragData));
-
-        getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key, bundle) -> {
-            if (sillTypeRadio.getCheckedRadioButtonIndex() > 0) {
-                getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, bundle);
-            } else {
-                socialFrag = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
-                bundle.putBoolean(InspectionActivity.CHILD_DATA_COMPLETE, socialFragDoesNotHaveEmptyFields());
-                bundle.putStringArrayList(ExternalAccessFragment.CHILD_FRAG_DATA, socialFrag);
-                getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
-            }
-        });
-
-        getChildFragmentManager().setFragmentResultListener(InspectionActivity.CHILD_DATA_LISTENER, this, (key, bundle) -> {
-            bundle.putBoolean(RoomsRegisterFragment.CHILD_DATA_COMPLETE,
-                    socialFragDoesNotHaveEmptyFields() && bundle.getBoolean(RoomsRegisterFragment.CHILD_DATA_COMPLETE));
-            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
-
-        });
-
+        if (extAccSocialBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) == 0) {
+            modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), access -> {
+                extAccSocialBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, access.getExternalAccessID());
+                extAccSocialBundle.putBoolean(NEW_REGISTER_ACCESS, true);
+            });
+        } else if (extAccSocialBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0) {
+            modelEntry.getOneExternalAccess(extAccSocialBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), this::loadSocialFragData);
+        }
 
         addTrackRampButton.setOnClickListener(v -> {
             if (rampTrackCounter < 0) {
@@ -143,80 +118,62 @@ public class ExtAccessSocialFragment extends Fragment {
             }
         });
 
-        addObstaclesButton.setOnClickListener(this::addButtonClicked);
+        returnButton.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
-        addPayphoneButton.setOnClickListener(this::addButtonClicked);
+        continueButton.setOnClickListener(v -> openNextFragment(extAccSocialBundle, v));
 
-    }
-
-    private void addButtonClicked(View view) {
-        int buttonPressed;
-        if (view == addObstaclesButton) {
-            buttonPressed = 1;
-        } else {
-            buttonPressed = 2;
-        }
-        tempSocialFrag = gatherSocialData();
-        Bundle tempSocialDataBundle = new Bundle();
-        tempSocialDataBundle.putStringArrayList(ExternalAccessFragment.CHILD_FRAG_DATA, tempSocialFrag);
-        tempSocialDataBundle.putInt(ExternalAccessFragment.CHILD_BUTTON_PRESS, buttonPressed);
-        if (sillTypeRadio.getCheckedRadioButtonIndex() > 0) {
-            tempSocialDataBundle.putBoolean(InspectionActivity.ADD_ITEM_REQUEST, true);
-            getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, tempSocialDataBundle);
-        } else
-            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, tempSocialDataBundle);
+        addGateLockButton.setOnClickListener(v -> openNextFragment(extAccSocialBundle, v));
     }
 
     private void instantiateSocialViews(View v) {
 //        RadioGroups
         hasSIARadio = v.findViewById(R.id.has_SIA_radio);
+        gateHandleRadio = v.findViewById(R.id.gate_handle_type_radio);
         hasGateTracksRadio = v.findViewById(R.id.has_gate_tracks_radio);
         hasTrackRampRadio = v.findViewById(R.id.gate_has_track_ramp_radio);
-        hasObstaclesRadio = v.findViewById(R.id.gate_has_obstacles_radio);
-        hasPayphoneRadio = v.findViewById(R.id.gate_has_payphones_radio);
-        hasIntercomRadio = v.findViewById(R.id.gate_has_intercom_radio);
 //        MultilineRadioGroup
-        sillTypeRadio = v.findViewById(R.id.type_sill_radio);
+        gateTypeRadio = v.findViewById(R.id.ext_gate_type_radio);
 //        TextViews
         siaError = v.findViewById(R.id.has_SIA_error);
         gateTrackError = v.findViewById(R.id.has_gate_tracks_error);
         hasTrackRampHeader = v.findViewById(R.id.label_gate_has_track_ramp);
         trackRampError = v.findViewById(R.id.has_track_ramp_error);
-        sillTypeError = v.findViewById(R.id.sill_type_error);
-        obstaclesError = v.findViewById(R.id.gate_has_obstacles_error);
-        payphoneError = v.findViewById(R.id.gate_has_payphones_error);
-        intercomError = v.findViewById(R.id.gate_has_intercom_error);
+        gateTypeError = v.findViewById(R.id.ext_gate_type_error);
+        gateHandleHeader = v.findViewById(R.id.label_gate_handle);
+        gateHandleError = v.findViewById(R.id.gate_handle_type_error);
+        gateLockHeader = v.findViewById(R.id.label_gate_lock_register);
         trackRampValueError = v.findViewById(R.id.ramp_track_values_error);
 //        TextInputLayouts
         siaObsField = v.findViewById(R.id.social_entrance_sia_obs_field);
-        floorTypeField = v.findViewById(R.id.floor_type_ext_field);
-        gateWidthField = v.findViewById(R.id.gate_width_ext_field);
+        gateTypeDescField = v.findViewById(R.id.gate_type_desc_field);
+        freeSpaceWidthField1 = v.findViewById(R.id.free_space_width_1_field);
+        freeSpaceWidthField2 = v.findViewById(R.id.free_space_width_2_field);
+        gateHandleHeightField = v.findViewById(R.id.gate_handle_height_field);
+        gateObsField = v.findViewById(R.id.gate_obs_field);
         trackHeightField = v.findViewById(R.id.ext_tracks_height_field);
-        sillObsField = v.findViewById(R.id.gate_sill_obs_field);
-        intercomHeightField = v.findViewById(R.id.intercom_height_field);
         trackRampField1 = v.findViewById(R.id.ramp_track_1_field);
         trackRampField2 = v.findViewById(R.id.ramp_track_2_field);
         trackRampField3 = v.findViewById(R.id.ramp_track_3_field);
         trackRampField4 = v.findViewById(R.id.ramp_track_4_field);
 //        TextInputEditText
         siaObsValue = v.findViewById(R.id.social_entrance_sia_obs_value);
-        floorTypeValue = v.findViewById(R.id.floor_type_ext_value);
-        gateWidthValue = v.findViewById(R.id.gate_width_ext_value);
+        gateTypeDescValue = v.findViewById(R.id.gate_type_desc_value);
+        freeSpaceWidthValue1 = v.findViewById(R.id.free_space_width_1_value);
+        freeSpaceWidthValue2 = v.findViewById(R.id.free_space_width_2_value);
+        gateHandleHeightValue = v.findViewById(R.id.gate_handle_height_value);
+        gateObsValue = v.findViewById(R.id.gate_obs_value);
         trackHeightValue = v.findViewById(R.id.ext_tracks_height_value);
-        sillObsValue = v.findViewById(R.id.gate_sill_obs_value);
-        intercomHeightValue = v.findViewById(R.id.intercom_height_value);
         trackRampValue1 = v.findViewById(R.id.ramp_track_1_value);
         trackRampValue2 = v.findViewById(R.id.ramp_track_2_value);
         trackRampValue3 = v.findViewById(R.id.ramp_track_3_value);
         trackRampValue4 = v.findViewById(R.id.ramp_track_4_value);
 //        MaterialButtons
         addTrackRampButton = v.findViewById(R.id.add_gate_track_ramp_button);
-        addObstaclesButton = v.findViewById(R.id.add_gate_obstacles_button);
-        addPayphoneButton = v.findViewById(R.id.add_gate_payphones_button);
+        addGateLockButton = v.findViewById(R.id.add_gate_lock_button);
+        returnButton = v.findViewById(R.id.return_ext_access_button);
+        continueButton = v.findViewById(R.id.continue_ext_access2_button);
 //        ImageButton
         delTrackRampButton = v.findViewById(R.id.delete_ramp_track_measure);
-//        FrameLayout
-        sillFragment = v.findViewById(R.id.ext_access_sill_fragment);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
@@ -227,14 +184,32 @@ public class ExtAccessSocialFragment extends Fragment {
 //        RadioListeners
         hasGateTracksRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
         hasTrackRampRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
-        hasObstaclesRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
-        hasPayphoneRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
-        hasIntercomRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
 //        MultiRadio Listeners
-        sillTypeRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
-                (view, r) -> extAccessMultiRadioListener(sillTypeRadio));
+        gateTypeRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
+                (view, r) -> extAccessOneMultiRadioListener(gateTypeRadio));
 //        ArrayList
         addRampTrackToArrays();
+    }
+
+    private void openNextFragment(Bundle bundle, View v) {
+        Fragment frag;
+        if (v == continueButton) {
+            if (socialFragOneNoEmptyFields()) {
+                ExtAccessSocialTwo newSocialTwo = socialTwo(bundle);
+                ViewModelEntry.updateExtAccessRegTwo(newSocialTwo);
+                frag = new ExtAccessSocialFragment2();
+                frag.setArguments(bundle);
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, frag)
+                        .addToBackStack(null).commit();
+            }
+        } else if (v == addGateLockButton) {
+            ExtAccessSocialTwo newSocialTwo = socialTwo(bundle);
+            ViewModelEntry.updateExtAccessRegTwo(newSocialTwo);
+            frag = new DoorLockListFragment();
+            frag.setArguments(bundle);
+            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, frag)
+                    .addToBackStack(null).commit();
+        }
     }
 
     private void addRampTrackToArrays() {
@@ -242,24 +217,6 @@ public class ExtAccessSocialFragment extends Fragment {
         rampTrackFields.add(trackRampField2);
         rampTrackFields.add(trackRampField3);
         rampTrackFields.add(trackRampField4);
-    }
-
-    private void extAccessMultiRadioListener(MultiLineRadioGroup multi) {
-        int index = multi.getCheckedRadioButtonIndex();
-        switch (index) {
-            case 1:
-                getChildFragmentManager().beginTransaction().replace(R.id.ext_access_sill_fragment, new SillInclinationFragment()).commit();
-                break;
-            case 2:
-                getChildFragmentManager().beginTransaction().replace(R.id.ext_access_sill_fragment, new SillStepFragment()).commit();
-                break;
-            case 3:
-                getChildFragmentManager().beginTransaction().replace(R.id.ext_access_sill_fragment, new SillSlopeFragment()).commit();
-                break;
-            default:
-                removeSillFragments();
-                break;
-        }
     }
 
     private void extAccessRadioListener(RadioGroup radio, int checkedID) {
@@ -281,24 +238,45 @@ public class ExtAccessSocialFragment extends Fragment {
                 addTrackRampButton.setVisibility(View.VISIBLE);
             else
                 addTrackRampButton.setVisibility(View.GONE);
-        } else if (radio == hasObstaclesRadio) {
-            if (index == 1)
-                addObstaclesButton.setVisibility(View.VISIBLE);
-            else
-                addObstaclesButton.setVisibility(View.GONE);
-        } else if (radio == hasPayphoneRadio) {
-            if (index == 1)
-                addPayphoneButton.setVisibility(View.VISIBLE);
-            else
-                addPayphoneButton.setVisibility(View.GONE);
-        } else if (radio == hasIntercomRadio) {
-            if (index == 1)
-                intercomHeightField.setVisibility(View.VISIBLE);
-            else {
-                intercomHeightValue.setText(null);
-                intercomHeightField.setVisibility(View.GONE);
-            }
         }
+    }
+
+    private void extAccessOneMultiRadioListener(MultiLineRadioGroup multi) {
+        int index = multi.getCheckedRadioButtonIndex();
+        clearMultilineFields();
+        switch (index) {
+            case 0:
+                freeSpaceWidthField1.setVisibility(View.VISIBLE);
+                freeSpaceWidthField1.setHint("Largura do Vão Livre (m)");
+                break;
+            case 1:
+                freeSpaceWidthField1.setVisibility(View.VISIBLE);
+                freeSpaceWidthField1.setHint("Largura do Vão Livre - Folha 1 (m)");
+                freeSpaceWidthField2.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                freeSpaceWidthField1.setVisibility(View.VISIBLE);
+                freeSpaceWidthField1.setHint("Largura do Vão Livre (m)");
+                gateTypeDescField.setVisibility(View.VISIBLE);
+                break;
+            default:
+                break;
+        }
+        gateHandleHeader.setVisibility(View.VISIBLE);
+        gateHandleRadio.setVisibility(View.VISIBLE);
+        gateHandleHeightField.setVisibility(View.VISIBLE);
+        gateLockHeader.setVisibility(View.VISIBLE);
+        addGateLockButton.setVisibility(View.VISIBLE);
+        gateObsField.setVisibility(View.VISIBLE);
+    }
+
+    private void clearMultilineFields() {
+        gateTypeDescValue.setText(null);
+        gateTypeDescField.setVisibility(View.GONE);
+        freeSpaceWidthValue1.setText(null);
+        freeSpaceWidthField1.setVisibility(View.GONE);
+        freeSpaceWidthValue2.setText(null);
+        freeSpaceWidthField2.setVisibility(View.GONE);
     }
 
     private void loadSocialFragData(ExternalAccess access) {
@@ -306,10 +284,18 @@ public class ExtAccessSocialFragment extends Fragment {
             hasSIARadio.check(hasSIARadio.getChildAt(access.getHasSIA()).getId());
         if (access.getObsSIA() != null)
             siaObsValue.setText(access.getObsSIA());
-        if (access.getFloorType() != null)
-            floorTypeValue.setText(access.getFloorType());
-        if (access.getGateWidth() != null)
-            gateWidthValue.setText(String.valueOf(access.getGateWidth()));
+
+        if (access.getEntranceGateType() != null) {
+            gateTypeRadio.checkAt(access.getEntranceGateType());
+            freeSpaceWidthValue1.setText(String.valueOf(access.getFreeSpaceWidth1()));
+            if (access.getEntranceGateType() == 1)
+                freeSpaceWidthValue2.setText(String.valueOf(access.getFreeSpaceWidth2()));
+            else if (access.getEntranceGateType() == 2)
+                gateTypeDescValue.setText(access.getEntranceGateDesc());
+            gateHandleRadio.check(gateHandleRadio.getChildAt(access.getGateHandleType()).getId());
+            gateHandleHeightValue.setText(String.valueOf(access.getGateHandleHeight()));
+        }
+
         if (access.getGateHasTracks() != null) {
             hasGateTracksRadio.check(hasGateTracksRadio.getChildAt(access.getGateHasTracks()).getId());
             if (access.getGateHasTracks() == 1) {
@@ -333,36 +319,12 @@ public class ExtAccessSocialFragment extends Fragment {
                         case 1:
                             trackRampField1.setVisibility(View.VISIBLE);
                             trackRampValue1.setText(String.valueOf(access.getTrackRampMeasure1()));
+                        default:
+                            break;
                     }
                 }
             }
         }
-
-        if (access.getGateSillType() != null) {
-            sillTypeRadio.checkAt(access.getGateSillType());
-            if (access.getGateSillType() > 0)
-                getChildFragmentManager().setFragmentResult(InspectionActivity.LOAD_CHILD_DATA, extAccSocialBundle);
-        }
-        if (access.getGateSillObs() != null)
-            sillObsValue.setText(access.getGateSillObs());
-        if (access.getGateHasObstacles() != null)
-            hasObstaclesRadio.check(hasObstaclesRadio.getChildAt(access.getGateHasObstacles()).getId());
-        if (access.getGateHasPayphones() != null)
-            hasPayphoneRadio.check(hasPayphoneRadio.getChildAt(access.getGateHasPayphones()).getId());
-        if (access.getGateHasIntercom() != null) {
-            hasIntercomRadio.check(hasIntercomRadio.getChildAt(access.getGateHasIntercom()).getId());
-            if (access.getGateHasIntercom() == 1)
-                if (access.getIntercomHeight() != null)
-                    intercomHeightValue.setText(String.valueOf(access.getIntercomHeight()));
-        }
-
-
-    }
-
-    private void removeSillFragments() {
-        Fragment fragment = manager.findFragmentById(R.id.ext_access_sill_fragment);
-        if (fragment != null)
-            manager.beginTransaction().remove(fragment).commit();
     }
 
     private boolean scrollingField(View v, MotionEvent event) {
@@ -373,154 +335,96 @@ public class ExtAccessSocialFragment extends Fragment {
         return false;
     }
 
-    private ArrayList<String> gatherSocialData() {
-        ArrayList<String> tempSocialData = new ArrayList<>(Arrays.
-                asList(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-                        null, null, null, null, null, null, null, null));
-        if (hasSIARadio.getCheckedRadioButtonId() != -1)
-            tempSocialData.set(0, String.valueOf(getCheckedRadioIndex(hasSIARadio)));
-        if (siaObsValue.getText() != null)
-            tempSocialData.set(1, String.valueOf(siaObsValue.getText()));
-        if (!TextUtils.isEmpty(floorTypeValue.getText()))
-            tempSocialData.set(2, String.valueOf(floorTypeValue.getText()));
-        if (!TextUtils.isEmpty(gateWidthValue.getText()))
-            tempSocialData.set(3, String.valueOf(gateWidthValue.getText()));
-        if (hasGateTracksRadio.getCheckedRadioButtonId() != -1)
-            tempSocialData.set(4, String.valueOf(getCheckedRadioIndex(hasGateTracksRadio)));
-        if (getCheckedRadioIndex(hasGateTracksRadio) == 1) {
-            if (!TextUtils.isEmpty(trackHeightValue.getText()))
-                tempSocialData.set(5, String.valueOf(trackHeightValue.getText()));
-            if (getCheckedRadioIndex(hasTrackRampRadio) != -1)
-                tempSocialData.set(6, String.valueOf(getCheckedRadioIndex(hasTrackRampRadio)));
-            tempSocialData.set(7, String.valueOf(rampTrackCounter));
-            if (!TextUtils.isEmpty(trackRampValue1.getText()))
-                tempSocialData.set(8, String.valueOf(trackRampValue1.getText()));
-            if (!TextUtils.isEmpty(trackRampValue2.getText()))
-                tempSocialData.set(9, String.valueOf(trackRampValue2.getText()));
-            if (!TextUtils.isEmpty(trackRampValue3.getText()))
-                tempSocialData.set(10, String.valueOf(trackRampValue3.getText()));
-            if (!TextUtils.isEmpty(trackRampValue4.getText()))
-                tempSocialData.set(11, String.valueOf(trackRampValue4.getText()));
-        }
-        if (sillTypeRadio.getCheckedRadioButtonIndex() != -1)
-            tempSocialData.set(12, String.valueOf(sillTypeRadio.getCheckedRadioButtonIndex()));
-        if (sillObsValue.getText() != null)
-            tempSocialData.set(13, String.valueOf(sillObsValue.getText()));
-        if (hasObstaclesRadio.getCheckedRadioButtonId() != -1)
-            tempSocialData.set(14, String.valueOf(getCheckedRadioIndex(hasObstaclesRadio)));
-        if (hasPayphoneRadio.getCheckedRadioButtonId() != -1)
-            tempSocialData.set(15, String.valueOf(getCheckedRadioIndex(hasPayphoneRadio)));
-        if (hasIntercomRadio.getCheckedRadioButtonId() != -1)
-            tempSocialData.set(16, String.valueOf(getCheckedRadioIndex(hasIntercomRadio)));
-        if (getCheckedRadioIndex(hasIntercomRadio) == 1) {
-            if (!TextUtils.isEmpty(intercomHeightValue.getText()))
-                tempSocialData.set(17, String.valueOf(intercomHeightValue.getText()));
-        }
-        return tempSocialData;
-    }
-
-    private boolean socialFragDoesNotHaveEmptyFields() {
-        clearSocialFragErrors();
+    private boolean socialFragOneNoEmptyFields() {
+        clearSocialFragOneErrors();
         int i = 0;
 
-        if (hasSIARadio.getCheckedRadioButtonId() == -1) {
+        if (getCheckedRadioIndex(hasSIARadio) == -1) {
             i++;
             siaError.setVisibility(View.VISIBLE);
-        } else
-            socialFrag.set(0, String.valueOf(getCheckedRadioIndex(hasSIARadio)));
-        socialFrag.set(1, String.valueOf(siaObsValue.getText()));
-        if (TextUtils.isEmpty(floorTypeValue.getText())) {
+        }
+        if (gateTypeRadio.getCheckedRadioButtonIndex() == -1) {
             i++;
-            floorTypeField.setError(getString(R.string.blank_field_error));
-        } else
-            socialFrag.set(2, String.valueOf(floorTypeValue.getText()));
-        if (TextUtils.isEmpty(gateWidthValue.getText())) {
-            i++;
-            gateWidthField.setError(getString(R.string.blank_field_error));
-        } else
-            socialFrag.set(3, String.valueOf(gateWidthValue.getText()));
-        if (hasGateTracksRadio.getCheckedRadioButtonId() == -1) {
+            gateTypeError.setVisibility(View.VISIBLE);
+        } else {
+            if (TextUtils.isEmpty(freeSpaceWidthValue1.getText())) {
+                i++;
+                freeSpaceWidthField1.setError(getString(R.string.blank_field_error));
+            }
+            if (gateTypeRadio.getCheckedRadioButtonIndex() == 1) {
+                if (TextUtils.isEmpty(freeSpaceWidthValue2.getText())) {
+                    i++;
+                    freeSpaceWidthField2.setError(getString(R.string.blank_field_error));
+                }
+            } else if (gateTypeRadio.getCheckedRadioButtonIndex() == 2) {
+                if (TextUtils.isEmpty(gateTypeDescValue.getText())) {
+                    i++;
+                    gateTypeDescField.setError(getString(R.string.blank_field_error));
+                }
+            }
+            if (getCheckedRadioIndex(gateHandleRadio) == -1) {
+                i++;
+                gateHandleError.setVisibility(View.VISIBLE);
+            }
+            if (TextUtils.isEmpty(gateHandleHeightValue.getText())) {
+                i++;
+                gateHandleHeightField.setError(getString(R.string.blank_field_error));
+            }
+        }
+
+        if (getCheckedRadioIndex(hasGateTracksRadio) == -1) {
             i++;
             gateTrackError.setVisibility(View.VISIBLE);
-        } else
-            socialFrag.set(4, String.valueOf(getCheckedRadioIndex(hasGateTracksRadio)));
-        if (getCheckedRadioIndex(hasGateTracksRadio) == 1) {
+        } else if (getCheckedRadioIndex(hasGateTracksRadio) == 1) {
             if (TextUtils.isEmpty(trackHeightValue.getText())) {
                 i++;
                 trackHeightField.setError(getString(R.string.blank_field_error));
-            } else
-                socialFrag.set(5, String.valueOf(trackHeightValue.getText()));
+            }
             if (getCheckedRadioIndex(hasTrackRampRadio) == -1) {
                 i++;
                 trackRampError.setVisibility(View.VISIBLE);
-            } else
-                socialFrag.set(6, String.valueOf(getCheckedRadioIndex(hasTrackRampRadio)));
-        }
-        socialFrag.set(20, String.valueOf(rampTrackCounter));
-        if (TextUtils.isEmpty(trackRampValue1.getText()) && rampTrackCounter >= 1) {
-            i++;
-            trackRampValueError.setVisibility(View.VISIBLE);
-        } else if (trackRampValue1.getText() != null)
-            socialFrag.set(21, String.valueOf(trackRampValue1.getText()));
-        if (TextUtils.isEmpty(trackRampValue2.getText()) && rampTrackCounter >= 2) {
-            i++;
-            trackRampValueError.setVisibility(View.VISIBLE);
-        } else if (trackRampValue2.getText() != null)
-            socialFrag.set(22, String.valueOf(trackRampValue2.getText()));
-        if (TextUtils.isEmpty(trackRampValue3.getText()) && rampTrackCounter >= 3) {
-            i++;
-            trackRampValueError.setVisibility(View.VISIBLE);
-        } else if (trackRampValue3.getText() != null)
-            socialFrag.set(23, String.valueOf(trackRampValue3.getText()));
-        if (TextUtils.isEmpty(trackRampValue4.getText()) && rampTrackCounter == 4) {
-            i++;
-            trackRampValueError.setVisibility(View.VISIBLE);
-        } else if (trackRampValue4.getText() != null)
-            socialFrag.set(24, String.valueOf(trackRampValue4.getText()));
-        if (sillTypeRadio.getCheckedRadioButtonIndex() == -1) {
-            i++;
-            sillTypeError.setVisibility(View.VISIBLE);
-        } else
-            socialFrag.set(7, String.valueOf(sillTypeRadio.getCheckedRadioButtonIndex()));
-        socialFrag.set(12, String.valueOf(sillObsValue.getText()));
-        if (hasObstaclesRadio.getCheckedRadioButtonId() == -1) {
-            i++;
-            obstaclesError.setVisibility(View.VISIBLE);
-        } else
-            socialFrag.set(13, String.valueOf(getCheckedRadioIndex(hasObstaclesRadio)));
-        if (hasPayphoneRadio.getCheckedRadioButtonId() == -1) {
-            i++;
-            payphoneError.setVisibility(View.VISIBLE);
-        } else
-            socialFrag.set(14, String.valueOf(getCheckedRadioIndex(hasPayphoneRadio)));
-        if (hasIntercomRadio.getCheckedRadioButtonId() == -1) {
-            i++;
-            intercomError.setVisibility(View.VISIBLE);
-        } else
-            socialFrag.set(15, String.valueOf(getCheckedRadioIndex(hasIntercomRadio)));
-        if (getCheckedRadioIndex(hasIntercomRadio) == 1) {
-            if (TextUtils.isEmpty(intercomHeightValue.getText())) {
-                i++;
-                intercomHeightField.setError(getString(R.string.blank_field_error));
-            } else
-                socialFrag.set(16, String.valueOf(intercomHeightValue.getText()));
+            } else if (getCheckedRadioIndex(hasTrackRampRadio) == 1) {
+                switch (rampTrackCounter) {
+                    case 4:
+                        if (TextUtils.isEmpty(trackRampValue4.getText())) {
+                            i++;
+                            trackRampValueError.setVisibility(View.VISIBLE);
+                        }
+                    case 3:
+                        if (TextUtils.isEmpty(trackRampValue3.getText())) {
+                            i++;
+                            trackRampValueError.setVisibility(View.VISIBLE);
+                        }
+                    case 2:
+                        if (TextUtils.isEmpty(trackRampValue2.getText())) {
+                            i++;
+                            trackRampValueError.setVisibility(View.VISIBLE);
+                        }
+                    case 1:
+                        if (TextUtils.isEmpty(trackRampValue1.getText())) {
+                            i++;
+                            trackRampValueError.setVisibility(View.VISIBLE);
+                        }
+                    default:
+                        break;
+                }
+            }
         }
         return i == 0;
     }
 
-    private void clearSocialFragErrors() {
+    private void clearSocialFragOneErrors() {
         siaError.setVisibility(View.GONE);
-        floorTypeField.setErrorEnabled(false);
-        gateWidthField.setErrorEnabled(false);
+        gateTypeError.setVisibility(View.GONE);
+        gateTypeDescField.setErrorEnabled(false);
+        freeSpaceWidthField1.setErrorEnabled(false);
+        freeSpaceWidthField2.setErrorEnabled(false);
+        gateHandleHeightField.setErrorEnabled(false);
+        gateHandleError.setVisibility(View.GONE);
         gateTrackError.setVisibility(View.GONE);
         trackHeightField.setErrorEnabled(false);
         trackRampError.setVisibility(View.GONE);
-        sillTypeError.setVisibility(View.GONE);
-        obstaclesError.setVisibility(View.GONE);
-        payphoneError.setVisibility(View.GONE);
-        intercomError.setVisibility(View.GONE);
-        intercomHeightField.setErrorEnabled(false);
-        trackRampError.setVisibility(View.GONE);
+        trackRampValueError.setVisibility(View.GONE);
     }
 
     private int getCheckedRadioIndex(RadioGroup radio) {
@@ -530,6 +434,71 @@ public class ExtAccessSocialFragment extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     private void allowObsScroll() {
         siaObsValue.setOnTouchListener(this::scrollingField);
-        sillObsValue.setOnTouchListener(this::scrollingField);
+        gateObsValue.setOnTouchListener(this::scrollingField);
     }
+
+    private ExtAccessSocialTwo socialTwo(Bundle bundle) {
+        Integer sia = null, gateType = null, gateTracks = null, gateHandle = null, gateTrackRamps = null;
+        String siaObs = null, gateDesc = null, gateObs = null;
+        Double fSpace1 = null, fSpace2 = null, handleHeight = null, trackHeight = null, rampMeasure1 = null, rampMeasure2 = null, rampMeasure3 = null, rampMeasure4 = null;
+
+        if (getCheckedRadioIndex(hasSIARadio) > -1)
+            sia = getCheckedRadioIndex(hasSIARadio);
+        if (!TextUtils.isEmpty(siaObsValue.getText()))
+            siaObs = String.valueOf(siaObsValue.getText());
+        if (gateTypeRadio.getCheckedRadioButtonIndex() > -1) {
+            gateType = gateTypeRadio.getCheckedRadioButtonIndex();
+            fSpace1 = Double.parseDouble(String.valueOf(freeSpaceWidthValue1.getText()));
+            switch (gateType) {
+                case 2:
+                    if (!TextUtils.isEmpty(gateTypeDescValue.getText()))
+                        gateDesc = String.valueOf(gateTypeDescValue.getText());
+                    break;
+                case 1:
+                    if (!TextUtils.isEmpty(freeSpaceWidthValue2.getText()))
+                        fSpace2 = Double.parseDouble(String.valueOf(freeSpaceWidthValue2.getText()));
+                    break;
+                default:
+                    break;
+            }
+            if (getCheckedRadioIndex(gateHandleRadio) > -1) {
+                gateHandle = getCheckedRadioIndex(gateHandleRadio);
+                if (!TextUtils.isEmpty(gateHandleHeightValue.getText()))
+                    handleHeight = Double.parseDouble(String.valueOf(gateHandleHeightValue.getText()));
+            }
+            if (!TextUtils.isEmpty(gateObsValue.getText()))
+                gateObs = String.valueOf(gateObsValue.getText());
+        }
+        if (getCheckedRadioIndex(hasGateTracksRadio) > -1) {
+            gateTracks = getCheckedRadioIndex(hasGateTracksRadio);
+            if (gateTracks == 1) {
+                if (!TextUtils.isEmpty(trackHeightValue.getText()))
+                    trackHeight = Double.parseDouble(String.valueOf(trackHeightValue.getText()));
+                if (getCheckedRadioIndex(hasTrackRampRadio) > -1) {
+                    gateTrackRamps = getCheckedRadioIndex(hasTrackRampRadio);
+                    if (gateTrackRamps == 1) {
+                        switch (rampTrackCounter) {
+                            case 4:
+                                if (!TextUtils.isEmpty(trackRampValue4.getText()))
+                                    rampMeasure4 = Double.parseDouble(String.valueOf(trackRampValue4.getText()));
+                            case 3:
+                                if (!TextUtils.isEmpty(trackRampValue3.getText()))
+                                    rampMeasure3 = Double.parseDouble(String.valueOf(trackRampValue3.getText()));
+                            case 2:
+                                if (!TextUtils.isEmpty(trackRampValue2.getText()))
+                                    rampMeasure2 = Double.parseDouble(String.valueOf(trackRampValue2.getText()));
+                            case 1:
+                                if (!TextUtils.isEmpty(trackRampValue1.getText()))
+                                    rampMeasure1 = Double.parseDouble(String.valueOf(trackRampValue1.getText()));
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        return new ExtAccessSocialTwo(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID), sia, siaObs, gateType, gateDesc, fSpace1, fSpace2, gateHandle, handleHeight,
+                gateObs, gateTracks, trackHeight, gateTrackRamps, rampTrackCounter, rampMeasure1, rampMeasure2, rampMeasure3, rampMeasure4);
+    }
+
 }

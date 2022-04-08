@@ -6,6 +6,9 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 
 import java.util.List;
@@ -27,6 +30,15 @@ public interface ExternalAccessDao {
 
     @Update
     void updateExternalAccess(ExternalAccess externalAccess);
+
+    @Update(entity = ExternalAccess.class)
+    void updateExtAccessRegOne(ExtAccessSocialOne... regOne);
+
+    @Update(entity = ExternalAccess.class)
+    void updateExtAccessRegTwo(ExtAccessSocialTwo... regTwo);
+
+    @Update(entity = ExternalAccess.class)
+    void updateExtAccessRegThree(ExtAccessSocialThree... regThree);
 
     @Query("DELETE FROM ExternalAccess WHERE externalAccessID == :externalAccessID")
     void deleteOneExternalAccess(int externalAccessID);

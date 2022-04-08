@@ -16,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_external_access_header"
-            android:textSize="@dimen/section_header"
+            android:textSize="@dimen/section_header_big"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -86,27 +87,66 @@
             app:layout_constraintStart_toStartOf="parent"
             />
 
-        <FrameLayout
-            android:id="@+id/external_access_layout"
+        <TextView
+            android:id="@+id/label_ext_accessible_floor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="O piso pode ser considerado acessível?"
+            android:textSize="@dimen/section_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/external_access_type_error"
-            android:layout_marginTop="@dimen/usual_padding"/>
+            app:layout_constraintTop_toBottomOf="@id/external_access_type_error" />
 
+        <RadioGroup
+            android:id="@+id/ext_accessible_floor_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_ext_accessible_floor">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/ext_accessible_floor_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/ext_accessible_floor_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/external_access_obs_field"
+            android:id="@+id/ext_accessible_floor_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/external_access_layout"
-            android:hint="@string/hint_obs">
+            app:layout_constraintTop_toBottomOf="@id/ext_accessible_floor_error"
+            app:helperText="@string/helper_not_accessible_floor"
+            android:hint="@string/hint_obs"
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/external_access_obs_value"
+                android:id="@+id/ext_accessible_floor_obs_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textMultiLine"
@@ -119,6 +159,13 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <FrameLayout
+            android:id="@+id/external_access_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ext_accessible_floor_obs_field"
+            android:layout_marginTop="@dimen/usual_padding"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_ext_access"
@@ -128,7 +175,7 @@
             android:text="@string/label_button_save"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/external_access_obs_field" />
+            app:layout_constraintTop_toBottomOf="@id/external_access_layout" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancel_ext_access"

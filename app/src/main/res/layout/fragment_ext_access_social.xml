@@ -11,13 +11,25 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/external_access_social_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/header_social_entrance"
+            android:textSize="@dimen/section_header_big"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/label_has_SIA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/frag_ext_sia"
             android:textSize="@dimen/section_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/external_access_social_header"
+            android:layout_marginTop="@dimen/usual_padding"/>
 
         <RadioGroup
             android:id="@+id/has_SIA_radio"
@@ -80,38 +92,208 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/header_external_gate_type"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/social_entrance_sia_obs_field"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Qual o tipo de portão?"
+            android:textSize="@dimen/section_header"/>
+
+        <com.whygraphics.multilineradiogroup.MultiLineRadioGroup
+            android:id="@+id/ext_gate_type_radio"
+            xmlns:multi_line_radio_group="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_external_gate_type"
+            multi_line_radio_group:max_in_row="2"
+            multi_line_radio_group:radio_buttons="@array/multi_radio_gate_type"
+            />
+
+        <TextView
+            android:id="@+id/ext_gate_type_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ext_gate_type_radio" />
+
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/floor_type_ext_field"
+            android:id="@+id/gate_type_desc_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_external_floor"
+            android:hint="Descrição do Tipo de Portão"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/social_entrance_sia_obs_field">
+            app:layout_constraintTop_toBottomOf="@id/ext_gate_type_error"
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/floor_type_ext_value"
+                android:id="@+id/gate_type_desc_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
+<!--        Hint definido programaticamente-->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/gate_width_ext_field"
+            android:id="@+id/free_space_width_1_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_ext_gate_width"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/floor_type_ext_field">
+            app:layout_constraintTop_toBottomOf="@id/gate_type_desc_field"
+            android:visibility="gone">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/gate_width_ext_value"
+                android:id="@+id/free_space_width_1_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/free_space_width_2_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Largura do Vão Livre - Folha 2 (m)"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/free_space_width_1_field"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/free_space_width_2_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/label_gate_handle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Qual o tipo de dispositivo de abertura do portão?"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/free_space_width_2_field"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:visibility="gone"/>
+
+        <RadioGroup
+            android:id="@+id/gate_handle_type_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_gate_handle"
+            android:visibility="gone">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="ALAVANCA"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="OUTRO TIPO"
+                android:textSize="@dimen/radio_button_text" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/gate_handle_type_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_handle_type_radio" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/gate_handle_height_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Altura do dispositivo de abertura"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_handle_type_error"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/gate_handle_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/label_gate_lock_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="@string/header_lock_type_register"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/gate_handle_height_field"
+            android:visibility="gone"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_gate_lock_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/purple_200"
+            android:text="@string/label_add_frag_entry"
+            android:textColor="@color/black"
+            app:cornerRadius="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_gate_lock_register"
+            android:layout_marginBottom="@dimen/usual_padding"
+            android:visibility="gone"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/gate_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="Observações sobre o portão"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_gate_lock_button"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/gate_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:lines="@integer/multiline_obs_field"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -122,7 +304,7 @@
             android:text="@string/label_gate_has_floor_tracks"
             android:textSize="@dimen/section_header"
             android:layout_marginTop="@dimen/usual_padding"
-            app:layout_constraintTop_toBottomOf="@id/gate_width_ext_field" />
+            app:layout_constraintTop_toBottomOf="@id/gate_obs_field" />
 
         <RadioGroup
             android:id="@+id/has_gate_tracks_radio"
@@ -358,258 +540,26 @@
             app:layout_constraintStart_toStartOf="parent"
             />
 
-        <TextView
-            android:id="@+id/label_type_sill"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ramp_track_values_error"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_sill_type_gate"
-            android:textSize="@dimen/section_header"/>
-
-        <com.whygraphics.multilineradiogroup.MultiLineRadioGroup
-            android:id="@+id/type_sill_radio"
-            xmlns:multi_line_radio_group="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_type_sill"
-            multi_line_radio_group:max_in_row="2"
-            multi_line_radio_group:radio_buttons="@array/multi_radio_sill_type"
-            />
-
-        <TextView
-            android:id="@+id/sill_type_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/type_sill_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <FrameLayout
-            android:id="@+id/ext_access_sill_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sill_type_error"
-            android:layout_marginTop="@dimen/usual_padding"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/gate_sill_obs_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_sill_type_obs"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ext_access_sill_fragment">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/gate_sill_obs_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:inputType="textMultiLine"
-                android:lines="@integer/multiline_obs_field"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:scrollHorizontally="false" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/label_entrance_obstacles"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:text="@string/frag_ext_gate_obstacles"
-            android:textSize="@dimen/section_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_sill_obs_field" />
-
-        <RadioGroup
-            android:id="@+id/gate_has_obstacles_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_entrance_obstacles">
-
-            <RadioButton
-                android:id="@+id/gate_has_obstacles_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
-
-
-            <RadioButton
-                android:id="@+id/gate_has_obstacles_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/gate_has_obstacles_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textColor="@color/error_message"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_has_obstacles_radio" />
-
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_gate_obstacles_button"
+            android:id="@+id/continue_ext_access2_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:backgroundTint="@color/purple_200"
-            android:text="@string/label_add_frag_entry"
-            android:textColor="@color/black"
-            android:visibility="gone"
-            app:cornerRadius="3dp"
+            android:layout_margin="@dimen/top_margins"
+            android:text="@string/label_button_proceed_register"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_has_obstacles_error" />
-
-        <TextView
-            android:id="@+id/label_gate_has_payphones"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:text="@string/frag_ent_gate_payphone"
-            android:textSize="@dimen/section_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_gate_obstacles_button" />
-
-        <RadioGroup
-            android:id="@+id/gate_has_payphones_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_gate_has_payphones">
-
-            <RadioButton
-                android:id="@+id/gate_has_payphones_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
-
-            <RadioButton
-                android:id="@+id/gate_has_payphones_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/gate_has_payphones_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textColor="@color/error_message"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_has_payphones_radio" />
+            app:layout_constraintTop_toBottomOf="@id/ramp_track_values_error" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/add_gate_payphones_button"
+            android:id="@+id/return_ext_access_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:backgroundTint="@color/purple_200"
-            android:text="@string/label_add_frag_entry"
-            android:textColor="@color/black"
-            android:visibility="gone"
-            app:cornerRadius="3dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_has_payphones_error" />
-
-        <TextView
-            android:id="@+id/label_gate_has_intercom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:text="@string/label_gate_has_intercom"
-            android:textSize="@dimen/section_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_gate_payphones_button" />
-
-        <RadioGroup
-            android:id="@+id/gate_has_intercom_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_gate_has_intercom">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/gate_has_intercom_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textColor="@color/error_message"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_has_intercom_radio" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/intercom_height_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_intercom_height"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gate_has_intercom_error"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/intercom_height_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_margin="@dimen/top_margins"
+            android:text="RETORNAR"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/continue_ext_access2_button"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

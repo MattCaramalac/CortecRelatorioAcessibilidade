@@ -1,6 +1,7 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +12,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
-import java.util.ArrayList;
-
 public class ExtAccessVehicleFragment extends Fragment {
+
+    public static final String HAS_SOUND = "HAS_SOUND";
+    public static final String ACCESS_OBS = "ACCESS_OBS";
 
     RadioGroup hasSoundSignRadio;
     TextView soundSingError;
+    TextInputLayout accessObsField;
+    TextInputEditText accessObsValue;
 
     ViewModelEntry modelEntry;
-
-    ArrayList<String> carList = new ArrayList<>();
 
     int extAccessID = 0;
 
@@ -57,18 +62,14 @@ public class ExtAccessVehicleFragment extends Fragment {
         instantiateVehicleViews(view);
 
         getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key,bundle) -> {
-            carList = bundle.getStringArrayList(ExternalAccessFragment.EXT_ARRAY);
-            soundSingError.setVisibility(View.GONE);
-            if(getRadioCheckIndex(hasSoundSignRadio) == -1){
-                carList.set(18, "false");
-                soundSingError.setVisibility(View.VISIBLE);
-            }
-            else {
-                carList.set(17, String.valueOf(getRadioCheckIndex(hasSoundSignRadio)));
-                carList.set(18, null);
-            }
-            bundle.putStringArrayList(ExternalAccessFragment.CHILD_FRAG_DATA, carList);
-            getParentFragmentManager().setFragmentResult(ExternalAccessFragment.FRAG_DATA, bundle);
+            if (checkVehicleEmptyFields()) {
+                bundle.putInt(HAS_SOUND, getRadioCheckIndex(hasSoundSignRadio));
+                if (!TextUtils.isEmpty(accessObsValue.getText()))
+                    bundle.putString(ACCESS_OBS, String.valueOf(accessObsValue.getText()));
+                bundle.putBoolean(InspectionActivity.CHILD_DATA_COMPLETE, true);
+            } else
+                bundle.putBoolean(InspectionActivity.CHILD_DATA_COMPLETE, false);
+            getParentFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, bundle);
         });
 
         if (extAccessID > 0)
@@ -80,6 +81,10 @@ public class ExtAccessVehicleFragment extends Fragment {
         hasSoundSignRadio = view.findViewById(R.id.has_sound_sign_radio);
 //        TextView
         soundSingError = view.findViewById(R.id.has_sound_sign_error);
+//        TextInputEditText
+        accessObsField = view.findViewById(R.id.external_access_sound_obs_field);
+//        TextInputEditText
+        accessObsValue = view.findViewById(R.id.external_access_sound_obs_value);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
     }
@@ -88,7 +93,19 @@ public class ExtAccessVehicleFragment extends Fragment {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
+    private boolean checkVehicleEmptyFields() {
+        int i = 0;
+        soundSingError.setVisibility(View.GONE);
+        if (getRadioCheckIndex(hasSoundSignRadio) == -1) {
+            i++;
+            soundSingError.setVisibility(View.VISIBLE);
+        }
+        return i == 0;
+    }
+
     private void loadVehicleData(ExternalAccess access) {
         hasSoundSignRadio.check(hasSoundSignRadio.getChildAt(access.getGateHasSoundSign()).getId());
+        if (access.getExtAccessObs() != null)
+            accessObsValue.setText(access.getExtAccessObs());
     }
 }

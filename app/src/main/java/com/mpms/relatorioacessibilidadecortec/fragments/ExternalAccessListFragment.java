@@ -91,13 +91,6 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        extListBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID,0);
-        modelFragments.setExtAccessLoadInfo(null);
-    }
-
     private void instantiateExtAccListViews(View v) {
         closeExtAccess = v.findViewById(R.id.close_items_entries_list);
         addExtAccess = v.findViewById(R.id.add_items_entries);
