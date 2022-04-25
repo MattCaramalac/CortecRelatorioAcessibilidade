@@ -2,12 +2,16 @@ package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -26,6 +30,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 
 import java.util.Objects;
 
@@ -42,6 +47,9 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     private PayPhoneViewAdapter payPhoneAdapter;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    private ActionMode actionMode;
+
+    int delClick = 0;
 
     Bundle payPhoneBundle = new Bundle();
 
@@ -83,6 +91,21 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
                 DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                 dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                 recyclerView.addItemDecoration(dividerItemDecoration);
+
+                payPhoneAdapter.setListener(new ListClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        if (actionMode == null)
+                            OnEntryClick(position);
+                        else
+                            enableActionMode();
+                    }
+
+                    @Override
+                    public void onItemLongClick(int position) {
+                        enableActionMode();
+                    }
+                });
             });
         } else if (payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) == 0) {
             modelEntry.getAllPayPhonesSidewalk(payPhoneBundle.getInt(SidewalkFragment.SIDEWALK_ID)).observe(getViewLifecycleOwner(), payPhoneSideList -> {
@@ -91,10 +114,29 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
                 DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                 dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                 recyclerView.addItemDecoration(dividerItemDecoration);
+
+                payPhoneAdapter.setListener(new ListClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        if (actionMode == null)
+                            OnEntryClick(position);
+                        else
+                            enableActionMode();
+                    }
+
+                    @Override
+                    public void onItemLongClick(int position) {
+                        enableActionMode();
+                    }
+                });
             });
         }
 
-        closePayPhoneList.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+        closePayPhoneList.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
+            requireActivity().getSupportFragmentManager().popBackStackImmediate();
+        });
 
         addPayPhone.setOnClickListener(v -> openPayphoneFragment());
 
@@ -104,6 +146,53 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     public void onResume() {
         super.onResume();
         payPhoneBundle.putInt(PayPhoneFragment.PHONE_ID, 0);
+    }
+
+    private void enableActionMode() {
+        if (actionMode == null) {
+            AppCompatActivity activity = (AppCompatActivity) requireActivity();
+            actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    mode.getMenuInflater().inflate(R.menu.menu_delete, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return true;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    if (item.getItemId() == R.id.delete_button) {
+                        delClick = 1;
+                        payPhoneAdapter.deleteItemList();
+                        mode.finish();
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+                    if (delClick == 0)
+                        payPhoneAdapter.cancelSelection(recyclerView);
+                    payPhoneAdapter.selectedItems.clear();
+                    payPhoneAdapter.notifyDataSetChanged();
+                    delClick = 0;
+                    actionMode = null;
+                }
+            });
+        }
+
+        final int size = payPhoneAdapter.selectedItems.size();
+        if (size == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(size + "");
+            actionMode.invalidate();
+        }
     }
 
     @Override
@@ -143,6 +232,8 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
         fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         phoneFragment.setArguments(payPhoneBundle);
+        if (actionMode != null)
+            actionMode.finish();
         fragmentTransaction.replace(R.id.show_fragment_selected, phoneFragment).addToBackStack(null).commit();
     }
 }

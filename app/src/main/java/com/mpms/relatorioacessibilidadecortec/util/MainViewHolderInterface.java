@@ -10,20 +10,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 
-public interface ViewHolderInterface {
+public interface MainViewHolderInterface {
 
-    class ListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MainListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public OnEntryClickListener entryClickListener;
         public LinearLayout background;
         public TextView textInfoOne;
         public TextView textInfoTwo;
 
-        public ListViewHolder(@NonNull View itemView, OnEntryClickListener entryClickListener) {
+        public MainListViewHolder(@NonNull View itemView, OnEntryClickListener entryClickListener) {
             super(itemView);
-            background = itemView.findViewById(R.id.item_holder);
-            textInfoOne = itemView.findViewById(R.id.item_info_one);
-            textInfoTwo = itemView.findViewById(R.id.item_info_two);
+            background = itemView.findViewById(R.id.main_background);
+            textInfoOne = itemView.findViewById(R.id.schoolNameLayout);
+            textInfoTwo = itemView.findViewById(R.id.cityNameLayout);
             this.entryClickListener = entryClickListener;
         }
 
@@ -33,9 +33,7 @@ public interface ViewHolderInterface {
         }
     }
 
-
-
-    void toggleSelection(ListViewHolder holder, int position);
+    void toggleSelection(MainListViewHolder holder, int position);
     void cancelSelection(RecyclerView recyclerView);
     void setListener(ListClickListener listener);
 }

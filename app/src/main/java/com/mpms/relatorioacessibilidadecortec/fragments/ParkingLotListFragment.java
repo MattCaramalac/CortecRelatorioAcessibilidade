@@ -2,11 +2,15 @@ package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,6 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.ParkingRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 
 import java.util.Objects;
 
@@ -38,6 +43,9 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     private ParkingRecViewAdapter parkingAdapter;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    private ActionMode actionMode;
+
+    int delClick = 0;
 
     Bundle parkingBundle = new Bundle();
 
@@ -77,12 +85,30 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                     recyclerView.addItemDecoration(dividerItemDecoration);
+
+                    parkingAdapter.setListener(new ListClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            if (actionMode == null)
+                                OnEntryClick(position);
+                            else
+                                enableActionMode();
+                        }
+
+                        @Override
+                        public void onItemLongClick(int position) {
+                            enableActionMode();
+                        }
+                    });
                 });
 
         addParkingLot.setOnClickListener(v -> openParkingLotFragment());
 
-        closeParkingList.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
+        closeParkingList.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
+            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        });
     }
 
     private void instantiateParkingListViews(View v) {
@@ -98,10 +124,59 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
         parkingBundle.putInt(PARKING_ID, 0);
     }
 
+    private void enableActionMode() {
+        if (actionMode == null) {
+            AppCompatActivity activity = (AppCompatActivity) requireActivity();
+            actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    mode.getMenuInflater().inflate(R.menu.menu_delete, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return true;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    if (item.getItemId() == R.id.delete_button) {
+                        delClick = 1;
+                        parkingAdapter.deleteItemList();
+                        mode.finish();
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+                    if (delClick == 0)
+                        parkingAdapter.cancelSelection(recyclerView);
+                    parkingAdapter.selectedItems.clear();
+                    parkingAdapter.notifyDataSetChanged();
+                    delClick = 0;
+                    actionMode = null;
+                }
+            });
+        }
+
+        final int size = parkingAdapter.selectedItems.size();
+        if (size == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(size + "");
+            actionMode.invalidate();
+        }
+    }
+
     private void openParkingLotFragment() {
         ParkingLotFragment parkingLot = ParkingLotFragment.newInstance();
         fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
+        if (actionMode != null)
+            actionMode.finish();
         if (parkingBundle.getInt(PARKING_ID) > 0) {
             parkingLot.setArguments(parkingBundle);
             fragmentTransaction.replace(R.id.show_fragment_selected, parkingLot).addToBackStack(null).commit();

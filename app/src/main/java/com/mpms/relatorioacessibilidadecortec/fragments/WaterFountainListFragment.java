@@ -2,11 +2,15 @@ package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,6 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.WaterRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 
 import java.util.Objects;
 
@@ -35,6 +40,9 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     private WaterRecViewAdapter fountainAdapter;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    private ActionMode actionMode;
+
+    int delClick = 0;
 
     Bundle fountainBundle = new Bundle();
 
@@ -74,12 +82,30 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                     recyclerView.addItemDecoration(dividerItemDecoration);
+
+                    fountainAdapter.setListener(new ListClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            if (actionMode == null)
+                                OnEntryClick(position);
+                            else
+                                enableActionMode();
+                        }
+
+                        @Override
+                        public void onItemLongClick(int position) {
+                            enableActionMode();
+                        }
+                    });
                 });
 
         addFountain.setOnClickListener(v -> OpenFountainFragment());
 
-        closeFountainList.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
+        closeFountainList.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
+            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        });
     }
 
     private void instantiateWaterListViews(View v) {
@@ -95,6 +121,53 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
         fountainBundle.putInt(WaterFountainFragment.FOUNTAIN_ID, 0);
     }
 
+    private void enableActionMode() {
+        if (actionMode == null) {
+            AppCompatActivity activity = (AppCompatActivity) requireActivity();
+            actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    mode.getMenuInflater().inflate(R.menu.menu_delete, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return true;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    if (item.getItemId() == R.id.delete_button) {
+                        delClick = 1;
+                        fountainAdapter.deleteItemList();
+                        mode.finish();
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+                    if (delClick == 0)
+                        fountainAdapter.cancelSelection(recyclerView);
+                    fountainAdapter.selectedItems.clear();
+                    fountainAdapter.notifyDataSetChanged();
+                    delClick = 0;
+                    actionMode = null;
+                }
+            });
+        }
+
+        final int size = fountainAdapter.selectedItems.size();
+        if (size == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(size + "");
+            actionMode.invalidate();
+        }
+    }
+
     @Override
     public void OnEntryClick(int position) {
         WaterFountainEntry fountainEntry = modelEntry.allFountainsInSchool.getValue().get(position);
@@ -107,6 +180,8 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     private void OpenFountainFragment() {
         WaterFountainFragment fountainFragment = WaterFountainFragment.newInstance();
         fountainFragment.setArguments(fountainBundle);
+        if (actionMode != null)
+            actionMode.finish();
         fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, fountainFragment).addToBackStack(null).commit();

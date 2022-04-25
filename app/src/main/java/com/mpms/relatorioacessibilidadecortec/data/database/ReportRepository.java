@@ -413,8 +413,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> roomEntryDao.updateRoom(roomEntry));
     }
 
-    public void deleteRoom(RoomEntry roomEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> roomEntryDao.deleteRoom(roomEntry));
+    public void deleteRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> roomEntryDao.deleteOneRoom(roomID));
     }
 
     public void insertDoorEntry(DoorEntry doorEntry) {

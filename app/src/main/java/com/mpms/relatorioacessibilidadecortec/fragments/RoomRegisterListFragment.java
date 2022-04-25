@@ -2,12 +2,16 @@ package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RoomRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 
 import java.util.Objects;
 
@@ -40,6 +45,9 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     private RoomRecViewAdapter roomAdapter;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    private ActionMode actionMode;
+
+    int delClick = 0;
 
     Bundle roomListBundle = new Bundle();
 
@@ -85,11 +93,30 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                     recyclerView.addItemDecoration(dividerItemDecoration);
+
+                    roomAdapter.setListener(new ListClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            if (actionMode == null)
+                                OnEntryClick(position);
+                            else
+                                enableActionMode();
+                        }
+
+                        @Override
+                        public void onItemLongClick(int position) {
+                            enableActionMode();
+                        }
+                    });
                 });
 
         addRoom.setOnClickListener(v -> openRoomFragment());
 
-        closeRoomList.setOnClickListener(v -> requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit());
+        closeRoomList.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
+            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        });
     }
 
     @Override
@@ -113,6 +140,53 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 //        ViewModel
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+    }
+
+    private void enableActionMode() {
+        if (actionMode == null) {
+            AppCompatActivity activity = (AppCompatActivity) requireActivity();
+            actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    mode.getMenuInflater().inflate(R.menu.menu_delete, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return true;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    if (item.getItemId() == R.id.delete_button) {
+                        delClick = 1;
+                        roomAdapter.deleteItemList();
+                        mode.finish();
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+                    if (delClick == 0)
+                        roomAdapter.cancelSelection(recyclerView);
+                    roomAdapter.selectedItems.clear();
+                    roomAdapter.notifyDataSetChanged();
+                    delClick = 0;
+                    actionMode = null;
+                }
+            });
+        }
+
+        final int size = roomAdapter.selectedItems.size();
+        if (size == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(size + "");
+            actionMode.invalidate();
+        }
     }
 
     public static String roomHeader(Bundle bundle) {
@@ -147,6 +221,8 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         roomFragment.setArguments(roomListBundle);
+        if (actionMode != null)
+            actionMode.finish();
         fragmentTransaction.replace(R.id.show_fragment_selected, roomFragment).addToBackStack(null).commit();
     }
 

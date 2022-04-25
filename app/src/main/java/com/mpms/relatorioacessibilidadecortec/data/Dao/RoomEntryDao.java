@@ -2,7 +2,6 @@ package com.mpms.relatorioacessibilidadecortec.data.Dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -32,7 +31,7 @@ public interface RoomEntryDao {
     @Update
     void updateRoom(RoomEntry roomEntry);
 
-    @Delete
-    void deleteRoom(RoomEntry roomEntry);
+    @Query("DELETE FROM RoomEntry WHERE roomID == :roomID")
+    void deleteOneRoom(int roomID);
 
 }

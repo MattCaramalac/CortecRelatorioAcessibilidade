@@ -318,8 +318,8 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRoom(roomEntry));
     }
 
-    public static void deleteRoom(RoomEntry roomEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteRoom(roomEntry));
+    public static void deleteRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteRoom(roomID));
     }
 
     public static void insertDoorEntry(DoorEntry doorEntry) {

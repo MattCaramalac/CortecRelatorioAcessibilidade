@@ -102,12 +102,17 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
                     });
                 });
 
-        closeExtAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
+        closeExtAccess.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
+            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        });
 
         addExtAccess.setOnClickListener(v -> {
             ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance();
             externalAccessFragment.setArguments(extListBundle);
+            if (actionMode != null)
+                actionMode.finish();
             fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.show_fragment_selected, externalAccessFragment).addToBackStack(null).commit();

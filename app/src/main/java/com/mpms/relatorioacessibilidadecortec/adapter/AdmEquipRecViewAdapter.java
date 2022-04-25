@@ -31,6 +31,7 @@ public class AdmEquipRecViewAdapter extends RecyclerView.Adapter<ViewHolderInter
         this.entryClickListener = entryClickListener;
     }
 
+    @Override
     public void setListener(ListClickListener listener) {
         this.listener = listener;
     }
@@ -47,23 +48,29 @@ public class AdmEquipRecViewAdapter extends RecyclerView.Adapter<ViewHolderInter
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
         AdmEquipEntry admEquip = admEquipList.get(position);
         if (admEquip != null) {
-            onBind(holder, admEquip, position);
+            holder.textInfoOne.setText(admEquip.getAdmEquipLocation());
+            holder.textInfoTwo.setText(admEquipNumber(getItemCount() - position));
+            if (selectedItems.get(position))
+                holder.background.setBackgroundColor(Color.rgb(158, 235, 247));
+            else
+                holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
+
+            holder.itemView.setOnClickListener(v -> {
+                if (selectedItems.size() > 0) {
+                    toggleSelection(holder, position);
+                }
+                listener.onItemClick(position);
+            });
+
+            holder.itemView.setOnLongClickListener(v -> {
+                if (listener != null) {
+                    toggleSelection(holder, position);
+                    listener.onItemLongClick(position);
+                }
+                return true;
+            });
         }
 
-        holder.itemView.setOnClickListener(v -> {
-            if (selectedItems.size() > 0) {
-                toggleSelection(holder, position);
-            }
-            listener.onItemClick(position);
-        });
-
-        holder.itemView.setOnLongClickListener(v -> {
-            if (listener != null) {
-                toggleSelection(holder, position);
-                listener.onItemLongClick(position);
-            }
-            return true;
-        });
     }
 
     @Override
@@ -75,21 +82,12 @@ public class AdmEquipRecViewAdapter extends RecyclerView.Adapter<ViewHolderInter
         return "Equipamento nº" + i;
     }
 
-    void onBind(ListViewHolder holder, AdmEquipEntry entry, int position) {
-        holder.textInfoOne.setText(entry.getAdmEquipLocation());
-        holder.textInfoTwo.setText(admEquipNumber(getItemCount() - position));
-    }
-
-    //    TODO - Dar um jeito de consertar essa mudança de cor bugada
     @Override
     public void toggleSelection(ListViewHolder holder, int position) {
-        if (selectedItems.get(position)) {
+        if (selectedItems.get(position))
             selectedItems.delete(position);
-            holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
-        } else {
+        else
             selectedItems.put(position, true);
-            holder.background.setBackgroundColor(Color.rgb(158, 235, 247));
-        }
         notifyItemChanged(position);
     }
 

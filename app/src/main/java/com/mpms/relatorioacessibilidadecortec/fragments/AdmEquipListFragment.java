@@ -102,9 +102,11 @@ public class AdmEquipListFragment extends Fragment implements OnEntryClickListen
 
         addEquip.setOnClickListener(v -> openAdmEquipFragment());
 
-        closeEquipList.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
-
+        closeEquipList.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
+            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        });
     }
 
     private void enableActionMode() {

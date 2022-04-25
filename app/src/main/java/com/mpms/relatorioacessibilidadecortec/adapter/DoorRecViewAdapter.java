@@ -1,21 +1,26 @@
 package com.mpms.relatorioacessibilidadecortec.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.DeleteInterface;
+import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.ViewHolderInterface;
 
 import java.util.List;
 
-public class DoorRecViewAdapter extends RecyclerView.Adapter<DoorRecViewAdapter.DoorViewHolder> {
+public class DoorRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterface.ListViewHolder> implements DeleteInterface, ViewHolderInterface {
 
+    private ListClickListener listener;
     private List<DoorEntry> doorList;
     private Context context;
     private OnEntryClickListener entryClickListener;
@@ -28,17 +33,36 @@ public class DoorRecViewAdapter extends RecyclerView.Adapter<DoorRecViewAdapter.
 
     @NonNull
     @Override
-    public DoorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_item_entry_layout, parent, false);
-        return new DoorRecViewAdapter.DoorViewHolder(view, entryClickListener);
+        return new ViewHolderInterface.ListViewHolder(view, entryClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DoorViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
         DoorEntry doorEntry = doorList.get(position);
         if (doorEntry != null) {
-            holder.doorLocation.setText(doorLocale(doorEntry));
-            holder.doorNumber.setText(doorNumber(getItemCount()-position));
+            holder.textInfoOne.setText(doorLocale(doorEntry));
+            holder.textInfoTwo.setText(doorNumber(getItemCount()-position));
+            if (selectedItems.get(position))
+                holder.background.setBackgroundColor(Color.rgb(158, 235, 247));
+            else
+                holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
+
+            holder.itemView.setOnClickListener(v -> {
+                if (selectedItems.size() > 0) {
+                    toggleSelection(holder, position);
+                }
+                listener.onItemClick(position);
+            });
+
+            holder.itemView.setOnLongClickListener(v -> {
+                if (listener != null) {
+                    toggleSelection(holder, position);
+                    listener.onItemLongClick(position);
+                }
+                return true;
+            });
         }
     }
 
@@ -55,25 +79,35 @@ public class DoorRecViewAdapter extends RecyclerView.Adapter<DoorRecViewAdapter.
         return "Porta nº" + i;
     }
 
-
-    public static class DoorViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        public OnEntryClickListener entryClickListener;
-        public TextView doorLocation;
-        public TextView doorNumber;
-
-        public DoorViewHolder(@NonNull View itemView, OnEntryClickListener entryClickListener) {
-            super(itemView);
-            doorLocation = itemView.findViewById(R.id.item_info_one);
-            doorNumber = itemView.findViewById(R.id.item_info_two);
-            this.entryClickListener = entryClickListener;
-
-            itemView.setOnClickListener(this);
+    @Override
+    public void deleteItemList() {
+        int listSize = selectedItems.size();
+        for (int i = 0; i < listSize; i++) {
+            ViewModelEntry.deleteDoor(doorList.get(selectedItems.keyAt(i)).getDoorID());
         }
+    }
 
-        @Override
-        public void onClick(View v) {
-            entryClickListener.OnEntryClick(getAdapterPosition());
+    @Override
+    public void toggleSelection(ListViewHolder holder, int position) {
+        if (selectedItems.get(position))
+            selectedItems.delete(position);
+        else
+            selectedItems.put(position, true);
+        notifyItemChanged(position);
+    }
+
+    @Override
+    public void cancelSelection(RecyclerView recyclerView) {
+        int listSize = doorList.size();
+        for (int i = 0; i < listSize; i++) {
+            ListViewHolder holder = (ListViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+            holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
+            notifyItemChanged(i);
         }
+    }
+
+    @Override
+    public void setListener(ListClickListener listener) {
+        this.listener = listener;
     }
 }

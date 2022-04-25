@@ -2,11 +2,15 @@ package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -23,6 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.SidewalkRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 
 import java.util.Objects;
 
@@ -37,6 +42,9 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
     private SidewalkRecViewAdapter sidewalkAdapter;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    private ActionMode actionMode;
+
+    int delClick = 0;
 
     Bundle sidewalkBundle = new Bundle();
 
@@ -75,13 +83,77 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                     recyclerView.addItemDecoration(dividerItemDecoration);
+
+                    sidewalkAdapter.setListener(new ListClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            if (actionMode == null)
+                                OnEntryClick(position);
+                            else
+                                enableActionMode();
+                        }
+
+                        @Override
+                        public void onItemLongClick(int position) {
+                            enableActionMode();
+                        }
+                    });
                 });
 
         addSidewalk.setOnClickListener(v -> openSidewalkFragment());
 
-        closeSidewalkList.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
+        closeSidewalkList.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
+            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        });
+    }
 
+    private void enableActionMode() {
+        if (actionMode == null) {
+            AppCompatActivity activity = (AppCompatActivity) requireActivity();
+            actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    mode.getMenuInflater().inflate(R.menu.menu_delete, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return true;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    if (item.getItemId() == R.id.delete_button) {
+                        delClick = 1;
+                        sidewalkAdapter.deleteItemList();
+                        mode.finish();
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+                    if (delClick == 0)
+                        sidewalkAdapter.cancelSelection(recyclerView);
+                    sidewalkAdapter.selectedItems.clear();
+                    sidewalkAdapter.notifyDataSetChanged();
+                    delClick = 0;
+                    actionMode = null;
+                }
+            });
+        }
+
+        final int size = sidewalkAdapter.selectedItems.size();
+        if (size == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(size + "");
+            actionMode.invalidate();
+        }
     }
 
     @Override
@@ -94,6 +166,8 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
     private void openSidewalkFragment() {
         SidewalkFragment sidewalkFrag = SidewalkFragment.newInstance();
         fragmentManager = requireActivity().getSupportFragmentManager();
+        if (actionMode != null)
+            actionMode.finish();
         fragmentTransaction = fragmentManager.beginTransaction();
         if (sidewalkBundle.getInt(SidewalkFragment.SIDEWALK_ID) > 0) {
             sidewalkFrag.setArguments(sidewalkBundle);

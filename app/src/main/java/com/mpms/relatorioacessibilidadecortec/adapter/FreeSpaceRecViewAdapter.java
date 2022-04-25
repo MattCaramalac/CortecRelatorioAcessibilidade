@@ -1,21 +1,26 @@
 package com.mpms.relatorioacessibilidadecortec.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.DeleteInterface;
+import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.ViewHolderInterface;
 
 import java.util.List;
 
-public class FreeSpaceRecViewAdapter extends RecyclerView.Adapter<FreeSpaceRecViewAdapter.FreeSpaceViewHolder> {
+public class FreeSpaceRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterface.ListViewHolder> implements DeleteInterface, ViewHolderInterface {
 
+    private ListClickListener listener;
     private List<FreeSpaceEntry> freeList;
     private Context context;
     private OnEntryClickListener entryClickListener;
@@ -28,17 +33,36 @@ public class FreeSpaceRecViewAdapter extends RecyclerView.Adapter<FreeSpaceRecVi
 
     @NonNull
     @Override
-    public FreeSpaceRecViewAdapter.FreeSpaceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_item_entry_layout, parent, false);
-        return new FreeSpaceRecViewAdapter.FreeSpaceViewHolder(view, entryClickListener);
+        return new ViewHolderInterface.ListViewHolder(view, entryClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FreeSpaceRecViewAdapter.FreeSpaceViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
         FreeSpaceEntry entry = freeList.get(position);
         if (entry != null) {
-            holder.fSpaceLocation.setText(fSpaceLocale(entry));
-            holder.fSpaceNumber.setText(fSpaceNumber(getItemCount()-position));
+            holder.textInfoOne.setText(fSpaceLocale(entry));
+            holder.textInfoTwo.setText(fSpaceNumber(getItemCount()-position));
+            if (selectedItems.get(position))
+                holder.background.setBackgroundColor(Color.rgb(158, 235, 247));
+            else
+                holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
+
+            holder.itemView.setOnClickListener(v -> {
+                if (selectedItems.size() > 0) {
+                    toggleSelection(holder, position);
+                }
+                listener.onItemClick(position);
+            });
+
+            holder.itemView.setOnLongClickListener(v -> {
+                if (listener != null) {
+                    toggleSelection(holder, position);
+                    listener.onItemLongClick(position);
+                }
+                return true;
+            });
         }
     }
 
@@ -55,25 +79,35 @@ public class FreeSpaceRecViewAdapter extends RecyclerView.Adapter<FreeSpaceRecVi
         return "Faixa Livre nº" + i;
     }
 
-
-    public static class FreeSpaceViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        public OnEntryClickListener entryClickListener;
-        public TextView fSpaceLocation;
-        public TextView fSpaceNumber;
-
-        public FreeSpaceViewHolder(@NonNull View itemView, OnEntryClickListener entryClickListener) {
-            super(itemView);
-            fSpaceLocation = itemView.findViewById(R.id.item_info_one);
-            fSpaceNumber = itemView.findViewById(R.id.item_info_two);
-            this.entryClickListener = entryClickListener;
-
-            itemView.setOnClickListener(this);
+    @Override
+    public void deleteItemList() {
+        int listSize = selectedItems.size();
+        for (int i = 0; i < listSize; i++) {
+            ViewModelEntry.deleteFreeSpace(freeList.get(selectedItems.keyAt(i)).getFreeSpaceID());
         }
+    }
 
-        @Override
-        public void onClick(View v) {
-            entryClickListener.OnEntryClick(getAdapterPosition());
+    @Override
+    public void toggleSelection(ListViewHolder holder, int position) {
+        if (selectedItems.get(position))
+            selectedItems.delete(position);
+        else
+            selectedItems.put(position, true);
+        notifyItemChanged(position);
+    }
+
+    @Override
+    public void cancelSelection(RecyclerView recyclerView) {
+        int listSize = freeList.size();
+        for (int i = 0; i < listSize; i++) {
+            ListViewHolder holder = (ListViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+            holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
+            notifyItemChanged(i);
         }
+    }
+
+    @Override
+    public void setListener(ListClickListener listener) {
+        this.listener = listener;
     }
 }

@@ -31,6 +31,7 @@ public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfa
         this.entryClickListener = entryClickListener;
     }
 
+    @Override
     public void setListener(ListClickListener listener) {
         this.listener = listener;
     }
@@ -48,6 +49,10 @@ public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfa
         if (extAccess.getEntranceType() != null) {
             holder.textInfoOne.setText(entranceType(extAccess.getEntranceType()));
             holder.textInfoTwo.setText(extAccessNumber(getItemCount()-position));
+            if(selectedItems.get(position))
+                holder.background.setBackgroundColor(Color.rgb(158, 235, 247));
+            else
+                holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
 
             holder.itemView.setOnClickListener(v -> {
                 if (selectedItems.size() > 0) {
@@ -82,15 +87,12 @@ public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfa
         return "Entrada Externa nº "+i;
     }
 
-    //    TODO - Dar um jeito de consertar essa mudança de cor bugada
     @Override
     public void toggleSelection(ListViewHolder holder, int position) {
         if (selectedItems.get(position)) {
             selectedItems.delete(position);
-            holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
         } else {
             selectedItems.put(position, true);
-            holder.background.setBackgroundColor(Color.rgb(158, 235, 247));
         }
         notifyItemChanged(position);
     }

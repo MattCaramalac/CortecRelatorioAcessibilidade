@@ -2,12 +2,16 @@ package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -25,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RampStairsRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 
 import java.util.Objects;
 
@@ -39,6 +44,9 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
     private RampStairsRecViewAdapter rampStairsAdapter;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    private ActionMode actionMode;
+
+    int delClick = 0;
 
     Bundle rampStairsListBundle = new Bundle();
 
@@ -79,6 +87,7 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
         instantiateRampStairsListViews(view);
 
 //        TODO - Trocar o Dao/Repository/ViewModel para apenas uma opção, seguir exemplo das salas
+//        TODO - Trocar o observador para buscar por blocos
         if (rampStairsListBundle.getInt(RAMP_OR_STAIRS) == 7) {
             modelEntry.getAllStairsFromSchool(rampStairsListBundle.getInt(SchoolRegisterActivity.SCHOOL_ID),
                     rampStairsListBundle.getInt(RAMP_OR_STAIRS)).observe(getViewLifecycleOwner(), stairsList -> {
@@ -87,6 +96,21 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
                 DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                 dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                 recyclerView.addItemDecoration(dividerItemDecoration);
+
+                rampStairsAdapter.setListener(new ListClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        if (actionMode == null)
+                            OnEntryClick(position);
+                        else
+                            enableActionMode();
+                    }
+
+                    @Override
+                    public void onItemLongClick(int position) {
+                        enableActionMode();
+                    }
+                });
             });
         } else if (rampStairsListBundle.getInt(RAMP_OR_STAIRS) == 9) {
             modelEntry.getAllRampsFromSchool(rampStairsListBundle.getInt(SchoolRegisterActivity.SCHOOL_ID),
@@ -96,6 +120,21 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
                 DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                 dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                 recyclerView.addItemDecoration(dividerItemDecoration);
+
+                rampStairsAdapter.setListener(new ListClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        if (actionMode == null)
+                            OnEntryClick(position);
+                        else
+                            enableActionMode();
+                    }
+
+                    @Override
+                    public void onItemLongClick(int position) {
+                        enableActionMode();
+                    }
+                });
             });
         } else {
             Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
@@ -104,8 +143,11 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
 
         addRampStairs.setOnClickListener(v -> openRampStairsFragment());
 
-        closeRampStairsList.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
+        closeRampStairsList.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
+            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        });
     }
 
     private void instantiateRampStairsListViews(View v) {
@@ -119,10 +161,59 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
     }
 
+    private void enableActionMode() {
+        if (actionMode == null) {
+            AppCompatActivity activity = (AppCompatActivity) requireActivity();
+            actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    mode.getMenuInflater().inflate(R.menu.menu_delete, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return true;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    if (item.getItemId() == R.id.delete_button) {
+                        delClick = 1;
+                        rampStairsAdapter.deleteItemList();
+                        mode.finish();
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+                    if (delClick == 0)
+                        rampStairsAdapter.cancelSelection(recyclerView);
+                    rampStairsAdapter.selectedItems.clear();
+                    rampStairsAdapter.notifyDataSetChanged();
+                    delClick = 0;
+                    actionMode = null;
+                }
+            });
+        }
+
+        final int size = rampStairsAdapter.selectedItems.size();
+        if (size == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(size + "");
+            actionMode.invalidate();
+        }
+    }
+
     private void openRampStairsFragment() {
         RampStairsFragment rampStairsFragment = RampStairsFragment.newInstance();
         rampStairsListBundle.putInt(InspectionActivity.ALLOW_UPDATE, 0);
         rampStairsFragment.setArguments(rampStairsListBundle);
+        if (actionMode != null)
+            actionMode.finish();
         fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, rampStairsFragment).addToBackStack(null).commit();

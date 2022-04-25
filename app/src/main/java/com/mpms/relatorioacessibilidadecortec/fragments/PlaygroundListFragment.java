@@ -2,12 +2,16 @@ package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.PlayRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 
 import java.util.Objects;
 
@@ -40,6 +45,9 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     private PlayRecViewAdapter playAdapter;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    private ActionMode actionMode;
+
+    int delClick = 0;
 
     Bundle playBundle = new Bundle();
 
@@ -77,13 +85,78 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                     recyclerView.addItemDecoration(dividerItemDecoration);
+
+                    playAdapter.setListener(new ListClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            if (actionMode == null)
+                                OnEntryClick(position);
+                            else
+                                enableActionMode();
+                        }
+
+                        @Override
+                        public void onItemLongClick(int position) {
+                            enableActionMode();
+                        }
+                    });
                 });
 
         addPlayground.setOnClickListener(v -> openPlayFragment());
 
-        closePlayList.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction().remove(this).commit());
+        closePlayList.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
+            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        });
 
+    }
+
+    private void enableActionMode() {
+        if (actionMode == null) {
+            AppCompatActivity activity = (AppCompatActivity) requireActivity();
+            actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    mode.getMenuInflater().inflate(R.menu.menu_delete, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return true;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    if (item.getItemId() == R.id.delete_button) {
+                        delClick = 1;
+                        playAdapter.deleteItemList();
+                        mode.finish();
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+                    if (delClick == 0)
+                        playAdapter.cancelSelection(recyclerView);
+                    playAdapter.selectedItems.clear();
+                    playAdapter.notifyDataSetChanged();
+                    delClick = 0;
+                    actionMode = null;
+                }
+            });
+        }
+
+        final int size = playAdapter.selectedItems.size();
+        if (size == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(size + "");
+            actionMode.invalidate();
+        }
     }
 
     @Override
@@ -97,6 +170,8 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
         PlaygroundFragment playFragment = PlaygroundFragment.newInstance();
         fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
+        if (actionMode != null)
+            actionMode.finish();
         if (playBundle.getInt(PlaygroundFragment.PLAY_ID) > 0) {
             playFragment.setArguments(playBundle);
             fragmentTransaction.replace(R.id.show_fragment_selected, playFragment).addToBackStack(null).commit();
