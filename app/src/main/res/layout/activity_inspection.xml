@@ -7,15 +7,14 @@
     tools:context=".activities.InspectionActivity"
     android:padding="@dimen/margins">
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/chooseItemMemorial"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.23"
-        class="com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial"/>
+        app:layout_constraintHeight_percent="0.23"/>
 
     <FrameLayout
         android:id="@+id/show_fragment_selected"

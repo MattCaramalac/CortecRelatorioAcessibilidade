@@ -25,7 +25,7 @@ public class BlockRegisterFragment extends Fragment {
     public static final String BLOCK_OR_SPACE = "BLOCK_OR_SPACE";
     public static final String NEXT_ENTRY = "NEXT_ENTRY";
 
-    MaterialButton newBlock, newSpace, saveQuit;
+    MaterialButton newBlock, saveQuit;
 
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
@@ -33,7 +33,6 @@ public class BlockRegisterFragment extends Fragment {
     Bundle blockBundle = new Bundle();
 
     int blockClick = 0;
-    int spaceClick = 0;
 
     public BlockRegisterFragment() {
         // Required empty public constructor
@@ -81,24 +80,6 @@ public class BlockRegisterFragment extends Fragment {
             });
         });
 
-        newSpace.setOnClickListener(v -> {
-            spaceClick++;
-            blockBundle.putInt(BLOCK_OR_SPACE, 1);
-            modelEntry.getLastBlockSpace(blockBundle.getInt(SCHOOL_ID), 1).observe(getViewLifecycleOwner(), space -> {
-                if (space == null && spaceClick > 0) {
-                    blockBundle.putInt(NEXT_ENTRY, 1);
-                    BlockSpaceEntry newEntry = newBlock(blockBundle);
-                    ViewModelEntry.insertBlockSpace(newEntry);
-                    spaceClick--;
-                } else if (space != null && spaceClick > 0) {
-                    blockBundle.putInt(NEXT_ENTRY, space.getBlockSpaceNumber() + 1);
-                    BlockSpaceEntry newEntry = newBlock(blockBundle);
-                    ViewModelEntry.insertBlockSpace(newEntry);
-                    spaceClick--;
-                }
-            });
-        });
-
         saveQuit.setOnClickListener(v -> {
             blockBundle = null;
             Intent intent = new Intent(requireActivity(), MainActivity.class);
@@ -110,7 +91,6 @@ public class BlockRegisterFragment extends Fragment {
     private void instantiateBlockRegisterViews(View view) {
 //        MaterialButtons
         newBlock = view.findViewById(R.id.add_new_block_button);
-        newSpace = view.findViewById(R.id.add_new_space_button);
         saveQuit = view.findViewById(R.id.save_quit_block_register);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());

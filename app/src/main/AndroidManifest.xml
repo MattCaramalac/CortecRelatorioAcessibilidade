@@ -11,6 +11,7 @@
         android:theme="@style/Theme.RelatorioAcessibilidadeCortec"
         >
         <activity android:name=".activities.BlockRegisterActivity" />
+        <activity android:name=".activities.SchoolAreasRegisterActivity" />
         <activity
             android:name=".activities.SchoolRegisterActivity"
             android:label="@string/header" />

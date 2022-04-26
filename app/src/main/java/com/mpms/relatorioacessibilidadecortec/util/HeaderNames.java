@@ -4,47 +4,45 @@ public class HeaderNames {
 
     private String name;
 
-    public static final String[] headerNames = {
+    public static final String[] externalAreaOptions = {
             "Acesso externo",
-            "Sanitário",
+            "Calçada",
+            "Estacionamento",
+            "Outros Ambientes",
+    };
+
+    public static final String[] blockOptions = {
             "Bebedouro",
             "Biblioteca",
-            "Calçada",
             "Coordenação",
             "Diretoria",
-            "Escada",
-            "Estacionamento",
-            "Rampa",
             "Refeitório",
             "Sala de Aula",
             "Sala de Tecnologia",
             "Sala de Recursos",
             "Sala dos Professores",
+            "Sanitário",
             "Secretaria",
             "Outros Ambientes",
-            "Equip. Administrativos",
+    };
+
+    public static final String[] supportAreaOptions = {
+            "Bebedouro",
+            "Estacionamento",
+            "Outros Ambientes",
             "Playground"
     };
 
-    private HeaderNames (String location){
-        this.name = location;
-    }
-
-    public String getName(){
-        return name;
-    }
-
-    @Override
-    public String toString(){
-        return this.name;
-    }
-
-    public static Integer indexPosition(String name) {
-        for (int j = 0; j < headerNames.length; j++) {
-            boolean isEqual = name.equals(headerNames[j]);
-            if (isEqual)
-                return j;
-        }
-        return null;
-    }
+//    private HeaderNames (String location){
+//        this.name = location;
+//    }
+//
+//    public String getName(){
+//        return name;
+//    }
+//
+//    @Override
+//    public String toString(){
+//        return this.name;
+//    }
 }

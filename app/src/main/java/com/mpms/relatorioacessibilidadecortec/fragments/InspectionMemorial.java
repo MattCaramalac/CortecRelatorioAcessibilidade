@@ -16,7 +16,10 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolAreasRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 
 
@@ -30,6 +33,8 @@ public class InspectionMemorial extends Fragment {
 
     MaterialButton saveAndClose;
 
+    Bundle fragInspection = new Bundle();
+
     private static final int NO_CHOICE = -1;
     private int chosenOption = NO_CHOICE;
 
@@ -38,15 +43,19 @@ public class InspectionMemorial extends Fragment {
     }
 
     public static InspectionMemorial newInstance() {
-        InspectionMemorial fragment = new InspectionMemorial();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        return new InspectionMemorial();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (this.getArguments() != null) {
+            fragInspection.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            fragInspection.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
+            fragInspection.putBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG, this.getArguments().getBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG, false));
+            fragInspection.putBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG, this.getArguments().getBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG, false));
+        }
+
     }
 
     @Override
@@ -86,7 +95,12 @@ public class InspectionMemorial extends Fragment {
 
     @Override
     public void onResume() {
-        adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, HeaderNames.headerNames);
+        if (fragInspection.getBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG))
+            adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, HeaderNames.externalAreaOptions);
+        else if (fragInspection.getBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG))
+            adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, HeaderNames.supportAreaOptions);
+        else
+            adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, HeaderNames.blockOptions);
         listItemsMemorial.setAdapter(adapterLocations);
 
         listItemsMemorial.setOnItemClickListener((parent, view, position, id) -> {
