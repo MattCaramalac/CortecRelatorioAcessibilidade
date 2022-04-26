@@ -401,6 +401,10 @@ public class SchoolRegisterFragmentTwo extends Fragment {
             eveningEnd = String.valueOf(eveningEndValue.getText());
         }
         workingHoursObs = String.valueOf(workHoursObsValue.getText());
+        if(nurseryCheck.isChecked())
+            hasNursery = 1;
+        if (daycareCheck.isChecked())
+            hasDaycare = 1;
         if (maternalCheck.isChecked()) {
             hasMaternal = 1;
             maternalStart = String.valueOf(maternalStartValue.getText());
