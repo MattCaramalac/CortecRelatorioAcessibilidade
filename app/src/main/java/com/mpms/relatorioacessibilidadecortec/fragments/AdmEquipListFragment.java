@@ -61,7 +61,7 @@ public class AdmEquipListFragment extends Fragment implements OnEntryClickListen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            equipBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            equipBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
     }
 
     @Nullable
@@ -76,7 +76,7 @@ public class AdmEquipListFragment extends Fragment implements OnEntryClickListen
 
         instantiateAdmEquipListViews(view);
 
-        modelEntry.getAllAdmEquipsPerBlock(equipBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER))
+        modelEntry.getAllAdmEquipsPerBlock(equipBundle.getInt(BlockRegisterActivity.BLOCK_ID))
                 .observe(getViewLifecycleOwner(), admEquipList -> {
                     equipAdapter = new AdmEquipRecViewAdapter(admEquipList, requireActivity(), this);
                     recyclerView.setAdapter(equipAdapter);

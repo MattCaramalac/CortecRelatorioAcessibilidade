@@ -49,7 +49,7 @@ public class AdmEquipFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null){
-            equipBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            equipBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
             equipBundle.putInt(EQUIP_ID, this.getArguments().getInt(EQUIP_ID));
         }
     }
@@ -213,7 +213,7 @@ public class AdmEquipFragment extends Fragment {
             biometryHeight = Double.valueOf(String.valueOf(biometryHeightValue.getText()));
             biometryObs = String.valueOf(biometryObsValue.getText());
         }
-        return new AdmEquipEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), equipLocale, hasSoundSignal, soundSignalHeight, soundSignalObs,
+        return new AdmEquipEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), equipLocale, hasSoundSignal, soundSignalHeight, soundSignalObs,
                 hasInternalPhone, internalPhoneHeight, internalPhoneObs, hasBiometry, biometryHeight, biometryObs);
 
     }

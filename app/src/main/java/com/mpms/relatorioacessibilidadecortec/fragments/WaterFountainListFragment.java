@@ -58,7 +58,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            fountainBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            fountainBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
         }
     }
 
@@ -75,7 +75,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
 
         instantiateWaterListViews(view);
 
-        modelEntry.getAllFountainsInSchool(fountainBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER)).
+        modelEntry.getAllFountainsInSchool(fountainBundle.getInt(BlockRegisterActivity.BLOCK_ID)).
                 observe(getViewLifecycleOwner(), fountainEntry -> {
                     fountainAdapter = new WaterRecViewAdapter(fountainEntry, requireActivity(), this);
                     recyclerView.setAdapter(fountainAdapter);

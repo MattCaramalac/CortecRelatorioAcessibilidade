@@ -60,7 +60,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            sidewalkBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            sidewalkBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
     }
 
     @Nullable
@@ -76,7 +76,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
 
         instantiateSidewalkListViews(view);
 
-        modelEntry.getAllSidewalks(sidewalkBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER))
+        modelEntry.getAllSidewalks(sidewalkBundle.getInt(BlockRegisterActivity.BLOCK_ID))
                 .observe(getViewLifecycleOwner(), sidewalkEntryList -> {
                     sidewalkAdapter = new SidewalkRecViewAdapter(sidewalkEntryList, requireActivity(), this);
                     recyclerView.setAdapter(sidewalkAdapter);

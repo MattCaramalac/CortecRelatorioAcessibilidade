@@ -70,7 +70,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            roomListBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            roomListBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
             roomListBundle.putInt(ROOM_TYPE, chosenOption);
         }
     }
@@ -86,7 +86,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         super.onViewCreated(view, savedInstanceState);
         instantiateRoomListViews(view);
 
-        modelEntry.getAllRoomsInBlock(roomListBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), roomListBundle.getInt(ROOM_TYPE))
+        modelEntry.getAllRoomsInBlock(roomListBundle.getInt(BlockRegisterActivity.BLOCK_ID), roomListBundle.getInt(ROOM_TYPE))
                 .observe(getViewLifecycleOwner(), rooms -> {
                     roomAdapter = new RoomRecViewAdapter(rooms, requireActivity(), this);
                     recyclerView.setAdapter(roomAdapter);

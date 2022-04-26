@@ -61,7 +61,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            extListBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            extListBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
         }
     }
 
@@ -78,7 +78,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
 
         instantiateExtAccListViews(view);
 
-        modelEntry.getAllExternalAccessesInOneBlock(extListBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER))
+        modelEntry.getAllExternalAccessesInOneBlock(extListBundle.getInt(BlockRegisterActivity.BLOCK_ID))
                 .observe(getViewLifecycleOwner(), extAccess -> {
                     extAccAdapter = new ExtAccRecViewAdapter(extAccess, requireActivity(), this);
                     recyclerView.setAdapter(extAccAdapter);

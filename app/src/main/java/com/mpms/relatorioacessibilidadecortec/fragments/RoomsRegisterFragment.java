@@ -77,7 +77,7 @@ public class RoomsRegisterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            roomBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            roomBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
             roomBundle.putInt(RoomRegisterListFragment.ROOM_TYPE, this.getArguments().getInt(RoomRegisterListFragment.ROOM_TYPE));
             roomBundle.putInt(ROOM_ID, this.getArguments().getInt(ROOM_ID));
         }
@@ -483,7 +483,7 @@ public class RoomsRegisterFragment extends Fragment {
         if (!TextUtils.isEmpty(roomObsValue.getText()))
             roomObs = String.valueOf(roomObsValue.getText());
 
-        return new RoomEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), bundle.getInt(RoomRegisterListFragment.ROOM_TYPE),
+        return new RoomEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), bundle.getInt(RoomRegisterListFragment.ROOM_TYPE),
                 roomLocale, roomDescription, hasVertSing, vertSignObs, hasLooseCarpet, looseCarpetObs, accessFloor, accessFloorObs, libDistShelves,
                 libPcrManeuver, libAccessPC, secHasFixedSeat, secHasPcrSpace, secPcrWidth, secPcrDepth, secPcrSpaceObs, roomObs);
     }

@@ -53,7 +53,7 @@ public class WaterFountainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            waterFountainBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            waterFountainBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
             waterFountainBundle.putInt(FOUNTAIN_ID, this.getArguments().getInt(FOUNTAIN_ID));
         }
     }
@@ -240,7 +240,7 @@ public class WaterFountainFragment extends Fragment {
         if (!TextUtils.isEmpty(waterFountainObsValue.getText()))
             fountainObs = String.valueOf(waterFountainObsValue.getText());
 
-        return new WaterFountainEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), fountainLocation, fountainType, fountainTypeObs, otherSideApprox, latApproxObs,
+        return new WaterFountainEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), fountainLocation, fountainType, fountainTypeObs, otherSideApprox, latApproxObs,
                 otherHeight, otherCupHolder, otherCupHeight, spoutDifHeight, spoutHighest, spoutLowest, spoutFrontApprox, spoutFrontDepth, spoutFrontHeight, fountainObs);
     }
 

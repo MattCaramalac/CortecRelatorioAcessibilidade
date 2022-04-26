@@ -76,7 +76,7 @@ public class SidewalkFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            sidewalkData.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            sidewalkData.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
             sidewalkData.putInt(SIDEWALK_ID, this.getArguments().getInt(SIDEWALK_ID));
         }
     }
@@ -865,7 +865,7 @@ public class SidewalkFragment extends Fragment {
         if (!TextUtils.isEmpty(sidewalkObsValue.getText()))
             sidewalkObs = String.valueOf(sidewalkObsValue.getText());
 
-        return new SidewalkEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
+        return new SidewalkEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
                 sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirLength, tacTileDirWidth, tacTileAlertLength,
                 tacTileAlertWidth, tactFloorObs, accessFloor, accessFloorObs, hasSlope, sidewalkObs, hasAerialObstacle, aerialObsDesc, hasLids, sidewalkLidsDesc, consStatus,
                 sideConsStatus, hasPayphones);

@@ -27,7 +27,7 @@ import static com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterAc
 
 public class BlockRegisterActivity extends AppCompatActivity implements OnEntryClickListener {
 
-    public static final String BLOCK_SPACE_REGISTER = "BLOCK_SPACE_REGISTER";
+    public static final String BLOCK_ID = "BLOCK_ID";
 
     private ViewModelEntry modelEntry;
     private ViewModelFragments modelFragments;
@@ -44,7 +44,7 @@ public class BlockRegisterActivity extends AppCompatActivity implements OnEntryC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block_register);
-        blockRegister = getIntent().getBundleExtra(SchoolRegisterActivity.SCHOOL_BUNDLE);
+        blockRegister = getIntent().getBundleExtra(SchoolAreasRegisterActivity.AREAS_REG_BUNDLE);
 
         instantiateViews();
 
@@ -137,7 +137,8 @@ public class BlockRegisterActivity extends AppCompatActivity implements OnEntryC
         BlockSpaceEntry blockSpace = modelEntry.allBlockSpaces.getValue().get(position);
 
         Intent registerComponents = new Intent(BlockRegisterActivity.this, InspectionActivity.class);
-        registerComponents.putExtra(BLOCK_SPACE_REGISTER, blockSpace.getBlockSpaceID());
+        blockRegister.putInt(BLOCK_ID, blockSpace.getBlockSpaceID());
+        registerComponents.putExtra(SchoolAreasRegisterActivity.AREAS_REG_BUNDLE, blockRegister);
         startActivity(registerComponents);
     }
 }

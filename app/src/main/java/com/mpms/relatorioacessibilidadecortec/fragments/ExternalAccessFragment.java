@@ -60,7 +60,7 @@ public class ExternalAccessFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            extBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            extBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
             extBundle.putInt(EXT_ACCESS_ID, this.getArguments().getInt(EXT_ACCESS_ID));
         }
     }
@@ -266,7 +266,7 @@ public class ExternalAccessFragment extends Fragment {
         if (accessFloor == 0)
             accessFloorObs = String.valueOf(accessFloorObsValue.getText());
 
-        return new ExternalAccess(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), location, accessType, accessFloor, accessFloorObs, null, null,
+        return new ExternalAccess(bundle.getInt(BlockRegisterActivity.BLOCK_ID), location, accessType, accessFloor, accessFloorObs, null, null,
                 null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
@@ -283,6 +283,6 @@ public class ExternalAccessFragment extends Fragment {
         if (accessFloor == 0)
             accessFloorObs = String.valueOf(accessFloorObsValue.getText());
 
-        return new ExtAccessSocialOne(bundle.getInt(EXT_ACCESS_ID), bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), location, accessType, accessFloor, accessFloorObs);
+        return new ExtAccessSocialOne(bundle.getInt(EXT_ACCESS_ID), bundle.getInt(BlockRegisterActivity.BLOCK_ID), location, accessType, accessFloor, accessFloorObs);
     }
 }

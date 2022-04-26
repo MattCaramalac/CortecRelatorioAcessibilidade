@@ -69,7 +69,7 @@ public class PlaygroundFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            playBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            playBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
             playBundle.putInt(PLAY_ID, this.getArguments().getInt(PLAY_ID, 0));
         }
     }
@@ -137,7 +137,7 @@ public class PlaygroundFragment extends Fragment {
 
         getChildFragmentManager().setFragmentResultListener(InspectionActivity.CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (checkEmptyPlayFields()) {
-                bundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, playBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+                bundle.putInt(BlockRegisterActivity.BLOCK_ID, playBundle.getInt(BlockRegisterActivity.BLOCK_ID));
                 PlaygroundEntry newPlayEntry = newPlayground(bundle);
                 if (playBundle.getInt(PLAY_ID) > 0) {
                     newPlayEntry.setPlaygroundID(playBundle.getInt(PLAY_ID));
@@ -408,7 +408,7 @@ public class PlaygroundFragment extends Fragment {
         toyObs = String.valueOf(toyObsValue.getText());
         playObs = String.valueOf(playObsValue.getText());
 
-        return new PlaygroundEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), playLocale, floorType, playGateWidth, hasTrack, playTrackHeight, hasTrackRamp,
+        return new PlaygroundEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), playLocale, floorType, playGateWidth, hasTrack, playTrackHeight, hasTrackRamp,
                 rampTrackCounter, measure1, measure2, measure3, measure4, sillType, sillInclination, sillStep, sillSlopeAngle, sillSlopeWidth, sillObs, accessibleFloor,
                 floorObs, accessibleToy, toyObs, playObs, slopeQnt, slopeAngle2, slopeAngle3, slopeAngle4);
     }

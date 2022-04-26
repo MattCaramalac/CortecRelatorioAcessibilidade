@@ -55,7 +55,7 @@ public class ParkingLotFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            parkingBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            parkingBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
             parkingBundle.putInt(ParkingLotListFragment.PARKING_ID, this.getArguments().getInt(ParkingLotListFragment.PARKING_ID));
         }
     }
@@ -219,7 +219,7 @@ public class ParkingLotFragment extends Fragment {
         String floorType = String.valueOf(parkingLotFloorTypeValue.getText());
         pcdVacancy = getCheckedRadio(hasPcdVacancy);
         elderVacancy = getCheckedRadio(hasElderlyVacancy);
-        return new ParkingLotEntry(bundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER), getCheckedRadio(parkingLotType),
+        return new ParkingLotEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), getCheckedRadio(parkingLotType),
                 floorType, pcdVacancy, elderVacancy);
     }
 

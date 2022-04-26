@@ -63,7 +63,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            playBundle.putInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER, this.getArguments().getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER));
+            playBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
     }
 
     @Nullable
@@ -78,7 +78,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
 
         instantiateAdmEquipListViews(view);
 
-        modelEntry.getAllPlaygroundsPerBlock(playBundle.getInt(BlockRegisterActivity.BLOCK_SPACE_REGISTER))
+        modelEntry.getAllPlaygroundsPerBlock(playBundle.getInt(BlockRegisterActivity.BLOCK_ID))
                 .observe(getViewLifecycleOwner(), playList -> {
                     playAdapter = new PlayRecViewAdapter(playList, requireActivity(), this);
                     recyclerView.setAdapter(playAdapter);
