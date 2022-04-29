@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +36,8 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
 
     public static final String NEW_SIDEWALK_ENTRY = "NEW_SIDEWALK_ENTRY";
 
-    MaterialButton closeSidewalkList, addSidewalk;
+    MaterialButton closeSidewalkList, addSidewalk, invisible;
+    TextView sidewalkHeader;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
@@ -67,7 +69,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_items_entries_list, container, false);
+        return inflater.inflate(R.layout.fragment_child_items_entries, container, false);
     }
 
     @Override
@@ -181,10 +183,16 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
     }
 
     private void instantiateSidewalkListViews(View v) {
-        closeSidewalkList = v.findViewById(R.id.close_items_entries_list);
-        addSidewalk = v.findViewById(R.id.add_items_entries);
-        recyclerView = v.findViewById(R.id.items_entries_recycler_view);
-
+//        MaterialButton
+        closeSidewalkList = v.findViewById(R.id.cancel_child_items_entries);
+        addSidewalk = v.findViewById(R.id.add_child_items_entries);
+        invisible = v.findViewById(R.id.continue_child_items_entries);
+        invisible.setVisibility(View.GONE);
+//        TextView
+        sidewalkHeader = v.findViewById(R.id.identifier_header);
+        sidewalkHeader.setText(R.string.sidewalk_reg_header);
+//        RecyclerView
+        recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 

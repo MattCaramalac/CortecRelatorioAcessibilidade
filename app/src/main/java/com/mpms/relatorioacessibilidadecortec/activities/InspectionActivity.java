@@ -100,7 +100,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 case 2:
                     displayRoomsRegisterListFragment(choice);
                     break;
-                case 4:
+                case 3:
                     displayPlaygroundListFragment();
                     break;
             }

@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +35,8 @@ import java.util.Objects;
 
 public class ExternalAccessListFragment extends Fragment implements OnEntryClickListener {
 
-    MaterialButton closeExtAccess, addExtAccess;
+    MaterialButton closeExtAccess, addExtAccess, invisible;
+    TextView extAccessHeader;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
@@ -69,7 +71,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_items_entries_list, container, false);
+        return inflater.inflate(R.layout.fragment_child_items_entries, container, false);
     }
 
     @Override
@@ -120,10 +122,15 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
     }
 
     private void instantiateExtAccListViews(View v) {
-        closeExtAccess = v.findViewById(R.id.close_items_entries_list);
-        addExtAccess = v.findViewById(R.id.add_items_entries);
-        recyclerView = v.findViewById(R.id.items_entries_recycler_view);
-
+        closeExtAccess = v.findViewById(R.id.cancel_child_items_entries);
+        addExtAccess = v.findViewById(R.id.add_child_items_entries);
+        invisible = v.findViewById(R.id.continue_child_items_entries);
+        invisible.setVisibility(View.GONE);
+//        TextView
+        extAccessHeader = v.findViewById(R.id.identifier_header);
+        extAccessHeader.setText(R.string.ext_access_reg_header);
+//        RecyclerView
+        recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 

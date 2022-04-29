@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +35,8 @@ import java.util.Objects;
 public class RestroomListFragment extends Fragment implements OnEntryClickListener {
 
 
-    MaterialButton closeRestroomList, addRestroom;
+    MaterialButton closeRestroomList, addRestroom, invisible;
+    TextView restroomIdentifier;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
@@ -67,7 +69,7 @@ public class RestroomListFragment extends Fragment implements OnEntryClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_items_entries_list, container, false);
+        return inflater.inflate(R.layout.fragment_child_items_entries, container, false);
     }
 
     @Override
@@ -111,10 +113,16 @@ public class RestroomListFragment extends Fragment implements OnEntryClickListen
     }
 
     private void instantiateRestListViews(View v) {
-        closeRestroomList = v.findViewById(R.id.close_items_entries_list);
-        addRestroom = v.findViewById(R.id.add_items_entries);
-        recyclerView = v.findViewById(R.id.items_entries_recycler_view);
-
+//        MaterialButton
+        closeRestroomList = v.findViewById(R.id.cancel_child_items_entries);
+        addRestroom = v.findViewById(R.id.add_child_items_entries);
+        invisible = v.findViewById(R.id.continue_child_items_entries);
+        invisible.setVisibility(View.GONE);
+//        TextView
+        restroomIdentifier = v.findViewById(R.id.identifier_header);
+        restroomIdentifier.setText(R.string.restroom_reg_header); //Parcial, mudará quando tiver cadastro de banheiros tb
+//        RecyclerView
+        recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 

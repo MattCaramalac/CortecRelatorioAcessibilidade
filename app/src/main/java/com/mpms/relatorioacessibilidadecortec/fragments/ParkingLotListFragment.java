@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolAreasRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.ParkingRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
@@ -36,7 +38,8 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     public static final String PARKING_ID = "PARKING_ID";
     public static final String NEW_PARKING_ENTRY = "NEW_PARKING_ENTRY";
 
-    MaterialButton closeParkingList, addParkingLot;
+    MaterialButton closeParkingList, addParkingLot, invisible;
+    TextView parkingHeader;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
@@ -61,7 +64,8 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            parkingBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
+            parkingBundle = this.getArguments();
+//            parkingBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
         }
     }
 
@@ -69,7 +73,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_items_entries_list, container, false);
+        return inflater.inflate(R.layout.fragment_child_items_entries, container, false);
     }
 
     @Override
@@ -112,10 +116,20 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     }
 
     private void instantiateParkingListViews(View v) {
-        closeParkingList = v.findViewById(R.id.close_items_entries_list);
-        addParkingLot = v.findViewById(R.id.add_items_entries);
-        recyclerView = v.findViewById(R.id.items_entries_recycler_view);
-
+//        MaterialButton
+        closeParkingList = v.findViewById(R.id.cancel_child_items_entries);
+        addParkingLot = v.findViewById(R.id.add_child_items_entries);
+        invisible = v.findViewById(R.id.continue_child_items_entries);
+        invisible.setVisibility(View.GONE);
+//        TextView
+        parkingHeader = v.findViewById(R.id.identifier_header);
+//        TODO - Inserir opção de cabeçalho para cadastro de estacionamentos na calçada?
+        if (parkingBundle.getBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG))
+            parkingHeader.setText(R.string.ext_park_reg_header);
+        else
+            parkingHeader.setText(R.string.int_park_reg_header);
+//        RecyclerView
+        recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 

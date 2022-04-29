@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +34,8 @@ import java.util.Objects;
 
 public class WaterFountainListFragment extends Fragment implements OnEntryClickListener {
 
-    MaterialButton closeFountainList, addFountain;
+    MaterialButton closeFountainList, addFountain, invisible;
+    TextView fountHeader;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
@@ -66,7 +68,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_items_entries_list, container, false);
+        return inflater.inflate(R.layout.fragment_child_items_entries, container, false);
     }
 
     @Override
@@ -109,13 +111,19 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     }
 
     private void instantiateWaterListViews(View v) {
-        closeFountainList = v.findViewById(R.id.close_items_entries_list);
-        addFountain = v.findViewById(R.id.add_items_entries);
-        recyclerView = v.findViewById(R.id.items_entries_recycler_view);
-
+//        MaterialButton
+        closeFountainList = v.findViewById(R.id.cancel_child_items_entries);
+        addFountain = v.findViewById(R.id.add_child_items_entries);
+        invisible = v.findViewById(R.id.continue_child_items_entries);
+        invisible.setVisibility(View.GONE);
+//        TextView
+        fountHeader = v.findViewById(R.id.identifier_header);
+        fountHeader.setText(R.string.fountain_reg_header);
+//        RecyclerView & methods
+        recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-
+//        ViewModel
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
 
         fountainBundle.putInt(WaterFountainFragment.FOUNTAIN_ID, 0);

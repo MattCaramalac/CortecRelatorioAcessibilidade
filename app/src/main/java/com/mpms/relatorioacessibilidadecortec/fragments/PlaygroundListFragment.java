@@ -37,6 +37,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     public static final String NEW_PLAYGROUND_ENTRY = "NEW_PLAYGROUND_ENTRY";
 
     MaterialButton closePlayList, addPlayground, continuePlayground;
+    TextView playHeader;
 
     TextView registerHeader;
 
