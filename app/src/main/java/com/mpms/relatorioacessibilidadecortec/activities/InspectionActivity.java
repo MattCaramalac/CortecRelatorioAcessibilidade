@@ -2,7 +2,9 @@ package com.mpms.relatorioacessibilidadecortec.activities;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -43,6 +45,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction;
     ViewModelEntry modelEntry;
+    Fragment frag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,20 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     .observe(this, supArea ->
                             inspectionBundle.putInt(BlockRegisterActivity.BLOCK_ID, supArea.getBlockSpaceID()));
         }
+
+        this.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                    if (registerFragmentOnScreen())
+                        finish();
+                    else {
+                        setEnabled(false);
+                        InspectionActivity.super.onBackPressed();
+
+                    }
+                setEnabled(true);
+            }
+        });
     }
 
     @Override
@@ -183,6 +200,20 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         playListFragment.setArguments(inspectionBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, playListFragment).addToBackStack(PLAYGROUND_LIST).commit();
+    }
+
+    public boolean registerFragmentOnScreen() {
+        int i = 1;
+        frag = getSupportFragmentManager().findFragmentById(R.id.show_fragment_selected);
+        if (frag == null)
+            i = 0;
+        else {
+            if (frag instanceof ExternalAccessListFragment || frag instanceof ParkingLotListFragment || frag instanceof PlaygroundListFragment
+                    || frag instanceof RestroomListFragment || frag instanceof RoomRegisterListFragment || frag instanceof SidewalkListFragment
+                    || frag instanceof WaterFountainListFragment)
+                i = 0;
+        }
+        return i == 0;
     }
 }
 

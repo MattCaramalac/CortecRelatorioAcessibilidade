@@ -548,7 +548,13 @@
 
     <string name="header_social_entrance">Acesso Externo - Entrada Social</string>
     <string name="header_block_register">Cadastro de Blocos</string>
-    <string name="button_label_ext_area">Área Externa</string>
-    <string name="button_label_block">Bloco</string>
-    <string name="button_label_sup_area">Área de Apoio</string>
+    <string name="button_label_ext_area">Áreas Externas</string>
+    <string name="button_label_block">Blocos</string>
+    <string name="button_label_sup_area">Espaços de Apoio</string>
+    <string name="fountain_reg_header">Cadastro de Bebedouros</string>
+    <string name="restroom_reg_header">Cadastro de Sanitários</string>
+    <string name="ext_park_reg_header">Cadastro de Estacionamentos Externos</string>
+    <string name="int_park_reg_header">Cadastro de Estacionamentos Internos</string>
+    <string name="ext_access_reg_header">Cadastro de Acessos Externos</string>
+    <string name="sidewalk_reg_header">Cadastro de Calçadas</string>
 </resources>
