@@ -7,11 +7,12 @@ public class HeaderNames {
     public static final String[] externalAreaOptions = {
             "Acesso externo",
             "Calçada",
-            "Estacionamento",
+            "Estacionamento Externo",
             "Outros Ambientes",
     };
 
     public static final String[] blockOptions = {
+            "Banheiro",
             "Bebedouro",
             "Biblioteca",
             "Coordenação",
@@ -28,7 +29,7 @@ public class HeaderNames {
 
     public static final String[] supportAreaOptions = {
             "Bebedouro",
-            "Estacionamento",
+            "Estacionamento Interno",
             "Outros Ambientes",
             "Playground"
     };

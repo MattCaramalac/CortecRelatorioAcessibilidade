@@ -16,10 +16,8 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.SchoolAreasRegisterActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 
 
@@ -35,8 +33,8 @@ public class InspectionMemorial extends Fragment {
 
     Bundle fragInspection = new Bundle();
 
-    private static final int NO_CHOICE = -1;
-    private int chosenOption = NO_CHOICE;
+//    private static final int NO_CHOICE = -1;
+//    private int chosenOption = NO_CHOICE;
 
     public InspectionMemorial() {
         // Required empty public constructor
@@ -50,12 +48,8 @@ public class InspectionMemorial extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            fragInspection.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
-            fragInspection.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
-            fragInspection.putBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG, this.getArguments().getBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG, false));
-            fragInspection.putBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG, this.getArguments().getBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG, false));
+            fragInspection = this.getArguments();
         }
-
     }
 
     @Override
@@ -75,7 +69,7 @@ public class InspectionMemorial extends Fragment {
 
         saveAndClose.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |  Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
     }
@@ -86,8 +80,7 @@ public class InspectionMemorial extends Fragment {
 
         if (context instanceof OnFragmentInteractionListener) {
             listener = (OnFragmentInteractionListener) context;
-        }
-        else {
+        } else {
             throw new ClassCastException(context.toString());
         }
 
@@ -104,7 +97,7 @@ public class InspectionMemorial extends Fragment {
         listItemsMemorial.setAdapter(adapterLocations);
 
         listItemsMemorial.setOnItemClickListener((parent, view, position, id) -> {
-            chosenOption = position;
+//            chosenOption = position;
             listener.onDropdownChoice(position);
         });
 
@@ -112,6 +105,6 @@ public class InspectionMemorial extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onDropdownChoice (int choice);
+        void onDropdownChoice(int choice);
     }
 }

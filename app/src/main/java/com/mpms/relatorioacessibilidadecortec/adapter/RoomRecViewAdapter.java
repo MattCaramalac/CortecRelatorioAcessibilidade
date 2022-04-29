@@ -73,25 +73,25 @@ public class RoomRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterface
 
     private String roomLocation(RoomEntry roomEntry) {
         switch (roomEntry.getRoomType()) {
-            case 3:
+            case 2:
                 return "Biblioteca - "+ roomEntry.getRoomLocation();
-            case 5:
+            case 3:
                 return "Coordenação - "+ roomEntry.getRoomLocation();
-            case 6:
+            case 4:
                 return "Diretoria - "+ roomEntry.getRoomLocation();
-            case 10:
+            case 5:
                 return "Refeitório - "+ roomEntry.getRoomLocation();
-            case 11:
+            case 6:
                 return "Sala de Aula - "+ roomEntry.getRoomLocation();
-            case 12:
+            case 7:
                 return "Sala de Tecnologia - "+ roomEntry.getRoomLocation();
-            case 13:
+            case 8:
                 return "Sala de Recursos - "+ roomEntry.getRoomLocation();
-            case 14:
+            case 9:
                 return "Sala dos Professores - "+ roomEntry.getRoomLocation();
-            case 15:
+            case 11:
                 return "Secretaria - "+ roomEntry.getRoomLocation();
-            case 16:
+            case 12:
                 return roomEntry.getRoomLocation();
             default:
                 return "";
@@ -100,25 +100,25 @@ public class RoomRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterface
 
     private String roomNumeral(RoomEntry roomEntry, int i) {
         switch (roomEntry.getRoomType()) {
-            case 3:
+            case 2:
                 return "Biblioteca nº"+i;
-            case 5:
+            case 3:
                 return "Coordenação nº"+i;
-            case 6:
+            case 4:
                 return "Diretoria nº"+i;
-            case 10:
+            case 5:
                 return "Refeitório nº"+i;
-            case 11:
+            case 6:
                 return "Sala de Aula nº"+i;
-            case 12:
+            case 7:
                 return "Sala de Tecnologia nº"+i;
-            case 13:
+            case 8:
                 return "Sala de Recursos nº"+i;
-            case 14:
+            case 9:
                 return "Sala dos Professores nº"+i;
-            case 15:
+            case 11:
                 return "Secretaria nº"+i;
-            case 16:
+            case 12:
                 return "Ambiente nº"+i;
             default:
                 return "";

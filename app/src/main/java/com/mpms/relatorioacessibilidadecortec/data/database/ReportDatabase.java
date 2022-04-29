@@ -91,7 +91,7 @@ import java.util.concurrent.Executors;
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class, RampStairsHandrailEntry.class,
-        RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class, PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 41)
+        RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class, PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 42)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -974,6 +974,52 @@ public abstract class ReportDatabase extends RoomDatabase {
 
     };
 
+    static final Migration MIGRATION_41_42 = new Migration(41, 42) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("UPDATE RoomEntry SET roomType = 2 WHERE roomType = 3");
+            database.execSQL("UPDATE RoomEntry SET roomType = 3 WHERE roomType = 5");
+            database.execSQL("UPDATE RoomEntry SET roomType = 4 WHERE roomType = 6");
+            database.execSQL("UPDATE RoomEntry SET roomType = 5 WHERE roomType = 10");
+            database.execSQL("UPDATE RoomEntry SET roomType = 6 WHERE roomType = 11");
+            database.execSQL("UPDATE RoomEntry SET roomType = 7 WHERE roomType = 12");
+            database.execSQL("UPDATE RoomEntry SET roomType = 8 WHERE roomType = 13");
+            database.execSQL("UPDATE RoomEntry SET roomType = 9 WHERE roomType = 14");
+            database.execSQL("UPDATE RoomEntry SET roomType = 11 WHERE roomType = 15");
+            database.execSQL("UPDATE RoomEntry SET roomType = 12 WHERE roomType = 16");
+
+            database.execSQL("CREATE TABLE WaterFountainEntry2(waterFountainID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, roomID INTEGER, " +
+                    "fountainLocation TEXT, fountainType INTEGER, fountainTypeObs TEXT, allowSideApprox INTEGER, sideApproxObs TEXT, faucetHeight REAL, " +
+                    "hasCupHolder INTEGER, cupHolderHeight REAL, hasSpoutsDifferentHeights INTEGER, highestSpoutHeight REAL, lowestSpoutHeight REAL, " +
+                    "allowFrontApprox INTEGER, frontalApproxDepth REAL, frontalApproxLowestSpout REAL, fountainObs TEXT, " +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO WaterFountainEntry2 (waterFountainID, blockID, fountainLocation, fountainType, fountainTypeObs, allowSideApprox, sideApproxObs, " +
+                    "faucetHeight, hasCupHolder, cupHolderHeight, hasSpoutsDifferentHeights, highestSpoutHeight, lowestSpoutHeight, allowFrontApprox, frontalApproxDepth, " +
+                    "frontalApproxLowestSpout, fountainObs) SELECT waterFountainID, blockID, fountainLocation, typeWaterFountain, fountainTypeObs,  otherAllowSideApproximation, " +
+                    "lateralApproxObs, otherFaucetHeight, otherHasCupHolder, otherCupHolderHeight, hasSpoutsDifferentHeights, highestSpoutHeight, lowestSpoutHeight, " +
+                    "spoutAllowFrontalApproximation, spoutFrontalApproxDepth, frontalApproxLowestSpout, fountainObs FROM WaterFountainEntry");
+            database.execSQL("DROP TABLE WaterFountainEntry");
+            database.execSQL("ALTER TABLE WaterFountainEntry2 RENAME TO WaterFountainEntry");
+
+            database.execSQL("CREATE TABLE ParkingLotEntry2(parkingLotID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, sidewalkID INTEGER," +
+                    "typeParkingLot INTEGER NOT NULL, parkingLotFloorType TEXT, hasPCDVacancy INTEGER NOT NULL, hasElderVacancy INTEGER NOT NULL," +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntry (sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO ParkingLotEntry2(parkingLotID, blockID, typeParkingLot, parkingLotFloorType, hasPCDVacancy, hasElderVacancy) SELECT " +
+                    "parkingLotID, blockID, typeParkingLot, parkingLotFloorType, hasPCDVacancy, hasElderVacancy FROM ParkingLotEntry");
+            database.execSQL("DROP TABLE ParkingLotEntry");
+            database.execSQL("ALTER TABLE ParkingLotEntry2 RENAME TO ParkingLotEntry");
+        }
+    };
+
+//    static final Migration MIGRATION_42_43 = new Migration(42, 43) {
+//        @Override
+//        public void migrate(@NonNull SupportSQLiteDatabase database) {
+//
+//        }
+//    };
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -986,7 +1032,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23, MIGRATION_23_24,
                                     MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27, MIGRATION_27_28, MIGRATION_28_29, MIGRATION_29_30,
                                     MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35, MIGRATION_35_36,
-                                    MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41).build();
+                                    MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42).build();
                 }
             }
         }

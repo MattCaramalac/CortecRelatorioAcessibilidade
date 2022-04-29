@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolAreasRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RoomRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
@@ -70,7 +71,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            roomListBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
+            roomListBundle = this.getArguments();
             roomListBundle.putInt(ROOM_TYPE, chosenOption);
         }
     }
@@ -190,31 +191,38 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     }
 
     public static String roomHeader(Bundle bundle) {
-        switch (bundle.getInt(ROOM_TYPE)) {
-            case 3:
-                return "Cadastro de Bibliotecas";
-            case 5:
-                return "Cadastro de Coordenações";
-            case 6:
-                return "Cadastro de Diretorias";
-            case 10:
-                return "Cadastro de Refeitórios";
-            case 11:
-                return "Cadastro de Salas de Aula";
-            case 12:
-                return "Cadastro Salas de Tecnologia";
-            case 13:
-                return "Cadastro Salas de Recursos";
-            case 14:
-                return "Cadastro Salas dos Professores";
-            case 15:
-                return "Cadastro de Secretarias";
-            case 16:
-                return "Cadastro de Outros Ambientes";
-            default:
-                return "";
+        if (bundle.getBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG) ||
+                bundle.getBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG)) {
+            bundle.putInt(ROOM_TYPE, 12);
+            return "Cadastro de Outros Ambientes";
+        }  else {
+            switch (bundle.getInt(ROOM_TYPE)) {
+                case 2:
+                    return "Cadastro de Bibliotecas";
+                case 3:
+                    return "Cadastro de Coordenações";
+                case 4:
+                    return "Cadastro de Diretorias";
+                case 5:
+                    return "Cadastro de Refeitórios";
+                case 6:
+                    return "Cadastro de Salas de Aula";
+                case 7:
+                    return "Cadastro Salas de Tecnologia";
+                case 8:
+                    return "Cadastro Salas de Recursos";
+                case 9:
+                    return "Cadastro Salas dos Professores";
+                case 11:
+                    return "Cadastro de Secretarias";
+                case 12:
+                    return "Cadastro de Outros Ambientes";
+                default:
+                    return "";
+            }
         }
     }
+
 
     private void openRoomFragment() {
         RoomsRegisterFragment roomFragment = RoomsRegisterFragment.newInstance();

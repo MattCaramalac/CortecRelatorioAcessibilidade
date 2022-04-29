@@ -29,28 +29,13 @@
         android:textSize="25sp"
         android:textStyle="bold"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_external_areas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="100dp"
-        android:layout_below="@id/save_and_quit"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/purple_200"
-        app:icon="@drawable/ic_baseline_nature_people_100"
-        app:iconTint="@color/dark_grey"
-        android:text="@string/button_label_ext_area"
-        android:textColor="@color/dark_grey"
-        android:textStyle="bold"
-        android:textAllCaps="true"
-        android:textSize="35sp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/add_blocks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="100dp"
-        android:layout_below="@id/add_external_areas"
+        android:layout_below="@id/save_and_quit"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/purple_200"
         app:icon="@drawable/ic_baseline_school_100"
@@ -62,11 +47,28 @@
         android:textSize="35sp"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_support_area"
+        android:id="@+id/add_external_areas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="100dp"
         android:layout_below="@id/add_blocks"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/purple_200"
+        app:icon="@drawable/ic_baseline_nature_people_100"
+        app:iconTint="@color/dark_grey"
+        android:text="@string/button_label_ext_area"
+        android:textColor="@color/dark_grey"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textSize="35sp"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_support_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:layout_below="@id/add_external_areas"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/purple_200"
         app:icon="@drawable/ic_playground_svgrepo_com"

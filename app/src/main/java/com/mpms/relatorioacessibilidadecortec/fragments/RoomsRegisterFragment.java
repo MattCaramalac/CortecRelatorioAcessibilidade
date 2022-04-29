@@ -329,7 +329,7 @@ public class RoomsRegisterFragment extends Fragment {
         }
 
         if (buttonPressed > 0) {
-            if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 3 || bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 15) {
+            if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 2 || bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 11) {
                 bundle.putBoolean(InspectionActivity.ADD_ITEM_REQUEST, true);
                 getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, bundle);
             } else {
@@ -337,7 +337,7 @@ public class RoomsRegisterFragment extends Fragment {
                 childFragCaller(buttonPressed, bundle);
             }
         } else {
-            if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 3 || bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 15) {
+            if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 2 || bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 11) {
                 bundle.putBoolean(InspectionActivity.ADD_ITEM_REQUEST, false);
                 getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, bundle);
             } else {
@@ -387,7 +387,7 @@ public class RoomsRegisterFragment extends Fragment {
             i++;
             roomLocaleField.setError(getString(R.string.blank_field_error));
         }
-        if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 16) {
+        if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 12) {
             if (TextUtils.isEmpty(roomDescValue.getText())) {
                 i++;
                 roomDescField.setError(getString(R.string.blank_field_error));
@@ -450,7 +450,7 @@ public class RoomsRegisterFragment extends Fragment {
         Double secPcrWidth = null, secPcrDepth = null;
 
         roomLocale = String.valueOf(roomLocaleValue.getText());
-        if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 16) {
+        if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 12) {
             if (!TextUtils.isEmpty(roomDescValue.getText()))
                 roomDescription = String.valueOf(roomDescValue.getText());
         }

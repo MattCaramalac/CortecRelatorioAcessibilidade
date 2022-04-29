@@ -962,6 +962,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastBlockSpace(schoolID, blockSpaceType);
     }
 
+    public LiveData<BlockSpaceEntry> getAreaFromSchool(int schoolID, int areaType) {
+        return repository.getAreaFromSchool(schoolID, areaType);
+    }
+
     public static void updateBlockSpace (BlockSpaceEntry blockSpace) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateBlockSpace(blockSpace));
     }

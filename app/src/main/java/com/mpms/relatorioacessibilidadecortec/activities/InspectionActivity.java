@@ -17,6 +17,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.RestroomListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainListFragment;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
 
@@ -41,13 +42,26 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction;
+    ViewModelEntry modelEntry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspection);
+        modelEntry = new ViewModelEntry(getApplication());
         inspectionBundle = getIntent().getBundleExtra(SchoolAreasRegisterActivity.AREAS_REG_BUNDLE);
 
+        if (inspectionBundle.getBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG)
+                && inspectionBundle.getInt(BlockRegisterActivity.BLOCK_ID) == 0) {
+            modelEntry.getAreaFromSchool(inspectionBundle.getInt(SchoolRegisterActivity.SCHOOL_ID), 1)
+                    .observe(this, extArea ->
+                            inspectionBundle.putInt(BlockRegisterActivity.BLOCK_ID, extArea.getBlockSpaceID()));
+        } else if (inspectionBundle.getBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG)
+                && inspectionBundle.getInt(BlockRegisterActivity.BLOCK_ID) == 0) {
+            modelEntry.getAreaFromSchool(inspectionBundle.getInt(SchoolRegisterActivity.SCHOOL_ID), 2)
+                    .observe(this, supArea ->
+                            inspectionBundle.putInt(BlockRegisterActivity.BLOCK_ID, supArea.getBlockSpaceID()));
+        }
     }
 
     @Override
@@ -72,7 +86,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     displayParkingLotListFragment();
                     break;
                 case 3:
-//                    displayRoomsRegisterListFragment(choice);
+                    displayRoomsRegisterListFragment(choice);
                     break;
             }
         } else if (inspectionBundle.getBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG)) {
@@ -84,7 +98,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     displayParkingLotListFragment();
                     break;
                 case 2:
-//                    displayRoomsRegisterListFragment(choice);
+                    displayRoomsRegisterListFragment(choice);
                     break;
                 case 4:
                     displayPlaygroundListFragment();
@@ -93,10 +107,11 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         } else {
             switch (choice) {
                 case 0:
-                    displayFountainListFragment();
-                    break;
-                case 9:
+                case 10:
                     displayRestroomListFragment();
+                    break;
+                case 1:
+                    displayFountainListFragment();
                     break;
                 default:
                     displayRoomsRegisterListFragment(choice);

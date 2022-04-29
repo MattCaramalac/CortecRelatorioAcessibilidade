@@ -16,11 +16,14 @@ public interface BlockSpaceDao {
     @Insert
     void insertBlockSpace(BlockSpaceEntry blockSpace);
 
-    @Query("SELECT * FROM BlockSpaceEntry WHERE schoolID == :schoolID ORDER BY blockSpaceType ASC")
+    @Query("SELECT * FROM BlockSpaceEntry WHERE schoolID == :schoolID AND blockSpaceType = 0 ORDER BY blockSpaceType ASC")
     LiveData<List<BlockSpaceEntry>> getBlockSpaceFromSchool(int schoolID);
 
     @Query("SELECT * FROM BlockSpaceEntry WHERE blockSpaceID == :blockSpaceID")
     LiveData<BlockSpaceEntry> getSpecificBlockSpace(int blockSpaceID);
+
+    @Query("SELECT * FROM BlockSpaceEntry WHERE schoolID == :schoolID AND blockSpaceType == :areaType")
+    LiveData<BlockSpaceEntry> getAreaFromSchool(int schoolID, int areaType);
 
     @Query("SELECT * FROM BlockSpaceEntry WHERE schoolID == :schoolID " +
             " AND blockSpaceNumber == (SELECT MAX(blockSpaceNumber) from BlockSpaceEntry WHERE blockSpaceType == :blockSpaceType)")
@@ -34,4 +37,6 @@ public interface BlockSpaceDao {
 
     @Query("DELETE FROM BlockSpaceEntry WHERE schoolID == :schoolID")
     void deleteAllBlockSpacesSchool(int schoolID);
+
+
 }

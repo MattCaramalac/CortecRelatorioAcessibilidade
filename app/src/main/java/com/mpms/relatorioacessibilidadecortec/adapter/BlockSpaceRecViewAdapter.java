@@ -75,11 +75,8 @@ public class BlockSpaceRecViewAdapter extends RecyclerView.Adapter<ViewHolderInt
         this.listener = listener;
     }
 
-    private String blockSpaceLocale (BlockSpaceEntry blockSpace) {
-        if (blockSpace.getBlockSpaceType() == 0)
-            return "Bloco nº" + blockSpace.getBlockSpaceNumber();
-        else
-            return "Espaço de Apoio nº" + blockSpace.getBlockSpaceNumber();
+    private String blockSpaceLocale(BlockSpaceEntry blockSpace) {
+        return "Bloco nº" + blockSpace.getBlockSpaceNumber();
     }
 
     @Override

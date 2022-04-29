@@ -223,6 +223,10 @@ public class ReportRepository {
         return blockSpaceDao.getLastBlockSpace(schoolID, blockSpaceType);
     }
 
+    public LiveData<BlockSpaceEntry> getAreaFromSchool(int schoolID, int areaType) {
+        return blockSpaceDao.getAreaFromSchool(schoolID, areaType);
+    }
+
     public void updateBlockSpace (BlockSpaceEntry blockSpace) {
         ReportDatabase.dbWriteExecutor.execute(() -> blockSpaceDao.updateBlockSpace(blockSpace));
     }
