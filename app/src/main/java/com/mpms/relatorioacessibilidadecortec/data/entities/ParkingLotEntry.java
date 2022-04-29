@@ -6,20 +6,23 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
-        onDelete = CASCADE, onUpdate = CASCADE))
+@Entity(foreignKeys = {@ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
+        onDelete = CASCADE, onUpdate = CASCADE), @ForeignKey(entity = SidewalkEntry.class, parentColumns = "sidewalkID",
+        childColumns = "sidewalkID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class ParkingLotEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int parkingLotID;
     private int blockID;
+    private Integer sidewalkID;
     private int typeParkingLot;
     private String parkingLotFloorType;
     private int hasPCDVacancy;
     private int hasElderVacancy;
 
-    public ParkingLotEntry(int blockID, int typeParkingLot, String parkingLotFloorType, int hasPCDVacancy, int hasElderVacancy) {
+    public ParkingLotEntry(int blockID, Integer sidewalkID, int typeParkingLot, String parkingLotFloorType, int hasPCDVacancy, int hasElderVacancy) {
         this.blockID = blockID;
+        this.sidewalkID = sidewalkID;
         this.typeParkingLot = typeParkingLot;
         this.parkingLotFloorType = parkingLotFloorType;
         this.hasPCDVacancy = hasPCDVacancy;
@@ -40,6 +43,14 @@ public class ParkingLotEntry {
 
     public void setBlockID(int blockID) {
         this.blockID = blockID;
+    }
+
+    public Integer getSidewalkID() {
+        return sidewalkID;
+    }
+
+    public void setSidewalkID(Integer sidewalkID) {
+        this.sidewalkID = sidewalkID;
     }
 
     public int getTypeParkingLot() {

@@ -6,49 +6,54 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
-        onDelete = CASCADE, onUpdate = CASCADE))
+@Entity(foreignKeys = {@ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
+        onDelete = CASCADE, onUpdate = CASCADE), @ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID",
+        onDelete = CASCADE, onUpdate = CASCADE)})
 public class WaterFountainEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int waterFountainID;
     private int blockID;
+    private Integer roomID;
     private String fountainLocation;
-    private Integer typeWaterFountain;
+    private Integer fountainType;
     private String fountainTypeObs;
 
-    private Integer otherAllowSideApproximation;
-    private String lateralApproxObs;
-    private Double otherFaucetHeight;
-    private Integer otherHasCupHolder;
-    private Double otherCupHolderHeight;
+    private Integer allowSideApprox;
+    private String sideApproxObs;
+    private Double faucetHeight;
+    private Integer hasCupHolder;
+    private Double cupHolderHeight;
 
     private Integer hasSpoutsDifferentHeights;
     private Double highestSpoutHeight;
     private Double lowestSpoutHeight;
-    private Integer spoutAllowFrontalApproximation;
-    private Double spoutFrontalApproxDepth;
+    private Integer allowFrontApprox;
+    private Double frontalApproxDepth;
     private Double frontalApproxLowestSpout;
 
     private String fountainObs;
 
-    public WaterFountainEntry(int blockID, String fountainLocation, Integer typeWaterFountain, String fountainTypeObs, Integer otherAllowSideApproximation, String lateralApproxObs,
-                              Double otherFaucetHeight, Integer otherHasCupHolder, Double otherCupHolderHeight, Integer hasSpoutsDifferentHeights, Double highestSpoutHeight,
-                              Double lowestSpoutHeight, Integer spoutAllowFrontalApproximation, Double spoutFrontalApproxDepth, Double frontalApproxLowestSpout, String fountainObs) {
+    public WaterFountainEntry(int blockID, Integer roomID, String fountainLocation, Integer fountainType, String fountainTypeObs,
+                              Integer allowSideApprox, String sideApproxObs, Double faucetHeight,
+                              Integer hasCupHolder, Double cupHolderHeight, Integer hasSpoutsDifferentHeights,
+                              Double highestSpoutHeight, Double lowestSpoutHeight, Integer allowFrontApprox,
+                              Double frontalApproxDepth, Double frontalApproxLowestSpout, String fountainObs) {
         this.blockID = blockID;
+        this.roomID = roomID;
         this.fountainLocation = fountainLocation;
-        this.typeWaterFountain = typeWaterFountain;
+        this.fountainType = fountainType;
         this.fountainTypeObs = fountainTypeObs;
-        this.otherAllowSideApproximation = otherAllowSideApproximation;
-        this.lateralApproxObs = lateralApproxObs;
-        this.otherFaucetHeight = otherFaucetHeight;
-        this.otherHasCupHolder = otherHasCupHolder;
-        this.otherCupHolderHeight = otherCupHolderHeight;
+        this.allowSideApprox = allowSideApprox;
+        this.sideApproxObs = sideApproxObs;
+        this.faucetHeight = faucetHeight;
+        this.hasCupHolder = hasCupHolder;
+        this.cupHolderHeight = cupHolderHeight;
         this.hasSpoutsDifferentHeights = hasSpoutsDifferentHeights;
         this.highestSpoutHeight = highestSpoutHeight;
         this.lowestSpoutHeight = lowestSpoutHeight;
-        this.spoutAllowFrontalApproximation = spoutAllowFrontalApproximation;
-        this.spoutFrontalApproxDepth = spoutFrontalApproxDepth;
+        this.allowFrontApprox = allowFrontApprox;
+        this.frontalApproxDepth = frontalApproxDepth;
         this.frontalApproxLowestSpout = frontalApproxLowestSpout;
         this.fountainObs = fountainObs;
     }
@@ -69,6 +74,14 @@ public class WaterFountainEntry {
         this.blockID = blockID;
     }
 
+    public Integer getRoomID() {
+        return roomID;
+    }
+
+    public void setRoomID(Integer roomID) {
+        this.roomID = roomID;
+    }
+
     public String getFountainLocation() {
         return fountainLocation;
     }
@@ -77,44 +90,44 @@ public class WaterFountainEntry {
         this.fountainLocation = fountainLocation;
     }
 
-    public Integer getTypeWaterFountain() {
-        return typeWaterFountain;
+    public Integer getFountainType() {
+        return fountainType;
     }
 
-    public void setTypeWaterFountain(Integer typeWaterFountain) {
-        this.typeWaterFountain = typeWaterFountain;
+    public void setFountainType(Integer fountainType) {
+        this.fountainType = fountainType;
     }
 
-    public Integer getOtherAllowSideApproximation() {
-        return otherAllowSideApproximation;
+    public Integer getAllowSideApprox() {
+        return allowSideApprox;
     }
 
-    public void setOtherAllowSideApproximation(Integer otherAllowSideApproximation) {
-        this.otherAllowSideApproximation = otherAllowSideApproximation;
+    public void setAllowSideApprox(Integer allowSideApprox) {
+        this.allowSideApprox = allowSideApprox;
     }
 
-    public Double getOtherFaucetHeight() {
-        return otherFaucetHeight;
+    public Double getFaucetHeight() {
+        return faucetHeight;
     }
 
-    public void setOtherFaucetHeight(Double otherFaucetHeight) {
-        this.otherFaucetHeight = otherFaucetHeight;
+    public void setFaucetHeight(Double faucetHeight) {
+        this.faucetHeight = faucetHeight;
     }
 
-    public Integer getOtherHasCupHolder() {
-        return otherHasCupHolder;
+    public Integer getHasCupHolder() {
+        return hasCupHolder;
     }
 
-    public void setOtherHasCupHolder(Integer otherHasCupHolder) {
-        this.otherHasCupHolder = otherHasCupHolder;
+    public void setHasCupHolder(Integer hasCupHolder) {
+        this.hasCupHolder = hasCupHolder;
     }
 
-    public Double getOtherCupHolderHeight() {
-        return otherCupHolderHeight;
+    public Double getCupHolderHeight() {
+        return cupHolderHeight;
     }
 
-    public void setOtherCupHolderHeight(Double otherCupHolderHeight) {
-        this.otherCupHolderHeight = otherCupHolderHeight;
+    public void setCupHolderHeight(Double cupHolderHeight) {
+        this.cupHolderHeight = cupHolderHeight;
     }
 
     public Integer getHasSpoutsDifferentHeights() {
@@ -141,12 +154,12 @@ public class WaterFountainEntry {
         this.lowestSpoutHeight = lowestSpoutHeight;
     }
 
-    public Integer getSpoutAllowFrontalApproximation() {
-        return spoutAllowFrontalApproximation;
+    public Integer getAllowFrontApprox() {
+        return allowFrontApprox;
     }
 
-    public void setSpoutAllowFrontalApproximation(Integer spoutAllowFrontalApproximation) {
-        this.spoutAllowFrontalApproximation = spoutAllowFrontalApproximation;
+    public void setAllowFrontApprox(Integer allowFrontApprox) {
+        this.allowFrontApprox = allowFrontApprox;
     }
 
     public Double getFrontalApproxLowestSpout() {
@@ -173,19 +186,19 @@ public class WaterFountainEntry {
         this.fountainTypeObs = fountainTypeObs;
     }
 
-    public String getLateralApproxObs() {
-        return lateralApproxObs;
+    public String getSideApproxObs() {
+        return sideApproxObs;
     }
 
-    public void setLateralApproxObs(String lateralApproxObs) {
-        this.lateralApproxObs = lateralApproxObs;
+    public void setSideApproxObs(String lateralApproxObs) {
+        this.sideApproxObs = lateralApproxObs;
     }
 
-    public Double getSpoutFrontalApproxDepth() {
-        return spoutFrontalApproxDepth;
+    public Double getFrontalApproxDepth() {
+        return frontalApproxDepth;
     }
 
-    public void setSpoutFrontalApproxDepth(Double spoutFrontalApproxDepth) {
-        this.spoutFrontalApproxDepth = spoutFrontalApproxDepth;
+    public void setFrontalApproxDepth(Double frontalApproxDepth) {
+        this.frontalApproxDepth = frontalApproxDepth;
     }
 }

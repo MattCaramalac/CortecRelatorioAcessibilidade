@@ -146,10 +146,10 @@ public class WaterFountainSpoutFragment extends Fragment {
                 highestSpoutValue.setText(String.valueOf(fountainEntry.getHighestSpoutHeight()));
                 break;
         }
-        allowFrontalApprox.check(allowFrontalApprox.getChildAt(fountainEntry.getSpoutAllowFrontalApproximation()).getId());
-        if (fountainEntry.getSpoutAllowFrontalApproximation() == 1) {
+        allowFrontalApprox.check(allowFrontalApprox.getChildAt(fountainEntry.getAllowFrontApprox()).getId());
+        if (fountainEntry.getAllowFrontApprox() == 1) {
             frontalApproxHeightValue.setText(String.valueOf(fountainEntry.getFrontalApproxLowestSpout()));
-            frontalApproxDepthValue.setText(String.valueOf(fountainEntry.getSpoutFrontalApproxDepth()));
+            frontalApproxDepthValue.setText(String.valueOf(fountainEntry.getFrontalApproxDepth()));
         }
     }
 

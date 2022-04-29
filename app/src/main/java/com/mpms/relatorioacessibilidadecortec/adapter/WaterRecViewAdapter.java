@@ -41,7 +41,7 @@ public class WaterRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
         WaterFountainEntry waterFountain = waterList.get(position);
-        holder.textInfoOne.setText(fountainType(waterFountain.getTypeWaterFountain()));
+        holder.textInfoOne.setText(fountainType(waterFountain.getFountainType()));
         holder.textInfoTwo.setText(fountainNumber(getItemCount()-position));
         if (selectedItems.get(position))
             holder.background.setBackgroundColor(Color.rgb(158, 235, 247));

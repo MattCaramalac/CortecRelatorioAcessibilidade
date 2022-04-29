@@ -219,7 +219,7 @@ public class ParkingLotFragment extends Fragment {
         String floorType = String.valueOf(parkingLotFloorTypeValue.getText());
         pcdVacancy = getCheckedRadio(hasPcdVacancy);
         elderVacancy = getCheckedRadio(hasElderlyVacancy);
-        return new ParkingLotEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), getCheckedRadio(parkingLotType),
+        return new ParkingLotEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), bundle.getInt(SidewalkFragment.SIDEWALK_ID), getCheckedRadio(parkingLotType),
                 floorType, pcdVacancy, elderVacancy);
     }
 

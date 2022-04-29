@@ -169,15 +169,15 @@ public class WaterFountainFragment extends Fragment {
 
     private void loadFountainInfo(WaterFountainEntry waterFountain) {
         fountainLocationValue.setText(waterFountain.getFountainLocation());
-        typeWaterFountain.check(typeWaterFountain.getChildAt(waterFountain.getTypeWaterFountain()).getId());
+        typeWaterFountain.check(typeWaterFountain.getChildAt(waterFountain.getFountainType()).getId());
         if (waterFountain.getFountainTypeObs() != null)
             fountainTypeObsValue.setText(waterFountain.getFountainTypeObs());
         Fragment fragment;
-        if (waterFountain.getTypeWaterFountain() == 0) {
+        if (waterFountain.getFountainType() == 0) {
             fragment = new WaterFountainSpoutFragment();
             fragment.setArguments(waterFountainBundle);
             requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.water_fountain_info, fragment).commit();
-        } else if (waterFountain.getTypeWaterFountain() == 1) {
+        } else if (waterFountain.getFountainType() == 1) {
             fragment = new WaterFountainOtherFragment();
             fragment.setArguments(waterFountainBundle);
             requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.water_fountain_info, fragment).commit();
@@ -240,8 +240,9 @@ public class WaterFountainFragment extends Fragment {
         if (!TextUtils.isEmpty(waterFountainObsValue.getText()))
             fountainObs = String.valueOf(waterFountainObsValue.getText());
 
-        return new WaterFountainEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), fountainLocation, fountainType, fountainTypeObs, otherSideApprox, latApproxObs,
-                otherHeight, otherCupHolder, otherCupHeight, spoutDifHeight, spoutHighest, spoutLowest, spoutFrontApprox, spoutFrontDepth, spoutFrontHeight, fountainObs);
+        return new WaterFountainEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), bundle.getInt(RoomsRegisterFragment.ROOM_ID), fountainLocation, fountainType,
+                fountainTypeObs, otherSideApprox, latApproxObs, otherHeight, otherCupHolder, otherCupHeight, spoutDifHeight, spoutHighest, spoutLowest, spoutFrontApprox,
+                spoutFrontDepth, spoutFrontHeight, fountainObs);
     }
 
     private boolean scrollingField(View v, MotionEvent event) {
