@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,20 +25,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RampStairsRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class RampStairsListFragment extends Fragment implements OnEntryClickListener {
+public class RampStairsListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     public static final String RAMP_OR_STAIRS = "RAMP_OR_STAIRS";
 
-    MaterialButton closeRampStairsList, addRampStairs;
+
+    MaterialButton closeRampStairsList, addRampStairs, invisible;
+    TextView rampStairsHeader;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
@@ -48,28 +51,23 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
 
     int delClick = 0;
 
-    Bundle rampStairsListBundle = new Bundle();
+    Bundle rStListBundle;
 
-    public RampStairsListFragment(){
+    public RampStairsListFragment() {
         // Required empty public constructor
     }
 
-    public static RampStairsListFragment newInstance(int dropdownChoice) {
-        RampStairsListFragment rampStairsList = new RampStairsListFragment();
-        rampStairsList.chosenOption(dropdownChoice);
-        return rampStairsList;
-    }
-
-    private void chosenOption(int choice) {
-        rampStairsListBundle.putInt(RAMP_OR_STAIRS, choice);
+    public static RampStairsListFragment newInstance() {
+        return new RampStairsListFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            rampStairsListBundle.putInt(SchoolRegisterActivity.SCHOOL_ID,
-                    this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            rStListBundle = new Bundle(this.getArguments());
+        else
+            rStListBundle = new Bundle();
     }
 
     @Nullable
@@ -77,7 +75,7 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_items_entries_list, container, false);
+        return inflater.inflate(R.layout.fragment_child_items_entries, container, false);
     }
 
     @Override
@@ -86,55 +84,16 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
 
         instantiateRampStairsListViews(view);
 
-//        TODO - Trocar o Dao/Repository/ViewModel para apenas uma opção, seguir exemplo das salas
-//        TODO - Trocar o observador para buscar por blocos
-        if (rampStairsListBundle.getInt(RAMP_OR_STAIRS) == 7) {
-            modelEntry.getAllStairsFromSchool(rampStairsListBundle.getInt(SchoolRegisterActivity.SCHOOL_ID),
-                    rampStairsListBundle.getInt(RAMP_OR_STAIRS)).observe(getViewLifecycleOwner(), stairsList -> {
-                rampStairsAdapter = new RampStairsRecViewAdapter(stairsList, requireActivity(), this);
+        if (rStListBundle.getInt(RAMP_OR_STAIRS) == 1 || rStListBundle.getInt(RAMP_OR_STAIRS) == 2) {
+            modelEntry.getStairsRampsFromAmbient(rStListBundle.getInt(BLOCK_ID), rStListBundle.getInt(AMBIENT_TYPE),
+                    rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS)).observe(getViewLifecycleOwner(), SRList -> {
+                rampStairsAdapter = new RampStairsRecViewAdapter(SRList, requireActivity(), this);
                 recyclerView.setAdapter(rampStairsAdapter);
                 DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                 dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                 recyclerView.addItemDecoration(dividerItemDecoration);
 
-                rampStairsAdapter.setListener(new ListClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        if (actionMode == null)
-                            OnEntryClick(position);
-                        else
-                            enableActionMode();
-                    }
-
-                    @Override
-                    public void onItemLongClick(int position) {
-                        enableActionMode();
-                    }
-                });
-            });
-        } else if (rampStairsListBundle.getInt(RAMP_OR_STAIRS) == 9) {
-            modelEntry.getAllRampsFromSchool(rampStairsListBundle.getInt(SchoolRegisterActivity.SCHOOL_ID),
-                    rampStairsListBundle.getInt(RAMP_OR_STAIRS)).observe(getViewLifecycleOwner(), rampList -> {
-                rampStairsAdapter = new RampStairsRecViewAdapter(rampList, requireActivity(), this);
-                recyclerView.setAdapter(rampStairsAdapter);
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-                recyclerView.addItemDecoration(dividerItemDecoration);
-
-                rampStairsAdapter.setListener(new ListClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        if (actionMode == null)
-                            OnEntryClick(position);
-                        else
-                            enableActionMode();
-                    }
-
-                    @Override
-                    public void onItemLongClick(int position) {
-                        enableActionMode();
-                    }
-                });
+                rampStairsAdapter.setListener(listener());
             });
         } else {
             Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
@@ -146,19 +105,44 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
         closeRampStairsList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
     }
 
     private void instantiateRampStairsListViews(View v) {
-        closeRampStairsList = v.findViewById(R.id.close_items_entries_list);
-        addRampStairs = v.findViewById(R.id.add_items_entries);
+//        MaterialButton
+        closeRampStairsList = v.findViewById(R.id.cancel_child_items_entries);
+        addRampStairs = v.findViewById(R.id.add_child_items_entries);
+        invisible = v.findViewById(R.id.continue_child_items_entries);
+//        TextView
+        rampStairsHeader = v.findViewById(R.id.identifier_header);
+        if (rStListBundle.getInt(RAMP_OR_STAIRS) == 1)
+            rampStairsHeader.setText(R.string.header_stairs_register);
+        else
+            rampStairsHeader.setText(R.string.header_ramp_register);
+//        RecyclerView
         recyclerView = v.findViewById(R.id.items_entries_recycler_view);
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-
+//        ViewModel
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+    }
+
+    private ListClickListener listener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
     }
 
     private void enableActionMode() {
@@ -210,8 +194,8 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
 
     private void openRampStairsFragment() {
         RampStairsFragment rampStairsFragment = RampStairsFragment.newInstance();
-        rampStairsListBundle.putInt(InspectionActivity.ALLOW_UPDATE, 0);
-        rampStairsFragment.setArguments(rampStairsListBundle);
+        rStListBundle.putInt(InspectionActivity.ALLOW_UPDATE, 0);
+        rampStairsFragment.setArguments(rStListBundle);
         if (actionMode != null)
             actionMode.finish();
         fragmentManager = requireActivity().getSupportFragmentManager();
@@ -221,12 +205,8 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
 
     @Override
     public void OnEntryClick(int position) {
-        RampStairsEntry rampStairsEntry = null;
-        if (rampStairsListBundle.getInt(RAMP_OR_STAIRS) == 7)
-            rampStairsEntry = modelEntry.allStairsSchool.getValue().get(position);
-        else if (rampStairsListBundle.getInt(RAMP_OR_STAIRS) == 9)
-            rampStairsEntry = modelEntry.allRampsSchool.getValue().get(position);
-        rampStairsListBundle.putInt(RampStairsFragment.RAMP_STAIRS_ID, rampStairsEntry.getRampStairsID());
+        RampStairsEntry rampStairsEntry =  modelEntry.allStairsRampsSchool.getValue().get(position);
+        rStListBundle.putInt(RampStairsFragment.RAMP_STAIRS_ID, rampStairsEntry.getRampStairsID());
         openRampStairsFragment();
     }
 }

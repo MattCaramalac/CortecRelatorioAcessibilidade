@@ -19,8 +19,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
@@ -30,8 +30,6 @@ public class RampStairsFragment extends Fragment {
     public static final String RAMP_OR_STAIRS = "RAMP_OR_STAIRS";
     public static final String RAMP_STAIRS_ID = "RAMP_STAIRS_ID";
     public static final String NUMBER_FLIGHTS = "NUMBER_FLIGHTS";
-
-    private static int chosenOption;
 
     private int recentEntry = 0;
     private int updateEntry = 0;
@@ -44,7 +42,7 @@ public class RampStairsFragment extends Fragment {
     Button cancelRampStairs, proceedRegister;
 
     String rampStairsLocation;
-    Integer rampStairsFlightQuantity;
+    Integer flightQuantity;
 
     ViewModelFragments modelFragments;
     ViewModelEntry modelEntry;
@@ -61,7 +59,7 @@ public class RampStairsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            rampStairsBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
+            rampStairsBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
             rampStairsBundle.putInt(RAMP_OR_STAIRS, this.getArguments().getInt(RAMP_OR_STAIRS));
             rampStairsBundle.putInt(RAMP_STAIRS_ID, this.getArguments().getInt(RAMP_STAIRS_ID));
         }
@@ -102,13 +100,7 @@ public class RampStairsFragment extends Fragment {
 //      Preenchimento dos campos da tela
         if (rampStairsBundle.getInt(RAMP_STAIRS_ID) > 0)
             modelEntry.getRampStairsEntry(rampStairsBundle.getInt(RAMP_STAIRS_ID))
-                    .observe(getViewLifecycleOwner(), this::gatherRampStairsEntry);
-
-//        modelFragments.getRampStairsBundle().observe(getViewLifecycleOwner(), rampStairs -> {
-//            if (rampStairs != null) {
-//                modelEntry.getRampStairsEntry(rampStairs.getInt(RAMP_STAIRS_ID)).observe(getViewLifecycleOwner(), this::gatherRampStairsEntry);
-//            }
-//        });
+                    .observe(getViewLifecycleOwner(), this::loadRampStairsData);
 
         proceedRegister.setOnClickListener(v -> {
             if (checkRampStairsFields()) {
@@ -130,8 +122,7 @@ public class RampStairsFragment extends Fragment {
             }
         });
 
-        cancelRampStairs.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .popBackStack(InspectionActivity.RAMP_STAIRS_LIST, 0));
+        cancelRampStairs.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
     }
 
     private void instantiateRampStairsViews(View view) {
@@ -152,12 +143,12 @@ public class RampStairsFragment extends Fragment {
 
     public void setRampStairsTemplate(int pickedOption) {
         switch (pickedOption) {
-            case 7:
+            case 1:
                 rampStairsLocField.setHint(getString(R.string.hint_staircase_location));
                 quantFlightField.setHint(getString(R.string.hint_number_flight_stairs));
                 registerHeader.setText(getText(R.string.label_staircase_register_header));
                 break;
-            case 9:
+            case 2:
                 rampStairsLocField.setHint(getString(R.string.hint_ramp_location));
                 quantFlightField.setHint(getString(R.string.hint_ramp_flight_quantity));
                 registerHeader.setText(getText(R.string.label_ramp_register_header));
@@ -178,11 +169,11 @@ public class RampStairsFragment extends Fragment {
 
     public RampStairsEntry newRampOrStaircase(Bundle bundle) {
         rampStairsLocation = String.valueOf(rampStairsLocValue.getText());
-        rampStairsFlightQuantity = Integer.parseInt(String.valueOf(quantFlightValue.getText()));
-        rampStairsBundle.putInt(NUMBER_FLIGHTS, rampStairsFlightQuantity);
+        flightQuantity = Integer.parseInt(String.valueOf(quantFlightValue.getText()));
+        rampStairsBundle.putInt(NUMBER_FLIGHTS, flightQuantity);
 
-        return new RampStairsEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), bundle.getInt(RAMP_OR_STAIRS),
-                rampStairsLocation, rampStairsFlightQuantity);
+        return new RampStairsEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), bundle.getInt(RampStairsListFragment.AMBIENT_TYPE),
+                bundle.getInt(RampStairsListFragment.AMBIENT_ID),bundle.getInt(RampStairsListFragment.RAMP_OR_STAIRS), rampStairsLocation, flightQuantity);
     }
 
     public boolean checkRampStairsFields() {
@@ -204,14 +195,14 @@ public class RampStairsFragment extends Fragment {
         quantFlightField.setErrorEnabled(false);
     }
 
-    public void gatherRampStairsEntry(RampStairsEntry rampStairs) {
+    public void loadRampStairsData(RampStairsEntry rampStairs) {
         rampStairsLocValue.setText(rampStairs.getRampStairsLocation());
         quantFlightValue.setText(String.valueOf(rampStairs.getFlightsQuantity()));
     }
 
     public void errorEscape() {
         Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
-        requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        requireActivity().getSupportFragmentManager().popBackStackImmediate();
     }
 
 
