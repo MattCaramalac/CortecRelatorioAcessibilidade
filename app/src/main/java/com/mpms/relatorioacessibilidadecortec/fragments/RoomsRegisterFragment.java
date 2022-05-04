@@ -483,9 +483,10 @@ public class RoomsRegisterFragment extends Fragment {
         if (!TextUtils.isEmpty(roomObsValue.getText()))
             roomObs = String.valueOf(roomObsValue.getText());
 
+//        TODO - Implementar o cadastro de escada e rampa
         return new RoomEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), bundle.getInt(RoomRegisterListFragment.ROOM_TYPE),
                 roomLocale, roomDescription, hasVertSing, vertSignObs, hasLooseCarpet, looseCarpetObs, accessFloor, accessFloorObs, libDistShelves,
-                libPcrManeuver, libAccessPC, secHasFixedSeat, secHasPcrSpace, secPcrWidth, secPcrDepth, secPcrSpaceObs, roomObs);
+                libPcrManeuver, libAccessPC, secHasFixedSeat, secHasPcrSpace, secPcrWidth, secPcrDepth, secPcrSpaceObs, roomObs, null, null);
     }
 
     private void loadRoomData(RoomEntry roomEntry) {

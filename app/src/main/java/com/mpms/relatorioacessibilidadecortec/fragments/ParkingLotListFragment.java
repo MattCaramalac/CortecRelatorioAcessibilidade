@@ -87,13 +87,13 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
             modelEntry.getParkingLotFromSide(parkingBundle.getInt(BLOCK_ID), parkingBundle.getInt(SIDEWALK_ID))
                     .observe(getViewLifecycleOwner(), parkingLot -> {
                         parkingAdapter = new ParkingRecViewAdapter(parkingLot, requireActivity(), this);
-                        ListCreator(parkingAdapter);
+                        listCreator(parkingAdapter);
                     });
         else
             modelEntry.getParkingLotsFromBlocks(parkingBundle.getInt(BLOCK_ID))
                     .observe(getViewLifecycleOwner(), parkingLot -> {
                         parkingAdapter = new ParkingRecViewAdapter(parkingLot, requireActivity(), this);
-                        ListCreator(parkingAdapter);
+                        listCreator(parkingAdapter);
                     });
 
         addParkingLot.setOnClickListener(v -> openParkingLotFragment());
@@ -128,7 +128,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
         parkingBundle.putInt(PARKING_ID, 0);
     }
 
-    private void ListCreator(ParkingRecViewAdapter adapter) {
+    private void listCreator(ParkingRecViewAdapter adapter) {
         adapter.setListener(clickListener());
 
         recyclerView.setAdapter(adapter);

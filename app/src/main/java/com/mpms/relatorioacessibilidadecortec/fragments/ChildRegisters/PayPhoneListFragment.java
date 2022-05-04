@@ -84,51 +84,16 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
 
         instantiatePayPhoneViews(view);
 
+//        TODO - Unificar esse método do modelEntry para ter um único observável
         if (payPhoneBundle.getInt(SidewalkFragment.SIDEWALK_ID) == 0) {
             modelEntry.getAllPayPhonesExtAccess(payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), payPhoneList -> {
                 payPhoneAdapter = new PayPhoneViewAdapter(payPhoneList, requireActivity(), this);
-                recyclerView.setAdapter(payPhoneAdapter);
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-                recyclerView.addItemDecoration(dividerItemDecoration);
-
-                payPhoneAdapter.setListener(new ListClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        if (actionMode == null)
-                            OnEntryClick(position);
-                        else
-                            enableActionMode();
-                    }
-
-                    @Override
-                    public void onItemLongClick(int position) {
-                        enableActionMode();
-                    }
-                });
+                listCreator(payPhoneAdapter);
             });
         } else if (payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) == 0) {
             modelEntry.getAllPayPhonesSidewalk(payPhoneBundle.getInt(SidewalkFragment.SIDEWALK_ID)).observe(getViewLifecycleOwner(), payPhoneSideList -> {
                 payPhoneAdapter = new PayPhoneViewAdapter(payPhoneSideList, requireActivity(), this);
-                recyclerView.setAdapter(payPhoneAdapter);
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-                recyclerView.addItemDecoration(dividerItemDecoration);
-
-                payPhoneAdapter.setListener(new ListClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        if (actionMode == null)
-                            OnEntryClick(position);
-                        else
-                            enableActionMode();
-                    }
-
-                    @Override
-                    public void onItemLongClick(int position) {
-                        enableActionMode();
-                    }
-                });
+                listCreator(payPhoneAdapter);
             });
         }
 
@@ -146,6 +111,32 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     public void onResume() {
         super.onResume();
         payPhoneBundle.putInt(PayPhoneFragment.PHONE_ID, 0);
+    }
+
+    private void listCreator(PayPhoneViewAdapter adapter) {
+        adapter.setListener(clickListener());
+
+        recyclerView.setAdapter(adapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+    }
+
+    private ListClickListener clickListener() {
+       return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
     }
 
     private void enableActionMode() {
