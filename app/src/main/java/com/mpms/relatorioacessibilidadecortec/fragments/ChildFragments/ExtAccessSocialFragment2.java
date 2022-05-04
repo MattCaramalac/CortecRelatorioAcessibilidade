@@ -18,24 +18,26 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.GateObsListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.PayPhoneListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 public class ExtAccessSocialFragment2 extends Fragment {
 
-    RadioGroup hasObstaclesRadio, hasPayphoneRadio, hasIntercomRadio;
+    RadioGroup hasObstaclesRadio, hasPayphoneRadio, hasIntercomRadio, hasStairsRadio, hasRampsRadio;
     MultiLineRadioGroup sillTypeRadio;
-    TextView sillTypeError, obstaclesError, payphoneError, intercomError;
+    TextView sillTypeError, obstaclesError, payphoneError, intercomError, stairsError, rampError;
     TextInputLayout sillObsField, intercomHeightField, accessObsField;
     TextInputEditText sillObsValue, intercomHeightValue, accessObsValue;
-    MaterialButton addObstaclesButton, addPayphoneButton, saveSocialAccess, returnSocialAccess;
+    MaterialButton addObstaclesButton, addPayphoneButton, addRamps, addStairs, saveSocialAccess, returnSocialAccess;
     FrameLayout sillFragment;
 
     ViewModelEntry modelEntry;
@@ -57,9 +59,13 @@ public class ExtAccessSocialFragment2 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        TODO - Verificar a possibilidade de unificar este bundle, pelamordedeus
         if (getArguments() != null) {
             socialTwoBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
             socialTwoBundle.putBoolean(ExtAccessSocialFragment.NEW_REGISTER_ACCESS, this.getArguments().getBoolean(ExtAccessSocialFragment.NEW_REGISTER_ACCESS));
+
+            childFragBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
+            childFragBundle.putInt(RampStairsListFragment.AMBIENT_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
         }
     }
 
@@ -83,8 +89,16 @@ public class ExtAccessSocialFragment2 extends Fragment {
                 Fragment fragment;
                 if (buttonPressed == 1){
                     fragment = new GateObsListFragment();
-                } else {
+                } else if  (buttonPressed == 2) {
                     fragment = new PayPhoneListFragment();
+                } else {
+                    if (buttonPressed == 3)
+                        bundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 1);
+                    else
+                        bundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 2);
+                    fragment = new RampStairsListFragment();
+                    bundle.putBoolean(RampStairsListFragment.FROM_EXT_ACCESS, true);
+                    bundle.putInt(RampStairsListFragment.AMBIENT_TYPE, 1);
                 }
                 fragment.setArguments(bundle);
                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
@@ -122,6 +136,8 @@ public class ExtAccessSocialFragment2 extends Fragment {
         hasObstaclesRadio = v.findViewById(R.id.gate_has_obstacles_radio);
         hasPayphoneRadio = v.findViewById(R.id.gate_has_payphones_radio);
         hasIntercomRadio = v.findViewById(R.id.gate_has_intercom_radio);
+        hasStairsRadio = v.findViewById(R.id.gate_has_stairs_radio);
+        hasRampsRadio = v.findViewById(R.id.gate_has_ramps_radio);
 //        MultilineRadioGroup
         sillTypeRadio = v.findViewById(R.id.type_sill_radio);
 //        TextView
@@ -129,6 +145,8 @@ public class ExtAccessSocialFragment2 extends Fragment {
         obstaclesError = v.findViewById(R.id.gate_has_obstacles_error);
         payphoneError = v.findViewById(R.id.gate_has_payphones_error);
         intercomError = v.findViewById(R.id.gate_has_intercom_error);
+        stairsError = v.findViewById(R.id.gate_has_stairs_error);
+        rampError = v.findViewById(R.id.gate_has_ramps_error);
 //        TextInputLayout
         sillObsField = v.findViewById(R.id.gate_sill_obs_field);
         intercomHeightField = v.findViewById(R.id.intercom_height_field);
@@ -140,6 +158,8 @@ public class ExtAccessSocialFragment2 extends Fragment {
 //        MaterialButton
         addObstaclesButton = v.findViewById(R.id.add_gate_obstacles_button);
         addPayphoneButton = v.findViewById(R.id.add_gate_payphones_button);
+        addRamps = v.findViewById(R.id.add_gate_ramps_button);
+        addStairs = v.findViewById(R.id.add_gate_stairs_button);
         saveSocialAccess = v.findViewById(R.id.save_ext_access_button);
         returnSocialAccess = v.findViewById(R.id.return_ext_access2_button);
 //        FrameLayout
@@ -148,8 +168,12 @@ public class ExtAccessSocialFragment2 extends Fragment {
         hasObstaclesRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
         hasPayphoneRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
         hasIntercomRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
+        hasRampsRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
+        hasStairsRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
         addObstaclesButton.setOnClickListener(this::addButtonClicked);
         addPayphoneButton.setOnClickListener(this::addButtonClicked);
+        addRamps.setOnClickListener(this::addButtonClicked);
+        addStairs.setOnClickListener(this::addButtonClicked);
         saveSocialAccess.setOnClickListener(this::addButtonClicked);
         returnSocialAccess.setOnClickListener(view -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
         sillTypeRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
@@ -201,6 +225,16 @@ public class ExtAccessSocialFragment2 extends Fragment {
                 intercomHeightValue.setText(null);
                 intercomHeightField.setVisibility(View.GONE);
             }
+        } else if (radio == hasRampsRadio) {
+            if (index == 1)
+                addRamps.setVisibility(View.VISIBLE);
+            else
+                addRamps.setVisibility(View.GONE);
+        } else if (radio == hasStairsRadio) {
+            if (index == 1)
+                addStairs.setVisibility(View.VISIBLE);
+            else
+                addStairs.setVisibility(View.GONE);
         }
     }
 
@@ -210,6 +244,10 @@ public class ExtAccessSocialFragment2 extends Fragment {
             buttonPressed = 1;
         else if (view == addPayphoneButton)
             buttonPressed = 2;
+        else if (view == addStairs)
+            buttonPressed = 3;
+        else if (view == addRamps)
+            buttonPressed = 4;
 
         if (sillTypeRadio.getCheckedRadioButtonIndex() > 0) {
             childFragBundle.putBoolean(InspectionActivity.ADD_ITEM_REQUEST, buttonPressed > 0);
@@ -221,8 +259,15 @@ public class ExtAccessSocialFragment2 extends Fragment {
                 Fragment fragment;
                 if (buttonPressed == 1){
                     fragment = new GateObsListFragment();
-                } else {
+                } else  if (buttonPressed == 2) {
                     fragment = new PayPhoneListFragment();
+                } else {
+                    if (buttonPressed == 3)
+                        childFragBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 1);
+                    else
+                        childFragBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 2);
+                    fragment = new RampStairsListFragment();
+                    childFragBundle.putInt(RampStairsListFragment.AMBIENT_TYPE, 1);
                 }
                 fragment.setArguments(childFragBundle);
                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
@@ -238,8 +283,6 @@ public class ExtAccessSocialFragment2 extends Fragment {
                 requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.EXTERNAL_LIST, 0);
             }
         }
-
-
     }
 
     private void loadSocialData2(ExternalAccess access) {
@@ -292,11 +335,19 @@ public class ExtAccessSocialFragment2 extends Fragment {
                 intercomHeightField.setError(getString(R.string.blank_field_error));
             }
         }
+        if (getCheckedRadioIndex(hasRampsRadio) == -1) {
+            i++;
+            rampError.setVisibility(View.VISIBLE);
+        }
+        if (getCheckedRadioIndex(hasStairsRadio) == -1) {
+            i++;
+            stairsError.setVisibility(View.VISIBLE);
+        }
         return i == 0;
     }
 
     private ExtAccessSocialThree socialDataThree(Bundle bundle) {
-        Integer gateSill = null, slopeQnt = null, hasObstacles = null, hasPayphones = null, hasIntercom = null;
+        Integer gateSill = null, slopeQnt = null, hasObstacles = null, hasPayphones = null, hasIntercom = null, hasRamp = null, hasStairs = null;
         String sillObs = null, extAccess = null;
         Double inclHeight = null, stepHeight = null, angle1 = null, angle2 = null, angle3 = null, angle4= null, slopeWidth = null, intercomHeight = null;
 
@@ -350,9 +401,13 @@ public class ExtAccessSocialFragment2 extends Fragment {
         }
         if (!TextUtils.isEmpty(accessObsValue.getText()))
             extAccess = String.valueOf(accessObsValue.getText());
+        if (getCheckedRadioIndex(hasStairsRadio) > -1)
+            hasStairs = getCheckedRadioIndex(hasObstaclesRadio);
+        if (getCheckedRadioIndex(hasRampsRadio) > -1)
+            hasRamp = getCheckedRadioIndex(hasObstaclesRadio);
 
         return new ExtAccessSocialThree(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID), gateSill, inclHeight, stepHeight, slopeQnt, angle1, angle2, angle3, angle4, slopeWidth,
-                sillObs, hasObstacles, hasPayphones, hasIntercom, intercomHeight, extAccess);
+                sillObs, hasObstacles, hasPayphones, hasIntercom, intercomHeight, extAccess, hasStairs, hasRamp);
     }
 
     private Bundle clearBundle(Bundle bundle) {

@@ -23,11 +23,13 @@ public class ExtAccessSocialThree {
     private Integer gateHasPayphones;
     private Integer gateHasIntercom;
     private Double intercomHeight;
+    private Integer gateHasStairs;
+    private Integer gateHasRamps;
     private String extAccessObs;
 
     public ExtAccessSocialThree(int externalAccessID, Integer gateSillType, Double sillInclinationHeight, Double sillStepHeight, Integer slopeMeasureQnt, Double sillSlopeAngle,
                                 Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth, String gateSillObs, Integer gateHasObstacles,
-                                Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, String extAccessObs) {
+                                Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, String extAccessObs, Integer gateHasStairs, Integer gateHasRamps) {
         this.externalAccessID = externalAccessID;
         this.gateSillType = gateSillType;
         this.sillInclinationHeight = sillInclinationHeight;
@@ -44,6 +46,8 @@ public class ExtAccessSocialThree {
         this.gateHasIntercom = gateHasIntercom;
         this.intercomHeight = intercomHeight;
         this.extAccessObs = extAccessObs;
+        this.gateHasStairs = gateHasStairs;
+        this.gateHasRamps = gateHasRamps;
     }
 
     public int getExternalAccessID() {
@@ -172,6 +176,22 @@ public class ExtAccessSocialThree {
 
     public void setExtAccessObs(String extAccessObs) {
         this.extAccessObs = extAccessObs;
+    }
+
+    public Integer getGateHasStairs() {
+        return gateHasStairs;
+    }
+
+    public void setGateHasStairs(Integer gateHasStairs) {
+        this.gateHasStairs = gateHasStairs;
+    }
+
+    public Integer getGateHasRamps() {
+        return gateHasRamps;
+    }
+
+    public void setGateHasRamps(Integer gateHasRamps) {
+        this.gateHasRamps = gateHasRamps;
     }
 }
 

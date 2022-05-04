@@ -270,7 +270,7 @@ public class ExternalAccessFragment extends Fragment {
                 null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
-                null, null, null, hasSound, accessObs);
+                null, null, null, hasSound, accessObs, null, null);
     }
 
     private ExtAccessSocialOne upExtAccessOne(Bundle bundle) {

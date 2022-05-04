@@ -559,4 +559,11 @@
     <string name="sidewalk_reg_header">Cadastro de Calçadas</string>
     <string name="header_acessible_floor_parking_lot">O piso do estacionamento pode ser considerado acessível?</string>
     <string name="header_accessible_floor">O piso pode ser considerado acessível?</string>
+    <string name="header_access_route_parking">Existe rota acessível até o estacionamento?</string>
+    <string name="header_park_has_ramps">O estacionamento possui rampas?</string>
+    <string name="header_park_has_stairs">O estacionamento possui escadas?</string>
+    <string name="header_stairs_register">Cadastro de Escadas</string>
+    <string name="header_ramp_register">Cadastro de Rampas</string>
+    <string name="header_gate_has_stairs">A Entrada possui escadas?</string>
+    <string name="header_gate_has_ramps">A Entrada possui rampas?</string>
 </resources>
