@@ -74,9 +74,9 @@ public class ParkingRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterf
     private String lotType(int i) {
         switch (i) {
             case 1:
-                return "Estacionamento Interno";
-            case 2:
                 return "Estacionamento Externo";
+            case 2:
+                return "Estacionamento Interno";
             case 3:
                 return "Estacionamento na Calçada";
             default:
