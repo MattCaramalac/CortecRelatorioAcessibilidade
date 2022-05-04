@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = @ForeignKey(entity = ParkingLotEntry.class, parentColumns = "parkingLotID",
+@Entity (foreignKeys = @ForeignKey(entity = ParkingLotEntry.class, parentColumns = "parkingID",
                 childColumns = "parkingLotID", onDelete = CASCADE, onUpdate = CASCADE))
 public class ParkingLotPCDEntry {
 

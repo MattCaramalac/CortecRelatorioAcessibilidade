@@ -13,35 +13,33 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class ParkingLotFragment extends Fragment {
+public class ParkingLotFragment extends Fragment implements TagInterface {
 
     public static final String HAS_PCD = "HAS_PCD";
     public static final String HAS_ELDERLY = "HAS_ELDERLY";
     public static final String PCD_LIST = "PCD_LIST";
     public static final String ELDER_LIST = "ELDER_LIST";
 
-    RadioGroup parkingLotType, hasPcdVacancy, hasElderlyVacancy;
-    TextInputLayout parkingLotFloorTypeField;
-    TextInputEditText parkingLotFloorTypeValue;
-    Button cancelParkingLotRegister, saveParkingLotRegister;
-    TextView parkingLotTypeError, pcdVacancyError, elderlyVacancyError;
-    Bundle parkingBundle = new Bundle();
+    RadioGroup accessFloorRadio, hasPcdVacancy, hasElderlyVacancy, parkHasStairs, parkHasRamps, parkHasAccessRoute;
+    TextInputLayout parkAccessFloorObsField, parkAccessRouteObsField;
+    TextInputEditText parkAccessFloorObsValue, parkAccessRouteObsValue;
+    Button addParkStairs, addParkRamps, cancelParkingLotRegister, saveParkingLotRegister;
+    TextView parkingAccessError, pcdVacancyError, elderlyVacancyError, parkHasStairsError, parkHasRampsError, parkAccessRouteError;
+    Bundle parkingBundle;
 
     ViewModelEntry modelEntry;
 
     int pcdVacancy = 0, elderVacancy = 0;
-    boolean saveAttempt = false;
+    boolean saveAttempt = false, rampStairsReg = false;
 
     public ParkingLotFragment() {
         // Required empty public constructor
@@ -54,10 +52,10 @@ public class ParkingLotFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            parkingBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
-            parkingBundle.putInt(ParkingLotListFragment.PARKING_ID, this.getArguments().getInt(ParkingLotListFragment.PARKING_ID));
-        }
+        if (this.getArguments() != null)
+            parkingBundle = new Bundle(this.getArguments());
+        else
+            parkingBundle = new Bundle();
     }
 
     @Override
@@ -75,101 +73,199 @@ public class ParkingLotFragment extends Fragment {
 
         if (parkingBundle.getInt(ParkingLotListFragment.PARKING_ID) > 0) {
             modelEntry.getOneParkingLot(parkingBundle.getInt(ParkingLotListFragment.PARKING_ID))
-                    .observe(getViewLifecycleOwner(), this::gatherParkingLotData);
+                    .observe(getViewLifecycleOwner(), this::loadParkingLotData);
         }
 
         modelEntry.getLastInsertedParkingLot().observe(getViewLifecycleOwner(), lastLot -> {
-            if (saveAttempt) {
-                parkingBundle.putInt(ParkingLotListFragment.PARKING_ID, lastLot.getParkingLotID());
-                saveAttempt = false;
-                clearFields();
-                openParkingLotTypeFragment();
+            if (lastLot != null) {
+                parkingBundle.putInt(AMBIENT_ID, lastLot.getParkingID());
+                if (saveAttempt) {
+                    saveAttempt = false;
+                    clearFields();
+                    openParkingLotTypeFragment();
+                } else if (rampStairsReg) {
+                    rampStairsReg = false;
+                    clearFields();
+                    openRampStairsListFragment();
+                }
             }
         });
 
         cancelParkingLotRegister.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .popBackStack(InspectionActivity.PARKING_LIST, 0));
 
-        saveParkingLotRegister.setOnClickListener(v -> saveClick());
+        saveParkingLotRegister.setOnClickListener(this::buttonClick);
+
+        addParkStairs.setOnClickListener(v -> {
+            parkingBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 1);
+            buttonClick(v);
+        });
+
+        addParkRamps.setOnClickListener(v -> {
+            parkingBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 2);
+            buttonClick(v);
+        });
     }
 
     private void instantiateParkingViews(View view) {
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Buttons
+        addParkStairs = view.findViewById(R.id.add_parking_stairs_button);
+        addParkRamps = view.findViewById(R.id.add_parking_ramps_button);
         cancelParkingLotRegister = view.findViewById(R.id.cancel_parking_lot);
         saveParkingLotRegister = view.findViewById(R.id.save_parking_lot);
 //        RadioGroup
-        parkingLotType = view.findViewById(R.id.parking_lot_type_radio);
+        parkHasStairs = view.findViewById(R.id.parking_has_stairs_radio);
+        parkHasRamps = view.findViewById(R.id.parking_has_ramps_radio);
+        accessFloorRadio = view.findViewById(R.id.parking_lot_access_floor_radio);
         hasPcdVacancy = view.findViewById(R.id.parking_lot_PCD_vacancy_radio);
         hasElderlyVacancy = view.findViewById(R.id.parking_lot_elderly_vacancy_radio);
+        parkHasAccessRoute = view.findViewById(R.id.parking_lot_access_route_radio);
 //        TextView
-        parkingLotTypeError = view.findViewById(R.id.parking_lot_type_error);
+        parkingAccessError = view.findViewById(R.id.parking_lot_access_floor_error);
         pcdVacancyError = view.findViewById(R.id.PCD_vacancy_error);
         elderlyVacancyError = view.findViewById(R.id.elderly_vacancy_error);
+        parkHasStairsError = view.findViewById(R.id.parking_has_stairs_error);
+        parkHasRampsError = view.findViewById(R.id.parking_has_ramps_error);
+        parkAccessRouteError = view.findViewById(R.id.parking_lot_access_route_error);
 //        TextInputLayout
-        parkingLotFloorTypeField = view.findViewById(R.id.parking_lot_floor_field);
+        parkAccessFloorObsField = view.findViewById(R.id.parking_lot_floor_field);
+        parkAccessRouteObsField = view.findViewById(R.id.parking_lot_route_field);
 //        TextInputEditText
-        parkingLotFloorTypeValue = view.findViewById(R.id.parking_lot_floor_value);
+        parkAccessFloorObsValue = view.findViewById(R.id.parking_lot_floor_value);
+        parkAccessRouteObsValue = view.findViewById(R.id.parking_lot_route_value);
+//
+        parkHasStairs.setOnCheckedChangeListener(this::parkRadioListener);
+        parkHasRamps.setOnCheckedChangeListener(this::parkRadioListener);
+        accessFloorRadio.setOnCheckedChangeListener(this::parkRadioListener);
+        parkHasAccessRoute.setOnCheckedChangeListener(this::parkRadioListener);
     }
 
-    private void gatherParkingLotData(ParkingLotEntry parkingEntry) {
-        parkingLotType.check(parkingLotType.getChildAt(parkingEntry.getTypeParkingLot()).getId());
-        parkingLotFloorTypeValue.setText(parkingEntry.getParkingLotFloorType());
-        hasPcdVacancy.check(hasPcdVacancy.getChildAt(parkingEntry.getHasPCDVacancy()).getId());
-        hasElderlyVacancy.check(hasElderlyVacancy.getChildAt(parkingEntry.getHasElderVacancy()).getId());
+    private void loadParkingLotData(ParkingLotEntry parkingEntry) {
+        if (parkingEntry.getHasPCDVacancy() != null)
+            hasPcdVacancy.check(hasPcdVacancy.getChildAt(parkingEntry.getHasPCDVacancy()).getId());
+        if (parkingEntry.getHasElderVacancy() != null)
+            hasElderlyVacancy.check(hasElderlyVacancy.getChildAt(parkingEntry.getHasElderVacancy()).getId());
+        if (parkingEntry.getParkingHasStairs() != null)
+            parkHasStairs.check(parkHasStairs.getChildAt(parkingEntry.getParkingHasStairs()).getId());
+        if (parkingEntry.getParkingHasRamps() != null)
+            parkHasRamps.check(parkHasRamps.getChildAt(parkingEntry.getParkingHasRamps()).getId());
+        if (parkingEntry.getParkAccessFloor() != null)
+            accessFloorRadio.check(accessFloorRadio.getChildAt(parkingEntry.getTypeParkingLot()).getId());
+        if (parkingEntry.getParkFloorObs() != null)
+            parkAccessFloorObsValue.setText(parkingEntry.getParkFloorObs());
+        if (parkingEntry.getParkAccessRoute() != null)
+            parkHasAccessRoute.check(parkHasAccessRoute.getChildAt(parkingEntry.getParkAccessRoute()).getId());
+        if (parkingEntry.getParkAccessRouteObs() != null)
+            parkAccessRouteObsValue.setText(parkingEntry.getParkAccessRouteObs());
     }
 
     private void openParkingLotTypeFragment() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment fragment;
         if (parkingBundle.getBoolean(HAS_PCD)) {
-            ParkLotPcdListFragment pcdListFragment = ParkLotPcdListFragment.newInstance();
-            pcdListFragment.setArguments(parkingBundle);
-            fragmentTransaction.replace(R.id.show_fragment_selected, pcdListFragment).addToBackStack(PCD_LIST).commit();
+            fragment = ParkLotPcdListFragment.newInstance();
+            fragment.setArguments(parkingBundle);
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.show_fragment_selected, fragment).addToBackStack(PCD_LIST).commit();
         } else if (parkingBundle.getBoolean(HAS_ELDERLY)) {
-            ParkLotElderListFragment elderListFragment = ParkLotElderListFragment.newInstance();
-            elderListFragment.setArguments(parkingBundle);
-            fragmentTransaction.replace(R.id.show_fragment_selected, elderListFragment).addToBackStack(ELDER_LIST).commit();
+            fragment = ParkLotElderListFragment.newInstance();
+            fragment.setArguments(parkingBundle);
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.show_fragment_selected, fragment).addToBackStack(ELDER_LIST).commit();
         }
+    }
+
+    private void openRampStairsListFragment() {
+        RampStairsListFragment listFragment = RampStairsListFragment.newInstance();
+        listFragment.setArguments(parkingBundle);
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, listFragment).addToBackStack(null).commit();
     }
 
     private boolean getBooleanFromRadio(int i) {
         return i == 1;
     }
 
-    private void saveClick() {
-        if (checkEmptyFields()) {
-            ParkingLotEntry newEntry = newParkingLotEntry(parkingBundle);
-            if (parkingBundle.getInt(ParkingLotListFragment.PARKING_ID) > 0) {
-                if (pcdVacancy < 0 || elderVacancy < 0)
-                    Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
-                else {
-                    if (pcdVacancy != 0 || elderVacancy != 0) {
-                        parkingBundle.putBoolean(HAS_PCD, getBooleanFromRadio(getCheckedRadio(hasPcdVacancy)));
-                        parkingBundle.putBoolean(HAS_ELDERLY, getBooleanFromRadio(getCheckedRadio(hasElderlyVacancy)));
+    private void buttonClick(View view) {
+        if (view != saveParkingLotRegister) {
+            parkingBundle.putInt(AMBIENT_TYPE, 3);
+            if (view == addParkStairs)
+                parkingBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 1);
+            else
+                parkingBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 2);
+
+            if (parkingBundle.getInt(AMBIENT_ID) == 0) {
+                ParkingLotEntry newEntry = newParkingLotEntry(parkingBundle);
+                ViewModelEntry.insertParkingLot(newEntry);
+            } else if (parkingBundle.getInt(AMBIENT_ID) > 0) {
+//                TODO - Salvar dados provisoriamente em vez de salvar de forma permanente!
+                openRampStairsListFragment();
+            }
+        } else {
+            if (checkEmptyFields()) {
+                ParkingLotEntry newEntry = newParkingLotEntry(parkingBundle);
+                if (parkingBundle.getInt(ParkingLotListFragment.PARKING_ID) > 0) {
+                    if (pcdVacancy < 0 || elderVacancy < 0)
+                        Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+
+                    else {
+                        if (pcdVacancy != 0 || elderVacancy != 0) {
+                            parkingBundle.putBoolean(HAS_PCD, getBooleanFromRadio(getCheckedRadio(hasPcdVacancy)));
+                            parkingBundle.putBoolean(HAS_ELDERLY, getBooleanFromRadio(getCheckedRadio(hasElderlyVacancy)));
+                        }
+                        newEntry.setParkingID(parkingBundle.getInt(ParkingLotListFragment.PARKING_ID));
+                        ViewModelEntry.updateParkingLot(newEntry);
+                        clearFields();
+                        openParkingLotTypeFragment();
                     }
-                    newEntry.setParkingLotID(parkingBundle.getInt(ParkingLotListFragment.PARKING_ID));
-                    ViewModelEntry.updateParkingLot(newEntry);
-                    clearFields();
-                    openParkingLotTypeFragment();
-                }
-            } else if (parkingBundle.getInt(ParkingLotListFragment.PARKING_ID) == 0) {
-                if (pcdVacancy < 0 || elderVacancy < 0)
+                } else if (parkingBundle.getInt(ParkingLotListFragment.PARKING_ID) == 0) {
+                    if (pcdVacancy < 0 || elderVacancy < 0)
+                        Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                    else {
+                        if (pcdVacancy != 0 || elderVacancy != 0) {
+                            parkingBundle.putBoolean(HAS_PCD, getBooleanFromRadio(getCheckedRadio(hasPcdVacancy)));
+                            parkingBundle.putBoolean(HAS_ELDERLY, getBooleanFromRadio(getCheckedRadio(hasElderlyVacancy)));
+                            saveAttempt = true;
+                        } else
+                            Toast.makeText(getContext(), "Cadastro efetuado com sucesso", Toast.LENGTH_SHORT).show();
+                        ViewModelEntry.insertParkingLot(newEntry);
+                        clearFields();
+                    }
+                } else {
                     Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
-                else {
-                    if (pcdVacancy != 0 || elderVacancy != 0) {
-                        parkingBundle.putBoolean(HAS_PCD, getBooleanFromRadio(getCheckedRadio(hasPcdVacancy)));
-                        parkingBundle.putBoolean(HAS_ELDERLY, getBooleanFromRadio(getCheckedRadio(hasElderlyVacancy)));
-                        saveAttempt = true;
-                    } else
-                        Toast.makeText(getContext(), "Cadastro efetuado com sucesso", Toast.LENGTH_SHORT).show();
-                    ViewModelEntry.insertParkingLot(newEntry);
-                    clearFields();
+                    requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.PARKING_LIST, 0);
                 }
-            } else {
-                Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
-                requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.PARKING_LIST, 0);
+            }
+        }
+    }
+
+    private void parkRadioListener(RadioGroup radio, int check) {
+        int index = getCheckedRadio(radio);
+
+        if (radio == parkHasStairs) {
+            if (index == 1)
+                addParkStairs.setVisibility(View.VISIBLE);
+            else
+                addParkStairs.setVisibility(View.GONE);
+        } else if (radio == parkHasRamps) {
+            if (index == 1)
+                addParkRamps.setVisibility(View.VISIBLE);
+            else
+                addParkRamps.setVisibility(View.GONE);
+        } else if (radio == accessFloorRadio) {
+            if (index == 0)
+                parkAccessFloorObsField.setVisibility(View.VISIBLE);
+            else {
+                parkAccessFloorObsValue.setText(null);
+                parkAccessFloorObsField.setVisibility(View.GONE);
+            }
+        } else if (radio == parkHasAccessRoute) {
+            if (index == 0)
+                parkAccessRouteObsField.setVisibility(View.VISIBLE);
+            else {
+                parkAccessRouteObsValue.setText(null);
+                parkAccessRouteObsField.setVisibility(View.GONE);
             }
         }
     }
@@ -177,14 +273,6 @@ public class ParkingLotFragment extends Fragment {
     public boolean checkEmptyFields() {
         clearErrorsParkingLot();
         int error = 0;
-        if (parkingLotType.getCheckedRadioButtonId() == -1) {
-            parkingLotTypeError.setVisibility(View.VISIBLE);
-            error++;
-        }
-        if (TextUtils.isEmpty(parkingLotFloorTypeValue.getText())) {
-            parkingLotFloorTypeField.setError(getString(R.string.blank_field_error));
-            error++;
-        }
         if (hasPcdVacancy.getCheckedRadioButtonId() == -1) {
             pcdVacancyError.setVisibility(View.VISIBLE);
             error++;
@@ -193,34 +281,78 @@ public class ParkingLotFragment extends Fragment {
             elderlyVacancyError.setVisibility(View.VISIBLE);
             error++;
         }
+        if (parkHasStairs.getCheckedRadioButtonId() == -1) {
+            parkHasStairsError.setVisibility(View.VISIBLE);
+            error++;
+        }
+        if (parkHasRamps.getCheckedRadioButtonId() == -1) {
+            parkHasRampsError.setVisibility(View.VISIBLE);
+            error++;
+        }
+        if (accessFloorRadio.getCheckedRadioButtonId() == -1) {
+            parkingAccessError.setVisibility(View.VISIBLE);
+            error++;
+        } else if (getCheckedRadio(accessFloorRadio) == 0) {
+            if (TextUtils.isEmpty(parkAccessFloorObsValue.getText())) {
+                parkAccessFloorObsField.setError(getString(R.string.unexpected_error));
+                error++;
+            }
+        }
+        if (parkHasAccessRoute.getCheckedRadioButtonId() == -1) {
+            parkAccessRouteError.setVisibility(View.VISIBLE);
+            error++;
+        } else if (getCheckedRadio(parkHasAccessRoute) == 0) {
+            if (TextUtils.isEmpty(parkAccessRouteObsValue.getText())) {
+                parkAccessRouteObsField.setError(getString(R.string.unexpected_error));
+                error++;
+            }
+        }
         return error == 0;
     }
 
     public void clearErrorsParkingLot() {
-        parkingLotTypeError.setVisibility(View.GONE);
-        parkingLotFloorTypeField.setErrorEnabled(false);
+        parkHasStairsError.setVisibility(View.GONE);
+        parkHasRampsError.setVisibility(View.GONE);
         pcdVacancyError.setVisibility(View.GONE);
         elderlyVacancyError.setVisibility(View.GONE);
-
+        parkingAccessError.setVisibility(View.GONE);
+        parkAccessRouteError.setVisibility(View.GONE);
+        parkAccessFloorObsField.setErrorEnabled(false);
+        parkAccessRouteObsField.setErrorEnabled(false);
     }
 
-    public int getCheckedRadio(RadioGroup radio) {
+    private int getCheckedRadio(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
     public void clearFields() {
-        parkingLotType.clearCheck();
-        parkingLotFloorTypeValue.setText(null);
+        accessFloorRadio.clearCheck();
+        parkAccessFloorObsValue.setText(null);
         hasPcdVacancy.clearCheck();
         hasElderlyVacancy.clearCheck();
     }
 
     public ParkingLotEntry newParkingLotEntry(Bundle bundle) {
-        String floorType = String.valueOf(parkingLotFloorTypeValue.getText());
-        pcdVacancy = getCheckedRadio(hasPcdVacancy);
-        elderVacancy = getCheckedRadio(hasElderlyVacancy);
-        return new ParkingLotEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), bundle.getInt(SidewalkFragment.SIDEWALK_ID), getCheckedRadio(parkingLotType),
-                floorType, pcdVacancy, elderVacancy);
+        int typeParking;
+        if (bundle.getBoolean(EXT_AREA_REG))
+            typeParking = 1;
+        else if (bundle.getBoolean(SUP_AREA_REG))
+            typeParking = 2;
+        else
+            typeParking = 3;
+        String accessFloorObs = null, accessRouteObs = null;
+        Integer sideID = null;
+
+        if (bundle.getInt(SidewalkFragment.SIDEWALK_ID) > 0)
+            sideID = bundle.getInt(SidewalkFragment.SIDEWALK_ID);
+        if (!TextUtils.isEmpty(parkAccessFloorObsValue.getText()))
+            accessFloorObs = String.valueOf(parkAccessFloorObsValue.getText());
+        if (!TextUtils.isEmpty(parkAccessRouteObsValue.getText()))
+            accessRouteObs = String.valueOf(parkAccessRouteObsValue.getText());
+
+        return new ParkingLotEntry(bundle.getInt(BLOCK_ID), sideID, typeParking, getCheckedRadio(accessFloorRadio),
+                accessFloorObs, getCheckedRadio(hasPcdVacancy), getCheckedRadio(hasElderlyVacancy), getCheckedRadio(parkHasAccessRoute),
+                accessRouteObs, getCheckedRadio(parkHasStairs), getCheckedRadio(parkHasRamps));
     }
 
 }

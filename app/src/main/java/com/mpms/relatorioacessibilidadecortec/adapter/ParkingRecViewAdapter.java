@@ -73,10 +73,12 @@ public class ParkingRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterf
 
     private String lotType(int i) {
         switch (i) {
-            case 0:
-                return "Estacionamento Interno";
             case 1:
+                return "Estacionamento Interno";
+            case 2:
                 return "Estacionamento Externo";
+            case 3:
+                return "Estacionamento na Calçada";
             default:
                 return "";
         }
@@ -90,7 +92,7 @@ public class ParkingRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterf
     public void deleteItemList() {
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
-            ViewModelEntry.deleteOneParkingLot(parkingList.get(selectedItems.keyAt(i)).getParkingLotID());
+            ViewModelEntry.deleteOneParkingLot(parkingList.get(selectedItems.keyAt(i)).getParkingID());
         }
     }
 
