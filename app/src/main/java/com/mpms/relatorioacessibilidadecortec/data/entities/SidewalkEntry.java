@@ -44,6 +44,8 @@ public class SidewalkEntry {
     private Integer sideConStatus;
     private String sideConsObs;
     private Integer sideHasPayphones;
+    private Integer sideHasStairs;
+    private Integer sideHasRamps;
 
     public SidewalkEntry(int blockID, String sidewalkLocation, Integer streetPavement, Double sidewalkWidth, Double sideFreeSpaceWidth, String sideMeasureObs,
                          Integer slopeMeasureQnt, Double sideTransSlope1, Double sideTransSlope2, Double sideTransSlope3, Double sideTransSlope4,
@@ -51,7 +53,7 @@ public class SidewalkEntry {
                          Double specialTileDirectionLength, Double specialTileDirectionWidth, Double specialTileAlertLength, Double specialTileAlertWidth,
                          String specialFloorObs, Integer sideFloorIsAccessible, String accessFloorObs, Integer sideHasSlope, String sidewalkObs,
                          Integer hasAerialObstacle, String aerialObstacleDesc, Integer sidewalkHasLids, String sidewalkLidDesc, Integer sideConStatus,
-                         String sideConsObs, Integer sideHasPayphones) {
+                         String sideConsObs, Integer sideHasPayphones, Integer sideHasStairs, Integer sideHasRamps) {
         this.blockID = blockID;
         this.sidewalkLocation = sidewalkLocation;
         this.streetPavement = streetPavement;
@@ -83,6 +85,8 @@ public class SidewalkEntry {
         this.sideConStatus = sideConStatus;
         this.sideConsObs = sideConsObs;
         this.sideHasPayphones = sideHasPayphones;
+        this.sideHasStairs = sideHasStairs;
+        this.sideHasRamps = sideHasRamps;
     }
 
     public int getSidewalkID() {
@@ -339,5 +343,21 @@ public class SidewalkEntry {
 
     public void setSideHasPayphones(Integer sideHasPayphones) {
         this.sideHasPayphones = sideHasPayphones;
+    }
+
+    public Integer getSideHasStairs() {
+        return sideHasStairs;
+    }
+
+    public void setSideHasStairs(Integer sideHasStairs) {
+        this.sideHasStairs = sideHasStairs;
+    }
+
+    public Integer getSideHasRamps() {
+        return sideHasRamps;
+    }
+
+    public void setSideHasRamps(Integer sideHasRamps) {
+        this.sideHasRamps = sideHasRamps;
     }
 }

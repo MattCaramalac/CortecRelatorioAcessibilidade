@@ -67,8 +67,7 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<ParkingLotEntry>> allParkingLots;
     public LiveData<List<SidewalkEntry>> allSidewalks;
     public LiveData<List<SidewalkSlopeEntry>> allSidewalkSlopes;
-    public LiveData<List<RampStairsEntry>> allRampsSchool;
-    public LiveData<List<RampStairsEntry>> allStairsSchool;
+    public LiveData<List<RampStairsEntry>> allStairsRampsSchool;
     public LiveData<List<ParkingLotPCDEntry>> allPcdLots;
     public LiveData<List<ParkingLotElderlyEntry>> allElderLots;
     public LiveData<List<RoomEntry>> allRooms;
@@ -266,9 +265,13 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.selectOneSpace(otherID);
     }
 
-    public LiveData<List<ParkingLotEntry>> getAllParkingLots(int schoolEntryID) {
-        allParkingLots = repository.selectEveryParkingLot(schoolEntryID);
+    public LiveData<List<ParkingLotEntry>> getParkingLotsFromBlocks(int schoolEntryID) {
+        allParkingLots = repository.getParkingLotFromBlock(schoolEntryID);
         return allParkingLots;
+    }
+
+    public LiveData<List<ParkingLotEntry>> getParkingLotFromSide(int blockID, int sideID) {
+        return repository.getParkingLotFromSide(blockID, sideID);
     }
 
     public LiveData<ParkingLotEntry> getOneParkingLot(int parkingLotID) {
@@ -539,18 +542,9 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRampStairs(ramp));
     }
 
-    public LiveData<List<RampStairsEntry>> getAllRampStairsFromSchool(int schoolID) {
-        return repository.getAllRampStairsFromSchool(schoolID);
-    }
-
-    public LiveData<List<RampStairsEntry>> getAllRampsFromSchool(int schoolID, int rampIdentifier) {
-        allRampsSchool = repository.getAllRampsFromSchool(schoolID, rampIdentifier);
-        return allRampsSchool;
-    }
-
-    public LiveData<List<RampStairsEntry>> getAllStairsFromSchool(int schoolID, int stairsIdentifier) {
-        allStairsSchool = repository.getAllStairsFromSchool(schoolID,stairsIdentifier);
-        return allStairsSchool;
+    public LiveData<List<RampStairsEntry>> getStairsRampsFromAmbient(int blockID, int ambientType, int ambientID, int rampOrStairs) {
+        allStairsRampsSchool = repository.getStairsRampFromAmbient(blockID, ambientType, ambientID, rampOrStairs);
+        return allStairsRampsSchool;
     }
 
     public LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID) {

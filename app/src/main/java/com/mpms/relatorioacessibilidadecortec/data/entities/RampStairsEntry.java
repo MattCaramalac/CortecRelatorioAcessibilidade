@@ -6,19 +6,23 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
+@Entity(foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class RampStairsEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int rampStairsID;
     private int blockID;
+    private int ambientType;
+    private int ambientID;
     private int rampStairsIdentifier;
     private String rampStairsLocation;
     private int flightsQuantity;
 
-    public RampStairsEntry(int blockID, int rampStairsIdentifier, String rampStairsLocation, int flightsQuantity) {
+    public RampStairsEntry(int blockID, int ambientType, int ambientID, int rampStairsIdentifier, String rampStairsLocation, int flightsQuantity) {
         this.blockID = blockID;
+        this.ambientType = ambientType;
+        this.ambientID = ambientID;
         this.rampStairsIdentifier = rampStairsIdentifier;
         this.rampStairsLocation = rampStairsLocation;
         this.flightsQuantity = flightsQuantity;
@@ -36,8 +40,24 @@ public class RampStairsEntry {
         return blockID;
     }
 
-    public void setBlockID(int schoolID) {
-        this.blockID = schoolID;
+    public void setBlockID(int blockID) {
+        this.blockID = blockID;
+    }
+
+    public int getAmbientType() {
+        return ambientType;
+    }
+
+    public void setAmbientType(int ambientType) {
+        this.ambientType = ambientType;
+    }
+
+    public int getAmbientID() {
+        return ambientID;
+    }
+
+    public void setAmbientID(int ambientID) {
+        this.ambientID = ambientID;
     }
 
     public int getRampStairsIdentifier() {

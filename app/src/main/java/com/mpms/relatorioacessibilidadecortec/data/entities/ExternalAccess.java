@@ -50,10 +50,11 @@ public class ExternalAccess {
     private Integer gateHasPayphones;
     private Integer gateHasIntercom;
     private Double intercomHeight;
+    private Integer gateHasStairs;
+    private Integer gateHasRamps;
     private Integer gateHasSoundSign;
 
     private String extAccessObs;
-
 
     public ExternalAccess(int blockID, String accessLocation, Integer entranceType, Integer floorIsAccessible, String accessibleFloorObs, Integer hasSIA, String obsSIA,
                           Integer entranceGateType, String entranceGateDesc, Double freeSpaceWidth1, Double freeSpaceWidth2, Integer gateHandleType, Double gateHandleHeight,
@@ -61,7 +62,7 @@ public class ExternalAccess {
                           Double trackRampMeasure2, Double trackRampMeasure3, Double trackRampMeasure4, Integer gateSillType, Double sillInclinationHeight, Double sillStepHeight,
                           Integer slopeMeasureQnt, Double sillSlopeAngle, Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth,
                           String gateSillObs, Integer gateHasObstacles, Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, Integer gateHasSoundSign,
-                          String extAccessObs) {
+                          String extAccessObs, Integer gateHasStairs, Integer gateHasRamps) {
         this.blockID = blockID;
         this.accessLocation = accessLocation;
         this.entranceType = entranceType;
@@ -100,6 +101,8 @@ public class ExternalAccess {
         this.intercomHeight = intercomHeight;
         this.gateHasSoundSign = gateHasSoundSign;
         this.extAccessObs = extAccessObs;
+        this.gateHasStairs = gateHasStairs;
+        this.gateHasRamps = gateHasRamps;
     }
 
     public int getExternalAccessID() {
@@ -412,5 +415,21 @@ public class ExternalAccess {
 
     public void setEntranceGateDesc(String entranceGateDesc) {
         this.entranceGateDesc = entranceGateDesc;
+    }
+
+    public Integer getGateHasStairs() {
+        return gateHasStairs;
+    }
+
+    public void setGateHasStairs(Integer gateHasStairs) {
+        this.gateHasStairs = gateHasStairs;
+    }
+
+    public Integer getGateHasRamps() {
+        return gateHasRamps;
+    }
+
+    public void setGateHasRamps(Integer gateHasRamps) {
+        this.gateHasRamps = gateHasRamps;
     }
 }

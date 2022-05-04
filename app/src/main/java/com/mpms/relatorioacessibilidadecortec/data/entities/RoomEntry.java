@@ -37,9 +37,13 @@ public class RoomEntry {
 
     private String roomObs;
 
+    private Integer roomHasStairs;
+    private Integer roomHasRamps;
+
     public RoomEntry(int blockID, int roomType, String roomLocation, String roomDescription, Integer roomHasVertSing, String roomVertSignObs, Integer roomHasLooseCarpet,
                      String looseCarpetObs, Integer roomAccessFloor, String accessFloorObs, Integer libDistShelvesOK, Integer libPcrManeuversOK, Integer libAccessPcOK,
-                     Integer secHasFixedSeats, Integer secHasPcrSpace, Double secPcrSpaceWidth, Double secPcrSpaceDepth, String secPCRSpaceObs, String roomObs) {
+                     Integer secHasFixedSeats, Integer secHasPcrSpace, Double secPcrSpaceWidth, Double secPcrSpaceDepth, String secPCRSpaceObs, String roomObs,
+                     Integer roomHasStairs, Integer roomHasRamps) {
         this.blockID = blockID;
         this.roomType = roomType;
         this.roomLocation = roomLocation;
@@ -59,6 +63,8 @@ public class RoomEntry {
         this.secPcrSpaceDepth = secPcrSpaceDepth;
         this.secPCRSpaceObs = secPCRSpaceObs;
         this.roomObs = roomObs;
+        this.roomHasStairs = roomHasStairs;
+        this.roomHasRamps = roomHasRamps;
     }
 
     public int getRoomID() {
@@ -219,5 +225,21 @@ public class RoomEntry {
 
     public void setRoomObs(String roomObs) {
         this.roomObs = roomObs;
+    }
+
+    public Integer getRoomHasStairs() {
+        return roomHasStairs;
+    }
+
+    public void setRoomHasStairs(Integer roomHasStairs) {
+        this.roomHasStairs = roomHasStairs;
+    }
+
+    public Integer getRoomHasRamps() {
+        return roomHasRamps;
+    }
+
+    public void setRoomHasRamps(Integer roomHasRamps) {
+        this.roomHasRamps = roomHasRamps;
     }
 }

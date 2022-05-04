@@ -214,7 +214,7 @@
     <string name="label_elderly_sign_length">Comprimento da identificação da vaga (m)</string>
     <string name="label_elderly_sign_obs">Observações da identificação da vaga</string>
     <string name="hint_PDMR_SIA_obs">Observações SIA</string>
-    <string name="label_parking_lot_header">Estacionamento</string>
+    <string name="label_parking_lot_header">Cadastro de Estacionamento</string>
     <string name="label_sidewalk_header">Cadastro de Calçada</string>
     <string name="hint_conservation_status_special_floor">Observações Conservação do Piso Tátil</string>
     <string name="label_obligatory_slope_sidewalk">É obrigatório ter rebaixamento nesta calçada?</string>
@@ -557,4 +557,6 @@
     <string name="int_park_reg_header">Cadastro de Estacionamentos Internos</string>
     <string name="ext_access_reg_header">Cadastro de Acessos Externos</string>
     <string name="sidewalk_reg_header">Cadastro de Calçadas</string>
+    <string name="header_acessible_floor_parking_lot">O piso do estacionamento pode ser considerado acessível?</string>
+    <string name="header_accessible_floor">O piso pode ser considerado acessível?</string>
 </resources>

@@ -91,7 +91,7 @@ import java.util.concurrent.Executors;
         CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class, RampStairsHandrailEntry.class,
-        RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class, PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 42)
+        RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class, PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 45)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 4;
@@ -1013,12 +1013,78 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-//    static final Migration MIGRATION_42_43 = new Migration(42, 43) {
-//        @Override
-//        public void migrate(@NonNull SupportSQLiteDatabase database) {
-//
-//        }
-//    };
+    static final Migration MIGRATION_42_43 = new Migration(42, 43) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE RampStairsEntry");
+            database.execSQL("CREATE TABLE RampStairsEntry(rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, ambientType INTEGER NOT NULL," +
+                    "ambientID INTEGER NOT NULL, rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, flightsQuantity INTEGER NOT NULL, " +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
+
+    static final Migration MIGRATION_43_44 = new Migration(43, 44) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE RampStairsEntry");
+            database.execSQL("CREATE TABLE RampStairsEntry(rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, ambientType INTEGER NOT NULL," +
+                    "ambientID INTEGER NOT NULL, rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, flightsQuantity INTEGER NOT NULL, " +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("CREATE TABLE Park2(parkingID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, sidewalkID INTEGER," +
+                    "typeParkingLot INTEGER NOT NULL, parkAccessFloor INTEGER, parkFloorObs TEXT, hasPCDVacancy INTEGER, hasElderVacancy INTEGER, " +
+                    "parkAccessRoute INTEGER, parkAccessRouteObs TEXT, parkingHasStairs INTEGER, parkingHasRamps INTEGER," +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntry (sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Park2(parkingID, blockID, sidewalkID, typeParkingLot, parkFloorObs, hasPCDVacancy, hasElderVacancy) SELECT parkingLotID," +
+                    "blockID, sidewalkID, typeParkingLot, parkingLotFloorType, hasPCDVacancy, hasElderVacancy FROM ParkingLotEntry");
+            database.execSQL("DROP TABLE ParkingLotEntry");
+            database.execSQL("ALTER TABLE Park2 RENAME TO ParkingLotEntry");
+
+
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN gateHasStairs INTEGER");
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN gateHasRamps INTEGER");
+
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN sideHasStairs INTEGER");
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN sideHasRamps INTEGER");
+
+            database.execSQL("ALTER TABLE RoomEntry ADD COLUMN roomHasStairs INTEGER");
+            database.execSQL("ALTER TABLE RoomEntry ADD COLUMN roomHasRamps INTEGER");
+        }
+    };
+
+    static final Migration MIGRATION_44_45 = new Migration(44, 45) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE ParkingLotPCDEntry2(parkingPcdID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                    "parkingLotID INTEGER NOT NULL, hasVisualPcdVertSign INTEGER NOT NULL, vertPcdSignLength REAL, vertPcdSignWidth REAL," +
+                    "vertPcdSignObs TEXT, pcdVacancyLength REAL NOT NULL, pcdVacancyWidth REAL NOT NULL, pcdVacancyLimitWidth REAL NOT NULL," +
+                    "pcdVacancyObs TEXT, hasSecurityZone INTEGER NOT NULL, securityZoneWidth REAL, securityZoneObs TEXT," +
+                    "hasPcdSia INTEGER NOT NULL, pcdSiaWidth REAL, pcdSiaLength REAL, pcdSiaObs TEXT, FOREIGN KEY (parkingLotID)" +
+                    "REFERENCES ParkingLotEntry (parkingID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE ParkingLotElderlyEntry2(parkingElderlyID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                    "parkingLotID INTEGER NOT NULL, hasElderlyVertSign INTEGER NOT NULL, elderlyVertSignLength REAL," +
+                    "elderlyVertSingWidth REAL, elderlyVertSignObs TEXT, elderlyVacancyLength REAL NOT NULL," +
+                    "elderlyVacancyWidth REAL NOT NULL, elderlyVacancyLimiterWidth REAL NOT NULL, elderlyVacancyObs TEXT," +
+                    "hasElderlyFloorIndicator INTEGER NOT NULL, floorIndicatorLength REAL, floorIndicatorWidth REAL, " +
+                    "floorIndicatorObs TEXT, FOREIGN KEY (parkingLotID) REFERENCES ParkingLotEntry (parkingID)" +
+                    "ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO ParkingLotPCDEntry2 (parkingPcdID, parkingLotID, hasVisualPcdVertSign, vertPcdSignLength, vertPcdSignWidth," +
+                    "vertPcdSignObs, pcdVacancyLength, pcdVacancyWidth, pcdVacancyLimitWidth, pcdVacancyObs, hasSecurityZone, securityZoneWidth, " +
+                    "securityZoneObs, hasPcdSia, pcdSiaWidth, pcdSiaLength, pcdSiaObs) SELECT parkingPcdID, parkingLotID, hasVisualPcdVertSign, " +
+                    "vertPcdSignLength, vertPcdSignWidth, vertPcdSignObs, pcdVacancyLength, pcdVacancyWidth, pcdVacancyLimitWidth, pcdVacancyObs, " +
+                    "hasSecurityZone, securityZoneWidth, securityZoneObs, hasPcdSia, pcdSiaWidth, pcdSiaLength, pcdSiaObs FROM ParkingLotPCDEntry");
+            database.execSQL("INSERT INTO ParkingLotElderlyEntry2 (parkingElderlyID, parkingLotID, hasElderlyVertSign, elderlyVertSignLength, elderlyVertSingWidth," +
+                    "elderlyVertSignObs, elderlyVacancyLength, elderlyVacancyWidth, elderlyVacancyLimiterWidth, elderlyVacancyObs, hasElderlyFloorIndicator, " +
+                    "floorIndicatorLength, floorIndicatorWidth, floorIndicatorObs) SELECT parkingElderlyID, parkingLotID, hasElderlyVertSign, elderlyVertSignLength, " +
+                    "elderlyVertSingWidth, elderlyVertSignObs, elderlyVacancyLength, elderlyVacancyWidth, elderlyVacancyLimiterWidth, elderlyVacancyObs, " +
+                    "hasElderlyFloorIndicator, floorIndicatorLength, floorIndicatorWidth, floorIndicatorObs FROM ParkingLotElderlyEntry");
+            database.execSQL("DROP TABLE ParkingLotPCDEntry");
+            database.execSQL("DROP TABLE ParkingLotElderlyEntry");
+            database.execSQL("ALTER TABLE ParkingLotPCDEntry2 RENAME TO ParkingLotPCDEntry");
+            database.execSQL("ALTER TABLE ParkingLotElderlyEntry2 RENAME TO ParkingLotElderlyEntry");
+        }
+    };
 
 
     public static ReportDatabase getDatabase(final Context context) {
@@ -1032,7 +1098,8 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_18_19, MIGRATION_19_20, MIGRATION_20_21, MIGRATION_21_22, MIGRATION_22_23, MIGRATION_23_24,
                                     MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27, MIGRATION_27_28, MIGRATION_28_29, MIGRATION_29_30,
                                     MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35, MIGRATION_35_36,
-                                    MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42).build();
+                                    MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42,
+                                    MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45).build();
                 }
             }
         }

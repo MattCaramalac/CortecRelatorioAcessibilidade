@@ -331,8 +331,12 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> parkingLotEntryDao.insertParkingLot(parkingLotEntry));
     }
 
-    public LiveData<List<ParkingLotEntry>> selectEveryParkingLot(int schoolEntryID) {
-        return parkingLotEntryDao.selectEveryParkingLot(schoolEntryID);
+    public LiveData<List<ParkingLotEntry>> getParkingLotFromBlock(int blockID) {
+        return parkingLotEntryDao.getParkingLotFromBlock(blockID);
+    }
+
+    public LiveData<List<ParkingLotEntry>> getParkingLotFromSide(int blockID, int sideID) {
+        return parkingLotEntryDao.getParkingLotFromSide(blockID, sideID);
     }
 
     public LiveData<ParkingLotEntry> selectOneParkingLot(int parkingLotID) {
@@ -630,16 +634,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> rampStairsEntryDao.insertRampStairs(ramp));
     }
 
-    public LiveData<List<RampStairsEntry>> getAllRampStairsFromSchool(int schoolID) {
-        return rampStairsEntryDao.getAllRampStairsFromSchool(schoolID);
-    }
-
-    public LiveData<List<RampStairsEntry>> getAllRampsFromSchool(int schoolID, int rampIdentifier) {
-        return rampStairsEntryDao.getAllRampsFromSchool(schoolID, rampIdentifier);
-    }
-
-    public LiveData<List<RampStairsEntry>> getAllStairsFromSchool(int schoolID, int stairsIdentifier) {
-        return rampStairsEntryDao.getAllStairsFromSchool(schoolID,stairsIdentifier);
+    public LiveData<List<RampStairsEntry>> getStairsRampFromAmbient(int blockID, int ambientType, int ambientID, int rampOrStairs) {
+        return rampStairsEntryDao.getStairsRampFromAmbient(blockID, ambientType, ambientID, rampOrStairs);
     }
 
     public LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID) {
