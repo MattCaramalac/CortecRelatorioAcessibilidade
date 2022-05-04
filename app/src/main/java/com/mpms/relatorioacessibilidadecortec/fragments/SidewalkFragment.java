@@ -22,18 +22,16 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SidewalkSlopeListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.PayPhoneListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 
-public class SidewalkFragment extends Fragment {
-
-    public static final String SIDEWALK_ID = "SIDEWALK_ID";
+public class SidewalkFragment extends Fragment implements TagInterface {
 
     TextInputLayout sideLocationField, sideWidthField, sideFreeSpaceWidthField, sideMeasureObsField, sideTransSlopeField1, sideTransSlopeField2, sideTransSlopeField3,
             sideTransSlopeField4, sideTransSlopeField5, sideTransSlopeField6, directionTileLengthField, directionTileWidthField, alertTileLengthField, alertTileWidthField,
@@ -76,7 +74,7 @@ public class SidewalkFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            sidewalkData.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
+            sidewalkData.putInt(BLOCK_ID, this.getArguments().getInt(BLOCK_ID));
             sidewalkData.putInt(SIDEWALK_ID, this.getArguments().getInt(SIDEWALK_ID));
         }
     }
@@ -865,10 +863,10 @@ public class SidewalkFragment extends Fragment {
         if (!TextUtils.isEmpty(sidewalkObsValue.getText()))
             sidewalkObs = String.valueOf(sidewalkObsValue.getText());
 
-        return new SidewalkEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
+        return new SidewalkEntry(bundle.getInt(BLOCK_ID), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
                 sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirLength, tacTileDirWidth, tacTileAlertLength,
                 tacTileAlertWidth, tactFloorObs, accessFloor, accessFloorObs, hasSlope, sidewalkObs, hasAerialObstacle, aerialObsDesc, hasLids, sidewalkLidsDesc, consStatus,
-                sideConsStatus, hasPayphones);
+                sideConsStatus, hasPayphones, null, null);
 
     }
 

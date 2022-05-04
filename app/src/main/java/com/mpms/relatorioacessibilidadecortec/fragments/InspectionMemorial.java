@@ -17,11 +17,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolAreasRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 
-public class InspectionMemorial extends Fragment {
+public class InspectionMemorial extends Fragment implements TagInterface {
 
     OnFragmentInteractionListener listener;
 
@@ -31,7 +31,7 @@ public class InspectionMemorial extends Fragment {
 
     MaterialButton saveAndClose;
 
-    Bundle fragInspection = new Bundle();
+    Bundle fragInspection;
 
 //    private static final int NO_CHOICE = -1;
 //    private int chosenOption = NO_CHOICE;
@@ -47,9 +47,10 @@ public class InspectionMemorial extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            fragInspection = this.getArguments();
-        }
+        if (this.getArguments() != null)
+            fragInspection = new Bundle(this.getArguments());
+        else
+            fragInspection = new Bundle();
     }
 
     @Override
@@ -88,9 +89,9 @@ public class InspectionMemorial extends Fragment {
 
     @Override
     public void onResume() {
-        if (fragInspection.getBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG))
+        if (fragInspection.getBoolean(EXT_AREA_REG))
             adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, HeaderNames.externalAreaOptions);
-        else if (fragInspection.getBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG))
+        else if (fragInspection.getBoolean(SUP_AREA_REG))
             adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, HeaderNames.supportAreaOptions);
         else
             adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, HeaderNames.blockOptions);

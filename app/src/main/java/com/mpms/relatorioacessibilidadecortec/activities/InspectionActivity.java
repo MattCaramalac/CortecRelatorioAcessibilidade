@@ -14,32 +14,15 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragme
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestroomListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener {
+public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener, TagInterface {
 
-    public static final String LOAD_CHILD_DATA = "LOAD_CHILD_DATA";
-    public static final String GATHER_CHILD_DATA = "GATHER_CHILD_DATA";
-    public static final String ADD_ITEM_REQUEST = "ADD_ITEM_REQUEST";
-    public static final String CHILD_DATA_LISTENER = "CHILD_DATA_LISTENER";
-    public static final String CHILD_DATA_COMPLETE = "CHILD_DATA_COMPLETE";
-    public static final String CLEAR_CHILD_DATA = "CLEAR_CHILD_DATA";
-
-    public static final String PARKING_LIST = "PARKING_LIST";
-    public static final String EXTERNAL_LIST = "EXTERNAL_LIST";
-    public static final String REST_LIST = "REST_LIST";
-    public static final String WATER_LIST = "WATER_LIST";
-    public static final String SIDEWALK_LIST = "SIDEWALK_LIST";
-    public static final String ALLOW_UPDATE = "ALLOW_UPDATE";
-    public static final String RAMP_STAIRS_LIST = "RAMP_STAIRS_LIST";
-    public static final String ROOM_LIST = "ROOM_LIST";
-    public static final String ADM_EQUIP_LIST = "ADM_EQUIP_LIST";
-    public static final String PLAYGROUND_LIST = "PLAYGROUND_LIST";
     Bundle inspectionBundle = new Bundle();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -52,18 +35,16 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inspection);
         modelEntry = new ViewModelEntry(getApplication());
-        inspectionBundle = getIntent().getBundleExtra(SchoolAreasRegisterActivity.AREAS_REG_BUNDLE);
+        inspectionBundle = getIntent().getBundleExtra(AREAS_REG_BUNDLE);
 
-        if (inspectionBundle.getBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG)
-                && inspectionBundle.getInt(BlockRegisterActivity.BLOCK_ID) == 0) {
-            modelEntry.getAreaFromSchool(inspectionBundle.getInt(SchoolRegisterActivity.SCHOOL_ID), 1)
-                    .observe(this, extArea ->
-                            inspectionBundle.putInt(BlockRegisterActivity.BLOCK_ID, extArea.getBlockSpaceID()));
-        } else if (inspectionBundle.getBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG)
-                && inspectionBundle.getInt(BlockRegisterActivity.BLOCK_ID) == 0) {
-            modelEntry.getAreaFromSchool(inspectionBundle.getInt(SchoolRegisterActivity.SCHOOL_ID), 2)
-                    .observe(this, supArea ->
-                            inspectionBundle.putInt(BlockRegisterActivity.BLOCK_ID, supArea.getBlockSpaceID()));
+        if (inspectionBundle.getInt(BLOCK_ID) == 0) {
+            int areaType = 0;
+            if (inspectionBundle.getBoolean(EXT_AREA_REG))
+                areaType = 1;
+            else if (inspectionBundle.getBoolean(SUP_AREA_REG))
+                areaType = 2;
+            modelEntry.getAreaFromSchool(inspectionBundle.getInt(SchoolRegisterActivity.SCHOOL_ID), areaType)
+                    .observe(this, area -> inspectionBundle.putInt(BLOCK_ID, area.getBlockSpaceID()));
         }
 
         this.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -74,7 +55,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     else {
                         setEnabled(false);
                         InspectionActivity.super.onBackPressed();
-
                     }
                 setEnabled(true);
             }
@@ -180,13 +160,13 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         fragmentTransaction.replace(R.id.show_fragment_selected, parkingList).addToBackStack(PARKING_LIST).commit();
     }
 
-    public void displayStairsRampListFragment(int chosenItem) {
-        RampStairsListFragment rampStairsList = RampStairsListFragment.newInstance(chosenItem);
-        inspectionBundle.putInt(ALLOW_UPDATE, 0);
-        rampStairsList.setArguments(inspectionBundle);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, rampStairsList).addToBackStack(RAMP_STAIRS_LIST).commit();
-    }
+//    public void displayStairsRampListFragment(int chosenItem) {
+//        RampStairsListFragment rampStairsList = RampStairsListFragment.newInstance(chosenItem);
+//        inspectionBundle.putInt(ALLOW_UPDATE, 0);
+//        rampStairsList.setArguments(inspectionBundle);
+//        fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.show_fragment_selected, rampStairsList).addToBackStack(RAMP_STAIRS_LIST).commit();
+//    }
 
     public void displayAdmEquipListFragment() {
         AdmEquipListFragment admEquipList = AdmEquipListFragment.newInstance();

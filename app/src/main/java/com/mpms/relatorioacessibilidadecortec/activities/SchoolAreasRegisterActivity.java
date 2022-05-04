@@ -10,16 +10,11 @@ import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import static com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity.SCHOOL_ID;
 
-public class SchoolAreasRegisterActivity extends AppCompatActivity {
-
-    public static final String AREAS_REG_BUNDLE = "AREAS_REG_BUNDLE";
-    public static final String EXT_AREA_REG = "EXT_AREA_REG";
-    public static final String SUP_AREA_REG = "SUP_AREA_REG";
-    public static final String EXT_ID = "EXT_ID";
-    public static final String SUP_ID = "SUP_ID";
+public class SchoolAreasRegisterActivity extends AppCompatActivity implements TagInterface {
 
     boolean hasExtArea = true;
     boolean hasSupArea = true;
@@ -73,7 +68,7 @@ public class SchoolAreasRegisterActivity extends AppCompatActivity {
                 ViewModelEntry.insertBlockSpace(newArea);
             }
             areasBundle.putBoolean(EXT_AREA_REG, true);
-            areasBundle.putInt(BlockRegisterActivity.BLOCK_ID, extID);
+            areasBundle.putInt(BLOCK_ID, extID);
             callInspectionActivity();
         });
 
@@ -83,7 +78,7 @@ public class SchoolAreasRegisterActivity extends AppCompatActivity {
                 ViewModelEntry.insertBlockSpace(newArea);
             }
             areasBundle.putBoolean(SUP_AREA_REG, true);
-            areasBundle.putInt(BlockRegisterActivity.BLOCK_ID, supID);
+            areasBundle.putInt(BLOCK_ID, supID);
             callInspectionActivity();
         });
     }

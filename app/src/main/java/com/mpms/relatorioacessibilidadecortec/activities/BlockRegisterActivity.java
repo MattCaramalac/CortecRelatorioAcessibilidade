@@ -20,12 +20,13 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
 import static com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity.SCHOOL_ID;
 
-public class BlockRegisterActivity extends AppCompatActivity implements OnEntryClickListener {
+public class BlockRegisterActivity extends AppCompatActivity implements OnEntryClickListener, TagInterface {
 
     public static final String BLOCK_ID = "BLOCK_ID";
 
