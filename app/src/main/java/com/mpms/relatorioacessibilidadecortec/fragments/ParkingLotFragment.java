@@ -71,25 +71,28 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
 
         instantiateParkingViews(view);
 
-        if (parkingBundle.getInt(ParkingLotListFragment.PARKING_ID) > 0) {
-            modelEntry.getOneParkingLot(parkingBundle.getInt(ParkingLotListFragment.PARKING_ID))
+        if (parkingBundle.getInt(AMBIENT_ID) > 0) {
+            modelEntry.getOneParkingLot(parkingBundle.getInt(AMBIENT_ID))
                     .observe(getViewLifecycleOwner(), this::loadParkingLotData);
         }
 
-        modelEntry.getLastInsertedParkingLot().observe(getViewLifecycleOwner(), lastLot -> {
-            if (lastLot != null) {
-                parkingBundle.putInt(AMBIENT_ID, lastLot.getParkingID());
-                if (saveAttempt) {
-                    saveAttempt = false;
-                    clearFields();
-                    openParkingLotTypeFragment();
-                } else if (rampStairsReg) {
-                    rampStairsReg = false;
-                    clearFields();
-                    openRampStairsListFragment();
+        if (parkingBundle.getInt(AMBIENT_ID) == 0) {
+            modelEntry.getLastInsertedParkingLot().observe(getViewLifecycleOwner(), lastLot -> {
+                if (lastLot != null) {
+                    parkingBundle.putInt(AMBIENT_ID, lastLot.getParkingID());
+                    if (saveAttempt) {
+                        saveAttempt = false;
+                        clearFields();
+                        openParkingLotTypeFragment();
+                    } else if (rampStairsReg) {
+                        rampStairsReg = false;
+                        clearFields();
+                        openRampStairsListFragment();
+                    }
                 }
-            }
-        });
+            });
+        }
+
 
         cancelParkingLotRegister.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .popBackStack(InspectionActivity.PARKING_LIST, 0));
@@ -97,14 +100,22 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
         saveParkingLotRegister.setOnClickListener(this::buttonClick);
 
         addParkStairs.setOnClickListener(v -> {
-            parkingBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 1);
+            parkingBundle.putInt(RAMP_OR_STAIRS, 1);
+            parkingBundle.putBoolean(FROM_PARKING, true);
             buttonClick(v);
         });
 
         addParkRamps.setOnClickListener(v -> {
-            parkingBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 2);
+            parkingBundle.putInt(RAMP_OR_STAIRS, 2);
+            parkingBundle.putBoolean(FROM_PARKING, true);
             buttonClick(v);
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        parkingBundle.putBoolean(FROM_PARKING, false);
     }
 
     private void instantiateParkingViews(View view) {
@@ -152,7 +163,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
         if (parkingEntry.getParkingHasRamps() != null)
             parkHasRamps.check(parkHasRamps.getChildAt(parkingEntry.getParkingHasRamps()).getId());
         if (parkingEntry.getParkAccessFloor() != null)
-            accessFloorRadio.check(accessFloorRadio.getChildAt(parkingEntry.getTypeParkingLot()).getId());
+            accessFloorRadio.check(accessFloorRadio.getChildAt(parkingEntry.getParkAccessFloor()).getId());
         if (parkingEntry.getParkFloorObs() != null)
             parkAccessFloorObsValue.setText(parkingEntry.getParkFloorObs());
         if (parkingEntry.getParkAccessRoute() != null)
@@ -191,9 +202,9 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
         if (view != saveParkingLotRegister) {
             parkingBundle.putInt(AMBIENT_TYPE, 3);
             if (view == addParkStairs)
-                parkingBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 1);
+                parkingBundle.putInt(RAMP_OR_STAIRS, 1);
             else
-                parkingBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 2);
+                parkingBundle.putInt(RAMP_OR_STAIRS, 2);
 
             if (parkingBundle.getInt(AMBIENT_ID) == 0) {
                 ParkingLotEntry newEntry = newParkingLotEntry(parkingBundle);
@@ -205,7 +216,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
         } else {
             if (checkEmptyFields()) {
                 ParkingLotEntry newEntry = newParkingLotEntry(parkingBundle);
-                if (parkingBundle.getInt(ParkingLotListFragment.PARKING_ID) > 0) {
+                if (parkingBundle.getInt(AMBIENT_ID) > 0) {
                     if (pcdVacancy < 0 || elderVacancy < 0)
                         Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
 

@@ -125,7 +125,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
 
-        parkingBundle.putInt(PARKING_ID, 0);
+        parkingBundle.putInt(AMBIENT_ID, 0);
     }
 
     private void listCreator(ParkingRecViewAdapter adapter) {
@@ -203,16 +203,15 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
 
     private void openParkingLotFragment() {
         ParkingLotFragment parkingLot = ParkingLotFragment.newInstance();
+        parkingLot.setArguments(parkingBundle);
         fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         if (actionMode != null)
             actionMode.finish();
-        if (parkingBundle.getInt(PARKING_ID) > 0) {
-            parkingLot.setArguments(parkingBundle);
+        if (parkingBundle.getInt(AMBIENT_ID) > 0) {
             fragmentTransaction.replace(R.id.show_fragment_selected, parkingLot).addToBackStack(null).commit();
         } else {
-            parkingBundle.putInt(PARKING_ID, 0);
-            parkingLot.setArguments(parkingBundle);
+            parkingBundle.putInt(AMBIENT_ID, 0);
             fragmentTransaction.replace(R.id.show_fragment_selected, parkingLot).addToBackStack(NEW_PARKING_ENTRY).commit();
         }
     }
@@ -220,7 +219,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     @Override
     public void OnEntryClick(int position) {
         ParkingLotEntry parkingEntry = modelEntry.allParkingLots.getValue().get(position);
-        parkingBundle.putInt(PARKING_ID, parkingEntry.getParkingID());
+        parkingBundle.putInt(AMBIENT_ID, parkingEntry.getParkingID());
         openParkingLotFragment();
     }
 }
