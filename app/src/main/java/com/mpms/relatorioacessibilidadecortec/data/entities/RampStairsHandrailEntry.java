@@ -6,32 +6,34 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = @ForeignKey(entity = FlightsRampStairsEntry.class, parentColumns = "flightID", childColumns = "flightID",
+@Entity (foreignKeys = @ForeignKey(entity = RampStairsFlightEntry.class, parentColumns = "flightID", childColumns = "flightID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class RampStairsHandrailEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int handrailID;
     private int flightID;
-    private int hasHandrail;
-    private Integer handrailPlacement;
-    private Double handrailHeight;
-    private Double handrailGrip;
+    private int handrailPlacement;
+    private double handrailHeight;
+    private double handrailGrip;
     private String handrailObs;
-    private Integer handrailHasExtension;
-    private Double extensionLength;
+    private int hasInitExtension;
+    private Double initExtLength;
+    private int hasFinalExtension;
+    private Double finalExtLength;
     private String extensionObs;
 
-    public RampStairsHandrailEntry(int flightID, int hasHandrail, Integer handrailPlacement, Double handrailHeight, Double handrailGrip,
-                                   String handrailObs, Integer handrailHasExtension, Double extensionLength, String extensionObs) {
+    public RampStairsHandrailEntry(int flightID, int handrailPlacement, double handrailHeight, double handrailGrip, String handrailObs,
+                                   int hasInitExtension, Double initExtLength, int hasFinalExtension, Double finalExtLength, String extensionObs) {
         this.flightID = flightID;
-        this.hasHandrail = hasHandrail;
         this.handrailPlacement = handrailPlacement;
         this.handrailHeight = handrailHeight;
         this.handrailGrip = handrailGrip;
         this.handrailObs = handrailObs;
-        this.handrailHasExtension = handrailHasExtension;
-        this.extensionLength = extensionLength;
+        this.hasInitExtension = hasInitExtension;
+        this.initExtLength = initExtLength;
+        this.hasFinalExtension = hasFinalExtension;
+        this.finalExtLength = finalExtLength;
         this.extensionObs = extensionObs;
     }
 
@@ -51,35 +53,27 @@ public class RampStairsHandrailEntry {
         this.flightID = flightID;
     }
 
-    public int getHasHandrail() {
-        return hasHandrail;
-    }
-
-    public void setHasHandrail(int hasHandrail) {
-        this.hasHandrail = hasHandrail;
-    }
-
-    public Integer getHandrailPlacement() {
+    public int getHandrailPlacement() {
         return handrailPlacement;
     }
 
-    public void setHandrailPlacement(Integer handrailPlacement) {
+    public void setHandrailPlacement(int handrailPlacement) {
         this.handrailPlacement = handrailPlacement;
     }
 
-    public Double getHandrailHeight() {
+    public double getHandrailHeight() {
         return handrailHeight;
     }
 
-    public void setHandrailHeight(Double handrailHeight) {
+    public void setHandrailHeight(double handrailHeight) {
         this.handrailHeight = handrailHeight;
     }
 
-    public Double getHandrailGrip() {
+    public double getHandrailGrip() {
         return handrailGrip;
     }
 
-    public void setHandrailGrip(Double handrailGrip) {
+    public void setHandrailGrip(double handrailGrip) {
         this.handrailGrip = handrailGrip;
     }
 
@@ -91,20 +85,36 @@ public class RampStairsHandrailEntry {
         this.handrailObs = handrailObs;
     }
 
-    public Integer getHandrailHasExtension() {
-        return handrailHasExtension;
+    public int getHasInitExtension() {
+        return hasInitExtension;
     }
 
-    public void setHandrailHasExtension(Integer handrailHasExtension) {
-        this.handrailHasExtension = handrailHasExtension;
+    public void setHasInitExtension(int hasInitExtension) {
+        this.hasInitExtension = hasInitExtension;
     }
 
-    public Double getExtensionLength() {
-        return extensionLength;
+    public Double getInitExtLength() {
+        return initExtLength;
     }
 
-    public void setExtensionLength(Double extensionLength) {
-        this.extensionLength = extensionLength;
+    public void setInitExtLength(Double initExtLength) {
+        this.initExtLength = initExtLength;
+    }
+
+    public int getHasFinalExtension() {
+        return hasFinalExtension;
+    }
+
+    public void setHasFinalExtension(int hasFinalExtension) {
+        this.hasFinalExtension = hasFinalExtension;
+    }
+
+    public Double getFinalExtLength() {
+        return finalExtLength;
+    }
+
+    public void setFinalExtLength(Double finalExtLength) {
+        this.finalExtLength = finalExtLength;
     }
 
     public String getExtensionObs() {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.RampStairsHandrailFragment">
+    tools:context=".fragments.ChildRegisters.RampStairsHandrailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,59 +17,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:text="@string/label_handrail_register_header"
-            android:textSize="@dimen/section_header"/>
+            android:textStyle="bold"
+            android:textSize="@dimen/section_header_big"/>
 
-        <TextView
-            android:id="@+id/has_handrail_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/handrail_register_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:text="@string/label_place_has_handrail_header"
-            android:textSize="@dimen/section_header"/>
-
-        <RadioGroup
-            android:id="@+id/has_handrail_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/has_handrail_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text"/>
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text"/>
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/has_handrail_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/has_handrail_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
 
         <TextView
             android:id="@+id/handrail_choice_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/has_handrail_error"
+            app:layout_constraintTop_toBottomOf="@id/handrail_register_header"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/usual_padding"
             android:text="@string/label_handrail_choice_header"
@@ -97,13 +53,23 @@
             app:layout_constraintStart_toStartOf="parent"
             />
 
+        <TextView
+            android:id="@+id/handrail_position_ref"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/handrail_placement_error"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/header_ref_point"
+            android:textSize="14sp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/handrail_height_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/handrail_placement_error"
+            app:layout_constraintTop_toBottomOf="@id/handrail_position_ref"
             android:hint="@string/hint_handrail_height">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -116,9 +82,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/handrail_grip_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/handrail_height_field"
             android:hint="@string/hint_handrail_grip">
@@ -133,9 +100,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/handrail_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/handrail_grip_field"
             android:hint="@string/hint_obs">
@@ -155,20 +123,20 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/handrail_has_extension_header"
+            android:id="@+id/handrail_has_initial_extension_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/handrail_obs_field"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/usual_padding"
-            android:text="@string/label_handrail_has_extension_header"
+            android:text="@string/label_handrail_has_initial_extension_header"
             android:textSize="@dimen/section_header"/>
 
         <RadioGroup
-            android:id="@+id/handrail_has_extension_radio"
+            android:id="@+id/handrail_has_initial_extension_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/handrail_has_extension_header"
+            app:layout_constraintTop_toBottomOf="@id/handrail_has_initial_extension_header"
             app:layout_constraintStart_toStartOf="parent"
             android:orientation="horizontal">
 
@@ -189,28 +157,111 @@
         </RadioGroup>
 
         <TextView
-            android:id="@+id/has_extension_error"
+            android:id="@+id/has_initial_extension_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/empty_fields"
             android:textSize="14sp"
             android:textColor="@color/error_message"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/handrail_has_extension_radio"
+            app:layout_constraintTop_toBottomOf="@id/handrail_has_initial_extension_radio"
             app:layout_constraintStart_toStartOf="parent"
             />
 
+        <TextView
+            android:id="@+id/init_ext_ref_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/has_initial_extension_error"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/header_ref_point"
+            android:textSize="14sp"/>
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/handrail_extension_length_field"
+            android:id="@+id/handrail_initial_extension_length_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/has_extension_error"
-            android:hint="@string/hint_handrail_extensions_length">
+            app:layout_constraintTop_toBottomOf="@id/init_ext_ref_header"
+            android:hint="@string/hint_initial_handrail_extensions_length">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/handrail_extension_length_value"
+                android:id="@+id/handrail_initial_extension_length_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/handrail_has_final_extension_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/handrail_initial_extension_length_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="@string/label_handrail_has_final_extension_header"
+            android:textSize="@dimen/section_header"/>
+
+        <RadioGroup
+            android:id="@+id/handrail_has_final_extension_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/handrail_has_final_extension_header"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/has_final_extension_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/handrail_has_final_extension_radio"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/final_ext_ref_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/has_final_extension_error"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/header_ref_point"
+            android:textSize="14sp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/handrail_final_extension_length_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/final_ext_ref_header"
+            android:hint="@string/hint_final_handrail_extensions_length">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/handrail_final_extension_length_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"/>
@@ -219,11 +270,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/handrail_extension_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/handrail_extension_length_field"
+            app:layout_constraintTop_toBottomOf="@id/handrail_final_extension_length_field"
             android:hint="@string/hint_obs">
 
             <com.google.android.material.textfield.TextInputEditText

@@ -25,7 +25,6 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.ParkingLotEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ParkingLotPcdDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.PayPhoneDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.PlaygroundEntryDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RampInclinationDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsHandrailDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsRailingDao;
@@ -39,8 +38,6 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.RoomEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SchoolEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkSlopeDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.StairsMirrorDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.StairsStepDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SwitchEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.TableEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WaterFountainDao;
@@ -52,7 +49,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
-import com.mpms.relatorioacessibilidadecortec.data.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.OtherSpaces;
@@ -61,8 +57,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
@@ -75,8 +71,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.StairsMirrorEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.StairsStepEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -88,13 +82,13 @@ import java.util.concurrent.Executors;
 @Database(entities = {SchoolEntry.class, WaterFountainEntry.class, OtherSpaces.class, ExternalAccess.class,
         ParkingLotEntry.class, ParkingLotPCDEntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
-        CounterEntry.class, RampStairsEntry.class, FlightsRampStairsEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
+        CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
         RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
-        SidewalkSlopeEntry.class, StairsStepEntry.class, StairsMirrorEntry.class, RampInclinationEntry.class, RampStairsHandrailEntry.class,
-        RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class, PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 45)
+        SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class,
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 47)
 public abstract class ReportDatabase extends RoomDatabase {
 
-    public static final int NUMBER_THREADS = 4;
+    public static final int NUMBER_THREADS = 8;
     private static volatile ReportDatabase INSTANCE;
     public static final ExecutorService dbWriteExecutor = Executors.newFixedThreadPool(NUMBER_THREADS);
 
@@ -181,15 +175,6 @@ public abstract class ReportDatabase extends RoomDatabase {
                     });
                     dbWriteExecutor.execute(() -> {
                         SidewalkSlopeDao sidewalkSlopeDao = INSTANCE.sidewalkSlopeDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
-                        StairsMirrorDao mirrorDao = INSTANCE.stairsMirrorDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
-                        StairsStepDao stepDao = INSTANCE.stairsStepDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
-                        RampInclinationDao rampDao = INSTANCE.rampInclinationDao();
                     });
                     dbWriteExecutor.execute(() -> {
                         RampStairsRailingDao railingDao = INSTANCE.rampStairsRailingDao();
@@ -1086,6 +1071,92 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_45_46 = new Migration(45, 46) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE Ramp2(rampStairsID INTEGER, blockID, ambientType INTEGER ," +
+                    "extAccessID INTEGER, sidewalkID INTEGER, parkingID INTEGER, roomID INTEGER, rampStairsIdentifier INTEGER," +
+                    " rampStairsLocation TEXT, flightsQuantity INTEGER)");
+            database.execSQL("INSERT INTO Ramp2(rampStairsID, blockID, ambientType, extAccessID, rampStairsIdentifier, rampStairsLocation, flightsQuantity)" +
+                    " SELECT rampStairsID, blockID, ambientType, ambientID, rampStairsIdentifier, rampStairsLocation, flightsQuantity FROM RampStairsEntry");
+
+            database.execSQL("UPDATE Ramp2 SET sidewalkID = extAccessID WHERE ambientType = 2");
+            database.execSQL("UPDATE Ramp2 SET extAccessID = NULL WHERE ambientType = 2");
+            database.execSQL("UPDATE Ramp2 SET parkingID = extAccessID WHERE ambientType = 3");
+            database.execSQL("UPDATE Ramp2 SET extAccessID = NULL WHERE ambientType = 3");
+            database.execSQL("UPDATE Ramp2 SET roomID = extAccessID WHERE ambientType = 4");
+            database.execSQL("UPDATE Ramp2 SET extAccessID = NULL WHERE ambientType = 4");
+
+            database.execSQL("DROP TABLE RampStairsEntry");
+
+            database.execSQL("CREATE TABLE RampStairsEntry(rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL," +
+                    "extAccessID INTEGER, sidewalkID INTEGER, parkingID INTEGER, roomID INTEGER, rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, " +
+                    "flightsQuantity INTEGER NOT NULL, " +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntry (sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (parkingID) REFERENCES ParkingLotEntry (parkingID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("INSERT INTO RampStairsEntry(rampStairsID, blockID, extAccessID, sidewalkID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, flightsQuantity)" +
+                    " SELECT rampStairsID, blockID, extAccessID, sidewalkID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, flightsQuantity FROM Ramp2");
+
+            database.execSQL("DROP TABLE Ramp2");
+
+            database.execSQL("ALTER TABLE FlightsRampStairsEntry RENAME TO RampStairsFlightEntry");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN flightNumber INTEGER NOT NULL DEFAULT 1");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN mirrorCounter INTEGER");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN stairMirror1 REAL");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN stairMirror2 REAL");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN stairMirror3 REAL");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN stairMirror4 REAL");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN stepCounter INTEGER");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN stairStep1 REAL");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN stairStep2 REAL");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN stairStep3 REAL");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN stairStep4 REAL");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN slopeCounter INTEGER");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN rampSlope1 REAL");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN rampSlope2 REAL");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN rampSlope3 REAL");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN rampSlope4 REAL");
+
+            database.execSQL("CREATE TABLE RampStairsRailingEntry2(railingID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, flightID INTEGER NOT NULL," +
+                    "railingSide INTEGER NOT NULL, hasRailing INTEGER NOT NULL, railingHeight REAL, railingObs TEXT, hasBeacon INTEGER, " +
+                    "beaconHeight REAL, beaconObs TEXT, FOREIGN KEY (flightID) REFERENCES RampStairsFlightEntry(flightID)ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO RampStairsRailingEntry2(railingID, flightID, railingSide, hasRailing, railingHeight, railingObs, hasBeacon, beaconHeight, beaconObs)" +
+                    " SELECT railingID, flightID, railingSide, hasRailing, railingHeight, railingObs, hasBeacon, beaconHeight, beaconObs FROM RampStairsRailingEntry");
+            database.execSQL("DROP TABLE RampStairsRailingEntry");
+            database.execSQL("ALTER TABLE RampStairsRailingEntry2 RENAME TO RampStairsRailingEntry");
+
+            database.execSQL("DROP TABLE RampStairsHandrailEntry");
+            database.execSQL("CREATE TABLE RampStairsHandrailEntry(handrailID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, flightID INTEGER NOT NULL," +
+                    "handrailPlacement INTEGER NOT NULL, handrailHeight REAL NOT NULL, handrailGrip REAL NOT NULL, handrailObs TEXT, " +
+                    "hasInitExtension INTEGER NOT NULL, initExtLength REAL, hasFinalExtension INTEGER NOT NULL, finalExtLength REAL, extensionObs TEXT," +
+                    "FOREIGN KEY (flightID) REFERENCES RampStairsFlightEntry(flightID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+
+            database.execSQL("DROP TABLE StairsStepEntry");
+            database.execSQL("DROP TABLE StairsMirrorEntry");
+            database.execSQL("DROP TABLE RampInclinationEntry");
+        }
+
+    };
+
+    static final Migration MIGRATION_46_47 = new Migration(46, 47) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE RampStairsEntry");
+            database.execSQL("CREATE TABLE RampStairsEntry(rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL," +
+                    "extAccessID INTEGER, sidewalkID INTEGER, parkingID INTEGER, roomID INTEGER, rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, " +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntry (sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (parkingID) REFERENCES ParkingLotEntry (parkingID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -1099,7 +1170,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27, MIGRATION_27_28, MIGRATION_28_29, MIGRATION_29_30,
                                     MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35, MIGRATION_35_36,
                                     MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42,
-                                    MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45).build();
+                                    MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47).build();
                 }
             }
         }
@@ -1158,12 +1229,6 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract SidewalkEntryDao sidewalkEntryDao();
 
     public abstract SidewalkSlopeDao sidewalkSlopeDao();
-
-    public abstract StairsStepDao stairsStepDao();
-
-    public abstract StairsMirrorDao stairsMirrorDao();
-
-    public abstract RampInclinationDao rampInclinationDao();
 
     public abstract RampStairsHandrailDao rampStairsHandrailDao();
 

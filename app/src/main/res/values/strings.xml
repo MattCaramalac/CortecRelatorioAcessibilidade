@@ -150,9 +150,10 @@
     <string name="floor_type">Tipo de Piso</string>
     <string name="parking_lot_signal">Sinalização do Estacionamento</string>
     <string name="hint_stairs_width">Largura da Escadaria</string>
-    <string name="hint_handrail_height">Altura do Corrimão</string>
-    <string name="hint_handrail_extensions_length">Comprimento do prolongamento</string>
-    <string name="hint_handrail_grip">Empunhadura do Corrimão</string>
+    <string name="hint_handrail_height">Altura do Corrimão (m)</string>
+    <string name="hint_initial_handrail_extensions_length">Prolongamento Inicial (m)</string>
+    <string name="hint_final_handrail_extensions_length">Prolongamento Final (m)</string>
+    <string name="hint_handrail_grip">Empunhadura do Corrimão (m)</string>
     <string name="hint_railing">Guarda-Corpo</string>
     <string name="hint_tactile_signal">Sinalização Tátil</string>
 
@@ -299,10 +300,10 @@
     <string name="label_step_dimensions_header">Dimensões dos degraus da escadaria</string>
     <string name="label_mirror_register_text">Cadastro Espelhos</string>
     <string name="label_step_register_text">Cadastro Pisos</string>
-    <string name="label_pavement_tactile_sign_header">Há sinalização tátil de pavimento ao início e ao fim do lance?</string>
+    <string name="label_pavement_tactile_sign_header">Há sinalização tátil de pavimento no nível mais baixo e mais alto do lance?</string>
     <string name="radio_button_not_applicable">NÃO SE APLICA</string>
     <string name="hint_pavement_tact_sign_obs">Observações da sinalização tátil de pavimento</string>
-    <string name="label_tactile_floor_header">Há presença de piso tátil ao início e ao fim do lance?</string>
+    <string name="label_tactile_floor_header">Há presença de piso tátil no nível mais baixo e mais alto do lance?</string>
     <string name="hint_tactile_floor_obs">Observações sobre o piso tátil</string>
     <string name="label_railing_beacon_register_header">Cadastro de guarda-corpos e balizamentos</string>
     <string name="label_button_handrails">Corrimãos e Prolongamentos</string>
@@ -399,16 +400,17 @@
     <string name="label_railing_beacon_register_fragment">Cadastro de Guarda-corpos e Balizamentos</string>
     <string name="radio_button_left">ESQUERDO</string>
     <string name="radio_button_right">DIREITO</string>
-    <string name="label_staircase_side_header">Selecione qual o lado do lance de escadas você irá analisar:</string>
-    <string name="label_staircase_has_railing">Este lado do lance de escadas possui um guarda-corpo?</string>
-    <string name="hint_railing_height">Altura do guarda-corpo</string>
+    <string name="label_stair_ramp_side_header">Selecione qual o lado será informado:</string>
+    <string name="label_stair_ramp_has_railing">Este lado possui um guarda-corpo?</string>
+    <string name="hint_railing_height">Altura do guarda-corpo (m)</string>
     <string name="stairs_have_beacon_header">Este lado do lance de escadas possui uma guia de balizamento?</string>
     <string name="radio_button_wall">PAREDE</string>
-    <string name="hint_beacon_height">Altura da Guia de Balizamento</string>
+    <string name="hint_beacon_height">Altura da Guia de Balizamento (m)</string>
 
     <string name="label_handrail_register_header">Cadastro de corrimãos e prolongamentos</string>
     <string name="label_handrail_choice_header">Escolha o corrimão a ser cadastrado</string>
-    <string name="label_handrail_has_extension_header">Este corrimão possui prolongamento?</string>
+    <string name="label_handrail_has_initial_extension_header">Este corrimão possui prolongamento em seu início?</string>
+    <string name="label_handrail_has_final_extension_header">Este corrimão possui prolongamento em seu final?</string>
     <string name="hint_ramp_inclination">Medida de inclinação</string>
     <string name="toolbar_register_staircase_mirrors">Cadastrar Espelhos do Lance</string>
     <string name="toolbar_register_ramp_inclination">Cadastrar Inclinações da Rampa</string>
@@ -436,14 +438,18 @@
     <string name="header_school_info_work_services">Cadastro das Informações da Instituição</string>
     <string name="check_box_maternal">Maternal:</string>
 
-    <string name="first_measurement_perc">Medição 1(%)</string>
     <string name="long_measurement_header">Medições de Inclinação Longitudinal</string>
     <string name="sidewalk_slope_register_header">Cadastro de Rebaixamentos</string>
+    <string name="first_measurement_perc">Medição 1(%)</string>
     <string name="second_measure_perc">Medição 2(%)</string>
     <string name="third_measure_perc">Medição 3(%)</string>
     <string name="fourth_measure_perc">Medição 4(%)</string>
     <string name="fifth_measure_perc">Medição 5(%)</string>
     <string name="sixth_measure_perc">Medição 6(%)</string>
+    <string name="measurement_m_1">Medição 1(m)</string>
+    <string name="measurement_m_2">Medição 2(m)</string>
+    <string name="measurement_m_3">Medição 3(m)</string>
+    <string name="measurement_m_4">Medição 4(m)</string>
     <string name="left_wing_slope_header">Medições de Inclinação Aba Esquerda</string>
     <string name="right_wing_measure_header">Medições de Inclinação Aba Direita</string>
     <string name="hint_fountain_location">Localização do Bebedouro</string>
@@ -566,4 +572,8 @@
     <string name="header_ramp_register">Cadastro de Rampas</string>
     <string name="header_gate_has_stairs">A Entrada possui escadas?</string>
     <string name="header_gate_has_ramps">A Entrada possui rampas?</string>
+    <string name="label_one_stair_ramp_header">Cadastro de Lance Único</string>
+    <string name="header_ref_point">Use como referencial as laterais de quem está subindo</string>
+    <string name="header_flight_register">Cadastro de Lances</string>
+    <string name="header_handrail_register">Cadastro de Corrimãos</string>
 </resources>

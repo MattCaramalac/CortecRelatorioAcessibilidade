@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = @ForeignKey(entity = FlightsRampStairsEntry.class, parentColumns = "flightID", childColumns = "flightID",
+@Entity (foreignKeys = @ForeignKey(entity = RampStairsFlightEntry.class, parentColumns = "flightID", childColumns = "flightID",
         onDelete = CASCADE, onUpdate = CASCADE))
 public class RampStairsRailingEntry {
 
@@ -17,11 +17,11 @@ public class RampStairsRailingEntry {
     private int hasRailing;
     private Double railingHeight;
     private String railingObs;
-    private int hasBeacon;
+    private Integer hasBeacon;
     private Double beaconHeight;
     private String beaconObs;
 
-    public RampStairsRailingEntry(int flightID, int railingSide, int hasRailing, Double railingHeight, String railingObs, int hasBeacon,
+    public RampStairsRailingEntry(int flightID, int railingSide, int hasRailing, Double railingHeight, String railingObs, Integer hasBeacon,
                                   Double beaconHeight, String beaconObs) {
         this.flightID = flightID;
         this.railingSide = railingSide;
@@ -81,11 +81,11 @@ public class RampStairsRailingEntry {
         this.railingObs = railingObs;
     }
 
-    public int getHasBeacon() {
+    public Integer getHasBeacon() {
         return hasBeacon;
     }
 
-    public void setHasBeacon(int hasBeacon) {
+    public void setHasBeacon(Integer hasBeacon) {
         this.hasBeacon = hasBeacon;
     }
 

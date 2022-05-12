@@ -20,7 +20,6 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.ParkingLotEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ParkingLotPcdDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.PayPhoneDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.PlaygroundEntryDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RampInclinationDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsHandrailDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsRailingDao;
@@ -34,8 +33,6 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.RoomEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SchoolEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkSlopeDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.StairsMirrorDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.StairsStepDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SwitchEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.TableEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WaterFountainDao;
@@ -50,7 +47,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
-import com.mpms.relatorioacessibilidadecortec.data.entities.FlightsRampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.OtherSpaces;
@@ -59,8 +55,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RampInclinationEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomDoorUpdate;
@@ -80,8 +76,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.StairsMirrorEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.StairsStepEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -119,9 +113,6 @@ public class ReportRepository {
     private final RestroomUrinalDao restroomUrinalDao;
     private final SidewalkEntryDao sidewalkEntryDao;
     private final SidewalkSlopeDao sidewalkSlopeDao;
-    private final StairsStepDao stairsStepDao;
-    private final StairsMirrorDao stairsMirrorDao;
-    private final RampInclinationDao rampInclinationDao;
     private final RampStairsHandrailDao handrailDao;
     private final RampStairsRailingDao railingDao;
     private final BlockSpaceDao blockSpaceDao;
@@ -158,9 +149,6 @@ public class ReportRepository {
         restroomUrinalDao = db.restroomUrinalDao();
         sidewalkEntryDao = db.sidewalkEntryDao();
         sidewalkSlopeDao = db.sidewalkSlopeDao();
-        stairsStepDao = db.stairsStepDao();
-        stairsMirrorDao = db.stairsMirrorDao();
-        rampInclinationDao = db.rampInclinationDao();
         handrailDao = db.rampStairsHandrailDao();
         railingDao = db.rampStairsRailingDao();
         blockSpaceDao = db.blockSpaceDao();
@@ -634,8 +622,21 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> rampStairsEntryDao.insertRampStairs(ramp));
     }
 
-    public LiveData<List<RampStairsEntry>> getStairsRampFromAmbient(int blockID, int ambientType, int ambientID, int rampOrStairs) {
-        return rampStairsEntryDao.getStairsRampFromAmbient(blockID, ambientType, ambientID, rampOrStairs);
+    public LiveData<List<RampStairsEntry>> getStairsRampFromExtAccess(int blockID, int ambientID, int rampOrStairs) {
+        return rampStairsEntryDao.getStairsRampFromExtAccess(blockID, ambientID, rampOrStairs);
+    }
+
+    public LiveData<List<RampStairsEntry>> getStairsRampFromSidewalk(int blockID, int ambientID, int rampOrStairs) {
+        return rampStairsEntryDao.getStairsRampFromSidewalk(blockID, ambientID, rampOrStairs);
+    }
+
+    public LiveData<List<RampStairsEntry>> getStairsRampFromParking(int blockID, int ambientID, int rampOrStairs) {
+        return rampStairsEntryDao.getStairsRampFromParking(blockID, ambientID, rampOrStairs);
+    }
+
+
+    public LiveData<List<RampStairsEntry>> getStairsRampFromRoom(int blockID, int ambientID, int rampOrStairs){
+        return rampStairsEntryDao.getStairsRampFromRoom(blockID, ambientID, rampOrStairs);
     }
 
     public LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID) {
@@ -658,19 +659,19 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> rampStairsEntryDao.updateRampStairs(rampStairs));
     }
 
-    public void insertRampsStairsFlight(FlightsRampStairsEntry flight) {
+    public void insertRampsStairsFlight(RampStairsFlightEntry flight) {
         ReportDatabase.dbWriteExecutor.execute(() -> flightsRampStairDao.insertRampsStairsFlight(flight));
     }
 
-    public LiveData<List<FlightsRampStairsEntry>> getAllRampStairsFlights(int rampStairsID) {
+    public LiveData<List<RampStairsFlightEntry>> getAllRampStairsFlights(int rampStairsID) {
         return flightsRampStairDao.getAllRampStairsFlights(rampStairsID);
     }
 
-    public LiveData<FlightsRampStairsEntry> getRampStairsFlightEntry(int flightID) {
+    public LiveData<RampStairsFlightEntry> getRampStairsFlightEntry(int flightID) {
         return flightsRampStairDao.getRampStairsFlightEntry(flightID);
     }
 
-    public LiveData<FlightsRampStairsEntry> getLastRampStairsFlightEntry() {
+    public LiveData<RampStairsFlightEntry> getLastRampStairsFlightEntry() {
         return flightsRampStairDao.getLastRampStairsFlightEntry();
     }
 
@@ -682,7 +683,7 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> flightsRampStairDao.deleteAllFlightsFromOneRampsStairs(rampStairsID));
     }
 
-    public void updateFlightRampStairs(FlightsRampStairsEntry flight) {
+    public void updateFlightRampStairs(RampStairsFlightEntry flight) {
         ReportDatabase.dbWriteExecutor.execute(() -> flightsRampStairDao.updateFlightRampStairs(flight));
     }
 
@@ -886,78 +887,6 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> sidewalkSlopeDao.deleteAllSidewalkSlopesFromSidewalk(sidewalkID));
     }
 
-    public void insertStairsStepEntry(StairsStepEntry stepEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsStepDao.insertStairsStepEntry(stepEntry));
-    }
-
-    public LiveData<List<StairsStepEntry>> getAllStairsStepPerFlight(int flightID) {
-        return stairsStepDao.getAllStairsStepPerFlight(flightID);
-    }
-
-    public LiveData<StairsStepEntry> getOneStairsStepEntry(int stairsStepID) {
-        return stairsStepDao.getOneStairsStepEntry(stairsStepID);
-    }
-
-    public void updateStairsStepEntry(StairsStepEntry stepEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsStepDao.updateStairsStepEntry(stepEntry));
-    }
-
-    public void deleteOneStairsStepEntry(int stairsStepID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsStepDao.deleteOneStairsStepEntry(stairsStepID));
-    }
-
-    public void deleteAllStairsStepPerFlight(int flightID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsStepDao.deleteAllStairsStepPerFlight(flightID));
-    }
-
-    public void insertStairsMirrorEntry(StairsMirrorEntry mirrorEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsMirrorDao.insertStairsMirrorEntry(mirrorEntry));
-    }
-
-    public LiveData<List<StairsMirrorEntry>> getAllStairsMirrorPerFlight(int flightID) {
-        return stairsMirrorDao.getAllStairsMirrorPerFlight(flightID);
-    }
-
-    public LiveData<StairsMirrorEntry> getOneStairsMirrorEntry(int stairsMirrorID) {
-        return stairsMirrorDao.getOneStairsMirrorEntry(stairsMirrorID);
-    }
-
-    public void updateStairsMirrorEntry(StairsMirrorEntry mirrorEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsMirrorDao.updateStairsMirrorEntry(mirrorEntry));
-    }
-
-    public void deleteOneStairsMirrorEntry(int stairsMirrorID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsMirrorDao.deleteOneStairsMirrorEntry(stairsMirrorID));
-    }
-
-    public void deleteAllStairsMirrorPerFlight(int flightID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> stairsMirrorDao.deleteAllStairsMirrorPerFlight(flightID));
-    }
-
-    public void insertRampInclinationEntry(RampInclinationEntry rampEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> rampInclinationDao.insertRampInclinationEntry(rampEntry));
-    }
-
-    public LiveData<List<RampInclinationEntry>> getAllRampInclinationsPerFlight(int flightID) {
-        return rampInclinationDao.getAllRampInclinationsPerFlight(flightID);
-    }
-
-    public LiveData<RampInclinationEntry> getOneRampInclinationEntry(int rampInclinationID) {
-        return rampInclinationDao.getOneRampInclinationEntry(rampInclinationID);
-    }
-
-    public void updateRampInclinationEntry(RampInclinationEntry rampEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> rampInclinationDao.updateRampInclinationEntry(rampEntry));
-    }
-
-    public void deleteOneRampInclinationEntry(int rampInclinationID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> rampInclinationDao.deleteOneRampInclinationEntry(rampInclinationID));
-    }
-
-    public void deleteAllRampInclinationsPerFlight(int flightID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> rampInclinationDao.deleteAllRampInclinationsPerFlight(flightID));
-    }
-
     public void insertRampStairsRailing(RampStairsRailingEntry railingEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> railingDao.insertRampStairsRailing(railingEntry));
     }
@@ -1012,18 +941,6 @@ public class ReportRepository {
 
     public void updateRampStairsHandrail(RampStairsHandrailEntry handrailEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> handrailDao.updateRampStairsHandrail(handrailEntry));
-    }
-
-    public LiveData<Integer> countStairSteps(int flightID) {
-        return stairsStepDao.countStairSteps(flightID);
-    }
-
-    public LiveData<Integer> countStairsMirror(int flightID) {
-        return stairsMirrorDao.countStairsMirror(flightID);
-    }
-
-    public LiveData<Integer> countRampInclination(int flightID) {
-        return rampInclinationDao.countRampInclination(flightID);
     }
 
     public void insertAdmEquip(AdmEquipEntry admEquip) {
