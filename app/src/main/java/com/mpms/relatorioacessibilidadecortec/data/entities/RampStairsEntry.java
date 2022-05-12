@@ -6,26 +6,32 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
-        onDelete = CASCADE, onUpdate = CASCADE))
+@Entity(foreignKeys = {@ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = ExternalAccess.class, parentColumns = "externalAccessID", childColumns = "extAccessID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = SidewalkEntry.class, parentColumns = "sidewalkID", childColumns = "sidewalkID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = ParkingLotEntry.class, parentColumns = "parkingID", childColumns = "parkingID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class RampStairsEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int rampStairsID;
     private int blockID;
-    private int ambientType;
-    private int ambientID;
+    private Integer extAccessID;
+    private Integer sidewalkID;
+    private Integer parkingID;
+    private Integer roomID;
     private int rampStairsIdentifier;
     private String rampStairsLocation;
-    private int flightsQuantity;
 
-    public RampStairsEntry(int blockID, int ambientType, int ambientID, int rampStairsIdentifier, String rampStairsLocation, int flightsQuantity) {
+    public RampStairsEntry(int blockID, Integer extAccessID, Integer sidewalkID, Integer parkingID, Integer roomID, int rampStairsIdentifier,
+                           String rampStairsLocation) {
         this.blockID = blockID;
-        this.ambientType = ambientType;
-        this.ambientID = ambientID;
+        this.extAccessID = extAccessID;
+        this.sidewalkID = sidewalkID;
+        this.parkingID = parkingID;
+        this.roomID = roomID;
         this.rampStairsIdentifier = rampStairsIdentifier;
         this.rampStairsLocation = rampStairsLocation;
-        this.flightsQuantity = flightsQuantity;
     }
 
     public int getRampStairsID() {
@@ -44,20 +50,36 @@ public class RampStairsEntry {
         this.blockID = blockID;
     }
 
-    public int getAmbientType() {
-        return ambientType;
+    public Integer getExtAccessID() {
+        return extAccessID;
     }
 
-    public void setAmbientType(int ambientType) {
-        this.ambientType = ambientType;
+    public void setExtAccessID(Integer extAccessID) {
+        this.extAccessID = extAccessID;
     }
 
-    public int getAmbientID() {
-        return ambientID;
+    public Integer getSidewalkID() {
+        return sidewalkID;
     }
 
-    public void setAmbientID(int ambientID) {
-        this.ambientID = ambientID;
+    public void setSidewalkID(Integer sidewalkID) {
+        this.sidewalkID = sidewalkID;
+    }
+
+    public Integer getParkingID() {
+        return parkingID;
+    }
+
+    public void setParkingID(Integer parkingID) {
+        this.parkingID = parkingID;
+    }
+
+    public Integer getRoomID() {
+        return roomID;
+    }
+
+    public void setRoomID(Integer roomID) {
+        this.roomID = roomID;
     }
 
     public int getRampStairsIdentifier() {
@@ -76,11 +98,4 @@ public class RampStairsEntry {
         this.rampStairsLocation = rampStairsLocation;
     }
 
-    public int getFlightsQuantity() {
-        return flightsQuantity;
-    }
-
-    public void setFlightsQuantity(int flightsQuantity) {
-        this.flightsQuantity = flightsQuantity;
-    }
 }
