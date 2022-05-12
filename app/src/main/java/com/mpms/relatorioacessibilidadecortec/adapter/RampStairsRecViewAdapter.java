@@ -77,7 +77,7 @@ public class RampStairsRecViewAdapter extends RecyclerView.Adapter<ViewHolderInt
     }
 
     private String rampStairsNumber(RampStairsEntry rampStairs, int i){
-        if (rampStairs.getRampStairsIdentifier() == 0)
+        if (rampStairs.getRampStairsIdentifier() == 1)
             return "Escada nº"+i;
          else
              return "Rampa nº"+i;
