@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.mpms.relatorioacessibilidadecortec.data.entities.FlightsRampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 
 import java.util.List;
 
@@ -14,23 +14,23 @@ import java.util.List;
 public interface FlightRampStairsDao {
 
     @Insert
-    void insertRampsStairsFlight(FlightsRampStairsEntry flight);
+    void insertRampsStairsFlight(RampStairsFlightEntry flight);
 
-    @Query("SELECT * FROM FlightsRampStairsEntry WHERE rampStairsID == :rampStairsID ORDER BY flightID DESC")
-    LiveData<List<FlightsRampStairsEntry>> getAllRampStairsFlights(int rampStairsID);
+    @Query("SELECT * FROM RampStairsFlightEntry WHERE rampStairsID == :rampStairsID ORDER BY flightID DESC")
+    LiveData<List<RampStairsFlightEntry>> getAllRampStairsFlights(int rampStairsID);
 
-    @Query("SELECT * FROM FlightsRampStairsEntry WHERE flightID == :flightID")
-    LiveData<FlightsRampStairsEntry> getRampStairsFlightEntry(int flightID);
+    @Query("SELECT * FROM RampStairsFlightEntry WHERE flightID == :flightID")
+    LiveData<RampStairsFlightEntry> getRampStairsFlightEntry(int flightID);
 
-    @Query("SELECT * FROM FlightsRampStairsEntry WHERE flightID == (SELECT MAX(flightID) from FlightsRampStairsEntry)")
-    LiveData<FlightsRampStairsEntry> getLastRampStairsFlightEntry();
+    @Query("SELECT * FROM RampStairsFlightEntry WHERE flightID == (SELECT MAX(flightID) from RampStairsFlightEntry)")
+    LiveData<RampStairsFlightEntry> getLastRampStairsFlightEntry();
 
-    @Query("DELETE FROM FlightsRampStairsEntry WHERE flightID == :flightID")
+    @Query("DELETE FROM RampStairsFlightEntry WHERE flightID == :flightID")
     void deleteOneFlight(int flightID);
 
-    @Query("DELETE FROM FlightsRampStairsEntry WHERE rampStairsID == :rampStairsID")
+    @Query("DELETE FROM RampStairsFlightEntry WHERE rampStairsID == :rampStairsID")
     void deleteAllFlightsFromOneRampsStairs(int rampStairsID);
 
     @Update
-    void updateFlightRampStairs(FlightsRampStairsEntry flight);
+    void updateFlightRampStairs(RampStairsFlightEntry flight);
 }

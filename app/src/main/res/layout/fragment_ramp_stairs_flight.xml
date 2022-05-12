@@ -16,7 +16,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/section_header"/>
+             android:textSize="@dimen/section_header_big"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/flight_number_header"
@@ -43,6 +44,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/ramp_staircase_width_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/flight_number_header"
@@ -66,50 +68,254 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/section_header"/>
 
-        <Button
-            android:id="@+id/mirror_button"
-            android:layout_width="130dp"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mirror_inclination_button"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/dimensions_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/step_button"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/usual_padding"
             android:backgroundTint="@color/purple_200"
-            android:text="@string/label_mirror_register_text"
-            android:textColor="@color/black"
-            android:visibility="gone"/>
+            android:textColor="@color/black" />
 
-        <Button
+        <ImageButton
+            android:id="@+id/delete_mirror_inclination_measure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/mirror_inclination_button"
+            app:layout_constraintTop_toTopOf="@id/mirror_inclination_button"
+            app:layout_constraintBottom_toBottomOf="@id/mirror_inclination_button"
+            android:src="@drawable/ic_delete_field"
+            android:backgroundTint="@color/teal_200"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/mirror_inclination_1_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mirror_inclination_button"
+            app:layout_constraintEnd_toStartOf="@id/mirror_inclination_2_field"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/mirror_inclination_1_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/mirror_inclination_2_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toEndOf="@id/mirror_inclination_1_field"
+            app:layout_constraintBaseline_toBaselineOf="@id/mirror_inclination_1_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/mirror_inclination_2_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/mirror_inclination_3_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mirror_inclination_1_field"
+            app:layout_constraintEnd_toStartOf="@id/mirror_inclination_4_field"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/mirror_inclination_3_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/mirror_inclination_4_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toEndOf="@id/mirror_inclination_3_field"
+            app:layout_constraintBaseline_toBaselineOf="@id/mirror_inclination_3_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/mirror_inclination_4_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/mirror_inclination_values_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/mirror_inclination_3_field"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/step_button"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@id/mirror_button"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/mirror_button"
+            app:layout_constraintTop_toBottomOf="@id/mirror_inclination_values_error"
             android:layout_marginTop="@dimen/usual_padding"
             android:backgroundTint="@color/purple_200"
             android:text="@string/label_step_register_text"
             android:textColor="@color/black"
             android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/inclination_button"
-            android:layout_width="140dp"
+        <ImageButton
+            android:id="@+id/delete_step_measure"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dimensions_header"
+            app:layout_constraintStart_toEndOf="@id/step_button"
+            app:layout_constraintTop_toTopOf="@id/step_button"
+            app:layout_constraintBottom_toBottomOf="@id/step_button"
+            android:src="@drawable/ic_delete_field"
+            android:backgroundTint="@color/teal_200"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/step_1_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:backgroundTint="@color/purple_200"
-            android:text="@string/label_inclination_button"
-            android:textColor="@color/black"
-            android:visibility="gone"/>
+            android:weightSum="@integer/weight_one"
+            android:hint="@string/measurement_m_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/step_button"
+            app:layout_constraintEnd_toStartOf="@id/step_2_field"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/step_1_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/step_2_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:weightSum="@integer/weight_one"
+            android:hint="@string/measurement_m_2"
+            app:layout_constraintStart_toEndOf="@id/step_1_field"
+            app:layout_constraintBaseline_toBaselineOf="@id/step_1_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/step_2_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/step_3_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:weightSum="@integer/weight_one"
+            android:hint="@string/measurement_m_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/step_1_field"
+            app:layout_constraintEnd_toStartOf="@id/step_4_field"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/step_3_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/step_4_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:weightSum="@integer/weight_one"
+            android:hint="@string/measurement_m_4"
+            app:layout_constraintStart_toEndOf="@id/step_3_field"
+            app:layout_constraintBaseline_toBaselineOf="@id/step_3_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/step_4_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/step_values_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textSize="14sp"
+            android:textColor="@color/error_message"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/step_3_field"
+            app:layout_constraintStart_toStartOf="parent"
+            />
 
         <TextView
             android:id="@+id/tactile_sign_pavement_header"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dimensions_header"
-            android:layout_marginTop="72dp"
+            app:layout_constraintTop_toBottomOf="@id/step_values_error"
+            android:layout_marginTop="@dimen/usual_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_pavement_tactile_sign_header"
@@ -159,6 +365,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/pavement_tact_sign_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tactile_sign_error"
@@ -176,7 +383,7 @@
                 android:scrollbars="vertical"
                 android:gravity="start"
                 android:scrollHorizontally="false"
-                android:lines="3"/>
+                android:lines="@integer/multiline_obs_field"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -212,6 +419,12 @@
                 android:text="@string/radio_button_yes"
                 android:textSize="15sp"/>
 
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_not_applicable"
+                android:textSize="15sp"/>
         </RadioGroup>
 
         <TextView
@@ -228,6 +441,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tactile_floor_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tactile_floor_error"
@@ -245,7 +459,7 @@
                 android:scrollbars="vertical"
                 android:gravity="start"
                 android:scrollHorizontally="false"
-                android:lines="3"/>
+                android:lines="@integer/multiline_obs_field"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -259,7 +473,7 @@
             android:text="@string/label_railing_beacon_register_header"
             android:textSize="@dimen/section_header"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/railing_beacon_button"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
@@ -282,7 +496,7 @@
             android:text="@string/label_handrail_header"
             android:textSize="@dimen/section_header"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/handrail_button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
@@ -329,6 +543,12 @@
                 android:text="@string/radio_button_yes"
                 android:textSize="15sp"/>
 
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_not_applicable"
+                android:textSize="15sp"/>
         </RadioGroup>
 
         <TextView
@@ -345,6 +565,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/border_signal_width_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/border_sign_error"
@@ -410,6 +631,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/border_signal_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/border_sign_identifiable_error"
@@ -421,7 +643,14 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/border_signal_obs_value"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
