@@ -28,9 +28,10 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
-public class ExtAccessSocialFragment2 extends Fragment {
+public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
 
     RadioGroup hasObstaclesRadio, hasPayphoneRadio, hasIntercomRadio, hasStairsRadio, hasRampsRadio;
     MultiLineRadioGroup sillTypeRadio;
@@ -93,9 +94,9 @@ public class ExtAccessSocialFragment2 extends Fragment {
                     fragment = new PayPhoneListFragment();
                 } else {
                     if (buttonPressed == 3)
-                        bundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 1);
+                        bundle.putInt(RAMP_OR_STAIRS, 1);
                     else
-                        bundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 2);
+                        bundle.putInt(RAMP_OR_STAIRS, 2);
                     fragment = new RampStairsListFragment();
                     bundle.putBoolean(RampStairsListFragment.FROM_EXT_ACCESS, true);
                     bundle.putInt(RampStairsListFragment.AMBIENT_TYPE, 1);
@@ -263,9 +264,9 @@ public class ExtAccessSocialFragment2 extends Fragment {
                     fragment = new PayPhoneListFragment();
                 } else {
                     if (buttonPressed == 3)
-                        childFragBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 1);
+                        childFragBundle.putInt(RAMP_OR_STAIRS, 1);
                     else
-                        childFragBundle.putInt(RampStairsListFragment.RAMP_OR_STAIRS, 2);
+                        childFragBundle.putInt(RAMP_OR_STAIRS, 2);
                     fragment = new RampStairsListFragment();
                     childFragBundle.putInt(RampStairsListFragment.AMBIENT_TYPE, 1);
                 }

@@ -11,6 +11,13 @@ public interface TagInterface {
     String EXT_AREA_REG = "EXT_AREA_REG";
     String SUP_AREA_REG = "SUP_AREA_REG";
 
+//    Tags defining ramps and stairs info
+    String RAMP_OR_STAIRS = "RAMP_OR_STAIRS";
+    String FLIGHT_ID = "FLIGHT_ID";
+    String HANDRAIL_ID = "HANDRAIL_ID";
+    String RAIL_ID = "RAIL_ID";
+    String NEXT_FLIGHT = "NEXT_FLIGHT";
+
     //    Tags defining where the data is coming from
     String FROM_EXT_ACCESS = "FROM_EXT_ACCESS";
     String FROM_SIDEWALK = "FROM_SIDEWALK";
@@ -36,5 +43,8 @@ public interface TagInterface {
     String ADM_EQUIP_LIST = "ADM_EQUIP_LIST";
     String PLAYGROUND_LIST = "PLAYGROUND_LIST";
 
+//    Tags defining register's IDs
     String SIDEWALK_ID = "SIDEWALK_ID";
+    String RAMP_STAIRS_ID = "RAMP_STAIRS_ID";
+
 }
