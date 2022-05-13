@@ -22,20 +22,17 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorLockListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
-public class ExtAccessSocialFragment extends Fragment {
-
-    public static final String NEW_REGISTER_ACCESS = "NEW_REGISTER_ACCESS";
+public class ExtAccessSocialFragment extends Fragment implements TagInterface {
 
     RadioGroup hasSIARadio, gateHandleRadio, hasGateTracksRadio, hasTrackRampRadio;
     MultiLineRadioGroup gateTypeRadio;
@@ -57,7 +54,7 @@ public class ExtAccessSocialFragment extends Fragment {
 
     ArrayList<TextInputLayout> rampTrackFields = new ArrayList<>();
 
-    Bundle extAccSocialBundle = new Bundle();
+    Bundle extAccSocialBundle;
 
     public ExtAccessSocialFragment() {
         // Required empty public constructor
@@ -70,10 +67,10 @@ public class ExtAccessSocialFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            extAccSocialBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
-            extAccSocialBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
-        }
+        if (this.getArguments() != null)
+            extAccSocialBundle = new Bundle(this.getArguments());
+        else
+            extAccSocialBundle = new Bundle();
     }
 
     @Override
@@ -88,13 +85,13 @@ public class ExtAccessSocialFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         instantiateSocialViews(view);
 
-        if (extAccSocialBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) == 0) {
+        if (extAccSocialBundle.getInt(AMBIENT_ID) == 0) {
             modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), access -> {
-                extAccSocialBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, access.getExternalAccessID());
-                extAccSocialBundle.putBoolean(NEW_REGISTER_ACCESS, true);
+                extAccSocialBundle.putInt(AMBIENT_ID, access.getExternalAccessID());
+                extAccSocialBundle.putBoolean(NEW_REGISTER, true);
             });
-        } else if (extAccSocialBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0) {
-            modelEntry.getOneExternalAccess(extAccSocialBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), this::loadSocialFragData);
+        } else if (extAccSocialBundle.getInt(AMBIENT_ID) > 0) {
+            modelEntry.getOneExternalAccess(extAccSocialBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSocialFragData);
         }
 
         addTrackRampButton.setOnClickListener(v -> {
@@ -194,24 +191,23 @@ public class ExtAccessSocialFragment extends Fragment {
     }
 
     private void openNextFragment(Bundle bundle, View v) {
-        Fragment frag;
+        Fragment frag = null;
         if (v == continueButton) {
             if (socialFragOneNoEmptyFields()) {
                 ExtAccessSocialTwo newSocialTwo = socialTwo(bundle);
                 ViewModelEntry.updateExtAccessRegTwo(newSocialTwo);
                 frag = new ExtAccessSocialFragment2();
                 frag.setArguments(bundle);
-                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, frag)
-                        .addToBackStack(null).commit();
             }
         } else if (v == addGateLockButton) {
             ExtAccessSocialTwo newSocialTwo = socialTwo(bundle);
             ViewModelEntry.updateExtAccessRegTwo(newSocialTwo);
             frag = new DoorLockListFragment();
             frag.setArguments(bundle);
+        }
+        if (frag != null)
             requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, frag)
                     .addToBackStack(null).commit();
-        }
     }
 
     private void addRampTrackToArrays() {
@@ -499,7 +495,7 @@ public class ExtAccessSocialFragment extends Fragment {
                 }
             }
         }
-        return new ExtAccessSocialTwo(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID), sia, siaObs, gateType, gateDesc, fSpace1, fSpace2, gateHandle, handleHeight,
+        return new ExtAccessSocialTwo(bundle.getInt(AMBIENT_ID), sia, siaObs, gateType, gateDesc, fSpace1, fSpace2, gateHandle, handleHeight,
                 gateObs, gateTracks, trackHeight, gateTrackRamps, rampTrackCounter, rampMeasure1, rampMeasure2, rampMeasure3, rampMeasure4);
     }
 

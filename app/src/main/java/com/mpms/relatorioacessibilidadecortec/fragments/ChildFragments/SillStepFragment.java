@@ -13,18 +13,17 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 
-public class SillStepFragment extends Fragment {
+public class SillStepFragment extends Fragment implements TagInterface {
 
     public static final String STEP_HEIGHT = "STEP_HEIGHT";
 
@@ -59,11 +58,11 @@ public class SillStepFragment extends Fragment {
 
         instantiateSillStepViews(view);
 
-        getParentFragmentManager().setFragmentResultListener(InspectionActivity.LOAD_CHILD_DATA, this, (key, bundle) -> {
+        getParentFragmentManager().setFragmentResultListener(LOAD_CHILD_DATA, this, (key, bundle) -> {
             if (bundle.getInt(DoorFragment.DOOR_ID) > 0) {
                 modelEntry.getSpecificDoor(bundle.getInt(DoorFragment.DOOR_ID)).observe(getViewLifecycleOwner(), this::loadStepDoorData);
-            } else if (bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0) {
-                modelEntry.getOneExternalAccess(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID))
+            } else if (bundle.getBoolean(FROM_EXT_ACCESS)) {
+                modelEntry.getOneExternalAccess(bundle.getInt(AMBIENT_ID))
                         .observe(getViewLifecycleOwner(), this::loadStepExtAccData);
             } else if (bundle.getInt(PlaygroundFragment.PLAY_ID) > 0) {
                 modelEntry.getOnePlayground(bundle.getInt(PlaygroundFragment.PLAY_ID))
@@ -74,9 +73,9 @@ public class SillStepFragment extends Fragment {
             }
         });
 
-        getParentFragmentManager().setFragmentResultListener(InspectionActivity.GATHER_CHILD_DATA, this, (key, bundle) -> {
+        getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
             checkStepNoEmptyFields(bundle);
-            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
+            getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
         });
     }
 
@@ -99,8 +98,8 @@ public class SillStepFragment extends Fragment {
             bundle.putDouble(STEP_HEIGHT, Double.parseDouble(String.valueOf(stepHeightValue.getText())));
         }
 
-        if (!bundle.getBoolean(InspectionActivity.ADD_ITEM_REQUEST)) {
-            bundle.putBoolean(InspectionActivity.CHILD_DATA_COMPLETE, i == 0);
+        if (!bundle.getBoolean(ADD_ITEM_REQUEST)) {
+            bundle.putBoolean(CHILD_DATA_COMPLETE, i == 0);
         }
         return i == 0;
     }

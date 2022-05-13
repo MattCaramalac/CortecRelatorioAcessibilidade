@@ -31,6 +31,7 @@ public interface TagInterface {
     String CHILD_DATA_LISTENER = "CHILD_DATA_LISTENER";
     String CHILD_DATA_COMPLETE = "CHILD_DATA_COMPLETE";
     String CLEAR_CHILD_DATA = "CLEAR_CHILD_DATA";
+    String PARENT_SAVE_ATTEMPT = "PARENT_SAVE_ATTEMPT";
 
 //    Tags defining the opening of data lists
     String PARKING_LIST = "PARKING_LIST";
@@ -46,5 +47,8 @@ public interface TagInterface {
 //    Tags defining register's IDs
     String SIDEWALK_ID = "SIDEWALK_ID";
     String RAMP_STAIRS_ID = "RAMP_STAIRS_ID";
+    String EXT_ACCESS_ID = "EXT_ACCESS_ID";
 
+//    External Access New Register
+    String NEW_REGISTER = "NEW_REGISTER";
 }

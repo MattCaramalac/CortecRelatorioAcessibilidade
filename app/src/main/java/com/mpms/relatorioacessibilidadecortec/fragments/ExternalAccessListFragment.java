@@ -23,17 +23,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.ExtAccRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class ExternalAccessListFragment extends Fragment implements OnEntryClickListener {
+public class ExternalAccessListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closeExtAccess, addExtAccess, invisible;
     TextView extAccessHeader;
@@ -48,7 +48,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
 
     int delClick = 0;
 
-    Bundle extListBundle = new Bundle();
+    Bundle extListBundle;
 
 
     public ExternalAccessListFragment() {
@@ -62,9 +62,10 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            extListBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
-        }
+        if (this.getArguments() != null)
+            extListBundle = new Bundle(this.getArguments());
+        else
+            extListBundle = new Bundle();
     }
 
     @Override
@@ -80,29 +81,28 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
 
         instantiateExtAccListViews(view);
 
-        modelEntry.getAllExternalAccessesInOneBlock(extListBundle.getInt(BlockRegisterActivity.BLOCK_ID))
-                .observe(getViewLifecycleOwner(), extAccess -> {
-                    extAccAdapter = new ExtAccRecViewAdapter(extAccess, requireActivity(), this);
-                    recyclerView.setAdapter(extAccAdapter);
-                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                    dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-                    recyclerView.addItemDecoration(dividerItemDecoration);
+        modelEntry.getAllExternalAccessesInOneBlock(extListBundle.getInt(BLOCK_ID)).observe(getViewLifecycleOwner(), extAccess -> {
+            extAccAdapter = new ExtAccRecViewAdapter(extAccess, requireActivity(), this);
+            recyclerView.setAdapter(extAccAdapter);
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+            recyclerView.addItemDecoration(dividerItemDecoration);
 
-                    extAccAdapter.setListener(new ListClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            if (actionMode == null)
-                                OnEntryClick(position);
-                            else
-                                enableActionMode();
-                        }
+            extAccAdapter.setListener(new ListClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    if (actionMode == null)
+                        OnEntryClick(position);
+                    else
+                        enableActionMode();
+                }
 
-                        @Override
-                        public void onItemLongClick(int position) {
-                            enableActionMode();
-                        }
-                    });
-                });
+                @Override
+                public void onItemLongClick(int position) {
+                    enableActionMode();
+                }
+            });
+        });
 
         closeExtAccess.setOnClickListener(v -> {
             if (actionMode != null)
@@ -110,15 +110,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
             requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         });
 
-        addExtAccess.setOnClickListener(v -> {
-            ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance();
-            externalAccessFragment.setArguments(extListBundle);
-            if (actionMode != null)
-                actionMode.finish();
-            fragmentManager = requireActivity().getSupportFragmentManager();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.show_fragment_selected, externalAccessFragment).addToBackStack(null).commit();
-        });
+        addExtAccess.setOnClickListener(v -> openExtAccessFrag());
     }
 
     private void instantiateExtAccListViews(View v) {
@@ -137,7 +129,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
 
-        extListBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, 0);
+        extListBundle.putInt(AMBIENT_ID, 0);
     }
 
     private void enableActionMode() {
@@ -187,16 +179,19 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
         }
     }
 
+    private void openExtAccessFrag() {
+        ExternalAccessFragment extFrag = ExternalAccessFragment.newInstance();
+        extFrag.setArguments(extListBundle);
+        if (actionMode != null)
+            actionMode.finish();
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, extFrag).addToBackStack(null).commit();
+    }
+
     @Override
     public void OnEntryClick(int position) {
         ExternalAccess externalAccess = modelEntry.allExtAccSchool.getValue().get(position);
+        extListBundle.putInt(AMBIENT_ID, externalAccess.getExternalAccessID());
+        openExtAccessFrag();
 
-        extListBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, externalAccess.getExternalAccessID());
-
-        ExternalAccessFragment externalAccessFragment = ExternalAccessFragment.newInstance();
-        externalAccessFragment.setArguments(extListBundle);
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, externalAccessFragment).addToBackStack(null).commit();
     }
 }

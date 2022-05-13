@@ -15,12 +15,11 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
-import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class ExtAccessVehicleFragment extends Fragment {
+public class ExtAccessVehicleFragment extends Fragment implements TagInterface {
 
     public static final String HAS_SOUND = "HAS_SOUND";
     public static final String ACCESS_OBS = "ACCESS_OBS";
@@ -46,7 +45,7 @@ public class ExtAccessVehicleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            extAccessID = this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID);
+            extAccessID = this.getArguments().getInt(AMBIENT_ID);
     }
 
     @Override
@@ -61,15 +60,15 @@ public class ExtAccessVehicleFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         instantiateVehicleViews(view);
 
-        getParentFragmentManager().setFragmentResultListener(ExternalAccessFragment.EXT_ACCESS_SAVE_ATTEMPT, this, (key,bundle) -> {
+        getParentFragmentManager().setFragmentResultListener(PARENT_SAVE_ATTEMPT, this, (key,bundle) -> {
             if (checkVehicleEmptyFields()) {
                 bundle.putInt(HAS_SOUND, getRadioCheckIndex(hasSoundSignRadio));
                 if (!TextUtils.isEmpty(accessObsValue.getText()))
                     bundle.putString(ACCESS_OBS, String.valueOf(accessObsValue.getText()));
-                bundle.putBoolean(InspectionActivity.CHILD_DATA_COMPLETE, true);
+                bundle.putBoolean(CHILD_DATA_COMPLETE, true);
             } else
-                bundle.putBoolean(InspectionActivity.CHILD_DATA_COMPLETE, false);
-            getParentFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, bundle);
+                bundle.putBoolean(CHILD_DATA_COMPLETE, false);
+            getParentFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);
         });
 
         if (extAccessID > 0)

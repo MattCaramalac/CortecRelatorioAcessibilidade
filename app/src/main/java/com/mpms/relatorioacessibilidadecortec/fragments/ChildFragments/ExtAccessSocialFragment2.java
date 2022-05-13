@@ -18,15 +18,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.GateObsListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.PayPhoneListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
@@ -43,7 +39,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
 
     ViewModelEntry modelEntry;
 
-    Bundle socialTwoBundle = new Bundle();
+    Bundle socialTwoBundle;
     Bundle childFragBundle = new Bundle();
 
     int buttonPressed = 0;
@@ -61,13 +57,15 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        TODO - Verificar a possibilidade de unificar este bundle, pelamordedeus
-        if (getArguments() != null) {
-            socialTwoBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
-            socialTwoBundle.putBoolean(ExtAccessSocialFragment.NEW_REGISTER_ACCESS, this.getArguments().getBoolean(ExtAccessSocialFragment.NEW_REGISTER_ACCESS));
+        if (this.getArguments() != null) {
+            socialTwoBundle = new Bundle(this.getArguments());
+            socialTwoBundle.putBoolean(FROM_EXT_ACCESS, true);
 
-            childFragBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
-            childFragBundle.putInt(RampStairsListFragment.AMBIENT_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
+            childFragBundle.putInt(BLOCK_ID, this.getArguments().getInt(BLOCK_ID));
+            childFragBundle.putInt(AMBIENT_ID, this.getArguments().getInt(AMBIENT_ID));
         }
+        else
+            socialTwoBundle = new Bundle();
     }
 
     @Override
@@ -83,7 +81,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
 
         instantiateSocialAccess2(view);
 
-        getChildFragmentManager().setFragmentResultListener(InspectionActivity.CHILD_DATA_LISTENER, this, (key,bundle) -> {
+        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key,bundle) -> {
             if (buttonPressed > 0) {
                 ExtAccessSocialThree socialThree = socialDataThree(bundle);
                 ViewModelEntry.updateExtAccessRegThree(socialThree);
@@ -98,21 +96,21 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
                     else
                         bundle.putInt(RAMP_OR_STAIRS, 2);
                     fragment = new RampStairsListFragment();
-                    bundle.putBoolean(RampStairsListFragment.FROM_EXT_ACCESS, true);
+                    bundle.putBoolean(FROM_EXT_ACCESS, true);
                     bundle.putInt(RampStairsListFragment.AMBIENT_TYPE, 1);
                 }
                 fragment.setArguments(bundle);
                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
             } else {
-                if (checkSocialThreeNoEmptyField() && bundle.getBoolean(RoomsRegisterFragment.CHILD_DATA_COMPLETE)){
+                if (checkSocialThreeNoEmptyField() && bundle.getBoolean(CHILD_DATA_COMPLETE)){
                     ExtAccessSocialThree socialThree = socialDataThree(bundle);
                     ViewModelEntry.updateExtAccessRegThree(socialThree);
-                    if (bundle.getBoolean(ExtAccessSocialFragment.NEW_REGISTER_ACCESS))
+                    if (bundle.getBoolean(NEW_REGISTER))
                         Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                 }
-                requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.EXTERNAL_LIST, 0);
+                requireActivity().getSupportFragmentManager().popBackStack(EXTERNAL_LIST, 0);
             }
         });
     }
@@ -121,8 +119,8 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
     public void onStart() {
         super.onStart();
 
-        if (socialTwoBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0 && !socialTwoBundle.getBoolean(ExtAccessSocialFragment.NEW_REGISTER_ACCESS))
-            modelEntry.getOneExternalAccess(socialTwoBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), this::loadSocialData2);
+        if (socialTwoBundle.getInt(AMBIENT_ID) > 0 && !socialTwoBundle.getBoolean(NEW_REGISTER))
+            modelEntry.getOneExternalAccess(socialTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSocialData2);
     }
 
     @Override
@@ -251,8 +249,8 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
             buttonPressed = 4;
 
         if (sillTypeRadio.getCheckedRadioButtonIndex() > 0) {
-            childFragBundle.putBoolean(InspectionActivity.ADD_ITEM_REQUEST, buttonPressed > 0);
-            getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, childFragBundle);
+            childFragBundle.putBoolean(ADD_ITEM_REQUEST, buttonPressed > 0);
+            getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, childFragBundle);
         } else {
             if (buttonPressed > 0) {
                 ExtAccessSocialThree socialThree = socialDataThree(childFragBundle);
@@ -268,7 +266,8 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
                     else
                         childFragBundle.putInt(RAMP_OR_STAIRS, 2);
                     fragment = new RampStairsListFragment();
-                    childFragBundle.putInt(RampStairsListFragment.AMBIENT_TYPE, 1);
+                    childFragBundle.putBoolean(FROM_EXT_ACCESS, true);
+                    childFragBundle.putInt(AMBIENT_TYPE, 1);
                 }
                 fragment.setArguments(childFragBundle);
                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
@@ -276,12 +275,12 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
                 if (checkSocialThreeNoEmptyField()){
                     ExtAccessSocialThree socialThree = socialDataThree(childFragBundle);
                     ViewModelEntry.updateExtAccessRegThree(socialThree);
-                    if (childFragBundle.getBoolean(ExtAccessSocialFragment.NEW_REGISTER_ACCESS))
+                    if (childFragBundle.getBoolean(NEW_REGISTER))
                         Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                 }
-                requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.EXTERNAL_LIST, 0);
+                requireActivity().getSupportFragmentManager().popBackStack(EXTERNAL_LIST, 0);
             }
         }
     }
@@ -290,7 +289,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
         if (access.getGateSillType() != null) {
             sillTypeRadio.checkAt(access.getGateSillType());
             if (access.getGateSillType() > 0)
-                getChildFragmentManager().setFragmentResult(InspectionActivity.LOAD_CHILD_DATA, socialTwoBundle);
+                getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, socialTwoBundle);
         }
         if (access.getGateSillObs() != null)
             sillObsValue.setText(access.getGateSillObs());
@@ -304,6 +303,10 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
                 if (access.getIntercomHeight() != null)
                     intercomHeightValue.setText(String.valueOf(access.getIntercomHeight()));
         }
+        if (access.getGateHasStairs() != null)
+            hasStairsRadio.check(hasStairsRadio.getChildAt(access.getGateHasStairs()).getId());
+        if (access.getGateHasRamps() != null)
+            hasRampsRadio.check(hasRampsRadio.getChildAt(access.getGateHasRamps()).getId());
         if (access.getExtAccessObs() != null)
             accessObsValue.setText(access.getExtAccessObs());
 
@@ -403,18 +406,19 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
         if (!TextUtils.isEmpty(accessObsValue.getText()))
             extAccess = String.valueOf(accessObsValue.getText());
         if (getCheckedRadioIndex(hasStairsRadio) > -1)
-            hasStairs = getCheckedRadioIndex(hasObstaclesRadio);
+            hasStairs = getCheckedRadioIndex(hasStairsRadio);
         if (getCheckedRadioIndex(hasRampsRadio) > -1)
-            hasRamp = getCheckedRadioIndex(hasObstaclesRadio);
+            hasRamp = getCheckedRadioIndex(hasRampsRadio);
 
-        return new ExtAccessSocialThree(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID), gateSill, inclHeight, stepHeight, slopeQnt, angle1, angle2, angle3, angle4, slopeWidth,
+        return new ExtAccessSocialThree(bundle.getInt(AMBIENT_ID), gateSill, inclHeight, stepHeight, slopeQnt, angle1, angle2, angle3, angle4, slopeWidth,
                 sillObs, hasObstacles, hasPayphones, hasIntercom, intercomHeight, extAccess, hasStairs, hasRamp);
     }
 
     private Bundle clearBundle(Bundle bundle) {
         bundle.clear();
-        bundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, socialTwoBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID));
-        bundle.putBoolean(ExtAccessSocialFragment.NEW_REGISTER_ACCESS, socialTwoBundle.getBoolean(ExtAccessSocialFragment.NEW_REGISTER_ACCESS));
+        bundle.putInt(BLOCK_ID, socialTwoBundle.getInt(BLOCK_ID));
+        bundle.putInt(AMBIENT_ID, socialTwoBundle.getInt(AMBIENT_ID));
+        bundle.putBoolean(NEW_REGISTER, socialTwoBundle.getBoolean(NEW_REGISTER));
         return bundle;
     }
 }
