@@ -16,23 +16,22 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.SidewalkRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class SidewalkListFragment extends Fragment implements OnEntryClickListener {
+public class SidewalkListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     public static final String NEW_SIDEWALK_ENTRY = "NEW_SIDEWALK_ENTRY";
 
@@ -48,7 +47,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
 
     int delClick = 0;
 
-    Bundle sidewalkBundle = new Bundle();
+    Bundle sideListBundle;
 
     public SidewalkListFragment() {
         // Required empty public constructor
@@ -62,7 +61,9 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            sidewalkBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
+            sideListBundle = new Bundle(this.getArguments());
+        else
+            sideListBundle = new Bundle();
     }
 
     @Nullable
@@ -78,8 +79,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
 
         instantiateSidewalkListViews(view);
 
-        modelEntry.getAllSidewalks(sidewalkBundle.getInt(BlockRegisterActivity.BLOCK_ID))
-                .observe(getViewLifecycleOwner(), sidewalkEntryList -> {
+        modelEntry.getAllSidewalks(sideListBundle.getInt(BLOCK_ID)).observe(getViewLifecycleOwner(), sidewalkEntryList -> {
                     sidewalkAdapter = new SidewalkRecViewAdapter(sidewalkEntryList, requireActivity(), this);
                     recyclerView.setAdapter(sidewalkAdapter);
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -109,6 +109,13 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
                 actionMode.finish();
             requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sideListBundle.putInt(AMBIENT_ID, 0);
+
     }
 
     private void enableActionMode() {
@@ -161,7 +168,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
     @Override
     public void OnEntryClick(int position) {
         SidewalkEntry sidewalk =  modelEntry.allSidewalks.getValue().get(position);
-        sidewalkBundle.putInt(SidewalkFragment.SIDEWALK_ID, sidewalk.getSidewalkID());
+        sideListBundle.putInt(AMBIENT_ID, sidewalk.getSidewalkID());
         openSidewalkFragment();
     }
 
@@ -171,13 +178,12 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
         if (actionMode != null)
             actionMode.finish();
         fragmentTransaction = fragmentManager.beginTransaction();
-        if (sidewalkBundle.getInt(SidewalkFragment.SIDEWALK_ID) > 0) {
-            sidewalkFrag.setArguments(sidewalkBundle);
+        sidewalkFrag.setArguments(sideListBundle);
+
+        if (sideListBundle.getInt(AMBIENT_ID) > 0) {
             fragmentTransaction.replace(R.id.show_fragment_selected, sidewalkFrag).addToBackStack(null).commit();
         }
         else {
-            sidewalkBundle.putInt(SidewalkFragment.SIDEWALK_ID, 0);
-            sidewalkFrag.setArguments(sidewalkBundle);
             fragmentTransaction.replace(R.id.show_fragment_selected, sidewalkFrag).addToBackStack(NEW_SIDEWALK_ENTRY).commit();
         }
     }
@@ -196,8 +202,6 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
-        modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
-
-        sidewalkBundle.putInt(SidewalkFragment.SIDEWALK_ID, 0);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
     }
 }

@@ -25,13 +25,13 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.SidewalkSlopeRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickListener {
+public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closeSideSlopeList, addSideSlope;
 
@@ -42,7 +42,7 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
 
     int delClick = 0;
 
-    Bundle sideSlopeBundle = new Bundle();
+    Bundle sideSlopeBundle;
 
     public SidewalkSlopeListFragment() {
         // Required empty public constructor
@@ -56,7 +56,9 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            sideSlopeBundle.putInt(SidewalkFragment.SIDEWALK_ID, this.getArguments().getInt(SidewalkFragment.SIDEWALK_ID));
+            sideSlopeBundle = new Bundle(this.getArguments());
+        else
+            sideSlopeBundle = new Bundle();
 
 
     }
@@ -76,8 +78,7 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
 
         instantiateSideSlopeViews(view);
 
-        modelEntry.getAllSidewalkSlopes(sideSlopeBundle.getInt(SidewalkFragment.SIDEWALK_ID)).
-                observe(getViewLifecycleOwner(), sideSlopeList -> {
+        modelEntry.getAllSidewalkSlopes(sideSlopeBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), sideSlopeList -> {
                     sideSlopeAdapter = new SidewalkSlopeRecViewAdapter(sideSlopeList, requireActivity(), this);
                     recyclerView.setAdapter(sideSlopeAdapter);
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -182,7 +183,7 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
     @Override
     public void OnEntryClick(int position) {
         SidewalkSlopeEntry slopeEntry = modelEntry.allSidewalkSlopes.getValue().get(position);
-        sideSlopeBundle.putInt(SidewalkSlopeFragment.SIDEWALK_SLOPE_ID, slopeEntry.getSidewalkSlopeID());
+        sideSlopeBundle.putInt(SIDEWALK_SLOPE_ID, slopeEntry.getSidewalkSlopeID());
         openSideSlopeFragment();
     }
 

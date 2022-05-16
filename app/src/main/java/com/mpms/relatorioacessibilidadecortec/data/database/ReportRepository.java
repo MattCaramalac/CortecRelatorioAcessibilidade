@@ -75,6 +75,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
@@ -853,6 +855,14 @@ public class ReportRepository {
 
     public void updateSidewalk(SidewalkEntry sidewalkEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> sidewalkEntryDao.updateSidewalk(sidewalkEntry));
+    }
+
+    public void updateSidewalkOne(SidewalkEntryOne... sideOne) {
+        ReportDatabase.dbWriteExecutor.execute(() -> sidewalkEntryDao.updateSidewalkOne(sideOne));
+    }
+
+    public void updateSidewalkTwo(SidewalkEntryTwo... sideTwo) {
+        ReportDatabase.dbWriteExecutor.execute(() -> sidewalkEntryDao.updateSidewalkTwo(sideTwo));
     }
 
     public void deleteSidewalk(int sidewalkID) {

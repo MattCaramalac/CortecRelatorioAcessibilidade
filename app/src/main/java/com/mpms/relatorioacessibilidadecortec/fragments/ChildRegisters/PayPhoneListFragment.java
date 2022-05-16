@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,15 +24,14 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.PayPhoneViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class PayPhoneListFragment extends Fragment implements OnEntryClickListener {
+public class PayPhoneListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closePayPhoneList, addPayPhone, continueButton;
 
@@ -45,13 +42,11 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private PayPhoneViewAdapter payPhoneAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
 
-    Bundle payPhoneBundle = new Bundle();
+    Bundle payPhoneBundle;
 
     public PayPhoneListFragment() {
         // Required empty public constructor
@@ -64,16 +59,15 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            payPhoneBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
-            payPhoneBundle.putInt(SidewalkFragment.SIDEWALK_ID, this.getArguments().getInt(SidewalkFragment.SIDEWALK_ID));
-        }
-
+        if (this.getArguments() != null)
+            payPhoneBundle = new Bundle(this.getArguments());
+        else
+            payPhoneBundle = new Bundle();
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable  Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_child_items_entries, container, false);
     }
@@ -84,15 +78,14 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
 
         instantiatePayPhoneViews(view);
 
-//        TODO - Unificar esse método do modelEntry para ter um único observável
-        if (payPhoneBundle.getInt(SidewalkFragment.SIDEWALK_ID) == 0) {
-            modelEntry.getAllPayPhonesExtAccess(payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID)).observe(getViewLifecycleOwner(), payPhoneList -> {
-                payPhoneAdapter = new PayPhoneViewAdapter(payPhoneList, requireActivity(), this);
+        if (payPhoneBundle.getBoolean(FROM_SIDEWALK)) {
+            modelEntry.getAllPayPhonesSidewalk(payPhoneBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), payPhoneSideList -> {
+                payPhoneAdapter = new PayPhoneViewAdapter(payPhoneSideList, requireActivity(), this);
                 listCreator(payPhoneAdapter);
             });
-        } else if (payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) == 0) {
-            modelEntry.getAllPayPhonesSidewalk(payPhoneBundle.getInt(SidewalkFragment.SIDEWALK_ID)).observe(getViewLifecycleOwner(), payPhoneSideList -> {
-                payPhoneAdapter = new PayPhoneViewAdapter(payPhoneSideList, requireActivity(), this);
+        } else if (payPhoneBundle.getBoolean(FROM_EXT_ACCESS)) {
+            modelEntry.getAllPayPhonesExtAccess(payPhoneBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), payPhoneList -> {
+                payPhoneAdapter = new PayPhoneViewAdapter(payPhoneList, requireActivity(), this);
                 listCreator(payPhoneAdapter);
             });
         }
@@ -110,7 +103,7 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     @Override
     public void onResume() {
         super.onResume();
-        payPhoneBundle.putInt(PayPhoneFragment.PHONE_ID, 0);
+        payPhoneBundle.putInt(PHONE_ID, 0);
     }
 
     private void listCreator(PayPhoneViewAdapter adapter) {
@@ -123,7 +116,7 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     }
 
     private ListClickListener clickListener() {
-       return new ListClickListener() {
+        return new ListClickListener() {
             @Override
             public void onItemClick(int position) {
                 if (actionMode == null)
@@ -189,17 +182,17 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     @Override
     public void OnEntryClick(int position) {
         PayPhoneEntry phoneEntry;
-        if (payPhoneBundle.getInt(SidewalkFragment.SIDEWALK_ID) > 0)
+        if (payPhoneBundle.getBoolean(FROM_SIDEWALK))
             phoneEntry = modelEntry.allPayPhonesSidewalk.getValue().get(position);
-        else if (payPhoneBundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0)
-            phoneEntry = modelEntry.allPayPhonesSidewalk.getValue().get(position);
+        else if (payPhoneBundle.getBoolean(FROM_EXT_ACCESS))
+            phoneEntry = modelEntry.allPayPhonesExtAccess.getValue().get(position);
         else
             return;
         payPhoneBundle.putInt(PayPhoneFragment.PHONE_ID, phoneEntry.getPayPhoneID());
         openPayphoneFragment();
     }
 
-    public void instantiatePayPhoneViews (View v) {
+    public void instantiatePayPhoneViews(View v) {
 //        TextView
         payPhoneHeader = v.findViewById(R.id.identifier_header);
         payPhoneHeader.setText(R.string.header_text_payphone_register);
@@ -220,11 +213,10 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
 
     private void openPayphoneFragment() {
         PayPhoneFragment phoneFragment = PayPhoneFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
         phoneFragment.setArguments(payPhoneBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, phoneFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.show_fragment_selected, phoneFragment).addToBackStack(null).commit();
     }
 }

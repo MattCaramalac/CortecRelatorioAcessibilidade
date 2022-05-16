@@ -48,6 +48,8 @@ public interface TagInterface {
     String SIDEWALK_ID = "SIDEWALK_ID";
     String RAMP_STAIRS_ID = "RAMP_STAIRS_ID";
     String EXT_ACCESS_ID = "EXT_ACCESS_ID";
+    String SIDEWALK_SLOPE_ID = "SIDEWALK_SLOPE_ID";
+    String PHONE_ID = "PHONE_ID";
 
 //    External Access New Register
     String NEW_REGISTER = "NEW_REGISTER";

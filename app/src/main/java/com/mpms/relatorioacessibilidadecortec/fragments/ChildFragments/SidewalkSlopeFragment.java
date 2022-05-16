@@ -20,15 +20,13 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
-public class SidewalkSlopeFragment extends Fragment {
-
-    public static final String SIDEWALK_SLOPE_ID = "SIDEWALK_SLOPE_ID";
+public class SidewalkSlopeFragment extends Fragment implements TagInterface {
 
     TextInputLayout slopeLocaleField, slopeWidthField, longMeasureField1, longMeasureField2, longMeasureField3, longMeasureField4,
             leftMeasureField1, leftMeasureField2, leftMeasureField3, leftMeasureField4, rightMeasureField1, rightMeasureField2,
@@ -43,7 +41,7 @@ public class SidewalkSlopeFragment extends Fragment {
     TextView tactileFloorError, longitudinalError, leftWingRadioError, leftWingHeader, leftWingError, rightWingRadioError, rightWingHeader,
             rightWingError, slopeAccessFloorRadioError, streetSlopeError;
 
-    Bundle slopeBundle = new Bundle();
+    Bundle slopeBundle;
 
     ViewModelEntry modelEntry;
 
@@ -66,11 +64,10 @@ public class SidewalkSlopeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            slopeBundle.putInt(SidewalkFragment.SIDEWALK_ID, this.getArguments().getInt(SidewalkFragment.SIDEWALK_ID));
-            slopeBundle.putInt(SIDEWALK_SLOPE_ID,
-                    this.getArguments().getInt(SIDEWALK_SLOPE_ID));
-        }
+        if (this.getArguments() != null)
+            slopeBundle = new Bundle(this.getArguments());
+        else
+            slopeBundle = new Bundle();
     }
 
     @Override
@@ -162,8 +159,8 @@ public class SidewalkSlopeFragment extends Fragment {
             }
         });
 
-        getChildFragmentManager().setFragmentResultListener(InspectionActivity.CHILD_DATA_LISTENER, this, (key, bundle) -> {
-            if (checkSideSlopeEmptyFields() && bundle.getBoolean(InspectionActivity.CHILD_DATA_COMPLETE)) {
+        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
+            if (checkSideSlopeEmptyFields() && bundle.getBoolean(CHILD_DATA_COMPLETE)) {
                 saveSideSlopeEntry(bundle);
             }
         });
@@ -172,7 +169,7 @@ public class SidewalkSlopeFragment extends Fragment {
 
         saveSlope.setOnClickListener(v -> {
             if (slopeStreetJunction.getCheckedRadioButtonIndex() == 1 || slopeStreetJunction.getCheckedRadioButtonIndex() == 2) {
-                getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, slopeBundle);
+                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, slopeBundle);
             } else {
                 if (checkSideSlopeEmptyFields()) {
                     saveSideSlopeEntry(slopeBundle);
@@ -675,7 +672,7 @@ public class SidewalkSlopeFragment extends Fragment {
         if (!TextUtils.isEmpty(slopeObsValue.getText()))
             slopeObs = String.valueOf(slopeObsValue.getText());
 
-        return new SidewalkSlopeEntry(bundle.getInt(SidewalkFragment.SIDEWALK_ID), slopeLocation, slopeWidth, longCounter, long1, long2, long3, long4,
+        return new SidewalkSlopeEntry(bundle.getInt(AMBIENT_ID), slopeLocation, slopeWidth, longCounter, long1, long2, long3, long4,
                 hasLeft, leftCounter, left1, left2, left3, left4, hasRight, rightCounter, right1, right2, right3, right4, hasTactile, tactFloorObs,
                 hasAccess, accessSlopeFloorObs, streetJunction, junInclHeight, junStepHeight, junctionObs, slopeObs);
     }

@@ -46,6 +46,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
@@ -780,6 +782,14 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void updateSidewalk(SidewalkEntry sidewalkEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSidewalk(sidewalkEntry));
+    }
+
+    public static void updateSidewalkOne(SidewalkEntryOne... sideOne) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSidewalkOne(sideOne));
+    }
+
+    public static void updateSidewalkTwo(SidewalkEntryTwo... sideTwo) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSidewalkTwo(sideTwo));
     }
 
     public static void deleteSidewalk(int sidewalkID) {

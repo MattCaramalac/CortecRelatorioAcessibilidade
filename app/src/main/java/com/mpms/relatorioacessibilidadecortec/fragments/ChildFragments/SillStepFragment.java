@@ -67,8 +67,8 @@ public class SillStepFragment extends Fragment implements TagInterface {
             } else if (bundle.getInt(PlaygroundFragment.PLAY_ID) > 0) {
                 modelEntry.getOnePlayground(bundle.getInt(PlaygroundFragment.PLAY_ID))
                         .observe(getViewLifecycleOwner(), this::loadStepPlayData);
-            } else if (bundle.getInt(SidewalkSlopeFragment.SIDEWALK_SLOPE_ID) > 0) {
-                modelEntry.getSidewalkSlopeEntry(bundle.getInt(SidewalkSlopeFragment.SIDEWALK_SLOPE_ID))
+            } else if (bundle.getInt(SIDEWALK_SLOPE_ID) > 0) {
+                modelEntry.getSidewalkSlopeEntry(bundle.getInt(SIDEWALK_SLOPE_ID))
                         .observe(getViewLifecycleOwner(), this::loadStepStreetSlopeData);
             }
         });

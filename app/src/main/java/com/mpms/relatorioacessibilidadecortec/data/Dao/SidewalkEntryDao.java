@@ -7,6 +7,8 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryTwo;
 
 import java.util.List;
 
@@ -27,6 +29,12 @@ public interface SidewalkEntryDao {
 
     @Update
     void updateSidewalk(SidewalkEntry SidewalkEntry);
+
+    @Update(entity = SidewalkEntry.class)
+    void updateSidewalkOne(SidewalkEntryOne... sideOne);
+
+    @Update(entity = SidewalkEntry.class)
+    void updateSidewalkTwo(SidewalkEntryTwo... sideTwo);
 
     @Query("DELETE FROM SidewalkEntry WHERE sidewalkID == :sidewalkID")
     void deleteSidewalk(int sidewalkID);

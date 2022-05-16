@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    tools:context=".fragments.SidewalkFragmentTwo">
+
+    <TextView
+        android:id="@+id/sidewalk_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/section_header_big"
+        android:textStyle="bold"
+        android:text="@string/label_sidewalk_header"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/sidewalk_header">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/label_sidewalk_conservation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:textSize="@dimen/section_header"
+                android:text="A calçada se encontra em bom estado de conservação?"/>
+
+            <RadioGroup
+                android:id="@+id/side_conservation_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_sidewalk_conservation"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text"
+                    />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/side_conservation_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textSize="14sp"
+                android:textColor="@color/error_message"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/side_conservation_radio"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/side_conservation_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/side_conservation_error"
+                android:hint="Observações de Conservação da Calçada">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/side_conservation_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:gravity="start"
+                    android:scrollHorizontally="false"
+                    android:lines="@integer/multiline_obs_field"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/label_accessible_sidewalk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/side_conservation_obs_field"
+                android:textSize="@dimen/section_header"
+                android:text="@string/label_accessible_floor_header"
+                android:layout_marginTop="@dimen/top_margins"/>
+
+            <RadioGroup
+                android:id="@+id/accessible_sidewalk_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_accessible_sidewalk"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text"
+                    />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/accessible_sidewalk_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textSize="14sp"
+                android:textColor="@color/error_message"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/accessible_sidewalk_radio"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/accessible_sidewalk_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/accessible_sidewalk_error"
+                android:hint="@string/hint_sidewalk_status"
+                app:helperText="@string/helper_not_accessible_floor"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/accessible_sidewalk_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:gravity="start"
+                    android:scrollHorizontally="false"
+                    android:lines="@integer/multiline_obs_field"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/label_sidewalk_lid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/accessible_sidewalk_field"
+                android:textSize="@dimen/section_header"
+                android:text="@string/header_sidewalk_lid"
+                android:layout_marginTop="@dimen/usual_padding"/>
+
+            <RadioGroup
+                android:id="@+id/sidewalk_lid_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_sidewalk_lid"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text"
+                    />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/sidewalk_lid_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textSize="14sp"
+                android:textColor="@color/error_message"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_lid_radio"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/sidewalk_lid_desc_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_lid_error"
+                android:hint="@string/hint_lid_description"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sidewalk_lid_desc_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:gravity="start"
+                    android:scrollHorizontally="false"
+                    android:lines="@integer/multiline_obs_field"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/label_aerial_obstacle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_lid_desc_field"
+                android:textSize="@dimen/section_header"
+                android:text="@string/header_side_has_aerial_obstacles"
+                android:layout_marginTop="@dimen/top_margins"/>
+
+            <RadioGroup
+                android:id="@+id/aerial_obstacle_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_aerial_obstacle"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text"
+                    />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/aerial_obstacle_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textSize="14sp"
+                android:textColor="@color/error_message"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/aerial_obstacle_radio"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/aerial_obstacle_desc_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/aerial_obstacle_error"
+                android:hint="@string/hint_aerial_obstacles"
+                app:helperText="Descreva o tipo de obstáculo encontrado"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/aerial_obstacle_desc_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:gravity="start"
+                    android:scrollHorizontally="false"
+                    android:lines="@integer/multiline_obs_field"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/label_sidewalk_has_slope_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/section_header"
+                android:text="@string/label_sidewalk_slope"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/aerial_obstacle_desc_field"
+                android:layout_marginTop="@dimen/top_margins"/>
+
+            <RadioGroup
+                android:id="@+id/radio_sidewalk_slope"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_sidewalk_has_slope_header"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_sidewalk_slope_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:id="@+id/radio_sidewalk_slope_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text"
+                    />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/sidewalk_has_slope_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textSize="14sp"
+                android:textColor="@color/error_message"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_slope"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/label_sidewalk_slope_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/section_header"
+                android:text="@string/label_slope_register"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_slope_error"
+                android:layout_marginTop="@dimen/top_margins"
+                android:visibility="gone"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_sidewalk_slope"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_sidewalk_slope_register"
+                android:backgroundTint="@color/purple_200"
+                android:textColor="@color/black"
+                app:cornerRadius="3dp"
+                android:text="@string/label_add_frag_entry"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/label_sidewalk_has_payphone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/section_header"
+                android:text="Esta calçada possui telefone público?"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_sidewalk_slope"
+                android:layout_marginTop="@dimen/top_margins"/>
+
+            <RadioGroup
+                android:id="@+id/radio_sidewalk_payphone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_sidewalk_has_payphone"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text"
+                    />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/sidewalk_has_payphone_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textSize="14sp"
+                android:textColor="@color/error_message"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_payphone"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/label_sidewalk_payphone_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/section_header"
+                android:text="Cadastro de Telefones Públicos"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_payphone_error"
+                android:layout_marginTop="@dimen/top_margins"
+                android:visibility="gone"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_sidewalk_payphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_sidewalk_payphone_register"
+                android:backgroundTint="@color/purple_200"
+                android:textColor="@color/black"
+                app:cornerRadius="3dp"
+                android:text="@string/label_add_frag_entry"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/label_sidewalk_has_stairs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="A calçada possui escadas?"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_sidewalk_payphone" />
+
+            <RadioGroup
+                android:id="@+id/sidewalk_has_stairs_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_sidewalk_has_stairs">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/sidewalk_has_stairs_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_stairs_radio" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_sidewalk_stairs_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:backgroundTint="@color/purple_200"
+                android:text="@string/label_add_frag_entry"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                app:cornerRadius="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_stairs_error" />
+
+            <TextView
+                android:id="@+id/label_sidewalk_has_ramps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="A calçada possui rampas?"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_sidewalk_stairs_button" />
+
+            <RadioGroup
+                android:id="@+id/sidewalk_has_ramps_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_sidewalk_has_ramps">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/sidewalk_has_ramps_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_ramps_radio" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_sidewalk_ramps_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:backgroundTint="@color/purple_200"
+                android:text="@string/label_add_frag_entry"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                app:cornerRadius="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_ramps_error" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/sidewalk_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_sidewalk_ramps_button"
+                android:hint="@string/hint_obs">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sidewalk_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:gravity="start"
+                    android:scrollHorizontally="false"
+                    android:lines="@integer/multiline_obs_field"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/save_sidewalk_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/top_margins"
+                android:text="@string/label_button_save"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_obs_field" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/return_side_one_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/top_margins"
+                android:text="RETORNAR"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@id/save_sidewalk_button"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </ScrollView>
+
+
+
+</RelativeLayout>

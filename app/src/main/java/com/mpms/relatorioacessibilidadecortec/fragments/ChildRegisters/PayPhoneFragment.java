@@ -20,11 +20,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class PayPhoneFragment extends Fragment {
+public class PayPhoneFragment extends Fragment implements TagInterface {
 
     public static final String PHONE_ID = "PHONE_ID";
 
@@ -34,7 +33,7 @@ public class PayPhoneFragment extends Fragment {
     RadioGroup payphoneTactileFloorRadio, payphoneTactileColorRadio, payphoneWorkingRadio;
     Button savePayphone, cancelPayphone;
 
-    Bundle phoneBundle = new Bundle();
+    Bundle phoneBundle;
 
     ViewModelEntry modelEntry;
 
@@ -49,11 +48,10 @@ public class PayPhoneFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            phoneBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
-            phoneBundle.putInt(SidewalkFragment.SIDEWALK_ID, this.getArguments().getInt(SidewalkFragment.SIDEWALK_ID));
-            phoneBundle.putInt(PHONE_ID, this.getArguments().getInt(PHONE_ID));
-        }
+        if (this.getArguments() != null)
+            phoneBundle = new Bundle(this.getArguments());
+        else
+            phoneBundle = new Bundle();
     }
 
     @Override
@@ -84,6 +82,8 @@ public class PayPhoneFragment extends Fragment {
                     ViewModelEntry.updatePayPhone(newPhone);
                     Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                     requireActivity().getSupportFragmentManager().popBackStackImmediate();
+                } else {
+                    Toast.makeText(getContext(), R.string.unexpected_error, Toast.LENGTH_SHORT).show();
                 }
                 phoneBundle.putInt(PHONE_ID, 0);
             }
@@ -177,10 +177,10 @@ public class PayPhoneFragment extends Fragment {
         double keyboardHeight, phoneHeight;
         Double tactFloorLength = null, tactFloorWidth = null;
 
-        if (bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0)
-            extID = bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID);
-        else if (bundle.getInt(SidewalkFragment.SIDEWALK_ID) > 0)
-            sideID = bundle.getInt(SidewalkFragment.SIDEWALK_ID);
+        if (bundle.getBoolean(FROM_EXT_ACCESS))
+            extID = bundle.getInt(AMBIENT_ID);
+        else if (bundle.getBoolean(FROM_SIDEWALK))
+            sideID = bundle.getInt(AMBIENT_ID);
         payphoneRefLocation = String.valueOf(payphoneRefValue.getText());
         keyboardHeight = Double.parseDouble(String.valueOf(keyboardHeightValue.getText()));
         phoneHeight = Double.parseDouble(String.valueOf(keyboardHeightValue.getText()));

@@ -86,6 +86,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
                 ExtAccessSocialThree socialThree = socialDataThree(bundle);
                 ViewModelEntry.updateExtAccessRegThree(socialThree);
                 Fragment fragment;
+                bundle.putBoolean(FROM_EXT_ACCESS, true);
                 if (buttonPressed == 1){
                     fragment = new GateObsListFragment();
                 } else if  (buttonPressed == 2) {
@@ -96,7 +97,6 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
                     else
                         bundle.putInt(RAMP_OR_STAIRS, 2);
                     fragment = new RampStairsListFragment();
-                    bundle.putBoolean(FROM_EXT_ACCESS, true);
                     bundle.putInt(RampStairsListFragment.AMBIENT_TYPE, 1);
                 }
                 fragment.setArguments(bundle);
@@ -256,6 +256,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
                 ExtAccessSocialThree socialThree = socialDataThree(childFragBundle);
                 ViewModelEntry.updateExtAccessRegThree(socialThree);
                 Fragment fragment;
+                childFragBundle.putBoolean(FROM_EXT_ACCESS, true);
                 if (buttonPressed == 1){
                     fragment = new GateObsListFragment();
                 } else  if (buttonPressed == 2) {
@@ -266,7 +267,6 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
                     else
                         childFragBundle.putInt(RAMP_OR_STAIRS, 2);
                     fragment = new RampStairsListFragment();
-                    childFragBundle.putBoolean(FROM_EXT_ACCESS, true);
                     childFragBundle.putInt(AMBIENT_TYPE, 1);
                 }
                 fragment.setArguments(childFragBundle);
