@@ -19,19 +19,17 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class WindowFragment extends Fragment {
-
-    public static final String WINDOW_ID = "WINDOW_ID";
+public class WindowFragment extends Fragment implements TagInterface {
 
     TextInputLayout windowLocationField, windowHeightField, windowObsField;
     TextInputEditText windowLocationValue, windowHeightValue, windowObsValue;
     TextView windowHeader;
     MaterialButton saveWindow, cancelWindow;
 
-    Bundle windowBundle = new Bundle();
+    Bundle windowBundle;
 
     ViewModelEntry modelEntry;
 
@@ -46,10 +44,10 @@ public class WindowFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            windowBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
-            windowBundle.putInt(WINDOW_ID, this.getArguments().getInt(WINDOW_ID));
-        }
+        if (this.getArguments() != null)
+            windowBundle = new Bundle(this.getArguments());
+        else
+            windowBundle = new Bundle();
     }
 
     @Override
@@ -152,7 +150,7 @@ public class WindowFragment extends Fragment {
         if (windowObsValue.getText() != null)
             winObs = String.valueOf(windowObsValue.getText());
 
-        return new WindowEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID), winLocale, winHeight, winObs);
+        return new WindowEntry(bundle.getInt(AMBIENT_ID), winLocale, winHeight, winObs);
     }
 
     private boolean scrollingField(View v, MotionEvent event) {

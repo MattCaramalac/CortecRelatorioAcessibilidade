@@ -28,10 +28,11 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class FreeSpaceListFragment extends Fragment implements OnEntryClickListener {
+public class FreeSpaceListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closeFreeList, addFreeSpace, continueButton;
 
@@ -46,7 +47,7 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
 
     int delClick = 0;
 
-    Bundle fSpaceListBundle = new Bundle();
+    Bundle fSpaceListBundle;
 
     public FreeSpaceListFragment(){
 
@@ -60,7 +61,9 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            fSpaceListBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
+            fSpaceListBundle = new Bundle(this.getArguments());
+        else
+            fSpaceListBundle = new Bundle();
     }
 
     @Nullable
@@ -75,12 +78,12 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
 
         instantiateFreeSpaceViews(view);
 
-        if (fSpaceListBundle.getInt(RoomsRegisterFragment.ROOM_ID) == 0) {
-            modelEntry.getLastDoorEntry().observe(getViewLifecycleOwner(), lastDoor ->
-                    fSpaceListBundle.putInt(RoomsRegisterFragment.ROOM_ID, lastDoor.getRoomID()));
+        if (fSpaceListBundle.getInt(AMBIENT_ID) == 0) {
+            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
+                    fSpaceListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
         }
 
-        modelEntry.selectFreeSpaceFromRoom(fSpaceListBundle.getInt(RoomsRegisterFragment.ROOM_ID)).observe(getViewLifecycleOwner(), fSpaceList -> {
+        modelEntry.selectFreeSpaceFromRoom(fSpaceListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), fSpaceList -> {
             fSpaceAdapter = new FreeSpaceRecViewAdapter(fSpaceList, requireActivity(), this);
             recyclerView.setAdapter(fSpaceAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -115,13 +118,13 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
     @Override
     public void onResume() {
         super.onResume();
-        fSpaceListBundle.putInt(FreeSpaceFragment.FREE_SPACE_ID, 0);
+        fSpaceListBundle.putInt(FREE_SPACE_ID, 0);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(fSpaceListBundle.getInt(RoomsRegisterFragment.ROOM_ID));
+        RoomsRegisterFragment.roomModelFragments.setNewRoomID(fSpaceListBundle.getInt(AMBIENT_ID));
     }
 
     private void enableActionMode() {
@@ -173,18 +176,17 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
 
     private void openFreeSpaceFragment() {
         FreeSpaceFragment fSpaceFragment = FreeSpaceFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
         fSpaceFragment.setArguments(fSpaceListBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, fSpaceFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, fSpaceFragment).addToBackStack(null).commit();
     }
 
     @Override
     public void OnEntryClick(int position) {
         FreeSpaceEntry fSpace = modelEntry.allFreeSpaces.getValue().get(position);
-        fSpaceListBundle.putInt(FreeSpaceFragment.FREE_SPACE_ID, fSpace.getFreeSpaceID());
+        fSpaceListBundle.putInt(FREE_SPACE_ID, fSpace.getFreeSpaceID());
         openFreeSpaceFragment();
     }
 

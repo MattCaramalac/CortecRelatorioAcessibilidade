@@ -16,18 +16,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class BlackboardFragment extends Fragment {
-
-    public static final String BOARD_ID = "BOARD_ID";
+public class BlackboardFragment extends Fragment implements TagInterface {
 
     TextInputLayout boardLocationField, boardInfHeightField, boardObsField;
     TextInputEditText boardLocationValue, boardInfHeightValue, boardObsValue;
     MaterialButton saveBoard, cancelBoard;
 
-    Bundle boardBundle = new Bundle();
+    Bundle boardBundle;
 
     ViewModelEntry modelEntry;
 
@@ -43,11 +41,11 @@ public class BlackboardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            boardBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
-            boardBundle.putInt(BOARD_ID, this.getArguments().getInt(BOARD_ID));
+        if (this.getArguments() != null)
+            boardBundle = new Bundle(this.getArguments());
+        else
+            boardBundle = new Bundle();
         }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,9 +84,6 @@ public class BlackboardFragment extends Fragment {
 
         cancelBoard.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
     }
-
-
-
 
     private void instantiateBoardViews(View view) {
 //        TextInputLayout
@@ -148,6 +143,6 @@ public class BlackboardFragment extends Fragment {
         if (!TextUtils.isEmpty(boardObsValue.getText()))
             boardObs = String.valueOf(boardObsValue.getText());
 
-        return new BlackboardEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID), boardLocale, boardInfHeight, boardObs);
+        return new BlackboardEntry(bundle.getInt(AMBIENT_ID), boardLocale, boardInfHeight, boardObs);
     }
 }

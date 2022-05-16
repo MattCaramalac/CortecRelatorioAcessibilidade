@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,14 +23,14 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.TableRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class TableListFragment extends Fragment implements OnEntryClickListener {
+public class TableListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closeTableList, addTable, continueButton;
 
@@ -41,13 +39,11 @@ public class TableListFragment extends Fragment implements OnEntryClickListener 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private TableRecViewAdapter tableAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
 
-    Bundle tableListBundle = new Bundle();
+    Bundle tableListBundle;
 
     public TableListFragment(){
 
@@ -58,12 +54,12 @@ public class TableListFragment extends Fragment implements OnEntryClickListener 
     }
 
     @Override
-    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            tableListBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
-            tableListBundle.putInt(RoomRegisterListFragment.ROOM_TYPE, this.getArguments().getInt(RoomRegisterListFragment.ROOM_TYPE));
-        }
+        if (this.getArguments() != null)
+            tableListBundle = new Bundle(this.getArguments());
+        else
+            tableListBundle = new Bundle();
     }
 
     @Nullable
@@ -78,12 +74,12 @@ public class TableListFragment extends Fragment implements OnEntryClickListener 
 
         instantiateTableListViews(view);
 
-        if (tableListBundle.getInt(RoomsRegisterFragment.ROOM_ID) == 0) {
+        if (tableListBundle.getInt(AMBIENT_ID) == 0) {
             modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    tableListBundle.putInt(RoomsRegisterFragment.ROOM_ID, lastRoom.getRoomID()));
+                    tableListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
         }
 
-        modelEntry.selectTablesFromRoom(tableListBundle.getInt(RoomsRegisterFragment.ROOM_ID)).observe(getViewLifecycleOwner(), tableList -> {
+        modelEntry.selectTablesFromRoom(tableListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), tableList -> {
             tableAdapter = new TableRecViewAdapter(tableList, requireActivity(), this);
             recyclerView.setAdapter(tableAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -119,13 +115,13 @@ public class TableListFragment extends Fragment implements OnEntryClickListener 
     @Override
     public void onResume() {
         super.onResume();
-        tableListBundle.putInt(TableFragment.TABLE_ID, 0);
+        tableListBundle.putInt(TABLE_ID, 0);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(tableListBundle.getInt(RoomsRegisterFragment.ROOM_ID));
+        RoomsRegisterFragment.roomModelFragments.setNewRoomID(tableListBundle.getInt(AMBIENT_ID));
     }
 
     private void enableActionMode() {
@@ -178,18 +174,17 @@ public class TableListFragment extends Fragment implements OnEntryClickListener 
     @Override
     public void OnEntryClick(int position) {
         TableEntry tableEntry = modelEntry.allTables.getValue().get(position);
-        tableListBundle.putInt(TableFragment.TABLE_ID, tableEntry.getTableID());
+        tableListBundle.putInt(TABLE_ID, tableEntry.getTableID());
         openTableFragment();
     }
 
     private void openTableFragment() {
         TableFragment tableFragment = TableFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
         tableFragment.setArguments(tableListBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, tableFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, tableFragment).addToBackStack(null).commit();
     }
 
     private void instantiateTableListViews(View v) {

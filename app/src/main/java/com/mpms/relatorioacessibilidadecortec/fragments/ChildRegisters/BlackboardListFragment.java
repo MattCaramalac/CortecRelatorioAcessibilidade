@@ -28,10 +28,11 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class BlackboardListFragment extends Fragment implements OnEntryClickListener {
+public class BlackboardListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closeBoardList, addBoard, continueButton;
 
@@ -62,7 +63,9 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            boardListBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
+            boardListBundle = new Bundle(this.getArguments());
+        else
+            boardListBundle = new Bundle();
     }
 
     @Nullable
@@ -77,12 +80,12 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
 
         instantiateGateObsViews(view);
 
-        if (boardListBundle.getInt(RoomsRegisterFragment.ROOM_ID) == 0) {
+        if (boardListBundle.getInt(AMBIENT_ID) == 0) {
             modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    boardListBundle.putInt(RoomsRegisterFragment.ROOM_ID, lastRoom.getRoomID()));
+                    boardListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
         }
 
-        modelEntry.getAllBlackboardsFromRoom(boardListBundle.getInt(RoomsRegisterFragment.ROOM_ID)).observe(getViewLifecycleOwner(), boardList -> {
+        modelEntry.getAllBlackboardsFromRoom(boardListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), boardList -> {
             boardAdapter = new BlackboardRecViewAdapter(boardList, requireActivity(), this);
             recyclerView.setAdapter(boardAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -117,13 +120,13 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
     @Override
     public void onResume() {
         super.onResume();
-        boardListBundle.putInt(BlackboardFragment.BOARD_ID, 0);
+        boardListBundle.putInt(BOARD_ID, 0);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(boardListBundle.getInt(RoomsRegisterFragment.ROOM_ID));
+        RoomsRegisterFragment.roomModelFragments.setNewRoomID(boardListBundle.getInt(AMBIENT_ID));
     }
 
     private void enableActionMode() {
@@ -194,17 +197,16 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
     @Override
     public void OnEntryClick(int position) {
         BlackboardEntry boardEntry = modelEntry.allBlackboards.getValue().get(position);
-        boardListBundle.putInt(BlackboardFragment.BOARD_ID, boardEntry.getBoardID());
+        boardListBundle.putInt(BOARD_ID, boardEntry.getBoardID());
         openSwitchFragment();
     }
 
     private void openSwitchFragment() {
         BlackboardFragment boardFragment = BlackboardFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
         boardFragment.setArguments(boardListBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, boardFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, boardFragment).addToBackStack(null).commit();
     }
 }

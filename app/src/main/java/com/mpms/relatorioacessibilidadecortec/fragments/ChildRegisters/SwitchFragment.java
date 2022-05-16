@@ -19,19 +19,17 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class SwitchFragment extends Fragment {
-
-    public static final String SWITCH_ID = "SWITCH_ID";
+public class SwitchFragment extends Fragment implements TagInterface {
 
     TextInputLayout switchLocaleField, switchTypeField, switchHeightField, switchObsField;
     TextInputEditText switchLocaleValue, switchTypeValue, switchHeightValue, switchObsValue;
     TextView switchHeader;
     MaterialButton cancelSwitch, saveSwitch;
 
-    Bundle switchBundle = new Bundle();
+    Bundle switchBundle;
 
     ViewModelEntry modelEntry;
 
@@ -46,10 +44,10 @@ public class SwitchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            switchBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
-            switchBundle.putInt(SWITCH_ID, this.getArguments().getInt(SWITCH_ID));
-        }
+        if (this.getArguments() != null)
+            switchBundle = new Bundle(this.getArguments());
+        else
+            switchBundle = new Bundle();
     }
 
     @Override
@@ -124,7 +122,7 @@ public class SwitchFragment extends Fragment {
             switchObs = String.valueOf(switchObsValue.getText());
         }
 
-        return new SwitchEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID), switchLocale, switchType, switchHeight, switchObs);
+        return new SwitchEntry(bundle.getInt(AMBIENT_ID), switchLocale, switchType, switchHeight, switchObs);
     }
 
     private void loadSwitchData(SwitchEntry switchEntry) {

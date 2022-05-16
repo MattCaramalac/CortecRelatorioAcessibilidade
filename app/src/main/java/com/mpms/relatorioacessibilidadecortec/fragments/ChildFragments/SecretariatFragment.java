@@ -17,11 +17,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class SecretariatFragment extends Fragment {
+public class SecretariatFragment extends Fragment implements TagInterface {
 
     public static final String HAS_FIXED_SEATS = "HAS_FIXED_SEATS";
     public static final String HAS_PCR_SPACE = "HAS_PCR_SPACE";
@@ -63,18 +63,18 @@ public class SecretariatFragment extends Fragment {
 
         secretariatInstantiateView(view);
 
-        getParentFragmentManager().setFragmentResultListener(RoomsRegisterFragment.LOAD_FRAG_DATA, this, (key, bundle) ->
-                modelEntry.getRoomEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID)).observe(getViewLifecycleOwner(), this::loadSecretariatData));
+        getParentFragmentManager().setFragmentResultListener(LOAD_CHILD_DATA, this, (key, bundle) ->
+                modelEntry.getRoomEntry(bundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSecretariatData));
 
-        getParentFragmentManager().setFragmentResultListener(InspectionActivity.GATHER_CHILD_DATA, this, (key, bundle) -> {
-            if (!bundle.getBoolean(InspectionActivity.ADD_ITEM_REQUEST)) {
-                bundle.putBoolean(RoomsRegisterFragment.CHILD_DATA_COMPLETE, checkEmptySecretariatFields());
+        getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
+            if (!bundle.getBoolean(ADD_ITEM_REQUEST)) {
+                bundle.putBoolean(CHILD_DATA_COMPLETE, checkEmptySecretariatFields());
             }
             gatherSecData(bundle);
             getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
         });
 
-        getParentFragmentManager().setFragmentResultListener(InspectionActivity.CLEAR_CHILD_DATA, this, (key, bundle) -> clearSecretariatFields());
+        getParentFragmentManager().setFragmentResultListener(CLEAR_CHILD_DATA, this, (key, bundle) -> clearSecretariatFields());
 
 
     }

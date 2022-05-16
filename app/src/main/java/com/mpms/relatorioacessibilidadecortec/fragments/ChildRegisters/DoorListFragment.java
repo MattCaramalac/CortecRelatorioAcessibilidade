@@ -28,10 +28,11 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class DoorListFragment extends Fragment implements OnEntryClickListener {
+public class DoorListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closeDoorList, addDoor, continueButton;
 
@@ -46,7 +47,7 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener {
 
     int delClick = 0;
 
-    Bundle doorListBundle = new Bundle();
+    Bundle doorListBundle;
 
     public DoorListFragment(){
 
@@ -60,7 +61,9 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener {
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            doorListBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
+            doorListBundle = new Bundle(this.getArguments());
+        else
+            doorListBundle = new Bundle();
     }
 
     @Nullable
@@ -75,12 +78,12 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener {
 
         instantiateDoorViews(view);
 
-        if (doorListBundle.getInt(RoomsRegisterFragment.ROOM_ID) == 0) {
+        if (doorListBundle.getInt(AMBIENT_ID) == 0) {
             modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    doorListBundle.putInt(RoomsRegisterFragment.ROOM_ID, lastRoom.getRoomID()));
+                    doorListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
         }
 
-        modelEntry.getDoorsFromRoom(doorListBundle.getInt(RoomsRegisterFragment.ROOM_ID)).observe(getViewLifecycleOwner(), doorList -> {
+        modelEntry.getDoorsFromRoom(doorListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), doorList -> {
             doorAdapter = new DoorRecViewAdapter(doorList, requireActivity(), this);
             recyclerView.setAdapter(doorAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -115,13 +118,13 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        doorListBundle.putInt(DoorFragment.DOOR_ID, 0);
+        doorListBundle.putInt(DOOR_ID, 0);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(doorListBundle.getInt(RoomsRegisterFragment.ROOM_ID));
+        RoomsRegisterFragment.roomModelFragments.setNewRoomID(doorListBundle.getInt(AMBIENT_ID));
     }
 
     private void enableActionMode() {
@@ -201,7 +204,7 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener {
     @Override
     public void OnEntryClick(int position) {
         DoorEntry doorEntry = modelEntry.allDoors.getValue().get(position);
-        doorListBundle.putInt(DoorFragment.DOOR_ID, doorEntry.getDoorID());
+        doorListBundle.putInt(DOOR_ID, doorEntry.getDoorID());
         openDoorFragment();
     }
 }

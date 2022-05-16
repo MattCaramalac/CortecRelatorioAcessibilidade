@@ -10,6 +10,7 @@ public interface TagInterface {
     String AREAS_REG_BUNDLE = "AREAS_REG_BUNDLE";
     String EXT_AREA_REG = "EXT_AREA_REG";
     String SUP_AREA_REG = "SUP_AREA_REG";
+    String ROOM_TYPE = "ROOM_TYPE";
 
 //    Tags defining ramps and stairs info
     String RAMP_OR_STAIRS = "RAMP_OR_STAIRS";
@@ -50,6 +51,14 @@ public interface TagInterface {
     String EXT_ACCESS_ID = "EXT_ACCESS_ID";
     String SIDEWALK_SLOPE_ID = "SIDEWALK_SLOPE_ID";
     String PHONE_ID = "PHONE_ID";
+    String TABLE_ID = "TABLE_ID";
+    String BOARD_ID = "BOARD_ID";
+    String DOOR_ID = "DOOR_ID";
+    String SWITCH_ID = "SWITCH_ID";
+    String COUNTER_ID = "COUNTER_ID";
+    String WINDOW_ID = "WINDOW_ID";
+    String FREE_SPACE_ID = "FREE_SPACE_ID";
+
 
 //    External Access New Register
     String NEW_REGISTER = "NEW_REGISTER";

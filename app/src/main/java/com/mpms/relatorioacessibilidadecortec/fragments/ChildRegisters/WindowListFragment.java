@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,10 +26,11 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class WindowListFragment extends Fragment implements OnEntryClickListener {
+public class WindowListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closeWindowList, addWindow, continueButton;
 
@@ -40,8 +39,6 @@ public class WindowListFragment extends Fragment implements OnEntryClickListener
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private WindowRecViewAdapter windowAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
@@ -60,7 +57,9 @@ public class WindowListFragment extends Fragment implements OnEntryClickListener
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            windowListBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
+            windowListBundle = new Bundle(this.getArguments());
+        else
+            windowListBundle = new Bundle();
     }
 
     @Nullable
@@ -75,12 +74,12 @@ public class WindowListFragment extends Fragment implements OnEntryClickListener
 
         instantiateWindowListViews(view);
 
-        if (windowListBundle.getInt(RoomsRegisterFragment.ROOM_ID) == 0) {
+        if (windowListBundle.getInt(AMBIENT_ID) == 0) {
             modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    windowListBundle.putInt(RoomsRegisterFragment.ROOM_ID, lastRoom.getRoomID()));
+                    windowListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
         }
 
-        modelEntry.selectWindowsFromRoom(windowListBundle.getInt(RoomsRegisterFragment.ROOM_ID)).observe(getViewLifecycleOwner(), windowList -> {
+        modelEntry.selectWindowsFromRoom(windowListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), windowList -> {
             windowAdapter = new WindowRecViewAdapter(windowList, requireActivity(), this);
             recyclerView.setAdapter(windowAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -116,13 +115,13 @@ public class WindowListFragment extends Fragment implements OnEntryClickListener
     @Override
     public void onResume() {
         super.onResume();
-        windowListBundle.putInt(WindowFragment.WINDOW_ID, 0);
+        windowListBundle.putInt(WINDOW_ID, 0);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(windowListBundle.getInt(RoomsRegisterFragment.ROOM_ID));
+        RoomsRegisterFragment.roomModelFragments.setNewRoomID(windowListBundle.getInt(AMBIENT_ID));
     }
 
     private void enableActionMode() {
@@ -175,18 +174,17 @@ public class WindowListFragment extends Fragment implements OnEntryClickListener
     @Override
     public void OnEntryClick(int position) {
         WindowEntry windowEntry = modelEntry.allWindows.getValue().get(position);
-        windowListBundle.putInt(WindowFragment.WINDOW_ID, windowEntry.getWindowID());
+        windowListBundle.putInt(WINDOW_ID, windowEntry.getWindowID());
         openWindowFragment();
     }
 
     private void openWindowFragment() {
         WindowFragment windowFragment = WindowFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
         windowFragment.setArguments(windowListBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, windowFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, windowFragment).addToBackStack(null).commit();
     }
 
     private void instantiateWindowListViews(View v) {

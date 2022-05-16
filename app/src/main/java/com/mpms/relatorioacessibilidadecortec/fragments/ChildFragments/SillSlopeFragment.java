@@ -23,7 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
@@ -191,7 +190,7 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
                 break;
         }
         if (!bundle.getBoolean(InspectionActivity.ADD_ITEM_REQUEST)) {
-            bundle.putBoolean(RoomsRegisterFragment.CHILD_DATA_COMPLETE, error == 0);
+            bundle.putBoolean(CHILD_DATA_COMPLETE, error == 0);
         }
         return error == 0;
     }

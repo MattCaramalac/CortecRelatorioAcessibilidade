@@ -33,9 +33,6 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
     Bundle fragInspection;
 
-//    private static final int NO_CHOICE = -1;
-//    private int chosenOption = NO_CHOICE;
-
     public InspectionMemorial() {
         // Required empty public constructor
     }

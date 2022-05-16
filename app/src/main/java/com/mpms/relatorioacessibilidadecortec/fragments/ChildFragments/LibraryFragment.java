@@ -12,12 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class LibraryFragment extends Fragment {
+public class LibraryFragment extends Fragment implements TagInterface {
 
     RadioGroup distShelvesRadio, pcrManeuverRadio, accessPcRadio;
     TextView distShelvesError, pcrError, accessPcError;
@@ -54,21 +53,21 @@ public class LibraryFragment extends Fragment {
 
         libraryInstantiateView(view);
 
-        getParentFragmentManager().setFragmentResultListener(RoomsRegisterFragment.LOAD_FRAG_DATA, this, (key, bundle) -> {
-            if (bundle.getInt(RoomsRegisterFragment.ROOM_ID) > 0) {
-                modelEntry.getRoomEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID)).observe(getViewLifecycleOwner(), this::loadLibraryData);
+        getParentFragmentManager().setFragmentResultListener(LOAD_CHILD_DATA, this, (key, bundle) -> {
+            if (bundle.getInt(AMBIENT_ID) > 0) {
+                modelEntry.getRoomEntry(bundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadLibraryData);
             }
         });
 
-        getParentFragmentManager().setFragmentResultListener(InspectionActivity.GATHER_CHILD_DATA, this, (key, bundle) -> {
-            if (!bundle.getBoolean(InspectionActivity.ADD_ITEM_REQUEST)) {
-                bundle.putBoolean(RoomsRegisterFragment.CHILD_DATA_COMPLETE, checkEmptyLibraryFields());
+        getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
+            if (!bundle.getBoolean(ADD_ITEM_REQUEST)) {
+                bundle.putBoolean(CHILD_DATA_COMPLETE, checkEmptyLibraryFields());
             }
             gatherLibData(bundle);
-            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
+            getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
         });
 
-        getParentFragmentManager().setFragmentResultListener(InspectionActivity.CLEAR_CHILD_DATA, this, (key, bundle) -> clearLibraryRadio());
+        getParentFragmentManager().setFragmentResultListener(CLEAR_CHILD_DATA, this, (key, bundle) -> clearLibraryRadio());
 
     }
 

@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,10 +26,11 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class SwitchListFragment extends Fragment implements OnEntryClickListener {
+public class SwitchListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closeSwitchList, addSwitch, continueButton;
 
@@ -40,13 +39,11 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private SwitchRecViewAdapter switchAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
 
-    Bundle switchListBundle = new Bundle();
+    Bundle switchListBundle;
 
     public SwitchListFragment(){
 
@@ -60,7 +57,9 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            switchListBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
+            switchListBundle = new Bundle(this.getArguments());
+        else
+            switchListBundle = new Bundle();
     }
 
     @Nullable
@@ -75,12 +74,12 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
 
         instantiateGateObsViews(view);
 
-        if (switchListBundle.getInt(RoomsRegisterFragment.ROOM_ID) == 0) {
+        if (switchListBundle.getInt(AMBIENT_ID) == 0) {
             modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    switchListBundle.putInt(RoomsRegisterFragment.ROOM_ID, lastRoom.getRoomID()));
+                    switchListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
         }
 
-        modelEntry.getSwitchesFromRoom(switchListBundle.getInt(RoomsRegisterFragment.ROOM_ID)).observe(getViewLifecycleOwner(), switchList -> {
+        modelEntry.getSwitchesFromRoom(switchListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), switchList -> {
             switchAdapter = new SwitchRecViewAdapter(switchList, requireActivity(), this);
             recyclerView.setAdapter(switchAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -115,13 +114,13 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
     @Override
     public void onResume() {
         super.onResume();
-        switchListBundle.putInt(SwitchFragment.SWITCH_ID, 0);
+        switchListBundle.putInt(SWITCH_ID, 0);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(switchListBundle.getInt(RoomsRegisterFragment.ROOM_ID));
+        RoomsRegisterFragment.roomModelFragments.setNewRoomID(switchListBundle.getInt(AMBIENT_ID));
     }
 
     private void enableActionMode() {
@@ -191,17 +190,16 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
     @Override
     public void OnEntryClick(int position) {
         SwitchEntry switchEntry = modelEntry.allSwitches.getValue().get(position);
-        switchListBundle.putInt(SwitchFragment.SWITCH_ID, switchEntry.getSwitchID());
+        switchListBundle.putInt(SWITCH_ID, switchEntry.getSwitchID());
         openSwitchFragment();
     }
 
     private void openSwitchFragment() {
         SwitchFragment switchFragment = SwitchFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
         switchFragment.setArguments(switchListBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, switchFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, switchFragment).addToBackStack(null).commit();
     }
 }

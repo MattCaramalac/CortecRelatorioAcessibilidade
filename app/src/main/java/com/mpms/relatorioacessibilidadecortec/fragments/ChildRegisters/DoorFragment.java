@@ -24,11 +24,10 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlope
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
-public class DoorFragment extends Fragment {
-
-    public static final String DOOR_ID = "DOOR_ID";
+public class DoorFragment extends Fragment implements TagInterface {
 
     TextInputLayout doorLocaleField, doorWidthField, handleHeightField, handleObsField, tactileSignObsField, doorSillObsField, doorObsField;
     TextInputEditText doorLocaleValue, doorWidthValue, handleHeightValue, handleObsValue, tactileSignObsValue, doorSillObsValue, doorObsValue;
@@ -54,10 +53,10 @@ public class DoorFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            doorBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
-            doorBundle.putInt(DOOR_ID, this.getArguments().getInt(DOOR_ID));
-        }
+        if (this.getArguments() != null)
+            doorBundle = new Bundle(this.getArguments());
+        else
+            doorBundle = new Bundle();
     }
 
     @Override
@@ -82,12 +81,12 @@ public class DoorFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        getChildFragmentManager().setFragmentResultListener(InspectionActivity.CHILD_DATA_LISTENER, this, (key,bundle) -> {
-            if (bundle.getBoolean(InspectionActivity.ADD_ITEM_REQUEST)) {
+        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
+            if (bundle.getBoolean(ADD_ITEM_REQUEST)) {
                 saveUpdateDoorEntry(bundle);
                 openDoorLockListFragment(bundle);
             } else {
-                if (checkDoorNoEmptyFields() && bundle.getBoolean(InspectionActivity.CHILD_DATA_COMPLETE)) {
+                if (checkDoorNoEmptyFields() && bundle.getBoolean(CHILD_DATA_COMPLETE)) {
                     saveUpdateDoorEntry(bundle);
                     if (newEntry == 1 || (newEntry == 0 && recentEntry == 1)) {
                         clearDoorFields(bundle);
@@ -202,16 +201,16 @@ public class DoorFragment extends Fragment {
     private void doorButtonClickListener(Bundle bundle, View view) {
         if (view == addDoorLockButton) {
             if (doorSillRadio.getCheckedRadioButtonIndex() > 0) {
-                bundle.putBoolean(InspectionActivity.ADD_ITEM_REQUEST, true);
-                getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, bundle);
+                bundle.putBoolean(ADD_ITEM_REQUEST, true);
+                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);
             } else {
                 saveUpdateDoorEntry(bundle);
                 openDoorLockListFragment(bundle);
             }
         } else {
-            bundle.putBoolean(InspectionActivity.ADD_ITEM_REQUEST, false);
+            bundle.putBoolean(ADD_ITEM_REQUEST, false);
             if (doorSillRadio.getCheckedRadioButtonIndex() > 0) {
-                getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, bundle);
+                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);
             } else {
                 if (checkDoorNoEmptyFields()) {
                     saveUpdateDoorEntry(bundle);
@@ -246,9 +245,9 @@ public class DoorFragment extends Fragment {
     private void resetDoorVariables(Bundle bundle) {
         newEntry = 1;
         recentEntry = 0;
-        int roomID = bundle.getInt(RoomsRegisterFragment.ROOM_ID);
+        int roomID = bundle.getInt(AMBIENT_ID);
         bundle.clear();
-        bundle.putInt(RoomsRegisterFragment.ROOM_ID, roomID);
+        bundle.putInt(AMBIENT_ID, roomID);
     }
 
     private void saveUpdateDoorEntry(Bundle bundle) {
@@ -336,7 +335,7 @@ public class DoorFragment extends Fragment {
         if (doorEntry.getDoorSillType() != null && doorEntry.getDoorSillType() > -1) {
             doorSillRadio.checkAt(doorEntry.getDoorSillType());
             if (doorEntry.getDoorSillType() > 0)
-                getChildFragmentManager().setFragmentResult(InspectionActivity.LOAD_CHILD_DATA, doorBundle);
+                getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, doorBundle);
         }
         if (doorEntry.getDoorSillObs() != null)
             doorSillObsValue.setText(doorEntry.getDoorSillObs());
@@ -397,7 +396,7 @@ public class DoorFragment extends Fragment {
         if (!TextUtils.isEmpty(doorObsValue.getText()))
             doorObs = String.valueOf(doorObsValue.getText());
 
-        return new DoorEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID), doorLocale, doorWidth, handleType, handleHeight, handleObs, doorHasLocks, hasTactileSign, tactileSignObs, doorSillType,
+        return new DoorEntry(bundle.getInt(AMBIENT_ID), doorLocale, doorWidth, handleType, handleHeight, handleObs, doorHasLocks, hasTactileSign, tactileSignObs, doorSillType,
                 sillInclinationHeight, sillStepHeight, sillSlopeQnt, slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4, sillSlopeWidth, doorSillObs, doorObs);
 
     }

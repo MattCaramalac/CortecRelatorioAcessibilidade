@@ -21,21 +21,18 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class TableFragment extends Fragment {
+public class TableFragment extends Fragment implements TagInterface {
 
-    public static final String TABLE_ID = "TABLE_ID";
-
-    TextInputLayout supHeightField, infHeightField, tableWidthField, frontalAproxField, obsField;
-    TextInputEditText supHeightValue, infHeightValue, tableWidthValue, frontalAproxValue, obsValue;
+    TextInputLayout supHeightField, infHeightField, tableWidthField, frontalApproxField, obsField;
+    TextInputEditText supHeightValue, infHeightValue, tableWidthValue, frontalApproxValue, obsValue;
     TextView tableRegisterHeader, tableTypeHeader, tableTypeError;
     RadioGroup tableTypeRadio;
     MaterialButton saveTable, cancelTable;
 
-    Bundle tableBundle = new Bundle();
+    Bundle tableBundle;
 
     ViewModelEntry modelEntry;
 
@@ -50,11 +47,10 @@ public class TableFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            tableBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
-            tableBundle.putInt(RoomRegisterListFragment.ROOM_TYPE, this.getArguments().getInt(RoomRegisterListFragment.ROOM_TYPE));
-            tableBundle.putInt(TABLE_ID, this.getArguments().getInt(TABLE_ID));
-        }
+        if (getArguments() != null)
+            tableBundle = new Bundle(this.getArguments());
+        else
+            tableBundle = new Bundle();
     }
 
     @Override
@@ -101,13 +97,13 @@ public class TableFragment extends Fragment {
         supHeightField = view.findViewById(R.id.table_superior_border_height_field);
         infHeightField = view.findViewById(R.id.table_inferior_border_height_field);
         tableWidthField = view.findViewById(R.id.table_width_field);
-        frontalAproxField = view.findViewById(R.id.table_frontal_approx_field);
+        frontalApproxField = view.findViewById(R.id.table_frontal_approx_field);
         obsField = view.findViewById(R.id.table_obs_field);
 //        TextInputEditText
         supHeightValue = view.findViewById(R.id.table_superior_border_height_value);
         infHeightValue = view.findViewById(R.id.table_inferior_border_height_value);
         tableWidthValue = view.findViewById(R.id.table_width_value);
-        frontalAproxValue = view.findViewById(R.id.table_frontal_approx_value);
+        frontalApproxValue = view.findViewById(R.id.table_frontal_approx_value);
         obsValue = view.findViewById(R.id.table_obs_value);
 //        TextView
         tableRegisterHeader = view.findViewById(R.id.table_register_header);
@@ -127,19 +123,19 @@ public class TableFragment extends Fragment {
     }
 
     private void classroomTableView(Bundle bundle) {
-        if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 11) {
+        if (bundle.getInt(ROOM_TYPE) == 11) {
             tableRegisterHeader.setVisibility(View.VISIBLE);
             tableTypeRadio.setVisibility(View.VISIBLE);
         }
     }
 
     private void loadTableData(TableEntry tableEntry, Bundle bundle) {
-        if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 11)
+        if (bundle.getInt(ROOM_TYPE) == 11)
             tableTypeRadio.check(tableTypeRadio.getChildAt(tableEntry.getTableType()).getId());
         supHeightValue.setText(String.valueOf(tableEntry.getSuperiorBorderHeight()));
         infHeightValue.setText(String.valueOf(tableEntry.getInferiorBorderHeight()));
         tableWidthValue.setText(String.valueOf(tableEntry.getTableWidth()));
-        frontalAproxValue.setText(String.valueOf(tableEntry.getTableWidth()));
+        frontalApproxValue.setText(String.valueOf(tableEntry.getTableWidth()));
         if (tableEntry.getTableObs() != null)
             obsValue.setText(tableEntry.getTableObs());
     }
@@ -151,7 +147,7 @@ public class TableFragment extends Fragment {
     private boolean tableNoEmptyFields(Bundle bundle) {
         clearTableEmptyFieldsErrors();
         int i = 0;
-        if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 11) {
+        if (bundle.getInt(ROOM_TYPE) == 11) {
             if (getRadioCheckedButton(tableTypeRadio) == -1) {
                 i++;
                 tableTypeError.setVisibility(View.VISIBLE);
@@ -169,9 +165,9 @@ public class TableFragment extends Fragment {
             i++;
             tableWidthField.setError(getString(R.string.blank_field_error));
         }
-        if (TextUtils.isEmpty(frontalAproxValue.getText())) {
+        if (TextUtils.isEmpty(frontalApproxValue.getText())) {
             i++;
-            frontalAproxField.setError(getString(R.string.blank_field_error));
+            frontalApproxField.setError(getString(R.string.blank_field_error));
         }
 
         return i == 0;
@@ -182,7 +178,7 @@ public class TableFragment extends Fragment {
         supHeightField.setErrorEnabled(false);
         infHeightField.setErrorEnabled(false);
         tableWidthField.setErrorEnabled(false);
-        frontalAproxField.setErrorEnabled(false);
+        frontalApproxField.setErrorEnabled(false);
     }
 
     private TableEntry newTableEntry(Bundle bundle) {
@@ -190,17 +186,17 @@ public class TableFragment extends Fragment {
         double supHeight, infHeight, tableWidth, frontAprox;
         String tableObs = null;
 
-        if (bundle.getInt(RoomRegisterListFragment.ROOM_TYPE) == 11) {
+        if (bundle.getInt(ROOM_TYPE) == 11) {
             tableType = getRadioCheckedButton(tableTypeRadio);
         }
         supHeight = Double.parseDouble(String.valueOf(supHeightValue.getText()));
         infHeight = Double.parseDouble(String.valueOf(infHeightValue.getText()));
         tableWidth = Double.parseDouble(String.valueOf(tableWidthValue.getText()));
-        frontAprox = Double.parseDouble(String.valueOf(frontalAproxValue.getText()));
+        frontAprox = Double.parseDouble(String.valueOf(frontalApproxValue.getText()));
         if (!TextUtils.isEmpty(obsValue.getText()))
             tableObs = String.valueOf(obsValue.getText());
 
-        return new TableEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID), bundle.getInt(RoomRegisterListFragment.ROOM_TYPE), tableType, supHeight, infHeight,
+        return new TableEntry(bundle.getInt(AMBIENT_ID), bundle.getInt(ROOM_TYPE), tableType, supHeight, infHeight,
                 tableWidth, frontAprox, tableObs);
     }
 
@@ -209,7 +205,7 @@ public class TableFragment extends Fragment {
         supHeightValue.setText(null);
         infHeightValue.setText(null);
         tableWidthValue.setText(null);
-        frontalAproxValue.setText(null);
+        frontalApproxValue.setText(null);
         obsValue.setText(null);
     }
 

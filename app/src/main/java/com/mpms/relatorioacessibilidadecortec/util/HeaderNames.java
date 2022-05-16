@@ -34,16 +34,26 @@ public class HeaderNames {
             "Playground"
     };
 
-//    private HeaderNames (String location){
-//        this.name = location;
-//    }
-//
-//    public String getName(){
-//        return name;
-//    }
-//
-//    @Override
-//    public String toString(){
-//        return this.name;
-//    }
 }
+
+//    public static final String[] headerNames = {
+//            "Acesso externo",1 (tira 1)
+//            "Sanitário",2
+//            "Bebedouro",3
+//            "Biblioteca",4
+//            "Calçada",5
+//            "Coordenação",6
+//            "Diretoria",7
+//            "Escada",8
+//            "Estacionamento",9
+//            "Rampa",10
+//            "Refeitório",11
+//            "Sala de Aula",12
+//            "Sala de Tecnologia",13
+//            "Sala de Recursos",14
+//            "Sala dos Professores",15
+//            "Secretaria",16
+//            "Outros Ambientes",17
+//            "Equip. Administrativos",18
+//            "Playground"19
+//    };

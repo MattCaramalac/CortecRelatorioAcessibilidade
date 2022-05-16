@@ -71,7 +71,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     @Override
     public void onDropdownChoice(int choice) {
-        if (inspectionBundle.getBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG)) {
+        if (inspectionBundle.getBoolean(EXT_AREA_REG)) {
             switch (choice) {
                 case 0:
                     displayExtAccessListFragment();
@@ -86,7 +86,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     displayRoomsRegisterListFragment(choice);
                     break;
             }
-        } else if (inspectionBundle.getBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG)) {
+        } else if (inspectionBundle.getBoolean(SUP_AREA_REG)) {
             switch (choice) {
                 case 0:
                     displayFountainListFragment();
@@ -159,14 +159,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, parkingList).addToBackStack(PARKING_LIST).commit();
     }
-
-//    public void displayStairsRampListFragment(int chosenItem) {
-//        RampStairsListFragment rampStairsList = RampStairsListFragment.newInstance(chosenItem);
-//        inspectionBundle.putInt(ALLOW_UPDATE, 0);
-//        rampStairsList.setArguments(inspectionBundle);
-//        fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.show_fragment_selected, rampStairsList).addToBackStack(RAMP_STAIRS_LIST).commit();
-//    }
 
     public void displayAdmEquipListFragment() {
         AdmEquipListFragment admEquipList = AdmEquipListFragment.newInstance();

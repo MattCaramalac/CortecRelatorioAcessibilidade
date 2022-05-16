@@ -18,20 +18,18 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class CounterFragment extends Fragment {
-
-    public static final String COUNTER_ID = "COUNTER_ID";
+public class CounterFragment extends Fragment implements TagInterface {
 
     TextInputLayout counterLocationField, counterSupHeightField, counterInfHeightField, counterFrontApproxField, counterObsField;
     TextInputEditText counterLocationValue, counterSupHeightValue, counterInfHeightValue, counterFrontApproxValue, counterObsValue;
     MaterialButton saveCounter, cancelCounter;
 
-    Bundle counterBundle = new Bundle();
+    Bundle counterBundle;
 
     ViewModelEntry modelEntry;
 
@@ -46,10 +44,10 @@ public class CounterFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            counterBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
-            counterBundle.putInt(COUNTER_ID, this.getArguments().getInt(COUNTER_ID));
-        }
+        if (this.getArguments() != null)
+            counterBundle = new Bundle(this.getArguments());
+        else
+            counterBundle = new Bundle();
     }
 
     @Override
@@ -183,6 +181,6 @@ public class CounterFragment extends Fragment {
         if (!TextUtils.isEmpty(counterObsValue.getText()))
             counterObs = Objects.requireNonNull(counterLocationValue.getText()).toString();
 
-        return new CounterEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID), counterLocale, counterSupHeight, counterInfHeight, counterFrontApprox, counterObs);
+        return new CounterEntry(bundle.getInt(AMBIENT_ID), counterLocale, counterSupHeight, counterInfHeight, counterFrontApprox, counterObs);
     }
 }

@@ -16,12 +16,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class FreeSpaceFragment extends Fragment {
-
-    public static final String FREE_SPACE_ID = "FREE_SPACE_ID";
+public class FreeSpaceFragment extends Fragment implements TagInterface {
 
     TextInputLayout fSpaceLocaleField, fSpaceWidthField, fSpaceObsField;
     TextInputEditText fSpaceLocaleValue, fSpaceWidthValue, fSpaceObsValue;
@@ -42,10 +40,10 @@ public class FreeSpaceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            fSpaceBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
-            fSpaceBundle.putInt(FREE_SPACE_ID, this.getArguments().getInt(FREE_SPACE_ID));
-        }
+        if (getArguments() != null)
+            fSpaceBundle = new Bundle(this.getArguments());
+        else
+            fSpaceBundle = new Bundle();
     }
 
     @Override
@@ -129,7 +127,7 @@ public class FreeSpaceFragment extends Fragment {
         if (!TextUtils.isEmpty(fSpaceObsValue.getText()))
             fSpObs = String.valueOf(fSpaceObsValue.getText());
 
-        return new FreeSpaceEntry(bundle.getInt(RoomsRegisterFragment.ROOM_ID), fSpLocale, fSpWidth, fSpObs);
+        return new FreeSpaceEntry(bundle.getInt(AMBIENT_ID), fSpLocale, fSpWidth, fSpObs);
     }
 
     private boolean fSpaceNoEmptyFields() {

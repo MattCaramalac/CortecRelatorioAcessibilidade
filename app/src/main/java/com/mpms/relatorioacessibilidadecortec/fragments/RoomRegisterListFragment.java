@@ -14,28 +14,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolAreasRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RoomRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class RoomRegisterListFragment extends Fragment implements OnEntryClickListener {
+public class RoomRegisterListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
-    public static final String ROOM_TYPE = "ROOM_TYPE";
     private static int chosenOption;
 
     MaterialButton closeRoomList, addRoom, finish;
@@ -44,13 +39,11 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private RoomRecViewAdapter roomAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
 
-    Bundle roomListBundle = new Bundle();
+    Bundle roomListBundle;
 
     public RoomRegisterListFragment() {
         // Required empty public constructor
@@ -71,9 +64,10 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            roomListBundle = this.getArguments();
+            roomListBundle = new Bundle(this.getArguments());
             roomListBundle.putInt(ROOM_TYPE, chosenOption);
-        }
+        } else
+            roomListBundle = new Bundle();
     }
 
     @Nullable
@@ -87,7 +81,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         super.onViewCreated(view, savedInstanceState);
         instantiateRoomListViews(view);
 
-        modelEntry.getAllRoomsInBlock(roomListBundle.getInt(BlockRegisterActivity.BLOCK_ID), roomListBundle.getInt(ROOM_TYPE))
+        modelEntry.getAllRoomsInBlock(roomListBundle.getInt(BLOCK_ID), roomListBundle.getInt(ROOM_TYPE))
                 .observe(getViewLifecycleOwner(), rooms -> {
                     roomAdapter = new RoomRecViewAdapter(rooms, requireActivity(), this);
                     recyclerView.setAdapter(roomAdapter);
@@ -123,7 +117,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     @Override
     public void onResume() {
         super.onResume();
-        roomListBundle.putInt(RoomsRegisterFragment.ROOM_ID, 0);
+        roomListBundle.putInt(AMBIENT_ID, 0);
     }
 
     private void instantiateRoomListViews(View view) {
@@ -140,7 +134,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 //        ViewModel
-        modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
     }
 
     private void enableActionMode() {
@@ -191,8 +185,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     }
 
     public static String roomHeader(Bundle bundle) {
-        if (bundle.getBoolean(SchoolAreasRegisterActivity.EXT_AREA_REG) ||
-                bundle.getBoolean(SchoolAreasRegisterActivity.SUP_AREA_REG)) {
+        if (bundle.getBoolean(EXT_AREA_REG) || bundle.getBoolean(SUP_AREA_REG)) {
             bundle.putInt(ROOM_TYPE, 12);
             return "Cadastro de Outros Ambientes";
         }  else {
@@ -226,18 +219,17 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
 
     private void openRoomFragment() {
         RoomsRegisterFragment roomFragment = RoomsRegisterFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
         roomFragment.setArguments(roomListBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, roomFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, roomFragment).addToBackStack(null).commit();
     }
 
     @Override
     public void OnEntryClick(int position) {
         RoomEntry roomEntry = modelEntry.allRooms.getValue().get(position);
-        roomListBundle.putInt(RoomsRegisterFragment.ROOM_ID, roomEntry.getRoomID());
+        roomListBundle.putInt(AMBIENT_ID, roomEntry.getRoomID());
         openRoomFragment();
     }
 }

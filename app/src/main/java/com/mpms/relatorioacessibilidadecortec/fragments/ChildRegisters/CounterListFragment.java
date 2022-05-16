@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,10 +26,11 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class CounterListFragment extends Fragment implements OnEntryClickListener {
+public class CounterListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closeCounterList, addCounter, continueButton;
 
@@ -41,13 +40,11 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private CounterRecViewAdapter counterAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
 
-    Bundle counterListBundle = new Bundle();
+    Bundle counterListBundle;
 
     public CounterListFragment(){
 
@@ -61,7 +58,9 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            counterListBundle.putInt(RoomsRegisterFragment.ROOM_ID, this.getArguments().getInt(RoomsRegisterFragment.ROOM_ID));
+            counterListBundle = new Bundle(this.getArguments());
+        else
+            counterListBundle = new Bundle();
     }
 
     @Nullable
@@ -76,12 +75,12 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
 
         instantiateGateObsViews(view);
 
-        if (counterListBundle.getInt(RoomsRegisterFragment.ROOM_ID) == 0) {
+        if (counterListBundle.getInt(AMBIENT_ID) == 0) {
             modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    counterListBundle.putInt(RoomsRegisterFragment.ROOM_ID, lastRoom.getRoomID()));
+                    counterListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
         }
 
-        modelEntry.getCountersFromRoom(counterListBundle.getInt(RoomsRegisterFragment.ROOM_ID)).observe(getViewLifecycleOwner(), counterList -> {
+        modelEntry.getCountersFromRoom(counterListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), counterList -> {
             counterAdapter = new CounterRecViewAdapter(counterList, requireActivity(), this);
             recyclerView.setAdapter(counterAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -116,13 +115,13 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
     @Override
     public void onResume() {
         super.onResume();
-        counterListBundle.putInt(CounterFragment.COUNTER_ID, 0);
+        counterListBundle.putInt(COUNTER_ID, 0);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(counterListBundle.getInt(RoomsRegisterFragment.ROOM_ID));
+        RoomsRegisterFragment.roomModelFragments.setNewRoomID(counterListBundle.getInt(AMBIENT_ID));
     }
 
     private void enableActionMode() {
@@ -192,17 +191,16 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
     @Override
     public void OnEntryClick(int position) {
         CounterEntry counterEntry = modelEntry.allCounters.getValue().get(position);
-        counterListBundle.putInt(CounterFragment.COUNTER_ID, counterEntry.getCounterID());
+        counterListBundle.putInt(COUNTER_ID, counterEntry.getCounterID());
         openSwitchFragment();
     }
 
     private void openSwitchFragment() {
         CounterFragment counterFragment = CounterFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
         counterFragment.setArguments(counterListBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, counterFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, counterFragment).addToBackStack(null).commit();
     }
 }
