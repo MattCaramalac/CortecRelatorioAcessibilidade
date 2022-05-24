@@ -188,7 +188,7 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
             sidewalk2Data.putInt(RampStairsListFragment.AMBIENT_TYPE, 2);
             fragment.setArguments(sidewalk2Data);
             requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
+                    .replace(R.id.show_fragment_selected, fragment).addToBackStack(PARKING_LIST).commit();
         }
     }
 

@@ -1,7 +1,7 @@
 package com.mpms.relatorioacessibilidadecortec.util;
 
 public interface TagInterface {
-//    Tags defining block info
+    //    Tags defining block info
     String BLOCK_ID = "BLOCK_ID";
 
     //    Tags defining ambient info
@@ -12,12 +12,19 @@ public interface TagInterface {
     String SUP_AREA_REG = "SUP_AREA_REG";
     String ROOM_TYPE = "ROOM_TYPE";
 
-//    Tags defining ramps and stairs info
+    //    Tags defining ramps and stairs info
     String RAMP_OR_STAIRS = "RAMP_OR_STAIRS";
     String FLIGHT_ID = "FLIGHT_ID";
     String HANDRAIL_ID = "HANDRAIL_ID";
     String RAIL_ID = "RAIL_ID";
     String NEXT_FLIGHT = "NEXT_FLIGHT";
+
+    //    Parking Lot Data
+    String PARKING_ID = "PARKING_ID"; // Used when the Parking Lot is related to the sidewalk
+    String HAS_PCD = "HAS_PCD";
+    String HAS_ELDERLY = "HAS_ELDERLY";
+    String PCD_LIST = "PCD_LIST";
+    String ELDER_LIST = "ELDER_LIST";
 
     //    Tags defining where the data is coming from
     String FROM_EXT_ACCESS = "FROM_EXT_ACCESS";
@@ -25,7 +32,7 @@ public interface TagInterface {
     String FROM_PARKING = "FROM_PARKING";
     String FROM_ROOMS = "FROM_ROOMS";
 
-//    Tags used in Inspection Activity
+    //    Tags used in Inspection Activity
     String LOAD_CHILD_DATA = "LOAD_CHILD_DATA";
     String GATHER_CHILD_DATA = "GATHER_CHILD_DATA";
     String ADD_ITEM_REQUEST = "ADD_ITEM_REQUEST";
@@ -34,7 +41,7 @@ public interface TagInterface {
     String CLEAR_CHILD_DATA = "CLEAR_CHILD_DATA";
     String PARENT_SAVE_ATTEMPT = "PARENT_SAVE_ATTEMPT";
 
-//    Tags defining the opening of data lists
+    //    Tags defining the opening of data lists
     String PARKING_LIST = "PARKING_LIST";
     String EXTERNAL_LIST = "EXTERNAL_LIST";
     String REST_LIST = "REST_LIST";
@@ -45,10 +52,9 @@ public interface TagInterface {
     String ADM_EQUIP_LIST = "ADM_EQUIP_LIST";
     String PLAYGROUND_LIST = "PLAYGROUND_LIST";
 
-//    Tags defining register's IDs
+    //    Tags defining register's IDs
     String SIDEWALK_ID = "SIDEWALK_ID";
     String RAMP_STAIRS_ID = "RAMP_STAIRS_ID";
-    String EXT_ACCESS_ID = "EXT_ACCESS_ID";
     String SIDEWALK_SLOPE_ID = "SIDEWALK_SLOPE_ID";
     String PHONE_ID = "PHONE_ID";
     String TABLE_ID = "TABLE_ID";
@@ -60,6 +66,6 @@ public interface TagInterface {
     String FREE_SPACE_ID = "FREE_SPACE_ID";
 
 
-//    External Access New Register
+    //    External Access New Register
     String NEW_REGISTER = "NEW_REGISTER";
 }
