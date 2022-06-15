@@ -1,6 +1,9 @@
 package com.mpms.relatorioacessibilidadecortec.util;
 
 public interface TagInterface {
+    //    Tags defining school info
+    String SCHOOL_ID = "SCHOOL_ID";
+
     //    Tags defining block info
     String BLOCK_ID = "BLOCK_ID";
 

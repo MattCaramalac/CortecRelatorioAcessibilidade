@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.mpms.relatorioacessibilidadecortec">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"
+        tools:ignore="ScopedStorage"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -8,8 +15,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_cortec_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RelatorioAcessibilidadeCortec"
-        >
+        android:theme="@style/Theme.RelatorioAcessibilidadeCortec">
         <activity android:name=".activities.BlockRegisterActivity" />
         <activity android:name=".activities.SchoolAreasRegisterActivity" />
         <activity
@@ -26,6 +32,9 @@
         <activity
             android:name=".activities.InspectionActivity"
             android:label="@string/headerInspection" />
+
     </application>
+
+
 
 </manifest>
