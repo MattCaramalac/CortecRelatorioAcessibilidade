@@ -9,6 +9,7 @@ public class HeaderNames {
             "Calçada",
             "Estacionamento Externo",
             "Outros Ambientes",
+            "Sanitário"
     };
 
     public static final String[] blockOptions = {
@@ -31,7 +32,8 @@ public class HeaderNames {
             "Bebedouro",
             "Estacionamento Interno",
             "Outros Ambientes",
-            "Playground"
+            "Playground",
+            "Sanitário"
     };
 
 }

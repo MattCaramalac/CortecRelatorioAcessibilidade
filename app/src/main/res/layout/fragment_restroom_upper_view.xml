@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.RestroomUpperViewFragment">
+    android:paddingStart="@dimen/usual_padding"
+    android:paddingEnd="@dimen/usual_padding"
+    tools:context=".fragments.RestUpViewFragment">
+
+    <ScrollView
+        android:id="@+id/t_up_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/usual_padding"
+        app:layout_constraintHeight_percent="0.87"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,19 +28,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_upper_view_rest_dimens"
-            android:textSize="@dimen/section_header"/>
+            android:textSize="@dimen/section_header"
+            android:textStyle="bold"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/upper_view_length_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/rest_upper_view_header"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_room_length">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/upper_view_length_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/upper_view_width_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/upper_view_length_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_room_width">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/upper_view_width_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ImageButton
             android:id="@+id/rest_upper_view_image"
             android:layout_width="@dimen/square_image_100"
             android:layout_height="@dimen/square_image_100"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rest_upper_view_header"
+            app:layout_constraintTop_toBottomOf="@id/upper_view_width_field"
             android:layout_marginTop="@dimen/top_margins"
             android:contentDescription="@string/label_upper_view_measurements" />
 
         <TextView
-            android:layout_width="275dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/rest_upper_view_image"
             app:layout_constraintStart_toEndOf="@id/rest_upper_view_image"
@@ -38,8 +86,9 @@
             android:text="@string/label_expand_image_info"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/upper_view_A_measurement_field"
-            android:layout_width="275dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/rest_upper_view_image"
             app:layout_constraintStart_toEndOf="@id/rest_upper_view_image"
@@ -55,12 +104,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/upper_view_B_measurement_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/upper_view_A_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_measurement_B">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -72,12 +122,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/upper_view_C_measurement_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/upper_view_B_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_measurement_C">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -89,12 +140,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/upper_view_D_measurement_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/upper_view_C_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_measurement_D">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -106,13 +158,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/upper_view_E_measurement_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/upper_view_D_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_measurement_E">
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_measurement_E"
+            app:helperText="Esta medição é facultativa">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/upper_view_E_measurement_value"
@@ -123,10 +177,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/upper_view_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/upper_view_E_measurement_field"
             android:hint="@string/hint_obs">
@@ -145,29 +200,29 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_up_measurements"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/top_margins"
-            android:text="@string/label_button_proceed_register"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/upper_view_obs_field" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/return_button"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/top_margins"
-            android:text="@string/label_back_button"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@id/save_up_measurements"
-            app:layout_constraintStart_toStartOf="parent" />
+    </ScrollView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_up_measurements"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_button_proceed_register"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/t_up_scrollview" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/return_button"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_back_button"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/save_up_measurements"
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

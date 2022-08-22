@@ -29,11 +29,6 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsHandrailDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsRailingDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomEntryDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomMirrorDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomSinkDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomSupportBarDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomUpViewDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomUrinalDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RoomEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SchoolEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkEntryDao;
@@ -62,11 +57,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntr
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomMirrorEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomSinkEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomSupportBarEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomUpViewEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
@@ -82,10 +72,9 @@ import java.util.concurrent.Executors;
 @Database(entities = {SchoolEntry.class, WaterFountainEntry.class, OtherSpaces.class, ExternalAccess.class,
         ParkingLotEntry.class, ParkingLotPCDEntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
-        CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, RestroomMirrorEntry.class,
-        RestroomSinkEntry.class, RestroomSupportBarEntry.class, RestroomUpViewEntry.class, RestroomUrinalEntry.class, SidewalkEntry.class,
+        CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 47)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 49)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -154,21 +143,6 @@ public abstract class ReportDatabase extends RoomDatabase {
                     });
                     dbWriteExecutor.execute(() -> {
                         RestroomEntryDao restroomEntryDao = INSTANCE.restroomEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
-                        RestroomMirrorDao restroomMirrorDao = INSTANCE.restroomMirrorDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
-                        RestroomSinkDao restroomSinkDao = INSTANCE.restroomSinkDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
-                        RestroomSupportBarDao restroomSupportBarDao = INSTANCE.restroomSupportBarDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
-                        RestroomUpViewDao restroomUpViewDao = INSTANCE.restroomUpViewDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
-                        RestroomUrinalDao restroomUrinalDao = INSTANCE.restroomUrinalDao();
                     });
                     dbWriteExecutor.execute(() -> {
                         SidewalkEntryDao sidewalkEntryDao = INSTANCE.sidewalkEntryDao();
@@ -1157,6 +1131,76 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_47_48 = new Migration(47, 48) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE RestroomEntry");
+            database.execSQL("CREATE TABLE RestroomEntry(restroomID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL," +
+                    "restType INTEGER, restLocation TEXT, accessRoute INTEGER, accessRouteObs TEXT, intRestroom INTEGER," +
+                    "intRestObs TEXT, restDistance INTEGER, restDistObs TEXT, exEntrance INTEGER, exEntObs TEXT, antiDriftFloor INTEGER, " +
+                    "antiDriftFloorObs TEXT, restDrain INTEGER, restDrainObs TEXT, restSwitch INTEGER, switchHeight REAL, switchObs TEXT, " +
+                    "doorWidth REAL, hasPict INTEGER, pictObs TEXT, opDir INTEGER, opDirObs TEXT, hasCoat INTEGER, coatHeight REAL, coatObs TEXT, " +
+                    "hasVertSign INTEGER, vertSignObs TEXT, sillType INTEGER, sillIncHeight REAL, sillStepHeight REAL, sillSlopeQnt INTEGER, sillSlopeAngle1 REAL, " +
+                    "sillSlopeAngle2 REAL, sillSlopeAngle3 REAL, sillSlopeAngle4 REAL, sillSlopeWidth REAL, sillTypeObs TEXT, hasTactSign INTEGER, " +
+                    "tactSignObs TEXT, hasHorHandle INTEGER, handleHeight REAL, handleLength REAL, handleDiam REAL, handleObs TEXT, upViewLength REAL, " +
+                    "upViewWidth REAL, upViewMeasureA REAL, upViewMeasureB REAL, upViewMeasureC REAL, upViewMeasureD REAL, upViewMeasureE REAL, upViewObs TEXT," +
+                    "toType INTEGER, toHeightNoSeat REAL, toHasSeat INTEGER, toHeightSeat REAL, toHasSoculo INTEGER, frSoculo REAL, latSoculo REAL, socCorners INTEGER," +
+                    "toHasFrontBar INTEGER, frBarA REAL, frBarB REAL, frBarC REAL, frBarSect REAL, frBarDist REAL, toHasWall INTEGER, hasHorBar INTEGER," +
+                    "horBarD REAL, horBarE REAL, horBarF REAL, horBarDistG REAL, horBarSect REAL, horBarDist REAL, hasVertBar INTEGER, vertBarH REAL, vertBarI REAL," +
+                    "vertBarJ REAL, vertBarSect REAL, vertBarDist REAL, hasArtBar INTEGER, artBarH REAL, artBarI REAL, artBarJ REAL, artBarSect REAL," +
+                    "toActDesc TEXT, toActHeight REAL, toActObs TEXT, hasPapHolder INTEGER, papHolderType INTEGER, papEmbDist REAL, papEmbHeight REAL, papSupAlign INTEGER," +
+                    "papSupHeight REAL, papHoldObs TEXT, hasDouche INTEGER, doucheHeight REAL, doucheObs TEXT, toiletObs TEXT, hasHanger INTEGER, hangerHeight REAL," +
+                    "hangerObs TEXT, hasObjHold INTEGER, objHoldCorrect INTEGER, objHoldHeight REAL, objHoldObs TEXT, hasSoapHold INTEGER, soapHoldHeight REAL," +
+                    "soapHoldObs TEXT, hasTowelHold INTEGER, towelHoldHeight REAL, towelHoldObs TEXT, hasWallMirror INTEGER, wallMirrorLow REAL," +
+                    "wallMirrorHigh REAL, wallMirrorObs TEXT, sinkType INTEGER, approxMeasureA REAL, approxMeasureB REAL, approxMeasureC REAL, approxMeasureD REAL," +
+                    "approxMeasureE REAL, hasSinkBar INTEGER, hasLeftBar INTEGER, leftHorMeasureA REAL, leftHorMeasureB REAL, leftHorMeasureC REAL, leftHorMeasureD REAL," +
+                    "leftVertMeasureA REAL, leftVertMeasureB REAL, leftVertMeasureC REAL, leftVertMeasureD REAL, leftVertMeasureE REAL, leftBarDiam REAL," +
+                    "leftBarDist REAL, hasRightBar INTEGER, rightHorMeasureA REAL, rightHorMeasureB REAL, rightHorMeasureC REAL, rightHorMeasureD REAL, " +
+                    "rightVertMeasureA REAL, rightBarDiam REAL, rightBarDist REAL, sinkHasMirror INTEGER, siMirrorLow REAL, siMirrorHigh REAL," +
+                    "sinkObs TEXT, hasUrinal INTEGER, hasAccessUrinal INTEGER, urinalType INTEGER, urMeasureA REAL, urMeasureB REAL, urMeasureC REAL, urMeasureD REAL," +
+                    "urMeasureE REAL, urMeasureF REAL, urMeasureG REAL, urMeasureH REAL, urMeasureI REAL, urMeasureJ REAL, urMeasureK REAL, urMeasureL REAL," +
+                    "urMeasureM REAL, urObs TEXT, FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("DROP TABLE RestroomSinkEntry");
+            database.execSQL("DROP TABLE RestroomSupportBarEntry");
+            database.execSQL("DROP TABLE RestroomUpViewEntry");
+            database.execSQL("DROP TABLE RestroomUrinalEntry");
+            database.execSQL("DROP TABLE RestroomMirrorEntry");
+
+        }
+    };
+
+    static final Migration MIGRATION_48_49 = new Migration(48, 49) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE RestroomEntry");
+            database.execSQL("CREATE TABLE RestroomEntry(restroomID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL," +
+                    "restType INTEGER, restLocation TEXT, accessRoute INTEGER, accessRouteObs TEXT, intRestroom INTEGER," +
+                    "intRestObs TEXT, restDistance INTEGER, restDistObs TEXT, exEntrance INTEGER, exEntObs TEXT, antiDriftFloor INTEGER, " +
+                    "antiDriftFloorObs TEXT, restDrain INTEGER, restDrainObs TEXT, restSwitch INTEGER, switchHeight REAL, switchObs TEXT, " +
+                    "doorWidth REAL, hasPict INTEGER, pictObs TEXT, opDir INTEGER, opDirObs TEXT, hasCoat INTEGER, coatHeight REAL, coatObs TEXT, " +
+                    "hasVertSign INTEGER, vertSignObs TEXT, sillType INTEGER, sillIncHeight REAL, sillStepHeight REAL, sillSlopeQnt INTEGER, sillSlopeAngle1 REAL, " +
+                    "sillSlopeAngle2 REAL, sillSlopeAngle3 REAL, sillSlopeAngle4 REAL, sillSlopeWidth REAL, sillTypeObs TEXT, hasTactSign INTEGER, " +
+                    "tactSignObs TEXT, hasHorHandle INTEGER, handleHeight REAL, handleLength REAL, handleDiam REAL, handleObs TEXT, upViewLength REAL, " +
+                    "upViewWidth REAL, upViewMeasureA REAL, upViewMeasureB REAL, upViewMeasureC REAL, upViewMeasureD REAL, upViewMeasureE REAL, upViewObs TEXT," +
+                    "toType INTEGER, toHeightNoSeat REAL, toHasSeat INTEGER, toHeightSeat REAL, toHasSoculo INTEGER, frSoculo REAL, latSoculo REAL, socCorners INTEGER," +
+                    "toHasFrontBar INTEGER, frBarA REAL, frBarB REAL, frBarC REAL, frBarSect REAL, frBarDist REAL, toHasWall INTEGER, hasHorBar INTEGER," +
+                    "horBarD REAL, horBarE REAL, horBarF REAL, horBarDistG REAL, horBarSect REAL, horBarDist REAL, hasVertBar INTEGER, vertBarH REAL, vertBarI REAL," +
+                    "vertBarJ REAL, vertBarSect REAL, vertBarDist REAL, hasArtBar INTEGER, artBarH REAL, artBarI REAL, artBarJ REAL, artBarSect REAL," +
+                    "toActDesc TEXT, toActHeight REAL, toActObs TEXT, hasPapHolder INTEGER, papHolderType INTEGER, papEmbDist REAL, papEmbHeight REAL, papSupAlign INTEGER," +
+                    "papSupHeight REAL, papHoldObs TEXT, hasDouche INTEGER, doucheHeight REAL, doucheObs TEXT, toiletObs TEXT, hasHanger INTEGER, hangerHeight REAL," +
+                    "hangerObs TEXT, hasObjHold INTEGER, objHoldCorrect INTEGER, objHoldHeight REAL, objHoldObs TEXT, hasSoapHold INTEGER, soapHoldHeight REAL," +
+                    "soapHoldObs TEXT, hasTowelHold INTEGER, towelHoldHeight REAL, towelHoldObs TEXT, hasWallMirror INTEGER, wallMirrorLow REAL," +
+                    "wallMirrorHigh REAL, wallMirrorObs TEXT, sinkType INTEGER, approxMeasureA REAL, approxMeasureB REAL, approxMeasureC REAL, approxMeasureD REAL," +
+                    "approxMeasureE REAL, hasSinkBar INTEGER, hasLeftBar INTEGER, leftHorMeasureA REAL, leftHorMeasureB REAL, leftHorMeasureC REAL, leftHorMeasureD REAL," +
+                    "leftVertMeasureA REAL, leftVertMeasureB REAL, leftVertMeasureC REAL, leftVertMeasureD REAL, leftVertMeasureE REAL, leftBarDiam REAL," +
+                    "leftBarDist REAL, hasRightBar INTEGER, rightHorMeasureA REAL, rightHorMeasureB REAL, rightHorMeasureC REAL, rightHorMeasureD REAL, " +
+                    "rightVertMeasureA REAL, rightBarDiam REAL, rightBarDist REAL, sinkHasMirror INTEGER, siMirrorLow REAL, siMirrorHigh REAL," +
+                    "sinkObs TEXT, hasUrinal INTEGER, hasAccessUrinal INTEGER, urinalType INTEGER, urMeasureA REAL, urMeasureB REAL, urMeasureC REAL, urMeasureD REAL," +
+                    "urMeasureE REAL, urMeasureF REAL, urMeasureG REAL, urMeasureH REAL, urMeasureI REAL, urMeasureJ REAL, urMeasureK REAL, urMeasureL REAL," +
+                    "urMeasureM REAL, urObs TEXT, FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -1170,7 +1214,8 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_24_25, MIGRATION_25_26, MIGRATION_26_27, MIGRATION_27_28, MIGRATION_28_29, MIGRATION_29_30,
                                     MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35, MIGRATION_35_36,
                                     MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42,
-                                    MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47).build();
+                                    MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
+                                    MIGRATION_48_49).build();
                 }
             }
         }
@@ -1215,16 +1260,6 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract FlightRampStairsDao flightRampStairsDao();
 
     public abstract RestroomEntryDao restroomEntryDao();
-
-    public abstract RestroomMirrorDao restroomMirrorDao();
-
-    public abstract RestroomSinkDao restroomSinkDao();
-
-    public abstract RestroomSupportBarDao restroomSupportBarDao();
-
-    public abstract RestroomUpViewDao restroomUpViewDao();
-
-    public abstract RestroomUrinalDao restroomUrinalDao();
 
     public abstract SidewalkEntryDao sidewalkEntryDao();
 

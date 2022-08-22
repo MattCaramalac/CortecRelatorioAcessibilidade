@@ -21,6 +21,7 @@ import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -30,13 +31,6 @@ import java.util.ArrayList;
 
 
 public class SillSlopeFragment extends Fragment implements TagInterface {
-
-    public static final String SLOPE_QNT = "SLOPE_QNT";
-    public static final String SLOPE_ANGLE_1 = "SLOPE_ANGLE_1";
-    public static final String SLOPE_ANGLE_2 = "SLOPE_ANGLE_2";
-    public static final String SLOPE_ANGLE_3 = "SLOPE_ANGLE_3";
-    public static final String SLOPE_ANGLE_4 = "SLOPE_ANGLE_4";
-    public static final String SLOPE_WIDTH = "SLOPE_WIDTH";
 
     TextInputLayout slopeAngleField1, slopeAngleField2, slopeAngleField3, slopeAngleField4, sillSlopeWidthField;
     TextInputEditText slopeAngleValue1, slopeAngleValue2, slopeAngleValue3, slopeAngleValue4, sillSlopeWidthValue;
@@ -109,6 +103,9 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
             } else if (bundle.getInt(PlaygroundFragment.PLAY_ID) > 0) {
                 modelEntry.getOnePlayground(bundle.getInt(PlaygroundFragment.PLAY_ID))
                         .observe(getViewLifecycleOwner(), this::loadSlopePlayData);
+            } else if (bundle.getInt(REST_ID) > 0) {
+                modelEntry.getOneRestroomEntry(bundle.getInt(REST_ID))
+                        .observe(getViewLifecycleOwner(), this::loadSlopeRestData);
             }
         });
 
@@ -281,9 +278,32 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
             default:
                 break;
         }
+    }
 
-
-
-
+    private void loadSlopeRestData(RestroomEntry entry) {
+        if (entry.getSillSlopeWidth() != null)
+            sillSlopeWidthValue.setText(String.valueOf(entry.getSillSlopeWidth()));
+        measureQnt = entry.getSillSlopeQnt();
+        switch (measureQnt) {
+            case 4:
+                slopeAngleField4.setVisibility(View.VISIBLE);
+                if (entry.getSillSlopeAngle4() != null)
+                    slopeAngleValue4.setText(String.valueOf(entry.getSillSlopeAngle4()));
+            case 3:
+                slopeAngleField3.setVisibility(View.VISIBLE);
+                if (entry.getSillSlopeAngle3() != null)
+                    slopeAngleValue4.setText(String.valueOf(entry.getSillSlopeAngle3()));
+            case 2:
+                slopeAngleField2.setVisibility(View.VISIBLE);
+                if (entry.getSillSlopeAngle2() != null)
+                    slopeAngleValue4.setText(String.valueOf(entry.getSillSlopeAngle2()));
+            case 1:
+                slopeAngleField1.setVisibility(View.VISIBLE);
+                if (entry.getSillSlopeAngle1() != null)
+                    slopeAngleValue4.setText(String.valueOf(entry.getSillSlopeAngle1()));
+                break;
+            default:
+                break;
+        }
     }
 }

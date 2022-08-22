@@ -16,15 +16,14 @@ import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.util.ImageTransformation;
 
 
 public class ExpandImageDialog extends DialogFragment {
 
     public static final String IMAGE_ID = "IMAGE_ID";
 
-    public static final int support = R.drawable.supporthandle2;
-    public static final int upper = R.drawable.upperview;
+//    public static final int support = R.drawable.supporthandle2;
+//    public static final int upper = R.drawable.upperview;
 
     ImageView expandedImage;
     ImageButton closeDialog;
@@ -62,19 +61,21 @@ public class ExpandImageDialog extends DialogFragment {
         closeDialog = view.findViewById(R.id.closeDialog);
 
 
-        switch (imgID.getInt(IMAGE_ID)) {
-            case support:
-                expandedImage.requestLayout();
-                expandedImage.getLayoutParams().height = 1400;
-                expandedImage.getLayoutParams().width = 750;
-                Glide.with(this).load(imgID.getInt(IMAGE_ID)).fitCenter().
-                        transform(new ImageTransformation(getContext(),90))
-                        .into(expandedImage);
-                break;
-            default:
-                Glide.with(this).load(imgID.getInt(IMAGE_ID)).fitCenter().into(expandedImage);
-                break;
-        }
+        Glide.with(this).load(imgID.getInt(IMAGE_ID)).fitCenter().into(expandedImage);
+
+//        switch (imgID.getInt(IMAGE_ID)) {
+//            case support:
+//                expandedImage.requestLayout();
+//                expandedImage.getLayoutParams().height = 1400;
+//                expandedImage.getLayoutParams().width = 750;
+//                Glide.with(this).load(imgID.getInt(IMAGE_ID)).fitCenter().
+//                        transform(new ImageTransformation(getContext(),90))
+//                        .into(expandedImage);
+//                break;
+//            default:
+//                Glide.with(this).load(imgID.getInt(IMAGE_ID)).fitCenter().into(expandedImage);
+//                break;
+//        }
 
         closeDialog.setOnClickListener( v-> requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit());
 

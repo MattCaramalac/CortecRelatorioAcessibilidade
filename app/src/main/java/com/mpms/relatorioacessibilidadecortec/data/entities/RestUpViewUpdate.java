@@ -1,28 +1,27 @@
 package com.mpms.relatorioacessibilidadecortec.data.entities;
 
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import static androidx.room.ForeignKey.CASCADE;
+@Entity
+public class RestUpViewUpdate {
 
-@Entity (foreignKeys = @ForeignKey(entity = RestroomEntry.class, parentColumns = "restroomID",
-        childColumns = "restroomID", onDelete = CASCADE, onUpdate = CASCADE))
-public class RestroomUpViewEntry {
-
-    @PrimaryKey(autoGenerate = true)
-    private int upViewID;
+    @PrimaryKey
     private int restroomID;
-    private double upViewMeasureA;
-    private double upViewMeasureB;
-    private double upViewMeasureC;
-    private double upViewMeasureD;
-    private double upViewMeasureE;
+    private Double upViewLength;
+    private Double upViewWidth;
+    private Double upViewMeasureA;
+    private Double upViewMeasureB;
+    private Double upViewMeasureC;
+    private Double upViewMeasureD;
+    private Double upViewMeasureE;
     private String upViewObs;
 
-    public RestroomUpViewEntry(int restroomID, double upViewMeasureA, double upViewMeasureB, double upViewMeasureC,
-                               double upViewMeasureD, double upViewMeasureE, String upViewObs) {
+    public RestUpViewUpdate(int restroomID, double upViewLength, double upViewWidth, double upViewMeasureA, double upViewMeasureB,
+                            double upViewMeasureC, double upViewMeasureD, Double upViewMeasureE, String upViewObs) {
         this.restroomID = restroomID;
+        this.upViewLength = upViewLength;
+        this.upViewWidth = upViewWidth;
         this.upViewMeasureA = upViewMeasureA;
         this.upViewMeasureB = upViewMeasureB;
         this.upViewMeasureC = upViewMeasureC;
@@ -31,20 +30,28 @@ public class RestroomUpViewEntry {
         this.upViewObs = upViewObs;
     }
 
-    public int getUpViewID() {
-        return upViewID;
-    }
-
-    public void setUpViewID(int upViewID) {
-        this.upViewID = upViewID;
-    }
-
     public int getRestroomID() {
         return restroomID;
     }
 
     public void setRestroomID(int restroomID) {
         this.restroomID = restroomID;
+    }
+
+    public double getUpViewLength() {
+        return upViewLength;
+    }
+
+    public void setUpViewLength(double upViewLength) {
+        this.upViewLength = upViewLength;
+    }
+
+    public double getUpViewWidth() {
+        return upViewWidth;
+    }
+
+    public void setUpViewWidth(double upViewWidth) {
+        this.upViewWidth = upViewWidth;
     }
 
     public double getUpViewMeasureA() {
@@ -79,11 +86,11 @@ public class RestroomUpViewEntry {
         this.upViewMeasureD = upViewMeasureD;
     }
 
-    public double getUpViewMeasureE() {
+    public Double getUpViewMeasureE() {
         return upViewMeasureE;
     }
 
-    public void setUpViewMeasureE(double upViewMeasureE) {
+    public void setUpViewMeasureE(Double upViewMeasureE) {
         this.upViewMeasureE = upViewMeasureE;
     }
 

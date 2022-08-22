@@ -359,33 +359,33 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
             gateSill = sillTypeRadio.getCheckedRadioButtonIndex();
             switch (gateSill) {
                 case 3:
-                    slopeQnt = bundle.getInt(SillSlopeFragment.SLOPE_QNT);
-                    if (bundle.getDouble(SillSlopeFragment.SLOPE_WIDTH) != 0)
-                        slopeWidth = bundle.getDouble(SillSlopeFragment.SLOPE_WIDTH);
+                    slopeQnt = bundle.getInt(SLOPE_QNT);
+                    if (bundle.getDouble(SLOPE_WIDTH) != 0)
+                        slopeWidth = bundle.getDouble(SLOPE_WIDTH);
                     switch (slopeQnt) {
                         case 4:
-                            if (bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_4) != 0)
-                                angle4 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_4);
+                            if (bundle.getDouble(SLOPE_ANGLE_4) != 0)
+                                angle4 = bundle.getDouble(SLOPE_ANGLE_4);
                         case 3:
-                            if (bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_3) != 0)
-                                angle3 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_3);
+                            if (bundle.getDouble(SLOPE_ANGLE_3) != 0)
+                                angle3 = bundle.getDouble(SLOPE_ANGLE_3);
                         case 2:
-                            if (bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_2) != 0)
-                                angle2 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_2);
+                            if (bundle.getDouble(SLOPE_ANGLE_2) != 0)
+                                angle2 = bundle.getDouble(SLOPE_ANGLE_2);
                         case 1:
-                            if (bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_1) != 0)
-                                angle1 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_1);
+                            if (bundle.getDouble(SLOPE_ANGLE_1) != 0)
+                                angle1 = bundle.getDouble(SLOPE_ANGLE_1);
                             break;
                         default:
                             break;
                     }
                     break;
                 case 2:
-                    if (bundle.getDouble(SillStepFragment.STEP_HEIGHT) != 0)
-                        stepHeight = bundle.getDouble(SillStepFragment.STEP_HEIGHT);
+                    if (bundle.getDouble(STEP_HEIGHT) != 0)
+                        stepHeight = bundle.getDouble(STEP_HEIGHT);
                 case 1:
-                    if (bundle.getDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL) != 0)
-                        inclHeight = bundle.getDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL);
+                    if (bundle.getDouble(HEIGHT_INCLINED_SILL) != 0)
+                        inclHeight = bundle.getDouble(HEIGHT_INCLINED_SILL);
                 default:
                     break;
             }

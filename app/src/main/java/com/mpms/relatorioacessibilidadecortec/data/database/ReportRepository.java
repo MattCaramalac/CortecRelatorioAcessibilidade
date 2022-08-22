@@ -24,11 +24,6 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsHandrailDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsRailingDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomEntryDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomMirrorDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomSinkDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomSupportBarDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomUpViewDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomUrinalDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RoomEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SchoolEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkEntryDao;
@@ -59,16 +54,14 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomDoorUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestDoorUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntryUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestSinkUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestToiletUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestUpViewUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestUrinalUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntryUpdate;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomMirrorEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomSinkEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomSinkOne;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomSinkTwo;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomSupportBarEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomUpViewEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomUrinalEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterOne;
@@ -108,11 +101,6 @@ public class ReportRepository {
     private final RampStairsEntryDao rampStairsEntryDao;
     private final FlightRampStairsDao flightsRampStairDao;
     private final RestroomEntryDao restroomEntryDao;
-    private final RestroomMirrorDao restroomMirrorDao;
-    private final RestroomSinkDao restroomSinkDao;
-    private final RestroomSupportBarDao restroomSupportBarDao;
-    private final RestroomUpViewDao restroomUpViewDao;
-    private final RestroomUrinalDao restroomUrinalDao;
     private final SidewalkEntryDao sidewalkEntryDao;
     private final SidewalkSlopeDao sidewalkSlopeDao;
     private final RampStairsHandrailDao handrailDao;
@@ -144,11 +132,6 @@ public class ReportRepository {
         rampStairsEntryDao = db.rampStairsDao();
         flightsRampStairDao = db.flightRampStairsDao();
         restroomEntryDao = db.restroomEntryDao();
-        restroomMirrorDao = db.restroomMirrorDao();
-        restroomSinkDao = db.restroomSinkDao();
-        restroomSupportBarDao = db.restroomSupportBarDao();
-        restroomUpViewDao = db.restroomUpViewDao();
-        restroomUrinalDao = db.restroomUrinalDao();
         sidewalkEntryDao = db.sidewalkEntryDao();
         sidewalkSlopeDao = db.sidewalkSlopeDao();
         handrailDao = db.rampStairsHandrailDao();
@@ -693,16 +676,40 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.insertRestroomEntry(restroom));
     }
 
-    public LiveData<List<RestroomEntry>> getAllSchoolRestroomEntries(int schoolID) {
-        return restroomEntryDao.getAllSchoolRestroomEntries(schoolID);
+    public LiveData<List<RestroomEntry>> getAllRestEntriesInBlock(int schoolID) {
+        return restroomEntryDao.getAllRestEntriesInBlock(schoolID);
     }
 
     public LiveData<RestroomEntry> getOneRestroomEntry(int restroomID) {
         return restroomEntryDao.getOneRestroomEntry(restroomID);
     }
 
-    public LiveData<RestroomUpViewEntry> getRestroomUpViewByRestroom(int restroomID) {
-        return restroomUpViewDao.getRestroomUpViewByRestroom(restroomID);
+    public LiveData<RestroomEntry> getRestFirstData(int restID) {
+        return restroomEntryDao.getRestFirstData(restID);
+    }
+
+    public LiveData<RestroomEntry> getRestDoorData(int restID) {
+        return restroomEntryDao.getRestDoorData(restID);
+    }
+
+    public LiveData<RestroomEntry> getRestUpViewData(int restID) {
+        return restroomEntryDao.getRestUpViewData(restID);
+    }
+
+    public LiveData<RestroomEntry> getRestToiletData(int restID) {
+        return restroomEntryDao.getRestToiletData(restID);
+    }
+
+    public LiveData<RestroomEntry> getRestAccessData(int restID) {
+        return restroomEntryDao.getRestAccessData(restID);
+    }
+
+    public LiveData<RestroomEntry> getRestSinkData(int restID) {
+        return restroomEntryDao.getRestSinkData(restID);
+    }
+
+    public LiveData<RestroomEntry> getRestUrinalData(int restID) {
+        return restroomEntryDao.getRestUrinalData(restID);
     }
 
     public LiveData<RestroomEntry> getLastRestroomEntry() {
@@ -713,128 +720,36 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomEntry(restroom));
     }
 
-    public void updateRestroomData(RestroomEntryUpdate... restroomEntryUpdates) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomData(restroomEntryUpdates));
+    public void updateRestroomData(RestEntryUpdate... restEntryUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomData(restEntryUpdates));
     }
 
-    public void updateRestroomDoorData(RestroomDoorUpdate... doorUpdates) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomDoorData(doorUpdates));
+    public void updateRestDoorData(RestDoorUpdate... doorUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestDoorData(doorUpdates));
+    }
+
+    public void updateRestUpViewData(RestUpViewUpdate... upViewUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestUpViewData(upViewUpdates));
+    }
+
+    public void updateRestToiletData(RestToiletUpdate... barUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestToiletData(barUpdates));
+    }
+
+    public void updateRestAccessData(RestAccessUpdate... accUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestAccessData(accUpdates));
+    }
+
+   public void updateRestSinkData(RestSinkUpdate... sinkUpdates) {
+       ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestSinkData(sinkUpdates));
+   }
+
+    public void updateRestUrinalData(RestUrinalUpdate... urUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestUrinalData(urUpdates));
     }
 
     public void deleteOneRestroomEntry(int restroomID) {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.deleteOneRestroomEntry(restroomID));
-    }
-
-    public void deleteAllRestroomEntriesFromSchool(int schoolID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.deleteAllRestroomEntriesFromSchool(schoolID));
-    }
-
-    public void insertRestroomMirrorEntry(RestroomMirrorEntry restroom) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomMirrorDao.insertRestroomMirrorEntry(restroom));
-    }
-
-    public LiveData<RestroomMirrorEntry> getOneRestroomMirrorEntry(int restroomID) {
-        return restroomMirrorDao.getOneRestroomMirrorEntry(restroomID);
-    }
-
-    public void updateRestroomMirrorEntry(RestroomMirrorEntry mirrorEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomMirrorDao.updateRestroomMirrorEntry(mirrorEntry));
-    }
-
-    public void deleteOneRestroomMirrorEntry(int restroomID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomMirrorDao.deleteOneRestroomMirrorEntry(restroomID));
-    }
-
-    public void insertRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.insertRestroomSinkEntry(sinkEntry));
-    }
-
-    public LiveData<RestroomSinkEntry> getOneRestroomSinkEntry(int sinkID) {
-        return restroomSinkDao.getOneRestroomSinkEntry(sinkID);
-    }
-
-    public LiveData<RestroomSinkEntry> getLastRestroomSinkEntry() {
-        return restroomSinkDao.getLastRestroomSinkEntry();
-    }
-
-    public LiveData<RestroomSinkEntry> getRestroomSinkByRestroom(int restroomID) {
-        return restroomSinkDao.getRestroomSinkByRestroom(restroomID);
-    }
-
-    public void updateRestroomSinkEntry(RestroomSinkEntry sinkEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.updateRestroomSinkEntry(sinkEntry));
-    }
-
-    public void updateSinkEntryOne(RestroomSinkOne... sinkOne) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.updateSinkEntryOne(sinkOne));
-    }
-
-    public void updateSinkEntryTwo(RestroomSinkTwo... sinkTwo) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.updateSinkEntryTwo(sinkTwo));
-    }
-
-    public void deleteOneRestroomSinkEntry(int restroomID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomSinkDao.deleteOneRestroomSinkEntry(restroomID));
-    }
-
-    public void insertRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomSupportBarDao.insertRestroomSupportBarEntry(supportBar));
-    }
-
-    public LiveData<RestroomSupportBarEntry> getOneRestroomSupportBarEntry(int restroomID) {
-        return restroomSupportBarDao.getOneRestroomSupportBarEntry(restroomID);
-    }
-
-    public LiveData<RestroomSupportBarEntry> getLastRestroomSupportBarEntry() {
-        return restroomSupportBarDao.getLastRestroomSupportBarEntry();
-    }
-
-    public LiveData<RestroomSupportBarEntry> getRestSupportBarByRestroom(int restroomID) {
-        return restroomSupportBarDao.getRestSupportBarByRestroom(restroomID);
-    }
-
-    public void updateRestroomSupportBarEntry(RestroomSupportBarEntry supportBar) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomSupportBarDao.updateRestroomSupportBarEntry(supportBar));
-    }
-
-    public void deleteOneRestroomSupportBarEntry(int restroomID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomSupportBarDao.deleteOneRestroomSupportBarEntry(restroomID));
-    }
-
-    public void insertRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomUpViewDao.insertRestroomUpViewEntry(upViewEntry));
-    }
-
-    public LiveData<RestroomUpViewEntry> getOneRestroomUpViewEntry(int upViewID) {
-        return restroomUpViewDao.getOneRestroomUpViewEntry(upViewID);
-    }
-
-    public LiveData<RestroomUpViewEntry> getLastRestroomUpViewEntry() {
-        return restroomUpViewDao.getLastRestroomUpViewEntry();
-    }
-
-    public void updateRestroomUpViewEntry(RestroomUpViewEntry upViewEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomUpViewDao.updateRestroomUpViewEntry(upViewEntry));
-    }
-
-    public void deleteRestroomUpViewEntry(int restroomID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomUpViewDao.deleteRestroomUpViewEntry(restroomID));
-    }
-
-    public void insertRestroomUrinalEntry(RestroomUrinalEntry urinalEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomUrinalDao.insertRestroomUrinalEntry(urinalEntry));
-    }
-
-    public LiveData<RestroomUrinalEntry> getOneRestroomUrinalEntry(int restroomID) {
-        return restroomUrinalDao.getOneRestroomUrinalEntry(restroomID);
-    }
-
-    public void updateRestroomUrinalEntry(RestroomUrinalEntry urinalEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomUrinalDao.updateRestroomUrinalEntry(urinalEntry));
-    }
-
-    public void deleteOneRestroomUrinalEntry(int restroomID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomUrinalDao.deleteOneRestroomUrinalEntry(restroomID));
     }
 
     public void insertSidewalkEntry(SidewalkEntry sidewalkEntry) {

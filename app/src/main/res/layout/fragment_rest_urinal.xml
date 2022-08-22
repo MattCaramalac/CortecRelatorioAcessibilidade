@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/usual_padding"
+    android:paddingEnd="@dimen/usual_padding"
+    tools:context=".fragments.RestUrinalFragment">
+
+    <ScrollView
+        android:id="@+id/urinal_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/usual_padding"
+        app:layout_constraintHeight_percent="0.87"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/urinal_info_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cadastro de Sanitário - Mictório"
+                android:textSize="@dimen/section_header_big"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/has_urinal_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="O sanitário possui mictório?"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_info_header" />
+
+            <RadioGroup
+                android:id="@+id/has_urinal_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_urinal_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/has_urinal_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_urinal_radio" />
+
+            <TextView
+                android:id="@+id/has_access_urinal_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="O sanitário possui mictório acessível?"
+                android:textSize="@dimen/section_header"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_urinal_error" />
+
+            <RadioGroup
+                android:id="@+id/has_access_urinal_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_access_urinal_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/has_access_urinal_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_access_urinal_radio" />
+
+            <TextView
+                android:id="@+id/urinal_type_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="Qual o tipo de mictório encontrado?"
+                android:textSize="@dimen/section_header"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_access_urinal_error" />
+
+            <RadioGroup
+                android:id="@+id/urinal_type_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_type_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="SUSPENSO"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="DE PISO"
+                    android:textSize="@dimen/radio_button_text" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/urinal_type_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_type_radio" />
+
+            <ImageButton
+                android:id="@+id/urinal_front_img"
+                android:layout_width="@dimen/square_image_100"
+                android:layout_height="@dimen/square_image_100"
+                android:layout_marginTop="@dimen/top_margins"
+                android:contentDescription="Vista Frontal Mictório"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@id/urinal_measureA_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_type_error" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureA_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_measurement_A"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/urinal_front_img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/urinal_front_img"
+                app:layout_constraintTop_toTopOf="@id/urinal_front_img">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureA_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureB_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_measurement_B"
+                android:paddingEnd="@dimen/usual_padding"
+                android:weightSum="@integer/weight_one"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/urinal_measureC_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_front_img">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureB_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureC_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_measurement_C"
+                android:paddingStart="@dimen/usual_padding"
+                android:weightSum="@integer/weight_one"
+                android:visibility="gone"
+                app:layout_constraintBaseline_toBaselineOf="@id/urinal_measureB_field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/urinal_measureB_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureC_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureD_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_measurement_D"
+                android:paddingEnd="@dimen/usual_padding"
+                android:weightSum="@integer/weight_one"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/urinal_measureE_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_measureC_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureD_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureE_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_measurement_E"
+                android:paddingStart="@dimen/usual_padding"
+                android:weightSum="@integer/weight_one"
+                android:visibility="gone"
+                app:layout_constraintBaseline_toBaselineOf="@id/urinal_measureD_field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/urinal_measureD_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureE_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureF_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_measurement_F"
+                android:paddingEnd="@dimen/usual_padding"
+                android:weightSum="@integer/weight_one"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/urinal_measureG_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_measureD_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureF_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureG_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_measurement_G"
+                android:paddingStart="@dimen/usual_padding"
+                android:weightSum="@integer/weight_one"
+                android:visibility="gone"
+                app:layout_constraintBaseline_toBaselineOf="@id/urinal_measureF_field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/urinal_measureF_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureG_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureH_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_measurement_H"
+                android:weightSum="@integer/weight_one"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_measureF_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureH_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+           <ImageButton
+                android:id="@+id/urinal_side_img"
+                android:layout_width="@dimen/square_image_100"
+                android:layout_height="@dimen/square_image_100"
+                android:layout_marginTop="@dimen/top_margins"
+                android:contentDescription="Vista Lateral Mictório"
+               android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@id/urinal_measureI_field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_measureH_field" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureI_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_measurement_I"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/urinal_side_img"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/urinal_side_img"
+                app:layout_constraintTop_toTopOf="@id/urinal_side_img">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureI_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureJ_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_measurement_J"
+                android:paddingEnd="@dimen/usual_padding"
+                android:weightSum="@integer/weight_one"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/urinal_measureK_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_side_img">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureJ_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureK_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_measurement_K"
+                android:paddingStart="@dimen/usual_padding"
+                android:weightSum="@integer/weight_one"
+                android:visibility="gone"
+                app:layout_constraintBaseline_toBaselineOf="@id/urinal_measureJ_field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/urinal_measureJ_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureK_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/urinal_front_img2"
+                android:layout_width="@dimen/square_image_100"
+                android:layout_height="@dimen/square_image_100"
+                android:layout_marginTop="@dimen/top_margins"
+                android:contentDescription="Vista Frontal do Mictório"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@id/urinal_measureL_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_measureK_field" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureL_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_measurement_L"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/urinal_front_img2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/urinal_front_img2"
+                app:layout_constraintTop_toTopOf="@id/urinal_front_img2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureL_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_measureM_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_measurement_M"
+                android:weightSum="@integer/weight_one"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_front_img2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_measureM_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urinal_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/urinal_measureM_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_urinal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_button_proceed_register"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/urinal_scrollview" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/return_sink"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_back_button"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/save_urinal"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

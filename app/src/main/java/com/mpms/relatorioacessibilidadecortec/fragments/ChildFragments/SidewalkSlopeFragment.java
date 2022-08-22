@@ -664,9 +664,9 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
             accessSlopeFloorObs = String.valueOf(accessFloorObsValue.getText());
         streetJunction = slopeStreetJunction.getCheckedRadioButtonId();
         if (streetJunction == 1)
-            junInclHeight = bundle.getDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL);
+            junInclHeight = bundle.getDouble(HEIGHT_INCLINED_SILL);
         else if (streetJunction == 2)
-            junStepHeight = bundle.getDouble(SillStepFragment.STEP_HEIGHT);
+            junStepHeight = bundle.getDouble(STEP_HEIGHT);
         if (!TextUtils.isEmpty(slopeStreetObsValue.getText()))
             junctionObs = String.valueOf(slopeStreetObsValue.getText());
         if (!TextUtils.isEmpty(slopeObsValue.getText()))

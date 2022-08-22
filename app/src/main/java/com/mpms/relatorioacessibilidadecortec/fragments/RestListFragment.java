@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,16 +21,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RestroomRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class RestroomListFragment extends Fragment implements OnEntryClickListener {
+public class RestListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
 
     MaterialButton closeRestroomList, addRestroom, invisible;
@@ -41,28 +39,27 @@ public class RestroomListFragment extends Fragment implements OnEntryClickListen
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private RestroomRecViewAdapter restroomAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
 
     Bundle restListBundle = new Bundle();
 
-    public RestroomListFragment() {
+    public RestListFragment() {
         // Required empty public constructor
     }
 
-    public static RestroomListFragment newInstance() {
-        return new RestroomListFragment();
+    public static RestListFragment newInstance() {
+        return new RestListFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            restListBundle.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
-        }
+        if (this.getArguments() != null)
+            restListBundle = new Bundle(this.getArguments());
+        else
+            restListBundle = new Bundle();
     }
 
     @Override
@@ -78,8 +75,7 @@ public class RestroomListFragment extends Fragment implements OnEntryClickListen
 
         instantiateRestListViews(view);
 
-        modelEntry.getAllSchoolRestroomEntries(restListBundle.getInt(SchoolRegisterActivity.SCHOOL_ID)).
-                observe(getViewLifecycleOwner(), restEntry -> {
+        modelEntry.getAllRestEntriesInBlock(restListBundle.getInt(BLOCK_ID)).observe(getViewLifecycleOwner(), restEntry -> {
                     restroomAdapter = new RestroomRecViewAdapter(restEntry, requireActivity(), this);
                     recyclerView.setAdapter(restroomAdapter);
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -128,7 +124,7 @@ public class RestroomListFragment extends Fragment implements OnEntryClickListen
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
 
-        restListBundle.putInt(RestroomFragment.RESTROOM_ID,0);
+        restListBundle.putInt(RestFragment.REST_ID,0);
     }
 
     private void enableActionMode() {
@@ -181,19 +177,16 @@ public class RestroomListFragment extends Fragment implements OnEntryClickListen
     @Override
     public void OnEntryClick(int position) {
         RestroomEntry restroomEntry = modelEntry.allRestSchool.getValue().get(position);
-
-        restListBundle.putInt(RestroomFragment.RESTROOM_ID, restroomEntry.getRestroomID());
-
+        restListBundle.putInt(REST_ID, restroomEntry.getRestroomID());
         OpenRestFragment();
     }
 
     private void OpenRestFragment() {
-        RestroomFragment restroomFragment = RestroomFragment.newInstance();
-        restroomFragment.setArguments(restListBundle);
+        RestFragment restFragment = RestFragment.newInstance();
+        restFragment.setArguments(restListBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, restroomFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.show_fragment_selected, restFragment).addToBackStack(null).commit();
     }
 }

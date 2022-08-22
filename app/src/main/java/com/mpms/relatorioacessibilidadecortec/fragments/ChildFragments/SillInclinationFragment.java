@@ -16,6 +16,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
@@ -25,8 +26,6 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 public class SillInclinationFragment extends Fragment implements TagInterface {
 
-    public static final String HEIGHT_INCLINED_SILL = "HEIGHT_INCLINED_SILL";
-
     TextInputLayout sillInclinationField;
     TextInputEditText sillInclinationValue;
 
@@ -35,7 +34,6 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
     public SillInclinationFragment() {
         // Required empty public constructor
     }
-
 
     public static SillInclinationFragment newInstance() {
         return new SillInclinationFragment();
@@ -72,6 +70,9 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
             } else if (bundle.getInt(SIDEWALK_SLOPE_ID) > 0) {
                 modelEntry.getSidewalkSlopeEntry(bundle.getInt(SIDEWALK_SLOPE_ID))
                         .observe(getViewLifecycleOwner(), this::loadInclinationSlopeStreetData);
+            } else if (bundle.getInt(REST_ID) > 0) {
+                modelEntry.getOneRestroomEntry(bundle.getInt(REST_ID))
+                        .observe(getViewLifecycleOwner(), this::loadRestIncSlope);
             }
         });
 
@@ -127,5 +128,10 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
 
     private void loadInclinationSlopeStreetData(SidewalkSlopeEntry slopeEntry) {
         sillInclinationValue.setText(String.valueOf(slopeEntry.getInclinationJunctionHeight()));
+    }
+
+    private void loadRestIncSlope(RestroomEntry entry) {
+        if (entry.getSillIncHeight() != null)
+        sillInclinationValue.setText(String.valueOf(entry.getSillIncHeight()));
     }
 }

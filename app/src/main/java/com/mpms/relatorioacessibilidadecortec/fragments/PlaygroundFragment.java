@@ -28,11 +28,12 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillIncli
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
-public class PlaygroundFragment extends Fragment {
+public class PlaygroundFragment extends Fragment implements TagInterface {
 
     public static final String PLAY_ID = "PLAY_ID";
 
@@ -380,23 +381,23 @@ public class PlaygroundFragment extends Fragment {
         sillType = gateSillRadio.getCheckedRadioButtonIndex();
         switch (sillType) {
             case 1:
-                sillInclination = bundle.getDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL);
+                sillInclination = bundle.getDouble(HEIGHT_INCLINED_SILL);
                 break;
             case 2:
-                sillStep = bundle.getDouble(SillStepFragment.STEP_HEIGHT);
+                sillStep = bundle.getDouble(STEP_HEIGHT);
                 break;
             case 3:
-                slopeQnt = bundle.getInt(SillSlopeFragment.SLOPE_QNT);
+                slopeQnt = bundle.getInt(SLOPE_QNT);
                 switch (slopeQnt) {
                     case 4:
-                        slopeAngle4 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_4);
+                        slopeAngle4 = bundle.getDouble(SLOPE_ANGLE_4);
                     case 3:
-                        slopeAngle3 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_3);
+                        slopeAngle3 = bundle.getDouble(SLOPE_ANGLE_3);
                     case 2:
-                        slopeAngle2 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_2);
+                        slopeAngle2 = bundle.getDouble(SLOPE_ANGLE_2);
                     case 1:
-                        sillSlopeAngle = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_1);
-                        sillSlopeWidth = bundle.getDouble(SillSlopeFragment.SLOPE_WIDTH);
+                        sillSlopeAngle = bundle.getDouble(SLOPE_ANGLE_1);
+                        sillSlopeWidth = bundle.getDouble(SLOPE_WIDTH);
                         break;
                 }
                 break;

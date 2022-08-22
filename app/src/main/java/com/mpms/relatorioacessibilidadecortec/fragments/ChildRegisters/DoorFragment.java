@@ -369,21 +369,21 @@ public class DoorFragment extends Fragment implements TagInterface {
         if (doorSillRadio.getCheckedRadioButtonIndex() > -1) {
             doorSillType = doorSillRadio.getCheckedRadioButtonIndex();
             if (doorSillType == 1) {
-                sillInclinationHeight = bundle.getDouble(SillInclinationFragment.HEIGHT_INCLINED_SILL);
+                sillInclinationHeight = bundle.getDouble(HEIGHT_INCLINED_SILL);
             } else if (doorSillType == 2) {
-                sillStepHeight = bundle.getDouble(SillStepFragment.STEP_HEIGHT);
+                sillStepHeight = bundle.getDouble(STEP_HEIGHT);
             } else if (doorSillType == 3) {
-                sillSlopeWidth = bundle.getDouble(SillSlopeFragment.SLOPE_WIDTH);
-                sillSlopeQnt = bundle.getInt(SillSlopeFragment.SLOPE_QNT);
+                sillSlopeWidth = bundle.getDouble(SLOPE_WIDTH);
+                sillSlopeQnt = bundle.getInt(SLOPE_QNT);
                 switch (sillSlopeQnt) {
                     case 4:
-                        slopeAngle4 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_4);
+                        slopeAngle4 = bundle.getDouble(SLOPE_ANGLE_4);
                     case 3:
-                        slopeAngle3 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_3);
+                        slopeAngle3 = bundle.getDouble(SLOPE_ANGLE_3);
                     case 2:
-                        slopeAngle2 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_2);
+                        slopeAngle2 = bundle.getDouble(SLOPE_ANGLE_2);
                     case 1:
-                        slopeAngle1 = bundle.getDouble(SillSlopeFragment.SLOPE_ANGLE_1);
+                        slopeAngle1 = bundle.getDouble(SLOPE_ANGLE_1);
                         break;
                     default:
                         break;

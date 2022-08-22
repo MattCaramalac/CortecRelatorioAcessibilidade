@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,8 +39,6 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private ExtAccRecViewAdapter extAccAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     ViewModelFragments modelFragments;
     private ActionMode actionMode;
 

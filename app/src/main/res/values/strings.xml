@@ -40,6 +40,14 @@
         <item>OUTRO TIPO</item>
     </string-array>
 
+    <string-array name="multi_radio_restroom">
+        <item>MASCULINO</item>
+        <item>FEMININO</item>
+        <item>FAMILIAR</item>
+        <item>INFANTIL</item>
+    </string-array>
+
+
     <string name="app_name">Relatório Acessibilidade Cortec</string>
 
     <string name="header">Cadastro da Instituição</string>
@@ -113,6 +121,10 @@
     <string name="radio_button_has_it">POSSUI</string>
     <string name="radio_button_doesnt_have_it">NÃO POSSUI</string>
     <string name="radio_button_unnecessary">DESNECESSÁRIO</string>
+    <string name="radio_button_inwards">INTERNO</string>
+    <string name="radio_button_outwards">EXTERNO</string>
+
+
     <string name="frag_ext_gate_obstacles">Entrada Possui Cancelas ou Catracas?</string>
     <string name="label_add_frag_entry">Adicionar</string>
     <string name="frag_ent_gate_payphone">Entrada possui telefones públicos?</string>
@@ -133,7 +145,7 @@
     <string name="hint_visual_signal">Sinalização Visual</string>
     <string name="hint_visual_signals">Sinalização Visual Vertical</string>
     <string name="label_room_entrance_door">Dimensões da Porta de Entrada</string>
-    <string name="hint_door_width">Largura do Vão Livre</string>
+    <string name="hint_door_width">Largura do Vão Livre (m)</string>
     <string name="hint_uneven_door">Desvível da Porta</string>
     <string name="label_door_ramp">Porta com rampa?</string>
     <string name="hint_window_height">Altura do comando da janela</string>
@@ -253,7 +265,7 @@
     <string name="hint_sill_slope_width">Largura da rampa da soleira</string>
     <string name="hint_switch_location">Localização do interruptor</string>
     <string name="hint_switch_type">Tipo de interruptor</string>
-    <string name="hint_switch_height">Altura do Interruptor</string>
+    <string name="hint_switch_height">Altura do Interruptor (m)</string>
     <string name="hint_switch_obs">Observações sobre o interruptor</string>
     <string name="dialog_add_switch_header">Adicionar Interruptores</string>
     <string name="hint_window_location">Localização da janela</string>
@@ -326,36 +338,37 @@
     <string name="hint_accessible_route_obs">Observações sobre a rota</string>
     <string name="label_restroom_integration_header">O sanitário está integrado às demais instalações sanitárias?</string>
     <string name="hint_obs">Observações</string>
-    <string name="label_restroom_distance_header">O sanitário se encontra a uma distância máxima de 50 metros?</string>
+    <string name="label_restroom_distance_header">O sanitário está a uma dist. máxima de 50 metros em relação aos ambientes da escola?</string>
     <string name="hint_exclusive_entrance">O sanitário possui entrada independente?</string>
-    <string name="label_restroom_door_info_header">Informações sobre a porta do sanitário</string>
-    <string name="label_restroom_door_sia_header">Porta possui SIA?</string>
-    <string name="label_restroom_door_external_direction_header">Porta possui sentido de abertura externo?</string>
+    <string name="label_restroom_door_info_header">Cadastro de Sanitário - Porta</string>
+    <string name="label_restroom_door_sia_header">Porta possui os pictogramas necessários?</string>
+    <string name="label_restroom_door_external_direction_header">Qual o sentido de abertura da porta?</string>
     <string name="label_restroom_door_vertical_sign_header">Porta possui sinalização vertical composta?</string>
     <string name="label_restroom_door_tactile_sign_header">Porta possui sinalização tátil?</string>
-    <string name="label_restroom_door_internal_coating_header">Porta possui revestimento interno anti-impacto?</string>
-    <string name="label_restroom_door_horizontal_handle_header">Porta possui puxador horizontal interno?</string>
-    <string name="hint_horizontal_handle_height">Altura do Puxador Horizontal</string>
-    <string name="hint_horizontal_handle_length">Comprimento do Puxador Horizontal</string>
+    <string name="label_restroom_door_internal_coating_header">Porta possui revestimento anti-impacto no lado oposto ao sentido de abertura da porta?</string>
+    <string name="label_restroom_door_horizontal_handle_header">Porta possui puxador horizontal?</string>
+    <string name="hint_horizontal_handle_height">Altura do Puxador (m)</string>
+    <string name="hint_horizontal_handle_length">Comprimento do Puxador (m)</string>
+    <string name="hint_hor_handle_diam">Diâmetro do puxador (mm)</string>
     <string name="hint_restroom_id">Identificação ou Localização do Sanitário</string>
     <string name="label_upper_view_rest_dimens">Dimensões do Sanitário - Vista Superior</string>
     <string name="expanded_image_description">Expanded Image</string>
     <string name="close_button_description">Close Button</string>
     <string name="label_upper_view_measurements">Visão Superior Banheiro</string>
     <string name="label_expand_image_info">Clique na imagem para ampliá-la!</string>
-    <string name="hint_measurement_A">Medida A</string>
-    <string name="hint_measurement_B">Medida B</string>
-    <string name="hint_measurement_C">Medida C</string>
-    <string name="hint_measurement_D">Medida D</string>
-    <string name="hint_measurement_E">Medida E</string>
+    <string name="hint_measurement_A">Medida A (m)</string>
+    <string name="hint_measurement_B">Medida B (m)</string>
+    <string name="hint_measurement_C">Medida C (m)</string>
+    <string name="hint_measurement_D">Medida D (m)</string>
+    <string name="hint_measurement_E">Medida E (m)</string>
     <string name="label_back_button">RETORNAR</string>
-    <string name="label_support_bar_header">Dimensões do Sanitário - Barras de Apoio</string>
+    <string name="label_toilet_header">Dimensões do Sanitário - Bacia Sanitária e Barras de Suporte</string>
     <string name="label_sup_bar_measurements">Dimensões da Barra de Apoio</string>
-    <string name="hint_measurement_F">Medida F</string>
-    <string name="hint_measurement_G">Medida G</string>
-    <string name="hint_measurement_H">Medida H</string>
-    <string name="hint_measurement_I">Medida I</string>
-    <string name="hint_measurement_J">Medida J</string>
+    <string name="hint_measurement_F">Medida F (m)</string>
+    <string name="hint_measurement_G">Medida G (m)</string>
+    <string name="hint_measurement_H">Medida H (m)</string>
+    <string name="hint_measurement_I">Medida I (m)</string>
+    <string name="hint_measurement_J">Medida J (m)</string>
     <string name="hint_toilet_height">Altura do Vaso Sanitário (incluindo o assento)</string>
     <string name="hint_toilet_flush_height">Altura do acionamento da descarga</string>
     <string name="hint_sup_bar_diameter">Diâmetro da barra de apoio</string>
@@ -367,16 +380,16 @@
     <string name="label_bidet_header">Há ducha higiência ao lado do vaso sanitário (recomendado)</string>
     <string name="label_sink_dimensions_header">Dimensões do Sanitário - Dimensões da Pia</string>
     <string name="hint_sink_measures_obs">Observações sobre as medidas da figura acima</string>
-    <string name="hint_measurement_K">Medida K</string>
-    <string name="hint_measurement_L">Medida L</string>
-    <string name="hint_measurement_M">Medida M</string>
-    <string name="hint_measurement_N">Medida N</string>
-    <string name="hint_measurement_O">Medida O</string>
-    <string name="hint_measurement_P">Medida P</string>
-    <string name="hint_measurement_Q">Medida Q</string>
-    <string name="hint_measurement_R">Medida R</string>
-    <string name="hint_measurement_S">Medida S</string>
-    <string name="hint_measurement_T">Medida T</string>
+    <string name="hint_measurement_K">Medida K (m)</string>
+    <string name="hint_measurement_L">Medida L (m)</string>
+    <string name="hint_measurement_M">Medida M (m)</string>
+    <string name="hint_measurement_N">Medida N (m)</string>
+    <string name="hint_measurement_O">Medida O (m)</string>
+    <string name="hint_measurement_P">Medida P (m)</string>
+    <string name="hint_measurement_Q">Medida Q (m)</string>
+    <string name="hint_measurement_R">Medida R (m)</string>
+    <string name="hint_measurement_S">Medida S (m)</string>
+    <string name="hint_measurement_T">Medida T (m)</string>
     <string name="label_mirror_urinal_header">Dimensões do Sanitáro - Espelho e Mictório</string>
     <string name="label_restroom_has_mirrors">O sanitário possui espelho?</string>
     <string name="label_header_urinal">O sanitário possui mictório?</string>
@@ -576,4 +589,11 @@
     <string name="header_ref_point">Use como referencial as laterais de quem está subindo</string>
     <string name="header_flight_register">Cadastro de Lances</string>
     <string name="header_handrail_register">Cadastro de Corrimãos</string>
+    <string name="rest_has_switch_header">O sanitário possui interruptor de energia?</string>
+    <string name="hint_door_coat_height">Altura do Revestimento (m)</string>
+    <string name="hint_room_length">Comprimento Ambiente (m)</string>
+    <string name="hint_room_width">Largura Ambiente (m)</string>
+    <string name="hint_trans_section_bar">Seção transversal da barra (mm)</string>
+    <string name="hint_wall_bar_distance">Distância face externa barra até parede (m)</string>
+    <string name="blank_fields_message">Um ou mais campos não foram preenchidos</string>
 </resources>

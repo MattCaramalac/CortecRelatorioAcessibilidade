@@ -73,7 +73,7 @@ public class RestroomRecViewAdapter extends RecyclerView.Adapter<ViewHolderInter
 
     public String restLocationType(RestroomEntry restroom) {
         String restType = "";
-        switch (restroom.getRestroomType()) {
+        switch (restroom.getRestType()) {
             case 0:
                 restType = "- Masculino";
                 break;
@@ -83,10 +83,13 @@ public class RestroomRecViewAdapter extends RecyclerView.Adapter<ViewHolderInter
             case 2:
                 restType = "- Familiar";
                 break;
+            case 4:
+                restType = "- Infantil";
+                break;
             default:
                 break;
         }
-        return restroom.getRestroomLocation()+ " " + restType;
+        return restroom.getRestLocation()+ " " + restType;
     }
 
     public String restNumber(int i) {

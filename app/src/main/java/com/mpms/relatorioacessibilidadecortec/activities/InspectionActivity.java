@@ -14,7 +14,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragme
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RestroomListFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.RestListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainListFragment;
@@ -85,6 +85,9 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 case 3:
                     displayRoomsRegisterListFragment(choice);
                     break;
+                case 4:
+                    displayRestroomListFragment();
+                    break;
             }
         } else if (inspectionBundle.getBoolean(SUP_AREA_REG)) {
             switch (choice) {
@@ -99,6 +102,9 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     break;
                 case 3:
                     displayPlaygroundListFragment();
+                    break;
+                case 4:
+                    displayRestroomListFragment();
                     break;
             }
         } else {
@@ -125,7 +131,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public void displayRestroomListFragment() {
-        RestroomListFragment restListFragment = RestroomListFragment.newInstance();
+        RestListFragment restListFragment = RestListFragment.newInstance();
         restListFragment.setArguments(inspectionBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, restListFragment).addToBackStack(REST_LIST).commit();
@@ -181,8 +187,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
             i = 0;
         else {
             if (frag instanceof ExternalAccessListFragment || frag instanceof ParkingLotListFragment || frag instanceof PlaygroundListFragment
-                    || frag instanceof RestroomListFragment || frag instanceof RoomRegisterListFragment || frag instanceof SidewalkListFragment
-                    || frag instanceof WaterFountainListFragment)
+                    || frag instanceof RestListFragment || frag instanceof RoomRegisterListFragment || frag instanceof SidewalkListFragment
+                    || frag instanceof WaterFountainListFragment )
                 i = 0;
         }
         return i == 0;

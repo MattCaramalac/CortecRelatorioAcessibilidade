@@ -16,25 +16,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntryUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntryUpdate;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
+import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class RestroomFragment extends Fragment {
-
-    public static final String RESTROOM_ID = "RESTROOM_ID";
+public class RestFragment extends Fragment implements TagInterface {
 
     TextInputLayout restroomLocationField, accessibleRouteObsField, integratedRestroomObsField, restroomDistanceObsField,
             exclusiveEntranceObsField, driftingFloorObsField, restroomDrainObsField, restroomSwitchObsField,
@@ -44,8 +41,9 @@ public class RestroomFragment extends Fragment {
             restroomSwitchHeightValue;
     TextView restroomTypeError, accessibleRouteError, integratedRestroomError, restroomDistanceError,
             exclusiveEntranceError, driftingFloorError, restroomDrainError, restroomSwitchError;
-    RadioGroup restroomTypeRadio, accessibleRouteRadio, integratedRestroomRadio, restroomDistanceRadio,
+    RadioGroup  accessibleRouteRadio, integratedRestroomRadio, restroomDistanceRadio,
             exclusiveEntranceRadio, driftingFloorRadio, restroomDrainRadio, restroomSwitchRadio;
+    MultiLineRadioGroup restroomTypeRadio;
     Button cancelRestroom, continueRegister;
 
     Integer restroomType, accessibleRoute, integratedRestroom, restroomDistance, exclusiveEntrance, antiDriftingFloor,
@@ -55,44 +53,38 @@ public class RestroomFragment extends Fragment {
     Double switchHeight;
 
     ArrayList<TextInputEditText> obsValues = new ArrayList<>();
-    Bundle restroomBundleData = new Bundle();
+    Bundle restBundle = new Bundle();
 
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
-
     FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
 
     int recentEntry = 0;
     int updateEntry = 0;
     int registeredEntry = 0;
 
-    public RestroomFragment() {
+    public RestFragment() {
         // Required empty public constructor
     }
 
-    public static RestroomFragment newInstance() {
-        return new RestroomFragment();
+    public static RestFragment newInstance() {
+        return new RestFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        if (this.getArguments() != null)
+            restBundle = new Bundle(this.getArguments());
+        else
+            restBundle = new Bundle();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_restroom, container, false);
-        if (this.getArguments() != null) {
-            restroomBundleData.putInt(SchoolRegisterActivity.SCHOOL_ID, this.getArguments().getInt(SchoolRegisterActivity.SCHOOL_ID));
-            restroomBundleData.putInt(RESTROOM_ID, this.getArguments().getInt(RESTROOM_ID));
-        }
-        modelEntry = new ViewModelEntry(requireActivity().getApplication());
-        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_restroom, container, false);
     }
 
     @Override
@@ -102,38 +94,36 @@ public class RestroomFragment extends Fragment {
         instantiateRestroomViews(view);
         enableObsScrollingFields();
 
-        restroomSwitchRadio.setOnCheckedChangeListener(this::activateSwitchHeight);
+
 
         //      Usado quando um novo cadastro é realizado, colocando o ID no bundle e chamando o próximo fragmento
         modelEntry.getLastRestroomEntry().observe(getViewLifecycleOwner(), restroom -> {
             if (recentEntry == 1) {
                 recentEntry = 0;
                 int restroomID = restroom.getRestroomID();
-                restroomBundleData.putInt(RESTROOM_ID, restroomID);
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                RestroomDoorFragment restDoorFragment = RestroomDoorFragment.newInstance();
-                restDoorFragment.setArguments(restroomBundleData);
-                fragmentTransaction.replace(R.id.show_fragment_selected, restDoorFragment).addToBackStack(null).commit();
+                restBundle.putInt(REST_ID, restroomID);
+                RestDoorFragment restDoorFragment = RestDoorFragment.newInstance();
+                restDoorFragment.setArguments(restBundle);
+                requireActivity().getSupportFragmentManager().beginTransaction().
+                        replace(R.id.show_fragment_selected, restDoorFragment).addToBackStack(null).commit();
             }
         });
 
 //      Usado quando uma entrada deve ser atualizada,
-        if (restroomBundleData.getInt(RESTROOM_ID) != 0) {
-            modelEntry.getOneRestroomEntry(restroomBundleData.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), update -> {
+        if (restBundle.getInt(REST_ID) != 0) {
+            modelEntry.getRestFirstData(restBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), update -> {
                 if (updateEntry == 1) {
                     updateEntry = 0;
-                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    RestroomDoorFragment restDoorFragment = RestroomDoorFragment.newInstance();
-                    restDoorFragment.setArguments(restroomBundleData);
-                    fragmentTransaction.replace(R.id.show_fragment_selected, restDoorFragment).addToBackStack(null).commit();
+                    RestDoorFragment restDoorFragment = RestDoorFragment.newInstance();
+                    restDoorFragment.setArguments(restBundle);
+                    requireActivity().getSupportFragmentManager().beginTransaction().
+                            replace(R.id.show_fragment_selected, restDoorFragment).addToBackStack(null).commit();
                 }
             });
         }
 
-        if (restroomBundleData.getInt(RESTROOM_ID) > 0) {
-            modelEntry.getOneRestroomEntry(restroomBundleData.getInt(RESTROOM_ID)).observe(getViewLifecycleOwner(), restroomEntry -> {
+        if (restBundle.getInt(REST_ID) > 0) {
+            modelEntry.getRestFirstData(restBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), restroomEntry -> {
                 gatherRestroomData(restroomEntry);
                 registeredEntry = 1;
             });
@@ -142,12 +132,12 @@ public class RestroomFragment extends Fragment {
         continueRegister.setOnClickListener(v -> {
             if(checkRestroomFields()) {
                 if (registeredEntry == 0 && recentEntry == 0) {
-                    RestroomEntry newRestroom = newRestroom(restroomBundleData);
+                    RestroomEntry newRestroom = newRestroom(restBundle);
                     ViewModelEntry.insertRestroomEntry(newRestroom);
                     recentEntry = 1;
                     clearRestroomDataFields();
                 } else if (registeredEntry == 1) {
-                    RestroomEntryUpdate update = updateRestroom(restroomBundleData);
+                    RestEntryUpdate update = updateRestroom(restBundle);
                     ViewModelEntry.updateRestroomData(update);
                     updateEntry = 1;
                     clearRestroomDataFields();
@@ -161,8 +151,7 @@ public class RestroomFragment extends Fragment {
         });
 
         cancelRestroom.setOnClickListener(v -> {
-            restroomBundleData = null;
-//            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            restBundle = null;
             fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.popBackStack(InspectionActivity.REST_LIST, 0);
         });
@@ -170,6 +159,7 @@ public class RestroomFragment extends Fragment {
     }
 
     private void instantiateRestroomViews(View view) {
+//        TextInputLayout
         restroomLocationField = view.findViewById(R.id.restroom_location_field);
         accessibleRouteObsField = view.findViewById(R.id.restroom_accessible_route_obs_field);
         integratedRestroomObsField = view.findViewById(R.id.integrated_restroom_obs_field);
@@ -179,7 +169,7 @@ public class RestroomFragment extends Fragment {
         restroomDrainObsField = view.findViewById(R.id.restroom_drain_obs_field);
         restroomSwitchObsField = view.findViewById(R.id.restroom_switch_obs_field);
         restroomSwitchHeightField = view.findViewById(R.id.restroom_switch_height_field);
-
+//        TextInputEditText
         restroomLocationValue = view.findViewById(R.id.restroom_location_value);
         accessibleRouteObsValue = view.findViewById(R.id.restroom_accessible_route_obs_value);
         integratedRestroomObsValue = view.findViewById(R.id.integrated_restroom_obs_value);
@@ -189,8 +179,9 @@ public class RestroomFragment extends Fragment {
         restroomDrainObsValue = view.findViewById(R.id.restroom_drain_obs_value);
         restroomSwitchObsValue = view.findViewById(R.id.restroom_switch_obs_value);
         restroomSwitchHeightValue = view.findViewById(R.id.restroom_switch_height_value);
-
-        restroomTypeRadio = view.findViewById(R.id.restroom_type_radio);
+//        Multiline RadioGroup
+        restroomTypeRadio = view.findViewById(R.id.restroom_type_multiradio);
+//        RadioGroup
         accessibleRouteRadio = view.findViewById(R.id.accessible_route_radio);
         integratedRestroomRadio = view.findViewById(R.id.integrated_restroom_radio);
         restroomDistanceRadio = view.findViewById(R.id.restroom_distance_radio);
@@ -198,7 +189,7 @@ public class RestroomFragment extends Fragment {
         driftingFloorRadio = view.findViewById(R.id.restroom_drifting_radio);
         restroomDrainRadio = view.findViewById(R.id.restroom_drain_radio);
         restroomSwitchRadio = view.findViewById(R.id.restroom_switch_radio);
-
+//        TextView
         restroomTypeError = view.findViewById(R.id.restroom_type_error);
         accessibleRouteError = view.findViewById(R.id.accessible_route_error);
         integratedRestroomError = view.findViewById(R.id.integrated_restroom_error);
@@ -207,18 +198,23 @@ public class RestroomFragment extends Fragment {
         driftingFloorError = view.findViewById(R.id.restroom_drifting_error);
         restroomDrainError = view.findViewById(R.id.restroom_drain_error);
         restroomSwitchError = view.findViewById(R.id.restroom_switch_error);
-
+//        Material Button
         cancelRestroom = view.findViewById(R.id.cancel_restroom);
         continueRegister = view.findViewById(R.id.continue_restroom_register);
+//        ViewModel
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+//        Listeners
+        restroomSwitchRadio.setOnCheckedChangeListener(this::activateSwitchHeight);
     }
 
     public void activateSwitchHeight(RadioGroup radio, int checkedID) {
         int checkIndex = getRestroomCheckedRadio(radio);
         if (checkIndex == 1) {
-            restroomSwitchHeightField.setEnabled(true);
+            restroomSwitchHeightField.setVisibility(View.VISIBLE);
         } else {
             restroomSwitchHeightValue.setText(null);
-            restroomSwitchHeightField.setEnabled(false);
+            restroomSwitchHeightField.setVisibility(View.GONE);
         }
     }
 
@@ -260,7 +256,7 @@ public class RestroomFragment extends Fragment {
             error++;
             restroomLocationField.setError(getString(R.string.blank_field_error));
         }
-        if (getRestroomCheckedRadio(restroomTypeRadio) == -1) {
+        if (restroomTypeRadio.getCheckedRadioButtonIndex() == -1) {
             restroomTypeError.setVisibility(View.VISIBLE);
             error++;
         }
@@ -316,26 +312,40 @@ public class RestroomFragment extends Fragment {
     public RestroomEntry newRestroom(Bundle bundle) {
         pickUpRestroomDataFields();
 
-        return new RestroomEntry(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID),restroomType, restroomLocation, accessibleRoute,
+        return new RestroomEntry(bundle.getInt(BLOCK_ID), restroomType, restroomLocation, accessibleRoute,
                 accessibleRouteObs, integratedRestroom, integratedRestroomObs, restroomDistance, restroomDistanceObs, exclusiveEntrance,
                 exclusiveEntranceObs, antiDriftingFloor, antiDriftingFloorObs, restroomDrain, restroomDrainObs, restroomSwitch,
-                switchHeight, switchObs, null, null, null, null, null, null,
-                null, null, null, null, null, null,
-                null, null, null, null, null, null,
-                null, null, null);
+                switchHeight, switchObs, null, null, null, null, null, null,null, null,
+                null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null,null, null,
+                null, null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null,
+                null);
     }
 
-    public RestroomEntryUpdate updateRestroom(Bundle bundle) {
+    public RestEntryUpdate updateRestroom(Bundle bundle) {
         pickUpRestroomDataFields();
 
-        return new RestroomEntryUpdate(bundle.getInt(RESTROOM_ID),restroomType, restroomLocation, accessibleRoute,
+        return new RestEntryUpdate(bundle.getInt(REST_ID),restroomType, restroomLocation, accessibleRoute,
                 accessibleRouteObs, integratedRestroom, integratedRestroomObs, restroomDistance, restroomDistanceObs, exclusiveEntrance,
                 exclusiveEntranceObs, antiDriftingFloor, antiDriftingFloorObs, restroomDrain, restroomDrainObs, restroomSwitch,
                 switchHeight, switchObs);
     }
 
     public void pickUpRestroomDataFields() {
-        restroomType = getRestroomCheckedRadio(restroomTypeRadio);
+        restroomType = restroomTypeRadio.getCheckedRadioButtonIndex();
         accessibleRoute = getRestroomCheckedRadio(accessibleRouteRadio);
         integratedRestroom = getRestroomCheckedRadio(integratedRestroomRadio);
         restroomDistance = getRestroomCheckedRadio(restroomDistanceRadio);
@@ -344,51 +354,51 @@ public class RestroomFragment extends Fragment {
         restroomDrain = getRestroomCheckedRadio(restroomDrainRadio);
         restroomSwitch = getRestroomCheckedRadio(restroomSwitchRadio);
 
-        restroomLocation = Objects.requireNonNull(restroomLocationValue.getText()).toString();
-        accessibleRouteObs = Objects.requireNonNull(accessibleRouteObsValue.getText()).toString();
-        integratedRestroomObs = Objects.requireNonNull(integratedRestroomObsValue.getText()).toString();
-        restroomDistanceObs = Objects.requireNonNull(restroomDistanceObsValue.getText()).toString();
-        exclusiveEntranceObs = Objects.requireNonNull(exclusiveEntranceObsValue.getText()).toString();
-        antiDriftingFloorObs = Objects.requireNonNull(driftingFloorObsValue.getText()).toString();
-        restroomDrainObs = Objects.requireNonNull(restroomDrainObsValue.getText()).toString();
-        switchObs = Objects.requireNonNull(restroomSwitchObsValue.getText()).toString();
+        restroomLocation = String.valueOf(restroomLocationValue.getText());
+        accessibleRouteObs = String.valueOf(accessibleRouteObsValue.getText());
+        integratedRestroomObs = String.valueOf(integratedRestroomObsValue.getText());
+        restroomDistanceObs = String.valueOf(restroomDistanceObsValue.getText());
+        exclusiveEntranceObs = String.valueOf(exclusiveEntranceObsValue.getText());
+        antiDriftingFloorObs = String.valueOf(driftingFloorObsValue.getText());
+        restroomDrainObs = String.valueOf(restroomDrainObsValue.getText());
+        switchObs = String.valueOf(restroomSwitchObsValue.getText());
 
         if (restroomSwitch == 1) {
-            switchHeight = Double.parseDouble(Objects.requireNonNull(restroomSwitchHeightValue.getText()).toString());
+            switchHeight = Double.parseDouble(String.valueOf(restroomSwitchHeightValue.getText()));
         }
 
     }
 
     public void gatherRestroomData(RestroomEntry restroomEntry) {
-        restroomTypeRadio.check((restroomTypeRadio.getChildAt(restroomEntry.getRestroomType())).getId());
-        restroomLocationValue.setText(restroomEntry.getRestroomLocation());
+        restroomTypeRadio.checkAt(restroomEntry.getRestType());
+        restroomLocationValue.setText(restroomEntry.getRestLocation());
 
-        accessibleRouteRadio.check((accessibleRouteRadio.getChildAt(restroomEntry.getAccessibleRoute())).getId());
-        if (restroomEntry.getAccessibleRouteObs() != null)
-            accessibleRouteObsValue.setText(restroomEntry.getAccessibleRouteObs());
+        accessibleRouteRadio.check((accessibleRouteRadio.getChildAt(restroomEntry.getAccessRoute())).getId());
+        if (restroomEntry.getAccessRouteObs() != null)
+            accessibleRouteObsValue.setText(restroomEntry.getAccessRouteObs());
 
-        integratedRestroomRadio.check((integratedRestroomRadio.getChildAt(restroomEntry.getIntegratedRestroom())).getId());
-        if (restroomEntry.getIntegratedRestroomObs() != null)
-            integratedRestroomObsValue.setText(restroomEntry.getIntegratedRestroomObs());
+        integratedRestroomRadio.check((integratedRestroomRadio.getChildAt(restroomEntry.getIntRestroom())).getId());
+        if (restroomEntry.getIntRestObs() != null)
+            integratedRestroomObsValue.setText(restroomEntry.getIntRestObs());
 
-        restroomDistanceRadio.check((restroomDistanceRadio.getChildAt(restroomEntry.getRestroomDistance())).getId());
-        if (restroomEntry.getRestroomDistanceObs() != null)
-            restroomDistanceObsValue.setText(restroomEntry.getRestroomDistanceObs());
+        restroomDistanceRadio.check((restroomDistanceRadio.getChildAt(restroomEntry.getRestDistance())).getId());
+        if (restroomEntry.getRestDistObs() != null)
+            restroomDistanceObsValue.setText(restroomEntry.getRestDistObs());
 
-        exclusiveEntranceRadio.check((exclusiveEntranceRadio.getChildAt(restroomEntry.getExclusiveEntrance())).getId());
-        if (restroomEntry.getExclusiveEntranceObs() != null)
-            exclusiveEntranceObsValue.setText(restroomEntry.getExclusiveEntranceObs());
+        exclusiveEntranceRadio.check((exclusiveEntranceRadio.getChildAt(restroomEntry.getExEntrance())).getId());
+        if (restroomEntry.getExEntObs() != null)
+            exclusiveEntranceObsValue.setText(restroomEntry.getExEntObs());
 
-        driftingFloorRadio.check((driftingFloorRadio.getChildAt(restroomEntry.getAntiDriftingFloor())).getId());
-        if (restroomEntry.getAntiDriftingFloorObs() != null)
-            driftingFloorObsValue.setText(restroomEntry.getAntiDriftingFloorObs());
+        driftingFloorRadio.check((driftingFloorRadio.getChildAt(restroomEntry.getAntiDriftFloor())).getId());
+        if (restroomEntry.getAntiDriftFloorObs() != null)
+            driftingFloorObsValue.setText(restroomEntry.getAntiDriftFloorObs());
 
-        restroomDrainRadio.check((restroomDrainRadio.getChildAt(restroomEntry.getRestroomDrain())).getId());
-        if (restroomEntry.getRestroomDrainObs() != null)
-            restroomDrainObsValue.setText(restroomEntry.getRestroomDrainObs());
+        restroomDrainRadio.check((restroomDrainRadio.getChildAt(restroomEntry.getRestDrain())).getId());
+        if (restroomEntry.getRestDrainObs() != null)
+            restroomDrainObsValue.setText(restroomEntry.getRestDrainObs());
 
-        restroomSwitchRadio.check((restroomSwitchRadio.getChildAt(restroomEntry.getRestroomSwitch())).getId());
-        if (restroomEntry.getRestroomSwitch() == 1) {
+        restroomSwitchRadio.check((restroomSwitchRadio.getChildAt(restroomEntry.getRestSwitch())).getId());
+        if (restroomEntry.getRestSwitch() == 1) {
             restroomSwitchHeightField.setEnabled(true);
             restroomSwitchHeightValue.setText(String.valueOf(restroomEntry.getSwitchHeight()));
             if (restroomEntry.getSwitchObs() != null)
