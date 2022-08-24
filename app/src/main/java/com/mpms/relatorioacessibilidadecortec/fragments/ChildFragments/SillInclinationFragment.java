@@ -19,7 +19,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
@@ -64,8 +63,8 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
             } else if (bundle.getBoolean(FROM_EXT_ACCESS)) {
                 modelEntry.getOneExternalAccess(bundle.getInt(AMBIENT_ID))
                         .observe(getViewLifecycleOwner(), this::loadInclinationExtAccData);
-            } else if (bundle.getInt(PlaygroundFragment.PLAY_ID) > 0) {
-                modelEntry.getOnePlayground(bundle.getInt(PlaygroundFragment.PLAY_ID))
+            } else if (bundle.getInt(PLAY_ID) > 0) {
+                modelEntry.getOnePlayground(bundle.getInt(PLAY_ID))
                         .observe(getViewLifecycleOwner(), this::loadInclinationPlayData);
             } else if (bundle.getInt(SIDEWALK_SLOPE_ID) > 0) {
                 modelEntry.getSidewalkSlopeEntry(bundle.getInt(SIDEWALK_SLOPE_ID))

@@ -30,7 +30,9 @@ public interface TagInterface {
     String HAS_PCD = "HAS_PCD";
     String HAS_ELDERLY = "HAS_ELDERLY";
     String PCD_LIST = "PCD_LIST";
+    String PCD_ID = "PCD_ID";
     String ELDER_LIST = "ELDER_LIST";
+    String ELDER_ID = "ELDER_ID";
 
     //    Tags defining where the data is coming from
     String FROM_EXT_ACCESS = "FROM_EXT_ACCESS";
@@ -76,6 +78,7 @@ public interface TagInterface {
     String FREE_SPACE_ID = "FREE_SPACE_ID";
     String REST_ID = "REST_ID";
     String FOUNTAIN_ID = "FOUNTAIN_ID";
+    String PLAY_ID = "PLAY_ID";
 
     //    Door Sill Data
     String HEIGHT_INCLINED_SILL = "HEIGHT_INCLINED_SILL";

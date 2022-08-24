@@ -35,8 +35,6 @@ import java.util.ArrayList;
 
 public class PlaygroundFragment extends Fragment implements TagInterface {
 
-    public static final String PLAY_ID = "PLAY_ID";
-
     TextInputLayout playLocaleField, floorTypeField, playGateWidthField, playTrackHeightField, trackMeasureField1, trackMeasureField2,
             trackMeasureField3, trackMeasureField4, playGateSillObsField, floorObsField, toyObsField, playObsField;
     TextInputEditText playLocaleValue, floorTypeValue, playGateWidthValue, playTrackHeightValue, trackMeasureValue1, trackMeasureValue2,
@@ -124,7 +122,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
                         newPlayEntry.setPlaygroundID(playBundle.getInt(PLAY_ID));
                         ViewModelEntry.updatePlayground(newPlayEntry);
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
-                        requireActivity().getSupportFragmentManager().popBackStackImmediate();
+                        requireActivity().getSupportFragmentManager().popBackStack(PLAYGROUND_LIST, 0);
                     } else {
                         ViewModelEntry.insertPlayground(newPlayEntry);
                         Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();

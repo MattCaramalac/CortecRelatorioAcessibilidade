@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,12 +27,12 @@ import com.mpms.relatorioacessibilidadecortec.adapter.PlayRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class PlaygroundListFragment extends Fragment implements OnEntryClickListener {
+public class PlaygroundListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
-    public static final String NEW_PLAYGROUND_ENTRY = "NEW_PLAYGROUND_ENTRY";
 
     MaterialButton closePlayList, addPlayground, continuePlayground;
     TextView playHeader;
@@ -44,8 +42,6 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private PlayRecViewAdapter playAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
@@ -162,27 +158,20 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
 
     @Override
     public void OnEntryClick(int position) {
-        PlaygroundEntry playEntry =  modelEntry.allPlaygrounds.getValue().get(position);
-        playBundle.putInt(PlaygroundFragment.PLAY_ID, playEntry.getPlaygroundID());
+        PlaygroundEntry playEntry = modelEntry.allPlaygrounds.getValue().get(position);
+        playBundle.putInt(PLAY_ID, playEntry.getPlaygroundID());
         openPlayFragment();
     }
 
     private void openPlayFragment() {
         PlaygroundFragment playFragment = PlaygroundFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        playFragment.setArguments(playBundle);
         if (actionMode != null)
             actionMode.finish();
-        if (playBundle.getInt(PlaygroundFragment.PLAY_ID) > 0) {
-            playFragment.setArguments(playBundle);
-            fragmentTransaction.replace(R.id.show_fragment_selected, playFragment).addToBackStack(null).commit();
-        }
-        else {
-            playBundle.putInt(PlaygroundFragment.PLAY_ID, 0);
-            playFragment.setArguments(playBundle);
-            fragmentTransaction.replace(R.id.show_fragment_selected, playFragment).addToBackStack(NEW_PLAYGROUND_ENTRY).commit();
-        }
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, playFragment).addToBackStack(null).commit();
     }
+
 
     private void instantiateAdmEquipListViews(View v) {
 //        MaterialButton

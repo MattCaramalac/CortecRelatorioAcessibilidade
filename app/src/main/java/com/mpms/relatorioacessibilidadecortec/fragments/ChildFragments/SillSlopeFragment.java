@@ -23,7 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
@@ -94,14 +93,14 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
             }
         });
 
-        getParentFragmentManager().setFragmentResultListener(InspectionActivity.LOAD_CHILD_DATA, this, (key, bundle) -> {
+        getParentFragmentManager().setFragmentResultListener(LOAD_CHILD_DATA, this, (key, bundle) -> {
             if (bundle.getInt(DoorFragment.DOOR_ID) > 0) {
                 modelEntry.getSpecificDoor(bundle.getInt(DoorFragment.DOOR_ID)).observe(getViewLifecycleOwner(), this::loadSlopeDoorData);
             } else if (bundle.getBoolean(FROM_EXT_ACCESS)) {
                 modelEntry.getOneExternalAccess(bundle.getInt(AMBIENT_ID))
                         .observe(getViewLifecycleOwner(), this::loadSlopeExtAccData);
-            } else if (bundle.getInt(PlaygroundFragment.PLAY_ID) > 0) {
-                modelEntry.getOnePlayground(bundle.getInt(PlaygroundFragment.PLAY_ID))
+            } else if (bundle.getInt(PLAY_ID) > 0) {
+                modelEntry.getOnePlayground(bundle.getInt(PLAY_ID))
                         .observe(getViewLifecycleOwner(), this::loadSlopePlayData);
             } else if (bundle.getInt(REST_ID) > 0) {
                 modelEntry.getOneRestroomEntry(bundle.getInt(REST_ID))
