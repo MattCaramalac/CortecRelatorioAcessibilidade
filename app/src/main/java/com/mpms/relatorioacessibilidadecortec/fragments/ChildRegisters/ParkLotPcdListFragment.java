@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.fragments;
+package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,8 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,16 +22,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.ParkPcdRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class ParkLotPcdListFragment extends Fragment implements OnEntryClickListener {
+public class ParkLotPcdListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closePcdList, addPcdLot, nextScreen;
     TextView pcdListIdentifier;
@@ -40,8 +39,6 @@ public class ParkLotPcdListFragment extends Fragment implements OnEntryClickList
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private ParkPcdRecViewAdapter pcdAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
@@ -60,8 +57,8 @@ public class ParkLotPcdListFragment extends Fragment implements OnEntryClickList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            pcdBundle.putInt(ParkingLotListFragment.PARKING_ID, this.getArguments().getInt(ParkingLotListFragment.PARKING_ID));
-            pcdBundle.putBoolean(ParkingLotFragment.HAS_ELDERLY, this.getArguments().getBoolean(ParkingLotFragment.HAS_ELDERLY));
+            pcdBundle.putInt(PARKING_ID, this.getArguments().getInt(PARKING_ID));
+            pcdBundle.putBoolean(HAS_ELDERLY, this.getArguments().getBoolean(HAS_ELDERLY));
         }
     }
 
@@ -79,7 +76,7 @@ public class ParkLotPcdListFragment extends Fragment implements OnEntryClickList
 
         instantiatePcdListViews(view);
 
-        modelEntry.getAllPcdParkingLot(pcdBundle.getInt(ParkingLotListFragment.PARKING_ID))
+        modelEntry.getAllPcdParkingLot(pcdBundle.getInt(PARKING_ID))
                 .observe(getViewLifecycleOwner(), pcdList -> {
                     pcdAdapter = new ParkPcdRecViewAdapter(pcdList, requireActivity(), this);
                     recyclerView.setAdapter(pcdAdapter);
@@ -103,42 +100,44 @@ public class ParkLotPcdListFragment extends Fragment implements OnEntryClickList
                     });
                 });
 
-        addPcdLot.setOnClickListener(v -> {
-            pcdBundle.putInt(ParkingLotPcdFragment.PCD_ID, 0);
-            openPcdFragment();
-        });
 
-        nextScreen.setOnClickListener(v -> nextScreenController());
 
         closePcdList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            if (!pcdBundle.getBoolean(ParkingLotFragment.HAS_ELDERLY)) {
-                requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.PARKING_LIST,0);
-            } else
-                requireActivity().getSupportFragmentManager().popBackStackImmediate();
+            requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pcdBundle.putInt(PCD_ID, 0);
+
     }
 
     private void instantiatePcdListViews(View view) {
 //        TextView & its definitions
         pcdListIdentifier = view.findViewById(R.id.identifier_header);
-        pcdListIdentifier.setText("Cadastro Vagas PCD e PMR");
+        pcdListIdentifier.setText(R.string.parking_PCD_header);
 //        MaterialButton & its definitions
         closePcdList = view.findViewById(R.id.cancel_child_items_entries);
         addPcdLot = view.findViewById(R.id.add_child_items_entries);
         nextScreen = view.findViewById(R.id.continue_child_items_entries);
 
-        if (!pcdBundle.getBoolean(ParkingLotFragment.HAS_ELDERLY)) {
-            nextScreen.setVisibility(View.GONE);
-            closePcdList.setText("FINALIZAR");
-        }
+        if (!pcdBundle.getBoolean(HAS_ELDERLY))
+            nextScreen.setText(R.string.label_button_finish);
 //        RecyclerView & its definitions
         recyclerView = view.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 //        ViewModel
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+
+        nextScreen.setOnClickListener(this::nextScreenController);
+        addPcdLot.setOnClickListener(v -> openPcdFragment());
+
     }
 
     private void enableActionMode() {
@@ -189,34 +188,35 @@ public class ParkLotPcdListFragment extends Fragment implements OnEntryClickList
     }
 
     private void openPcdFragment() {
-        ParkingLotPcdFragment pcdFragment = ParkingLotPcdFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        ParkLotPcdFragment pcdFragment = ParkLotPcdFragment.newInstance();
         pcdFragment.setArguments(pcdBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, pcdFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.show_fragment_selected, pcdFragment).addToBackStack(null).commit();
     }
 
-    private void nextScreenController(){
-        if (pcdBundle.getBoolean(ParkingLotFragment.HAS_ELDERLY)) {
+    private void nextScreenController(View v) {
+        if (actionMode != null)
+            actionMode.finish();
+
+        if (pcdBundle.getBoolean(HAS_ELDERLY)) {
             ParkLotElderListFragment elderListFragment = ParkLotElderListFragment.newInstance();
-            fragmentManager = requireActivity().getSupportFragmentManager();
-            fragmentTransaction = fragmentManager.beginTransaction();
             elderListFragment.setArguments(pcdBundle);
-            if (actionMode != null)
-                actionMode.finish();
-            fragmentTransaction.replace(R.id.show_fragment_selected, elderListFragment)
-                    .addToBackStack(ParkingLotFragment.ELDER_LIST).commit();
-        } else
-            requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.PARKING_LIST,0);
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.show_fragment_selected, elderListFragment).addToBackStack(ELDER_LIST).commit();
+        } else {
+            Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
+            requireActivity().getSupportFragmentManager().popBackStack(PARKING_LIST, 0);
+
+        }
 
     }
 
     @Override
     public void OnEntryClick(int position) {
         ParkingLotPCDEntry pcdEntry = modelEntry.allPcdLots.getValue().get(position);
-        pcdBundle.putInt(ParkingLotPcdFragment.PCD_ID, pcdEntry.getParkingPcdID());
+        pcdBundle.putInt(ParkLotPcdFragment.PCD_ID, pcdEntry.getParkingPcdID());
         openPcdFragment();
     }
 }

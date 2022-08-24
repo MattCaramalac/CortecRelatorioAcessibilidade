@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ParkingLotElderlyFragment">
+    tools:context=".fragments.ChildRegisters.ParkLotElderlyFragment">
 
     <TextView
         android:id="@+id/parking_lot_elderly_header"
@@ -21,7 +21,7 @@
         android:id="@+id/parking_elderly_scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.85"
+        app:layout_constraintHeight_percent="0.87"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/parking_lot_elderly_header" >
 
@@ -371,7 +371,7 @@
         android:id="@+id/save_parking_lot_elderly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_save"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -382,7 +382,7 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_button_cancel"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/save_parking_lot_elderly"

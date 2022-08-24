@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/section_header_big"
                 android:textStyle="bold"
+                android:text="@string/parking_lot_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.fragments;
+package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,13 +18,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 
-public class ParkingLotElderlyFragment extends Fragment {
-
-    public static final String ELDERLY_LOT_ID = "ELDERLY_LOT_ID";
+public class ParkLotElderlyFragment extends Fragment implements TagInterface {
 
     TextView verticalSignError, floorSingError;
     RadioGroup hasVerticalSign, hasFloorSign;
@@ -43,12 +44,12 @@ public class ParkingLotElderlyFragment extends Fragment {
     Bundle elderlyBundle = new Bundle();
 
 
-    public ParkingLotElderlyFragment() {
+    public ParkLotElderlyFragment() {
         // Required empty public constructor
     }
 
-    public static ParkingLotElderlyFragment newInstance() {
-        ParkingLotElderlyFragment fragment = new ParkingLotElderlyFragment();
+    public static ParkLotElderlyFragment newInstance() {
+        ParkLotElderlyFragment fragment = new ParkLotElderlyFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -58,8 +59,8 @@ public class ParkingLotElderlyFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            elderlyBundle.putInt(ParkingLotListFragment.PARKING_ID, this.getArguments().getInt(ParkingLotListFragment.PARKING_ID));
-            elderlyBundle.putInt(ELDERLY_LOT_ID, this.getArguments().getInt(ELDERLY_LOT_ID));
+            elderlyBundle.putInt(PARKING_ID, this.getArguments().getInt(PARKING_ID));
+            elderlyBundle.putInt(ELDER_ID, this.getArguments().getInt(ELDER_ID));
         }
     }
 
@@ -79,13 +80,13 @@ public class ParkingLotElderlyFragment extends Fragment {
         hasVerticalSign.setOnCheckedChangeListener(this::radioListener);
         hasFloorSign.setOnCheckedChangeListener(this::radioListener);
 
-        if (elderlyBundle.getInt(ELDERLY_LOT_ID) > 0) {
-            modelEntry.getOneElderlyParkingLot(elderlyBundle.getInt(ELDERLY_LOT_ID))
+        if (elderlyBundle.getInt(ELDER_ID) > 0) {
+            modelEntry.getOneElderlyParkingLot(elderlyBundle.getInt(ELDER_ID))
                     .observe(getViewLifecycleOwner(), this::gatherElderlyLotData);
         }
 
         cancelParkingLotElderly.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                        .popBackStack(ParkingLotFragment.ELDER_LIST,0));
+                        .popBackStack(ELDER_LIST,0));
 
         saveParkingLotElderly.setOnClickListener(v -> elderSaveClick());
     }
@@ -206,17 +207,17 @@ public class ParkingLotElderlyFragment extends Fragment {
     private void elderSaveClick() {
         if (verifyEmptyFields()) {
             ParkingLotElderlyEntry newEntry = newElderlyEntry(elderlyBundle);
-            if (elderlyBundle.getInt(ELDERLY_LOT_ID) > 0) {
-                newEntry.setParkingElderlyID(elderlyBundle.getInt(ELDERLY_LOT_ID));
+            if (elderlyBundle.getInt(ELDER_ID) > 0) {
+                newEntry.setParkingElderlyID(elderlyBundle.getInt(ELDER_ID));
                 ViewModelEntry.updateElderlyParkingLot(newEntry);
                 Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
                 requireActivity().getSupportFragmentManager().popBackStack(ParkingLotFragment.ELDER_LIST, 0);
-            } else if (elderlyBundle.getInt(ELDERLY_LOT_ID) == 0) {
+            } else if (elderlyBundle.getInt(ELDER_ID) == 0) {
                 ViewModelEntry.insertElderlyParkingLot(newEntry);
                 Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 clearElderFields();
             } else{
-                elderlyBundle.putInt(ELDERLY_LOT_ID, 0);
+                elderlyBundle.putInt(ELDER_ID, 0);
                 Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente!", Toast.LENGTH_SHORT).show();
             }
         }

@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.fragments;
+package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,23 +17,23 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.ParkElderRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class ParkLotElderListFragment extends Fragment implements OnEntryClickListener {
+public class ParkLotElderListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closeElderList, addElderLot, finishParking;
     TextView elderListIdentifier;
@@ -60,7 +61,7 @@ public class ParkLotElderListFragment extends Fragment implements OnEntryClickLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            elderBundle.putInt(ParkingLotListFragment.PARKING_ID, this.getArguments().getInt(ParkingLotListFragment.PARKING_ID));
+            elderBundle.putInt(PARKING_ID, this.getArguments().getInt(PARKING_ID));
     }
 
     @Nullable
@@ -100,19 +101,12 @@ public class ParkLotElderListFragment extends Fragment implements OnEntryClickLi
                     });
                 });
 
-        addElderLot.setOnClickListener(v -> openElderFragment());
+    }
 
-        closeElderList.setOnClickListener(v -> {
-            if (actionMode != null)
-                actionMode.finish();
-            requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.PARKING_LIST, 0);
-        });
-
-
-
-
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        elderBundle.putInt(ELDER_ID, 0);
     }
 
     private void enableActionMode() {
@@ -165,36 +159,50 @@ public class ParkLotElderListFragment extends Fragment implements OnEntryClickLi
     private void instantiateElderListViews(View view) {
 //        TextView
         elderListIdentifier = view.findViewById(R.id.identifier_header);
-        elderListIdentifier.setText("Cadastro Vagas Idosos");
+        elderListIdentifier.setText(R.string.parking_elderly_header);
 //        MaterialButton & its definitions
         closeElderList = view.findViewById(R.id.cancel_child_items_entries);
         addElderLot = view.findViewById(R.id.add_child_items_entries);
         finishParking = view.findViewById(R.id.continue_child_items_entries);
 
-        finishParking.setVisibility(View.GONE);
-        closeElderList.setText("FINALIZAR");
+        finishParking.setText(getString(R.string.label_button_finish));
 //        RecyclerView & its definitions
         recyclerView = view.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 //        ViewModel
-        modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+//        Listeners
+        addElderLot.setOnClickListener(v -> openElderFragment());
+        closeElderList.setOnClickListener(this::cancelFinishClick);
+        finishParking.setOnClickListener(this::cancelFinishClick);
+    }
+
+    private void cancelFinishClick(View v) {
+        if (actionMode != null)
+            actionMode.finish();
+
+        if (v == closeElderList)
+            requireActivity().getSupportFragmentManager().popBackStackImmediate();
+        else {
+            Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
+            requireActivity().getSupportFragmentManager().popBackStack(PARKING_LIST, 0);
+        }
     }
 
     private void openElderFragment() {
-        ParkingLotElderlyFragment elderFragment = ParkingLotElderlyFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        ParkLotElderlyFragment elderFragment = ParkLotElderlyFragment.newInstance();
         elderFragment.setArguments(elderBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, elderFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.show_fragment_selected, elderFragment).addToBackStack(null).commit();
     }
 
     @Override
     public void OnEntryClick(int position) {
         ParkingLotElderlyEntry elderEntry = modelEntry.allElderLots.getValue().get(position);
-        elderBundle.putInt(ParkingLotElderlyFragment.ELDERLY_LOT_ID, elderEntry.getParkingElderlyID());
+        elderBundle.putInt(ELDER_ID, elderEntry.getParkingElderlyID());
         openElderFragment();
     }
 }

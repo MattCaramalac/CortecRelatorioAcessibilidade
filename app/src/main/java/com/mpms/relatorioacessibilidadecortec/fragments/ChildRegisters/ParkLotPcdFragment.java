@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.fragments;
+package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,12 +19,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 
-public class ParkingLotPcdFragment extends Fragment {
-
-    public static final String PCD_ID = "PCD_ID";
+public class ParkLotPcdFragment extends Fragment implements TagInterface {
 
     TextView pcdVertError, pcdSafetyZoneError, pcdSiaError;
     RadioGroup hasVerticalSign, hasSafetyZone, hasSiaPcd;
@@ -41,19 +40,19 @@ public class ParkingLotPcdFragment extends Fragment {
 
     ViewModelEntry modelEntry;
 
-    public ParkingLotPcdFragment() {
+    public ParkLotPcdFragment() {
         // Required empty public constructor
     }
 
-    public static ParkingLotPcdFragment newInstance() {
-        return new ParkingLotPcdFragment();
+    public static ParkLotPcdFragment newInstance() {
+        return new ParkLotPcdFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            pcdBundle.putInt(ParkingLotListFragment.PARKING_ID, this.getArguments().getInt(ParkingLotListFragment.PARKING_ID));
+            pcdBundle.putInt(PARKING_ID, this.getArguments().getInt(PARKING_ID));
             pcdBundle.putInt(PCD_ID, this.getArguments().getInt(PCD_ID));
         }
     }
@@ -92,7 +91,7 @@ public class ParkingLotPcdFragment extends Fragment {
                     ViewModelEntry.updatePcdParkingLot(pcdEntry);
                     clearPcdFields();
                     Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
-                    requireActivity().getSupportFragmentManager().popBackStack(ParkingLotFragment.PCD_LIST, 0);
+                    requireActivity().getSupportFragmentManager().popBackStack(PCD_LIST, 0);
                 } else {
                     pcdBundle.putInt(PCD_ID, 0);
                     Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente!", Toast.LENGTH_SHORT).show();
@@ -338,7 +337,7 @@ public class ParkingLotPcdFragment extends Fragment {
         }
         pcdSiaObs = String.valueOf(siaObsValue.getText());
 
-        return new ParkingLotPCDEntry(bundle.getInt(ParkingLotListFragment.PARKING_ID), hasPcdVertSign,
+        return new ParkingLotPCDEntry(bundle.getInt(PARKING_ID), hasPcdVertSign,
                 pcdVertSingLength, pcdVertSignWidth, pcdVertSignObs, vacancyLength, vacancyWidth, vacancyLimiterWidth,
                 pcdVacancyObs, hasPcdSafety, safetyZoneWidth, safetyZoneObs, hasPcdSia, pcdSiaLength,
                 pcdSiaWidth, pcdSiaObs);
