@@ -108,6 +108,12 @@ public class RestListFragment extends Fragment implements OnEntryClickListener, 
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        restListBundle.putInt(REST_ID,0);
+    }
+
     private void instantiateRestListViews(View v) {
 //        MaterialButton
         closeRestroomList = v.findViewById(R.id.cancel_child_items_entries);
@@ -123,8 +129,6 @@ public class RestListFragment extends Fragment implements OnEntryClickListener, 
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
-
-        restListBundle.putInt(RestFragment.REST_ID,0);
     }
 
     private void enableActionMode() {

@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,8 +21,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntryUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -57,11 +58,8 @@ public class RestFragment extends Fragment implements TagInterface {
 
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
-    FragmentManager fragmentManager;
 
-    int recentEntry = 0;
-    int updateEntry = 0;
-    int registeredEntry = 0;
+    int recentEntry = 0, updateEntry = 0, registeredEntry = 0;
 
     public RestFragment() {
         // Required empty public constructor
@@ -78,6 +76,19 @@ public class RestFragment extends Fragment implements TagInterface {
             restBundle = new Bundle(this.getArguments());
         else
             restBundle = new Bundle();
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (restBundle.getBoolean(RECENT_ENTRY))
+                    cancelClick();
+                else {
+                    setEnabled(false);
+                    requireActivity().onBackPressed();
+                }
+                setEnabled(true);
+            }
+        });
     }
 
     @Override
@@ -135,6 +146,7 @@ public class RestFragment extends Fragment implements TagInterface {
                     RestroomEntry newRestroom = newRestroom(restBundle);
                     ViewModelEntry.insertRestroomEntry(newRestroom);
                     recentEntry = 1;
+                    restBundle.putBoolean(RECENT_ENTRY, true);
                     clearRestroomDataFields();
                 } else if (registeredEntry == 1) {
                     RestEntryUpdate update = updateRestroom(restBundle);
@@ -148,12 +160,6 @@ public class RestFragment extends Fragment implements TagInterface {
                     Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
-
-        cancelRestroom.setOnClickListener(v -> {
-            restBundle = null;
-            fragmentManager = requireActivity().getSupportFragmentManager();
-            fragmentManager.popBackStack(InspectionActivity.REST_LIST, 0);
         });
 
     }
@@ -206,6 +212,22 @@ public class RestFragment extends Fragment implements TagInterface {
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
 //        Listeners
         restroomSwitchRadio.setOnCheckedChangeListener(this::activateSwitchHeight);
+        cancelRestroom.setOnClickListener(v -> cancelClick());
+
+    }
+
+    private void cancelClick() {
+        if (restBundle.getBoolean(RECENT_ENTRY) && restBundle.getInt(REST_ID) > 0) {
+            CancelEntryDialog dialog = CancelEntryDialog.newInstance();
+            dialog.setListener(() -> {
+                ViewModelEntry.deleteOneRestroomEntry(restBundle.getInt(REST_ID));
+                restBundle = null;
+                requireActivity().getSupportFragmentManager().popBackStack(REST_LIST, 0);
+            });
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
+            dialog.show(manager, "MOSTRA");
+        } else
+            requireActivity().getSupportFragmentManager().popBackStack(REST_LIST, 0);
     }
 
     public void activateSwitchHeight(RadioGroup radio, int checkedID) {
@@ -428,6 +450,5 @@ public class RestFragment extends Fragment implements TagInterface {
 
         restroomSwitchHeightField.setEnabled(false);
     }
-
 
 }

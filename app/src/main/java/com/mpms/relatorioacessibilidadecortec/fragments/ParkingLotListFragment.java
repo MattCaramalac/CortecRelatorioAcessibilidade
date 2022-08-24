@@ -45,7 +45,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
 
     int delClick = 0;
 
-    Bundle parkingBundle;
+    Bundle parkListBundle;
 
     public ParkingLotListFragment() {
         // Required empty public constructor
@@ -59,9 +59,9 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            parkingBundle = new Bundle(this.getArguments());
+            parkListBundle = new Bundle(this.getArguments());
         else
-            parkingBundle = new Bundle();
+            parkListBundle = new Bundle();
     }
 
     @Nullable
@@ -77,14 +77,14 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
 
         instantiateParkingListViews(view);
 
-        if (parkingBundle.getBoolean(FROM_SIDEWALK))
-            modelEntry.getParkingLotFromSide(parkingBundle.getInt(BLOCK_ID), parkingBundle.getInt(AMBIENT_ID))
+        if (parkListBundle.getBoolean(FROM_SIDEWALK))
+            modelEntry.getParkingLotFromSide(parkListBundle.getInt(BLOCK_ID), parkListBundle.getInt(AMBIENT_ID))
                     .observe(getViewLifecycleOwner(), parkingLot -> {
                         parkingAdapter = new ParkingRecViewAdapter(parkingLot, requireActivity(), this);
                         listCreator(parkingAdapter);
                     });
         else
-            modelEntry.getParkingLotsFromBlocks(parkingBundle.getInt(BLOCK_ID))
+            modelEntry.getParkingLotsFromBlocks(parkListBundle.getInt(BLOCK_ID))
                     .observe(getViewLifecycleOwner(), parkingLot -> {
                         parkingAdapter = new ParkingRecViewAdapter(parkingLot, requireActivity(), this);
                         listCreator(parkingAdapter);
@@ -95,8 +95,17 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
         closeParkingList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            if (parkListBundle.getBoolean(FROM_SIDEWALK))
+                requireActivity().getSupportFragmentManager().popBackStackImmediate();
+            else
+                requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        parkListBundle.putInt(PARKING_ID, 0);
     }
 
     private void instantiateParkingListViews(View v) {
@@ -107,12 +116,12 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
         invisible.setVisibility(View.GONE);
 //        TextView
         parkingHeader = v.findViewById(R.id.identifier_header);
-        if (parkingBundle.getBoolean(EXT_AREA_REG))
+        if (parkListBundle.getBoolean(EXT_AREA_REG))
             parkingHeader.setText(R.string.ext_park_reg_header);
-        else if (parkingBundle.getBoolean(SUP_AREA_REG))
+        else if (parkListBundle.getBoolean(SUP_AREA_REG))
             parkingHeader.setText(R.string.int_park_reg_header);
         else
-            parkingHeader.setText("Cadastro de Estacionamentos na Calçada");
+            parkingHeader.setText(R.string.side_park_reg_header);
 //        RecyclerView
         recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -196,7 +205,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
 
     private void openParkingLotFragment() {
         ParkingLotFragment parkingLot = ParkingLotFragment.newInstance();
-        parkingLot.setArguments(parkingBundle);
+        parkingLot.setArguments(parkListBundle);
         if (actionMode != null)
             actionMode.finish();
         requireActivity().getSupportFragmentManager().beginTransaction()
@@ -206,7 +215,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     @Override
     public void OnEntryClick(int position) {
         ParkingLotEntry parkingEntry = modelEntry.allParkingLots.getValue().get(position);
-        parkingBundle.putInt(PARKING_ID, parkingEntry.getParkingID());
+        parkListBundle.putInt(PARKING_ID, parkingEntry.getParkingID());
         openParkingLotFragment();
     }
 }

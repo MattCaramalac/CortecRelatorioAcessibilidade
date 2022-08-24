@@ -12,15 +12,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -47,7 +49,7 @@ public class SidewalkFragment extends Fragment implements TagInterface {
     ArrayList<TextInputEditText> sidewalkObsArray = new ArrayList<>();
     ArrayList<TextInputLayout> sideMeasureArray = new ArrayList<>();
 
-    Bundle sidewalkData;
+    Bundle sideBundle;
 
     int savedRegister = 0;
 
@@ -65,9 +67,22 @@ public class SidewalkFragment extends Fragment implements TagInterface {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            sidewalkData = new Bundle(this.getArguments());
+            sideBundle = new Bundle(this.getArguments());
         else
-            sidewalkData = new Bundle();
+            sideBundle = new Bundle();
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (sideBundle.getBoolean(RECENT_ENTRY))
+                    cancelClick();
+                else {
+                    setEnabled(false);
+                    requireActivity().onBackPressed();
+                }
+                setEnabled(true);
+            }
+        });
     }
 
     @Override
@@ -84,8 +99,8 @@ public class SidewalkFragment extends Fragment implements TagInterface {
         instantiateSidewalkFragmentViews(view);
 
 
-        if (sidewalkData.getInt(AMBIENT_ID) > 0) {
-            modelEntry.getSidewalkEntry(sidewalkData.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSidewalkData);
+        if (sideBundle.getInt(AMBIENT_ID) > 0) {
+            modelEntry.getSidewalkEntry(sideBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSidewalkData);
             savedRegister = 1;
         }
 
@@ -112,22 +127,55 @@ public class SidewalkFragment extends Fragment implements TagInterface {
             }
         });
 
-        cancelSidewalk.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.SIDEWALK_LIST, 0));
-
         saveProceedSidewalk.setOnClickListener(v -> {
             if (checkEmptySidewalkFields()) {
-                if (sidewalkData.getInt(AMBIENT_ID) > 0) {
-                    ViewModelEntry.updateSidewalkOne(updateSidewalkOne(sidewalkData));
-                } else if (sidewalkData.getInt(AMBIENT_ID) == 0) {
-                    ViewModelEntry.insertSidewalkEntry(newSidewalk(sidewalkData));
+                if (sideBundle.getInt(AMBIENT_ID) > 0) {
+                    ViewModelEntry.updateSidewalkOne(updateSidewalkOne(sideBundle));
+                    callNextSidewalkFrag(sideBundle);
+                } else if (sideBundle.getInt(AMBIENT_ID) == 0) {
+                    sideBundle.putBoolean(RECENT_ENTRY, true);
+                    ViewModelEntry.insertSidewalkEntry(newSidewalk(sideBundle));
                 } else {
-                    return;
+                    sideBundle.putInt(AMBIENT_ID, 0);
+                    Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
                 }
-                callNextSidewalkFrag(sidewalkData);
             }
         });
 
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!sideBundle.getBoolean(RECENT_ENTRY)) {
+            modelEntry.getLastSidewalkEntry().observe(getViewLifecycleOwner(), side -> {
+                if (sideBundle.getBoolean(RECENT_ENTRY))
+                    callNextSidewalkFrag(side);
+            });
+        }
+    }
+
+    private void cancelClick () {
+        if (sideBundle.getBoolean(RECENT_ENTRY)) {
+            CancelEntryDialog dialog = CancelEntryDialog.newInstance();
+            dialog.setListener(() -> {
+                ViewModelEntry.deleteSidewalk(sideBundle.getInt(AMBIENT_ID));
+                sideBundle = null;
+                requireActivity().getSupportFragmentManager().popBackStack(SIDEWALK_LIST, 0);
+            });
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
+            dialog.show(manager, "MOSTRA");
+        } else
+            requireActivity().getSupportFragmentManager().popBackStack(SIDEWALK_LIST, 0);
+    }
+
+    private void callNextSidewalkFrag(SidewalkEntry side) {
+        int sID = side.getSidewalkID();
+        sideBundle.putInt(AMBIENT_ID, sID);
+        SidewalkFragmentTwo sideTwo = SidewalkFragmentTwo.newInstance();
+        sideTwo.setArguments(sideBundle);
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, sideTwo).addToBackStack(null).commit();
     }
 
     private void callNextSidewalkFrag(Bundle bundle) {
@@ -195,6 +243,7 @@ public class SidewalkFragment extends Fragment implements TagInterface {
 //        Listeners
         hasTactileFloorRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
         tactileFloorColorRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
+        cancelSidewalk.setOnClickListener(v -> cancelClick());
 //        Methods
         allowSidewalkObsScroll();
         sideMeasureArray.add(sideTransSlopeField1);
@@ -255,7 +304,6 @@ public class SidewalkFragment extends Fragment implements TagInterface {
                 slopeMeasureQnt = 1;
                 break;
         }
-
 
 
         if (sidewalk.getHasSpecialFloor() != null && sidewalk.getHasSpecialFloor() > -1) {
@@ -339,7 +387,6 @@ public class SidewalkFragment extends Fragment implements TagInterface {
                 sideFreeSpaceWidthField.setError(getString(R.string.blank_field_error));
             }
         }
-
 
 
         switch (slopeMeasureQnt) {
@@ -442,9 +489,6 @@ public class SidewalkFragment extends Fragment implements TagInterface {
     }
 
 
-
-
-
     private SidewalkEntry newSidewalk(Bundle bundle) {
         String sideLocale = null, sideMeasureObs = null, tactFloorObs = null;
         Integer streetPavement = null, hasTactFloor = null, tactFloorColor = null;
@@ -506,7 +550,7 @@ public class SidewalkFragment extends Fragment implements TagInterface {
 
         return new SidewalkEntry(bundle.getInt(BLOCK_ID), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
                 sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirLength, tacTileDirWidth, tacTileAlertLength,
-                tacTileAlertWidth, tactFloorObs, null, null, null,null, null, null, null,
+                tacTileAlertWidth, tactFloorObs, null, null, null, null, null, null, null,
                 null, null, null, null, null, null);
     }
 

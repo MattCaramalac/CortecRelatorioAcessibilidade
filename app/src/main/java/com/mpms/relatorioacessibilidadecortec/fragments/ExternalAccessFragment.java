@@ -12,12 +12,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
@@ -57,6 +60,19 @@ public class ExternalAccessFragment extends Fragment implements TagInterface {
             extBundle = new Bundle(this.getArguments());
         else
             extBundle = new Bundle();
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (extBundle.getBoolean(RECENT_ENTRY))
+                    cancelClick();
+                else {
+                    setEnabled(false);
+                    requireActivity().onBackPressed();
+                }
+                setEnabled(true);
+            }
+        });
     }
 
     @Override
@@ -97,8 +113,6 @@ public class ExternalAccessFragment extends Fragment implements TagInterface {
             }
         });
 
-        cancelExternalAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.EXTERNAL_LIST, 0));
-
         saveExternalAccess.setOnClickListener(v -> {
             if (getRadioCheckIndex(entranceTypeRadio) == 1) {
                 getChildFragmentManager().setFragmentResult(PARENT_SAVE_ATTEMPT, extBundle);
@@ -106,16 +120,12 @@ public class ExternalAccessFragment extends Fragment implements TagInterface {
                 if (checkEmptyFields()) {
                     if (extBundle.getInt(AMBIENT_ID) >= 0) {
                         if (extBundle.getInt(AMBIENT_ID) > 0) {
-//                            ExtAccessSocialOne socialOne = upExtAccessOne(extBundle);
                             ViewModelEntry.updateExtAccessRegOne(upExtAccessOne(extBundle));
+                            callSocialAccessFrag(extBundle);
                         } else {
-//                            ExternalAccess extAccess = newExtAccess(extBundle);
+                            extBundle.putBoolean(RECENT_ENTRY, true);
                             ViewModelEntry.insertExternalAccess(newExtAccess(extBundle));
                         }
-                        ExtAccessSocialFragment fragment = new ExtAccessSocialFragment();
-                        fragment.setArguments(extBundle);
-                        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment)
-                                .addToBackStack(null).commit();
                     } else {
                         extBundle.putInt(AMBIENT_ID, 0);
                         Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
@@ -123,6 +133,52 @@ public class ExternalAccessFragment extends Fragment implements TagInterface {
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!extBundle.getBoolean(RECENT_ENTRY)) {
+            modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), access -> {
+                if (extBundle.getBoolean(RECENT_ENTRY))
+                    callSocialAccessFrag(access);
+            });
+        } else {
+            modelEntry.getLastExternalAccess().removeObserver(access -> {
+                if (extBundle.getBoolean(RECENT_ENTRY))
+                    callSocialAccessFrag(access);
+            });
+        }
+    }
+
+    private void cancelClick() {
+        if (extBundle.getBoolean(RECENT_ENTRY)) {
+            CancelEntryDialog dialog = CancelEntryDialog.newInstance();
+            dialog.setListener(() -> {
+                ViewModelEntry.deleteOneExternalAccess(extBundle.getInt(AMBIENT_ID));
+                extBundle = null;
+                requireActivity().getSupportFragmentManager().popBackStack(EXTERNAL_LIST, 0);
+            });
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
+            dialog.show(manager, "MOSTRA");
+        } else
+            requireActivity().getSupportFragmentManager().popBackStack(EXTERNAL_LIST, 0);
+    }
+
+    private void callSocialAccessFrag(ExternalAccess access) {
+        int aID = access.getExternalAccessID();
+        extBundle.putInt(AMBIENT_ID, aID);
+        ExtAccessSocialFragment fragment = new ExtAccessSocialFragment();
+        fragment.setArguments(extBundle);
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment)
+                .addToBackStack(null).commit();
+    }
+
+    private void callSocialAccessFrag(Bundle bundle) {
+        ExtAccessSocialFragment fragment = new ExtAccessSocialFragment();
+        fragment.setArguments(bundle);
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment)
+                .addToBackStack(null).commit();
     }
 
     private void instantiateExternalAccessViews(View view) {
@@ -146,6 +202,7 @@ public class ExternalAccessFragment extends Fragment implements TagInterface {
 
         entranceTypeRadio.setOnCheckedChangeListener(this::radioGroupActivation);
         accessFloorRadio.setOnCheckedChangeListener(this::radioGroupActivation);
+        cancelExternalAccess.setOnClickListener(v -> cancelClick());
 
         allowExternalObsScroll();
     }

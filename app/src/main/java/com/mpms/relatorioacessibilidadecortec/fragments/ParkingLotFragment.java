@@ -10,14 +10,19 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.ParkLotElderListFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.ParkLotPcdListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
@@ -50,6 +55,19 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
             parkingBundle = new Bundle(this.getArguments());
         else
             parkingBundle = new Bundle();
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (parkingBundle.getBoolean(RECENT_ENTRY))
+                    cancelClick();
+                else {
+                    setEnabled(false);
+                    requireActivity().onBackPressed();
+                }
+                setEnabled(true);
+            }
+        });
     }
 
     @Override
@@ -70,39 +88,19 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
                     .observe(getViewLifecycleOwner(), this::loadParkingLotData);
         }
 
-        if (parkingBundle.getInt(PARKING_ID) == 0) {
-            modelEntry.getLastInsertedParkingLot().observe(getViewLifecycleOwner(), lastLot -> {
-                if (lastLot != null) {
-                    parkingBundle.putInt(PARKING_ID, lastLot.getParkingID());
-                    if (saveAttempt) {
-                        saveAttempt = false;
-                        clearFields();
-                        openParkingLotTypeFragment();
-                    } else if (rampStairsReg) {
-                        rampStairsReg = false;
-                        clearFields();
-                        openRampStairsListFragment();
-                    }
+        modelEntry.getLastInsertedParkingLot().observe(getViewLifecycleOwner(), lastLot -> {
+            if (parkingBundle.getBoolean(RECENT_ENTRY)) {
+                parkingBundle.putInt(PARKING_ID, lastLot.getParkingID());
+                if (saveAttempt) {
+                    saveAttempt = false;
+                    clearFields();
+                    openParkingLotTypeFragment();
+                } else if (rampStairsReg) {
+                    rampStairsReg = false;
+                    clearFields();
+                    openRampStairsListFragment();
                 }
-            });
-        }
-
-
-        cancelParkingLotRegister.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .popBackStack(PARKING_LIST, 0));
-
-        saveParkingLotRegister.setOnClickListener(this::buttonClick);
-
-        addParkStairs.setOnClickListener(v -> {
-            parkingBundle.putInt(RAMP_OR_STAIRS, 1);
-            parkingBundle.putBoolean(FROM_PARKING, true);
-            buttonClick(v);
-        });
-
-        addParkRamps.setOnClickListener(v -> {
-            parkingBundle.putInt(RAMP_OR_STAIRS, 2);
-            parkingBundle.putBoolean(FROM_PARKING, true);
-            buttonClick(v);
+            }
         });
     }
 
@@ -110,6 +108,22 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
     public void onResume() {
         super.onResume();
         parkingBundle.putBoolean(FROM_PARKING, false);
+        saveAttempt = false;
+        rampStairsReg = false;
+    }
+
+    private void cancelClick() {
+        if (parkingBundle.getBoolean(RECENT_ENTRY)) {
+            CancelEntryDialog dialog = CancelEntryDialog.newInstance();
+            dialog.setListener(() -> {
+                ViewModelEntry.deleteOneParkingLot(parkingBundle.getInt(PARKING_ID));
+                parkingBundle = null;
+                requireActivity().getSupportFragmentManager().popBackStack(PARKING_LIST, 0);
+            });
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
+            dialog.show(manager, "MOSTRA");
+        } else
+            requireActivity().getSupportFragmentManager().popBackStack(PARKING_LIST, 0);
     }
 
     private void instantiateParkingViews(View view) {
@@ -145,6 +159,10 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
         parkHasRamps.setOnCheckedChangeListener(this::parkRadioListener);
         accessFloorRadio.setOnCheckedChangeListener(this::parkRadioListener);
         parkHasAccessRoute.setOnCheckedChangeListener(this::parkRadioListener);
+        saveParkingLotRegister.setOnClickListener(this::buttonClick);
+        addParkStairs.setOnClickListener(this::buttonClick);
+        addParkRamps.setOnClickListener(this::buttonClick);
+        cancelParkingLotRegister.setOnClickListener(v -> cancelClick());
     }
 
     private void loadParkingLotData(ParkingLotEntry parkingEntry) {
@@ -201,14 +219,17 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
     private void buttonClick(View view) {
         if (view != saveParkingLotRegister) {
             parkingBundle.putInt(AMBIENT_TYPE, 3);
+            parkingBundle.putBoolean(FROM_PARKING, true);
+            rampStairsReg = true;
             if (view == addParkStairs)
                 parkingBundle.putInt(RAMP_OR_STAIRS, 1);
-            else
+            else if (view == addParkRamps)
                 parkingBundle.putInt(RAMP_OR_STAIRS, 2);
 
             if (parkingBundle.getInt(PARKING_ID) == 0) {
                 ParkingLotEntry newEntry = newParkingLotEntry(parkingBundle);
                 ViewModelEntry.insertParkingLot(newEntry);
+                parkingBundle.putBoolean(RECENT_ENTRY, true);
             }
             openRampStairsListFragment();
         } else {
@@ -216,7 +237,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
                 ParkingLotEntry newEntry = newParkingLotEntry(parkingBundle);
                 if (parkingBundle.getInt(PARKING_ID) > 0) {
                     if (pcdVacancy < 0 || elderVacancy < 0)
-                        Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
                     else {
                         if (pcdVacancy != 0 || elderVacancy != 0) {
                             parkingBundle.putBoolean(HAS_PCD, getBooleanFromRadio(getCheckedRadio(hasPcdVacancy)));
@@ -229,7 +250,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
                     }
                 } else if (parkingBundle.getInt(PARKING_ID) == 0) {
                     if (pcdVacancy < 0 || elderVacancy < 0)
-                        Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
                     else {
                         if (pcdVacancy != 0 || elderVacancy != 0) {
                             parkingBundle.putBoolean(HAS_PCD, getBooleanFromRadio(getCheckedRadio(hasPcdVacancy)));
@@ -238,10 +259,11 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
                         } else
                             Toast.makeText(getContext(), "Cadastro efetuado com sucesso", Toast.LENGTH_SHORT).show();
                         ViewModelEntry.insertParkingLot(newEntry);
+                        parkingBundle.putBoolean(RECENT_ENTRY, true);
                         clearFields();
                     }
                 } else {
-                    Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
                     requireActivity().getSupportFragmentManager().popBackStack(PARKING_LIST, 0);
                 }
             }

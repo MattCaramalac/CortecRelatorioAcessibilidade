@@ -12,16 +12,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.LibraryFragment;
@@ -41,9 +42,6 @@ import java.util.ArrayList;
 
 public class RoomsRegisterFragment extends Fragment implements TagInterface {
 
-//    TODO - Verificar possibilidade de tirar do WaterFountain para retirar esta tag
-    public static final String ROOM_ID = "ROOM_ID";
-
     TextView roomIdentifier, vertSignError, looseCarpetError, accessFloorError, blackboardHeader, counterHeader;
     TextInputLayout roomLocaleField, roomDescField, vertSignObsField, looseCarpetObsField, accessFloorObsField, roomObsField;
     TextInputEditText roomLocaleValue, roomDescValue, vertSignObsValue, looseCarpetObsValue, accessFloorObsValue, roomObsValue;
@@ -57,8 +55,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
     ViewModelEntry modelEntry;
     public static ViewModelFragments roomModelFragments;
     FragmentManager manager;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
 
     int newEntry = 1, recentEntry = 0, buttonPressed = 0;
 
@@ -78,6 +74,19 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
             roomBundle = new Bundle(this.getArguments());
         else
             roomBundle = new Bundle();
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (roomBundle.getBoolean(RECENT_ENTRY))
+                    cancelClick();
+                else {
+                    setEnabled(false);
+                    requireActivity().onBackPressed();
+                }
+                setEnabled(true);
+            }
+        });
     }
 
     @Override
@@ -205,10 +214,24 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         addRamp.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
         addStairs.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
         saveRegister.setOnClickListener(v -> buttonClickedListener(roomBundle, view));
-        cancelRegister.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0));
+        cancelRegister.setOnClickListener(v -> cancelClick());
         allowRoomObsScroll();
         setChildFragView(roomBundle);
 
+    }
+
+    private void cancelClick() {
+        if (roomBundle.getBoolean(RECENT_ENTRY)) {
+            CancelEntryDialog dialog = CancelEntryDialog.newInstance();
+            dialog.setListener(() -> {
+                ViewModelEntry.deleteRoom(roomBundle.getInt(AMBIENT_ID));
+                roomBundle = null;
+                requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0);
+            });
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
+            dialog.show(manager, "MOSTRA");
+        } else
+            requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0);
     }
 
     private void roomRadioGroupListener(RadioGroup radio, int checkedID) {
@@ -336,6 +359,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         }
 
         if (buttonPressed > 0) {
+            roomBundle.putBoolean(RECENT_ENTRY, true);
             if (bundle.getInt(ROOM_TYPE) == 2 || bundle.getInt(ROOM_TYPE) == 11) {
                 bundle.putBoolean(ADD_ITEM_REQUEST, true);
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);

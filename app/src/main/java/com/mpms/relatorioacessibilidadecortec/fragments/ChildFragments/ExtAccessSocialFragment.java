@@ -85,14 +85,12 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         super.onViewCreated(view, savedInstanceState);
         instantiateSocialViews(view);
 
-        if (extAccSocialBundle.getInt(AMBIENT_ID) == 0) {
-            modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), access -> {
-                extAccSocialBundle.putInt(AMBIENT_ID, access.getExternalAccessID());
-                extAccSocialBundle.putBoolean(NEW_REGISTER, true);
-            });
-        } else if (extAccSocialBundle.getInt(AMBIENT_ID) > 0) {
-            modelEntry.getOneExternalAccess(extAccSocialBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSocialFragData);
-        }
+        if (extAccSocialBundle.getInt(AMBIENT_ID) == 0)
+            modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), access ->
+                    extAccSocialBundle.putInt(AMBIENT_ID, access.getExternalAccessID()));
+        else if (extAccSocialBundle.getInt(AMBIENT_ID) > 0)
+            modelEntry.getOneExternalAccess(extAccSocialBundle.getInt(AMBIENT_ID))
+                    .observe(getViewLifecycleOwner(), this::loadSocialFragData);
 
         addTrackRampButton.setOnClickListener(v -> {
             if (rampTrackCounter < 0) {

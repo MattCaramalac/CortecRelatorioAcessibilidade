@@ -13,11 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
@@ -102,6 +102,7 @@ public class RampStairsFragment extends Fragment implements TagInterface {
                     RampStairsEntry newEntry = newRampOrStaircase(rampStairsBundle);
                     ViewModelEntry.insertRampStairs(newEntry);
                     recentEntry = 1;
+                    rampStairsBundle.putBoolean(RECENT_ENTRY, true);
                 } else if (rampStairsBundle.getInt(RAMP_STAIRS_ID) > 0) {
 //                    Testar para verificar se não causa novas entradas
                     rampStairsBundle.putInt(InspectionActivity.ALLOW_UPDATE, 1);
@@ -115,7 +116,6 @@ public class RampStairsFragment extends Fragment implements TagInterface {
             }
         });
 
-        cancelRampStairs.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
     }
 
     private void instantiateRampStairsViews(View view) {
@@ -130,6 +130,22 @@ public class RampStairsFragment extends Fragment implements TagInterface {
 
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+
+        cancelRampStairs.setOnClickListener(this::cancelClick);
+    }
+
+    private void cancelClick(View v) {
+        if (rampStairsBundle.getBoolean(RECENT_ENTRY)) {
+            CancelEntryDialog dialog = CancelEntryDialog.newInstance();
+            dialog.setListener(() -> {
+                ViewModelEntry.deleteOneRampStairs(rampStairsBundle.getInt(RAMP_STAIRS_ID));
+                rampStairsBundle = null;
+                requireActivity().getSupportFragmentManager().popBackStackImmediate();
+            });
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
+            dialog.show(manager, "MOSTRA");
+        } else
+            requireActivity().getSupportFragmentManager().popBackStackImmediate();
     }
 
     public void setRampStairsTemplate(int pickedOption) {
@@ -149,11 +165,10 @@ public class RampStairsFragment extends Fragment implements TagInterface {
     }
 
     private void openFlightFragment() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         RampStairsFlightListFrag flightListFrag = RampStairsFlightListFrag.newInstance();
         flightListFrag.setArguments(rampStairsBundle);
-        fragmentTransaction.replace(R.id.show_fragment_selected, flightListFrag).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, flightListFrag).addToBackStack(null).commit();
     }
 
     public RampStairsEntry newRampOrStaircase(Bundle bundle) {

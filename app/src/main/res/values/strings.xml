@@ -596,4 +596,9 @@
     <string name="hint_trans_section_bar">Seção transversal da barra (mm)</string>
     <string name="hint_wall_bar_distance">Distância face externa barra até parede (m)</string>
     <string name="blank_fields_message">Um ou mais campos não foram preenchidos</string>
+    <string name="parking_PCD_header">Cadastro Vagas PCD e PMR</string>
+    <string name="label_button_finish">FINALIZAR</string>
+    <string name="parking_elderly_header">Cadastro Vagas Idosos</string>
+    <string name="parking_lot_header">Cadastro de Estacionamento</string>
+    <string name="side_park_reg_header">Cadastro de Estacionamentos na Calçada</string>
 </resources>

@@ -124,7 +124,11 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         extListBundle.putInt(AMBIENT_ID, 0);
     }
 
@@ -180,7 +184,8 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
         extFrag.setArguments(extListBundle);
         if (actionMode != null)
             actionMode.finish();
-        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, extFrag).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, extFrag).addToBackStack(null).commit();
     }
 
     @Override

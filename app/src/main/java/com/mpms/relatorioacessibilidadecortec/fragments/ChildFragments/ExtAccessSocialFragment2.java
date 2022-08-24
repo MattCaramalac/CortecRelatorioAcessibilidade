@@ -105,7 +105,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
                 if (checkSocialThreeNoEmptyField() && bundle.getBoolean(CHILD_DATA_COMPLETE)){
                     ExtAccessSocialThree socialThree = socialDataThree(bundle);
                     ViewModelEntry.updateExtAccessRegThree(socialThree);
-                    if (bundle.getBoolean(NEW_REGISTER))
+                    if (bundle.getBoolean(RECENT_ENTRY))
                         Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
@@ -119,7 +119,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
     public void onStart() {
         super.onStart();
 
-        if (socialTwoBundle.getInt(AMBIENT_ID) > 0 && !socialTwoBundle.getBoolean(NEW_REGISTER))
+        if (socialTwoBundle.getInt(AMBIENT_ID) > 0 && !socialTwoBundle.getBoolean(RECENT_ENTRY))
             modelEntry.getOneExternalAccess(socialTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSocialData2);
     }
 
@@ -275,7 +275,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
                 if (checkSocialThreeNoEmptyField()){
                     ExtAccessSocialThree socialThree = socialDataThree(childFragBundle);
                     ViewModelEntry.updateExtAccessRegThree(socialThree);
-                    if (childFragBundle.getBoolean(NEW_REGISTER))
+                    if (childFragBundle.getBoolean(RECENT_ENTRY))
                         Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
@@ -418,7 +418,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
         bundle.clear();
         bundle.putInt(BLOCK_ID, socialTwoBundle.getInt(BLOCK_ID));
         bundle.putInt(AMBIENT_ID, socialTwoBundle.getInt(AMBIENT_ID));
-        bundle.putBoolean(NEW_REGISTER, socialTwoBundle.getBoolean(NEW_REGISTER));
+        bundle.putBoolean(RECENT_ENTRY, socialTwoBundle.getBoolean(RECENT_ENTRY));
         return bundle;
     }
 }
