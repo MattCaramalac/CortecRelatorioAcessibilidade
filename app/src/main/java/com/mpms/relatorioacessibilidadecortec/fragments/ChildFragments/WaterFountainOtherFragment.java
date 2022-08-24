@@ -17,16 +17,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class WaterFountainOtherFragment extends Fragment {
-
-    public static final String ALLOW_LATERAL = "ALLOW_LATERAL";
-    public static final String LAT_APPROX_OBS = "LAT_APPROX_OBS";
-    public static final String FAUCET_HEIGHT = "FAUCET_HEIGHT";
-    public static final String HAS_CUP_HOLDER = "HAS_CUP_HOLDER";
-    public static final String CUP_HOLDER_HEIGHT = "CUP_HOLDER_HEIGHT";
+public class WaterFountainOtherFragment extends Fragment implements TagInterface {
 
     TextView lateralApproxError, hasCupHolderError;
     RadioGroup allowLateralApprox, hasCupHolder;
@@ -49,7 +43,7 @@ public class WaterFountainOtherFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            childBundle.putInt(WaterFountainFragment.FOUNTAIN_ID, this.getArguments().getInt(WaterFountainFragment.FOUNTAIN_ID));
+            childBundle.putInt(FOUNTAIN_ID, this.getArguments().getInt(FOUNTAIN_ID));
     }
 
     @Override
@@ -70,22 +64,13 @@ public class WaterFountainOtherFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (childBundle.getInt(WaterFountainFragment.FOUNTAIN_ID) > 0)
-            modelEntry.getOneWaterFountain(childBundle.getInt(WaterFountainFragment.FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadOtherFountainData);
+        if (childBundle.getInt(FOUNTAIN_ID) > 0)
+            modelEntry.getOneWaterFountain(childBundle.getInt(FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadOtherFountainData);
 
-        getParentFragmentManager().setFragmentResultListener(InspectionActivity.GATHER_CHILD_DATA, this, (key, bundle) -> {
+        getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
             gatherOtherFountainData(bundle);
-            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
+            getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        getParentFragmentManager().setFragmentResultListener(InspectionActivity.LOAD_CHILD_DATA, this, (key, bundle) -> {
-//
-//            modelEntry.getOneWaterFountain(bundle.getInt(WaterFountainFragment.FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadOtherFountainData);
-//        });
     }
 
     private void loadOtherFountainData(WaterFountainEntry fountainEntry) {
@@ -159,8 +144,6 @@ public class WaterFountainOtherFragment extends Fragment {
                 latApproxObsField.setVisibility(View.GONE);
             }
         }
-
-
     }
 
     public boolean hasNoEmptyFields() {

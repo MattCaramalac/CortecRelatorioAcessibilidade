@@ -15,19 +15,11 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class WaterFountainSpoutFragment extends Fragment {
-
-    public static final String HAS_DIFFERENT_HEIGHTS = "HAS_DIFFERENT_HEIGHTS";
-    public static final String HIGHEST_SPOUT = "HIGHEST_SPOUT";
-    public static final String LOWEST_SPOUT = "LOWEST_SPOUT";
-    public static final String ALLOW_FRONTAL = "ALLOW_FRONTAL";
-    public static final String FRONTAL_APPROX_HEIGHT = "FRONTAL_APPROX_HEIGHT";
-    public static final String FRONTAL_APPROX_DEPTH = "FRONTAL_APPROX_DEPTH";
+public class WaterFountainSpoutFragment extends Fragment implements TagInterface {
 
     TextInputLayout highestSpoutField, lowestSpoutField, frontalApproxHeightField, frontalApproxDepthField;
     TextInputEditText highestSpoutValue, lowestSpoutValue, frontalApproxHeightValue, frontalApproxDepthValue;
@@ -50,7 +42,7 @@ public class WaterFountainSpoutFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            childBundle.putInt(WaterFountainFragment.FOUNTAIN_ID, this.getArguments().getInt(WaterFountainFragment.FOUNTAIN_ID));
+            childBundle.putInt(FOUNTAIN_ID, this.getArguments().getInt(FOUNTAIN_ID));
     }
 
     @Override
@@ -71,16 +63,12 @@ public class WaterFountainSpoutFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if (childBundle.getInt(WaterFountainFragment.FOUNTAIN_ID) > 0)
-            modelEntry.getOneWaterFountain(childBundle.getInt(WaterFountainFragment.FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadSpoutFountainData);
+        if (childBundle.getInt(FOUNTAIN_ID) > 0)
+            modelEntry.getOneWaterFountain(childBundle.getInt(FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadSpoutFountainData);
 
-//        getParentFragmentManager().setFragmentResultListener(InspectionActivity.LOAD_CHILD_DATA, this, (key, bundle) -> {
-//            modelEntry.getOneWaterFountain(bundle.getInt(WaterFountainFragment.FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadSpoutFountainData);
-//        });
-
-        getParentFragmentManager().setFragmentResultListener(InspectionActivity.GATHER_CHILD_DATA, this, (key, bundle) -> {
+        getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
             gatherSpoutFountainData(bundle);
-            getParentFragmentManager().setFragmentResult(InspectionActivity.CHILD_DATA_LISTENER, bundle);
+            getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
         });
     }
 
@@ -154,7 +142,7 @@ public class WaterFountainSpoutFragment extends Fragment {
     }
 
     private void gatherSpoutFountainData(Bundle bundle) {
-        bundle.putBoolean(InspectionActivity.CHILD_DATA_COMPLETE, hasNoEmptyFields());
+        bundle.putBoolean(CHILD_DATA_COMPLETE, hasNoEmptyFields());
         if (hasNoEmptyFields()) {
             bundle.putInt(HAS_DIFFERENT_HEIGHTS, getCheckedIndex(hasDiffHeightsSpouts));
             bundle.putDouble(HIGHEST_SPOUT, Double.parseDouble(String.valueOf(highestSpoutValue.getText())));

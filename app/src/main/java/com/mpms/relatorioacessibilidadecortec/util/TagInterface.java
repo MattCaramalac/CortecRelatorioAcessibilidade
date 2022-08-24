@@ -1,6 +1,9 @@
 package com.mpms.relatorioacessibilidadecortec.util;
 
 public interface TagInterface {
+    //    Identifying new entries
+    String RECENT_ENTRY = "RECENT_ENTRY";
+
     //    Tags defining school info
     String SCHOOL_ID = "SCHOOL_ID";
 
@@ -72,9 +75,7 @@ public interface TagInterface {
     String WINDOW_ID = "WINDOW_ID";
     String FREE_SPACE_ID = "FREE_SPACE_ID";
     String REST_ID = "REST_ID";
-
-    //    External Access New Register
-    String NEW_REGISTER = "NEW_REGISTER";
+    String FOUNTAIN_ID = "FOUNTAIN_ID";
 
     //    Door Sill Data
     String HEIGHT_INCLINED_SILL = "HEIGHT_INCLINED_SILL";
@@ -86,7 +87,7 @@ public interface TagInterface {
     String SLOPE_ANGLE_4 = "SLOPE_ANGLE_4";
     String SLOPE_WIDTH = "SLOPE_WIDTH";
 
-//    Measures
+    //    Measures
     String LEFT = "LEFT";
     String RIGHT = "RIGHT";
     String SINK_TYPE = "SINK_TYPE";
@@ -125,4 +126,19 @@ public interface TagInterface {
     String DIST_A = "DIST_A";
     String DIST_B = "DIST_B";
     String DIST_C = "DIST_C";
+
+    //    WaterFountain Measurements
+
+    String HAS_DIFFERENT_HEIGHTS = "HAS_DIFFERENT_HEIGHTS";
+    String HIGHEST_SPOUT = "HIGHEST_SPOUT";
+    String LOWEST_SPOUT = "LOWEST_SPOUT";
+    String ALLOW_FRONTAL = "ALLOW_FRONTAL";
+    String FRONTAL_APPROX_HEIGHT = "FRONTAL_APPROX_HEIGHT";
+    String FRONTAL_APPROX_DEPTH = "FRONTAL_APPROX_DEPTH";
+
+    String ALLOW_LATERAL = "ALLOW_LATERAL";
+    String LAT_APPROX_OBS = "LAT_APPROX_OBS";
+    String FAUCET_HEIGHT = "FAUCET_HEIGHT";
+    String HAS_CUP_HOLDER = "HAS_CUP_HOLDER";
+    String CUP_HOLDER_HEIGHT = "CUP_HOLDER_HEIGHT";
 }

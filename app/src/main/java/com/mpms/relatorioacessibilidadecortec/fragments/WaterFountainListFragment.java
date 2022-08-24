@@ -29,10 +29,11 @@ import com.mpms.relatorioacessibilidadecortec.adapter.WaterRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class WaterFountainListFragment extends Fragment implements OnEntryClickListener {
+public class WaterFountainListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
     MaterialButton closeFountainList, addFountain, invisible;
     TextView fountHeader;
@@ -60,7 +61,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            fountainBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
+            fountainBundle.putInt(BLOCK_ID, this.getArguments().getInt(BLOCK_ID));
         }
     }
 
@@ -110,6 +111,12 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        fountainBundle.putInt(FOUNTAIN_ID, 0);
+    }
+
     private void instantiateWaterListViews(View v) {
 //        MaterialButton
         closeFountainList = v.findViewById(R.id.cancel_child_items_entries);
@@ -126,7 +133,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
 //        ViewModel
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
 
-        fountainBundle.putInt(WaterFountainFragment.FOUNTAIN_ID, 0);
+
     }
 
     private void enableActionMode() {
@@ -180,7 +187,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public void OnEntryClick(int position) {
         WaterFountainEntry fountainEntry = modelEntry.allFountainsInSchool.getValue().get(position);
 
-        fountainBundle.putInt(WaterFountainFragment.FOUNTAIN_ID, fountainEntry.getWaterFountainID());
+        fountainBundle.putInt(FOUNTAIN_ID, fountainEntry.getWaterFountainID());
 
         OpenFountainFragment();
     }

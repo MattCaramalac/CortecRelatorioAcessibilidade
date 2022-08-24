@@ -19,17 +19,15 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.WaterFountainOtherFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.WaterFountainSpoutFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 
-public class WaterFountainFragment extends Fragment {
-
-    public static final String FOUNTAIN_ID = "FOUNTAIN_ID";
+public class WaterFountainFragment extends Fragment implements TagInterface {
 
     TextInputLayout fountainLocationField, fountainTypeObsField, waterFountainObsField;
     TextInputEditText fountainLocationValue, fountainTypeObsValue, waterFountainObsValue;
@@ -53,7 +51,8 @@ public class WaterFountainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            waterFountainBundle.putInt(BlockRegisterActivity.BLOCK_ID, this.getArguments().getInt(BlockRegisterActivity.BLOCK_ID));
+            waterFountainBundle.putInt(BLOCK_ID, this.getArguments().getInt(BLOCK_ID));
+            waterFountainBundle.putInt(AMBIENT_ID, this.getArguments().getInt(AMBIENT_ID));
             waterFountainBundle.putInt(FOUNTAIN_ID, this.getArguments().getInt(FOUNTAIN_ID));
         }
     }
@@ -80,8 +79,8 @@ public class WaterFountainFragment extends Fragment {
             modelEntry.getOneWaterFountain(waterFountainBundle.getInt(FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadFountainInfo);
         }
 
-        getChildFragmentManager().setFragmentResultListener(InspectionActivity.CHILD_DATA_LISTENER, this, (key, bundle) -> {
-            if (bundle.getBoolean(InspectionActivity.CHILD_DATA_COMPLETE) && checkNoEmptyFieldsFountain()) {
+        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
+            if (bundle.getBoolean(CHILD_DATA_COMPLETE) && checkNoEmptyFieldsFountain()) {
                 WaterFountainEntry newFountain = createFountain(bundle);
                 if (bundle.getInt(FOUNTAIN_ID) > 0) {
                     newFountain.setWaterFountainID(bundle.getInt(FOUNTAIN_ID));
@@ -98,12 +97,12 @@ public class WaterFountainFragment extends Fragment {
 
         saveWaterFountain.setOnClickListener(v -> {
             if (getCheckedFountainType(typeWaterFountain) != -1)
-                getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, waterFountainBundle);
+                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, waterFountainBundle);
             else
                 checkNoEmptyFieldsFountain();
         });
 
-        cancelWaterFountain.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.WATER_LIST, 0));
+        cancelWaterFountain.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack(WATER_LIST, 0));
     }
 
     private void clearFountainFields() {
@@ -182,7 +181,6 @@ public class WaterFountainFragment extends Fragment {
             fragment.setArguments(waterFountainBundle);
             requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.water_fountain_info, fragment).commit();
         }
-//        getChildFragmentManager().setFragmentResult(InspectionActivity.LOAD_CHILD_DATA, waterFountainBundle);
     }
 
     public boolean checkNoEmptyFieldsFountain() {
@@ -218,29 +216,29 @@ public class WaterFountainFragment extends Fragment {
         if (!TextUtils.isEmpty(fountainTypeObsValue.getText()))
             fountainTypeObs = String.valueOf(fountainTypeObsValue.getText());
         if (fountainType == 0) {
-            spoutDifHeight = bundle.getInt(WaterFountainSpoutFragment.HAS_DIFFERENT_HEIGHTS);
-            spoutHighest = bundle.getDouble(WaterFountainSpoutFragment.HIGHEST_SPOUT);
-            if (bundle.getInt(WaterFountainSpoutFragment.LOWEST_SPOUT) != 0)
-                spoutLowest = bundle.getDouble(WaterFountainSpoutFragment.LOWEST_SPOUT);
-            spoutFrontApprox = bundle.getInt(WaterFountainSpoutFragment.ALLOW_FRONTAL);
+            spoutDifHeight = bundle.getInt(HAS_DIFFERENT_HEIGHTS);
+            spoutHighest = bundle.getDouble(HIGHEST_SPOUT);
+            if (bundle.getInt(LOWEST_SPOUT) != 0)
+                spoutLowest = bundle.getDouble(LOWEST_SPOUT);
+            spoutFrontApprox = bundle.getInt(ALLOW_FRONTAL);
             if (spoutFrontApprox == 1) {
-                spoutFrontHeight = bundle.getDouble(WaterFountainSpoutFragment.FRONTAL_APPROX_HEIGHT);
-                spoutFrontDepth = bundle.getDouble(WaterFountainSpoutFragment.FRONTAL_APPROX_DEPTH);
+                spoutFrontHeight = bundle.getDouble(FRONTAL_APPROX_HEIGHT);
+                spoutFrontDepth = bundle.getDouble(FRONTAL_APPROX_DEPTH);
             }
         } else {
-            otherSideApprox = bundle.getInt(WaterFountainOtherFragment.ALLOW_LATERAL);
-            if (bundle.getString(WaterFountainOtherFragment.LAT_APPROX_OBS) != null)
-                latApproxObs = bundle.getString(WaterFountainOtherFragment.LAT_APPROX_OBS);
-            otherHeight = bundle.getDouble(WaterFountainOtherFragment.FAUCET_HEIGHT);
-            otherCupHolder = bundle.getInt(WaterFountainOtherFragment.HAS_CUP_HOLDER);
+            otherSideApprox = bundle.getInt(ALLOW_LATERAL);
+            if (bundle.getString(LAT_APPROX_OBS) != null)
+                latApproxObs = bundle.getString(LAT_APPROX_OBS);
+            otherHeight = bundle.getDouble(FAUCET_HEIGHT);
+            otherCupHolder = bundle.getInt(HAS_CUP_HOLDER);
             if (otherCupHolder == 1) {
-                otherCupHeight = bundle.getDouble(WaterFountainOtherFragment.CUP_HOLDER_HEIGHT);
+                otherCupHeight = bundle.getDouble(CUP_HOLDER_HEIGHT);
             }
         }
         if (!TextUtils.isEmpty(waterFountainObsValue.getText()))
             fountainObs = String.valueOf(waterFountainObsValue.getText());
 
-        return new WaterFountainEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), bundle.getInt(RoomsRegisterFragment.ROOM_ID), fountainLocation, fountainType,
+        return new WaterFountainEntry(bundle.getInt(BLOCK_ID), bundle.getInt(AMBIENT_ID), fountainLocation, fountainType,
                 fountainTypeObs, otherSideApprox, latApproxObs, otherHeight, otherCupHolder, otherCupHeight, spoutDifHeight, spoutHighest, spoutLowest, spoutFrontApprox,
                 spoutFrontDepth, spoutFrontHeight, fountainObs);
     }
