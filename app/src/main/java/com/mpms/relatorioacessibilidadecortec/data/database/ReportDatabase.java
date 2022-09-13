@@ -9,7 +9,6 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.mpms.relatorioacessibilidadecortec.data.Dao.AdmEquipDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlackboardEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlockSpaceDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.CounterEntryDao;
@@ -37,7 +36,6 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.SwitchEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.TableEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WaterFountainDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WindowEntryDao;
-import com.mpms.relatorioacessibilidadecortec.data.entities.AdmEquipEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
@@ -73,8 +71,8 @@ import java.util.concurrent.Executors;
         ParkingLotEntry.class, ParkingLotPCDEntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
-        SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class, AdmEquipEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 49)
+        SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 50)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -159,10 +157,6 @@ public abstract class ReportDatabase extends RoomDatabase {
 
                     dbWriteExecutor.execute(() -> {
                         BlockSpaceDao blockSpaceDao = INSTANCE.blockSpaceDao();
-                    });
-
-                    dbWriteExecutor.execute(() -> {
-                        AdmEquipDao admEquipDao = INSTANCE.admEquipDao();
                     });
 
                     dbWriteExecutor.execute(() -> {
@@ -1201,6 +1195,28 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_49_50 = new Migration(49, 50) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE RoomEntry_3 (roomID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, roomType INTEGER NOT NULL," +
+                    "roomLocation TEXT, roomDescription TEXT, roomHasVertSing INTEGER, roomVertSignObs TEXT, roomHasLooseCarpet INTEGER, looseCarpetObs TEXT," +
+                    "roomAccessFloor INTEGER, accessFloorObs TEXT, libDistShelvesOK INTEGER, libPcrManeuversOK INTEGER, libAccessPcOK INTEGER, secHasFixedSeats INTEGER," +
+                    "secHasPcrSpace INTEGER, secPcrSpaceWidth REAL, secPcrSpaceDepth REAL, secPCRSpaceObs TEXT, roomObs TEXT, roomHasStairs INTEGER," +
+                    "hasBellControl INTEGER, roomHasRamps INTEGER, bellControlHeight REAL, bellControlObs TEXT, hasInternalPhone INTEGER, internalPhoneHeight REAL, " +
+                    "internalPhoneObs TEXT, hasBiometricClock INTEGER, biometricClockHeight REAL, biometricClockObs TEXT, FOREIGN KEY (blockID) " +
+                    "REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO RoomEntry_3 (roomID, blockID, roomType, roomLocation, roomHasVertSing, roomVertSignObs, roomHasLooseCarpet, looseCarpetObs," +
+                    "roomAccessFloor, accessFloorObs, libDistShelvesOK, libPcrManeuversOK, libAccessPcOK, secHasFixedSeats, secHasPcrSpace, secPcrSpaceWidth, " +
+                    "secPcrSpaceDepth, secPCRSpaceObs, roomObs) SELECT roomID, blockID, roomType, roomLocation, roomHasVertSing, roomVertSignObs, roomHasLooseCarpet, " +
+                    "looseCarpetObs, roomAccessFloor, accessFloorObs, libDistShelvesOK, libPcrManeuversOK, libAccessPcOK, secHasFixedSeats, secHasPcrSpace, secPcrSpaceWidth," +
+                    "secPcrSpaceDepth, secPCRSpaceObs, roomObs FROM RoomEntry");
+            database.execSQL("DROP TABLE RoomEntry");
+            database.execSQL("ALTER TABLE RoomEntry_3 RENAME TO RoomEntry");
+
+            database.execSQL("DROP TABLE AdmEquipEntry");
+        }
+    };
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -1215,7 +1231,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35, MIGRATION_35_36,
                                     MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42,
                                     MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
-                                    MIGRATION_48_49).build();
+                                    MIGRATION_48_49, MIGRATION_49_50).build();
                 }
             }
         }
@@ -1270,8 +1286,6 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract RampStairsRailingDao rampStairsRailingDao();
 
     public abstract BlockSpaceDao blockSpaceDao();
-
-    public abstract AdmEquipDao admEquipDao();
 
     public abstract PlaygroundEntryDao playgroundEntryDao();
 

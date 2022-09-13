@@ -19,6 +19,12 @@ public interface BlockSpaceDao {
     @Query("SELECT * FROM BlockSpaceEntry WHERE schoolID == :schoolID AND blockSpaceType = 0 ORDER BY blockSpaceType ASC")
     LiveData<List<BlockSpaceEntry>> getBlockSpaceFromSchool(int schoolID);
 
+    @Query("SELECT * FROM BlockSpaceEntry WHERE schoolID == :schoolID ORDER BY blockSpaceType ASC")
+    LiveData<List<BlockSpaceEntry>> getAllBlocksSchool(int schoolID);
+
+    @Query("SELECT blockSpaceID FROM BlockSpaceEntry WHERE schoolID == :schoolID ORDER BY blockSpaceType ASC")
+    LiveData<List<Integer>> getAllIds(int schoolID);
+
     @Query("SELECT * FROM BlockSpaceEntry WHERE blockSpaceID == :blockSpaceID")
     LiveData<BlockSpaceEntry> getSpecificBlockSpace(int blockSpaceID);
 

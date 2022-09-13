@@ -21,12 +21,15 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
 import com.mpms.relatorioacessibilidadecortec.commService.DataSender;
 import com.mpms.relatorioacessibilidadecortec.commService.JSONCreator;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class InspectionMemorial extends Fragment implements TagInterface {
@@ -36,8 +39,19 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     TextInputLayout dropdownMenuLocations;
     AutoCompleteTextView listItemsMemorial;
     ArrayAdapter<String> adapterLocations;
-    int error = 0;
 
+    SchoolEntry school;
+
+//    BlockObservable bID = new BlockObservable();
+    List<RestroomEntry> restList = new ArrayList<>();
+    List<RoomEntry> roomList = new ArrayList<>();
+//
+//    Observer<BlockObservable> listChange = new Observer<BlockObservable>() {
+//        @Override
+//        public void onChanged(BlockObservable blockList) {
+//            modelEntry.getAllRoomsInSchool(blockList.getIdList()).observe(getViewLifecycleOwner(), roomEntries -> roomList = roomEntries);
+//        }
+//    };
 
     MaterialButton saveAndClose;
 
@@ -76,28 +90,36 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+//        bID.addObserver((java.util.Observer) listChange);
 
         saveAndClose = view.findViewById(R.id.saveAndQuit);
 
+        modelEntry.getEntry(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), entry -> school = entry);
+
+//TODO - Este Observador está dando erro: corrigir
+//
+//        modelEntry.getAllBlockIds(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), bList -> bID.setIdList(bList));
+
+
+
         saveAndClose.setOnClickListener(v -> {
-            modelEntry.getEntry(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), entry -> {
-                JSONCreator creator = new JSONCreator();
-                JSONObject postData = new JSONObject();
+            JSONCreator creator = new JSONCreator();
+            creator.createJsonInstance(school, roomList);
 
-                creator.createJson(postData, entry);
+            creator.createJson();
 
-                if (creator.error == 0) {
-                    Log.i("POST", postData.toString());
-                    new DataSender().execute(postData.toString());
-                } else
-                    Toast.makeText(getContext(), "Houve um Problema. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
-            });
+            if (creator.error == 0) {
+                Log.i("POST", creator.jObject.toString());
+                new DataSender().execute(creator.jObject.toString());
+            } else
+                Toast.makeText(getContext(), "Houve um Problema. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(requireActivity(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         });
     }
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -122,7 +144,6 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         listItemsMemorial.setAdapter(adapterLocations);
 
         listItemsMemorial.setOnItemClickListener((parent, view, position, id) -> {
-//            chosenOption = position;
             listener.onDropdownChoice(position);
         });
 
@@ -133,37 +154,18 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         void onDropdownChoice(int choice);
     }
 
-    public JSONObject createJson() {
-        JSONObject postData = new JSONObject();
-        modelEntry.getEntry(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), entry -> {
-            try {
-                postData.put("schoolNameCaps", entry.getSchoolName().toUpperCase());
-                postData.put("cityNameCaps", entry.getNameCity().toUpperCase());
-                postData.put("schoolName", entry.getSchoolName());
-                postData.put("schoolAddress", entry.getSchoolAddress());
-                postData.put("schoolNumber", entry.getAddressNumber());
-                postData.put("schoolNeighbour", entry.getAddressNeighborhood());
-                postData.put("schoolDistrict", entry.getNameDistrict());
-                postData.put("cityName", entry.getNameCity());
-                postData.put("visitDate", entry.getInitialDateInspection());
-                postData.put("responsibleVisit", entry.getNameResponsibleVisit());
-                postData.put("youngAge", String.valueOf(entry.getYoungestStudentAge()));
-                postData.put("ageClassYoung", "(teste) anos");
-                postData.put("oldestAge", String.valueOf(entry.getOldestStudentAge()));
-                postData.put("ageClassOldest", "(teste) anos");
-                postData.put("schoolServices", "(teste) EJA");
-                postData.put("workingHours", "(teste) matutino");
-                postData.put("numberStudents", String.valueOf(entry.getNumberStudents()));
-                postData.put("numberDisabled", String.valueOf(entry.getNumberStudentsPCD()));
-                postData.put("necessityDesc", entry.getWorkersPCDDescription());
-                postData.put("numberWorkers", String.valueOf(entry.getNumberWorkers()));
-                postData.put("librasWorkers", String.valueOf(entry.getNumberWorkersLibras()));
-            } catch (JSONException e) {
-                e.printStackTrace();
-                error = 1;
-            }
-        });
-        error = 0;
-        return postData;
-    }
+
+//    public static class BlockObservable extends Observable {
+//        private List<Integer> idList;
+//
+//        public List<Integer> getIdList() {
+//            return idList;
+//        }
+//
+//        public void setIdList(List<Integer> idList) {
+//            this.idList = idList;
+//            this.setChanged();
+//            this.notifyObservers(idList);
+//        }
+//    }
 }

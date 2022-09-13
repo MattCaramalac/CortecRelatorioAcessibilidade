@@ -17,10 +17,10 @@ public interface RoomEntryDao {
     void insertRoomEntry(RoomEntry roomEntry);
 
     @Query("SELECT * FROM RoomEntry WHERE blockID == :blockID AND roomType = :roomType ORDER BY roomID DESC")
-    LiveData<List<RoomEntry>> getAllRoomsInSchool(int blockID, int roomType);
+    LiveData<List<RoomEntry>> getAllRoomsInBlock(int blockID, int roomType);
 
-    @Query("SELECT * FROM RoomEntry WHERE blockID == :blockID ORDER BY roomID DESC")
-    LiveData<List<RoomEntry>> getAllRoomsInSchool(int blockID);
+    @Query("SELECT * FROM RoomEntry WHERE blockID IN (:blockID) ORDER BY roomID DESC")
+    LiveData<List<RoomEntry>> getAllRoomsInSchool(List<Integer> blockID);
 
     @Query("SELECT * FROM RoomEntry WHERE roomID == :roomID")
     LiveData<RoomEntry> getRoomEntry(int roomID);

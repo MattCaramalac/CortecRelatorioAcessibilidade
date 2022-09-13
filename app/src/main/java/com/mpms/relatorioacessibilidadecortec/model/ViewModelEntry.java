@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData;
 
 import com.mpms.relatorioacessibilidadecortec.data.database.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.database.ReportRepository;
-import com.mpms.relatorioacessibilidadecortec.data.entities.AdmEquipEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
@@ -75,7 +74,6 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<PayPhoneEntry>> allPayPhonesExtAccess;
     public LiveData<List<PayPhoneEntry>> allPayPhonesSidewalk;
     public LiveData<List<GateObsEntry>> allGateObs;
-    public LiveData<List<AdmEquipEntry>> allAdmEquip;
     public LiveData<List<PlaygroundEntry>> allPlaygrounds;
     public LiveData<List<DoorEntry>> allDoors;
     public LiveData<List<SwitchEntry>> allSwitches;
@@ -307,6 +305,10 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<RoomEntry>> getAllRoomsInBlock(int schoolID, int roomType) {
         allRooms = repository.getAllRoomsInSchool(schoolID, roomType);
         return  allRooms;
+    }
+
+    public LiveData<List<RoomEntry>> getAllRoomsInSchool(List<Integer> blockID) {
+        return  repository.getAllRoomsInSchool(blockID);
     }
 
     public LiveData<RoomEntry> getRoomEntry(int roomID) {
@@ -823,6 +825,14 @@ public class ViewModelEntry extends AndroidViewModel {
         return allBlockSpaces;
     }
 
+    public LiveData<List<BlockSpaceEntry>> getAllBlocksSchool(int schoolID) {
+        return repository.getAllBlocksSchool(schoolID);
+    }
+
+    public LiveData<List<Integer>> getAllBlockIds(int schoolID) {
+        return repository.getAllBlockIds(schoolID);
+    }
+
     public LiveData<BlockSpaceEntry> getSpecificBlockSpace(int blockSpaceID) {
         return repository.getSpecificBlockSpace(blockSpaceID);
     }
@@ -845,31 +855,6 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteAllBlockSpacesSchool(int schoolID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllBlockSpacesSchool(schoolID));
-    }
-
-    public static void insertAdmEquip(AdmEquipEntry admEquip) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertAdmEquip(admEquip));
-    }
-
-    public LiveData<List<AdmEquipEntry>> getAllAdmEquipsPerBlock(int blockID) {
-        allAdmEquip = repository.getAllAdmEquipsPerBlock(blockID);
-        return allAdmEquip;
-    }
-
-    public LiveData<AdmEquipEntry> getOneAdmEquip(int admEquipID) {
-        return repository.getOneAdmEquip(admEquipID);
-    }
-
-    public static void updateAdmEquip(AdmEquipEntry admEquip) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateAdmEquip(admEquip));
-    }
-
-    public static void deleteOneAdmEquip(int admEquipID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneAdmEquip(admEquipID));
-    }
-
-    public static void deleteAllAdmEquipsFromBlock(int blockID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllAdmEquipsFromBlock(blockID));
     }
 
     public static void insertPlayground(PlaygroundEntry play) {

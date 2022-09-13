@@ -40,7 +40,7 @@ public class SchoolRegisterFragmentTwo extends Fragment {
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
 
-    Integer hasMorning, hasAfternoon, hasEvening, hasNursery, hasDaycare, hasMaternal, hasPreSchool, hasElementaryMiddle, hasHigh, hasEja;
+
     String morningStart, morningEnd, afternoonStart, afternoonEnd, eveningStart, eveningEnd, workingHoursObs, maternalStart, maternalEnd,
             preSchoolStart, preSchoolEnd, elementaryMiddleStart, elementaryMiddleEnd, highStart, highEnd, ejaStart, ejaEnd, servicesObs;
 
@@ -384,6 +384,9 @@ public class SchoolRegisterFragmentTwo extends Fragment {
     }
 
     private SchoolRegisterTwo updateRegisterTwo(Bundle bundle) {
+
+        int hasMorning = 0, hasAfternoon = 0, hasEvening = 0, hasNursery = 0, hasDaycare = 0, hasMaternal = 0, hasPreSchool = 0,
+                hasElementaryMiddle = 0, hasHigh = 0, hasEja = 0;
 
         if (morningCheck.isChecked()) {
             hasMorning = 1;

@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.fragments.AdmEquipListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
@@ -164,13 +163,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         parkingList.setArguments(inspectionBundle);
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.show_fragment_selected, parkingList).addToBackStack(PARKING_LIST).commit();
-    }
-
-    public void displayAdmEquipListFragment() {
-        AdmEquipListFragment admEquipList = AdmEquipListFragment.newInstance();
-        admEquipList.setArguments(inspectionBundle);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, admEquipList).addToBackStack(ADM_EQUIP_LIST).commit();
     }
 
     public void displayPlaygroundListFragment() {

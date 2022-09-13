@@ -20,7 +20,8 @@ public class DataSender extends AsyncTask<String, Void, String> {
 
     {
         try {
-            serverEndPoint = new URL("https://10.112.136.17:3000/relatorio/v1/relatorio");
+//            serverEndPoint = new URL("https://10.112.136.17:3000/relatorio/v1/relatorio");
+            serverEndPoint = new URL("https://ptsv2.com/t/vfv31-1661803917/post");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

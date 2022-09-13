@@ -40,10 +40,21 @@ public class RoomEntry {
     private Integer roomHasStairs;
     private Integer roomHasRamps;
 
+    private Integer hasBellControl;
+    private Double bellControlHeight;
+    private String bellControlObs;
+    private Integer hasInternalPhone;
+    private Double internalPhoneHeight;
+    private String internalPhoneObs;
+    private Integer hasBiometricClock;
+    private Double biometricClockHeight;
+    private String biometricClockObs;
+
     public RoomEntry(int blockID, int roomType, String roomLocation, String roomDescription, Integer roomHasVertSing, String roomVertSignObs, Integer roomHasLooseCarpet,
                      String looseCarpetObs, Integer roomAccessFloor, String accessFloorObs, Integer libDistShelvesOK, Integer libPcrManeuversOK, Integer libAccessPcOK,
                      Integer secHasFixedSeats, Integer secHasPcrSpace, Double secPcrSpaceWidth, Double secPcrSpaceDepth, String secPCRSpaceObs, String roomObs,
-                     Integer roomHasStairs, Integer roomHasRamps) {
+                     Integer roomHasStairs, Integer roomHasRamps, Integer hasBellControl, Double bellControlHeight, String bellControlObs, Integer hasInternalPhone,
+                     Double internalPhoneHeight, String internalPhoneObs, Integer hasBiometricClock, Double biometricClockHeight, String biometricClockObs) {
         this.blockID = blockID;
         this.roomType = roomType;
         this.roomLocation = roomLocation;
@@ -65,6 +76,15 @@ public class RoomEntry {
         this.roomObs = roomObs;
         this.roomHasStairs = roomHasStairs;
         this.roomHasRamps = roomHasRamps;
+        this.hasBellControl = hasBellControl;
+        this.bellControlHeight = bellControlHeight;
+        this.bellControlObs = bellControlObs;
+        this.hasInternalPhone = hasInternalPhone;
+        this.internalPhoneHeight = internalPhoneHeight;
+        this.internalPhoneObs = internalPhoneObs;
+        this.hasBiometricClock = hasBiometricClock;
+        this.biometricClockHeight = biometricClockHeight;
+        this.biometricClockObs = biometricClockObs;
     }
 
     public int getRoomID() {
@@ -241,5 +261,77 @@ public class RoomEntry {
 
     public void setRoomHasRamps(Integer roomHasRamps) {
         this.roomHasRamps = roomHasRamps;
+    }
+
+    public Integer getHasBellControl() {
+        return hasBellControl;
+    }
+
+    public void setHasBellControl(Integer hasBellControl) {
+        this.hasBellControl = hasBellControl;
+    }
+
+    public Double getBellControlHeight() {
+        return bellControlHeight;
+    }
+
+    public void setBellControlHeight(Double bellControlHeight) {
+        this.bellControlHeight = bellControlHeight;
+    }
+
+    public String getBellControlObs() {
+        return bellControlObs;
+    }
+
+    public void setBellControlObs(String bellControlObs) {
+        this.bellControlObs = bellControlObs;
+    }
+
+    public Integer getHasInternalPhone() {
+        return hasInternalPhone;
+    }
+
+    public void setHasInternalPhone(Integer hasInternalPhone) {
+        this.hasInternalPhone = hasInternalPhone;
+    }
+
+    public Double getInternalPhoneHeight() {
+        return internalPhoneHeight;
+    }
+
+    public void setInternalPhoneHeight(Double internalPhoneHeight) {
+        this.internalPhoneHeight = internalPhoneHeight;
+    }
+
+    public String getInternalPhoneObs() {
+        return internalPhoneObs;
+    }
+
+    public void setInternalPhoneObs(String internalPhoneObs) {
+        this.internalPhoneObs = internalPhoneObs;
+    }
+
+    public Integer getHasBiometricClock() {
+        return hasBiometricClock;
+    }
+
+    public void setHasBiometricClock(Integer hasBiometricClock) {
+        this.hasBiometricClock = hasBiometricClock;
+    }
+
+    public Double getBiometricClockHeight() {
+        return biometricClockHeight;
+    }
+
+    public void setBiometricClockHeight(Double biometricClockHeight) {
+        this.biometricClockHeight = biometricClockHeight;
+    }
+
+    public String getBiometricClockObs() {
+        return biometricClockObs;
+    }
+
+    public void setBiometricClockObs(String biometricClockObs) {
+        this.biometricClockObs = biometricClockObs;
     }
 }

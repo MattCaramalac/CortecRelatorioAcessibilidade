@@ -4,7 +4,6 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.mpms.relatorioacessibilidadecortec.data.Dao.AdmEquipDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlackboardEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlockSpaceDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.CounterEntryDao;
@@ -32,7 +31,6 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.SwitchEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.TableEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WaterFountainDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WindowEntryDao;
-import com.mpms.relatorioacessibilidadecortec.data.entities.AdmEquipEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
@@ -106,7 +104,6 @@ public class ReportRepository {
     private final RampStairsHandrailDao handrailDao;
     private final RampStairsRailingDao railingDao;
     private final BlockSpaceDao blockSpaceDao;
-    private final AdmEquipDao admEquipDao;
     private final PlaygroundEntryDao playgroundEntryDao;
     private final BlackboardEntryDao blackboardEntryDao;
     private final DoorLockDao doorLockDao;
@@ -137,7 +134,6 @@ public class ReportRepository {
         handrailDao = db.rampStairsHandrailDao();
         railingDao = db.rampStairsRailingDao();
         blockSpaceDao = db.blockSpaceDao();
-        admEquipDao = db.admEquipDao();
         playgroundEntryDao = db.playgroundEntryDao();
         blackboardEntryDao = db.blackboardEntryDao();
         doorLockDao = db.doorLockDao();
@@ -186,6 +182,14 @@ public class ReportRepository {
 
     public LiveData<List<BlockSpaceEntry>> getBlockSpaceFromSchool(int schoolID) {
         return blockSpaceDao.getBlockSpaceFromSchool(schoolID);
+    }
+
+    public LiveData<List<BlockSpaceEntry>> getAllBlocksSchool(int schoolID) {
+        return blockSpaceDao.getAllBlocksSchool(schoolID);
+    }
+
+    public LiveData<List<Integer>> getAllBlockIds(int schoolID) {
+        return blockSpaceDao.getAllIds(schoolID);
     }
 
     public LiveData<BlockSpaceEntry> getSpecificBlockSpace(int blockSpaceID) {
@@ -379,7 +383,11 @@ public class ReportRepository {
     }
 
     public LiveData<List<RoomEntry>> getAllRoomsInSchool(int schoolID, int roomType) {
-        return  roomEntryDao.getAllRoomsInSchool(schoolID, roomType);
+        return  roomEntryDao.getAllRoomsInBlock(schoolID, roomType);
+    }
+
+    public LiveData<List<RoomEntry>> getAllRoomsInSchool(List<Integer> blockID) {
+        return  roomEntryDao.getAllRoomsInSchool(blockID);
     }
 
     public LiveData<RoomEntry> getRoomEntry(int roomID) {
@@ -866,30 +874,6 @@ public class ReportRepository {
 
     public void updateRampStairsHandrail(RampStairsHandrailEntry handrailEntry) {
         ReportDatabase.dbWriteExecutor.execute(() -> handrailDao.updateRampStairsHandrail(handrailEntry));
-    }
-
-    public void insertAdmEquip(AdmEquipEntry admEquip) {
-        ReportDatabase.dbWriteExecutor.execute(() -> admEquipDao.insertAdmEquip(admEquip));
-    }
-
-    public LiveData<List<AdmEquipEntry>> getAllAdmEquipsPerBlock(int blockID) {
-        return admEquipDao.getAllAdmEquipsPerBlock(blockID);
-    }
-
-    public LiveData<AdmEquipEntry> getOneAdmEquip(int admEquipID) {
-        return admEquipDao.getOneAdmEquip(admEquipID);
-    }
-
-    public void updateAdmEquip(AdmEquipEntry admEquip) {
-        ReportDatabase.dbWriteExecutor.execute(() -> admEquipDao.updateAdmEquip(admEquip));
-    }
-
-    public void deleteOneAdmEquip(int admEquipID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> admEquipDao.deleteOneAdmEquip(admEquipID));
-    }
-
-    public void deleteAllAdmEquipsFromBlock(int blockID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> admEquipDao.deleteAllAdmEquipsFromBlock(blockID));
     }
 
     public void insertPlayground(PlaygroundEntry play) {

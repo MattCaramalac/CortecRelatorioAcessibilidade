@@ -42,11 +42,14 @@ import java.util.ArrayList;
 
 public class RoomsRegisterFragment extends Fragment implements TagInterface {
 
-    TextView roomIdentifier, vertSignError, looseCarpetError, accessFloorError, blackboardHeader, counterHeader;
-    TextInputLayout roomLocaleField, roomDescField, vertSignObsField, looseCarpetObsField, accessFloorObsField, roomObsField;
-    TextInputEditText roomLocaleValue, roomDescValue, vertSignObsValue, looseCarpetObsValue, accessFloorObsValue, roomObsValue;
+    TextView roomIdentifier, vertSignError, looseCarpetError, accessFloorError, blackboardHeader, counterHeader, soundError, phoneError, biometryError,
+            soundHeader, phoneHeader, biometryHeader;
+    TextInputLayout roomLocaleField, roomDescField, vertSignObsField, looseCarpetObsField, accessFloorObsField, roomObsField,
+            soundSignalHeightField, soundSignalObsField, phoneHeightField, phoneObsField, biometryHeightField, biometryObsField;
+    TextInputEditText roomLocaleValue, roomDescValue, vertSignObsValue, looseCarpetObsValue, accessFloorObsValue, roomObsValue,
+            soundSignalHeightValue, soundSignalObsValue, phoneHeightValue, phoneObsValue, biometryHeightValue, biometryObsValue;
     MaterialButton addDoor, addSwitch, addWindow, addTable, addFreeSpace, addBlackboard, addCounter, addRamp, addStairs, cancelRegister, saveRegister;
-    RadioGroup hasVertSingRadio, hasLooseCarpetRadio, hasAccessFloorRadio;
+    RadioGroup hasVertSingRadio, hasLooseCarpetRadio, hasAccessFloorRadio, soundSignalRadio, phoneRadio, biometryRadio;
     FrameLayout childFrag;
 
     ArrayList<TextInputEditText> roomScrollArray = new ArrayList<>();
@@ -161,6 +164,9 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         accessFloorError = view.findViewById(R.id.room_accessible_floor_error);
         blackboardHeader = view.findViewById(R.id.label_blackboard_register);
         counterHeader = view.findViewById(R.id.label_counter_register);
+        soundError = view.findViewById(R.id.has_bell_activation_error);
+        phoneError = view.findViewById(R.id.locale_has_intercom_error);
+        biometryError = view.findViewById(R.id.locale_has_biometry_error);
 //        TextInputLayout
         roomLocaleField = view.findViewById(R.id.room_location_field);
         roomDescField = view.findViewById(R.id.room_description_field);
@@ -170,6 +176,12 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         looseCarpetObsField = view.findViewById(R.id.carpet_obs_field);
         accessFloorObsField = view.findViewById(R.id.room_access_floor_obs_field);
         roomObsField = view.findViewById(R.id.room_obs_field);
+        soundSignalHeightField = view.findViewById(R.id.bell_activation_height_field);
+        soundSignalObsField = view.findViewById(R.id.bell_activation_obs_field);
+        phoneHeightField = view.findViewById(R.id.intercom_height_field);
+        phoneObsField = view.findViewById(R.id.locale_has_intercom_obs_field);
+        biometryHeightField = view.findViewById(R.id.biometry_height_field);
+        biometryObsField = view.findViewById(R.id.locale_has_biometry_obs_field);
 //        TextInputLayout
         roomLocaleValue = view.findViewById(R.id.room_location_value);
         roomDescValue = view.findViewById(R.id.room_description_value);
@@ -177,6 +189,12 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         looseCarpetObsValue = view.findViewById(R.id.carpet_obs_value);
         accessFloorObsValue = view.findViewById(R.id.room_access_floor_obs_value);
         roomObsValue = view.findViewById(R.id.room_obs_value);
+        soundSignalHeightValue = view.findViewById(R.id.bell_activation_height_value);
+        soundSignalObsValue = view.findViewById(R.id.bell_activation_obs_value);
+        phoneHeightValue = view.findViewById(R.id.intercom_height_value);
+        phoneObsValue = view.findViewById(R.id.locale_has_intercom_obs_value);
+        biometryHeightValue = view.findViewById(R.id.biometry_height_value);
+        biometryObsValue = view.findViewById(R.id.locale_has_biometry_obs_value);
 //        MaterialButton
         addDoor = view.findViewById(R.id.room_add_door_button);
         addSwitch = view.findViewById(R.id.room_add_switch_button);
@@ -193,6 +211,9 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         hasVertSingRadio = view.findViewById(R.id.room_has_visual_sign_radio);
         hasLooseCarpetRadio = view.findViewById(R.id.room_has_carpet_radio);
         hasAccessFloorRadio = view.findViewById(R.id.room_accessible_floor_radio);
+        soundSignalRadio = view.findViewById(R.id.has_bell_activation_radio);
+        phoneRadio = view.findViewById(R.id.locale_has_intercom_radio);
+        biometryRadio = view.findViewById(R.id.locale_has_biometry_radio);
 //        FrameLayout
         childFrag = view.findViewById(R.id.room_child_fragment);
 //        ViewModel
@@ -204,6 +225,9 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         hasVertSingRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
         hasLooseCarpetRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
         hasAccessFloorRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
+        soundSignalRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
+        phoneRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
+        biometryRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
         addDoor.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
         addSwitch.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
         addWindow.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
@@ -257,6 +281,36 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
                 accessFloorObsValue.setText(null);
                 accessFloorObsField.setVisibility(View.GONE);
             }
+        } else if (radio == soundSignalRadio) {
+            if (index == 1) {
+                soundSignalHeightField.setVisibility(View.VISIBLE);
+                soundSignalObsField.setVisibility(View.VISIBLE);
+            } else {
+                soundSignalHeightValue.setText(null);
+                soundSignalObsValue.setText(null);
+                soundSignalHeightField.setVisibility(View.GONE);
+                soundSignalObsField.setVisibility(View.GONE);
+            }
+        } else if (radio == phoneRadio) {
+            if (index == 1) {
+                phoneHeightField.setVisibility(View.VISIBLE);
+                phoneObsField.setVisibility(View.VISIBLE);
+            } else {
+                phoneHeightValue.setText(null);
+                phoneObsValue.setText(null);
+                phoneHeightField.setVisibility(View.GONE);
+                phoneObsField.setVisibility(View.GONE);
+            }
+        } else {
+            if (index == 1) {
+                biometryHeightField.setVisibility(View.VISIBLE);
+                biometryObsField.setVisibility(View.VISIBLE);
+            } else {
+                biometryHeightValue.setText(null);
+                biometryObsValue.setText(null);
+                biometryHeightField.setVisibility(View.GONE);
+                biometryObsField.setVisibility(View.GONE);
+            }
         }
 
     }
@@ -265,6 +319,16 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         switch (bundle.getInt(ROOM_TYPE)) {
             case 2:
                 getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new LibraryFragment()).commit();
+                break;
+            case 3:
+            case 4:
+            case 9:
+                soundHeader.setVisibility(View.VISIBLE);
+                phoneHeader.setVisibility(View.VISIBLE);
+                biometryHeader.setVisibility(View.VISIBLE);
+                soundSignalRadio.setVisibility(View.VISIBLE);
+                phoneRadio.setVisibility(View.VISIBLE);
+                biometryRadio.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 counterHeader.setVisibility(View.VISIBLE);
@@ -281,6 +345,12 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
                 addCounter.setVisibility(View.VISIBLE);
                 blackboardHeader.setVisibility(View.VISIBLE);
                 addBlackboard.setVisibility(View.VISIBLE);
+                soundHeader.setVisibility(View.VISIBLE);
+                phoneHeader.setVisibility(View.VISIBLE);
+                biometryHeader.setVisibility(View.VISIBLE);
+                soundSignalRadio.setVisibility(View.VISIBLE);
+                phoneRadio.setVisibility(View.VISIBLE);
+                biometryRadio.setVisibility(View.VISIBLE);
             default:
                 break;
         }
@@ -395,20 +465,31 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         buttonPressed = 0;
     }
 
+//    TODO - Testar salas com esses adendos
+
     private void clearRoomFields() {
         roomLocaleValue.setText(null);
         roomDescValue.setText(null);
         hasVertSingRadio.clearCheck();
         hasLooseCarpetRadio.clearCheck();
         hasAccessFloorRadio.clearCheck();
+        soundSignalRadio.clearCheck();
+        phoneRadio.clearCheck();
+        biometryRadio.clearCheck();
     }
 
     private void clearRoomNoEmptyFieldsErrors() {
         roomLocaleField.setErrorEnabled(false);
         roomDescField.setErrorEnabled(false);
+        soundSignalHeightField.setErrorEnabled(false);
+        phoneHeightField.setErrorEnabled(false);
+        biometryHeightField.setErrorEnabled(false);
         vertSignError.setVisibility(View.GONE);
         looseCarpetError.setVisibility(View.GONE);
         accessFloorError.setVisibility(View.GONE);
+        soundError.setVisibility(View.GONE);
+        phoneError.setVisibility(View.GONE);
+        biometryError.setVisibility(View.GONE);
     }
 
     private boolean roomNoEmptyFields(Bundle bundle) {
@@ -435,6 +516,37 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         if (getCheckedRoomRadioIndex(hasAccessFloorRadio) == -1) {
             i++;
             accessFloorError.setVisibility(View.VISIBLE);
+        }
+
+        if (bundle.getInt(ROOM_TYPE) == 3 || bundle.getInt(ROOM_TYPE) == 4 || bundle.getInt(ROOM_TYPE) == 9 ||
+                bundle.getInt(ROOM_TYPE) == 11 || bundle.getInt(ROOM_TYPE) == 12) {
+            if (getCheckedRoomRadioIndex(soundSignalRadio) == -1) {
+                i++;
+                soundError.setVisibility(View.VISIBLE);
+            } else if (getCheckedRoomRadioIndex(soundSignalRadio) == 1) {
+                if (TextUtils.isEmpty(soundSignalHeightValue.getText())) {
+                    i++;
+                    soundSignalHeightField.setError(getString(R.string.blank_field_error));
+                }
+            }
+            if (getCheckedRoomRadioIndex(phoneRadio) == -1) {
+                i++;
+                phoneError.setVisibility(View.VISIBLE);
+            } else if (getCheckedRoomRadioIndex(phoneRadio) == 1) {
+                if (TextUtils.isEmpty(phoneHeightValue.getText())) {
+                    i++;
+                    phoneHeightField.setError(getString(R.string.blank_field_error));
+                }
+            }
+            if (getCheckedRoomRadioIndex(biometryRadio) == -1) {
+                i++;
+                biometryError.setVisibility(View.VISIBLE);
+            } else if (getCheckedRoomRadioIndex(biometryRadio) == 1) {
+                if (TextUtils.isEmpty(biometryHeightValue.getText())) {
+                    i++;
+                    biometryHeightField.setError(getString(R.string.blank_field_error));
+                }
+            }
         }
 
         return i == 0;
@@ -486,10 +598,12 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
     }
 
     private RoomEntry newRoomEntry(Bundle bundle) {
-        String roomLocale, roomDescription = null, vertSignObs = null, looseCarpetObs = null, accessFloorObs = null, roomObs = null, secPcrSpaceObs = null;
+        String roomLocale, roomDescription = null, vertSignObs = null, looseCarpetObs = null, accessFloorObs = null, roomObs = null, secPcrSpaceObs = null,
+                soundObs = null, intPhoneObs = null, bioClockObs = null;
         int hasVertSing, hasLooseCarpet, accessFloor;
-        Integer libDistShelves = null, libPcrManeuver = null, libAccessPC = null, secHasFixedSeat = null, secHasPcrSpace = null;
-        Double secPcrWidth = null, secPcrDepth = null;
+        Integer libDistShelves = null, libPcrManeuver = null, libAccessPC = null, secHasFixedSeat = null, secHasPcrSpace = null, hasBell = null,
+                hasIntPhone = null, hasBioClock = null;
+        Double secPcrWidth = null, secPcrDepth = null, soundHeight = null, intPhoneHeight = null, bioClockHeight = null;
 
         roomLocale = String.valueOf(roomLocaleValue.getText());
         if (bundle.getInt(ROOM_TYPE) == 12) {
@@ -522,12 +636,40 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
             }
         }
 
+        if (bundle.getInt(ROOM_TYPE) == 3 || bundle.getInt(ROOM_TYPE) == 4 || bundle.getInt(ROOM_TYPE) == 9 ||
+                bundle.getInt(ROOM_TYPE) == 11 || bundle.getInt(ROOM_TYPE) == 12) {
+            hasBell = getCheckedRoomRadioIndex(soundSignalRadio);
+            if (hasBell == 1) {
+                if (!TextUtils.isEmpty(soundSignalHeightValue.getText()))
+                    soundHeight = Double.parseDouble(String.valueOf(soundSignalHeightValue.getText()));
+                if (!TextUtils.isEmpty(soundSignalObsValue.getText()))
+                    soundObs = String.valueOf(soundSignalObsValue.getText());
+            }
+            hasIntPhone = getCheckedRoomRadioIndex(phoneRadio);
+            if (hasIntPhone == 1) {
+                if (!TextUtils.isEmpty(phoneHeightValue.getText()))
+                    intPhoneHeight = Double.parseDouble(String.valueOf(phoneHeightValue.getText()));
+                if (!TextUtils.isEmpty(phoneObsValue.getText()))
+                    intPhoneObs = String.valueOf(phoneObsValue.getText());
+            }
+
+            hasBioClock = getCheckedRoomRadioIndex(biometryRadio);
+            if (hasBioClock == 1) {
+                if (!TextUtils.isEmpty(biometryHeightValue.getText()))
+                    bioClockHeight = Double.parseDouble(String.valueOf(biometryHeightValue.getText()));
+                if (!TextUtils.isEmpty(biometryObsValue.getText()))
+                    bioClockObs = String.valueOf(biometryObsValue.getText());
+            }
+
+        }
+
         if (!TextUtils.isEmpty(roomObsValue.getText()))
             roomObs = String.valueOf(roomObsValue.getText());
 
         return new RoomEntry(bundle.getInt(BLOCK_ID), bundle.getInt(ROOM_TYPE),
                 roomLocale, roomDescription, hasVertSing, vertSignObs, hasLooseCarpet, looseCarpetObs, accessFloor, accessFloorObs, libDistShelves,
-                libPcrManeuver, libAccessPC, secHasFixedSeat, secHasPcrSpace, secPcrWidth, secPcrDepth, secPcrSpaceObs, roomObs, null, null);
+                libPcrManeuver, libAccessPC, secHasFixedSeat, secHasPcrSpace, secPcrWidth, secPcrDepth, secPcrSpaceObs, roomObs, null, null,
+                hasBell, soundHeight, soundObs, hasIntPhone, intPhoneHeight, intPhoneObs, hasBioClock,bioClockHeight, bioClockObs);
     }
 
     private void loadRoomData(RoomEntry roomEntry) {
@@ -549,6 +691,27 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
             accessFloorObsValue.setText(roomEntry.getAccessFloorObs());
         if (roomEntry.getRoomObs() != null)
             roomObsValue.setText(roomEntry.getRoomObs());
+
+        if (roomEntry.getHasBellControl() != null)
+            soundSignalRadio.check(soundSignalRadio.getChildAt(roomEntry.getHasBellControl()).getId());
+        if (roomEntry.getBellControlHeight() != null)
+            soundSignalHeightValue.setText(String.valueOf(roomEntry.getBellControlHeight()));
+        if (roomEntry.getBellControlObs() != null)
+            soundSignalObsValue.setText(roomEntry.getBellControlObs());
+
+        if (roomEntry.getHasInternalPhone() != null)
+            phoneRadio.check(phoneRadio.getChildAt(roomEntry.getHasInternalPhone()).getId());
+        if (roomEntry.getInternalPhoneHeight() != null)
+            phoneHeightValue.setText(String.valueOf(roomEntry.getInternalPhoneHeight()));
+        if (roomEntry.getInternalPhoneObs() != null)
+            phoneObsValue.setText(roomEntry.getInternalPhoneObs());
+
+        if (roomEntry.getHasBiometricClock() != null)
+            biometryRadio.check(biometryRadio.getChildAt(roomEntry.getHasBiometricClock()).getId());
+        if (roomEntry.getBiometricClockHeight() != null)
+            biometryHeightValue.setText(String.valueOf(roomEntry.getBiometricClockHeight()));
+        if (roomEntry.getBiometricClockObs() != null)
+            biometryObsValue.setText(roomEntry.getBiometricClockObs());
 
         if (roomEntry.getRoomType() == 2 || roomEntry.getRoomType() == 11)
             getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, roomBundle);

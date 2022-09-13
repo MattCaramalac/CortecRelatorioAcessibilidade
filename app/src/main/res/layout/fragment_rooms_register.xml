@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,13 +11,17 @@
         android:id="@+id/room_register_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/section_header_big" />
+        android:textSize="@dimen/section_header_big"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ScrollView
+        android:id="@+id/room_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_below="@id/room_register_header"
-        android:layout_marginTop="@dimen/usual_padding">
+        android:layout_marginTop="@dimen/usual_padding"
+        app:layout_constraintTop_toBottomOf="@id/room_register_header"
+        app:layout_constraintHeight_percent="0.87">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -488,6 +493,279 @@
                 app:layout_constraintTop_toBottomOf="@id/label_counter_register"
                 android:visibility="gone"/>
 
+            <TextView
+                android:id="@+id/has_bell_activation_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/room_add_counter_button"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:text="@string/header_has_bell_command"/>
+
+            <RadioGroup
+                android:id="@+id/has_bell_activation_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/has_bell_activation_header"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/has_bell_activation_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_bell_activation_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/bell_activation_height_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_bell_command_height"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/has_bell_activation_error"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bell_activation_height_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/bell_activation_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_bell_command_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/bell_activation_height_field"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bell_activation_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/locale_has_intercom_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/bell_activation_obs_field"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:text="@string/header_has_internal_phone"/>
+
+            <RadioGroup
+                android:id="@+id/locale_has_intercom_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_header"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/locale_has_intercom_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/intercom_height_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_int_phone_height"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_error"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/intercom_height_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/locale_has_intercom_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_int_phone_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/intercom_height_field"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/locale_has_intercom_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/locale_has_biometry_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_obs_field"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:text="@string/header_biometry"/>
+
+            <RadioGroup
+                android:id="@+id/locale_has_biometry_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/locale_has_biometry_header"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/locale_has_biometry_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/locale_has_biometry_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/biometry_height_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_biometry_height"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/locale_has_biometry_error"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/biometry_height_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/locale_has_biometry_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_biometry_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/biometry_height_field"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/locale_has_biometry_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/room_obs_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -496,7 +774,7 @@
                 android:layout_marginTop="@dimen/top_margins"
                 android:hint="@string/hint_obs"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_add_counter_button">
+                app:layout_constraintTop_toBottomOf="@id/locale_has_biometry_obs_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/room_obs_value"
@@ -512,31 +790,30 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/save_room"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/usual_padding"
-                android:text="@string/label_button_save"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_obs_field" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancel_room"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/top_margins"
-                android:text="@string/label_button_cancel"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@id/save_room"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/usual_padding"
+        android:text="@string/label_button_save"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/room_scroll" />
 
-</RelativeLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_room"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_button_cancel"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/save_room"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
