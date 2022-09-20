@@ -22,6 +22,9 @@ public interface RoomEntryDao {
     @Query("SELECT * FROM RoomEntry WHERE blockID IN (:blockID) ORDER BY roomID DESC")
     LiveData<List<RoomEntry>> getAllRoomsInSchool(List<Integer> blockID);
 
+    @Query("SELECT * FROM RoomEntry WHERE blockID == :blockID ORDER BY roomID DESC")
+    LiveData<List<RoomEntry>> getAllRoomsInSchool(int blockID);
+
     @Query("SELECT * FROM RoomEntry WHERE roomID == :roomID")
     LiveData<RoomEntry> getRoomEntry(int roomID);
 

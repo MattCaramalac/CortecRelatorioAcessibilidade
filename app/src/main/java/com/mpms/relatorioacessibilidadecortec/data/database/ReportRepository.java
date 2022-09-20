@@ -390,6 +390,10 @@ public class ReportRepository {
         return  roomEntryDao.getAllRoomsInSchool(blockID);
     }
 
+    public LiveData<List<RoomEntry>> getAllRoomsInSchool(int blockID) {
+        return  roomEntryDao.getAllRoomsInSchool(blockID);
+    }
+
     public LiveData<RoomEntry> getRoomEntry(int roomID) {
         return roomEntryDao.getRoomEntry(roomID);
     }

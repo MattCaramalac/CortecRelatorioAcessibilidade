@@ -164,6 +164,9 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         accessFloorError = view.findViewById(R.id.room_accessible_floor_error);
         blackboardHeader = view.findViewById(R.id.label_blackboard_register);
         counterHeader = view.findViewById(R.id.label_counter_register);
+        soundHeader = view.findViewById(R.id.has_bell_activation_header);
+        phoneHeader = view.findViewById(R.id.locale_has_intercom_header);
+        biometryHeader = view.findViewById(R.id.locale_has_biometry_header);
         soundError = view.findViewById(R.id.has_bell_activation_error);
         phoneError = view.findViewById(R.id.locale_has_intercom_error);
         biometryError = view.findViewById(R.id.locale_has_biometry_error);

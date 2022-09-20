@@ -21,7 +21,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
 import com.mpms.relatorioacessibilidadecortec.commService.DataSender;
 import com.mpms.relatorioacessibilidadecortec.commService.JSONCreator;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -30,6 +29,8 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 
 public class InspectionMemorial extends Fragment implements TagInterface {
@@ -42,16 +43,13 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
     SchoolEntry school;
 
-//    BlockObservable bID = new BlockObservable();
-    List<RestroomEntry> restList = new ArrayList<>();
+    BlockObservable bID = new BlockObservable();
     List<RoomEntry> roomList = new ArrayList<>();
-//
-//    Observer<BlockObservable> listChange = new Observer<BlockObservable>() {
-//        @Override
-//        public void onChanged(BlockObservable blockList) {
-//            modelEntry.getAllRoomsInSchool(blockList.getIdList()).observe(getViewLifecycleOwner(), roomEntries -> roomList = roomEntries);
-//        }
-//    };
+
+    Observer idListObs = (o, arg) -> {
+        BlockObservable blockList = (BlockObservable) o;
+        ViewModelEntry.getAllRoomsInSchool(blockList.getIdList()).observe(getViewLifecycleOwner(), rList -> roomList = rList);
+    };
 
     MaterialButton saveAndClose;
 
@@ -88,18 +86,16 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-//        bID.addObserver((java.util.Observer) listChange);
+        super.onViewCreated(view, savedInstanceState);
 
         saveAndClose = view.findViewById(R.id.saveAndQuit);
 
         modelEntry.getEntry(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), entry -> school = entry);
 
-//TODO - Este Observador está dando erro: corrigir
-//
-//        modelEntry.getAllBlockIds(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), bList -> bID.setIdList(bList));
+        modelEntry.getAllBlockIds(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), bList -> bID.setIdList(bList));
 
+        bID.addObserver(idListObs);
 
 
         saveAndClose.setOnClickListener(v -> {
@@ -143,9 +139,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
             adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, HeaderNames.blockOptions);
         listItemsMemorial.setAdapter(adapterLocations);
 
-        listItemsMemorial.setOnItemClickListener((parent, view, position, id) -> {
-            listener.onDropdownChoice(position);
-        });
+        listItemsMemorial.setOnItemClickListener((parent, view, position, id) -> listener.onDropdownChoice(position));
 
         super.onResume();
     }
@@ -155,17 +149,18 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     }
 
 
-//    public static class BlockObservable extends Observable {
-//        private List<Integer> idList;
-//
-//        public List<Integer> getIdList() {
-//            return idList;
-//        }
-//
-//        public void setIdList(List<Integer> idList) {
-//            this.idList = idList;
-//            this.setChanged();
-//            this.notifyObservers(idList);
-//        }
-//    }
+    public static class BlockObservable extends Observable {
+        private List<Integer> idList;
+
+        public List<Integer> getIdList() {
+            return idList;
+        }
+
+        public void setIdList(List<Integer> idList) {
+            this.idList = idList;
+            setChanged();
+            notifyObservers();
+        }
+
+    }
 }

@@ -307,7 +307,11 @@ public class ViewModelEntry extends AndroidViewModel {
         return  allRooms;
     }
 
-    public LiveData<List<RoomEntry>> getAllRoomsInSchool(List<Integer> blockID) {
+    public static LiveData<List<RoomEntry>> getAllRoomsInSchool(List<Integer> blockID) {
+        return  repository.getAllRoomsInSchool(blockID);
+    }
+
+    public LiveData<List<RoomEntry>> getAllRoomsInSchool(int blockID) {
         return  repository.getAllRoomsInSchool(blockID);
     }
 

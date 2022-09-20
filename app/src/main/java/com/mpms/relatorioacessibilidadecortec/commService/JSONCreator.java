@@ -19,7 +19,7 @@ public class JSONCreator {
     ArrayList<List<RestroomEntry>> restroom = new ArrayList<>();
     List<RoomEntry> room = new ArrayList<>();
 
-    public void createJsonInstance(SchoolEntry entry,  List<RoomEntry> room) {
+    public void createJsonInstance(SchoolEntry entry, List<RoomEntry> room) {
         school = entry;
         this.room = room;
 
@@ -27,20 +27,17 @@ public class JSONCreator {
 
     public void createJson() {
         try {
-            for (int i = 0; i < room.size(); i++) {
-                RoomEntry rEntry = room.get(i);
-                JSONArray restData = new JSONArray();
-                for (int j = 0; j < room.size(); j++) {
+            JSONArray restData = new JSONArray();
+            for (int j = 0; j < room.size(); j++) {
+                RoomEntry rEntry = room.get(j);
 //                    RestData
-                    JSONObject rest = new JSONObject();
-                    rest.put("BlockID", rEntry.getBlockID());
-                    rest.put("RoomID", rEntry.getRoomID());
-                    rest.put("RoomType", rEntry.getRoomType());
-                    restData.put(rest);
-                }
-                jObject.put("Restrooms",restData);
+                JSONObject rest = new JSONObject();
+                rest.put("BlockID", rEntry.getBlockID());
+                rest.put("RoomID", rEntry.getRoomID());
+                rest.put("RoomType", rEntry.getRoomType());
+                restData.put(rest);
             }
-
+            jObject.put("Rooms", restData);
 
 
             jObject.put("schoolNameCaps", school.getSchoolName().toUpperCase());
