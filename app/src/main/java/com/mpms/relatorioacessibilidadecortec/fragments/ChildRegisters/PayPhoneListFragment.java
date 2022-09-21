@@ -79,12 +79,12 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
         instantiatePayPhoneViews(view);
 
         if (payPhoneBundle.getBoolean(FROM_SIDEWALK)) {
-            modelEntry.getAllPayPhonesSidewalk(payPhoneBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), payPhoneSideList -> {
+            modelEntry.getPayPhonesSidewalk(payPhoneBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), payPhoneSideList -> {
                 payPhoneAdapter = new PayPhoneViewAdapter(payPhoneSideList, requireActivity(), this);
                 listCreator(payPhoneAdapter);
             });
         } else if (payPhoneBundle.getBoolean(FROM_EXT_ACCESS)) {
-            modelEntry.getAllPayPhonesExtAccess(payPhoneBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), payPhoneList -> {
+            modelEntry.getPayPhonesExtAccess(payPhoneBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), payPhoneList -> {
                 payPhoneAdapter = new PayPhoneViewAdapter(payPhoneList, requireActivity(), this);
                 listCreator(payPhoneAdapter);
             });

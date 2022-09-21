@@ -24,9 +24,12 @@ import com.mpms.relatorioacessibilidadecortec.commService.JSONCreator;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
@@ -59,16 +62,22 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
     IdListObservable bID = new IdListObservable();
     IdListObservable roomID = new IdListObservable();
+    IdListObservable extID = new IdListObservable();
+    IdListObservable parkID = new IdListObservable();
 
     List<RoomEntry> roomList = new ArrayList<>();
     List<ExternalAccess> extList = new ArrayList<>();
     List<ParkingLotEntry> parkList = new ArrayList<>();
     List<PlaygroundEntry> playList = new ArrayList<>();
-    List<RampStairsEntry> rStList = new ArrayList<>();
     List<RestroomEntry> restList = new ArrayList<>();
     List<SidewalkEntry> sideList = new ArrayList<>();
     List<WaterFountainEntry> fountList = new ArrayList<>();
-//Door-related entities
+    //    Ramp & Stairs Lists
+    List<RampStairsEntry> roomStRaList = new ArrayList<>();
+    List<RampStairsEntry> sideStRaList = new ArrayList<>();
+    List<RampStairsEntry> extStRaList = new ArrayList<>();
+    List<RampStairsEntry> parkStRaList = new ArrayList<>();
+    //Door-related entities
     List<BlackboardEntry> boardList = new ArrayList<>();
     List<CounterEntry> counterList = new ArrayList<>();
     List<DoorEntry> doorList = new ArrayList<>();
@@ -76,6 +85,14 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     List<SwitchEntry> switchList = new ArrayList<>();
     List<TableEntry> tableList = new ArrayList<>();
     List<WindowEntry> windowList = new ArrayList<>();
+    //    Gate & Door Entities
+    List<DoorLockEntry> doorLockList = new ArrayList<>();
+    List<DoorLockEntry> gateLockList = new ArrayList<>();
+    //    Gate Entities
+    List<GateObsEntry> gateList = new ArrayList<>();
+    //    Gate & Sidewalk Entities
+    List<PayPhoneEntry> extPhoneList = new ArrayList<>();
+    List<PayPhoneEntry> sidePhoneList = new ArrayList<>();
 
     Observer blockIdList = (o, arg) -> {
         IdListObservable idBlockList = (IdListObservable) o;
@@ -84,14 +101,25 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         ViewModelEntry.getAllRoomsInSchool(idList).observe(getViewLifecycleOwner(), rList -> {
             roomList = rList;
             List<Integer> rIdList = new ArrayList<>();
-            for (RoomEntry r : roomList)
+            for (RoomEntry r : rList)
                 rIdList.add(r.getRoomID());
             roomID.setIdList(rIdList);
         });
-        ViewModelEntry.getAllExtAccess(idList).observe(getViewLifecycleOwner(), exList -> extList = exList);
-        ViewModelEntry.getAllParkingLots(idList).observe(getViewLifecycleOwner(), pList -> parkList = pList);
+        ViewModelEntry.getAllExtAccess(idList).observe(getViewLifecycleOwner(), exList -> {
+            extList = exList;
+            List<Integer> exIdList = new ArrayList<>();
+            for (ExternalAccess e : exList)
+                exIdList.add(e.getExternalAccessID());
+            extID.setIdList(exIdList);
+        });
+        ViewModelEntry.getAllParkingLots(idList).observe(getViewLifecycleOwner(), pList -> {
+            parkList = pList;
+            List<Integer> pIdList = new ArrayList<>();
+            for (ParkingLotEntry p : pList)
+                pIdList.add(p.getParkingID());
+            parkID.setIdList(pIdList);
+        });
         ViewModelEntry.getAllPlaygrounds(idList).observe(getViewLifecycleOwner(), pgList -> playList = pgList);
-        ViewModelEntry.getAllRampStairsEntry(idList).observe(getViewLifecycleOwner(), rsList -> rStList = rsList);
         ViewModelEntry.getAllRestEntries(idList).observe(getViewLifecycleOwner(), reList -> restList = reList);
         ViewModelEntry.getAllSidewalks(idList).observe(getViewLifecycleOwner(), sList -> sideList = sList);
         ViewModelEntry.getAllWaterFountains(idList).observe(getViewLifecycleOwner(), wList -> fountList = wList);
@@ -105,9 +133,30 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         ViewModelEntry.getAllCounters(idList).observe(getViewLifecycleOwner(), cList -> counterList = cList);
         ViewModelEntry.getAllDoors(idList).observe(getViewLifecycleOwner(), dList -> doorList = dList); //TODO - Fazer um observador para as travas de porta
         ViewModelEntry.getAllFreeSpaces(idList).observe(getViewLifecycleOwner(), fList -> freeList = fList);
+        ViewModelEntry.getAllRampStRoom(idList).observe(getViewLifecycleOwner(), rsList -> roomStRaList = rsList);
         ViewModelEntry.getAllSwitches(idList).observe(getViewLifecycleOwner(), sList -> switchList = sList);
         ViewModelEntry.getAllTables(idList).observe(getViewLifecycleOwner(), tList -> tableList = tList);
         ViewModelEntry.getAllWindows(idList).observe(getViewLifecycleOwner(), wList -> windowList = wList);
+    };
+
+    Observer extAccessIdList = (o, arg) -> {
+        IdListObservable idBlockList = (IdListObservable) o;
+        List<Integer> idList = idBlockList.getIdList();
+
+        ViewModelEntry.getAllLocksFromGates(idList).observe(getViewLifecycleOwner(), dLoList -> gateLockList = dLoList);
+        ViewModelEntry.getAllGateObs(idList).observe(getViewLifecycleOwner(), gList -> gateList = gList);
+        ViewModelEntry.getAllPhonesExtAccess(idList).observe(getViewLifecycleOwner(), phList -> extPhoneList = phList);
+        ViewModelEntry.getAllRampStExt(idList).observe(getViewLifecycleOwner(), rampList -> extStRaList = rampList); // TODO - Fazer um observador para os componentes da escada
+    };
+
+    Observer parkIdList = (o, arg) -> {
+        IdListObservable idBlockList = (IdListObservable) o;
+        List<Integer> idList = idBlockList.getIdList();
+
+        ViewModelEntry.getAllLocksFromGates(idList).observe(getViewLifecycleOwner(), dLoList -> gateLockList = dLoList);
+        ViewModelEntry.getAllGateObs(idList).observe(getViewLifecycleOwner(), gList -> gateList = gList);
+        ViewModelEntry.getAllPhonesExtAccess(idList).observe(getViewLifecycleOwner(), phList -> extPhoneList = phList);
+        ViewModelEntry.getAllRampStExt(idList).observe(getViewLifecycleOwner(), rampList -> extStRaList = rampList); // TODO - Fazer um observador para os componentes da escada
     };
 
     MaterialButton saveAndClose;
@@ -156,11 +205,13 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
         bID.addObserver(blockIdList);
         roomID.addObserver(roomIdList);
+        extID.addObserver(extAccessIdList);
+//        parkID.addObserver();
 
 
         saveAndClose.setOnClickListener(v -> {
             JSONCreator creator = new JSONCreator();
-            creator.createJsonInstance(school, roomList, extList, parkList, playList, rStList, restList, sideList, fountList, boardList, counterList,
+            creator.createJsonInstance(school, roomList, extList, parkList, playList, roomStRaList, restList, sideList, fountList, boardList, counterList,
                     doorList, freeList, switchList, tableList, windowList);
 
             creator.createJson();

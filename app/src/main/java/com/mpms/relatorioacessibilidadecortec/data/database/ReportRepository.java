@@ -3,7 +3,6 @@ package com.mpms.relatorioacessibilidadecortec.data.database;
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Query;
 
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlackboardEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlockSpaceDao;
@@ -73,7 +72,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
 
-import java.net.PortUnreachableException;
 import java.util.List;
 
 public class ReportRepository {
@@ -552,6 +550,10 @@ public class ReportRepository {
         return gateObsDao.selectGateObsEntry(gateObsID);
     }
 
+    public LiveData<List<GateObsEntry>> getAllGates(List<Integer> gateObsID) {
+        return gateObsDao.getAllGates(gateObsID);
+    }
+
    public void updateGateObs (GateObsEntry gateObs) {
        ReportDatabase.dbWriteExecutor.execute(() -> gateObsDao.updateGateObs(gateObs));
    }
@@ -568,21 +570,28 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.insertPayPhone(payPhone));
     }
 
-    public LiveData<List<PayPhoneEntry>> selectAllPayPhones(int SchoolEntryID) {
-        return payPhoneDao.selectAllPhonesExtAccess(SchoolEntryID);
+    public LiveData<List<PayPhoneEntry>> getPayPhonesExtAccess(int SchoolEntryID) {
+        return payPhoneDao.getPhonesExtAccess(SchoolEntryID);
     }
 
-    public LiveData<List<PayPhoneEntry>> selectAllPhonesSidewalk(int sidewalkID) {
-        return payPhoneDao.selectAllPhonesSidewalk(sidewalkID);
+    public LiveData<List<PayPhoneEntry>> getPhonesSidewalk(int sidewalkID) {
+        return payPhoneDao.getPhonesSidewalk(sidewalkID);
+    }
+
+    public LiveData<PayPhoneEntry> getPayPhoneEntry(int payPhoneID) {
+        return payPhoneDao.getPayPhoneEntry(payPhoneID);
+    }
+
+    public LiveData<List<PayPhoneEntry>> getAllPhonesExtAccess(List<Integer> externalAccessID) {
+        return payPhoneDao.getAllPhonesExtAccess(externalAccessID);
+    }
+
+    public LiveData<List<PayPhoneEntry>> getAllPhonesSidewalk(List<Integer> sidewalkID) {
+       return payPhoneDao.getAllPhonesSidewalk(sidewalkID);
     }
 
     public void deleteAllPayPhonesSidewalk(int sidewalkID) {
         ReportDatabase.dbWriteExecutor.execute(() -> payPhoneDao.deleteAllPayPhonesSidewalk(sidewalkID));
-    }
-
-
-    public LiveData<PayPhoneEntry> selectPayPhoneEntry(int payPhoneID) {
-        return payPhoneDao.selectPayPhoneEntry(payPhoneID);
     }
 
     public void updatePayPhone (PayPhoneEntry payPhone) {
@@ -650,8 +659,20 @@ public class ReportRepository {
         return rampStairsEntryDao.getRampStairsEntry(rampStairsID);
     }
 
-    public LiveData<List<RampStairsEntry>> getAllRampStairsEntry(List<Integer> rampStairsID) {
-        return rampStairsEntryDao.getAllRampStairsEntry(rampStairsID);
+    public LiveData<List<RampStairsEntry>> getAllRampStRoom(List<Integer> roomID) {
+        return rampStairsEntryDao.getAllRampStRoom(roomID);
+    }
+
+    public LiveData<List<RampStairsEntry>> getAllRampStExt(List<Integer> extID) {
+        return rampStairsEntryDao.getAllRampStExt(extID);
+    }
+
+    public LiveData<List<RampStairsEntry>> getAllRampStSide(List<Integer> sideID) {
+        return rampStairsEntryDao.getAllRampStSide(sideID);
+    }
+
+    public LiveData<List<RampStairsEntry>> getAllRampStPark(List<Integer> parkID) {
+        return rampStairsEntryDao.getAllRampStPark(parkID);
     }
 
     public LiveData<RampStairsEntry> getLastRampStairsEntry() {
@@ -660,10 +681,6 @@ public class ReportRepository {
 
     public void deleteOneRampStairs(int rampStairsID) {
         ReportDatabase.dbWriteExecutor.execute(() -> rampStairsEntryDao.deleteOneRampStairs(rampStairsID));
-    }
-
-    public void deleteAllRampStairsFromSchool(int schoolID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> rampStairsEntryDao.deleteAllRampStairsFromSchool(schoolID));
     }
 
     public void updateRampStairs(RampStairsEntry rampStairs) {
@@ -972,6 +989,14 @@ public class ReportRepository {
 
     public LiveData<List<DoorLockEntry>> getDoorLocksFromGates(int extID) {
         return doorLockDao.getDoorLocksFromGates(extID);
+    }
+
+    public LiveData<List<DoorLockEntry>> getAllLocksFromDoor(List<Integer> doorID) {
+        return doorLockDao.getAllLocksFromDoor(doorID);
+    }
+
+    public LiveData<List<DoorLockEntry>> getAllLocksFromGates(List<Integer> extID) {
+        return doorLockDao.getAllLocksFromGates(extID);
     }
 
     public LiveData<DoorLockEntry> getOneDoorLock(int lockID) {

@@ -17,13 +17,19 @@ public interface PayPhoneDao {
     void insertPayPhone (PayPhoneEntry payPhone);
 
     @Query("SELECT * FROM PayPhoneEntry WHERE extAccessID == :externalAccessID ORDER BY payPhoneID DESC")
-    LiveData<List<PayPhoneEntry>> selectAllPhonesExtAccess(int externalAccessID);
+    LiveData<List<PayPhoneEntry>> getPhonesExtAccess(int externalAccessID);
 
     @Query("SELECT * FROM PayPhoneEntry WHERE sidewalkID == :sidewalkID ORDER BY payPhoneID DESC")
-    LiveData<List<PayPhoneEntry>> selectAllPhonesSidewalk(int sidewalkID);
+    LiveData<List<PayPhoneEntry>> getPhonesSidewalk(int sidewalkID);
 
     @Query("SELECT * FROM PayPhoneEntry WHERE payPhoneID == :payPhoneID")
-    LiveData<PayPhoneEntry> selectPayPhoneEntry(int payPhoneID);
+    LiveData<PayPhoneEntry> getPayPhoneEntry(int payPhoneID);
+
+    @Query("SELECT * FROM PayPhoneEntry WHERE extAccessID IN (:externalAccessID)")
+    LiveData<List<PayPhoneEntry>> getAllPhonesExtAccess(List<Integer> externalAccessID);
+
+    @Query("SELECT * FROM PayPhoneEntry WHERE sidewalkID IN (:sidewalkID)")
+    LiveData<List<PayPhoneEntry>> getAllPhonesSidewalk(List<Integer> sidewalkID);
 
     @Update
     void updatePayPhone (PayPhoneEntry payPhone);

@@ -478,6 +478,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.selectGateObsEntry(gateObsID);
     }
 
+    public static LiveData<List<GateObsEntry>> getAllGateObs(List<Integer> gateObsID) {
+        return repository.getAllGates(gateObsID);
+    }
+
     public static void updateGateObs (GateObsEntry gateObs) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateGateObs(gateObs));
     }
@@ -494,13 +498,13 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertPayPhone(payPhone));
     }
 
-    public LiveData<List<PayPhoneEntry>> getAllPayPhonesExtAccess(int externalAccessID) {
-        allPayPhonesExtAccess = repository.selectAllPayPhones(externalAccessID);
+    public LiveData<List<PayPhoneEntry>> getPayPhonesExtAccess(int externalAccessID) {
+        allPayPhonesExtAccess = repository.getPayPhonesExtAccess(externalAccessID);
         return allPayPhonesExtAccess;
     }
 
-    public LiveData<List<PayPhoneEntry>> getAllPayPhonesSidewalk(int sidewalkID) {
-        allPayPhonesSidewalk = repository.selectAllPhonesSidewalk(sidewalkID);
+    public LiveData<List<PayPhoneEntry>> getPayPhonesSidewalk(int sidewalkID) {
+        allPayPhonesSidewalk = repository.getPhonesSidewalk(sidewalkID);
         return allPayPhonesSidewalk;
     }
 
@@ -509,7 +513,15 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public LiveData<PayPhoneEntry> getPayPhoneEntry(int payPhoneID) {
-        return repository.selectPayPhoneEntry(payPhoneID);
+        return repository.getPayPhoneEntry(payPhoneID);
+    }
+
+    public static LiveData<List<PayPhoneEntry>> getAllPhonesExtAccess(List<Integer> externalAccessID) {
+        return repository.getAllPhonesExtAccess(externalAccessID);
+    }
+
+    public static LiveData<List<PayPhoneEntry>> getAllPhonesSidewalk(List<Integer> sidewalkID) {
+        return repository.getAllPhonesSidewalk(sidewalkID);
     }
 
     public static void updatePayPhone (PayPhoneEntry payPhone) {
@@ -582,8 +594,20 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getRampStairsEntry(rampStairsID);
     }
 
-    public static LiveData<List<RampStairsEntry>> getAllRampStairsEntry(List<Integer> rampStairsID) {
-        return repository.getAllRampStairsEntry(rampStairsID);
+    public static LiveData<List<RampStairsEntry>> getAllRampStRoom(List<Integer> roomID) {
+        return repository.getAllRampStRoom(roomID);
+    }
+
+    public static LiveData<List<RampStairsEntry>> getAllRampStExt(List<Integer> extID) {
+        return repository.getAllRampStExt(extID);
+    }
+
+    public static LiveData<List<RampStairsEntry>> getAllRampStSide(List<Integer> sideID) {
+        return repository.getAllRampStSide(sideID);
+    }
+
+    public static LiveData<List<RampStairsEntry>> getAllRampStPark(List<Integer> parkID) {
+        return repository.getAllRampStPark(parkID);
     }
 
     public LiveData<RampStairsEntry> getLastRampStairsEntry() {
@@ -592,10 +616,6 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteOneRampStairs(int rampStairsID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneRampStairs(rampStairsID));
-    }
-
-    public static void deleteAllRampStairsFromSchool(int schoolID) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllRampStairsFromSchool(schoolID));
     }
 
     public static void updateRampStairs(RampStairsEntry rampStairs) {
@@ -952,6 +972,14 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<DoorLockEntry>> getDoorLocksFromGates(int extID) {
         allDoorLocksGates = repository.getDoorLocksFromGates(extID);
         return allDoorLocksGates;
+    }
+
+    public static LiveData<List<DoorLockEntry>> getAllLocksFromDoor(List<Integer> doorID) {
+        return repository.getAllLocksFromDoor(doorID);
+    }
+
+    public static LiveData<List<DoorLockEntry>> getAllLocksFromGates(List<Integer> extID) {
+        return repository.getAllLocksFromGates(extID);
     }
 
     public LiveData<DoorLockEntry> getOneDoorLock(int lockID) {

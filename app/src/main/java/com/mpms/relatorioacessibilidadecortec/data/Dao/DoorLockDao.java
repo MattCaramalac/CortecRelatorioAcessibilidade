@@ -22,6 +22,12 @@ public interface DoorLockDao {
     @Query("SELECT * FROM DoorLockEntry WHERE extAccessID == :extID ORDER BY lockID DESC")
     LiveData<List<DoorLockEntry>> getDoorLocksFromGates(int extID);
 
+    @Query("SELECT * FROM DoorLockEntry WHERE doorID IN (:doorID)")
+    LiveData<List<DoorLockEntry>> getAllLocksFromDoor(List<Integer> doorID);
+
+    @Query("SELECT * FROM DoorLockEntry WHERE extAccessID IN (:extID)")
+    LiveData<List<DoorLockEntry>> getAllLocksFromGates(List<Integer> extID);
+
     @Query("SELECT * FROM DoorLockEntry WHERE lockID == :lockID")
     LiveData<DoorLockEntry> getOneDoorLock(int lockID);
 

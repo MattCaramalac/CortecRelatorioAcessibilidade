@@ -22,6 +22,9 @@ public interface GateObsDao {
     @Query("SELECT * FROM GateObsEntry WHERE gateObsID == :gateObsID")
     LiveData<GateObsEntry> selectGateObsEntry(int gateObsID);
 
+    @Query("SELECT * FROM GateObsEntry WHERE gateObsID IN (:gateObsID)")
+    LiveData<List<GateObsEntry>> getAllGates(List<Integer> gateObsID);
+
     @Update
     void updateGateObs (GateObsEntry gateObs);
 

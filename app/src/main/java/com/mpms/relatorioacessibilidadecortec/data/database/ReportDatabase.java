@@ -70,7 +70,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 51)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 52)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1219,6 +1219,22 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_51_52 = new Migration(51, 52) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE RSE (rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                    "extAccessID INTEGER, sidewalkID INTEGER, parkingID INTEGER, roomID INTEGER, rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, " +
+                    "FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntry (sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (parkingID) REFERENCES ParkingLotEntry (parkingID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO RSE (rampStairsID, extAccessID, sidewalkID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation)" +
+                    "SELECT rampStairsID, extAccessID, sidewalkID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation FROM RampStairsEntry");
+            database.execSQL("DROP TABLE RampStairsEntry");
+            database.execSQL("ALTER TABLE RSE RENAME TO RampStairsEntry");
+
+        }
+    };
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -1233,7 +1249,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35, MIGRATION_35_36,
                                     MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42,
                                     MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
-                                    MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51).build();
+                                    MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52).build();
                 }
             }
         }

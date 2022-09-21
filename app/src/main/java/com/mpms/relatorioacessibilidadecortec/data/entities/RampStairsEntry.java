@@ -6,8 +6,7 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = {@ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID", onDelete = CASCADE, onUpdate = CASCADE),
-        @ForeignKey(entity = ExternalAccess.class, parentColumns = "externalAccessID", childColumns = "extAccessID", onDelete = CASCADE, onUpdate = CASCADE),
+@Entity(foreignKeys = {@ForeignKey(entity = ExternalAccess.class, parentColumns = "externalAccessID", childColumns = "extAccessID", onDelete = CASCADE, onUpdate = CASCADE),
         @ForeignKey(entity = SidewalkEntry.class, parentColumns = "sidewalkID", childColumns = "sidewalkID", onDelete = CASCADE, onUpdate = CASCADE),
         @ForeignKey(entity = ParkingLotEntry.class, parentColumns = "parkingID", childColumns = "parkingID", onDelete = CASCADE, onUpdate = CASCADE),
         @ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE)})
@@ -15,7 +14,6 @@ public class RampStairsEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int rampStairsID;
-    private int blockID;
     private Integer extAccessID;
     private Integer sidewalkID;
     private Integer parkingID;
@@ -23,9 +21,8 @@ public class RampStairsEntry {
     private int rampStairsIdentifier;
     private String rampStairsLocation;
 
-    public RampStairsEntry(int blockID, Integer extAccessID, Integer sidewalkID, Integer parkingID, Integer roomID, int rampStairsIdentifier,
+    public RampStairsEntry(Integer extAccessID, Integer sidewalkID, Integer parkingID, Integer roomID, int rampStairsIdentifier,
                            String rampStairsLocation) {
-        this.blockID = blockID;
         this.extAccessID = extAccessID;
         this.sidewalkID = sidewalkID;
         this.parkingID = parkingID;
@@ -40,14 +37,6 @@ public class RampStairsEntry {
 
     public void setRampStairsID(int rampStairsID) {
         this.rampStairsID = rampStairsID;
-    }
-
-    public int getBlockID() {
-        return blockID;
-    }
-
-    public void setBlockID(int blockID) {
-        this.blockID = blockID;
     }
 
     public Integer getExtAccessID() {
