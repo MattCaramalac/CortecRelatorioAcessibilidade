@@ -31,6 +31,9 @@ public interface RampStairsEntryDao {
     @Query("SELECT * FROM RampStairsEntry WHERE rampStairsID == :rampStairsID")
     LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID);
 
+    @Query("SELECT * FROM RampStairsEntry WHERE rampStairsID IN (:rampStairsID)")
+    LiveData<List<RampStairsEntry>> getAllRampStairsEntry(List<Integer> rampStairsID);
+
     @Query("SELECT * FROM RampStairsEntry WHERE rampStairsID == (SELECT MAX(rampStairsID) from RampStairsEntry)")
     LiveData<RampStairsEntry> getLastRampStairsEntry();
 

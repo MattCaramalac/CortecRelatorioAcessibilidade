@@ -19,6 +19,9 @@ public interface BlackboardEntryDao {
     @Query("SELECT * FROM BlackboardEntry WHERE roomID == :roomID ORDER BY boardID DESC")
     LiveData<List<BlackboardEntry>> getAllBlackboardsFromRoom(int roomID);
 
+    @Query("SELECT * FROM BlackboardEntry WHERE roomID IN (:roomID)")
+    LiveData<List<BlackboardEntry>> getAllBlackboards(List<Integer> roomID);
+
     @Query("SELECT * FROM BlackboardEntry WHERE boardID == :blackboardID")
     LiveData<BlackboardEntry> getOneBlackboard(int blackboardID);
 

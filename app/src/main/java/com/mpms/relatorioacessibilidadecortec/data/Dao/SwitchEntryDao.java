@@ -19,6 +19,9 @@ public interface SwitchEntryDao {
     @Query("SELECT * FROM SwitchEntry WHERE roomID == :roomID ORDER BY switchID DESC")
     LiveData<List<SwitchEntry>> selectSwitchesFromRoom(int roomID);
 
+    @Query("SELECT * FROM SwitchEntry WHERE roomID IN (:roomID)")
+    LiveData<List<SwitchEntry>> getAllSwitches(List<Integer> roomID);
+
     @Query("SELECT * FROM SwitchEntry WHERE switchID == :switchID")
     LiveData<SwitchEntry> selectSpecificSwitch(int switchID);
 

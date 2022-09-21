@@ -21,6 +21,9 @@ public interface SidewalkEntryDao {
     @Query("SELECT * FROM SidewalkEntry WHERE blockID == :blockID ORDER BY sidewalkID DESC")
     LiveData<List<SidewalkEntry>> getAllSidewalks(int blockID);
 
+    @Query("SELECT * FROM SidewalkEntry WHERE blockID IN (:blockID)")
+    LiveData<List<SidewalkEntry>> getAllSidewalks(List<Integer> blockID);
+
     @Query("SELECT * FROM SidewalkEntry WHERE sidewalkID == :sidewalkID")
     LiveData<SidewalkEntry> getSidewalkEntry(int sidewalkID);
 

@@ -19,6 +19,9 @@ public interface WaterFountainDao {
     @Query("SELECT * FROM WaterFountainEntry WHERE blockID == :blockID ORDER BY waterFountainID DESC")
     LiveData<List<WaterFountainEntry>> getAllSchoolWaterFountains(int blockID);
 
+    @Query("SELECT * FROM WaterFountainEntry WHERE blockID IN (:blockID)")
+    LiveData<List<WaterFountainEntry>> getAllWaterFountains(List<Integer> blockID);
+
     @Query("SELECT * FROM WaterFountainEntry WHERE waterFountainID == :waterFountain")
     LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountain);
 

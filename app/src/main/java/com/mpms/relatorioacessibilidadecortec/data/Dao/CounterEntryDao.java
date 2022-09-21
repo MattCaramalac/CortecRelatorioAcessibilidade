@@ -19,6 +19,9 @@ public interface CounterEntryDao {
     @Query("SELECT * FROM CounterEntry WHERE roomID == :roomID ORDER BY counterID DESC")
     LiveData<List<CounterEntry>> getCountersFromRoom(int roomID);
 
+    @Query("SELECT * FROM CounterEntry WHERE roomID IN (:roomID)")
+    LiveData<List<CounterEntry>> getAllCounters(List<Integer> roomID);
+
     @Query("SELECT * FROM CounterEntry WHERE counterID == :counterID")
     LiveData<CounterEntry> getSpecificCounter(int counterID);
 

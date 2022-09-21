@@ -19,6 +19,9 @@ public interface FreeSpaceEntryDao {
     @Query("SELECT * FROM FreeSpaceEntry WHERE roomID == :roomID ORDER BY freeSpaceID DESC")
     LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRoom(int roomID);
 
+    @Query("SELECT * FROM FreeSpaceEntry WHERE roomID IN (:roomID)")
+    LiveData<List<FreeSpaceEntry>> getAllFreeSpaces(List<Integer> roomID);
+
     @Query("SELECT * FROM FreeSpaceEntry WHERE freeSpaceID == :freeSpaceID")
     LiveData<FreeSpaceEntry> selectSpecificFreeSpace(int freeSpaceID);
 

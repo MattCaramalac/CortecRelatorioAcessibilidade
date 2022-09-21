@@ -19,6 +19,9 @@ public interface TableEntryDao {
     @Query("SELECT * FROM TableEntry WHERE roomID == :roomID ORDER BY tableID DESC")
     LiveData<List<TableEntry>> selectTablesFromRoom(int roomID);
 
+    @Query("SELECT * FROM TableEntry WHERE roomID IN (:roomID)")
+    LiveData<List<TableEntry>> getAllTables(List<Integer> roomID);
+
     @Query("SELECT * FROM TableEntry WHERE tableID == :tableID")
     LiveData<TableEntry> selectSpecificTable(int tableID);
 

@@ -26,6 +26,9 @@ public interface RestroomEntryDao {
     @Query("SELECT restroomID, blockID, restType, restLocation FROM RestroomEntry WHERE blockID == :blockID ORDER BY restroomID DESC")
     LiveData<List<RestroomEntry>> getAllRestEntriesInBlock(int blockID);
 
+    @Query("SELECT * FROM RestroomEntry WHERE blockID IN (:blockID)")
+    LiveData<List<RestroomEntry>> getAllRestEntries(List<Integer> blockID);
+
     @Query("SELECT restroomID, blockID, restType, restLocation, accessRoute, accessRouteObs, intRestroom, intRestObs, restDistance, restDistObs, exEntrance," +
             "exEntObs, antiDriftFloor, antiDriftFloorObs, restDrain, restDrainObs, restSwitch, switchHeight, switchObs FROM RestroomEntry " +
             "WHERE restroomID = :restID")

@@ -28,6 +28,9 @@ public interface ParkingLotEntryDao {
     @Query("SELECT * FROM ParkingLotEntry WHERE parkingID == (SELECT MAX(parkingID) from ParkingLotEntry)")
     LiveData<ParkingLotEntry> selectLastInsertedParkingLot();
 
+    @Query("SELECT * FROM ParkingLotEntry WHERE blockID IN (:blockID)")
+    LiveData<List<ParkingLotEntry>> getAllParkingLots(List<Integer> blockID);
+
     @Update
     void updateParkingLot(ParkingLotEntry parkingLotEntry);
 

@@ -19,7 +19,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
@@ -59,7 +58,6 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<ExternalAccess>> allExtAccSchool;
     public LiveData<List<WaterFountainEntry>> allFountainsInSchool;
     public LiveData<List<RestroomEntry>> allRestSchool;
-    public LiveData<List<OtherSpaces>> allOtherSpaces;
     public LiveData<List<ParkingLotEntry>> allParkingLots;
     public LiveData<List<SidewalkEntry>> allSidewalks;
     public LiveData<List<SidewalkSlopeEntry>> allSidewalkSlopes;
@@ -158,22 +156,6 @@ public class ViewModelEntry extends AndroidViewModel {
         repository.deleteOneExternalAccess(externalAccessID);
     }
 
-    public static void insertOtherSpace(OtherSpaces otherSpaces) {
-        repository.insertOtherSpace(otherSpaces);
-    }
-
-    public static void updateOtherSpace(OtherSpaces otherSpaces) {
-        repository.updateOtherSpace(otherSpaces);
-    }
-
-    public static void deleteOneSpace(int otherID) {
-        repository.deleteOneSpace(otherID);
-    }
-
-    public static void deleteAllSpaces(int schoolID) {
-        repository.deleteAllSpaces(schoolID);
-    }
-
     public static void deleteAllExternalAccessesFromBlock(int blockID) {
         repository.deleteAllExternalAccesses(blockID);
     }
@@ -236,6 +218,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return allFountainsInSchool;
     }
 
+    public static LiveData<List<WaterFountainEntry>> getAllWaterFountains(List<Integer> blockID) {
+        return repository.getAllWaterFountains(blockID);
+    }
+
     public LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountainID) {
         return repository.getOneWaterFountain(waterFountainID);
     }
@@ -243,6 +229,10 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<ExternalAccess>> getAllExternalAccessesInOneBlock(int blockID) {
         allExtAccSchool = repository.getAllExternalAccessesInSchool(blockID);
         return allExtAccSchool;
+    }
+
+    public static LiveData<List<ExternalAccess>> getAllExtAccess(List<Integer> blockID) {
+        return repository.getAllExtAccess(blockID);
     }
 
     public LiveData<ExternalAccess> getOneExternalAccess(int externalAccessID) {
@@ -254,15 +244,6 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastExternalAccess();
     }
 
-    public LiveData<List<OtherSpaces>> getAllOtherSpaces(int schoolEntryID) {
-        allOtherSpaces = repository.selectAllSpaces(schoolEntryID);
-        return allOtherSpaces;
-    }
-
-    public LiveData<OtherSpaces> getOneOtherSpace(int otherID) {
-        return repository.selectOneSpace(otherID);
-    }
-
     public LiveData<List<ParkingLotEntry>> getParkingLotsFromBlocks(int schoolEntryID) {
         allParkingLots = repository.getParkingLotFromBlock(schoolEntryID);
         return allParkingLots;
@@ -270,6 +251,10 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public LiveData<List<ParkingLotEntry>> getParkingLotFromSide(int blockID, int sideID) {
         return repository.getParkingLotFromSide(blockID, sideID);
+    }
+
+    public static LiveData<List<ParkingLotEntry>> getAllParkingLots(List<Integer> blockID) {
+        return repository.getAllParkingLots(blockID);
     }
 
     public LiveData<ParkingLotEntry> getOneParkingLot(int parkingLotID) {
@@ -340,6 +325,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return allDoors;
     }
 
+    public static LiveData<List<DoorEntry>> getAllDoors(List<Integer> roomID) {
+        return repository.getAllDoors(roomID);
+    }
+
     public LiveData<DoorEntry> getSpecificDoor(int doorId) {
         return repository.getSpecificDoor(doorId);
     }
@@ -369,6 +358,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return allFreeSpaces;
     }
 
+    public static LiveData<List<FreeSpaceEntry>> getAllFreeSpaces(List<Integer> roomID) {
+        return repository.getAllFreeSpaces(roomID);
+    }
+
     public LiveData<FreeSpaceEntry> selectSpecificFreeSpace(int freeSpaceID) {
         return repository.selectSpecificFreeSpace(freeSpaceID);
     }
@@ -392,6 +385,10 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<WindowEntry>> selectWindowsFromRoom(int roomID) {
         allWindows = repository.selectWindowsFromRoom(roomID);
         return allWindows;
+    }
+
+    public static LiveData<List<WindowEntry>> getAllWindows(List<Integer> roomID) {
+        return repository.getAllWindows(roomID);
     }
 
     public LiveData<WindowEntry> selectSpecificWindow(int windowID) {
@@ -419,6 +416,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return allSwitches;
     }
 
+    public static LiveData<List<SwitchEntry>> getAllSwitches(List<Integer> roomID) {
+        return repository.getAllSwitches(roomID);
+    }
+
     public LiveData<SwitchEntry> getSpecificSwitch(int switchID) {
         return repository.selectSpecificSwitch(switchID);
     }
@@ -442,6 +443,10 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<TableEntry>> selectTablesFromRoom(int roomID) {
         allTables = repository.selectTablesFromRoom(roomID);
         return allTables;
+    }
+
+    public static LiveData<List<TableEntry>> getAllTables(List<Integer> roomID) {
+        return repository.getAllTables(roomID);
     }
 
     public LiveData<TableEntry> selectSpecificTable(int tableID) {
@@ -528,6 +533,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return allCounters;
     }
 
+    public static LiveData<List<CounterEntry>> getAllCounters(List<Integer> roomID) {
+        return repository.getAllCounters(roomID);
+    }
+
     public LiveData<CounterEntry> getSpecificCounter(int counterID) {
         return repository.getSpecificCounter(counterID);
     }
@@ -571,6 +580,10 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID) {
         return repository.getRampStairsEntry(rampStairsID);
+    }
+
+    public static LiveData<List<RampStairsEntry>> getAllRampStairsEntry(List<Integer> rampStairsID) {
+        return repository.getAllRampStairsEntry(rampStairsID);
     }
 
     public LiveData<RampStairsEntry> getLastRampStairsEntry() {
@@ -625,6 +638,10 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<RestroomEntry>> getAllRestEntriesInBlock(int schoolID) {
         allRestSchool = repository.getAllRestEntriesInBlock(schoolID);
         return allRestSchool;
+    }
+
+    public static LiveData<List<RestroomEntry>> getAllRestEntries(List<Integer> blockID) {
+        return repository.getAllRestEntries(blockID);
     }
 
     public LiveData<RestroomEntry> getOneRestroomEntry(int restroomID) {
@@ -706,6 +723,10 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<SidewalkEntry>> getAllSidewalks(int schoolID) {
         allSidewalks = repository.getAllSidewalks(schoolID);
         return allSidewalks;
+    }
+
+    public static LiveData<List<SidewalkEntry>> getAllSidewalks(List<Integer> blockID) {
+        return repository.getAllSidewalks(blockID);
     }
 
     public LiveData<SidewalkEntry> getSidewalkEntry(int sidewalkID) {
@@ -870,6 +891,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return allPlaygrounds;
     }
 
+    public static LiveData<List<PlaygroundEntry>> getAllPlaygrounds(List<Integer> blockID) {
+        return repository.getAllPlaygrounds(blockID);
+    }
+
     public LiveData<PlaygroundEntry> getOnePlayground(int playgroundID) {
         return repository.getOnePlayground(playgroundID);
     }
@@ -893,6 +918,10 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<BlackboardEntry>> getAllBlackboardsFromRoom(int roomID) {
         allBlackboards = repository.getAllBlackboardsFromRoom(roomID);
         return allBlackboards;
+    }
+
+    public static LiveData<List<BlackboardEntry>> getAllBlackboards(List<Integer> roomID) {
+        return repository.getAllBlackboards(roomID);
     }
 
     public LiveData<BlackboardEntry> getOneBlackboard(int blackboardID) {

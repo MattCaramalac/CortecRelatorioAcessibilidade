@@ -18,7 +18,6 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.ExternalAccessDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FlightRampStairsDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FreeSpaceEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.GateObsDao;
-import com.mpms.relatorioacessibilidadecortec.data.Dao.OtherSpacesDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ParkingLotElderlyDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ParkingLotEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ParkingLotPcdDao;
@@ -44,7 +43,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.OtherSpaces;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
@@ -67,12 +65,12 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {SchoolEntry.class, WaterFountainEntry.class, OtherSpaces.class, ExternalAccess.class,
+@Database(entities = {SchoolEntry.class, WaterFountainEntry.class, ExternalAccess.class,
         ParkingLotEntry.class, ParkingLotPCDEntry.class, ParkingLotElderlyEntry.class, RoomEntry.class, DoorEntry.class,
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 50)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 51)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -93,9 +91,6 @@ public abstract class ReportDatabase extends RoomDatabase {
                     });
                     dbWriteExecutor.execute(() -> {
                         ExternalAccessDao externalAccessDao = INSTANCE.externalAccessDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
-                        OtherSpacesDao otherSpacesDao = INSTANCE.otherSpacesDao();
                     });
                     dbWriteExecutor.execute(() -> {
                         ParkingLotEntryDao parkingLotEntryDao = INSTANCE.parkingLotEntryDao();
@@ -1217,6 +1212,13 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_50_51 = new Migration(50, 51) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE OtherSpaces");
+        }
+    };
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -1231,7 +1233,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35, MIGRATION_35_36,
                                     MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42,
                                     MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
-                                    MIGRATION_48_49, MIGRATION_49_50).build();
+                                    MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51).build();
                 }
             }
         }
@@ -1244,8 +1246,6 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract WaterFountainDao waterFountainDao();
 
     public abstract ExternalAccessDao externalAccessDao();
-
-    public abstract OtherSpacesDao otherSpacesDao();
 
     public abstract ParkingLotEntryDao parkingLotEntryDao();
 

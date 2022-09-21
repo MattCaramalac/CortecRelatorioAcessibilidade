@@ -22,6 +22,9 @@ public interface ExternalAccessDao {
     @Query("SELECT * FROM ExternalAccess WHERE blockID == :blockID ORDER BY externalAccessID DESC")
     LiveData<List<ExternalAccess>> getAllSchoolExternalAccesses(int blockID);
 
+    @Query("SELECT * FROM ExternalAccess WHERE blockID IN (:blockID)")
+    LiveData<List<ExternalAccess>> getAllExtAccess(List<Integer> blockID);
+
     @Query("SELECT * FROM ExternalAccess WHERE externalAccessID == :externalAccessID")
     LiveData<ExternalAccess> getOneExternalAccess(int externalAccessID);
 

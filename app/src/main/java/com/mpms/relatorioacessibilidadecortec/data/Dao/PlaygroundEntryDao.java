@@ -19,6 +19,9 @@ public interface PlaygroundEntryDao {
     @Query("SELECT * FROM PlaygroundEntry WHERE blockID == :blockID ORDER BY playgroundID DESC")
     LiveData<List<PlaygroundEntry>> getAllPlaygroundsPerBlock(int blockID);
 
+    @Query("SELECT * FROM PlaygroundEntry WHERE blockID IN (:blockID)")
+    LiveData<List<PlaygroundEntry>> getAllPlaygrounds(List<Integer> blockID);
+
     @Query("SELECT * FROM PlaygroundEntry WHERE playgroundID == :playgroundID")
     LiveData<PlaygroundEntry> getOnePlayground(int playgroundID);
 

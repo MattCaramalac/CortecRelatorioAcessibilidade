@@ -19,6 +19,9 @@ public interface DoorEntryDao {
     @Query("SELECT * FROM DoorEntry WHERE roomID == :roomID ORDER BY doorID DESC")
     LiveData<List<DoorEntry>> getDoorsFromRoom(int roomID);
 
+    @Query("SELECT * FROM DoorEntry WHERE roomID IN (:roomID)")
+    LiveData<List<DoorEntry>> getAllDoors(List<Integer> roomID);
+
     @Query("SELECT * FROM DoorEntry WHERE doorID == :doorID")
     LiveData<DoorEntry> getSpecificDoor(int doorID);
 
