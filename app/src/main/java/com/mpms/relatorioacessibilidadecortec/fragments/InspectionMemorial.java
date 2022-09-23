@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +18,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
-import com.mpms.relatorioacessibilidadecortec.commService.DataSender;
-import com.mpms.relatorioacessibilidadecortec.commService.JSONCreator;
+import com.mpms.relatorioacessibilidadecortec.commService.SendJson;
+import com.mpms.relatorioacessibilidadecortec.commService.SentData;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
@@ -32,10 +31,14 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -45,9 +48,24 @@ import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 import com.mpms.relatorioacessibilidadecortec.util.IdListObservable;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class InspectionMemorial extends Fragment implements TagInterface {
@@ -64,6 +82,12 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     IdListObservable roomID = new IdListObservable();
     IdListObservable extID = new IdListObservable();
     IdListObservable parkID = new IdListObservable();
+    IdListObservable sideID = new IdListObservable();
+    IdListObservable doorID = new IdListObservable();
+    IdListObservable flRoomID = new IdListObservable();
+    IdListObservable flSideID = new IdListObservable();
+    IdListObservable flExtID = new IdListObservable();
+    IdListObservable flParkID = new IdListObservable();
 
     List<RoomEntry> roomList = new ArrayList<>();
     List<ExternalAccess> extList = new ArrayList<>();
@@ -93,6 +117,22 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     //    Gate & Sidewalk Entities
     List<PayPhoneEntry> extPhoneList = new ArrayList<>();
     List<PayPhoneEntry> sidePhoneList = new ArrayList<>();
+    //    Sidewalk Entities
+    List<SidewalkSlopeEntry> slopeList = new ArrayList<>();
+    //    Stair/Ramp Flights
+    List<RampStairsFlightEntry> roomFlightList = new ArrayList<>();
+    List<RampStairsFlightEntry> sideFlightList = new ArrayList<>();
+    List<RampStairsFlightEntry> extFlightList = new ArrayList<>();
+    List<RampStairsFlightEntry> parkFlightList = new ArrayList<>();
+    //    RampStairs Components
+    List<RampStairsRailingEntry> roomRailList = new ArrayList<>();
+    List<RampStairsRailingEntry> sideRailList = new ArrayList<>();
+    List<RampStairsRailingEntry> extRailList = new ArrayList<>();
+    List<RampStairsRailingEntry> parkRailList = new ArrayList<>();
+    List<RampStairsHandrailEntry> roomHandList = new ArrayList<>();
+    List<RampStairsHandrailEntry> sideHandList = new ArrayList<>();
+    List<RampStairsHandrailEntry> extHandList = new ArrayList<>();
+    List<RampStairsHandrailEntry> parkHandList = new ArrayList<>();
 
     Observer blockIdList = (o, arg) -> {
         IdListObservable idBlockList = (IdListObservable) o;
@@ -121,7 +161,13 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         });
         ViewModelEntry.getAllPlaygrounds(idList).observe(getViewLifecycleOwner(), pgList -> playList = pgList);
         ViewModelEntry.getAllRestEntries(idList).observe(getViewLifecycleOwner(), reList -> restList = reList);
-        ViewModelEntry.getAllSidewalks(idList).observe(getViewLifecycleOwner(), sList -> sideList = sList);
+        ViewModelEntry.getAllSidewalks(idList).observe(getViewLifecycleOwner(), sList -> {
+            sideList = sList;
+            List<Integer> sIDList = new ArrayList<>();
+            for (SidewalkEntry s : sList)
+                sIDList.add(s.getSidewalkID());
+            sideID.setIdList(sIDList);
+        });
         ViewModelEntry.getAllWaterFountains(idList).observe(getViewLifecycleOwner(), wList -> fountList = wList);
     };
 
@@ -131,9 +177,21 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
         ViewModelEntry.getAllBlackboards(idList).observe(getViewLifecycleOwner(), bList -> boardList = bList);
         ViewModelEntry.getAllCounters(idList).observe(getViewLifecycleOwner(), cList -> counterList = cList);
-        ViewModelEntry.getAllDoors(idList).observe(getViewLifecycleOwner(), dList -> doorList = dList); //TODO - Fazer um observador para as travas de porta
+        ViewModelEntry.getAllDoors(idList).observe(getViewLifecycleOwner(), dList -> {
+            doorList = dList;
+            List<Integer> dIdList = new ArrayList<>();
+            for (DoorEntry d : dList)
+                dIdList.add(d.getDoorID());
+            doorID.setIdList(dIdList);
+        });
         ViewModelEntry.getAllFreeSpaces(idList).observe(getViewLifecycleOwner(), fList -> freeList = fList);
-        ViewModelEntry.getAllRampStRoom(idList).observe(getViewLifecycleOwner(), rsList -> roomStRaList = rsList);
+        ViewModelEntry.getAllRampStRoom(idList).observe(getViewLifecycleOwner(), rsList -> {
+            roomStRaList = rsList;
+            List<Integer> stRaList = new ArrayList<>();
+            for (RampStairsEntry st : rsList)
+                stRaList.add(st.getRampStairsID());
+            flRoomID.setIdList(stRaList);
+        });
         ViewModelEntry.getAllSwitches(idList).observe(getViewLifecycleOwner(), sList -> switchList = sList);
         ViewModelEntry.getAllTables(idList).observe(getViewLifecycleOwner(), tList -> tableList = tList);
         ViewModelEntry.getAllWindows(idList).observe(getViewLifecycleOwner(), wList -> windowList = wList);
@@ -146,17 +204,111 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         ViewModelEntry.getAllLocksFromGates(idList).observe(getViewLifecycleOwner(), dLoList -> gateLockList = dLoList);
         ViewModelEntry.getAllGateObs(idList).observe(getViewLifecycleOwner(), gList -> gateList = gList);
         ViewModelEntry.getAllPhonesExtAccess(idList).observe(getViewLifecycleOwner(), phList -> extPhoneList = phList);
-        ViewModelEntry.getAllRampStExt(idList).observe(getViewLifecycleOwner(), rampList -> extStRaList = rampList); // TODO - Fazer um observador para os componentes da escada
+        ViewModelEntry.getAllRampStExt(idList).observe(getViewLifecycleOwner(), rampList -> {
+            extStRaList = rampList;
+            List<Integer> stRaList = new ArrayList<>();
+            for (RampStairsEntry st : rampList)
+                stRaList.add(st.getRampStairsID());
+            flExtID.setIdList(stRaList);
+        });
     };
 
     Observer parkIdList = (o, arg) -> {
         IdListObservable idBlockList = (IdListObservable) o;
         List<Integer> idList = idBlockList.getIdList();
 
-        ViewModelEntry.getAllLocksFromGates(idList).observe(getViewLifecycleOwner(), dLoList -> gateLockList = dLoList);
-        ViewModelEntry.getAllGateObs(idList).observe(getViewLifecycleOwner(), gList -> gateList = gList);
-        ViewModelEntry.getAllPhonesExtAccess(idList).observe(getViewLifecycleOwner(), phList -> extPhoneList = phList);
-        ViewModelEntry.getAllRampStExt(idList).observe(getViewLifecycleOwner(), rampList -> extStRaList = rampList); // TODO - Fazer um observador para os componentes da escada
+        ViewModelEntry.getAllRampStPark(idList).observe(getViewLifecycleOwner(), rampList -> {
+            parkStRaList = rampList;
+            List<Integer> stRaList = new ArrayList<>();
+            for (RampStairsEntry st : rampList)
+                stRaList.add(st.getRampStairsID());
+            flParkID.setIdList(stRaList);
+        });
+    };
+
+    Observer sideIdList = (o, arg) -> {
+        IdListObservable idBlockList = (IdListObservable) o;
+        List<Integer> idList = idBlockList.getIdList();
+
+        ViewModelEntry.getAllPhonesSidewalk(idList).observe(getViewLifecycleOwner(), phList -> sidePhoneList = phList);
+        ViewModelEntry.getAllRampStExt(idList).observe(getViewLifecycleOwner(), rampList -> {
+            sideStRaList = rampList;
+            List<Integer> stRaList = new ArrayList<>();
+            for (RampStairsEntry st : rampList)
+                stRaList.add(st.getRampStairsID());
+            flSideID.setIdList(stRaList);
+        });
+        ViewModelEntry.getAllSideSlopes(idList).observe(getViewLifecycleOwner(), slList -> {
+            slopeList = slList;
+
+        });
+    };
+
+    Observer doorIdList = (o, arg) -> {
+        IdListObservable idBlockList = (IdListObservable) o;
+        List<Integer> idList = idBlockList.getIdList();
+
+        ViewModelEntry.getAllLocksFromDoor(idList).observe(getViewLifecycleOwner(), dLoList -> doorLockList = dLoList);
+    };
+
+    Observer flRoomIdList = (o, arg) -> {
+        IdListObservable idBlockList = (IdListObservable) o;
+        List<Integer> idList = idBlockList.getIdList();
+
+        ViewModelEntry.getAllFlights(idList).observe(getViewLifecycleOwner(), rFlightList -> {
+            roomFlightList = rFlightList;
+            List<Integer> flIDList = new ArrayList<>();
+            for (RampStairsFlightEntry fl : rFlightList)
+                flIDList.add(fl.getFlightID());
+
+            ViewModelEntry.getAllHandrails(flIDList).observe(getViewLifecycleOwner(), flHand -> roomHandList = flHand);
+            ViewModelEntry.getAllRailings(flIDList).observe(getViewLifecycleOwner(), flRail -> roomRailList = flRail);
+        });
+    };
+
+    Observer flSideIdList = (o, arg) -> {
+        IdListObservable idBlockList = (IdListObservable) o;
+        List<Integer> idList = idBlockList.getIdList();
+
+        ViewModelEntry.getAllFlights(idList).observe(getViewLifecycleOwner(), sFlightList -> {
+            sideFlightList = sFlightList;
+            List<Integer> flIDList = new ArrayList<>();
+            for (RampStairsFlightEntry fl : sFlightList)
+                flIDList.add(fl.getFlightID());
+
+            ViewModelEntry.getAllHandrails(flIDList).observe(getViewLifecycleOwner(), flHand -> sideHandList = flHand);
+            ViewModelEntry.getAllRailings(flIDList).observe(getViewLifecycleOwner(), flRail -> sideRailList = flRail);
+        });
+    };
+
+    Observer flExtIdList = (o, arg) -> {
+        IdListObservable idBlockList = (IdListObservable) o;
+        List<Integer> idList = idBlockList.getIdList();
+
+        ViewModelEntry.getAllFlights(idList).observe(getViewLifecycleOwner(), eFlightList -> {
+            extFlightList = eFlightList;
+            List<Integer> flIDList = new ArrayList<>();
+            for (RampStairsFlightEntry fl : eFlightList)
+                flIDList.add(fl.getFlightID());
+
+            ViewModelEntry.getAllHandrails(flIDList).observe(getViewLifecycleOwner(), flHand -> extHandList = flHand);
+            ViewModelEntry.getAllRailings(flIDList).observe(getViewLifecycleOwner(), flRail -> extRailList = flRail);
+        });
+    };
+
+    Observer flParkIdList = (o, arg) -> {
+        IdListObservable idBlockList = (IdListObservable) o;
+        List<Integer> idList = idBlockList.getIdList();
+
+        ViewModelEntry.getAllFlights(idList).observe(getViewLifecycleOwner(), pFlightList -> {
+            parkFlightList = pFlightList;
+            List<Integer> flIDList = new ArrayList<>();
+            for (RampStairsFlightEntry fl : pFlightList)
+                flIDList.add(fl.getFlightID());
+
+            ViewModelEntry.getAllHandrails(flIDList).observe(getViewLifecycleOwner(), flHand -> parkHandList = flHand);
+            ViewModelEntry.getAllRailings(flIDList).observe(getViewLifecycleOwner(), flRail -> parkRailList = flRail);
+        });
     };
 
     MaterialButton saveAndClose;
@@ -206,21 +358,47 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         bID.addObserver(blockIdList);
         roomID.addObserver(roomIdList);
         extID.addObserver(extAccessIdList);
-//        parkID.addObserver();
-
+        parkID.addObserver(parkIdList);
+        sideID.addObserver(sideIdList);
+        doorID.addObserver(doorIdList);
+        flRoomID.addObserver(flRoomIdList);
+        flSideID.addObserver(flSideIdList);
+        flExtID.addObserver(flExtIdList);
+        flParkID.addObserver(flParkIdList);
 
         saveAndClose.setOnClickListener(v -> {
-            JSONCreator creator = new JSONCreator();
-            creator.createJsonInstance(school, roomList, extList, parkList, playList, roomStRaList, restList, sideList, fountList, boardList, counterList,
-                    doorList, freeList, switchList, tableList, windowList);
 
-            creator.createJson();
+//            TODO - Trocar o .client por motivos de não ser um client seguro
+            Retrofit retro = new Retrofit.Builder().baseUrl("https://httpbin.org/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(getUnsafeOkHttpClient().build()).build();
 
-            if (creator.error == 0) {
-                Log.i("POST", creator.jObject.toString());
-                new DataSender().execute(creator.jObject.toString());
-            } else
-                Toast.makeText(getContext(), "Houve um Problema. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+            SendJson sendJson = retro.create(SendJson.class);
+
+            SentData sentData = new SentData(school, roomList, extList, parkList, playList, restList, sideList, fountList, roomStRaList, sideStRaList,
+                    extStRaList, parkStRaList, boardList, counterList, doorList, freeList, switchList, tableList, windowList, doorLockList,
+                    gateLockList, gateList, extPhoneList, sidePhoneList, slopeList, roomFlightList, sideFlightList, extFlightList, parkFlightList,
+                    roomRailList, sideRailList, extRailList, parkRailList, roomHandList, sideHandList, extHandList, parkHandList);
+
+            Call<SentData> request = sendJson.PostData(sentData);
+
+//            Recebe resposta positiva, necessário testar novamente depois
+            request.enqueue(new Callback<SentData>() {
+                @Override
+                public void onResponse(Call<SentData> call, Response<SentData> response) {
+//                    Se funcionar
+//                    Toast.makeText(getActivity(), "Dados enviados com sucesso", Toast.LENGTH_SHORT).show();
+                    Log.i("Comunicação - Sucesso ", "Sucesso na Comunicação");
+                }
+
+                @Override
+                public void onFailure(Call<SentData> call, Throwable t) {
+//                    Se falhar
+//                    Toast.makeText(getActivity(), "Houve um Problema. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                    Log.i("Comunicação - Falha ", t.toString());
+
+                }
+            });
 
             Intent intent = new Intent(requireActivity(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -258,5 +436,48 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
     public interface OnFragmentInteractionListener {
         void onDropdownChoice(int choice);
+    }
+
+//    TODO - NÃO É MÉTODO SEGURO, TENTAR MODIFICAR PARA NÃO DEPENDER DE ACREDITAR EM TODOS OS CERTIFICADOS!
+    public static OkHttpClient.Builder getUnsafeOkHttpClient() {
+
+        try {
+            // Create a trust manager that does not validate certificate chains
+            final TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        }
+
+                        @Override
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        }
+
+                        @Override
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return new java.security.cert.X509Certificate[]{};
+                        }
+                    }
+            };
+
+            // Install the all-trusting trust manager
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+
+            // Create an ssl socket factory with our all-trusting manager
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+            builder.hostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+            return builder;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
