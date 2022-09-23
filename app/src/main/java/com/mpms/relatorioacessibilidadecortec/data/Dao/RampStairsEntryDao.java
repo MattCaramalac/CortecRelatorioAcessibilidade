@@ -17,16 +17,16 @@ public interface RampStairsEntryDao {
     void insertRampStairs(RampStairsEntry entry);
 
     @Query("SELECT * FROM RampStairsEntry WHERE extAccessID == :ambientID AND rampStairsIdentifier == :rampOrStairs  ORDER BY rampStairsID DESC")
-    LiveData<List<RampStairsEntry>> getStairsRampFromExtAccess(int blockID, int ambientID, int rampOrStairs);
+    LiveData<List<RampStairsEntry>> getStairsRampFromExtAccess(int ambientID, int rampOrStairs);
 
     @Query("SELECT * FROM RampStairsEntry WHERE sidewalkID == :ambientID AND rampStairsIdentifier == :rampOrStairs  ORDER BY rampStairsID DESC")
-    LiveData<List<RampStairsEntry>> getStairsRampFromSidewalk(int blockID, int ambientID, int rampOrStairs);
+    LiveData<List<RampStairsEntry>> getStairsRampFromSidewalk(int ambientID, int rampOrStairs);
 
     @Query("SELECT * FROM RampStairsEntry WHERE parkingID == :ambientID AND rampStairsIdentifier == :rampOrStairs  ORDER BY rampStairsID DESC")
-    LiveData<List<RampStairsEntry>> getStairsRampFromParking(int blockID, int ambientID, int rampOrStairs);
+    LiveData<List<RampStairsEntry>> getStairsRampFromParking(int ambientID, int rampOrStairs);
 
     @Query("SELECT * FROM RampStairsEntry WHERE roomID == :ambientID AND rampStairsIdentifier == :rampOrStairs  ORDER BY rampStairsID DESC")
-    LiveData<List<RampStairsEntry>> getStairsRampFromRoom(int blockID, int ambientID, int rampOrStairs);
+    LiveData<List<RampStairsEntry>> getStairsRampFromRoom(int ambientID, int rampOrStairs);
 
     @Query("SELECT * FROM RampStairsEntry WHERE rampStairsID == :rampStairsID")
     LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID);

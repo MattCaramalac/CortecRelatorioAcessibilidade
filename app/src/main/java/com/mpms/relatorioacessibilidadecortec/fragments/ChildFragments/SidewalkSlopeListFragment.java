@@ -78,7 +78,7 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
 
         instantiateSideSlopeViews(view);
 
-        modelEntry.getAllSidewalkSlopes(sideSlopeBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), sideSlopeList -> {
+        modelEntry.getSideSlopes(sideSlopeBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), sideSlopeList -> {
                     sideSlopeAdapter = new SidewalkSlopeRecViewAdapter(sideSlopeList, requireActivity(), this);
                     recyclerView.setAdapter(sideSlopeAdapter);
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);

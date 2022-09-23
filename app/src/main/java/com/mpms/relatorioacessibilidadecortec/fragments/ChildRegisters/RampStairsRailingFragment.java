@@ -75,7 +75,7 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface 
         instantiateRailingFragmentViews(view);
 
         if (railingBundle.getInt(RAIL_ID) > 0)
-            modelEntry.getRampStairsRailing(railingBundle.getInt(RAIL_ID)).observe(getViewLifecycleOwner(), this::loadRailData);
+            modelEntry.getOneRailing(railingBundle.getInt(RAIL_ID)).observe(getViewLifecycleOwner(), this::loadRailData);
 
         saveRailing.setOnClickListener(v -> {
             if (checkRailingEmptyFields()) {

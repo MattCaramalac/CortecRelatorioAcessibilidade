@@ -17,7 +17,10 @@ public interface SidewalkSlopeDao {
     void insertSidewalkSlopeEntry(SidewalkSlopeEntry sidewalkSlopeEntry);
 
     @Query("SELECT * FROM SidewalkSlopeEntry WHERE sidewalkID == :sidewalkID ORDER BY sidewalkSlopeID DESC")
-    LiveData<List<SidewalkSlopeEntry>> getAllSidewalkSlopes(int sidewalkID);
+    LiveData<List<SidewalkSlopeEntry>> getSideSlopes(int sidewalkID);
+
+    @Query("SELECT * FROM SidewalkSlopeEntry WHERE sidewalkID IN (:sidewalkID)")
+    LiveData<List<SidewalkSlopeEntry>> getAllSideSlopes(List<Integer> sidewalkID);
 
     @Query("SELECT * FROM SidewalkSlopeEntry WHERE sidewalkSlopeID == :sidewalkSlopeID")
     LiveData<SidewalkSlopeEntry> getSidewalkSlopeEntry(int sidewalkSlopeID);

@@ -569,24 +569,24 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRampStairs(ramp));
     }
 
-    public LiveData<List<RampStairsEntry>> getStairsRampFromExtAccess(int blockID, int ambientID, int rampOrStairs) {
-        allStairsRampsSchool = repository.getStairsRampFromExtAccess(blockID, ambientID, rampOrStairs);
+    public LiveData<List<RampStairsEntry>> getStairsRampFromExtAccess(int ambientID, int rampOrStairs) {
+        allStairsRampsSchool = repository.getStairsRampFromExtAccess(ambientID, rampOrStairs);
         return allStairsRampsSchool;
     }
 
-    public LiveData<List<RampStairsEntry>> getStairsRampFromSidewalk(int blockID, int ambientID, int rampOrStairs) {
-        allStairsRampsSchool = repository.getStairsRampFromSidewalk(blockID, ambientID, rampOrStairs);
+    public LiveData<List<RampStairsEntry>> getStairsRampFromSidewalk(int ambientID, int rampOrStairs) {
+        allStairsRampsSchool = repository.getStairsRampFromSidewalk(ambientID, rampOrStairs);
         return allStairsRampsSchool;
     }
 
-    public LiveData<List<RampStairsEntry>> getStairsRampFromParking(int blockID, int ambientID, int rampOrStairs) {
-        allStairsRampsSchool = repository.getStairsRampFromParking(blockID, ambientID, rampOrStairs);
+    public LiveData<List<RampStairsEntry>> getStairsRampFromParking(int ambientID, int rampOrStairs) {
+        allStairsRampsSchool = repository.getStairsRampFromParking(ambientID, rampOrStairs);
         return allStairsRampsSchool;
     }
 
 
-    public LiveData<List<RampStairsEntry>> getStairsRampFromRoom(int blockID, int ambientID, int rampOrStairs){
-        allStairsRampsSchool = repository.getStairsRampFromRoom(blockID, ambientID, rampOrStairs);
+    public LiveData<List<RampStairsEntry>> getStairsRampFromRoom(int ambientID, int rampOrStairs){
+        allStairsRampsSchool = repository.getStairsRampFromRoom(ambientID, rampOrStairs);
         return allStairsRampsSchool;
     }
 
@@ -626,9 +626,13 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRampsStairsFlight(flight));
     }
 
-    public LiveData<List<RampStairsFlightEntry>> getAllRampStairsFlights(int rampStairsID) {
-        allFlights = repository.getAllRampStairsFlights(rampStairsID);
+    public LiveData<List<RampStairsFlightEntry>> getRampStairsFlights(int rampStairsID) {
+        allFlights = repository.getRampStairsFlights(rampStairsID);
         return allFlights;
+    }
+
+    public static LiveData<List<RampStairsFlightEntry>> getAllFlights(List<Integer> rampStairsID) {
+        return repository.getAllFlights(rampStairsID);
     }
 
     public LiveData<RampStairsFlightEntry> getRampStairsFlightEntry(int flightID) {
@@ -781,9 +785,13 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertSidewalkSlopeEntry(sidewalkSlopeEntry));
     }
 
-    public LiveData<List<SidewalkSlopeEntry>> getAllSidewalkSlopes(int sidewalkID) {
-        allSidewalkSlopes = repository.getAllSidewalkSlopes(sidewalkID);
+    public LiveData<List<SidewalkSlopeEntry>> getSideSlopes(int sidewalkID) {
+        allSidewalkSlopes = repository.getSideSlopes(sidewalkID);
         return allSidewalkSlopes;
+    }
+
+    public static LiveData<List<SidewalkSlopeEntry>> getAllSideSlopes(List<Integer> sidewalkID) {
+        return repository.getAllSideSlopes(sidewalkID);
     }
 
     public LiveData<SidewalkSlopeEntry> getSidewalkSlopeEntry(int sidewalkSlopeID) {
@@ -807,13 +815,17 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRampStairsRailing(railingEntry));
     }
 
-    public LiveData<List<RampStairsRailingEntry>> getAllRampStairsRailings(int flightID){
-        allRails = repository.getAllRampStairsRailings(flightID);
+    public LiveData<List<RampStairsRailingEntry>> getRampStairsRailings(int flightID){
+        allRails = repository.getRampStairsRailings(flightID);
         return allRails;
     }
 
-    public LiveData<RampStairsRailingEntry> getRampStairsRailing(int railingID){
-        return repository.getRampStairsRailing(railingID);
+    public LiveData<RampStairsRailingEntry> getOneRailing(int railingID){
+        return repository.getOneRailing(railingID);
+    }
+
+    public static LiveData<List<RampStairsRailingEntry>> getAllRailings(List<Integer> flightID) {
+        return repository.getAllRailings(flightID);
     }
 
     public static void deleteOneRampStairsRailing(int railingID){
@@ -832,13 +844,17 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRampStairsHandrail(handrailEntry));
     }
 
-    public LiveData<List<RampStairsHandrailEntry>> getAllRampStairsHandrails(int flightID){
-        allHandrails = repository.getAllRampStairsHandrails(flightID);
+    public LiveData<List<RampStairsHandrailEntry>> getRampStairsHandrails(int flightID){
+        allHandrails = repository.getRampStairsHandrails(flightID);
         return allHandrails;
     }
 
-    public LiveData<RampStairsHandrailEntry> getRampStairsHandrail(int handrailID){
-        return repository.getRampStairsHandrail(handrailID);
+    public LiveData<RampStairsHandrailEntry> getOneHandrail(int handrailID){
+        return repository.getOneHandrail(handrailID);
+    }
+
+    public static LiveData<List<RampStairsHandrailEntry>> getAllHandrails(List<Integer> flightID) {
+        return repository.getAllHandrails(flightID);
     }
 
     public static void deleteOneRampStairsHandrail(int handrailID){

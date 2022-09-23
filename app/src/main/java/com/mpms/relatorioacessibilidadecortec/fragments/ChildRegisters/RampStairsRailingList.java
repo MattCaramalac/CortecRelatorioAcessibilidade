@@ -78,7 +78,7 @@ public class RampStairsRailingList extends Fragment implements OnEntryClickListe
                     railListBundle.putInt(FLIGHT_ID, newFlight.getFlightID()));
 
 
-        modelEntry.getAllRampStairsRailings(railListBundle.getInt(FLIGHT_ID)).observe(getViewLifecycleOwner(), handList -> {
+        modelEntry.getRampStairsRailings(railListBundle.getInt(FLIGHT_ID)).observe(getViewLifecycleOwner(), handList -> {
             railAdapter = new RailingRecViewAdapter(handList, requireActivity(), this);
             listCreator(railAdapter);
         });

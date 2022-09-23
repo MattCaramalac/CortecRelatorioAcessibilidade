@@ -3,8 +3,10 @@ package com.mpms.relatorioacessibilidadecortec.data.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity
-public class SchoolEntry {
+public class SchoolEntry implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int cadID;

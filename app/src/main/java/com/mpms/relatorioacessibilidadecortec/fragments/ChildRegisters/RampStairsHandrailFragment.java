@@ -74,7 +74,7 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         instantiateHandrailFragmentViews(view);
 
         if (handrailBundle.getInt(HANDRAIL_ID) > 0)
-            modelEntry.getRampStairsHandrail(handrailBundle.getInt(HANDRAIL_ID)).observe(getViewLifecycleOwner(), this::loadHandrailData);
+            modelEntry.getOneHandrail(handrailBundle.getInt(HANDRAIL_ID)).observe(getViewLifecycleOwner(), this::loadHandrailData);
 
         saveHandrail.setOnClickListener(v -> {
             if (checkHandrailEmptyFields()) {

@@ -638,21 +638,21 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> rampStairsEntryDao.insertRampStairs(ramp));
     }
 
-    public LiveData<List<RampStairsEntry>> getStairsRampFromExtAccess(int blockID, int ambientID, int rampOrStairs) {
-        return rampStairsEntryDao.getStairsRampFromExtAccess(blockID, ambientID, rampOrStairs);
+    public LiveData<List<RampStairsEntry>> getStairsRampFromExtAccess(int ambientID, int rampOrStairs) {
+        return rampStairsEntryDao.getStairsRampFromExtAccess(ambientID, rampOrStairs);
     }
 
-    public LiveData<List<RampStairsEntry>> getStairsRampFromSidewalk(int blockID, int ambientID, int rampOrStairs) {
-        return rampStairsEntryDao.getStairsRampFromSidewalk(blockID, ambientID, rampOrStairs);
+    public LiveData<List<RampStairsEntry>> getStairsRampFromSidewalk(int ambientID, int rampOrStairs) {
+        return rampStairsEntryDao.getStairsRampFromSidewalk(ambientID, rampOrStairs);
     }
 
-    public LiveData<List<RampStairsEntry>> getStairsRampFromParking(int blockID, int ambientID, int rampOrStairs) {
-        return rampStairsEntryDao.getStairsRampFromParking(blockID, ambientID, rampOrStairs);
+    public LiveData<List<RampStairsEntry>> getStairsRampFromParking(int ambientID, int rampOrStairs) {
+        return rampStairsEntryDao.getStairsRampFromParking(ambientID, rampOrStairs);
     }
 
 
-    public LiveData<List<RampStairsEntry>> getStairsRampFromRoom(int blockID, int ambientID, int rampOrStairs){
-        return rampStairsEntryDao.getStairsRampFromRoom(blockID, ambientID, rampOrStairs);
+    public LiveData<List<RampStairsEntry>> getStairsRampFromRoom(int ambientID, int rampOrStairs){
+        return rampStairsEntryDao.getStairsRampFromRoom(ambientID, rampOrStairs);
     }
 
     public LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID) {
@@ -691,8 +691,12 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> flightsRampStairDao.insertRampsStairsFlight(flight));
     }
 
-    public LiveData<List<RampStairsFlightEntry>> getAllRampStairsFlights(int rampStairsID) {
-        return flightsRampStairDao.getAllRampStairsFlights(rampStairsID);
+    public LiveData<List<RampStairsFlightEntry>> getRampStairsFlights(int rampStairsID) {
+        return flightsRampStairDao.getRampStairsFlights(rampStairsID);
+    }
+
+    public LiveData<List<RampStairsFlightEntry>> getAllFlights(List<Integer> rampStairsID) {
+        return flightsRampStairDao.getAllFlights(rampStairsID);
     }
 
     public LiveData<RampStairsFlightEntry> getRampStairsFlightEntry(int flightID) {
@@ -843,8 +847,12 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> sidewalkSlopeDao.insertSidewalkSlopeEntry(sidewalkSlopeEntry));
     }
 
-    public LiveData<List<SidewalkSlopeEntry>> getAllSidewalkSlopes(int sidewalkID) {
-        return sidewalkSlopeDao.getAllSidewalkSlopes(sidewalkID);
+    public LiveData<List<SidewalkSlopeEntry>> getSideSlopes(int sidewalkID) {
+        return sidewalkSlopeDao.getSideSlopes(sidewalkID);
+    }
+
+    public LiveData<List<SidewalkSlopeEntry>> getAllSideSlopes(List<Integer> sidewalkID) {
+     return sidewalkSlopeDao.getAllSideSlopes(sidewalkID);
     }
 
     public LiveData<SidewalkSlopeEntry> getSidewalkSlopeEntry(int sidewalkSlopeID) {
@@ -867,12 +875,16 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> railingDao.insertRampStairsRailing(railingEntry));
     }
 
-    public LiveData<List<RampStairsRailingEntry>> getAllRampStairsRailings(int flightID){
-        return railingDao.getAllRampStairsRailings(flightID);
+    public LiveData<List<RampStairsRailingEntry>> getRampStairsRailings(int flightID){
+        return railingDao.getRampStairsRailings(flightID);
     }
 
-    public LiveData<RampStairsRailingEntry> getRampStairsRailing(int railingID){
-        return railingDao.getRampStairsRailing(railingID);
+    public LiveData<RampStairsRailingEntry> getOneRailing(int railingID){
+        return railingDao.getOneRailing(railingID);
+    }
+
+    public LiveData<List<RampStairsRailingEntry>> getAllRailings(List<Integer> flightID) {
+        return railingDao.getAllRailings(flightID);
     }
 
     public void deleteOneRampStairsRailing(int railingID){
@@ -899,12 +911,16 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> handrailDao.insertRampStairsHandrail(handrailEntry));
     }
 
-    public LiveData<List<RampStairsHandrailEntry>> getAllRampStairsHandrails(int flightID){
-        return handrailDao.getAllRampStairsHandrails(flightID);
+    public LiveData<List<RampStairsHandrailEntry>> getRampStairsHandrails(int flightID){
+        return handrailDao.getRampStairsHandrails(flightID);
     }
 
-    public LiveData<RampStairsHandrailEntry> getRampStairsHandrail(int handrailID){
-        return handrailDao.getRampStairsHandrail(handrailID);
+    public LiveData<RampStairsHandrailEntry> getOneHandrail(int handrailID){
+        return handrailDao.getOneHandrail(handrailID);
+    }
+
+    public LiveData<List<RampStairsHandrailEntry>> getAllHandrails(List<Integer> flightID) {
+        return handrailDao.getAllHandrails(flightID);
     }
 
     public void deleteOneRampStairsHandrail(int handrailID){

@@ -17,10 +17,13 @@ public interface RampStairsHandrailDao {
     void insertRampStairsHandrail(RampStairsHandrailEntry handrailEntry);
 
     @Query("SELECT * FROM RampStairsHandrailEntry WHERE flightID == :flightID ORDER BY handrailID DESC")
-    LiveData<List<RampStairsHandrailEntry>> getAllRampStairsHandrails(int flightID);
+    LiveData<List<RampStairsHandrailEntry>> getRampStairsHandrails(int flightID);
 
     @Query("SELECT * FROM RampStairsHandrailEntry WHERE handrailID == :handrailID")
-    LiveData<RampStairsHandrailEntry> getRampStairsHandrail(int handrailID);
+    LiveData<RampStairsHandrailEntry> getOneHandrail(int handrailID);
+
+    @Query("SELECT * FROM RampStairsHandrailEntry WHERE flightID IN (:flightID)")
+    LiveData<List<RampStairsHandrailEntry>> getAllHandrails(List<Integer> flightID);
 
     @Query("SELECT COUNT(flightID) FROM RampStairsHandrailEntry WHERE flightID == :flightID")
     LiveData<Integer> countRampStairsHandrails(int flightID);

@@ -86,7 +86,7 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
             requireActivity().getSupportFragmentManager().popBackStack(SIDEWALK_LIST, 0);
         }
 
-        modelEntry.getAllSidewalkSlopes(sidewalk2Data.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), slopeList -> {
+        modelEntry.getSideSlopes(sidewalk2Data.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), slopeList -> {
             if (slopeList != null && slopeList.size() > 0) {
                 rowCounter = slopeList.size();
             }

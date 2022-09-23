@@ -84,16 +84,16 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
 
         if (rStListBundle.getInt(RAMP_OR_STAIRS) == 1 || rStListBundle.getInt(RAMP_OR_STAIRS) == 2) {
             if (rStListBundle.getBoolean(FROM_EXT_ACCESS)) {
-                modelEntry.getStairsRampFromExtAccess(rStListBundle.getInt(BLOCK_ID), rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
+                modelEntry.getStairsRampFromExtAccess(rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
             } else if (rStListBundle.getBoolean(FROM_SIDEWALK)) {
-                modelEntry.getStairsRampFromSidewalk(rStListBundle.getInt(BLOCK_ID), rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
+                modelEntry.getStairsRampFromSidewalk(rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
             } else if (rStListBundle.getBoolean(FROM_PARKING)) {
-                modelEntry.getStairsRampFromParking(rStListBundle.getInt(BLOCK_ID), rStListBundle.getInt(PARKING_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
+                modelEntry.getStairsRampFromParking(rStListBundle.getInt(PARKING_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
             } else if (rStListBundle.getBoolean(FROM_ROOMS)) {
-                modelEntry.getStairsRampFromRoom(rStListBundle.getInt(BLOCK_ID), rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
+                modelEntry.getStairsRampFromRoom(rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
             }
         } else {

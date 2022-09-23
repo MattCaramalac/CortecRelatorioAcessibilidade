@@ -79,7 +79,7 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
 
         instantiateRampStairsListViews(view);
 
-        modelEntry.getAllRampStairsFlights(flightBundle.getInt(RAMP_STAIRS_ID)).
+        modelEntry.getRampStairsFlights(flightBundle.getInt(RAMP_STAIRS_ID)).
                 observe(getViewLifecycleOwner(), flightList -> {
                     entryCounter = flightList.size();
                     flightAdapter = new FlightListRecViewAdapter(flightList, requireActivity(), this);

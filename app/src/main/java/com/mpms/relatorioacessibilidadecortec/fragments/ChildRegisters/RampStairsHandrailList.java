@@ -78,7 +78,7 @@ public class RampStairsHandrailList extends Fragment implements OnEntryClickList
                     handListBundle.putInt(FLIGHT_ID, newFlight.getFlightID()));
 
 
-        modelEntry.getAllRampStairsHandrails(handListBundle.getInt(FLIGHT_ID)).observe(getViewLifecycleOwner(), handList -> {
+        modelEntry.getRampStairsHandrails(handListBundle.getInt(FLIGHT_ID)).observe(getViewLifecycleOwner(), handList -> {
             handrailAdapter = new HandrailRecViewAdapter(handList, requireActivity(), this);
             listCreator(handrailAdapter);
         });
