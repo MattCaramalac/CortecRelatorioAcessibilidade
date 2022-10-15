@@ -1,6 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.commService;
 
-import com.google.gson.annotations.SerializedName;
+//import com.google.gson.annotations.SerializedName;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
@@ -29,7 +29,7 @@ import java.util.List;
 
 public class SentData {
 
-    @SerializedName("School")
+//    @SerializedName("School")
     private SchoolEntry school;
     private List<RoomEntry> roomList;
     private List<ExternalAccess> extList;

@@ -1,0 +1,211 @@
+package com.mpms.relatorioacessibilidadecortec.commService;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.List;
+
+public class JsonCreation {
+
+    private SchoolEntry school;
+    private List<RoomEntry> roomList;
+    private List<ExternalAccess> extList;
+    private List<ParkingLotEntry> parkList;
+    private List<PlaygroundEntry> playList;
+    private List<RestroomEntry> restList;
+    private List<SidewalkEntry> sideList;
+    private List<WaterFountainEntry> fountList;
+    private List<RampStairsEntry> roomStRaList;
+    private List<RampStairsEntry> sideStRaList;
+    private List<RampStairsEntry> extStRaList;
+    private List<RampStairsEntry> parkStRaList;
+    private List<BlackboardEntry> boardList;
+    private List<CounterEntry> counterList;
+    private List<DoorEntry> doorList;
+    private List<FreeSpaceEntry> freeList;
+    private List<SwitchEntry> switchList;
+    private List<TableEntry> tableList;
+    private List<WindowEntry> windowList;
+    private List<DoorLockEntry> doorLockList;
+    private List<DoorLockEntry> gateLockList;
+    private List<GateObsEntry> gateList;
+    private List<PayPhoneEntry> extPhoneList;
+    private List<PayPhoneEntry> sidePhoneList;
+    private List<SidewalkSlopeEntry> slopeList;
+    private List<RampStairsFlightEntry> roomFlightList;
+    private List<RampStairsFlightEntry> sideFlightList;
+    private List<RampStairsFlightEntry> extFlightList;
+    private List<RampStairsFlightEntry> parkFlightList;
+    private List<RampStairsRailingEntry> roomRailList;
+    private List<RampStairsRailingEntry> sideRailList;
+    private List<RampStairsRailingEntry> extRailList;
+    private List<RampStairsRailingEntry> parkRailList;
+    private List<RampStairsHandrailEntry> roomHandList;
+    private List<RampStairsHandrailEntry> sideHandList;
+    private List<RampStairsHandrailEntry> extHandList;
+    private List<RampStairsHandrailEntry> parkHandList;
+
+    public JsonCreation(SchoolEntry school, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList, List<PlaygroundEntry> playList,
+                    List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList, List<RampStairsEntry> roomStRaList,
+                    List<RampStairsEntry> sideStRaList, List<RampStairsEntry> extStRaList, List<RampStairsEntry> parkStRaList, List<BlackboardEntry> boardList,
+                    List<CounterEntry> counterList, List<DoorEntry> doorList, List<FreeSpaceEntry> freeList, List<SwitchEntry> switchList, List<TableEntry> tableList,
+                    List<WindowEntry> windowList, List<DoorLockEntry> doorLockList, List<DoorLockEntry> gateLockList, List<GateObsEntry> gateList,
+                    List<PayPhoneEntry> extPhoneList, List<PayPhoneEntry> sidePhoneList, List<SidewalkSlopeEntry> slopeList, List<RampStairsFlightEntry> roomFlightList,
+                    List<RampStairsFlightEntry> sideFlightList, List<RampStairsFlightEntry> extFlightList, List<RampStairsFlightEntry> parkFlightList,
+                    List<RampStairsRailingEntry> roomRailList, List<RampStairsRailingEntry> sideRailList, List<RampStairsRailingEntry> extRailList,
+                    List<RampStairsRailingEntry> parkRailList, List<RampStairsHandrailEntry> roomHandList, List<RampStairsHandrailEntry> sideHandList,
+                    List<RampStairsHandrailEntry> extHandList, List<RampStairsHandrailEntry> parkHandList) {
+        this.school = school;
+        this.roomList = roomList;
+        this.extList = extList;
+        this.parkList = parkList;
+        this.playList = playList;
+        this.restList = restList;
+        this.sideList = sideList;
+        this.fountList = fountList;
+        this.roomStRaList = roomStRaList;
+        this.sideStRaList = sideStRaList;
+        this.extStRaList = extStRaList;
+        this.parkStRaList = parkStRaList;
+        this.boardList = boardList;
+        this.counterList = counterList;
+        this.doorList = doorList;
+        this.freeList = freeList;
+        this.switchList = switchList;
+        this.tableList = tableList;
+        this.windowList = windowList;
+        this.doorLockList = doorLockList;
+        this.gateLockList = gateLockList;
+        this.gateList = gateList;
+        this.extPhoneList = extPhoneList;
+        this.sidePhoneList = sidePhoneList;
+        this.slopeList = slopeList;
+        this.roomFlightList = roomFlightList;
+        this.sideFlightList = sideFlightList;
+        this.extFlightList = extFlightList;
+        this.parkFlightList = parkFlightList;
+        this.roomRailList = roomRailList;
+        this.sideRailList = sideRailList;
+        this.extRailList = extRailList;
+        this.parkRailList = parkRailList;
+        this.roomHandList = roomHandList;
+        this.sideHandList = sideHandList;
+        this.extHandList = extHandList;
+        this.parkHandList = parkHandList;
+    }
+
+    public HashMap<String, String> createJson() {
+        try {
+            JSONArray schoolData = new JSONArray();
+
+            JSONObject schoolObj = new JSONObject();
+
+            schoolObj.put("schoolNameCaps", school.getSchoolName().toUpperCase());
+            schoolObj.put("cityNameCaps", school.getNameCity().toUpperCase());
+            schoolObj.put("schoolName", school.getSchoolName());
+            schoolObj.put("schoolAddress", school.getSchoolAddress());
+            schoolObj.put("schoolNumber", school.getAddressNumber());
+            schoolObj.put("schoolNeighbour", school.getAddressNeighborhood());
+            schoolObj.put("schoolDistrict", school.getNameDistrict());
+            schoolObj.put("cityName", school.getNameCity());
+
+            if (school.getFinalDateInspection() == null)
+                schoolObj.put("visitDate", "Em " + school.getInitialDateInspection());
+            else {
+                schoolObj.put("visitDate", "Nos dias " + school.getInitialDateInspection() +
+                        " e " + school.getFinalDateInspection());
+            }
+            schoolObj.put("responsibleVisit", school.getNameResponsibleVisit());
+
+            schoolObj.put("youngAge", String.valueOf(school.getYoungestStudentAge()));
+            schoolObj.put("oldestAge", String.valueOf(school.getOldestStudentAge()));
+            schoolObj.put("ageClassYoung", String.valueOf(school.getMonthYearYoungest()));
+            schoolObj.put("ageClassOldest", String.valueOf(school.getMonthYearYoungest()));
+
+            schoolObj.put("schoolServices", "");
+            if (school.getHasNursery() != null && school.getHasNursery().equals(1))
+                schoolObj.accumulate("schoolServices", "Berçário, ");
+            if (school.getHasDayCare() != null && school.getHasDayCare().equals(1))
+                schoolObj.accumulate("schoolServices", "Creche, ");
+            if (school.getHasMaternal() != null && school.getHasMaternal().equals(1))
+                schoolObj.accumulate("schoolServices", "Maternal, ");
+            if (school.getHasPreschool() != null && school.getHasPreschool().equals(1))
+                schoolObj.accumulate("schoolServices", "Pré-Escola, ");
+            if (school.getHasElementaryMiddle() != null && school.getHasElementaryMiddle().equals(1))
+                schoolObj.accumulate("schoolServices", "Ensino Fundamental, ");
+            if (school.getHasHighSchool() != null && school.getHasHighSchool().equals(1))
+                schoolObj.accumulate("schoolServices", "Ensino Médio, ");
+            if (school.getHasEja() != null && school.getHasEja().equals(1))
+                schoolObj.accumulate("schoolServices", "e E.J.A");
+
+            schoolObj.put("workingHours", "");
+            if (school.getHasMorningClasses() != null && school.getHasMorningClasses().equals(1)) {
+                schoolObj.accumulate("workingHours", "matutino (" + school.getMorningStart() + "hs às " +
+                        school.getMorningEnd() + "hs)");
+                if (school.getHasAfternoonClasses().equals(0) && school.getHasEveningClasses().equals(0))
+                    schoolObj.accumulate("workingHours", ".");
+                else if (school.getHasAfternoonClasses().equals(1) && school.getHasEveningClasses().equals(1))
+                    schoolObj.accumulate("workingHours", ",");
+                else
+                    schoolObj.accumulate("workingHours", " e ");
+            }
+            if (school.getHasAfternoonClasses() != null && school.getHasAfternoonClasses().equals(1)) {
+                schoolObj.accumulate("workingHours", "vespertino (" + school.getAfternoonStart() + "hs às " +
+                        school.getAfternoonEnd() + "hs)");
+                if (school.getHasEveningClasses().equals(0))
+                    schoolObj.accumulate("workingHours", ".");
+                else
+                    schoolObj.accumulate("workingHours", " e ");
+            }
+            if (school.getHasEveningClasses() != null && school.getHasEveningClasses().equals(1))
+                schoolObj.accumulate("workingHours", "noturno (" + school.getEveningStart() + "hs às " +
+                        school.getEveningEnd() + "hs).");
+
+            schoolObj.put("numberStudents", String.valueOf(school.getNumberStudents()));
+            schoolObj.put("numberDisabled", String.valueOf(school.getNumberStudentsPCD()));
+            schoolObj.put("necessityDesc", school.getWorkersPCDDescription());
+            schoolObj.put("numberWorkers", String.valueOf(school.getNumberWorkers()));
+            schoolObj.put("librasWorkers", String.valueOf(school.getNumberWorkersLibras()));
+
+            schoolData.put(schoolObj);
+
+            return new Gson().fromJson(String.valueOf(schoolData), new TypeToken<HashMap<String, String>>() {}.getType());
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
+}

@@ -3,7 +3,6 @@ package com.mpms.relatorioacessibilidadecortec.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
-import com.mpms.relatorioacessibilidadecortec.commService.SendJson;
+import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
 import com.mpms.relatorioacessibilidadecortec.commService.SentData;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
@@ -44,28 +43,19 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.report.TextUpdate;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 import com.mpms.relatorioacessibilidadecortec.util.IdListObservable;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-import java.security.cert.CertificateException;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observer;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class InspectionMemorial extends Fragment implements TagInterface {
@@ -368,37 +358,51 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
         saveAndClose.setOnClickListener(v -> {
 
-//            TODO - Trocar o .client por motivos de não ser um client seguro
-            Retrofit retro = new Retrofit.Builder().baseUrl("https://httpbin.org/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(getUnsafeOkHttpClient().build()).build();
+//            Retrofit retro = new Retrofit.Builder().baseUrl("https://httpbin.org/")
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .client(getUnsafeOkHttpClient().build()).build();
+//
+//            SendJson sendJson = retro.create(SendJson.class);
 
-            SendJson sendJson = retro.create(SendJson.class);
-
-            SentData sentData = new SentData(school, roomList, extList, parkList, playList, restList, sideList, fountList, roomStRaList, sideStRaList,
+            JsonCreation jCreate = new JsonCreation(school, roomList, extList, parkList, playList, restList, sideList, fountList, roomStRaList, sideStRaList,
                     extStRaList, parkStRaList, boardList, counterList, doorList, freeList, switchList, tableList, windowList, doorLockList,
                     gateLockList, gateList, extPhoneList, sidePhoneList, slopeList, roomFlightList, sideFlightList, extFlightList, parkFlightList,
                     roomRailList, sideRailList, extRailList, parkRailList, roomHandList, sideHandList, extHandList, parkHandList);
 
-            Call<SentData> request = sendJson.PostData(sentData);
+            HashMap<String, String> tData = jCreate.createJson();
+
+            try {
+                TextUpdate.reportGenerator(tData, getContext());
+            } catch (OpenXML4JException | IOException e) {
+                e.printStackTrace();
+            }
+
+//            Call<SentData> request = sendJson.PostData(sentData);
 
 //            Recebe resposta positiva, necessário testar novamente depois
-            request.enqueue(new Callback<SentData>() {
-                @Override
-                public void onResponse(Call<SentData> call, Response<SentData> response) {
-//                    Se funcionar
-//                    Toast.makeText(getActivity(), "Dados enviados com sucesso", Toast.LENGTH_SHORT).show();
-                    Log.i("Comunicação - Sucesso ", "Sucesso na Comunicação");
-                }
+//            request.enqueue(new Callback<SentData>() {
+//                @Override
+//                public void onResponse(Call<SentData> call, Response<SentData> response) {
+////                    Se funcionar
+////                    Toast.makeText(getActivity(), "Dados enviados com sucesso", Toast.LENGTH_SHORT).show();
+//                    Log.i("Comunicação - Sucesso ", "Sucesso na Comunicação");
+//                }
+//
+//                @Override
+//                public void onFailure(Call<SentData> call, Throwable t) {
+////                    Se falhar
+////                    Toast.makeText(getActivity(), "Houve um Problema. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+//                    Log.i("Comunicação - Falha ", t.toString());
+//
+//                }
+//            });
 
-                @Override
-                public void onFailure(Call<SentData> call, Throwable t) {
-//                    Se falhar
-//                    Toast.makeText(getActivity(), "Houve um Problema. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
-                    Log.i("Comunicação - Falha ", t.toString());
-
-                }
-            });
+            Intent sender =  new Intent(Intent.ACTION_SEND);
+            sender.putExtra(Intent.EXTRA_EMAIL, "mattcaramalac@gmail.com");
+            sender.putExtra(Intent.EXTRA_SUBJECT, "Teste Geração DOCX");
+            sender.putExtra(Intent.EXTRA_STREAM, TextUpdate.fileName);
+            sender.setType("message/rfc822");
+            startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
 
             Intent intent = new Intent(requireActivity(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -438,46 +442,45 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         void onDropdownChoice(int choice);
     }
 
-//    TODO - NÃO É MÉTODO SEGURO, TENTAR MODIFICAR PARA NÃO DEPENDER DE ACREDITAR EM TODOS OS CERTIFICADOS!
-    public static OkHttpClient.Builder getUnsafeOkHttpClient() {
-
-        try {
-            // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[]{
-                    new X509TrustManager() {
-                        @Override
-                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                        }
-
-                        @Override
-                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                        }
-
-                        @Override
-                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                            return new java.security.cert.X509Certificate[]{};
-                        }
-                    }
-            };
-
-            // Install the all-trusting trust manager
-            final SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-
-            // Create an ssl socket factory with our all-trusting manager
-            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-            builder.hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
-            return builder;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public static OkHttpClient.Builder getUnsafeOkHttpClient() {
+//
+//        try {
+//            // Create a trust manager that does not validate certificate chains
+//            final TrustManager[] trustAllCerts = new TrustManager[]{
+//                    new X509TrustManager() {
+//                        @Override
+//                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+//                        }
+//
+//                        @Override
+//                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+//                        }
+//
+//                        @Override
+//                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+//                            return new java.security.cert.X509Certificate[]{};
+//                        }
+//                    }
+//            };
+//
+//            // Install the all-trusting trust manager
+//            final SSLContext sslContext = SSLContext.getInstance("SSL");
+//            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+//
+//            // Create an ssl socket factory with our all-trusting manager
+//            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+//
+//            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+//            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+//            builder.hostnameVerifier(new HostnameVerifier() {
+//                @Override
+//                public boolean verify(String hostname, SSLSession session) {
+//                    return true;
+//                }
+//            });
+//            return builder;
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }
