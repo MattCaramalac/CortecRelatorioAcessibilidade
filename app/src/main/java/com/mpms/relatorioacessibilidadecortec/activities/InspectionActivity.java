@@ -1,5 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -22,6 +23,7 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener, TagInterface {
 
+    public static int endRegister = 0;
     Bundle inspectionBundle = new Bundle();
 
     FragmentManager fragmentManager = getSupportFragmentManager();
@@ -66,6 +68,18 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         InspectionMemorial newFrag = InspectionMemorial.newInstance();
         newFrag.setArguments(inspectionBundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.chooseItemMemorial, newFrag).commit();
+    }
+
+    @Override
+    protected void onRestart() {
+        if (endRegister == 1) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        } else
+            endRegister = 0;
+
+        super.onRestart();
     }
 
     @Override

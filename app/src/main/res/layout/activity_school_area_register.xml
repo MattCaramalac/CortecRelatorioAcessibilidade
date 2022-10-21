@@ -19,7 +19,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save_and_quit"
-        android:layout_width="200dp"
+        android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/block_identifier_header"
         android:layout_marginTop="45dp"

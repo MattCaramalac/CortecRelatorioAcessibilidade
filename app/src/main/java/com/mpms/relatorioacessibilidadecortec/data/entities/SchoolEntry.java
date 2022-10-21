@@ -64,6 +64,7 @@ public class SchoolEntry implements Serializable {
     private String workersLibrasDescriptions;
     private String initialDateInspection;
     private String finalDateInspection;
+    private String emailAddress;
 
     public SchoolEntry(String schoolName, String schoolAddress, String addressComplement, String addressNumber, String addressNeighborhood,
                        String nameCity, String nameDistrict, String contactPhone1, String contactPhone2, String nameResponsibleVisit,
@@ -75,7 +76,7 @@ public class SchoolEntry implements Serializable {
                        String ejaLastGrade, String servicesObs, Integer youngestStudentAge, Integer monthYearYoungest, Integer oldestStudentAge, Integer monthYearOldest,
                        Integer numberStudents, Integer numberStudentsPCD, String studentsPCDDescription, Integer numberWorkers, Integer numberWorkersPCD,
                        String workersPCDDescription, Integer hasWorkersLibras, Integer numberWorkersLibras, String workersLibrasDescriptions,
-                       String initialDateInspection, String finalDateInspection) {
+                       String initialDateInspection, String finalDateInspection, String emailAddress) {
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
         this.addressComplement = addressComplement;
@@ -130,6 +131,7 @@ public class SchoolEntry implements Serializable {
         this.workersLibrasDescriptions = workersLibrasDescriptions;
         this.initialDateInspection = initialDateInspection;
         this.finalDateInspection = finalDateInspection;
+        this.emailAddress = emailAddress;
     }
 
     public int getCadID() {
@@ -570,5 +572,13 @@ public class SchoolEntry implements Serializable {
 
     public void setFinalDateInspection(String finalDateInspection) {
         this.finalDateInspection = finalDateInspection;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

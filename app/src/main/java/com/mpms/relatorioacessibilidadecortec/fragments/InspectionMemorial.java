@@ -1,24 +1,32 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
-import com.mpms.relatorioacessibilidadecortec.commService.SentData;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
@@ -48,8 +56,10 @@ import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 import com.mpms.relatorioacessibilidadecortec.util.IdListObservable;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JRuntimeException;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,14 +67,17 @@ import java.util.List;
 import java.util.Observer;
 
 
-
 public class InspectionMemorial extends Fragment implements TagInterface {
 
-    OnFragmentInteractionListener listener;
+    static File filePath;
 
+    OnFragmentInteractionListener listener;
     TextInputLayout dropdownMenuLocations;
     AutoCompleteTextView listItemsMemorial;
     ArrayAdapter<String> adapterLocations;
+    TextUpdate upText;
+    HashMap<String, String> tData;
+    ActivityResultLauncher<String> fillCreatedDocxFile;
 
     SchoolEntry school;
 
@@ -322,6 +335,18 @@ public class InspectionMemorial extends Fragment implements TagInterface {
             fragInspection = new Bundle(this.getArguments());
         else
             fragInspection = new Bundle();
+
+        upText = new TextUpdate().newInstance(getContext());
+
+        fillCreatedDocxFile = registerForActivityResult(new CreateDocumentDaex(), result -> {
+            try {
+                upText.introFiller(tData, result);
+                InspectionActivity.endRegister = 1;
+                sendEmailIntent(result);
+            } catch (IOException | OpenXML4JRuntimeException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -330,83 +355,47 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         final View rootView = inflater.inflate(R.layout.fragment_inspection_memorial, container, false);
         dropdownMenuLocations = rootView.findViewById(R.id.menu_options_memorial);
         listItemsMemorial = rootView.findViewById(R.id.list_item_memorial);
-        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         super.onViewCreated(view, savedInstanceState);
 
-        saveAndClose = view.findViewById(R.id.saveAndQuit);
+        instanceMemorial(view);
+
+        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
         modelEntry.getEntry(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), entry -> school = entry);
 
         modelEntry.getAllBlockIds(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), bList -> bID.setIdList(bList));
 
-        bID.addObserver(blockIdList);
-        roomID.addObserver(roomIdList);
-        extID.addObserver(extAccessIdList);
-        parkID.addObserver(parkIdList);
-        sideID.addObserver(sideIdList);
-        doorID.addObserver(doorIdList);
-        flRoomID.addObserver(flRoomIdList);
-        flSideID.addObserver(flSideIdList);
-        flExtID.addObserver(flExtIdList);
-        flParkID.addObserver(flParkIdList);
+
 
         saveAndClose.setOnClickListener(v -> {
-
-//            Retrofit retro = new Retrofit.Builder().baseUrl("https://httpbin.org/")
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .client(getUnsafeOkHttpClient().build()).build();
-//
-//            SendJson sendJson = retro.create(SendJson.class);
 
             JsonCreation jCreate = new JsonCreation(school, roomList, extList, parkList, playList, restList, sideList, fountList, roomStRaList, sideStRaList,
                     extStRaList, parkStRaList, boardList, counterList, doorList, freeList, switchList, tableList, windowList, doorLockList,
                     gateLockList, gateList, extPhoneList, sidePhoneList, slopeList, roomFlightList, sideFlightList, extFlightList, parkFlightList,
                     roomRailList, sideRailList, extRailList, parkRailList, roomHandList, sideHandList, extHandList, parkHandList);
 
-            HashMap<String, String> tData = jCreate.createJson();
+            tData = jCreate.createJson();
 
-            try {
-                TextUpdate.reportGenerator(tData, getContext());
-            } catch (OpenXML4JException | IOException e) {
-                e.printStackTrace();
+            upText.newFileName();
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                try {
+                    upText.introFiller(tData, Uri.parse(upText.fileName));
+                    InspectionActivity.endRegister = 1;
+                    sendEmailIntent(Uri.parse(upText.fileName));
+                } catch (IOException | OpenXML4JRuntimeException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                filePath = upText.path;
+                fillCreatedDocxFile.launch(upText.fName);
             }
-
-//            Call<SentData> request = sendJson.PostData(sentData);
-
-//            Recebe resposta positiva, necessário testar novamente depois
-//            request.enqueue(new Callback<SentData>() {
-//                @Override
-//                public void onResponse(Call<SentData> call, Response<SentData> response) {
-////                    Se funcionar
-////                    Toast.makeText(getActivity(), "Dados enviados com sucesso", Toast.LENGTH_SHORT).show();
-//                    Log.i("Comunicação - Sucesso ", "Sucesso na Comunicação");
-//                }
-//
-//                @Override
-//                public void onFailure(Call<SentData> call, Throwable t) {
-////                    Se falhar
-////                    Toast.makeText(getActivity(), "Houve um Problema. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
-//                    Log.i("Comunicação - Falha ", t.toString());
-//
-//                }
-//            });
-
-            Intent sender =  new Intent(Intent.ACTION_SEND);
-            sender.putExtra(Intent.EXTRA_EMAIL, "mattcaramalac@gmail.com");
-            sender.putExtra(Intent.EXTRA_SUBJECT, "Teste Geração DOCX");
-            sender.putExtra(Intent.EXTRA_STREAM, TextUpdate.fileName);
-            sender.setType("message/rfc822");
-            startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
-
-            Intent intent = new Intent(requireActivity(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
         });
     }
 
@@ -420,7 +409,6 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         } else {
             throw new ClassCastException(context.toString());
         }
-
     }
 
     @Override
@@ -432,55 +420,66 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         else
             adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, HeaderNames.blockOptions);
         listItemsMemorial.setAdapter(adapterLocations);
-
         listItemsMemorial.setOnItemClickListener((parent, view, position, id) -> listener.onDropdownChoice(position));
-
         super.onResume();
+    }
+
+    private void instanceMemorial(View view) {
+//        MaterialButton
+        saveAndClose = view.findViewById(R.id.saveAndQuit);
+//        ViewModel
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
+//        Observers
+        bID.addObserver(blockIdList);
+        roomID.addObserver(roomIdList);
+        extID.addObserver(extAccessIdList);
+        parkID.addObserver(parkIdList);
+        sideID.addObserver(sideIdList);
+        doorID.addObserver(doorIdList);
+        flRoomID.addObserver(flRoomIdList);
+        flSideID.addObserver(flSideIdList);
+        flExtID.addObserver(flExtIdList);
+        flParkID.addObserver(flParkIdList);
+    }
+
+    public void sendEmailIntent(Uri uri) {
+        Intent sender = new Intent(Intent.ACTION_SEND);
+        sender.putExtra(Intent.EXTRA_EMAIL, school.getEmailAddress());
+        sender.putExtra(Intent.EXTRA_SUBJECT, "Relatório DOCX");
+        sender.putExtra(Intent.EXTRA_STREAM, uri);
+        sender.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+
+//        List<ResolveInfo> resInfoList = getContext().getPackageManager().queryIntentActivities(sender, PackageManager.MATCH_DEFAULT_ONLY);
+//        for (ResolveInfo resolveInfo : resInfoList) {
+//            String packageName = resolveInfo.activityInfo.packageName;
+//            getContext().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        }
+        Log.i("Content", uri.toString());
+        sender.setType("message/rfc822");
+        startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
+
+
+
+
+
+    }
+
+    public static class CreateDocumentDaex extends ActivityResultContracts.CreateDocument {
+
+        @NonNull
+        @NotNull
+        @Override
+        public Intent createIntent(@NonNull @NotNull Context context, @NonNull @NotNull String input) {
+            return super.createIntent(context, input)
+                    .setType("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                    .addCategory(Intent.CATEGORY_OPENABLE)
+                    .putExtra(DocumentsContract.EXTRA_INITIAL_URI, filePath);
+        }
     }
 
     public interface OnFragmentInteractionListener {
         void onDropdownChoice(int choice);
     }
 
-//    public static OkHttpClient.Builder getUnsafeOkHttpClient() {
-//
-//        try {
-//            // Create a trust manager that does not validate certificate chains
-//            final TrustManager[] trustAllCerts = new TrustManager[]{
-//                    new X509TrustManager() {
-//                        @Override
-//                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-//                        }
-//
-//                        @Override
-//                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-//                        }
-//
-//                        @Override
-//                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-//                            return new java.security.cert.X509Certificate[]{};
-//                        }
-//                    }
-//            };
-//
-//            // Install the all-trusting trust manager
-//            final SSLContext sslContext = SSLContext.getInstance("SSL");
-//            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-//
-//            // Create an ssl socket factory with our all-trusting manager
-//            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-//
-//            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-//            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-//            builder.hostnameVerifier(new HostnameVerifier() {
-//                @Override
-//                public boolean verify(String hostname, SSLSession session) {
-//                    return true;
-//                }
-//            });
-//            return builder;
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 }

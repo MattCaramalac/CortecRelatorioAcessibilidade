@@ -21,18 +21,24 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterOne;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 
+import org.apache.commons.validator.routines.EmailValidator;
+
 public class SchoolRegisterFragmentOne extends Fragment {
 
     TextInputLayout schoolNameField, addressStreetField, addressComplementField, addressNumberField, addressNeighborhoodField,
-            addressCityField, schoolDistrictField, contactPhoneOneField, contactPhoneTwoField, responsibleField, inspectionTeamField;
+            addressCityField, schoolDistrictField, contactPhoneOneField, contactPhoneTwoField, responsibleField, inspectionTeamField,
+            emailField;
     TextInputEditText schoolNameValue, addressStreetValue, addressComplementValue, addressNumberValue, addressNeighborhoodValue,
-            addressCityValue, schoolDistrictValue, contactPhoneOneValue, contactPhoneTwoValue, responsibleValue, inspectionTeamValue;
+            addressCityValue, schoolDistrictValue, contactPhoneOneValue, contactPhoneTwoValue, responsibleValue, inspectionTeamValue,
+            emailValue;
 
     String schoolName, addressStreet, addressComplement, addressNumber, addressNeighborhood, addressCity, districtName,
-            contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam;
+            contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam, email;
 
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
+
+    EmailValidator validator = EmailValidator.getInstance();
 
     static Bundle bundleFragOne = new Bundle();
 
@@ -97,6 +103,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
         contactPhoneTwoField = view.findViewById(R.id.second_telephone_number_field);
         responsibleField = view.findViewById(R.id.name_responsible_field);
         inspectionTeamField = view.findViewById(R.id.name_team_components_field);
+        emailField = view.findViewById(R.id.email_field);
 //        TextInputEditText
         schoolNameValue = view.findViewById(R.id.school_name_value);
         addressStreetValue = view.findViewById(R.id.school_address_value);
@@ -109,6 +116,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
         contactPhoneTwoValue = view.findViewById(R.id.second_telephone_number_value);
         responsibleValue = view.findViewById(R.id.name_responsible_value);
         inspectionTeamValue = view.findViewById(R.id.name_team_components_value);
+        emailValue = view.findViewById(R.id.email_value);
 //        ViewModels
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
@@ -160,6 +168,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
         contactPhoneTwoValue.setText(school.getContactPhone2());
         responsibleValue.setText(school.getNameResponsibleVisit());
         inspectionTeamValue.setText(school.getNameInspectionTeam());
+        emailValue.setText(school.getEmailAddress());
     }
 
     private boolean regOneHasNoEmptyFields() {
@@ -197,6 +206,16 @@ public class SchoolRegisterFragmentOne extends Fragment {
             i++;
             inspectionTeamField.setError(getString(R.string.blank_field_error));
         }
+        if (TextUtils.isEmpty(emailValue.getText())) {
+            i++;
+            emailField.setError(getString(R.string.blank_field_error));
+        } else {
+            String email = String.valueOf(emailValue.getText());
+            if (!validator.isValid(email)) {
+                i++;
+                emailField.setError("Endereço de e-mail inválido");
+            }
+        }
         return i == 0;
     }
 
@@ -210,6 +229,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
         contactPhoneOneField.setErrorEnabled(false);
         responsibleField.setErrorEnabled(false);
         inspectionTeamField.setErrorEnabled(false);
+        emailField.setErrorEnabled(false);
     }
 
     private SchoolEntry newEntry() {
@@ -224,6 +244,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
         contactPhoneTwo = String.valueOf(contactPhoneTwoValue.getText());
         responsible = String.valueOf(responsibleValue.getText());
         inspectionTeam = String.valueOf(inspectionTeamValue.getText());
+        email = String.valueOf(emailValue.getText());
 
         return new SchoolEntry(schoolName, addressStreet, addressComplement, addressNumber, addressNeighborhood, addressCity, districtName,
                 contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam, null, null, null, null,
@@ -232,7 +253,7 @@ public class SchoolRegisterFragmentOne extends Fragment {
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null,
-                null, null);
+                null, null, email);
     }
 
     private SchoolRegisterOne updateRegisterOne(Bundle bundle) {
@@ -247,9 +268,11 @@ public class SchoolRegisterFragmentOne extends Fragment {
         contactPhoneTwo = String.valueOf(contactPhoneTwoValue.getText());
         responsible = String.valueOf(responsibleValue.getText());
         inspectionTeam = String.valueOf(inspectionTeamValue.getText());
+        email = String.valueOf(emailValue.getText());
+
 
         return new SchoolRegisterOne(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), schoolName, addressStreet, addressComplement, addressNumber,
-                addressNeighborhood, addressCity, districtName, contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam);
+                addressNeighborhood, addressCity, districtName, contactPhoneOne, contactPhoneTwo, responsible, inspectionTeam, email);
     }
 
 

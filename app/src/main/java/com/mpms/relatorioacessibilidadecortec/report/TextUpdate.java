@@ -1,11 +1,12 @@
 package com.mpms.relatorioacessibilidadecortec.report;
 
 import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
-import android.service.controls.Control;
+import android.os.ParcelFileDescriptor;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JRuntimeException;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -20,16 +21,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextUpdate {
 
-    public static String fileName = "";
+    public File path;
+    public String fName;
+    public String fileName;
+    static FileOutputStream outStream;
+    static Context ctx;
 
-
-    public TextUpdate getInstance(Context ctx) {
+    public TextUpdate newInstance(Context ctx) {
+        TextUpdate.ctx = ctx;
         return new TextUpdate();
     }
 
@@ -56,38 +60,48 @@ public class TextUpdate {
             return text;
     }
 
-    public static void reportGenerator(HashMap<String, String> variable, Context ctx) throws OpenXML4JException, IOException {
+    public void introFiller (HashMap<String, String> variable, Uri uri) throws IOException, OpenXML4JRuntimeException {
         try {
-            fileName = newFileName();
             XWPFDocument doc = new XWPFDocument(ctx.getAssets().open("template.docx"));
             changeParagraphs(doc.getParagraphs(), variable);
             alterTable(doc.getTablesIterator(), variable);
-            FileOutputStream outStream = new FileOutputStream(fileName);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                outStream = new FileOutputStream(fileName);
+            } else {
+                ParcelFileDescriptor parFile = ctx.getContentResolver().openFileDescriptor(uri, "w");
+                outStream = new FileOutputStream(parFile.getFileDescriptor());
+            }
             doc.write(outStream);
             doc.close();
             outStream.close();
-        } catch (IOException e) {
+        } catch (IOException | OpenXML4JRuntimeException e) {
             e.printStackTrace();
         }
     }
 
-    private static String newFileName() throws IOException {
-        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        File file = new File(path + "report.docx");
+    public String newFileName() {
+        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        if (!path.exists()) {
+            path.mkdirs();
+        }
+        fName = "Report";
+        File file = new File(path + "/" + fName + ".docx");
         int fileNo = 0;
         String newName = "";
 
         if (file.exists() && !file.isDirectory()) {
             while (file.exists()) {
                 fileNo++;
-                file = new File(path + "report" + fileNo + ".docx");
-                newName = path + "report" + fileNo + ".docx";
+                fName = "Report" + fileNo;
+                file = new File(path + "/" + fName + ".docx");
+                newName = path + "/" + fName + ".docx";
             }
-        } else if (!file.exists()) {
-            newName = path + "report.docx";
-        }
+        } else if (!file.exists())
+            newName = path + "/" + fName + ".docx";
+
         return newName;
     }
+
     private static void changeParagraphs(List<XWPFParagraph> paragraphs, Map<String, String> variable) {
         for (XWPFParagraph paragraph : paragraphs) {
             if (!paragraph.getRuns().isEmpty()) {
