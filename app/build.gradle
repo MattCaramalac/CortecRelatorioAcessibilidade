@@ -98,7 +98,4 @@ dependencies {
 
     // https://mvnrepository.com/artifact/commons-validator/commons-validator
     implementation group: 'commons-validator', name: 'commons-validator', version: '1.7'
-
-
-
 }

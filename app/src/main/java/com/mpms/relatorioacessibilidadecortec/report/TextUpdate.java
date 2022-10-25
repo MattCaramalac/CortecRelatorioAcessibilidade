@@ -30,37 +30,8 @@ public class TextUpdate {
     public String fName;
     public String fileName;
     static FileOutputStream outStream;
-    static Context ctx;
 
-    public TextUpdate newInstance(Context ctx) {
-        TextUpdate.ctx = ctx;
-        return new TextUpdate();
-    }
-
-    public static String exchangeVariables(String text, Map<String, String> exchange) {
-        if (text.contains("$")) {
-            Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
-            Matcher matcher = pattern.matcher(text);
-            StringBuilder builder = new StringBuilder();
-            int i = 0;
-            while (matcher.find()) {
-                String mat = matcher.group(1);
-                String variable = exchange.get(mat);
-
-                builder.append(text, i, matcher.start());
-                if (variable == null)
-                    builder.append("");
-                else
-                    builder.append(variable);
-                i = matcher.end();
-            }
-            builder.append(text.substring(i));
-            return builder.toString();
-        } else
-            return text;
-    }
-
-    public void introFiller (HashMap<String, String> variable, Uri uri) throws IOException, OpenXML4JRuntimeException {
+    public boolean introFiller(HashMap<String, String> variable, Uri uri, Context ctx) throws IOException, OpenXML4JRuntimeException {
         try {
             XWPFDocument doc = new XWPFDocument(ctx.getAssets().open("template.docx"));
             changeParagraphs(doc.getParagraphs(), variable);
@@ -77,10 +48,13 @@ public class TextUpdate {
         } catch (IOException | OpenXML4JRuntimeException e) {
             e.printStackTrace();
         }
+
+        return true;
     }
 
     public String newFileName() {
         path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+//        path = Environment.getExternalStorageDirectory();
         if (!path.exists()) {
             path.mkdirs();
         }
@@ -118,6 +92,36 @@ public class TextUpdate {
                 }
             }
         }
+    }
+
+    public static String exchangeVariables(String text, Map<String, String> exchange) {
+        if (text.contains("$")) {
+            Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
+            Matcher matcher = pattern.matcher(text);
+            StringBuilder builder = new StringBuilder();
+            int i = 0;
+            while (matcher.find()) {
+                String mat = matcher.group(1);
+                String variable = exchange.get(mat);
+
+                builder.append(text, i, matcher.start());
+                if (variable == null)
+                    builder.append("");
+                else {
+//                    TODO - Fazer a quebra de linha eventualmente
+//                    if (mat != null && mat.equals("techName")) {
+////                        Pattern sPat = Pattern.compile("(,)|(\\s*e\\s+)");
+////                        Matcher sMat = sPat.matcher(variable);
+//                        variable = variable.replaceAll("(,)|(\\s*e\\s+)", "\\r\\n");
+//                    }
+                    builder.append(variable);
+                }
+                i = matcher.end();
+            }
+            builder.append(text.substring(i));
+            return builder.toString();
+        } else
+            return text;
     }
 
     private static void alterTable(Iterator<XWPFTable> itTable, Map<String, String> variaveis) {

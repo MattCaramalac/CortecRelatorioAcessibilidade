@@ -1,9 +1,19 @@
 package com.mpms.relatorioacessibilidadecortec.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.DocumentsContract;
+import android.widget.ProgressBar;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,9 +29,34 @@ import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.report.TextUpdate;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import org.apache.poi.openxml4j.exceptions.OpenXML4JRuntimeException;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener, TagInterface {
+
+//    -----------------------------------
+
+    static File filePath;
+    private static Context context;
+
+    ExecutorService service;
+    Handler handler;
+
+    static TextUpdate upText;
+    static HashMap<String, String> tData;
+    static ActivityResultLauncher<String> fillCreatedDocxFile;
+    ProgressBar bar;
+
+//    ------------------------------------
 
     public static int endRegister = 0;
     Bundle inspectionBundle = new Bundle();
@@ -34,9 +69,15 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        endRegister = 0;
         setContentView(R.layout.activity_inspection);
         modelEntry = new ViewModelEntry(getApplication());
         inspectionBundle = getIntent().getBundleExtra(AREAS_REG_BUNDLE);
+//        --------------------
+        context = this;
+        service = Executors.newSingleThreadExecutor();
+        handler = new Handler(Looper.getMainLooper());
+//        ---------------------
 
         if (inspectionBundle.getInt(BLOCK_ID) == 0) {
             int areaType = 0;
@@ -47,6 +88,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
             modelEntry.getAreaFromSchool(inspectionBundle.getInt(SchoolRegisterActivity.SCHOOL_ID), areaType)
                     .observe(this, area -> inspectionBundle.putInt(BLOCK_ID, area.getBlockSpaceID()));
         }
+
+        upText = new TextUpdate();
 
         this.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -60,6 +103,29 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 setEnabled(true);
             }
         });
+
+                fillCreatedDocxFile = registerForActivityResult(new CreateDocumentDaex(), result -> {
+                    service.execute(() -> {
+                        boolean finish = false;
+                        try {
+                            finish = upText.introFiller(tData, result, context);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        boolean finalFinish = finish;
+                        handler.post(() -> {
+                            if(finalFinish)
+                                sendEmailIntent(result);
+                        });
+                    });
+//                    try {
+//                        upText.teste(tData, result);
+//                        sendEmailIntent(result);
+//                    } catch (IOException | OpenXML4JRuntimeException e) {
+//                        e.printStackTrace();
+//                    }
+                });
     }
 
     @Override
@@ -198,6 +264,53 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 i = 0;
         }
         return i == 0;
+    }
+
+//    ------------------------------------------
+
+    public static void callFunction(HashMap<String, String> tData) {
+        InspectionActivity.tData = tData;
+        upText.newFileName();
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            try {
+                upText.introFiller(tData, Uri.parse(upText.fileName), context);
+                sendEmailIntent(Uri.parse(upText.fileName));
+            } catch (IOException | OpenXML4JRuntimeException e) {
+                e.printStackTrace();
+            }
+        } else {
+            filePath = upText.path;
+            fillCreatedDocxFile.launch(upText.fName);
+        }
+    }
+
+    public static void sendEmailIntent(Uri uri) {
+        Intent sender = new Intent(Intent.ACTION_SEND);
+//        sender.putExtra(Intent.EXTRA_EMAIL, school.getEmailAddress());
+        sender.putExtra(Intent.EXTRA_SUBJECT, "Relatório DOCX");
+        sender.putExtra(Intent.EXTRA_STREAM, uri);
+        sender.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//        List<ResolveInfo> resInfoList = getContext().getPackageManager().queryIntentActivities(sender, PackageManager.MATCH_DEFAULT_ONLY);
+//        for (ResolveInfo resolveInfo : resInfoList) {
+//            String packageName = resolveInfo.activityInfo.packageName;
+//            getContext().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        }
+        sender.setType("message/rfc822");
+        InspectionActivity.endRegister = 1;
+        context.startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
+    }
+
+    public static class CreateDocumentDaex extends ActivityResultContracts.CreateDocument {
+
+        @NonNull
+        @NotNull
+        @Override
+        public Intent createIntent(@NonNull @NotNull Context context, @NonNull @NotNull String input) {
+            return super.createIntent(context, input)
+                    .setType("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                    .addCategory(Intent.CATEGORY_OPENABLE)
+                    .putExtra(DocumentsContract.EXTRA_INITIAL_URI, filePath);
+        }
     }
 }
 

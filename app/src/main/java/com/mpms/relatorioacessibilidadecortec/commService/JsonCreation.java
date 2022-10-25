@@ -3,6 +3,7 @@ package com.mpms.relatorioacessibilidadecortec.commService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
@@ -36,6 +37,7 @@ import java.util.List;
 public class JsonCreation {
 
     private SchoolEntry school;
+    private List<BlockSpaceEntry> blocks;
     private List<RoomEntry> roomList;
     private List<ExternalAccess> extList;
     private List<ParkingLotEntry> parkList;
@@ -73,17 +75,18 @@ public class JsonCreation {
     private List<RampStairsHandrailEntry> extHandList;
     private List<RampStairsHandrailEntry> parkHandList;
 
-    public JsonCreation(SchoolEntry school, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList, List<PlaygroundEntry> playList,
-                        List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList, List<RampStairsEntry> roomStRaList,
-                        List<RampStairsEntry> sideStRaList, List<RampStairsEntry> extStRaList, List<RampStairsEntry> parkStRaList, List<BlackboardEntry> boardList,
-                        List<CounterEntry> counterList, List<DoorEntry> doorList, List<FreeSpaceEntry> freeList, List<SwitchEntry> switchList, List<TableEntry> tableList,
-                        List<WindowEntry> windowList, List<DoorLockEntry> doorLockList, List<DoorLockEntry> gateLockList, List<GateObsEntry> gateList,
+    public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blocks, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList,
+                        List<PlaygroundEntry> playList, List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList,
+                        List<RampStairsEntry> roomStRaList, List<RampStairsEntry> sideStRaList, List<RampStairsEntry> extStRaList, List<RampStairsEntry> parkStRaList,
+                        List<BlackboardEntry> boardList, List<CounterEntry> counterList, List<DoorEntry> doorList, List<FreeSpaceEntry> freeList, List<SwitchEntry> switchList,
+                        List<TableEntry> tableList, List<WindowEntry> windowList, List<DoorLockEntry> doorLockList, List<DoorLockEntry> gateLockList, List<GateObsEntry> gateList,
                         List<PayPhoneEntry> extPhoneList, List<PayPhoneEntry> sidePhoneList, List<SidewalkSlopeEntry> slopeList, List<RampStairsFlightEntry> roomFlightList,
                         List<RampStairsFlightEntry> sideFlightList, List<RampStairsFlightEntry> extFlightList, List<RampStairsFlightEntry> parkFlightList,
                         List<RampStairsRailingEntry> roomRailList, List<RampStairsRailingEntry> sideRailList, List<RampStairsRailingEntry> extRailList,
                         List<RampStairsRailingEntry> parkRailList, List<RampStairsHandrailEntry> roomHandList, List<RampStairsHandrailEntry> sideHandList,
                         List<RampStairsHandrailEntry> extHandList, List<RampStairsHandrailEntry> parkHandList) {
         this.school = school;
+        this.blocks = blocks;
         this.roomList = roomList;
         this.extList = extList;
         this.parkList = parkList;
@@ -147,6 +150,61 @@ public class JsonCreation {
             schoolObj.put("schoolNeighbour", school.getAddressNeighborhood());
             schoolObj.put("schoolDistrict", school.getNameDistrict());
             schoolObj.put("cityName", school.getNameCity());
+
+            schoolObj.put("techName", school.getNameInspectionTeam());
+
+            StringBuilder parking = new StringBuilder();
+            if (parkList.size() > 0) {
+                int extP = 0, intP = 0;
+                for (ParkingLotEntry list : parkList) {
+                    if (list.getTypeParkingLot() == 1) {
+                        extP++;
+                    } else {
+                        intP++;
+                    }
+                }
+                if (extP == 0) {
+                    if (intP == 1)
+                        parking.append("contendo apenas 1 (um) estacionamento interno definido");
+                    else
+                        parking.append("contendo ").append(intP).append("estacionamentos internos definidos");
+                } else if (intP == 0)  {
+                    if (extP == 1)
+                        parking.append("contendo apenas 1 (um) estacionamento externo definido");
+                    else
+                        parking.append("contendo ").append(intP).append("estacionamentos externos definidos");
+                } else {
+                    parking.append("contendo ");
+                    if (intP == 1)
+                        parking.append("1 (um) estacionamento interno e ");
+                    else
+                        parking.append(intP).append(" estacionamentos internos e ");
+                    if (extP == 1)
+                        parking.append("1 (um) estacionamento externo definidos");
+                    else
+                        parking.append(extP).append(" estacionamentos externos definidos");
+                }
+            } else
+                parking.append("sem estacionamentos internos ou externos definidos");
+            schoolObj.put("hasParking", parking);
+
+            StringBuilder blockText = new StringBuilder();
+            blockText.append("constituído por ");
+            int bl = 0;
+            boolean hSp = false;
+            for(BlockSpaceEntry block : blocks) {
+                if (block.getBlockSpaceType() == 0)
+                    bl++;
+                if (block.getBlockSpaceType() == 2)
+                    hSp = true;
+            }
+            if (bl == 1)
+                blockText.append("1 (um) bloco arquitetônico");
+            else
+                blockText.append(bl).append(" blocos arquitetônicos");
+            if (hSp)
+                blockText.append(", ladeados por espaços de apoio");
+            schoolObj.put("blockQnt", blockText);
 
             if (school.getFinalDateInspection() == null)
                 schoolObj.put("visitDate", "Em " + school.getInitialDateInspection());

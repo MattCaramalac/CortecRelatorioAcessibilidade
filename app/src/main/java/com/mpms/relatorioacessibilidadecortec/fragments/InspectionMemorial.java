@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +26,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
@@ -56,20 +55,21 @@ import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 import com.mpms.relatorioacessibilidadecortec.util.IdListObservable;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-import org.apache.poi.openxml4j.exceptions.OpenXML4JRuntimeException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observer;
+import java.util.concurrent.ExecutorService;
 
-
+//@RuntimePermissions
 public class InspectionMemorial extends Fragment implements TagInterface {
 
     static File filePath;
+
+    ExecutorService service;
 
     OnFragmentInteractionListener listener;
     TextInputLayout dropdownMenuLocations;
@@ -80,6 +80,8 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     ActivityResultLauncher<String> fillCreatedDocxFile;
 
     SchoolEntry school;
+
+    List<BlockSpaceEntry> blockList;
 
     IdListObservable bID = new IdListObservable();
     IdListObservable roomID = new IdListObservable();
@@ -335,18 +337,6 @@ public class InspectionMemorial extends Fragment implements TagInterface {
             fragInspection = new Bundle(this.getArguments());
         else
             fragInspection = new Bundle();
-
-        upText = new TextUpdate().newInstance(getContext());
-
-        fillCreatedDocxFile = registerForActivityResult(new CreateDocumentDaex(), result -> {
-            try {
-                upText.introFiller(tData, result);
-                InspectionActivity.endRegister = 1;
-                sendEmailIntent(result);
-            } catch (IOException | OpenXML4JRuntimeException e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     @Override
@@ -370,35 +360,35 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
         modelEntry.getEntry(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), entry -> school = entry);
 
+        modelEntry.getAllBlocksSchool(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), blocks -> blockList = blocks);
+
         modelEntry.getAllBlockIds(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), bList -> bID.setIdList(bList));
-
-
 
         saveAndClose.setOnClickListener(v -> {
 
-            JsonCreation jCreate = new JsonCreation(school, roomList, extList, parkList, playList, restList, sideList, fountList, roomStRaList, sideStRaList,
+            JsonCreation jCreate = new JsonCreation(school, blockList, roomList, extList, parkList, playList, restList, sideList, fountList, roomStRaList, sideStRaList,
                     extStRaList, parkStRaList, boardList, counterList, doorList, freeList, switchList, tableList, windowList, doorLockList,
                     gateLockList, gateList, extPhoneList, sidePhoneList, slopeList, roomFlightList, sideFlightList, extFlightList, parkFlightList,
                     roomRailList, sideRailList, extRailList, parkRailList, roomHandList, sideHandList, extHandList, parkHandList);
 
             tData = jCreate.createJson();
 
-            upText.newFileName();
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-                try {
-                    upText.introFiller(tData, Uri.parse(upText.fileName));
-                    InspectionActivity.endRegister = 1;
-                    sendEmailIntent(Uri.parse(upText.fileName));
-                } catch (IOException | OpenXML4JRuntimeException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                filePath = upText.path;
-                fillCreatedDocxFile.launch(upText.fName);
-            }
+            InspectionActivity.callFunction(tData);
+
+//            upText.newFileName();
+//            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+//                try {
+//                    upText.introFiller(tData, Uri.parse(upText.fileName));
+//                    sendEmailIntent(Uri.parse(upText.fileName));
+//                } catch (IOException | OpenXML4JRuntimeException e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                filePath = upText.path;
+//                fillCreatedDocxFile.launch(upText.fName);
+//            }
         });
     }
-
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -448,21 +438,14 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         sender.putExtra(Intent.EXTRA_SUBJECT, "Relatório DOCX");
         sender.putExtra(Intent.EXTRA_STREAM, uri);
         sender.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-
-
 //        List<ResolveInfo> resInfoList = getContext().getPackageManager().queryIntentActivities(sender, PackageManager.MATCH_DEFAULT_ONLY);
 //        for (ResolveInfo resolveInfo : resInfoList) {
 //            String packageName = resolveInfo.activityInfo.packageName;
 //            getContext().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
 //        }
-        Log.i("Content", uri.toString());
         sender.setType("message/rfc822");
+        InspectionActivity.endRegister = 1;
         startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
-
-
-
-
-
     }
 
     public static class CreateDocumentDaex extends ActivityResultContracts.CreateDocument {
