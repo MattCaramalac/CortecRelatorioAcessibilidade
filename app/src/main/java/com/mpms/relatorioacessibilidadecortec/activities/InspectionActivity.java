@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.DocumentsContract;
+import android.view.View;
 import android.widget.ProgressBar;
 
 import androidx.activity.OnBackPressedCallback;
@@ -20,6 +21,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
@@ -38,8 +40,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class InspectionActivity extends AppCompatActivity implements InspectionMemorial.OnFragmentInteractionListener, TagInterface {
 
@@ -47,6 +51,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     static File filePath;
     private static Context context;
+    Future<?> check;
 
     ExecutorService service;
     Handler handler;
@@ -54,7 +59,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     static TextUpdate upText;
     static HashMap<String, String> tData;
     static ActivityResultLauncher<String> fillCreatedDocxFile;
-    ProgressBar bar;
+    static ProgressBar bar;
 
 //    ------------------------------------
 
@@ -77,6 +82,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         context = this;
         service = Executors.newSingleThreadExecutor();
         handler = new Handler(Looper.getMainLooper());
+        bar = findViewById(R.id.progress_bar);
 //        ---------------------
 
         if (inspectionBundle.getInt(BLOCK_ID) == 0) {
@@ -85,7 +91,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 areaType = 1;
             else if (inspectionBundle.getBoolean(SUP_AREA_REG))
                 areaType = 2;
-            modelEntry.getAreaFromSchool(inspectionBundle.getInt(SchoolRegisterActivity.SCHOOL_ID), areaType)
+            modelEntry.getAreaFromSchool(inspectionBundle.getInt(SCHOOL_ID), areaType)
                     .observe(this, area -> inspectionBundle.putInt(BLOCK_ID, area.getBlockSpaceID()));
         }
 
@@ -94,38 +100,46 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         this.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                    if (registerFragmentOnScreen())
-                        finish();
-                    else {
-                        setEnabled(false);
-                        InspectionActivity.super.onBackPressed();
-                    }
+                if (registerFragmentOnScreen())
+                    finish();
+                else {
+                    setEnabled(false);
+                    InspectionActivity.super.onBackPressed();
+                }
                 setEnabled(true);
             }
         });
 
-                fillCreatedDocxFile = registerForActivityResult(new CreateDocumentDaex(), result -> {
-                    service.execute(() -> {
-                        boolean finish = false;
-                        try {
-                            finish = upText.introFiller(tData, result, context);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        boolean finalFinish = finish;
-                        handler.post(() -> {
-                            if(finalFinish)
-                                sendEmailIntent(result);
-                        });
-                    });
-//                    try {
-//                        upText.teste(tData, result);
-//                        sendEmailIntent(result);
-//                    } catch (IOException | OpenXML4JRuntimeException e) {
-//                        e.printStackTrace();
-//                    }
+        fillCreatedDocxFile = registerForActivityResult(new CreateDocumentDaex(), result -> {
+            Future<?> future = service.submit(() -> {
+                boolean finish = false;
+                try {
+                    finish = upText.docFiller(tData, result, context);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                boolean finalFinish = finish;
+                handler.post(() -> {
+                    if (finalFinish)
+                        sendEmailIntent(result);
                 });
+            });
+
+            showProgress(true);
+            try {
+                check = (Future<?>) future.get();
+            } catch (ExecutionException | InterruptedException e) {
+                e.printStackTrace();
+            }
+            while (check != null) {
+                try {
+                    check = (Future<?>) future.get();
+                } catch (ExecutionException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            showProgress(false);
+        });
     }
 
     @Override
@@ -260,7 +274,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         else {
             if (frag instanceof ExternalAccessListFragment || frag instanceof ParkingLotListFragment || frag instanceof PlaygroundListFragment
                     || frag instanceof RestListFragment || frag instanceof RoomRegisterListFragment || frag instanceof SidewalkListFragment
-                    || frag instanceof WaterFountainListFragment )
+                    || frag instanceof WaterFountainListFragment)
                 i = 0;
         }
         return i == 0;
@@ -268,12 +282,13 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
 //    ------------------------------------------
 
-    public static void callFunction(HashMap<String, String> tData) {
+    public static void callFunction(HashMap<String, String> tData, JsonCreation jCreate) {
         InspectionActivity.tData = tData;
+        upText.setJsonCreation(jCreate);
         upText.newFileName();
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
             try {
-                upText.introFiller(tData, Uri.parse(upText.fileName), context);
+                upText.docFiller(tData, Uri.parse(upText.fileName), context);
                 sendEmailIntent(Uri.parse(upText.fileName));
             } catch (IOException | OpenXML4JRuntimeException e) {
                 e.printStackTrace();
@@ -286,19 +301,19 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public static void sendEmailIntent(Uri uri) {
         Intent sender = new Intent(Intent.ACTION_SEND);
-//        sender.putExtra(Intent.EXTRA_EMAIL, school.getEmailAddress());
         sender.putExtra(Intent.EXTRA_SUBJECT, "Relatório DOCX");
         sender.putExtra(Intent.EXTRA_STREAM, uri);
         sender.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        sender.setType("message/rfc822");
+        InspectionActivity.endRegister = 1;
+        context.startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
+    }
+//        sender.putExtra(Intent.EXTRA_EMAIL, school.getEmailAddress());
 //        List<ResolveInfo> resInfoList = getContext().getPackageManager().queryIntentActivities(sender, PackageManager.MATCH_DEFAULT_ONLY);
 //        for (ResolveInfo resolveInfo : resInfoList) {
 //            String packageName = resolveInfo.activityInfo.packageName;
 //            getContext().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
 //        }
-        sender.setType("message/rfc822");
-        InspectionActivity.endRegister = 1;
-        context.startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
-    }
 
     public static class CreateDocumentDaex extends ActivityResultContracts.CreateDocument {
 
@@ -311,6 +326,10 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     .addCategory(Intent.CATEGORY_OPENABLE)
                     .putExtra(DocumentsContract.EXTRA_INITIAL_URI, filePath);
         }
+    }
+
+    public static void showProgress(boolean show) {
+        bar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 }
 

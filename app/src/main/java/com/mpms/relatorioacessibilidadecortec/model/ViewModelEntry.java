@@ -253,7 +253,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getParkingLotFromSide(blockID, sideID);
     }
 
-    public static LiveData<List<ParkingLotEntry>> getAllParkingLots(List<Integer> blockID) {
+    public LiveData<List<ParkingLotEntry>> getAllParkingLots(List<Integer> blockID) {
         return repository.getAllParkingLots(blockID);
     }
 

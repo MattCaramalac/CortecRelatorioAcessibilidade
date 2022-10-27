@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 
+import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
+
 import org.apache.poi.openxml4j.exceptions.OpenXML4JRuntimeException;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -17,6 +19,8 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,10 +34,14 @@ public class TextUpdate {
     public String fName;
     public String fileName;
     static FileOutputStream outStream;
+    static JsonCreation jCreate;
+    static final String INSPECT_OBJ = "a seguir:";
+    static List<String> blockContent = Arrays.asList("Bloco 1", "Bloco 2", "Bloco 3"); //Temporário
+    static XWPFDocument doc;
 
-    public boolean introFiller(HashMap<String, String> variable, Uri uri, Context ctx) throws IOException, OpenXML4JRuntimeException {
+    public boolean docFiller(HashMap<String, String> variable, Uri uri, Context ctx) throws IOException, OpenXML4JRuntimeException {
         try {
-            XWPFDocument doc = new XWPFDocument(ctx.getAssets().open("template.docx"));
+            doc = new XWPFDocument(ctx.getAssets().open("template.docx"));
             changeParagraphs(doc.getParagraphs(), variable);
             alterTable(doc.getTablesIterator(), variable);
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
@@ -48,8 +56,21 @@ public class TextUpdate {
         } catch (IOException | OpenXML4JRuntimeException e) {
             e.printStackTrace();
         }
-
         return true;
+    }
+
+    public void setJsonCreation(JsonCreation jCreate) {
+        TextUpdate.jCreate = jCreate;
+    }
+
+    public List<String> setBlockDataList(JsonCreation jCreate) {
+        List<String> blockData = new ArrayList<>();
+
+        /*
+
+
+         */
+        return blockData;
     }
 
     public String newFileName() {
@@ -77,6 +98,7 @@ public class TextUpdate {
     }
 
     private static void changeParagraphs(List<XWPFParagraph> paragraphs, Map<String, String> variable) {
+        int pos = 0;
         for (XWPFParagraph paragraph : paragraphs) {
             if (!paragraph.getRuns().isEmpty()) {
                 String text = "";
@@ -89,9 +111,13 @@ public class TextUpdate {
                     String newText = exchangeVariables(text, variable);
                     paragraph.getRuns().forEach((run) -> run.setText(null, 0));
                     paragraph.getRuns().get(0).setText(newText);
+                    if (text.contains(INSPECT_OBJ))
+                        pos = paragraphs.indexOf(paragraph);
                 }
             }
         }
+        if (pos > 0)
+            CreateWordList.listCreator(doc, paragraphs.get(pos+1), blockContent);
     }
 
     public static String exchangeVariables(String text, Map<String, String> exchange) {

@@ -373,10 +373,11 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
         int typeParking;
         if (bundle.getBoolean(EXT_AREA_REG))
             typeParking = 1;
-        else if (bundle.getBoolean(SUP_AREA_REG))
-            typeParking = 2;
         else
-            typeParking = 3;
+//        else if (bundle.getBoolean(SUP_AREA_REG))
+            typeParking = 2;
+//        else
+//            typeParking = 3;
         String accessFloorObs = null, accessRouteObs = null;
         Integer sideID = null;
 

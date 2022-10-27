@@ -26,4 +26,15 @@
         app:layout_constraintTop_toBottomOf="@id/chooseItemMemorial"
         android:layout_marginTop="@dimen/usual_padding"/>
 
+<!--    TODO - Retirar para colocar no MainActivity depois, quando o envio for feito daquela tela -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
