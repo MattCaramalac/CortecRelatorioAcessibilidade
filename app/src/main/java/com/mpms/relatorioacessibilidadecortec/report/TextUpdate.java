@@ -7,7 +7,10 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.OpenXML4JRuntimeException;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -19,8 +22,6 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,8 +37,10 @@ public class TextUpdate {
     static FileOutputStream outStream;
     static JsonCreation jCreate;
     static final String INSPECT_OBJ = "a seguir:";
-    static List<String> blockContent = Arrays.asList("Bloco 1", "Bloco 2", "Bloco 3"); //Temporário
+    static List<String> blockContent;
     static XWPFDocument doc;
+    static ViewModelEntry modelEntry;
+    static final Logger LOGGER = LogManager.getLogger(TextUpdate.class);
 
     public boolean docFiller(HashMap<String, String> variable, Uri uri, Context ctx) throws IOException, OpenXML4JRuntimeException {
         try {
@@ -54,23 +57,15 @@ public class TextUpdate {
             doc.close();
             outStream.close();
         } catch (IOException | OpenXML4JRuntimeException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            LOGGER.error(e);
         }
         return true;
     }
 
-    public void setJsonCreation(JsonCreation jCreate) {
+    public void setJsonCreation(JsonCreation jCreate, List<String> blockContent) {
         TextUpdate.jCreate = jCreate;
-    }
-
-    public List<String> setBlockDataList(JsonCreation jCreate) {
-        List<String> blockData = new ArrayList<>();
-
-        /*
-
-
-         */
-        return blockData;
+        TextUpdate.blockContent = blockContent;
     }
 
     public String newFileName() {
@@ -90,9 +85,12 @@ public class TextUpdate {
                 fName = "Report" + fileNo;
                 file = new File(path + "/" + fName + ".docx");
                 newName = path + "/" + fName + ".docx";
+                fileName = newName;
             }
-        } else if (!file.exists())
+        } else if (!file.exists()) {
             newName = path + "/" + fName + ".docx";
+            fileName = newName;
+        }
 
         return newName;
     }

@@ -2,13 +2,38 @@ package com.mpms.relatorioacessibilidadecortec.commService;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class JsonCreation {
 
@@ -17,98 +42,321 @@ public class JsonCreation {
     private boolean hasHelpSpace;
     private final int extPark;
     private final int intPark;
-//    private List<RoomEntry> roomList;
-//    private List<ExternalAccess> extList;
-//    private List<PlaygroundEntry> playList;
-//    private List<RestroomEntry> restList;
-//    private List<SidewalkEntry> sideList;
-//    private List<WaterFountainEntry> fountList;
-//    private List<RampStairsEntry> roomStRaList;
-//    private List<RampStairsEntry> sideStRaList;
-//    private List<RampStairsEntry> extStRaList;
-//    private List<RampStairsEntry> parkStRaList;
-//    private List<BlackboardEntry> boardList;
-//    private List<CounterEntry> counterList;
-//    private List<DoorEntry> doorList;
-//    private List<FreeSpaceEntry> freeList;
-//    private List<SwitchEntry> switchList;
-//    private List<TableEntry> tableList;
-//    private List<WindowEntry> windowList;
-//    private List<DoorLockEntry> doorLockList;
-//    private List<DoorLockEntry> gateLockList;
-//    private List<GateObsEntry> gateList;
-//    private List<PayPhoneEntry> extPhoneList;
-//    private List<PayPhoneEntry> sidePhoneList;
-//    private List<SidewalkSlopeEntry> slopeList;
-//    private List<RampStairsFlightEntry> roomFlightList;
-//    private List<RampStairsFlightEntry> sideFlightList;
-//    private List<RampStairsFlightEntry> extFlightList;
-//    private List<RampStairsFlightEntry> parkFlightList;
-//    private List<RampStairsRailingEntry> roomRailList;
-//    private List<RampStairsRailingEntry> sideRailList;
-//    private List<RampStairsRailingEntry> extRailList;
-//    private List<RampStairsRailingEntry> parkRailList;
-//    private List<RampStairsHandrailEntry> roomHandList;
-//    private List<RampStairsHandrailEntry> sideHandList;
-//    private List<RampStairsHandrailEntry> extHandList;
-//    private List<RampStairsHandrailEntry> parkHandList;
+    //    private final ViewModelEntry modelEntry;
+//    private final Context context;
+//    private final LifecycleOwner owner;
+    private List<BlockSpaceEntry> blockList;
+    private List<RoomEntry> roomList;
+    private List<ExternalAccess> extList;
+    private List<PlaygroundEntry> playList;
+    private List<ParkingLotEntry> parkList;
+    private List<RestroomEntry> restList;
+    private List<SidewalkEntry> sideList;
+    private List<WaterFountainEntry> fountList;
+    private List<RampStairsEntry> roomStRaList;
+    private List<RampStairsEntry> sideStRaList;
+    private List<RampStairsEntry> extStRaList;
+    private List<RampStairsEntry> parkStRaList;
+    private List<BlackboardEntry> boardList;
+    private List<CounterEntry> counterList;
+    private List<DoorEntry> doorList;
+    private List<FreeSpaceEntry> freeList;
+    private List<SwitchEntry> switchList;
+    private List<TableEntry> tableList;
+    private List<WindowEntry> windowList;
+    private List<DoorLockEntry> doorLockList;
+    private List<DoorLockEntry> gateLockList;
+    private List<GateObsEntry> gateList;
+    private List<PayPhoneEntry> extPhoneList;
+    private List<PayPhoneEntry> sidePhoneList;
+    private List<SidewalkSlopeEntry> slopeList;
+    private List<RampStairsFlightEntry> roomFlightList;
+    private List<RampStairsFlightEntry> sideFlightList;
+    private List<RampStairsFlightEntry> extFlightList;
+    private List<RampStairsFlightEntry> parkFlightList;
+    private List<RampStairsRailingEntry> roomRailList;
+    private List<RampStairsRailingEntry> sideRailList;
+    private List<RampStairsRailingEntry> extRailList;
+    private List<RampStairsRailingEntry> parkRailList;
+    private List<RampStairsHandrailEntry> roomHandList;
+    private List<RampStairsHandrailEntry> sideHandList;
+    private List<RampStairsHandrailEntry> extHandList;
+    private List<RampStairsHandrailEntry> parkHandList;
 
-//    public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blocks, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList,
-//                        List<PlaygroundEntry> playList, List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList,
-//                        List<RampStairsEntry> roomStRaList, List<RampStairsEntry> sideStRaList, List<RampStairsEntry> extStRaList, List<RampStairsEntry> parkStRaList,
-//                        List<BlackboardEntry> boardList, List<CounterEntry> counterList, List<DoorEntry> doorList, List<FreeSpaceEntry> freeList, List<SwitchEntry> switchList,
-//                        List<TableEntry> tableList, List<WindowEntry> windowList, List<DoorLockEntry> doorLockList, List<DoorLockEntry> gateLockList, List<GateObsEntry> gateList,
-//                        List<PayPhoneEntry> extPhoneList, List<PayPhoneEntry> sidePhoneList, List<SidewalkSlopeEntry> slopeList, List<RampStairsFlightEntry> roomFlightList,
-//                        List<RampStairsFlightEntry> sideFlightList, List<RampStairsFlightEntry> extFlightList, List<RampStairsFlightEntry> parkFlightList,
-//                        List<RampStairsRailingEntry> roomRailList, List<RampStairsRailingEntry> sideRailList, List<RampStairsRailingEntry> extRailList,
-//                        List<RampStairsRailingEntry> parkRailList, List<RampStairsHandrailEntry> roomHandList, List<RampStairsHandrailEntry> sideHandList,
-//                        List<RampStairsHandrailEntry> extHandList, List<RampStairsHandrailEntry> parkHandList) {
-//        this.school = school;
-//        this.blocks = blocks;
-//        this.roomList = roomList;
-//        this.extList = extList;
-//        this.parkList = parkList;
-//        this.playList = playList;
-//        this.restList = restList;
-//        this.sideList = sideList;
-//        this.fountList = fountList;
-//        this.roomStRaList = roomStRaList;
-//        this.sideStRaList = sideStRaList;
-//        this.extStRaList = extStRaList;
-//        this.parkStRaList = parkStRaList;
-//        this.boardList = boardList;
-//        this.counterList = counterList;
-//        this.doorList = doorList;
-//        this.freeList = freeList;
-//        this.switchList = switchList;
-//        this.tableList = tableList;
-//        this.windowList = windowList;
-//        this.doorLockList = doorLockList;
-//        this.gateLockList = gateLockList;
-//        this.gateList = gateList;
-//        this.extPhoneList = extPhoneList;
-//        this.sidePhoneList = sidePhoneList;
-//        this.slopeList = slopeList;
-//        this.roomFlightList = roomFlightList;
-//        this.sideFlightList = sideFlightList;
-//        this.extFlightList = extFlightList;
-//        this.parkFlightList = parkFlightList;
-//        this.roomRailList = roomRailList;
-//        this.sideRailList = sideRailList;
-//        this.extRailList = extRailList;
-//        this.parkRailList = parkRailList;
-//        this.roomHandList = roomHandList;
-//        this.sideHandList = sideHandList;
-//        this.extHandList = extHandList;
-//        this.parkHandList = parkHandList;
-//    }
-
-    public JsonCreation (SchoolEntry school, int qntBlocks, boolean hasHelpSpace, int extPark, int intPark) {
+    public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blockList, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList,
+                        List<PlaygroundEntry> playList, List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList,
+                        List<RampStairsEntry> roomStRaList, List<RampStairsEntry> sideStRaList, List<RampStairsEntry> extStRaList, List<RampStairsEntry> parkStRaList,
+                        List<BlackboardEntry> boardList, List<CounterEntry> counterList, List<DoorEntry> doorList, List<FreeSpaceEntry> freeList, List<SwitchEntry> switchList,
+                        List<TableEntry> tableList, List<WindowEntry> windowList, List<DoorLockEntry> doorLockList, List<DoorLockEntry> gateLockList, List<GateObsEntry> gateList,
+                        List<PayPhoneEntry> extPhoneList, List<PayPhoneEntry> sidePhoneList, List<SidewalkSlopeEntry> slopeList, List<RampStairsFlightEntry> roomFlightList,
+                        List<RampStairsFlightEntry> sideFlightList, List<RampStairsFlightEntry> extFlightList, List<RampStairsFlightEntry> parkFlightList,
+                        List<RampStairsRailingEntry> roomRailList, List<RampStairsRailingEntry> sideRailList, List<RampStairsRailingEntry> extRailList,
+                        List<RampStairsRailingEntry> parkRailList, List<RampStairsHandrailEntry> roomHandList, List<RampStairsHandrailEntry> sideHandList,
+                        List<RampStairsHandrailEntry> extHandList, List<RampStairsHandrailEntry> parkHandList, int qntBlocks, boolean hasHelpSpace, int extPark, int intPark) {
         this.school = school;
+        this.blockList = blockList;
+        this.roomList = roomList;
+        this.extList = extList;
+        this.parkList = parkList;
+        this.playList = playList;
+        this.restList = restList;
+        this.sideList = sideList;
+        this.fountList = fountList;
+        this.roomStRaList = roomStRaList;
+        this.sideStRaList = sideStRaList;
+        this.extStRaList = extStRaList;
+        this.parkStRaList = parkStRaList;
+        this.boardList = boardList;
+        this.counterList = counterList;
+        this.doorList = doorList;
+        this.freeList = freeList;
+        this.switchList = switchList;
+        this.tableList = tableList;
+        this.windowList = windowList;
+        this.doorLockList = doorLockList;
+        this.gateLockList = gateLockList;
+        this.gateList = gateList;
+        this.extPhoneList = extPhoneList;
+        this.sidePhoneList = sidePhoneList;
+        this.slopeList = slopeList;
+        this.roomFlightList = roomFlightList;
+        this.sideFlightList = sideFlightList;
+        this.extFlightList = extFlightList;
+        this.parkFlightList = parkFlightList;
+        this.roomRailList = roomRailList;
+        this.sideRailList = sideRailList;
+        this.extRailList = extRailList;
+        this.parkRailList = parkRailList;
+        this.roomHandList = roomHandList;
+        this.sideHandList = sideHandList;
+        this.extHandList = extHandList;
+        this.parkHandList = parkHandList;
         this.qntBlocks = qntBlocks;
         this.hasHelpSpace = hasHelpSpace;
         this.extPark = extPark;
         this.intPark = intPark;
+    }
+
+    public List<String> ambListCreator() {
+        List<String> ambientList = new ArrayList<>();
+        for (int i = 0; i < blockList.size(); i++) {
+            BlockSpaceEntry block = blockList.get(i);
+            StringBuilder build = new StringBuilder();
+            if (block.getBlockSpaceType() == 0) {
+                int bib = 0, coord = 0, dir = 0, ref = 0, classroom = 0, techRoom = 0, recRoom = 0, profRoom = 0, sec = 0, mBan = 0, fBan = 0, famBan = 0, infBan = 0, water = 0;
+                build.append("Bloco ").append(i + 1).append(", contendo: ");
+                for (int j = 0; j < roomList.size(); j++) {
+                    RoomEntry entry = roomList.get(j);
+                    if (block.getBlockSpaceID() == entry.getBlockID()) {
+                        switch (entry.getRoomType()) {
+                            case 2:
+                                bib++;
+                                break;
+                            case 3:
+                                coord++;
+                                break;
+                            case 4:
+                                dir++;
+                                break;
+                            case 5:
+                                ref++;
+                                break;
+                            case 6:
+                                classroom++;
+                                break;
+                            case 7:
+                                techRoom++;
+                                break;
+                            case 8:
+                                recRoom++;
+                                break;
+                            case 9:
+                                profRoom++;
+                                break;
+                            case 11:
+                                sec++;
+                                break;
+                            case 12:
+                                build.append(entry.getRoomDescription()).append(", ");
+                        }
+                    }
+                }
+
+                for (int j = 0; j < restList.size(); j++) {
+                    RestroomEntry rest = restList.get(j);
+                    if (block.getBlockSpaceID() == rest.getBlockID()) {
+                        if (rest.getRestType() == 0)
+                            mBan++;
+                        else if (rest.getRestType() == 1)
+                            fBan++;
+                        else if (rest.getRestType() == 2)
+                            famBan++;
+                        else
+                            infBan++;
+                    }
+                }
+
+                for (int j = 0; j < fountList.size(); j++) {
+                    WaterFountainEntry fountain = fountList.get(j);
+                    if (block.getBlockSpaceID() == fountain.getBlockID())
+                        water++;
+                }
+
+                if (bib == 1)
+                    build.append("Biblioteca, ");
+                else if (bib > 1)
+                    build.append(bib).append(" Bibliotecas, ");
+
+                if (coord == 1)
+                    build.append("Coordenação Pedagógica, ");
+                else if (coord > 1)
+                    build.append(coord).append(" salas de Coordenação Pedagógica, ");
+
+                if (dir == 1)
+                    build.append("Sala da Direção, ");
+                else if (dir > 1)
+                    build.append(dir).append(" salas da Direção, ");
+
+                if (ref == 1)
+                    build.append("Refeitório, ");
+                else if (ref > 1)
+                    build.append(ref).append(" Refeitórios, ");
+
+                if (classroom == 1)
+                    build.append(" 01 (uma) Sala de Aula, ");
+                else if (classroom > 1)
+                    build.append(classroom).append(" Salas de Aula, ");
+
+                if (techRoom == 1)
+                    build.append("Sala de Tecnologia, ");
+                else if (techRoom > 1)
+                    build.append(techRoom).append(" Salas de Tecnologia, ");
+
+                if (recRoom == 1)
+                    build.append("Sala de Recursos, ");
+                else if (recRoom > 1)
+                    build.append(recRoom).append(" Salas de Recursos, ");
+
+                if (profRoom == 1)
+                    build.append("Sala dos Professores, ");
+                else if (profRoom > 1)
+                    build.append(profRoom).append(" Salas dos Professores, ");
+
+                if (sec == 1)
+                    build.append("Secretaria, ");
+                else if (sec > 1)
+                    build.append(sec).append(" salas da Secretaria");
+
+                if (mBan == 1)
+                    build.append("1 (um) sanitario masculino, ");
+                else if (mBan > 1)
+                    build.append(mBan).append(" sanitários masculinos, ");
+
+                if (fBan == 1)
+                    build.append("1 (um) sanitario feminino, ");
+                else if (fBan > 1)
+                    build.append(fBan).append(" sanitários femininos, ");
+
+                if (famBan == 1)
+                    build.append("1 (um) sanitario familiar, ");
+                else if (famBan > 1)
+                    build.append(famBan).append(" sanitários familiar, ");
+
+                if (infBan == 1)
+                    build.append("1 (um) sanitario infantil, ");
+                else if (infBan > 1)
+                    build.append(infBan).append(" sanitários infantis, ");
+
+                if (water == 1)
+                    build.append("1 (um) bebedouro.");
+                else if (water > 1)
+                    build.append(water).append(" bebedouros.");
+
+                ambientList.add(build.toString());
+            }
+            else if (block.getBlockSpaceType() == 2) {
+                int water = 0, park = 0, play = 0, mBan = 0, fBan = 0, famBan = 0, infBan = 0, other = 0;
+                build.append("Espaços de Apoio, sendo: ");
+
+                for (int j = 0; j < fountList.size(); j++) {
+                    WaterFountainEntry fountain = fountList.get(j);
+                    if (block.getBlockSpaceID() == fountain.getBlockID())
+                        water++;
+                }
+
+                for (int j = 0; j < parkList.size(); j++) {
+                    ParkingLotEntry parking = parkList.get(j);
+                    if (block.getBlockSpaceID() == parking.getBlockID())
+                        park++;
+                }
+
+                for (int j = 0; j < playList.size(); j++) {
+                    PlaygroundEntry playground = playList.get(j);
+                    if (block.getBlockSpaceID() == playground.getBlockID())
+                        play++;
+                }
+
+                for (int j = 0; j < restList.size(); j++) {
+                    RestroomEntry rest = restList.get(j);
+                    if (block.getBlockSpaceID() == rest.getBlockID()) {
+                        if (rest.getRestType() == 0)
+                            mBan++;
+                        else if (rest.getRestType() == 1)
+                            fBan++;
+                        else if (rest.getRestType() == 2)
+                            famBan++;
+                        else
+                            infBan++;
+                    }
+                }
+
+                for (int j = 0; j < roomList.size(); j++) {
+                    RoomEntry room = roomList.get(j);
+                    if (block.getBlockSpaceID() == room.getBlockID())
+                        build.append(room.getRoomLocation()).append(", ");
+                }
+
+                if (water == 1)
+                    build.append("1 (um) bebedouro, ");
+                else if (water > 1) {
+                    build.append(water).append(" bebedouros, ");
+                }
+
+                if (park == 1)
+                    build.append("1 (um) estacionamento interno");
+                else if (park > 1)
+                    build.append(park).append(" estacionamentos internos");
+
+                if (play == 1)
+                    build.append("Playground, ");
+                else if (play > 1)
+                    build.append(play).append(" Playgrounds, ");
+
+                if (mBan == 1)
+                    build.append("1 (um) sanitario masculino, ");
+                else if (mBan > 1)
+                    build.append(mBan).append(" sanitários masculinos, ");
+
+                if (fBan == 1)
+                    build.append("1 (um) sanitario feminino, ");
+                else if (fBan > 1)
+                    build.append(fBan).append(" sanitários femininos, ");
+
+                if (famBan == 1)
+                    build.append("1 (um) sanitario familiar, ");
+                else if (famBan > 1)
+                    build.append(famBan).append(" sanitários familiar, ");
+
+                if (infBan == 1)
+                    build.append("1 (um) sanitario infantil, ");
+                else if (infBan > 1)
+                    build.append(infBan).append(" sanitários infantis, ");
+
+                ambientList.add(build.toString());
+            }
+
+        }
+        return ambientList;
     }
 
     public String moOrYe(Integer age, Integer date) {
@@ -146,7 +394,7 @@ public class JsonCreation {
                         parking.append("contendo apenas 1 (um) estacionamento interno definido");
                     else
                         parking.append("contendo ").append(intPark).append("estacionamentos internos definidos");
-                } else if (intPark == 0)  {
+                } else if (intPark == 0) {
                     if (extPark == 1)
                         parking.append("contendo apenas 1 (um) estacionamento externo definido");
                     else
@@ -156,7 +404,7 @@ public class JsonCreation {
                     if (intPark == 1)
                         parking.append("1 (um) estacionamento interno e ");
                     else
-                        parking.append(intPark).append(" estacionamentos internos e ");
+                        parking.append(intPark).append("estacionamentos internos e ");
                     if (extPark == 1)
                         parking.append("1 (um) estacionamento externo definidos");
                     else
@@ -256,9 +504,9 @@ public class JsonCreation {
             schoolObj.put("numberWorkers", String.valueOf(school.getNumberWorkers()));
 
 //            Funcionários com PCD
-            if(school.getNumberWorkersPCD() == 0)
+            if (school.getNumberWorkersPCD() == 0)
                 schoolObj.put("disabledWorkers", "nenhum é portador");
-            else if(school.getNumberWorkersPCD() == 1)
+            else if (school.getNumberWorkersPCD() == 1)
                 schoolObj.put("disabledWorkers", "apenas 1 (um) é portador");
             else
                 schoolObj.put("disabledWorkers", school.getNumberWorkersPCD() + " são portadores");
@@ -268,7 +516,6 @@ public class JsonCreation {
                 schoolObj.put("workDescPCD", "");
             else
                 schoolObj.put("workDescPCD", ", a saber, " + school.getWorkersPCDDescription());
-
 
 
 //            Funcionários com Libras
@@ -282,7 +529,8 @@ public class JsonCreation {
 
             schoolData.put(schoolObj);
 
-            return new Gson().fromJson(schoolObj.toString(), new TypeToken<HashMap<String, String>>(){}.getType());
+            return new Gson().fromJson(schoolObj.toString(), new TypeToken<HashMap<String, String>>() {
+            }.getType());
 
 
         } catch (JSONException e) {

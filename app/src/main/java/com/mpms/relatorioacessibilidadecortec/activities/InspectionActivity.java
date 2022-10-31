@@ -40,6 +40,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -284,7 +285,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     public static void callFunction(HashMap<String, String> tData, JsonCreation jCreate) {
         InspectionActivity.tData = tData;
-        upText.setJsonCreation(jCreate);
+        List<String> blockList = jCreate.ambListCreator();
+        upText.setJsonCreation(jCreate, blockList);
         upText.newFileName();
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
             try {
