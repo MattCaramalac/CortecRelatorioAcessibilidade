@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -95,6 +96,7 @@ public class SchoolRegisterFragmentTwo extends Fragment {
                         bundleFragTwo.putBoolean(SchoolRegisterActivity.CLOSE_FRAGMENT, false);
                     }
                 } else {
+                    Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
                     modelFragments.setSaveUpdateSchoolReg(null);
                 }
             }

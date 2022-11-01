@@ -128,13 +128,13 @@
 
         <TextView
             android:id="@+id/students_age_error_message"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
+            android:text="@string/blank_field_error"
             android:textSize="14sp"
             android:textColor="@color/error_message"
             app:layout_constraintTop_toBottomOf="@id/oldest_age_month_year_radio"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/oldest_age_month_year_radio"
             android:visibility="gone"
             />
 
@@ -316,7 +316,7 @@
             android:id="@+id/total_workers_libras_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/has_libras_workers_radio"
+            app:layout_constraintTop_toBottomOf="@id/libras_workers_error"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_total_workers_libras"
