@@ -112,6 +112,9 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         });
 
         fillCreatedDocxFile = registerForActivityResult(new CreateDocumentDaex(), result -> {
+
+            showProgress(true);
+
             Future<?> future = service.submit(() -> {
                 boolean finish = false;
                 try {
@@ -126,7 +129,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 });
             });
 
-            showProgress(true);
             try {
                 check = (Future<?>) future.get();
             } catch (ExecutionException | InterruptedException e) {
@@ -290,9 +292,10 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         upText.newFileName();
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
             try {
-                upText.docFiller(tData, Uri.parse(upText.fileName), context);
-                sendEmailIntent(Uri.parse(upText.fileName));
+                InspectionActivity.endRegister = 1;
+                upText.docFillerQVers(tData, context);
             } catch (IOException | OpenXML4JRuntimeException e) {
+                InspectionActivity.endRegister = 0;
                 e.printStackTrace();
             }
         } else {

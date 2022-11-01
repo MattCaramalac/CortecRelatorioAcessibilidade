@@ -1,11 +1,15 @@
 package com.mpms.relatorioacessibilidadecortec.report;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 
+import androidx.core.content.FileProvider;
+
+import com.mpms.relatorioacessibilidadecortec.BuildConfig;
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
@@ -63,6 +67,32 @@ public class TextUpdate {
         return true;
     }
 
+    public void docFillerQVers(HashMap<String, String> variable, Context ctx) throws IOException, OpenXML4JRuntimeException {
+        try {
+            doc = new XWPFDocument(ctx.getAssets().open("template.docx"));
+            changeParagraphs(doc.getParagraphs(), variable);
+            alterTable(doc.getTablesIterator(), variable);
+            outStream = new FileOutputStream(fileName);
+            doc.write(outStream);
+            doc.close();
+            outStream.close();
+            sendEmailIntentQVers(ctx);
+        } catch (IOException | OpenXML4JRuntimeException e) {
+//            e.printStackTrace();
+            LOGGER.error(e);
+        }
+    }
+
+    public void sendEmailIntentQVers(Context context) {
+        Uri fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", new File(fileName));
+        Intent sender = new Intent(Intent.ACTION_SEND);
+        sender.putExtra(Intent.EXTRA_SUBJECT, "Relatório DOCX");
+        sender.putExtra(Intent.EXTRA_STREAM, fileUri);
+        sender.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        sender.setType("message/rfc822");
+        context.startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
+    }
+
     public void setJsonCreation(JsonCreation jCreate, List<String> blockContent) {
         TextUpdate.jCreate = jCreate;
         TextUpdate.blockContent = blockContent;
@@ -70,7 +100,6 @@ public class TextUpdate {
 
     public String newFileName() {
         path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-//        path = Environment.getExternalStorageDirectory();
         if (!path.exists()) {
             path.mkdirs();
         }
@@ -115,7 +144,7 @@ public class TextUpdate {
             }
         }
         if (pos > 0)
-            CreateWordList.listCreator(doc, paragraphs.get(pos+1), blockContent);
+            CreateWordList.listCreator(doc, paragraphs.get(pos + 1), blockContent);
     }
 
     public static String exchangeVariables(String text, Map<String, String> exchange) {
