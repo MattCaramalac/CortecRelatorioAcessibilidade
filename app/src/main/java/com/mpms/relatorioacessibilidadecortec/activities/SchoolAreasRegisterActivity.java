@@ -12,8 +12,6 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-import static com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity.SCHOOL_ID;
-
 public class SchoolAreasRegisterActivity extends AppCompatActivity implements TagInterface {
 
     boolean hasExtArea = true;
@@ -38,7 +36,7 @@ public class SchoolAreasRegisterActivity extends AppCompatActivity implements Ta
         modelEntry.getAreaFromSchool(areasBundle.getInt(SCHOOL_ID), 1).observe(this, extArea -> {
             if (extArea != null)
                 extID = extArea.getBlockSpaceID();
-                else
+            else
                 hasExtArea = false;
         });
 
@@ -97,7 +95,7 @@ public class SchoolAreasRegisterActivity extends AppCompatActivity implements Ta
         blocksButton = findViewById(R.id.add_blocks);
         supportAreaButton = findViewById(R.id.add_support_area);
 
-        modelEntry =  new ViewModelEntry(getApplication());
+        modelEntry = new ViewModelEntry(getApplication());
     }
 
     private void callInspectionActivity() {
