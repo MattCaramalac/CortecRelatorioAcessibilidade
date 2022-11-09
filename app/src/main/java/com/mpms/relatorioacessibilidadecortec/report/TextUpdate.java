@@ -1,17 +1,12 @@
 package com.mpms.relatorioacessibilidadecortec.report;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 
-import androidx.core.content.FileProvider;
-
-import com.mpms.relatorioacessibilidadecortec.BuildConfig;
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +17,7 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.apache.xmlbeans.XmlException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,18 +31,19 @@ import java.util.regex.Pattern;
 
 public class TextUpdate {
 
+    static final String INSPECT_OBJ = "a seguir:";
+    static final String IRREGULARITIES = "estrutura física/conservação da construção:";
+
     public File path;
     public String fName;
     public String fileName;
     static FileOutputStream outStream;
     static JsonCreation jCreate;
-    static final String INSPECT_OBJ = "a seguir:";
     static List<String> blockContent;
     static XWPFDocument doc;
-    static ViewModelEntry modelEntry;
     static final Logger LOGGER = LogManager.getLogger(TextUpdate.class);
 
-    public boolean docFiller(HashMap<String, String> variable, Uri uri, Context ctx) throws IOException, OpenXML4JRuntimeException {
+    public boolean docFiller(HashMap<String, String> variable, Uri uri, Context ctx) {
         try {
             doc = new XWPFDocument(ctx.getAssets().open("template.docx"));
             changeParagraphs(doc.getParagraphs(), variable);
@@ -60,37 +57,10 @@ public class TextUpdate {
             doc.write(outStream);
             doc.close();
             outStream.close();
-        } catch (IOException | OpenXML4JRuntimeException e) {
-//            e.printStackTrace();
+        } catch (IOException | OpenXML4JRuntimeException | XmlException e) {
             LOGGER.error(e);
         }
         return true;
-    }
-
-    public void docFillerQVers(HashMap<String, String> variable, Context ctx) throws IOException, OpenXML4JRuntimeException {
-        try {
-            doc = new XWPFDocument(ctx.getAssets().open("template.docx"));
-            changeParagraphs(doc.getParagraphs(), variable);
-            alterTable(doc.getTablesIterator(), variable);
-            outStream = new FileOutputStream(fileName);
-            doc.write(outStream);
-            doc.close();
-            outStream.close();
-            sendEmailIntentQVers(ctx);
-        } catch (IOException | OpenXML4JRuntimeException e) {
-//            e.printStackTrace();
-            LOGGER.error(e);
-        }
-    }
-
-    public void sendEmailIntentQVers(Context context) {
-        Uri fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", new File(fileName));
-        Intent sender = new Intent(Intent.ACTION_SEND);
-        sender.putExtra(Intent.EXTRA_SUBJECT, "Relatório DOCX");
-        sender.putExtra(Intent.EXTRA_STREAM, fileUri);
-        sender.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        sender.setType("message/rfc822");
-        context.startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
     }
 
     public void setJsonCreation(JsonCreation jCreate, List<String> blockContent) {
@@ -124,8 +94,8 @@ public class TextUpdate {
         return newName;
     }
 
-    private static void changeParagraphs(List<XWPFParagraph> paragraphs, Map<String, String> variable) {
-        int pos = 0;
+    private static void changeParagraphs(List<XWPFParagraph> paragraphs, Map<String, String> variable) throws XmlException {
+        int pos = 0, irr = 0;
         for (XWPFParagraph paragraph : paragraphs) {
             if (!paragraph.getRuns().isEmpty()) {
                 String text = "";
@@ -141,10 +111,17 @@ public class TextUpdate {
                     if (text.contains(INSPECT_OBJ))
                         pos = paragraphs.indexOf(paragraph);
                 }
+                if (text.contains(IRREGULARITIES))
+                    irr = paragraphs.indexOf(paragraph);
             }
         }
         if (pos > 0)
             CreateWordList.listCreator(doc, paragraphs.get(pos + 1), blockContent);
+        if (irr > 0) {
+            AmbientAnalysis analysis = new AmbientAnalysis(doc, paragraphs.get(irr + 1), jCreate);
+            analysis.writeTesting();
+        }
+
     }
 
     public static String exchangeVariables(String text, Map<String, String> exchange) {
@@ -177,14 +154,14 @@ public class TextUpdate {
             return text;
     }
 
-    private static void alterTable(Iterator<XWPFTable> itTable, Map<String, String> variaveis) {
+    private static void alterTable(Iterator<XWPFTable> itTable, Map<String, String> variaveis) throws XmlException {
         while (itTable.hasNext()) {
             XWPFTable table = itTable.next();
             extractLines(table, variaveis);
         }
     }
 
-    private static void extractLines(XWPFTable table, Map<String, String> variaveis) {
+    private static void extractLines(XWPFTable table, Map<String, String> variaveis) throws XmlException {
         int rcount = table.getNumberOfRows();
         for (int j = 0; j < rcount; j++) {
             XWPFTableRow row = table.getRow(j);

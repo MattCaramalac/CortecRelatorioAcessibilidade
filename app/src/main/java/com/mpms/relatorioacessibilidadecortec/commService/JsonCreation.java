@@ -42,9 +42,6 @@ public class JsonCreation {
     private boolean hasHelpSpace;
     private final int extPark;
     private final int intPark;
-    //    private final ViewModelEntry modelEntry;
-//    private final Context context;
-//    private final LifecycleOwner owner;
     private List<BlockSpaceEntry> blockList;
     private List<RoomEntry> roomList;
     private List<ExternalAccess> extList;
@@ -541,4 +538,171 @@ public class JsonCreation {
 
     }
 
+    public SchoolEntry getSchool() {
+        return school;
+    }
+
+    public int getQntBlocks() {
+        return qntBlocks;
+    }
+
+    public boolean isHasHelpSpace() {
+        return hasHelpSpace;
+    }
+
+    public int getExtPark() {
+        return extPark;
+    }
+
+    public int getIntPark() {
+        return intPark;
+    }
+
+    public List<BlockSpaceEntry> getBlockList() {
+        return blockList;
+    }
+
+    public List<RoomEntry> getRoomList() {
+        return roomList;
+    }
+
+    public List<ExternalAccess> getExtList() {
+        return extList;
+    }
+
+    public List<PlaygroundEntry> getPlayList() {
+        return playList;
+    }
+
+    public List<ParkingLotEntry> getParkList() {
+        return parkList;
+    }
+
+    public List<RestroomEntry> getRestList() {
+        return restList;
+    }
+
+    public List<SidewalkEntry> getSideList() {
+        return sideList;
+    }
+
+    public List<WaterFountainEntry> getFountList() {
+        return fountList;
+    }
+
+    public List<RampStairsEntry> getRoomStRaList() {
+        return roomStRaList;
+    }
+
+    public List<RampStairsEntry> getSideStRaList() {
+        return sideStRaList;
+    }
+
+    public List<RampStairsEntry> getExtStRaList() {
+        return extStRaList;
+    }
+
+    public List<RampStairsEntry> getParkStRaList() {
+        return parkStRaList;
+    }
+
+    public List<BlackboardEntry> getBoardList() {
+        return boardList;
+    }
+
+    public List<CounterEntry> getCounterList() {
+        return counterList;
+    }
+
+    public List<DoorEntry> getDoorList() {
+        return doorList;
+    }
+
+    public List<FreeSpaceEntry> getFreeList() {
+        return freeList;
+    }
+
+    public List<SwitchEntry> getSwitchList() {
+        return switchList;
+    }
+
+    public List<TableEntry> getTableList() {
+        return tableList;
+    }
+
+    public List<WindowEntry> getWindowList() {
+        return windowList;
+    }
+
+    public List<DoorLockEntry> getDoorLockList() {
+        return doorLockList;
+    }
+
+    public List<DoorLockEntry> getGateLockList() {
+        return gateLockList;
+    }
+
+    public List<GateObsEntry> getGateList() {
+        return gateList;
+    }
+
+    public List<PayPhoneEntry> getExtPhoneList() {
+        return extPhoneList;
+    }
+
+    public List<PayPhoneEntry> getSidePhoneList() {
+        return sidePhoneList;
+    }
+
+    public List<SidewalkSlopeEntry> getSlopeList() {
+        return slopeList;
+    }
+
+    public List<RampStairsFlightEntry> getRoomFlightList() {
+        return roomFlightList;
+    }
+
+    public List<RampStairsFlightEntry> getSideFlightList() {
+        return sideFlightList;
+    }
+
+    public List<RampStairsFlightEntry> getExtFlightList() {
+        return extFlightList;
+    }
+
+    public List<RampStairsFlightEntry> getParkFlightList() {
+        return parkFlightList;
+    }
+
+    public List<RampStairsRailingEntry> getRoomRailList() {
+        return roomRailList;
+    }
+
+    public List<RampStairsRailingEntry> getSideRailList() {
+        return sideRailList;
+    }
+
+    public List<RampStairsRailingEntry> getExtRailList() {
+        return extRailList;
+    }
+
+    public List<RampStairsRailingEntry> getParkRailList() {
+        return parkRailList;
+    }
+
+    public List<RampStairsHandrailEntry> getRoomHandList() {
+        return roomHandList;
+    }
+
+    public List<RampStairsHandrailEntry> getSideHandList() {
+        return sideHandList;
+    }
+
+    public List<RampStairsHandrailEntry> getExtHandList() {
+        return extHandList;
+    }
+
+    public List<RampStairsHandrailEntry> getParkHandList() {
+        return parkHandList;
+    }
 }

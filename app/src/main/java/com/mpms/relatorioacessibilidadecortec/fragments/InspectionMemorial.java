@@ -64,6 +64,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     static boolean hasHelpSpace = false;
     static int intParkQnt = 0;
     static int extParkQnt = 0;
+    static int blockCounter = 0;
 
     OnFragmentInteractionListener listener;
     TextInputLayout dropdownMenuLocations;
@@ -355,13 +356,14 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
         modelEntry.getAllBlocksSchool(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), blocks -> {
             blockList = blocks;
-            for (int k = 0; k < blocks.size(); k++) {
+            for (int k = blockCounter; k < blocks.size(); k++) {
                 blockListId.add(blockList.get(k).getBlockSpaceID());
                 if (blockList.get(k).getBlockSpaceType() == 0)
                     blockQnt++;
                 else if (blockList.get(k).getBlockSpaceType() == 2)
                     hasHelpSpace = true;
             }
+            blockCounter = blocks.size();
         });
 
         ViewModelEntry.getAllParkingLots(blockListId).observe(getViewLifecycleOwner(), parking -> {
@@ -384,8 +386,6 @@ public class InspectionMemorial extends Fragment implements TagInterface {
                     extStRaList, parkStRaList, boardList, counterList, doorList, freeList, switchList, tableList, windowList, doorLockList,
                     gateLockList, gateList, extPhoneList, sidePhoneList, slopeList, roomFlightList, sideFlightList, extFlightList, parkFlightList,
                     roomRailList, sideRailList, extRailList, parkRailList, roomHandList, sideHandList, extHandList, parkHandList, blockQnt, hasHelpSpace, extParkQnt, intParkQnt);
-
-//            JsonCreation jCreate = new JsonCreation(school, blockQnt, hasHelpSpace, extParkQnt, intParkQnt, modelEntry, getContext(), getViewLifecycleOwner());
 
             tData = jCreate.createJson();
 

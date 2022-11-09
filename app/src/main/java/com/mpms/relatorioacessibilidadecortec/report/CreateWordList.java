@@ -22,7 +22,7 @@ public class CreateWordList {
     static XWPFAbstractNum xwpfAbsNum;
     static BigInteger numID;
 
-    public static void listCreator(XWPFDocument mDoc, XWPFParagraph mParagraph, List<String> list) {
+    public static void listCreator(XWPFDocument mDoc, XWPFParagraph mParagraph, List<String> list)  {
         XWPFNumbering numbering = mDoc.getNumbering();
         ctAbsNum = CTAbstractNum.Factory.newInstance();
         ctAbsNum.setAbstractNumId(findAbleId(numbering));
@@ -40,6 +40,7 @@ public class CreateWordList {
             XmlCursor dispCursor = listPar.getCTP().newCursor();
             dispCursor.moveXml(cursor);
             dispCursor.close();
+
         }
     }
 

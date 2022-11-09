@@ -16,10 +16,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.mpms.relatorioacessibilidadecortec.BuildConfig;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
 import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragment;
@@ -38,7 +40,6 @@ import org.apache.poi.openxml4j.exceptions.OpenXML4JRuntimeException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -119,7 +120,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 boolean finish = false;
                 try {
                     finish = upText.docFiller(tData, result, context);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 boolean finalFinish = finish;
@@ -293,8 +294,9 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
             try {
                 InspectionActivity.endRegister = 1;
-                upText.docFillerQVers(tData, context);
-            } catch (IOException | OpenXML4JRuntimeException e) {
+                upText.docFiller(tData, Uri.parse("placeholder"), context);
+                sendEmailIntent(Uri.parse("placeholder"));
+            } catch (OpenXML4JRuntimeException e) {
                 InspectionActivity.endRegister = 0;
                 e.printStackTrace();
             }
@@ -307,18 +309,16 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     public static void sendEmailIntent(Uri uri) {
         Intent sender = new Intent(Intent.ACTION_SEND);
         sender.putExtra(Intent.EXTRA_SUBJECT, "Relatório DOCX");
-        sender.putExtra(Intent.EXTRA_STREAM, uri);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            Uri fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", new File(upText.fileName));
+            sender.putExtra(Intent.EXTRA_STREAM, fileUri);
+        } else
+            sender.putExtra(Intent.EXTRA_STREAM, uri);
         sender.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         sender.setType("message/rfc822");
         InspectionActivity.endRegister = 1;
         context.startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
     }
-//        sender.putExtra(Intent.EXTRA_EMAIL, school.getEmailAddress());
-//        List<ResolveInfo> resInfoList = getContext().getPackageManager().queryIntentActivities(sender, PackageManager.MATCH_DEFAULT_ONLY);
-//        for (ResolveInfo resolveInfo : resInfoList) {
-//            String packageName = resolveInfo.activityInfo.packageName;
-//            getContext().grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        }
 
     public static class CreateDocumentDaex extends ActivityResultContracts.CreateDocument {
 
