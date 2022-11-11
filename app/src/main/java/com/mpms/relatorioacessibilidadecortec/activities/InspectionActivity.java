@@ -53,6 +53,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     static File filePath;
     private static Context context;
+    private static String[] address;
     Future<?> check;
 
     ExecutorService service;
@@ -126,7 +127,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 boolean finalFinish = finish;
                 handler.post(() -> {
                     if (finalFinish)
-                        sendEmailIntent(result);
+                        sendEmailIntent(result, address);
                 });
             });
 
@@ -287,6 +288,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 //    ------------------------------------------
 
     public static void callFunction(HashMap<String, String> tData, JsonCreation jCreate) {
+        address = new String[]{jCreate.getSchool().getEmailAddress()};
         InspectionActivity.tData = tData;
         List<String> blockList = jCreate.ambListCreator();
         upText.setJsonCreation(jCreate, blockList);
@@ -295,7 +297,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
             try {
                 InspectionActivity.endRegister = 1;
                 upText.docFiller(tData, Uri.parse("placeholder"), context);
-                sendEmailIntent(Uri.parse("placeholder"));
+                sendEmailIntent(Uri.parse("placeholder"), address);
             } catch (OpenXML4JRuntimeException e) {
                 InspectionActivity.endRegister = 0;
                 e.printStackTrace();
@@ -306,9 +308,10 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-    public static void sendEmailIntent(Uri uri) {
+    public static void sendEmailIntent(Uri uri, String[] address) {
         Intent sender = new Intent(Intent.ACTION_SEND);
         sender.putExtra(Intent.EXTRA_SUBJECT, "Relatório DOCX");
+        sender.putExtra(Intent.EXTRA_EMAIL, address);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
             Uri fileUri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", new File(upText.fileName));
             sender.putExtra(Intent.EXTRA_STREAM, fileUri);

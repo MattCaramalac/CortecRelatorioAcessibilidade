@@ -295,6 +295,7 @@ public class SidewalkFragment extends Fragment implements TagInterface {
                     sideTransSlopeValue2.setText(String.valueOf(sidewalk.getSideTransSlope2()));
                 }
             case 1:
+                delSideMeasure.setVisibility(View.VISIBLE);
                 if (sidewalk.getSideTransSlope1() != null) {
                     sideTransSlopeField1.setVisibility(View.VISIBLE);
                     sideTransSlopeValue1.setText(String.valueOf(sidewalk.getSideTransSlope1()));

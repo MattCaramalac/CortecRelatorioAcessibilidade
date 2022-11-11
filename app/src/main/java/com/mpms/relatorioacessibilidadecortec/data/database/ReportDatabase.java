@@ -70,7 +70,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 53)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 54)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1243,6 +1243,20 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_53_54 = new Migration(53, 54) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE RampStairsFlightEntry");
+            database.execSQL("CREATE TABLE RampStairsFlightEntry (flightID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, rampStairsID INTEGER NOT NULL, " +
+                    "flightNumber INTEGER NOT NULL DEFAULT 1, flightWidth REAL, flightLength REAL, rampHeight REAL, mirrorCounter INTEGER, stairMirror1 REAL, stairMirror2 REAL, " +
+                    "stairMirror3 REAL, stairMirror4 REAL, stepCounter INTEGER, stairStep1 REAL, stairStep2 REAL, stairStep3 REAL, stairStep4 REAL, slopeCounter INTEGER, " +
+                    "rampSlope1 REAL, rampSlope2 REAL, rampSlope3 REAL, rampSlope4 REAL, signPavement INTEGER, signPavementObs TEXT, hasLowTactFloor INTEGER, " +
+                    "lowTactWidth REAL, lowTactDist REAL, hasUpTactFloor INTEGER, upTactWidth REAL, upTactDist REAL, tactileFloorObs TEXT, hasInterLevel INTEGER, " +
+                    "interLevelLength REAL, interLevelObs TEXT, borderSign INTEGER, borderSignWidth REAL, borderSignIdentifiable INTEGER, borderSignObs TEXT, flightObs TEXT, " +
+                    "FOREIGN KEY (rampStairsID) REFERENCES RampStairsEntry (rampStairsID) ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
+
 
 
 
@@ -1260,7 +1274,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35, MIGRATION_35_36,
                                     MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42,
                                     MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
-                                    MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53).build();
+                                    MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54).build();
                 }
             }
         }

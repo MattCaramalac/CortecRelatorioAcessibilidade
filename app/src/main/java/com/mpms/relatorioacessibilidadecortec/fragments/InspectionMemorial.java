@@ -230,17 +230,15 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         List<Integer> idList = idBlockList.getIdList();
 
         ViewModelEntry.getAllPhonesSidewalk(idList).observe(getViewLifecycleOwner(), phList -> sidePhoneList = phList);
-        ViewModelEntry.getAllRampStExt(idList).observe(getViewLifecycleOwner(), rampList -> {
+
+        ViewModelEntry.getAllRampStSide(idList).observe(getViewLifecycleOwner(), rampList -> {
             sideStRaList = rampList;
             List<Integer> stRaList = new ArrayList<>();
             for (RampStairsEntry st : rampList)
                 stRaList.add(st.getRampStairsID());
             flSideID.setIdList(stRaList);
         });
-        ViewModelEntry.getAllSideSlopes(idList).observe(getViewLifecycleOwner(), slList -> {
-            slopeList = slList;
-
-        });
+        ViewModelEntry.getAllSideSlopes(idList).observe(getViewLifecycleOwner(), slList -> slopeList = slList);
     };
 
     Observer doorIdList = (o, arg) -> {

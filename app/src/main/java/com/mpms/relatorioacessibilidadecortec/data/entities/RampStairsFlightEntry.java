@@ -17,6 +17,8 @@ public class RampStairsFlightEntry {
     @ColumnInfo(defaultValue = "1")
     private int flightNumber;
     private Double flightWidth;
+    private Double flightLength;
+    private Double rampHeight;
     private Integer mirrorCounter;
     private Double stairMirror1;
     private Double stairMirror2;
@@ -34,21 +36,34 @@ public class RampStairsFlightEntry {
     private Double rampSlope4;
     private Integer signPavement;
     private String signPavementObs;
-    private Integer tactileFloor;
+    private Integer hasLowTactFloor;
+    private Double lowTactWidth;
+    private Double lowTactDist;
+    private Integer hasUpTactFloor;
+    private Double upTactWidth;
+    private Double upTactDist;
     private String tactileFloorObs;
+    private Integer hasInterLevel;
+    private Double interLevelLength;
+    private String interLevelObs;
     private Integer borderSign;
     private Double borderSignWidth;
     private Integer borderSignIdentifiable;
     private String borderSignObs;
+    private String flightObs;
 
-    public RampStairsFlightEntry(int rampStairsID, int flightNumber, Double flightWidth, Integer mirrorCounter, Double stairMirror1, Double stairMirror2,
-                                 Double stairMirror3, Double stairMirror4, Integer stepCounter, Double stairStep1, Double stairStep2, Double stairStep3,
-                                 Double stairStep4, Integer slopeCounter, Double rampSlope1, Double rampSlope2, Double rampSlope3, Double rampSlope4,
-                                 Integer signPavement, String signPavementObs, Integer tactileFloor, String tactileFloorObs, Integer borderSign,
-                                 Double borderSignWidth, Integer borderSignIdentifiable, String borderSignObs) {
+    public RampStairsFlightEntry(int rampStairsID, int flightNumber, Double flightWidth, Double flightLength, Double rampHeight, Integer mirrorCounter,
+                                 Double stairMirror1, Double stairMirror2, Double stairMirror3, Double stairMirror4, Integer stepCounter, Double stairStep1,
+                                 Double stairStep2, Double stairStep3, Double stairStep4, Integer slopeCounter, Double rampSlope1, Double rampSlope2,
+                                 Double rampSlope3, Double rampSlope4, Integer signPavement, String signPavementObs, Integer hasLowTactFloor, Double lowTactWidth,
+                                 Double lowTactDist, Integer hasUpTactFloor, Double upTactWidth, Double upTactDist, String tactileFloorObs, Integer hasInterLevel,
+                                 Double interLevelLength, String interLevelObs, Integer borderSign, Double borderSignWidth, Integer borderSignIdentifiable,
+                                 String borderSignObs, String flightObs) {
         this.rampStairsID = rampStairsID;
         this.flightNumber = flightNumber;
         this.flightWidth = flightWidth;
+        this.flightLength = flightLength;
+        this.rampHeight = rampHeight;
         this.mirrorCounter = mirrorCounter;
         this.stairMirror1 = stairMirror1;
         this.stairMirror2 = stairMirror2;
@@ -66,12 +81,21 @@ public class RampStairsFlightEntry {
         this.rampSlope4 = rampSlope4;
         this.signPavement = signPavement;
         this.signPavementObs = signPavementObs;
-        this.tactileFloor = tactileFloor;
+        this.hasLowTactFloor = hasLowTactFloor;
+        this.lowTactWidth = lowTactWidth;
+        this.lowTactDist = lowTactDist;
+        this.hasUpTactFloor = hasUpTactFloor;
+        this.upTactWidth = upTactWidth;
+        this.upTactDist = upTactDist;
         this.tactileFloorObs = tactileFloorObs;
+        this.hasInterLevel = hasInterLevel;
+        this.interLevelLength = interLevelLength;
+        this.interLevelObs = interLevelObs;
         this.borderSign = borderSign;
         this.borderSignWidth = borderSignWidth;
         this.borderSignIdentifiable = borderSignIdentifiable;
         this.borderSignObs = borderSignObs;
+        this.flightObs = flightObs;
     }
 
     public int getFlightID() {
@@ -218,12 +242,12 @@ public class RampStairsFlightEntry {
         this.signPavementObs = signPavementObs;
     }
 
-    public Integer getTactileFloor() {
-        return tactileFloor;
+    public Integer getHasLowTactFloor() {
+        return hasLowTactFloor;
     }
 
-    public void setTactileFloor(Integer tactileFloor) {
-        this.tactileFloor = tactileFloor;
+    public void setHasLowTactFloor(Integer hasLowTactFloor) {
+        this.hasLowTactFloor = hasLowTactFloor;
     }
 
     public String getTactileFloorObs() {
@@ -288,5 +312,93 @@ public class RampStairsFlightEntry {
 
     public void setSlopeCounter(Integer slopeCounter) {
         this.slopeCounter = slopeCounter;
+    }
+
+    public Double getFlightLength() {
+        return flightLength;
+    }
+
+    public void setFlightLength(Double flightLength) {
+        this.flightLength = flightLength;
+    }
+
+    public Double getRampHeight() {
+        return rampHeight;
+    }
+
+    public void setRampHeight(Double rampHeight) {
+        this.rampHeight = rampHeight;
+    }
+
+    public Double getLowTactWidth() {
+        return lowTactWidth;
+    }
+
+    public void setLowTactWidth(Double lowTactWidth) {
+        this.lowTactWidth = lowTactWidth;
+    }
+
+    public Double getLowTactDist() {
+        return lowTactDist;
+    }
+
+    public void setLowTactDist(Double lowTactDist) {
+        this.lowTactDist = lowTactDist;
+    }
+
+    public Integer getHasUpTactFloor() {
+        return hasUpTactFloor;
+    }
+
+    public void setHasUpTactFloor(Integer hasUpTactFloor) {
+        this.hasUpTactFloor = hasUpTactFloor;
+    }
+
+    public Double getUpTactWidth() {
+        return upTactWidth;
+    }
+
+    public void setUpTactWidth(Double upTactWidth) {
+        this.upTactWidth = upTactWidth;
+    }
+
+    public Double getUpTactDist() {
+        return upTactDist;
+    }
+
+    public void setUpTactDist(Double upTactDist) {
+        this.upTactDist = upTactDist;
+    }
+
+    public Integer getHasInterLevel() {
+        return hasInterLevel;
+    }
+
+    public void setHasInterLevel(Integer hasInterLevel) {
+        this.hasInterLevel = hasInterLevel;
+    }
+
+    public Double getInterLevelLength() {
+        return interLevelLength;
+    }
+
+    public void setInterLevelLength(Double interLevelLength) {
+        this.interLevelLength = interLevelLength;
+    }
+
+    public String getInterLevelObs() {
+        return interLevelObs;
+    }
+
+    public void setInterLevelObs(String interLevelObs) {
+        this.interLevelObs = interLevelObs;
+    }
+
+    public String getFlightObs() {
+        return flightObs;
+    }
+
+    public void setFlightObs(String flightObs) {
+        this.flightObs = flightObs;
     }
 }

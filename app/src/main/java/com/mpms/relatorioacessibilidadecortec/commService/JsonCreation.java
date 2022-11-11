@@ -39,46 +39,46 @@ public class JsonCreation {
 
     private final SchoolEntry school;
     private final int qntBlocks;
-    private boolean hasHelpSpace;
+    private final boolean hasHelpSpace;
     private final int extPark;
     private final int intPark;
-    private List<BlockSpaceEntry> blockList;
-    private List<RoomEntry> roomList;
-    private List<ExternalAccess> extList;
-    private List<PlaygroundEntry> playList;
-    private List<ParkingLotEntry> parkList;
-    private List<RestroomEntry> restList;
-    private List<SidewalkEntry> sideList;
-    private List<WaterFountainEntry> fountList;
-    private List<RampStairsEntry> roomStRaList;
-    private List<RampStairsEntry> sideStRaList;
-    private List<RampStairsEntry> extStRaList;
-    private List<RampStairsEntry> parkStRaList;
-    private List<BlackboardEntry> boardList;
-    private List<CounterEntry> counterList;
-    private List<DoorEntry> doorList;
-    private List<FreeSpaceEntry> freeList;
-    private List<SwitchEntry> switchList;
-    private List<TableEntry> tableList;
-    private List<WindowEntry> windowList;
-    private List<DoorLockEntry> doorLockList;
-    private List<DoorLockEntry> gateLockList;
-    private List<GateObsEntry> gateList;
-    private List<PayPhoneEntry> extPhoneList;
-    private List<PayPhoneEntry> sidePhoneList;
-    private List<SidewalkSlopeEntry> slopeList;
-    private List<RampStairsFlightEntry> roomFlightList;
-    private List<RampStairsFlightEntry> sideFlightList;
-    private List<RampStairsFlightEntry> extFlightList;
-    private List<RampStairsFlightEntry> parkFlightList;
-    private List<RampStairsRailingEntry> roomRailList;
-    private List<RampStairsRailingEntry> sideRailList;
-    private List<RampStairsRailingEntry> extRailList;
-    private List<RampStairsRailingEntry> parkRailList;
-    private List<RampStairsHandrailEntry> roomHandList;
-    private List<RampStairsHandrailEntry> sideHandList;
-    private List<RampStairsHandrailEntry> extHandList;
-    private List<RampStairsHandrailEntry> parkHandList;
+    private final List<BlockSpaceEntry> blockList;
+    private final List<RoomEntry> roomList;
+    private final List<ExternalAccess> extList;
+    private final List<PlaygroundEntry> playList;
+    private final List<ParkingLotEntry> parkList;
+    private final List<RestroomEntry> restList;
+    private final List<SidewalkEntry> sideList; //*
+    private final List<WaterFountainEntry> fountList;
+    private final List<RampStairsEntry> roomStRaList;
+    private final List<RampStairsEntry> sideStRaList; //*
+    private final List<RampStairsEntry> extStRaList;
+    private final List<RampStairsEntry> parkStRaList;
+    private final List<BlackboardEntry> boardList;
+    private final List<CounterEntry> counterList;
+    private final List<DoorEntry> doorList;
+    private final List<FreeSpaceEntry> freeList;
+    private final List<SwitchEntry> switchList;
+    private final List<TableEntry> tableList;
+    private final List<WindowEntry> windowList;
+    private final List<DoorLockEntry> doorLockList;
+    private final List<DoorLockEntry> gateLockList;
+    private final List<GateObsEntry> gateList;
+    private final List<PayPhoneEntry> extPhoneList;
+    private final List<PayPhoneEntry> sidePhoneList; //*
+    private final List<SidewalkSlopeEntry> slopeList;//*
+    private final List<RampStairsFlightEntry> roomFlightList;
+    private final List<RampStairsFlightEntry> sideFlightList; //*
+    private final List<RampStairsFlightEntry> extFlightList;
+    private final List<RampStairsFlightEntry> parkFlightList;
+    private final List<RampStairsRailingEntry> roomRailList;
+    private final List<RampStairsRailingEntry> sideRailList; //*
+    private final List<RampStairsRailingEntry> extRailList;
+    private final List<RampStairsRailingEntry> parkRailList;
+    private final List<RampStairsHandrailEntry> roomHandList;
+    private final List<RampStairsHandrailEntry> sideHandList; //*
+    private final List<RampStairsHandrailEntry> extHandList;
+    private final List<RampStairsHandrailEntry> parkHandList;
 
     public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blockList, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList,
                         List<PlaygroundEntry> playList, List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList,

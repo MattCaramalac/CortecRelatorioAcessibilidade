@@ -33,20 +33,23 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class RampStairsFlightFragment extends Fragment implements TagInterface {
 
     TextView flightHeader, flightNumberHeader, dimensionsButtonsHeader, borderSignHeader, identifiableBorderSignHeader,
-            tactileSignRadioError, tactileFloorRadioError, borderSignRadioError, borderSignIdentifiableRadioError,
-            mirInclError, stepError, flightNumber;
+            tactileSignRadioError, lowerTactFloorRadioError, upperTactFloorRadioError, interLevelRadioError,
+            borderSignRadioError, borderSignIdentifiableRadioError, mirInclError, stepError, flightNumber;
     TextInputLayout rampStairsWidthField, pavementObsField, tactileFloorObsField, borderSignWidthField, borderSignObsField,
-            mirIncField1, mirIncField2, mirIncField3, mirIncField4, stepField1, stepField2, stepField3, stepField4;
+            mirIncField1, mirIncField2, mirIncField3, mirIncField4, stepField1, stepField2, stepField3, stepField4,
+            flightLengthField, rampHeightField, lowTactWidthField, lowTactDistField, upTactWidthField, upTactDistField,
+            interLvLengthField, interLvObsField, flightObsField;
     TextInputEditText rampStairsWidthValue, pavementObsValue, tactileFloorObsValue, borderSignWidthValue, borderSignObsValue,
-            mirIncValue1, mirIncValue2, mirIncValue3, mirIncValue4, stepValue1, stepValue2, stepValue3, stepValue4;
+            mirIncValue1, mirIncValue2, mirIncValue3, mirIncValue4, stepValue1, stepValue2, stepValue3, stepValue4,
+            flightLengthValue, rampHeightValue, lowTactWidthValue, lowTactDistValue, upTactWidthValue, upTactDistValue,
+            interLvLengthValue, interLvObsValue, flightObsValue;
     MaterialButton mirIncButton, stepButton, railingButton, handrailButton, saveFlight, cancelFlight;
     ImageButton deleteMirInc, deleteStep;
-    RadioGroup hasPavementSignRadio, radioTactileFloor, radioStepBorderSign, radioIdentifiableBorderSign;
+    RadioGroup hasPavementSignRadio, lowTactFloorRadio, upTactFloorRadio, interLevelRadio, radioStepBorderSign, radioIdentifiableBorderSign;
 
     Bundle flightBundle;
 
@@ -117,10 +120,17 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         saveFlight.setOnClickListener(v -> {
             if (checkEmptyFlightFields()) {
                 if (flightBundle.getInt(FLIGHT_ID) == 0) {
-                    if (updateFlight == 0) {
+                    if (updateFlight == 0 && !flightBundle.getBoolean(FROM_SIDEWALK)) {
                         Toast.makeText(getContext(), "Por favor, cadastre os componentes deste local", Toast.LENGTH_SHORT).show();
-                    } else if (updateFlight > 0) {
-                        if (checkRampStairsComponents()) {
+                    }
+                    else if (updateFlight == 0 && flightBundle.getBoolean(FROM_SIDEWALK)) {
+                        RampStairsFlightEntry newFlight = newFlightEntry(flightBundle);
+                        ViewModelEntry.insertRampsStairsFlight(newFlight);
+                        Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                        requireActivity().getSupportFragmentManager().popBackStackImmediate();
+                    }
+                    else if (updateFlight > 0 || flightBundle.getBoolean(FROM_SIDEWALK)) {
+                        if (checkRampStairsComponents() || flightBundle.getBoolean(FROM_SIDEWALK)) {
                             updateFlight(flightBundle);
                             Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                             requireActivity().getSupportFragmentManager().popBackStackImmediate();
@@ -131,7 +141,7 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
                         errorFlightProcedure();
                     }
                 } else if (flightBundle.getInt(FLIGHT_ID) > 0) {
-                    if (checkRampStairsComponents()) {
+                    if (checkRampStairsComponents() || flightBundle.getBoolean(FROM_SIDEWALK)) {
                         updateFlight(flightBundle);
                         Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
                         requireActivity().getSupportFragmentManager().popBackStackImmediate();
@@ -205,13 +215,14 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
                 stepButton.setVisibility(View.VISIBLE);
                 borderSignHeader.setVisibility(View.VISIBLE);
                 radioStepBorderSign.setVisibility(View.VISIBLE);
-                radioStepBorderSign.setOnCheckedChangeListener(this::borderSignListener);
+                radioStepBorderSign.setOnCheckedChangeListener(this::radioListener);
                 mirIncField1.setHint(getString(R.string.measurement_m_1));
                 mirIncField2.setHint(getString(R.string.measurement_m_2));
                 mirIncField3.setHint(getString(R.string.measurement_m_3));
                 mirIncField4.setHint(getString(R.string.measurement_m_4));
                 break;
             case 2:
+                rampHeightField.setVisibility(View.VISIBLE);
                 flightHeader.setText(getString(R.string.label_ramp_flights_header));
                 rampStairsWidthField.setHint(getString(R.string.hint_ramp_width));
                 dimensionsButtonsHeader.setText(getString(R.string.label_inclination_ramp_header));
@@ -244,11 +255,13 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             flightNumber.setText(String.valueOf(flightBundle.getInt(NEXT_FLIGHT)));
 //        TextViews - Errors
         tactileSignRadioError = view.findViewById(R.id.tactile_sign_error);
-        tactileFloorRadioError = view.findViewById(R.id.tactile_floor_error);
+        lowerTactFloorRadioError = view.findViewById(R.id.lower_tactile_floor_error);
         borderSignRadioError = view.findViewById(R.id.border_sign_error);
         borderSignIdentifiableRadioError = view.findViewById(R.id.border_sign_identifiable_error);
         mirInclError = view.findViewById(R.id.mirror_inclination_values_error);
         stepError = view.findViewById(R.id.step_values_error);
+        upperTactFloorRadioError = view.findViewById(R.id.upper_tactile_floor_error);
+        interLevelRadioError = view.findViewById(R.id.inter_level_error);
 //        TextInputLayouts
         rampStairsWidthField = view.findViewById(R.id.ramp_staircase_width_field);
         pavementObsField = view.findViewById(R.id.pavement_tact_sign_obs_field);
@@ -263,6 +276,15 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         stepField2 = view.findViewById(R.id.step_2_field);
         stepField3 = view.findViewById(R.id.step_3_field);
         stepField4 = view.findViewById(R.id.step_4_field);
+        flightLengthField = view.findViewById(R.id.lance_length_field);
+        rampHeightField = view.findViewById(R.id.ramp_height_field);
+        lowTactWidthField = view.findViewById(R.id.lower_tact_floor_width_field);
+        lowTactDistField = view.findViewById(R.id.lower_tact_floor_dist_field);
+        upTactWidthField = view.findViewById(R.id.upper_tact_floor_width_field);
+        upTactDistField = view.findViewById(R.id.upper_tact_floor_dist_field);
+        interLvLengthField = view.findViewById(R.id.inter_level_length_field);
+        interLvObsField = view.findViewById(R.id.inter_level_obs_field);
+        flightObsField = view.findViewById(R.id.ramp_stairs_obs_field);
 //        TextInputEditTexts
         rampStairsWidthValue = view.findViewById(R.id.ramp_staircase_width_value);
         pavementObsValue = view.findViewById(R.id.pavement_tact_sign_obs_value);
@@ -277,6 +299,15 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         stepValue2 = view.findViewById(R.id.step_2_value);
         stepValue3 = view.findViewById(R.id.step_3_value);
         stepValue4 = view.findViewById(R.id.step_4_value);
+        flightLengthValue = view.findViewById(R.id.lance_length_value);
+        rampHeightValue = view.findViewById(R.id.ramp_height_value);
+        lowTactWidthValue = view.findViewById(R.id.lower_tact_floor_width_value);
+        lowTactDistValue = view.findViewById(R.id.lower_tact_floor_dist_value);
+        upTactWidthValue = view.findViewById(R.id.upper_tact_floor_width_value);
+        upTactDistValue = view.findViewById(R.id.upper_tact_floor_dist_value);
+        interLvLengthValue = view.findViewById(R.id.inter_level_length_value);
+        interLvObsValue = view.findViewById(R.id.inter_level_obs_value);
+        flightObsValue = view.findViewById(R.id.ramp_stairs_obs_value);
 //        MaterialButton
         mirIncButton = view.findViewById(R.id.mirror_inclination_button);
         stepButton = view.findViewById(R.id.step_button);
@@ -289,9 +320,11 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         deleteStep = view.findViewById(R.id.delete_step_measure);
 //        RadioButton
         hasPavementSignRadio = view.findViewById(R.id.pavement_tactile_sign_radio);
-        radioTactileFloor = view.findViewById(R.id.tactile_floor_radio);
+        lowTactFloorRadio = view.findViewById(R.id.lower_tactile_floor_radio);
         radioStepBorderSign = view.findViewById(R.id.border_sign_radio);
         radioIdentifiableBorderSign = view.findViewById(R.id.border_sign_identifiable_radio);
+        upTactFloorRadio = view.findViewById(R.id.upper_tactile_floor_radio);
+        interLevelRadio = view.findViewById(R.id.inter_level_radio);
 
         fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -306,6 +339,9 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         deleteMirInc.setOnClickListener(this::buttonClickListener);
         railingButton.setOnClickListener(this::buttonClickListener);
         handrailButton.setOnClickListener(this::buttonClickListener);
+        lowTactFloorRadio.setOnCheckedChangeListener(this::radioListener);
+        upTactFloorRadio.setOnCheckedChangeListener(this::radioListener);
+        interLevelRadio.setOnCheckedChangeListener(this::radioListener);
 
         allowFlightObsScroll();
         setRampStairsFlightTemplate(flightBundle);
@@ -405,16 +441,20 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
     }
 
     public RampStairsFlightEntry newFlightEntry(Bundle bundle) {
-        Integer mirrorCounter = null, inclinationCounter = null, hasPavementSign = null, hasTactileFloor = null, hasBorderSign = null, borderSignVisible = null;
-        Double flightWidth = null, stairMirror1 = null, stairMirror2 = null, stairMirror3 = null, stairMirror4 = null, stairStep1 = null,
-                stairStep2 = null, stairStep3 = null, stairStep4 = null, rampSlope1 = null, rampSlope2 = null, rampSlope3 = null,
-                rampSlope4 = null, borderSignWidth = null;
-        String signPavementObs = null, tactileFloorObs = null, borderSignObs = null;
+        Integer mirrorCounter = null, inclinationCounter = null, hasPavementSign = null, hasLowTactileFloor = null, hasUpTactFloor = null,
+                hasInterLevel = null, hasBorderSign = null, borderSignVisible = null;
+        Double flightWidth = null, flightLength = null, rampHeight = null, stairMirror1 = null, stairMirror2 = null, stairMirror3 = null, stairMirror4 = null,
+                stairStep1 = null, stairStep2 = null, stairStep3 = null, stairStep4 = null, rampSlope1 = null, rampSlope2 = null, rampSlope3 = null,
+                rampSlope4 = null, lowTactWidth = null, lowTactDist = null, upTactWidth = null, upTactDist = null, interLvLength = null, borderSignWidth = null;
+        String signPavementObs = null, tactileFloorObs = null, interLvObs = null, borderSignObs = null, flightObs = null;
 
         int numberFlights = bundle.getInt(NEXT_FLIGHT);
 
         if (!TextUtils.isEmpty(rampStairsWidthValue.getText()))
             flightWidth = Double.parseDouble(String.valueOf(rampStairsWidthValue.getText()));
+        if (!TextUtils.isEmpty(flightLengthValue.getText()))
+            flightLength = Double.parseDouble(String.valueOf(flightLengthValue.getText()));
+
         if (bundle.getInt(RAMP_OR_STAIRS) == 1) {
             mirrorCounter = mirIncCounter;
             if (mirIncCounter > 0) {
@@ -434,6 +474,7 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
                         break;
                 }
             }
+
             if (stepCounter > 0) {
                 switch (stepCounter) {
                     case 4:
@@ -451,7 +492,25 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
                         break;
                 }
             }
-        } else if (bundle.getInt(RAMP_OR_STAIRS) == 2) {
+
+            if (getFlightRadioCheckedIndex(radioStepBorderSign) > -1) {
+                hasBorderSign = getFlightRadioCheckedIndex(radioStepBorderSign);
+                if (hasBorderSign == 1) {
+                    if (!TextUtils.isEmpty(borderSignWidthValue.getText()))
+                        borderSignWidth = Double.parseDouble(String.valueOf(borderSignWidthValue.getText()));
+                    if (getFlightRadioCheckedIndex(radioIdentifiableBorderSign) > -1)
+                        borderSignVisible = getFlightRadioCheckedIndex(radioIdentifiableBorderSign);
+                    if (!TextUtils.isEmpty(borderSignObsValue.getText()))
+                        borderSignObs = String.valueOf(borderSignObsValue.getText());
+                }
+            }
+        }
+
+        else if (bundle.getInt(RAMP_OR_STAIRS) == 2) {
+
+            if (!TextUtils.isEmpty(rampHeightValue.getText()))
+                rampHeight = Double.parseDouble(String.valueOf(rampHeightValue.getText()));
+
             inclinationCounter = mirIncCounter;
             if (mirIncCounter > 0) {
                 switch (mirIncCounter) {
@@ -471,31 +530,54 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
                 }
             }
         }
+
         if (getFlightRadioCheckedIndex(hasPavementSignRadio) > -1)
             hasPavementSign = getFlightRadioCheckedIndex(hasPavementSignRadio);
+
         if (!TextUtils.isEmpty(pavementObsValue.getText()))
-            signPavementObs = Objects.requireNonNull(pavementObsValue.getText()).toString();
-        if (getFlightRadioCheckedIndex(radioTactileFloor) > -1)
-            hasTactileFloor = getFlightRadioCheckedIndex(hasPavementSignRadio);
-        if (!TextUtils.isEmpty(tactileFloorObsValue.getText()))
-            tactileFloorObs = Objects.requireNonNull(pavementObsValue.getText()).toString();
-        if (bundle.getInt(RAMP_OR_STAIRS) == 1) {
-            if (getFlightRadioCheckedIndex(radioStepBorderSign) > -1) {
-                hasBorderSign = getFlightRadioCheckedIndex(radioStepBorderSign);
-                if (hasBorderSign == 1) {
-                    if (!TextUtils.isEmpty(borderSignWidthValue.getText()))
-                        borderSignWidth = Double.parseDouble(String.valueOf(borderSignWidthValue.getText()));
-                    if (getFlightRadioCheckedIndex(radioIdentifiableBorderSign) > -1)
-                        borderSignVisible = getFlightRadioCheckedIndex(radioIdentifiableBorderSign);
-                    if (!TextUtils.isEmpty(borderSignObsValue.getText()))
-                        borderSignObs = String.valueOf(borderSignObsValue.getText());
-                }
+            signPavementObs = String.valueOf(pavementObsValue.getText());
+
+        if (getFlightRadioCheckedIndex(lowTactFloorRadio) > -1) {
+            hasLowTactileFloor = getFlightRadioCheckedIndex(lowTactFloorRadio);
+            if (hasLowTactileFloor == 1) {
+                if (!TextUtils.isEmpty(lowTactWidthValue.getText()))
+                    lowTactWidth = Double.parseDouble(String.valueOf(lowTactWidthValue.getText()));
+                if (!TextUtils.isEmpty(lowTactDistValue.getText()))
+                    lowTactDist = Double.parseDouble(String.valueOf(lowTactDistValue.getText()));
             }
         }
-        return new RampStairsFlightEntry(bundle.getInt(RAMP_STAIRS_ID), numberFlights, flightWidth, mirrorCounter, stairMirror1, stairMirror2,
-                stairMirror3, stairMirror4, stepCounter, stairStep1, stairStep2, stairStep3, stairStep4, inclinationCounter, rampSlope1, rampSlope2,
-                rampSlope3, rampSlope4, hasPavementSign, signPavementObs, hasTactileFloor, tactileFloorObs, hasBorderSign, borderSignWidth,
-                borderSignVisible, borderSignObs);
+
+        if (getFlightRadioCheckedIndex(upTactFloorRadio) > -1) {
+            hasUpTactFloor = getFlightRadioCheckedIndex(upTactFloorRadio);
+            if (hasUpTactFloor == 1) {
+                if (!TextUtils.isEmpty(upTactWidthValue.getText()))
+                    upTactWidth = Double.parseDouble(String.valueOf(upTactWidthValue.getText()));
+                if (!TextUtils.isEmpty(upTactDistValue.getText()))
+                    upTactDist = Double.parseDouble(String.valueOf(upTactDistValue.getText()));
+            }
+        }
+
+        if (!TextUtils.isEmpty(tactileFloorObsValue.getText()))
+            tactileFloorObs = String.valueOf(pavementObsValue.getText());
+
+        if (getFlightRadioCheckedIndex(interLevelRadio) > -1) {
+            hasInterLevel = getFlightRadioCheckedIndex(interLevelRadio);
+            if (hasInterLevel == 1) {
+                if (!TextUtils.isEmpty(interLvLengthValue.getText()))
+                    interLvLength = Double.parseDouble(String.valueOf(interLvLengthValue.getText()));
+            }
+        }
+
+        if (!TextUtils.isEmpty(interLvObsValue.getText()))
+            interLvObs = String.valueOf(interLvObsValue.getText());
+
+        if (!TextUtils.isEmpty(flightObsValue.getText()))
+            flightObs = String.valueOf(flightObsValue.getText());
+
+        return new RampStairsFlightEntry(bundle.getInt(RAMP_STAIRS_ID), numberFlights, flightWidth, flightLength, rampHeight, mirrorCounter, stairMirror1, stairMirror2,
+                stairMirror3, stairMirror4, stepCounter, stairStep1, stairStep2, stairStep3, stairStep4, inclinationCounter, rampSlope1, rampSlope2, rampSlope3, rampSlope4,
+                hasPavementSign, signPavementObs, hasLowTactileFloor, lowTactWidth, lowTactDist, hasUpTactFloor, upTactWidth, upTactDist, tactileFloorObs, hasInterLevel,
+                interLvLength, interLvObs, hasBorderSign, borderSignWidth, borderSignVisible, borderSignObs, flightObs);
     }
 
     public int getFlightRadioCheckedIndex(RadioGroup radio) {
@@ -509,6 +591,11 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             error++;
             rampStairsWidthField.setError(getString(R.string.blank_field_error));
         }
+        if (TextUtils.isEmpty(flightLengthValue.getText())) {
+            error++;
+            flightLengthField.setError(getString(R.string.blank_field_error));
+        }
+
         switch (mirIncCounter) {
             case 4:
                 if (mirIncValue4.getText() == null) {
@@ -563,10 +650,52 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             error++;
             tactileSignRadioError.setVisibility(View.VISIBLE);
         }
-        if (getFlightRadioCheckedIndex(radioTactileFloor) == -1) {
+
+        if (getFlightRadioCheckedIndex(lowTactFloorRadio) == -1) {
             error++;
-            tactileFloorRadioError.setVisibility(View.VISIBLE);
+            lowerTactFloorRadioError.setVisibility(View.VISIBLE);
+        } else if (getFlightRadioCheckedIndex(lowTactFloorRadio) == 1) {
+            if (TextUtils.isEmpty(lowTactWidthValue.getText())) {
+                error++;
+                lowTactWidthField.setError(getString(R.string.blank_field_error));
+            }
+            if (TextUtils.isEmpty(lowTactDistValue.getText())) {
+                error++;
+                lowTactDistField.setError(getString(R.string.blank_field_error));
+            }
         }
+
+        if (getFlightRadioCheckedIndex(upTactFloorRadio) == -1) {
+            error++;
+            upperTactFloorRadioError.setVisibility(View.VISIBLE);
+        } else if (getFlightRadioCheckedIndex(upTactFloorRadio) == 1) {
+            if (TextUtils.isEmpty(upTactWidthValue.getText())) {
+                error++;
+                upTactWidthField.setError(getString(R.string.blank_field_error));
+            }
+            if (TextUtils.isEmpty(upTactDistValue.getText())) {
+                error++;
+                upTactDistField.setError(getString(R.string.blank_field_error));
+            }
+        }
+
+        if (getFlightRadioCheckedIndex(interLevelRadio) == -1) {
+            error++;
+            interLevelRadioError.setVisibility(View.VISIBLE);
+        } else if (getFlightRadioCheckedIndex(interLevelRadio) == 1) {
+            if (TextUtils.isEmpty(interLvLengthValue.getText())) {
+                error++;
+                interLvLengthField.setError(getString(R.string.blank_field_error));
+            }
+        }
+
+        if (flightBundle.getInt(RAMP_OR_STAIRS) == 0) {
+            if (TextUtils.isEmpty(rampHeightValue.getText())) {
+                error++;
+                rampHeightField.setError(getString(R.string.blank_field_error));
+            }
+        }
+
         if (flightBundle.getInt(RAMP_OR_STAIRS) == 1) {
             if (getFlightRadioCheckedIndex(radioStepBorderSign) == -1) {
                 error++;
@@ -588,8 +717,17 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
 
     public void clearEmptyFlightFieldsErrors() {
         rampStairsWidthField.setErrorEnabled(false);
+        flightLengthField.setErrorEnabled(false);
+        rampHeightField.setErrorEnabled(false);
         tactileSignRadioError.setVisibility(View.GONE);
-        tactileFloorRadioError.setVisibility(View.GONE);
+        lowerTactFloorRadioError.setVisibility(View.GONE);
+        lowTactWidthField.setErrorEnabled(false);
+        lowTactDistField.setErrorEnabled(false);
+        upperTactFloorRadioError.setVisibility(View.INVISIBLE);
+        upTactDistField.setErrorEnabled(false);
+        upTactWidthField.setErrorEnabled(false);
+        interLevelRadioError.setVisibility(View.GONE);
+        interLvLengthField.setErrorEnabled(false);
         borderSignRadioError.setVisibility(View.GONE);
         borderSignWidthField.setErrorEnabled(false);
         borderSignIdentifiableRadioError.setVisibility(View.GONE);
@@ -597,28 +735,70 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         stepError.setVisibility(View.GONE);
     }
 
-    public void borderSignListener(RadioGroup radio, int checkedID) {
+    public void radioListener(RadioGroup radio, int checkedID) {
         int index = getFlightRadioCheckedIndex(radio);
-        if (index == 1) {
-            borderSignWidthField.setVisibility(View.VISIBLE);
-            identifiableBorderSignHeader.setVisibility(View.VISIBLE);
-            radioIdentifiableBorderSign.setVisibility(View.VISIBLE);
-            borderSignObsField.setVisibility(View.VISIBLE);
-        } else {
-            borderSignWidthValue.setText(null);
-            borderSignWidthField.setVisibility(View.GONE);
-            identifiableBorderSignHeader.setVisibility(View.GONE);
-            radioIdentifiableBorderSign.clearCheck();
-            radioIdentifiableBorderSign.setVisibility(View.GONE);
-            borderSignObsValue.setText(null);
-            borderSignObsField.setVisibility(View.GONE);
+        if (radio == radioStepBorderSign) {
+            if (index == 1) {
+                borderSignWidthField.setVisibility(View.VISIBLE);
+                identifiableBorderSignHeader.setVisibility(View.VISIBLE);
+                radioIdentifiableBorderSign.setVisibility(View.VISIBLE);
+                borderSignObsField.setVisibility(View.VISIBLE);
+            } else {
+                borderSignWidthValue.setText(null);
+                borderSignWidthField.setVisibility(View.GONE);
+                identifiableBorderSignHeader.setVisibility(View.GONE);
+                radioIdentifiableBorderSign.clearCheck();
+                radioIdentifiableBorderSign.setVisibility(View.GONE);
+                borderSignObsValue.setText(null);
+                borderSignObsField.setVisibility(View.GONE);
+            }
         }
+        else if (radio == lowTactFloorRadio) {
+            if (index == 1) {
+                lowTactWidthField.setVisibility(View.VISIBLE);
+                lowTactDistField.setVisibility(View.VISIBLE);
+            } else {
+                lowTactWidthValue.setText(null);
+                lowTactDistValue.setText(null);
+                lowTactWidthField.setVisibility(View.INVISIBLE);
+                lowTactDistField.setVisibility(View.INVISIBLE);
+            }
+        }
+        else if (radio == upTactFloorRadio) {
+            if (index == 1) {
+                upTactWidthField.setVisibility(View.VISIBLE);
+                upTactDistField.setVisibility(View.VISIBLE);
+            } else {
+                upTactWidthValue.setText(null);
+                upTactDistValue.setText(null);
+                upTactWidthField.setVisibility(View.INVISIBLE);
+                upTactDistField.setVisibility(View.INVISIBLE);
+            }
+        }
+        else if (radio == interLevelRadio) {
+            if (index == 1) {
+                interLvLengthField.setVisibility(View.VISIBLE);
+                interLvObsField.setVisibility(View.VISIBLE);
+            } else {
+                interLvLengthValue.setText(null);
+                interLvObsValue.setText(null);
+                interLvLengthField.setVisibility(View.INVISIBLE);
+                interLvObsField.setVisibility(View.INVISIBLE);
+            }
+        }
+
+
     }
 
     private void loadFlightData(RampStairsFlightEntry rampStairs) {
         flightNumber.setText(String.valueOf(rampStairs.getFlightNumber()));
+
         if (rampStairs.getFlightWidth() != null)
             rampStairsWidthValue.setText(String.valueOf(rampStairs.getFlightWidth()));
+
+        if (rampStairs.getFlightLength() != null)
+            flightLengthValue.setText(String.valueOf(rampStairs.getFlightLength()));
+
         if (flightBundle.getInt(RAMP_OR_STAIRS) == 1) {
             mirIncCounter = rampStairs.getMirrorCounter();
             switch (mirIncCounter) {
@@ -667,7 +847,24 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
                 default:
                     break;
             }
-        } else if (flightBundle.getInt(RAMP_OR_STAIRS) == 2) {
+
+            if (rampStairs.getBorderSign() != null && rampStairs.getBorderSign() != -1) {
+                radioStepBorderSign.check(radioStepBorderSign.getChildAt(rampStairs.getBorderSign()).getId());
+                if (rampStairs.getBorderSign() == 1) {
+                    if (rampStairs.getBorderSignWidth() != null)
+                        borderSignWidthValue.setText(String.valueOf(rampStairs.getBorderSignWidth()));
+                    if (rampStairs.getBorderSignIdentifiable() != null && rampStairs.getBorderSignIdentifiable() != -1)
+                        radioIdentifiableBorderSign.check(radioIdentifiableBorderSign.getChildAt(rampStairs.getBorderSignIdentifiable()).getId());
+                    if (rampStairs.getBorderSignObs() != null)
+                        borderSignObsValue.setText(rampStairs.getBorderSignObs());
+                }
+            }
+
+        }
+        else if (flightBundle.getInt(RAMP_OR_STAIRS) == 2) {
+            if (rampStairs.getRampHeight() != null)
+                rampHeightValue.setText(String.valueOf(rampStairs.getRampHeight()));
+
             mirIncCounter = rampStairs.getSlopeCounter();
             switch (mirIncCounter) {
                 case 4:
@@ -695,25 +892,43 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
 
         if (rampStairs.getSignPavement() != null && rampStairs.getSignPavement() != -1)
             hasPavementSignRadio.check(hasPavementSignRadio.getChildAt(rampStairs.getSignPavement()).getId());
+
         if (rampStairs.getSignPavementObs() != null)
             pavementObsValue.setText(rampStairs.getSignPavementObs());
-        if (rampStairs.getTactileFloor() != null && rampStairs.getTactileFloor() != -1)
-            radioTactileFloor.check(radioTactileFloor.getChildAt(rampStairs.getTactileFloor()).getId());
+
+        if (rampStairs.getHasLowTactFloor() != null && rampStairs.getHasLowTactFloor() != -1)
+            lowTactFloorRadio.check(lowTactFloorRadio.getChildAt(rampStairs.getHasLowTactFloor()).getId());
+
+        if (rampStairs.getLowTactWidth() != null)
+            lowTactWidthValue.setText(String.valueOf(rampStairs.getLowTactWidth()));
+
+        if (rampStairs.getLowTactDist() != null)
+            lowTactDistValue.setText(String.valueOf(rampStairs.getLowTactDist()));
+
+        if (rampStairs.getHasUpTactFloor() != null && rampStairs.getHasUpTactFloor() != -1)
+            upTactFloorRadio.check(upTactFloorRadio.getChildAt(rampStairs.getHasUpTactFloor()).getId());
+
+        if (rampStairs.getUpTactWidth() != null)
+            upTactWidthValue.setText(String.valueOf(rampStairs.getUpTactWidth()));
+
+        if (rampStairs.getUpTactDist() != null)
+            upTactDistValue.setText(String.valueOf(rampStairs.getUpTactDist()));
+
         if (rampStairs.getTactileFloorObs() != null)
             tactileFloorObsValue.setText(rampStairs.getTactileFloorObs());
-        if (flightBundle.getInt(RAMP_OR_STAIRS) == 1) {
-            if (rampStairs.getBorderSign() != null && rampStairs.getBorderSign() != -1) {
-                radioStepBorderSign.check(radioStepBorderSign.getChildAt(rampStairs.getBorderSign()).getId());
-                if (rampStairs.getBorderSign() == 1) {
-                    if (rampStairs.getBorderSignWidth() != null)
-                        borderSignWidthValue.setText(String.valueOf(rampStairs.getBorderSignWidth()));
-                    if (rampStairs.getBorderSignIdentifiable() != null && rampStairs.getBorderSignIdentifiable() != -1)
-                        radioIdentifiableBorderSign.check(radioIdentifiableBorderSign.getChildAt(rampStairs.getBorderSignIdentifiable()).getId());
-                    if (rampStairs.getBorderSignObs() != null)
-                        borderSignObsValue.setText(rampStairs.getBorderSignObs());
-                }
-            }
-        }
+
+        if (rampStairs.getHasInterLevel() != null && rampStairs.getHasInterLevel() != -1)
+            interLevelRadio.check(interLevelRadio.getChildAt(rampStairs.getHasInterLevel()).getId());
+
+        if (rampStairs.getInterLevelLength() != null)
+            interLvLengthValue.setText(String.valueOf(rampStairs.getInterLevelLength()));
+
+        if (rampStairs.getInterLevelObs() != null)
+            interLvObsValue.setText(rampStairs.getInterLevelObs());
+
+        if (rampStairs.getFlightObs() != null)
+            flightObsValue.setText(rampStairs.getFlightObs());
+
     }
 
     private boolean checkRampStairsComponents() {

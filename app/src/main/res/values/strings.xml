@@ -315,7 +315,8 @@
     <string name="label_pavement_tactile_sign_header">Há sinalização tátil de pavimento no nível mais baixo e mais alto do lance?</string>
     <string name="radio_button_not_applicable">NÃO SE APLICA</string>
     <string name="hint_pavement_tact_sign_obs">Observações da sinalização tátil de pavimento</string>
-    <string name="label_tactile_floor_header">Há presença de piso tátil no nível mais baixo e mais alto do lance?</string>
+    <string name="label_tactile_floor_header">Há presença de piso tátil de alerta no nível mais baixo do lance?</string>
+    <string name="label_upper_tactile_floor_header">Há presença de piso tátil de alerta no nível mais alto do lance?</string>
     <string name="hint_tactile_floor_obs">Observações sobre o piso tátil</string>
     <string name="label_railing_beacon_register_header">Cadastro de guarda-corpos e balizamentos</string>
     <string name="label_button_handrails">Corrimãos e Prolongamentos</string>
@@ -601,4 +602,10 @@
     <string name="parking_elderly_header">Cadastro Vagas Idosos</string>
     <string name="parking_lot_header">Cadastro de Estacionamento</string>
     <string name="side_park_reg_header">Cadastro de Estacionamentos na Calçada</string>
+    <string name="hint_ramp_length">Comprimento da Projeção Horizontal (m)</string>
+    <string name="hint_ramp_height">Altura do desnível (m)</string>
+    <string name="hint_tact_floor_width">Largura do Piso Tátil (m)</string>
+    <string name="hint_tact_floor_dist">Distância ao início do lance (m)</string>
+    <string name="header_intermediate_level">O lance termina em um patamar intermediário?</string>
+    <string name="hint_inter_level_length">Comprimento do Patamar (m)</string>
 </resources>

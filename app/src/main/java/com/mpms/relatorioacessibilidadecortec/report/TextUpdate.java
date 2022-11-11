@@ -119,7 +119,7 @@ public class TextUpdate {
             CreateWordList.listCreator(doc, paragraphs.get(pos + 1), blockContent);
         if (irr > 0) {
             AmbientAnalysis analysis = new AmbientAnalysis(doc, paragraphs.get(irr + 1), jCreate);
-            analysis.writeTesting();
+            analysis.irregularListing();
         }
 
     }

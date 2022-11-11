@@ -104,6 +104,12 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        flightBundle.putInt(FLIGHT_ID, 0);
+    }
+
     private void instantiateRampStairsListViews(View v) {
 //        MaterialButton
         closeFlights = v.findViewById(R.id.cancel_child_items_entries);
