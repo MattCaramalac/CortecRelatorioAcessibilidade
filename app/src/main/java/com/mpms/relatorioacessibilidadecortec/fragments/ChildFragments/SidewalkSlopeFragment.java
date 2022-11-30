@@ -353,6 +353,7 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
             leftMeasureField3.setVisibility(View.GONE);
             leftMeasureField4.setVisibility(View.GONE);
             leftCounter = 0;
+            hasLeftWing.clearCheck();
         } else if (radio == hasRightWing) {
             rightMeasureValue1.setText(null);
             rightMeasureValue2.setText(null);
@@ -366,6 +367,7 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
             rightMeasureField3.setVisibility(View.GONE);
             rightMeasureField4.setVisibility(View.GONE);
             rightCounter = 0;
+            hasRightWing.clearCheck();
         } else if (radio == slopeIsAccessible) {
             accessFloorObsValue.setText(null);
             accessFloorObsField.setVisibility(View.GONE);
@@ -607,6 +609,7 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
         accessFloorObsValue.setText(null);
         accessFloorObsField.setVisibility(View.GONE);
         slopeObsValue.setText(null);
+        slopeStreetJunction.clearCheck();
     }
 
     private SidewalkSlopeEntry newSlope(Bundle bundle) {
@@ -662,7 +665,7 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
         hasAccess = getSlopeCheckedRadio(slopeIsAccessible);
         if (!TextUtils.isEmpty(accessFloorObsValue.getText()))
             accessSlopeFloorObs = String.valueOf(accessFloorObsValue.getText());
-        streetJunction = slopeStreetJunction.getCheckedRadioButtonId();
+        streetJunction = slopeStreetJunction.getCheckedRadioButtonIndex();
         if (streetJunction == 1)
             junInclHeight = bundle.getDouble(HEIGHT_INCLINED_SILL);
         else if (streetJunction == 2)

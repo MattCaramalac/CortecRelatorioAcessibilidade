@@ -27,8 +27,8 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
 
     public static final String PHONE_ID = "PHONE_ID";
 
-    TextInputLayout payphoneRefField, keyboardHeightField, phoneHeightField, payphoneObsField, phoneTactileFloorLengthField, phoneTactileFloorWidthField, tactileFloorObsField;
-    TextInputEditText payphoneRefValue, keyboardHeightValue, phoneHeightValue, payphoneObsValue, phoneTactileFloorLengthValue, phoneTactileFloorWidthValue, tactileFloorObsValue;
+    TextInputLayout payphoneRefField, keyboardHeightField, phoneHeightField, payphoneObsField, tactFloorDistField, phoneTactileFloorWidthField, tactileFloorObsField;
+    TextInputEditText payphoneRefValue, keyboardHeightValue, phoneHeightValue, payphoneObsValue, tactFloorDistValue, phoneTactileFloorWidthValue, tactileFloorObsValue;
     TextView payphoneFloorError, payphoneTactileColorError, phoneTactColorHeader, phoneTactDimensionsHeader, phoneTactDimensionError, payphoneWorkingError;
     RadioGroup payphoneTactileFloorRadio, payphoneTactileColorRadio, payphoneWorkingRadio;
     Button savePayphone, cancelPayphone;
@@ -99,7 +99,7 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
         keyboardHeightField = view.findViewById(R.id.payphone_keyboard_height_field);
         phoneHeightField = view.findViewById(R.id.payphone_phone_height_field);
         payphoneObsField = view.findViewById(R.id.gate_payphone_obs_field);
-        phoneTactileFloorLengthField = view.findViewById(R.id.phone_tact_floor_length_field);
+        tactFloorDistField = view.findViewById(R.id.phone_tact_floor_dist_field);
         phoneTactileFloorWidthField = view.findViewById(R.id.phone_tact_floor_width_field);
         tactileFloorObsField = view.findViewById(R.id.phone_tact_floor_obs_field);
 //        TextInputEditText
@@ -107,7 +107,7 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
         keyboardHeightValue = view.findViewById(R.id.payphone_keyboard_height_value);
         phoneHeightValue = view.findViewById(R.id.payphone_phone_height_value);
         payphoneObsValue = view.findViewById(R.id.gate_payphone_obs_value);
-        phoneTactileFloorLengthValue = view.findViewById(R.id.phone_tact_floor_length_value);
+        tactFloorDistValue = view.findViewById(R.id.phone_tact_floor_dist_value);
         phoneTactileFloorWidthValue = view.findViewById(R.id.phone_tact_floor_width_value);
         tactileFloorObsValue = view.findViewById(R.id.phone_tact_floor_obs_value);
 //        TextView
@@ -156,15 +156,15 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
             phoneTactColorHeader.setVisibility(View.VISIBLE);
             payphoneTactileColorRadio.setVisibility(View.VISIBLE);
             phoneTactDimensionsHeader.setVisibility(View.VISIBLE);
-            phoneTactileFloorLengthField.setVisibility(View.VISIBLE);
+            tactFloorDistField.setVisibility(View.VISIBLE);
             phoneTactileFloorWidthField.setVisibility(View.VISIBLE);
         } else {
             phoneTactColorHeader.setVisibility(View.GONE);
             payphoneTactileColorRadio.clearCheck();
             payphoneTactileColorRadio.setVisibility(View.GONE);
             phoneTactDimensionsHeader.setVisibility(View.GONE);
-            phoneTactileFloorLengthValue.setText(null);
-            phoneTactileFloorLengthField.setVisibility(View.GONE);
+            tactFloorDistValue.setText(null);
+            tactFloorDistField.setVisibility(View.GONE);
             phoneTactileFloorWidthValue.setText(null);
             phoneTactileFloorWidthField.setVisibility(View.GONE);
         }
@@ -175,7 +175,7 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
         int hasTactFloor, isWorking;
         String payphoneRefLocation, tactFloorObs = null, payphoneObs = null;
         double keyboardHeight, phoneHeight;
-        Double tactFloorLength = null, tactFloorWidth = null;
+        Double tactFloorDist = null, tactFloorWidth = null;
 
         if (bundle.getBoolean(FROM_EXT_ACCESS))
             extID = bundle.getInt(AMBIENT_ID);
@@ -187,7 +187,7 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
         hasTactFloor = getCheckedRadioFloor(payphoneTactileFloorRadio);
         if (hasTactFloor == 1) {
             rightColor = getCheckedRadioFloor(payphoneTactileColorRadio);
-            tactFloorLength = Double.parseDouble(String.valueOf(phoneTactileFloorLengthValue.getText()));
+            tactFloorDist = Double.parseDouble(String.valueOf(tactFloorDistValue.getText()));
             tactFloorWidth = Double.parseDouble(String.valueOf(phoneTactileFloorWidthValue.getText()));
             if (!TextUtils.isEmpty(tactileFloorObsValue.getText()))
                 tactFloorObs = String.valueOf(tactileFloorObsValue.getText());
@@ -196,7 +196,7 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
         if (!TextUtils.isEmpty(payphoneObsValue.getText()))
             payphoneObs = String.valueOf(payphoneObsValue.getText());
 
-        return new PayPhoneEntry(extID, sideID, payphoneRefLocation, keyboardHeight, phoneHeight, hasTactFloor, rightColor, tactFloorLength, tactFloorWidth, tactFloorObs,
+        return new PayPhoneEntry(extID, sideID, payphoneRefLocation, keyboardHeight, phoneHeight, hasTactFloor, rightColor, tactFloorDist, tactFloorWidth, tactFloorObs,
                 isWorking, payphoneObs);
     }
 
@@ -223,7 +223,7 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
                 error++;
                 payphoneTactileColorError.setVisibility(View.VISIBLE);
             }
-            if (TextUtils.isEmpty(phoneTactileFloorLengthValue.getText())) {
+            if (TextUtils.isEmpty(tactFloorDistValue.getText())) {
                 error++;
 //                phoneTactileFloorLengthField.setBoxStrokeColor(getResources().getColor(R.color.error_message, null));
                 phoneTactDimensionError.setVisibility(View.VISIBLE);
@@ -260,11 +260,11 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
         payphoneTactileColorRadio.clearCheck();
         phoneTactColorHeader.setVisibility(View.GONE);
         payphoneTactileColorRadio.setVisibility(View.GONE);
-        phoneTactileFloorLengthValue.setText(null);
+        tactFloorDistValue.setText(null);
         phoneTactileFloorWidthValue.setText(null);
         tactileFloorObsValue.setText(null);
         phoneTactDimensionsHeader.setVisibility(View.GONE);
-        phoneTactileFloorLengthField.setVisibility(View.GONE);
+        tactFloorDistField.setVisibility(View.GONE);
         phoneTactileFloorWidthField.setVisibility(View.GONE);
         tactileFloorObsField.setVisibility(View.GONE);
         payphoneObsValue.setText(null);
@@ -278,7 +278,7 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
         payphoneTactileFloorRadio.check(payphoneTactileFloorRadio.getChildAt(payPhone.getHasTactileFloor()).getId());
         if (payPhone.getHasTactileFloor() == 1) {
             payphoneTactileColorRadio.check(payphoneTactileColorRadio.getChildAt(payPhone.getRightColorTactileFloor()).getId());
-            phoneTactileFloorLengthValue.setText(String.valueOf(payPhone.getTactFloorLength()));
+            tactFloorDistValue.setText(String.valueOf(payPhone.getTactFloorDist()));
             phoneTactileFloorWidthValue.setText(String.valueOf(payPhone.getTactFloorWidth()));
             if (payPhone.getTactFloorObs() != null)
                 tactileFloorObsValue.setText(payPhone.getTactFloorObs());

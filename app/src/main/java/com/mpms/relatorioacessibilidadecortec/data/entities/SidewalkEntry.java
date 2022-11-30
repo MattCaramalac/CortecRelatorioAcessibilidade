@@ -28,9 +28,7 @@ public class SidewalkEntry {
     private Double sideTransSlope6;
     private Integer hasSpecialFloor;
     private Integer specialFloorRightColor;
-    private Double specialTileDirectionLength;
     private Double specialTileDirectionWidth;
-    private Double specialTileAlertLength;
     private Double specialTileAlertWidth;
     private String specialFloorObs;
     private Integer sideFloorIsAccessible;
@@ -46,14 +44,15 @@ public class SidewalkEntry {
     private Integer sideHasPayphones;
     private Integer sideHasStairs;
     private Integer sideHasRamps;
+    private Integer sideReqSlopes;
 
     public SidewalkEntry(int blockID, String sidewalkLocation, Integer streetPavement, Double sidewalkWidth, Double sideFreeSpaceWidth, String sideMeasureObs,
                          Integer slopeMeasureQnt, Double sideTransSlope1, Double sideTransSlope2, Double sideTransSlope3, Double sideTransSlope4,
                          Double sideTransSlope5, Double sideTransSlope6, Integer hasSpecialFloor, Integer specialFloorRightColor,
-                         Double specialTileDirectionLength, Double specialTileDirectionWidth, Double specialTileAlertLength, Double specialTileAlertWidth,
+                         Double specialTileDirectionWidth, Double specialTileAlertWidth,
                          String specialFloorObs, Integer sideFloorIsAccessible, String accessFloorObs, Integer sideHasSlope, String sidewalkObs,
                          Integer hasAerialObstacle, String aerialObstacleDesc, Integer sidewalkHasLids, String sidewalkLidDesc, Integer sideConStatus,
-                         String sideConsObs, Integer sideHasPayphones, Integer sideHasStairs, Integer sideHasRamps) {
+                         String sideConsObs, Integer sideHasPayphones, Integer sideHasStairs, Integer sideHasRamps, Integer sideReqSlopes) {
         this.blockID = blockID;
         this.sidewalkLocation = sidewalkLocation;
         this.streetPavement = streetPavement;
@@ -69,9 +68,7 @@ public class SidewalkEntry {
         this.sideTransSlope6 = sideTransSlope6;
         this.hasSpecialFloor = hasSpecialFloor;
         this.specialFloorRightColor = specialFloorRightColor;
-        this.specialTileDirectionLength = specialTileDirectionLength;
         this.specialTileDirectionWidth = specialTileDirectionWidth;
-        this.specialTileAlertLength = specialTileAlertLength;
         this.specialTileAlertWidth = specialTileAlertWidth;
         this.specialFloorObs = specialFloorObs;
         this.sideFloorIsAccessible = sideFloorIsAccessible;
@@ -87,6 +84,7 @@ public class SidewalkEntry {
         this.sideHasPayphones = sideHasPayphones;
         this.sideHasStairs = sideHasStairs;
         this.sideHasRamps = sideHasRamps;
+        this.sideReqSlopes = sideReqSlopes;
     }
 
     public int getSidewalkID() {
@@ -217,28 +215,12 @@ public class SidewalkEntry {
         this.specialFloorRightColor = specialFloorRightColor;
     }
 
-    public Double getSpecialTileDirectionLength() {
-        return specialTileDirectionLength;
-    }
-
-    public void setSpecialTileDirectionLength(Double specialTileDirectionLength) {
-        this.specialTileDirectionLength = specialTileDirectionLength;
-    }
-
     public Double getSpecialTileDirectionWidth() {
         return specialTileDirectionWidth;
     }
 
     public void setSpecialTileDirectionWidth(Double specialTileDirectionWidth) {
         this.specialTileDirectionWidth = specialTileDirectionWidth;
-    }
-
-    public Double getSpecialTileAlertLength() {
-        return specialTileAlertLength;
-    }
-
-    public void setSpecialTileAlertLength(Double specialTileAlertLength) {
-        this.specialTileAlertLength = specialTileAlertLength;
     }
 
     public Double getSpecialTileAlertWidth() {
@@ -359,5 +341,13 @@ public class SidewalkEntry {
 
     public void setSideHasRamps(Integer sideHasRamps) {
         this.sideHasRamps = sideHasRamps;
+    }
+
+    public Integer getSideReqSlopes() {
+        return sideReqSlopes;
+    }
+
+    public void setSideReqSlopes(Integer sideReqSlopes) {
+        this.sideReqSlopes = sideReqSlopes;
     }
 }

@@ -73,7 +73,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        instantiateAdmEquipListViews(view);
+        instantiatePlayListViews(view);
 
         modelEntry.getAllPlaygroundsPerBlock(playBundle.getInt(BlockRegisterActivity.BLOCK_ID))
                 .observe(getViewLifecycleOwner(), playList -> {
@@ -173,7 +173,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     }
 
 
-    private void instantiateAdmEquipListViews(View v) {
+    private void instantiatePlayListViews(View v) {
 //        MaterialButton
         closePlayList = v.findViewById(R.id.cancel_child_items_entries);
         addPlayground = v.findViewById(R.id.add_child_items_entries);

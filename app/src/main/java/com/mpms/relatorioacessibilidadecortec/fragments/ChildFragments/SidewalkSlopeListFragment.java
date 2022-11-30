@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,12 +34,14 @@ import java.util.Objects;
 
 public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
-    MaterialButton closeSideSlopeList, addSideSlope;
+    MaterialButton closeSideSlopeList, addSideSlope, c;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private SidewalkSlopeRecViewAdapter sideSlopeAdapter;
     private ActionMode actionMode;
+
+    TextView registerHeader;
 
     int delClick = 0;
 
@@ -67,7 +70,7 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_items_entries_list, container, false);
+        return inflater.inflate(R.layout.fragment_child_items_entries, container, false);
     }
 
 
@@ -108,18 +111,27 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
                 actionMode.finish();
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
+    }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        sideSlopeBundle.putInt(SIDEWALK_SLOPE_ID, 0);
     }
 
     private void instantiateSideSlopeViews (View v) {
-        closeSideSlopeList = v.findViewById(R.id.close_items_entries_list);
-        addSideSlope = v.findViewById(R.id.add_items_entries);
-        recyclerView = v.findViewById(R.id.items_entries_recycler_view);
-
+        closeSideSlopeList = v.findViewById(R.id.cancel_child_items_entries);
+        addSideSlope = v.findViewById(R.id.add_child_items_entries);
+        c = v.findViewById(R.id.continue_child_items_entries);
+        c.setVisibility(View.GONE);
+//        RecyclerView
+        recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
-
+//        TextView
+        registerHeader = v.findViewById(R.id.identifier_header);
+        registerHeader.setText(R.string.header_slope_list_register);
+//        ViewModel
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
     }
 

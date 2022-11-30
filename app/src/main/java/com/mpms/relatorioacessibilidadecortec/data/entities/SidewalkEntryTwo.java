@@ -22,10 +22,11 @@ public class SidewalkEntryTwo {
     private Integer sideHasPayphones;
     private Integer sideHasStairs;
     private Integer sideHasRamps;
+    private Integer sideReqSlopes;
 
     public SidewalkEntryTwo(int sidewalkID, Integer sideFloorIsAccessible, String accessFloorObs, Integer sideHasSlope, String sidewalkObs,
                             Integer hasAerialObstacle, String aerialObstacleDesc, Integer sidewalkHasLids, String sidewalkLidDesc, Integer sideConStatus,
-                            String sideConsObs, Integer sideHasPayphones, Integer sideHasStairs, Integer sideHasRamps) {
+                            String sideConsObs, Integer sideHasPayphones, Integer sideHasStairs, Integer sideHasRamps, Integer sideReqSlopes) {
         this.sidewalkID = sidewalkID;
         this.sideFloorIsAccessible = sideFloorIsAccessible;
         this.accessFloorObs = accessFloorObs;
@@ -40,6 +41,7 @@ public class SidewalkEntryTwo {
         this.sideHasPayphones = sideHasPayphones;
         this.sideHasStairs = sideHasStairs;
         this.sideHasRamps = sideHasRamps;
+        this.sideReqSlopes = sideReqSlopes;
     }
 
     public int getSidewalkID() {
@@ -152,5 +154,13 @@ public class SidewalkEntryTwo {
 
     public void setSideHasRamps(Integer sideHasRamps) {
         this.sideHasRamps = sideHasRamps;
+    }
+
+    public Integer getSideReqSlopes() {
+        return sideReqSlopes;
+    }
+
+    public void setSideReqSlopes(Integer sideReqSlopes) {
+        this.sideReqSlopes = sideReqSlopes;
     }
 }

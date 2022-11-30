@@ -70,7 +70,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 54)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 55)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1257,8 +1257,25 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
-
-
+    static final Migration MIGRATION_54_55 = new Migration(54, 55) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE SidewalkEntry");
+            database.execSQL("DROP TABLE PayPhoneEntry");
+            database.execSQL("CREATE TABLE SidewalkEntry (sidewalkID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, sidewalkLocation TEXT," +
+                    "streetPavement INTEGER, sidewalkWidth REAL, sideFreeSpaceWidth REAL, sideMeasureObs TEXT, slopeMeasureQnt INTEGER, sideTransSlope1 REAL," +
+                    "sideTransSlope2 REAL, sideTransSlope3 REAL, sideTransSlope4 REAL, sideTransSlope5 REAL, sideTransSlope6 real, hasSpecialFloor INTEGER," +
+                    "specialFloorRightColor INTEGER, specialTileDirectionWidth REAL, specialTileAlertWidth REAL, specialFloorObs TEXT, sideFloorIsAccessible INTEGER," +
+                    "accessFloorObs TEXT, sideHasSlope INTEGER, sidewalkObs TEXT, hasAerialObstacle INTEGER, aerialObstacleDesc TEXT, sidewalkHasLids INTEGER," +
+                    "sidewalkLidDesc TEXT, sideConStatus INTEGER, sideConsObs TEXT, sideHasPayphones INTEGER, sideHasStairs INTEGER, sideHasRamps INTEGER, sideReqSlopes INTEGER," +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("CREATE TABLE PayPhoneEntry (payPhoneID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, extAccessID INTEGER, sidewalkID INTEGER," +
+                    "phoneRefPoint TEXT, phoneKeyboardHeight REAL NOT NULL, phoneHeight REAL NOT NULL, hasTactileFloor INTEGER NOT NULL, rightColorTactileFloor INTEGER, " +
+                    "tactFloorDist REAL, tactFloorWidth REAL, tactFloorObs TEXT, phoneIsWorking INTEGER NOT NULL, payPhoneObs TEXT, " +
+                    "FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntry (sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
 
 
     public static ReportDatabase getDatabase(final Context context) {
@@ -1274,7 +1291,8 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_30_31, MIGRATION_31_32, MIGRATION_32_33, MIGRATION_33_34, MIGRATION_34_35, MIGRATION_35_36,
                                     MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42,
                                     MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
-                                    MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54).build();
+                                    MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
+                                    MIGRATION_54_55).build();
                 }
             }
         }

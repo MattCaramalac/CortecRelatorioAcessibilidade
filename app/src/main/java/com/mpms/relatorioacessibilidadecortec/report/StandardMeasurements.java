@@ -29,4 +29,20 @@ public interface StandardMeasurements {
     double maxDistTactRamp = 0.32;
     double minInterLength = 1.2;
 
+//    Command & Switch Heights
+    double minSwHeight = 0.6;
+    double maxSwHeight = 1.0;
+    double minDbHeight = 0.4;
+    double maxDbHeight = 1.0;
+    double minIntTelHeight = 0.8;
+    double maxIntTelHeight = 1.2;
+    double minWinHeight = 0.6;
+    double maxWinHeight = 1.2;
+
+//    Alert Tactile Floor Distance
+    double distAlertTactSuspObj = 0.6;
+    double minWidthAlertTactSuspObj = 0.25;
+    double maxWidthAlertTactSuspObj = 0.6;
+
+
 }

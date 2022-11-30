@@ -32,7 +32,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:textSize="@dimen/section_header"
-                android:text="A calçada se encontra em bom estado de conservação?"/>
+                android:text="@string/header_side_cons_status"/>
 
             <RadioGroup
                 android:id="@+id/side_conservation_radio"
@@ -79,7 +79,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/side_conservation_error"
-                android:hint="Observações de Conservação da Calçada">
+                android:hint="@string/hint_cons_status_obs">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/side_conservation_obs_value"
@@ -363,13 +363,62 @@
                 />
 
             <TextView
+                android:id="@+id/label_sidewalk_req_slope_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/section_header"
+                android:text="@string/header_req_side_slope"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_slope_error"
+                android:layout_marginTop="@dimen/top_margins"
+                android:visibility="gone"/>
+
+            <RadioGroup
+                android:id="@+id/radio_sidewalk_req_slope"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_sidewalk_req_slope_header"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text"
+                    />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/sidewalk_req_slope_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textSize="14sp"
+                android:textColor="@color/error_message"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_req_slope"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <TextView
                 android:id="@+id/label_sidewalk_slope_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/section_header"
                 android:text="@string/label_slope_register"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_slope_error"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_req_slope_error"
                 android:layout_marginTop="@dimen/top_margins"
                 android:visibility="gone"
                 />
@@ -392,7 +441,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/section_header"
-                android:text="Esta calçada possui telefone público?"
+                android:text="@string/header_side_public_phone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_sidewalk_slope"
                 android:layout_marginTop="@dimen/top_margins"/>
@@ -439,7 +488,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/section_header"
-                android:text="Cadastro de Telefones Públicos"
+                android:text="@string/header_reg_public_phone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sidewalk_has_payphone_error"
                 android:layout_marginTop="@dimen/top_margins"
@@ -464,7 +513,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins"
-                android:text="A calçada possui escadas?"
+                android:text="@string/header_side_has_stairs"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_sidewalk_payphone" />
@@ -524,7 +573,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins"
-                android:text="A calçada possui rampas?"
+                android:text="@string/header_side_has_ramps"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_sidewalk_stairs_button" />
@@ -620,7 +669,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/top_margins"
-                android:text="RETORNAR"
+                android:text="@string/button_return"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="@id/save_sidewalk_button"
                 app:layout_constraintStart_toStartOf="parent" />

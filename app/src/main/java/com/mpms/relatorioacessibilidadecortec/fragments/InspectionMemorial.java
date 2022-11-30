@@ -49,16 +49,12 @@ import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 import com.mpms.relatorioacessibilidadecortec.util.IdListObservable;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Observer;
 
-//@RuntimePermissions
 public class InspectionMemorial extends Fragment implements TagInterface {
-
-    static File filePath;
 
     static int blockQnt = 0;
     static boolean hasHelpSpace = false;

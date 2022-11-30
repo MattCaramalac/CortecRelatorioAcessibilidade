@@ -20,14 +20,14 @@ public class PayPhoneEntry {
     private double phoneHeight;
     private int hasTactileFloor;
     private Integer rightColorTactileFloor;
-    private Double tactFloorLength;
+    private Double tactFloorDist;
     private Double tactFloorWidth;
     private String tactFloorObs;
     private int phoneIsWorking;
     private String payPhoneObs;
 
     public PayPhoneEntry(Integer extAccessID, Integer sidewalkID, String phoneRefPoint, double phoneKeyboardHeight, double phoneHeight, int hasTactileFloor,
-                         Integer rightColorTactileFloor, Double tactFloorLength, Double tactFloorWidth, String tactFloorObs, int phoneIsWorking, String payPhoneObs) {
+                         Integer rightColorTactileFloor, Double tactFloorDist, Double tactFloorWidth, String tactFloorObs, int phoneIsWorking, String payPhoneObs) {
         this.extAccessID = extAccessID;
         this.sidewalkID = sidewalkID;
         this.phoneRefPoint = phoneRefPoint;
@@ -35,7 +35,7 @@ public class PayPhoneEntry {
         this.phoneHeight = phoneHeight;
         this.hasTactileFloor = hasTactileFloor;
         this.rightColorTactileFloor = rightColorTactileFloor;
-        this.tactFloorLength = tactFloorLength;
+        this.tactFloorDist = tactFloorDist;
         this.tactFloorWidth = tactFloorWidth;
         this.tactFloorObs = tactFloorObs;
         this.phoneIsWorking = phoneIsWorking;
@@ -106,12 +106,12 @@ public class PayPhoneEntry {
         this.rightColorTactileFloor = rightColorTactileFloor;
     }
 
-    public Double getTactFloorLength() {
-        return tactFloorLength;
+    public Double getTactFloorDist() {
+        return tactFloorDist;
     }
 
-    public void setTactFloorLength(Double tactFloorLength) {
-        this.tactFloorLength = tactFloorLength;
+    public void setTactFloorDist(Double tactFloorLength) {
+        this.tactFloorDist = tactFloorLength;
     }
 
     public Double getTactFloorWidth() {

@@ -33,14 +33,14 @@ import java.util.ArrayList;
 public class SidewalkFragment extends Fragment implements TagInterface {
 
     TextInputLayout sideLocationField, sideWidthField, sideFreeSpaceWidthField, sideMeasureObsField, sideTransSlopeField1, sideTransSlopeField2, sideTransSlopeField3,
-            sideTransSlopeField4, sideTransSlopeField5, sideTransSlopeField6, directionTileLengthField, directionTileWidthField, alertTileLengthField, alertTileWidthField,
+            sideTransSlopeField4, sideTransSlopeField5, sideTransSlopeField6, directionTileWidthField, alertTileWidthField,
             tactileFloorObsField;
     TextInputEditText sideLocationValue, sideWidthValue, sideFreeSpaceWidthValue, sideMeasureObsValue, sideTransSlopeValue1, sideTransSlopeValue2, sideTransSlopeValue3,
-            sideTransSlopeValue4, sideTransSlopeValue5, sideTransSlopeValue6, directionTileLengthValue, directionTileWidthValue, alertTileLengthValue, alertTileWidthValue,
+            sideTransSlopeValue4, sideTransSlopeValue5, sideTransSlopeValue6, directionTileWidthValue, alertTileWidthValue,
             tactileFloorObsValue;
     RadioGroup streetPavementRadio, hasTactileFloorRadio, tactileFloorColorRadio;
     TextView streetPavementError, sideSlopeMeasureError, sideHasTactileFloorError, tactileFloorColorHeader, tactileFloorColorError, directionTileMeasureHeader,
-            directionTileMeasureError, alertTileMeasureHeader, alertTileMeasureError;
+           alertTileMeasureHeader;
     MaterialButton saveProceedSidewalk, cancelSidewalk, addSideMeasure;
     ImageButton delSideMeasure;
 
@@ -197,9 +197,7 @@ public class SidewalkFragment extends Fragment implements TagInterface {
         sideTransSlopeField4 = view.findViewById(R.id.sidewalk_measure_4_field);
         sideTransSlopeField5 = view.findViewById(R.id.sidewalk_measure_5_field);
         sideTransSlopeField6 = view.findViewById(R.id.sidewalk_measure_6_field);
-        directionTileLengthField = view.findViewById(R.id.direction_floor_length_field);
         directionTileWidthField = view.findViewById(R.id.direction_floor_width_field);
-        alertTileLengthField = view.findViewById(R.id.alert_floor_length_field);
         alertTileWidthField = view.findViewById(R.id.alert_floor_width_field);
         tactileFloorObsField = view.findViewById(R.id.sidewalk_special_floor_obs_field);
 //        TextInputEditText
@@ -213,9 +211,7 @@ public class SidewalkFragment extends Fragment implements TagInterface {
         sideTransSlopeValue4 = view.findViewById(R.id.sidewalk_measure_4_value);
         sideTransSlopeValue5 = view.findViewById(R.id.sidewalk_measure_5_value);
         sideTransSlopeValue6 = view.findViewById(R.id.sidewalk_measure_6_value);
-        directionTileLengthValue = view.findViewById(R.id.direction_floor_length_value);
         directionTileWidthValue = view.findViewById(R.id.direction_floor_width_value);
-        alertTileLengthValue = view.findViewById(R.id.alert_floor_length_value);
         alertTileWidthValue = view.findViewById(R.id.alert_floor_width_value);
         tactileFloorObsValue = view.findViewById(R.id.sidewalk_special_floor_obs_value);
 //        RadioGroup
@@ -229,9 +225,7 @@ public class SidewalkFragment extends Fragment implements TagInterface {
         tactileFloorColorHeader = view.findViewById(R.id.label_special_floor_color);
         tactileFloorColorError = view.findViewById(R.id.special_floor_color_error);
         directionTileMeasureHeader = view.findViewById(R.id.label_direction_special_floor_size);
-        directionTileMeasureError = view.findViewById(R.id.direction_floor_measurements_error);
         alertTileMeasureHeader = view.findViewById(R.id.label_alert_special_floor_size);
-        alertTileMeasureError = view.findViewById(R.id.alert_floor_measurements_error);
 //        MaterialButton
         saveProceedSidewalk = view.findViewById(R.id.save_proceed_sidewalk);
         cancelSidewalk = view.findViewById(R.id.cancel_sidewalk);
@@ -295,7 +289,6 @@ public class SidewalkFragment extends Fragment implements TagInterface {
                     sideTransSlopeValue2.setText(String.valueOf(sidewalk.getSideTransSlope2()));
                 }
             case 1:
-                delSideMeasure.setVisibility(View.VISIBLE);
                 if (sidewalk.getSideTransSlope1() != null) {
                     sideTransSlopeField1.setVisibility(View.VISIBLE);
                     sideTransSlopeValue1.setText(String.valueOf(sidewalk.getSideTransSlope1()));
@@ -312,12 +305,8 @@ public class SidewalkFragment extends Fragment implements TagInterface {
             if (sidewalk.getHasSpecialFloor() == 1) {
                 if (sidewalk.getSpecialFloorRightColor() != null && sidewalk.getSpecialFloorRightColor() > -1)
                     tactileFloorColorRadio.check(tactileFloorColorRadio.getChildAt(sidewalk.getSpecialFloorRightColor()).getId());
-                if (sidewalk.getSpecialTileDirectionLength() != null)
-                    directionTileLengthValue.setText(String.valueOf(sidewalk.getSpecialTileDirectionLength()));
                 if (sidewalk.getSpecialTileDirectionWidth() != null)
                     directionTileWidthValue.setText(String.valueOf(sidewalk.getSpecialTileDirectionWidth()));
-                if (sidewalk.getSpecialTileAlertLength() != null)
-                    alertTileLengthValue.setText(String.valueOf(sidewalk.getSpecialTileAlertLength()));
                 if (sidewalk.getSpecialTileAlertWidth() != null)
                     alertTileWidthValue.setText(String.valueOf(sidewalk.getSpecialTileAlertWidth()));
             }
@@ -335,22 +324,16 @@ public class SidewalkFragment extends Fragment implements TagInterface {
                 tactileFloorColorHeader.setVisibility(View.VISIBLE);
                 tactileFloorColorRadio.setVisibility(View.VISIBLE);
                 directionTileMeasureHeader.setVisibility(View.VISIBLE);
-                directionTileLengthField.setVisibility(View.VISIBLE);
                 directionTileWidthField.setVisibility(View.VISIBLE);
                 alertTileMeasureHeader.setVisibility(View.VISIBLE);
-                alertTileLengthField.setVisibility(View.VISIBLE);
                 alertTileWidthField.setVisibility(View.VISIBLE);
             } else {
                 tactileFloorColorHeader.setVisibility(View.GONE);
                 tactileFloorColorRadio.setVisibility(View.GONE);
                 directionTileMeasureHeader.setVisibility(View.GONE);
-                directionTileLengthValue.setText(null);
-                directionTileLengthField.setVisibility(View.GONE);
                 directionTileWidthValue.setText(null);
                 directionTileWidthField.setVisibility(View.GONE);
                 alertTileMeasureHeader.setVisibility(View.GONE);
-                alertTileLengthValue.setText(null);
-                alertTileLengthField.setVisibility(View.GONE);
                 alertTileWidthValue.setText(null);
                 alertTileWidthField.setVisibility(View.GONE);
             }
@@ -434,17 +417,9 @@ public class SidewalkFragment extends Fragment implements TagInterface {
                 i++;
                 tactileFloorColorError.setVisibility(View.VISIBLE);
             }
-            if (TextUtils.isEmpty(directionTileLengthValue.getText())) {
-                i++;
-                directionTileLengthField.setError(getString(R.string.blank_field_error));
-            }
             if (TextUtils.isEmpty(directionTileWidthValue.getText())) {
                 i++;
                 directionTileWidthField.setError(getString(R.string.blank_field_error));
-            }
-            if (TextUtils.isEmpty(alertTileLengthValue.getText())) {
-                i++;
-                alertTileLengthField.setError(getString(R.string.blank_field_error));
             }
             if (TextUtils.isEmpty(alertTileWidthValue.getText())) {
                 i++;
@@ -464,8 +439,6 @@ public class SidewalkFragment extends Fragment implements TagInterface {
         sideSlopeMeasureError.setVisibility(View.GONE);
         sideHasTactileFloorError.setVisibility(View.GONE);
         tactileFloorColorError.setVisibility(View.GONE);
-        directionTileMeasureError.setVisibility(View.GONE);
-        alertTileMeasureError.setVisibility(View.GONE);
     }
 
     private boolean scrollingField(View v, MotionEvent event) {
@@ -494,7 +467,7 @@ public class SidewalkFragment extends Fragment implements TagInterface {
         String sideLocale = null, sideMeasureObs = null, tactFloorObs = null;
         Integer streetPavement = null, hasTactFloor = null, tactFloorColor = null;
         Double sideWidth = null, sideFSpaceWidth = null, sideSlope1 = null, sideSlope2 = null, sideSlope3 = null, sideSlope4 = null, sideSlope5 = null,
-                sideSlope6 = null, tacTileDirLength = null, tacTileDirWidth = null, tacTileAlertLength = null, tacTileAlertWidth = null;
+                sideSlope6 = null, tacTileDirWidth = null, tacTileAlertWidth = null;
 
         if (!TextUtils.isEmpty(sideLocationValue.getText()))
             sideLocale = String.valueOf(sideLocationValue.getText());
@@ -535,12 +508,8 @@ public class SidewalkFragment extends Fragment implements TagInterface {
             if (hasTactFloor == 1) {
                 if (getCheckedSidewalkRadioButton(tactileFloorColorRadio) != -1)
                     tactFloorColor = getCheckedSidewalkRadioButton(tactileFloorColorRadio);
-                if (!TextUtils.isEmpty(directionTileLengthValue.getText()))
-                    tacTileDirLength = Double.parseDouble(String.valueOf(directionTileLengthValue.getText()));
                 if (!TextUtils.isEmpty(directionTileWidthValue.getText()))
                     tacTileDirWidth = Double.parseDouble(String.valueOf(directionTileWidthValue.getText()));
-                if (!TextUtils.isEmpty(alertTileLengthValue.getText()))
-                    tacTileAlertLength = Double.parseDouble(String.valueOf(alertTileLengthValue.getText()));
                 if (!TextUtils.isEmpty(alertTileWidthValue.getText()))
                     tacTileAlertWidth = Double.parseDouble(String.valueOf(alertTileWidthValue.getText()));
             }
@@ -550,16 +519,16 @@ public class SidewalkFragment extends Fragment implements TagInterface {
             tactFloorObs = String.valueOf(tactileFloorObsValue.getText());
 
         return new SidewalkEntry(bundle.getInt(BLOCK_ID), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
-                sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirLength, tacTileDirWidth, tacTileAlertLength,
+                sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirWidth,
                 tacTileAlertWidth, tactFloorObs, null, null, null, null, null, null, null,
-                null, null, null, null, null, null);
+                null, null, null, null, null, null, null);
     }
 
     private SidewalkEntryOne updateSidewalkOne(Bundle bundle) {
         String sideLocale = null, sideMeasureObs = null, tactFloorObs = null;
         Integer streetPavement = null, hasTactFloor = null, tactFloorColor = null;
         Double sideWidth = null, sideFSpaceWidth = null, sideSlope1 = null, sideSlope2 = null, sideSlope3 = null, sideSlope4 = null, sideSlope5 = null,
-                sideSlope6 = null, tacTileDirLength = null, tacTileDirWidth = null, tacTileAlertLength = null, tacTileAlertWidth = null;
+                sideSlope6 = null,  tacTileDirWidth = null,  tacTileAlertWidth = null;
 
         if (!TextUtils.isEmpty(sideLocationValue.getText()))
             sideLocale = String.valueOf(sideLocationValue.getText());
@@ -600,12 +569,8 @@ public class SidewalkFragment extends Fragment implements TagInterface {
             if (hasTactFloor == 1) {
                 if (getCheckedSidewalkRadioButton(tactileFloorColorRadio) != -1)
                     tactFloorColor = getCheckedSidewalkRadioButton(tactileFloorColorRadio);
-                if (!TextUtils.isEmpty(directionTileLengthValue.getText()))
-                    tacTileDirLength = Double.parseDouble(String.valueOf(directionTileLengthValue.getText()));
                 if (!TextUtils.isEmpty(directionTileWidthValue.getText()))
                     tacTileDirWidth = Double.parseDouble(String.valueOf(directionTileWidthValue.getText()));
-                if (!TextUtils.isEmpty(alertTileLengthValue.getText()))
-                    tacTileAlertLength = Double.parseDouble(String.valueOf(alertTileLengthValue.getText()));
                 if (!TextUtils.isEmpty(alertTileWidthValue.getText()))
                     tacTileAlertWidth = Double.parseDouble(String.valueOf(alertTileWidthValue.getText()));
             }
@@ -615,7 +580,7 @@ public class SidewalkFragment extends Fragment implements TagInterface {
             tactFloorObs = String.valueOf(tactileFloorObsValue.getText());
 
         return new SidewalkEntryOne(bundle.getInt(AMBIENT_ID), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
-                sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirLength, tacTileDirWidth, tacTileAlertLength,
+                sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirWidth,
                 tacTileAlertWidth, tactFloorObs);
 
     }
@@ -645,9 +610,7 @@ public class SidewalkFragment extends Fragment implements TagInterface {
         sideTransSlopeValue4.setText(null);
         sideTransSlopeValue5.setText(null);
         sideTransSlopeValue6.setText(null);
-        directionTileLengthValue.setText(null);
         directionTileWidthValue.setText(null);
-        alertTileLengthValue.setText(null);
         alertTileWidthValue.setText(null);
         tactileFloorObsValue.setText(null);
 

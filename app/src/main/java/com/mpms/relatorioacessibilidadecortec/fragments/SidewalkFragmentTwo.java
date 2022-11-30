@@ -33,8 +33,8 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
 
     TextInputLayout accessFloorObsField, sidewalkObsField, aerialObsDescField, sidewalkLidDescField, sideConsObsField;
     TextInputEditText accessFloorObsValue, sidewalkObsValue, aerialObsDescValue, sidewalkLidDescValue, sideConsObsValue;
-    RadioGroup accessibleFloorRadio, sideHasSlopeRadio, hasAerialObsRadio, hasLidRadio, payphoneRadio, sideHasRamps, sideHasStairs, sideConsRadio;
-    TextView accessFloorError, sideHasSlopeError, aerialError, lidError, payphoneError, payphoneHeader, sideConsError;
+    RadioGroup accessibleFloorRadio, sideHasSlopeRadio, hasAerialObsRadio, hasLidRadio, payphoneRadio, sideHasRamps, sideHasStairs, sideConsRadio, sideReqSlopeRadio;
+    TextView accessFloorError, sideHasSlopeError, aerialError, lidError, payphoneError, payphoneHeader, sideConsError, sideReqSlopeHeader, sideReqSlopeError;
     MaterialButton addSlope, addPayphone, addRamp, addStairs, returnSideOne, saveSidewalk;
 
     ArrayList<TextInputEditText> sidewalk2ObsArray = new ArrayList<>();
@@ -131,12 +131,14 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
 //        RadioGroup
         accessibleFloorRadio = view.findViewById(R.id.accessible_sidewalk_radio);
         sideHasSlopeRadio = view.findViewById(R.id.radio_sidewalk_slope);
+        sideReqSlopeRadio =
         hasAerialObsRadio = view.findViewById(R.id.aerial_obstacle_radio);
         hasLidRadio = view.findViewById(R.id.sidewalk_lid_radio);
         payphoneRadio = view.findViewById(R.id.radio_sidewalk_payphone);
         sideHasRamps = view.findViewById(R.id.sidewalk_has_ramps_radio);
         sideHasStairs = view.findViewById(R.id.sidewalk_has_stairs_radio);
         sideConsRadio = view.findViewById(R.id.side_conservation_radio);
+        sideReqSlopeRadio = view.findViewById(R.id.radio_sidewalk_req_slope);
 //        TextView
         accessFloorError = view.findViewById(R.id.accessible_sidewalk_error);
         sideHasSlopeError = view.findViewById(R.id.sidewalk_has_slope_error);
@@ -145,6 +147,8 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
         payphoneError = view.findViewById(R.id.sidewalk_has_payphone_error);
         payphoneHeader = view.findViewById(R.id.label_sidewalk_payphone_register);
         sideConsError = view.findViewById(R.id.side_conservation_error);
+        sideReqSlopeHeader = view.findViewById(R.id.label_sidewalk_req_slope_header);
+        sideReqSlopeError = view.findViewById(R.id.sidewalk_req_slope_error);
 //        MaterialButton
         addSlope = view.findViewById(R.id.add_sidewalk_slope);
         addPayphone = view.findViewById(R.id.add_sidewalk_payphone);
@@ -222,8 +226,14 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
             }
         }
 
-        if (sidewalk.getSideHasSlope() != null && sidewalk.getSideHasSlope() > -1)
+        if (sidewalk.getSideHasSlope() != null && sidewalk.getSideHasSlope() > -1) {
             sideHasSlopeRadio.check(sideHasSlopeRadio.getChildAt(sidewalk.getSideHasSlope()).getId());
+            if (sidewalk.getSideHasSlope() == 0) {
+                if (sidewalk.getSideReqSlopes() != null && sidewalk.getSideReqSlopes() > -1)
+                    sideReqSlopeRadio.check(sideReqSlopeRadio.getChildAt(sidewalk.getSideReqSlopes()).getId());
+            }
+        }
+
         if (sidewalk.getSideHasPayphones() != null && sidewalk.getSideHasPayphones() > -1)
             payphoneRadio.check(payphoneRadio.getChildAt(sidewalk.getSideHasPayphones()).getId());
         if (sidewalk.getSideHasStairs() != null && sidewalk.getSideHasStairs() > -1)
@@ -244,10 +254,17 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
                 accessFloorObsField.setVisibility(View.GONE);
             }
         } else if (radio == sideHasSlopeRadio) {
-            if (index == 1)
+            if (index == 1) {
                 addSlope.setVisibility(View.VISIBLE);
-            else
+                sideReqSlopeHeader.setVisibility(View.GONE);
+                sideReqSlopeRadio.clearCheck();
+                sideReqSlopeRadio.setVisibility(View.GONE);
+            }
+            else {
                 addSlope.setVisibility(View.GONE);
+                sideReqSlopeHeader.setVisibility(View.VISIBLE);
+                sideReqSlopeRadio.setVisibility(View.VISIBLE);
+            }
         } else if (radio == hasAerialObsRadio) {
             if (index == 1)
                 aerialObsDescField.setVisibility(View.VISIBLE);
@@ -325,6 +342,11 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
         if (getCheckedSidewalkRadioButton(sideHasSlopeRadio) == -1) {
             i++;
             sideHasSlopeError.setVisibility(View.VISIBLE);
+        } else if (getCheckedSidewalkRadioButton(sideHasSlopeRadio) == 0) {
+            if (getCheckedSidewalkRadioButton(sideReqSlopeRadio) == -1) {
+                i++;
+                sideReqSlopeError.setVisibility(View.VISIBLE);
+            }
         }
 
         if (getCheckedSidewalkRadioButton(payphoneRadio) == -1) {
@@ -361,6 +383,7 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
         aerialObsDescField.setErrorEnabled(false);
         accessFloorError.setVisibility(View.GONE);
         sideHasSlopeError.setVisibility(View.GONE);
+        sideReqSlopeError.setVisibility(View.GONE);
         lidError.setVisibility(View.GONE);
         aerialError.setVisibility(View.GONE);
         payphoneError.setVisibility(View.GONE);
@@ -370,7 +393,7 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
 
     private SidewalkEntryTwo updateSideTwo(Bundle bundle) {
         Integer consStatus = null, accessFloor = null, hasLid = null, hasAerial = null, hasSlope = null, hasPayphone = null,
-                hasRamp = null, hasStairs = null;
+                hasRamp = null, hasStairs = null, reqSlope = null;
         String accessObs = null, aerialDesc = null, lidDesc = null, consDesc = null, sidewalkObs = null;
 
         if (getCheckedSidewalkRadioButton(sideConsRadio) > -1)
@@ -389,8 +412,13 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
             hasAerial = getCheckedSidewalkRadioButton(hasAerialObsRadio);
         if (!TextUtils.isEmpty(aerialObsDescValue.getText()))
             aerialDesc = String.valueOf(aerialObsDescValue.getText());
-        if (getCheckedSidewalkRadioButton(sideHasSlopeRadio) > -1)
+        if (getCheckedSidewalkRadioButton(sideHasSlopeRadio) > -1) {
             hasSlope = getCheckedSidewalkRadioButton(sideHasSlopeRadio);
+            if (hasSlope == 0) {
+                if (getCheckedSidewalkRadioButton(sideReqSlopeRadio) > -1)
+                    reqSlope = getCheckedSidewalkRadioButton(sideReqSlopeRadio);
+            }
+        }
         if (getCheckedSidewalkRadioButton(sideHasStairs) > -1)
             hasStairs = getCheckedSidewalkRadioButton(sideHasStairs);
         if (getCheckedSidewalkRadioButton(sideHasRamps) > -1)
@@ -401,7 +429,7 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
             sidewalkObs = String.valueOf(sidewalkObsValue.getText());
 
         return new SidewalkEntryTwo(bundle.getInt(AMBIENT_ID), accessFloor, accessObs, hasSlope, sidewalkObs, hasAerial, aerialDesc,
-                hasLid, lidDesc, consStatus, consDesc, hasPayphone, hasStairs, hasRamp);
+                hasLid, lidDesc, consStatus, consDesc, hasPayphone, hasStairs, hasRamp, reqSlope);
     }
 
 

@@ -155,7 +155,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:text="Medições de inclinação transversal da calçada (valor máximo permitido: 3%)"
+            android:text="@string/header_side_trans_inclination"
             android:textSize="@dimen/section_header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sidewalk_measurements_obs_field"/>
@@ -380,7 +380,7 @@
             android:id="@+id/label_special_floor_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/has_tactile_floor_error"
             android:textSize="@dimen/section_header"
             android:text="@string/label_special_floor_color"
@@ -419,16 +419,16 @@
             android:text="@string/empty_fields"
             android:textSize="14sp"
             android:textColor="@color/error_message"
-            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/special_floor_color_radio"
             app:layout_constraintStart_toStartOf="parent"
+            android:visibility="gone"
             />
 
         <TextView
             android:id="@+id/label_direction_special_floor_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/special_floor_color_error"
             android:textSize="@dimen/section_header"
             android:text="@string/header_direction_special_floor_size"
@@ -436,37 +436,14 @@
             android:visibility="gone"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/direction_floor_length_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_length"
-            android:weightSum="@integer/weight_one"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_direction_special_floor_size"
-            app:layout_constraintEnd_toStartOf="@id/direction_floor_width_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/direction_floor_length_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/direction_floor_width_field"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_width"
             android:weightSum="@integer/weight_one"
-            app:layout_constraintStart_toEndOf="@id/direction_floor_length_field"
-            app:layout_constraintBaseline_toBaselineOf="@id/direction_floor_length_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_direction_special_floor_size"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:visibility="gone">
 
@@ -477,18 +454,6 @@
                 android:inputType="numberDecimal" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/direction_floor_measurements_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/direction_floor_width_field"
-            app:layout_constraintStart_toStartOf="parent"
-            />
 
         <TextView
             android:id="@+id/label_alert_special_floor_size"
@@ -502,37 +467,13 @@
             android:visibility="gone"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/alert_floor_length_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_length"
-            android:weightSum="@integer/weight_one"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/label_alert_special_floor_size"
-            app:layout_constraintEnd_toStartOf="@id/alert_floor_width_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/alert_floor_length_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/alert_floor_width_field"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_width"
-            android:weightSum="@integer/weight_one"
-            app:layout_constraintStart_toEndOf="@id/alert_floor_length_field"
-            app:layout_constraintBaseline_toBaselineOf="@id/alert_floor_length_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/usual_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_alert_special_floor_size"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:visibility="gone">
 
@@ -544,18 +485,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/alert_floor_measurements_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/alert_floor_length_field"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/sidewalk_special_floor_obs_field"
@@ -563,7 +492,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/alert_floor_measurements_error"
+            app:layout_constraintTop_toBottomOf="@id/alert_floor_width_field"
             android:hint="@string/hint_conservation_status_special_floor">
 
             <com.google.android.material.textfield.TextInputEditText

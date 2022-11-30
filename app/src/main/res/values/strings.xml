@@ -260,7 +260,7 @@
     <string name="label_sill_type_door">Tipo de Soleira da Porta</string>
     <string name="hint_sill_type_obs">Observações sobre a soleira</string>
     <string name="hint_sill_inclination_height">Altura do Desnível da Soleira</string>
-    <string name="hint_sill_step_height">Altura do degrau da soleira</string>
+    <string name="hint_sill_step_height">Altura do degrau da soleira (cm)</string>
     <string name="hint_sill_slope_inclination">Inclinação da rampa da soleira</string>
     <string name="hint_sill_slope_width">Largura da rampa da soleira</string>
     <string name="hint_switch_location">Localização do interruptor</string>
@@ -608,4 +608,16 @@
     <string name="hint_tact_floor_dist">Distância ao início do lance (m)</string>
     <string name="header_intermediate_level">O lance termina em um patamar intermediário?</string>
     <string name="hint_inter_level_length">Comprimento do Patamar (m)</string>
+    <string name="header_public_phone">Cadastro de Telefone Público</string>
+    <string name="hint_tact_floor_dist_proj">Distância entre piso tátil e projeção do objeto (m)</string>
+    <string name="header_side_cons_status">A calçada se encontra em bom estado de conservação?</string>
+    <string name="hint_cons_status_obs">Observações de Conservação da Calçada</string>
+    <string name="header_req_side_slope">É obrigatória a presença de rebaixamento nesta calçada?</string>
+    <string name="header_side_public_phone">Esta calçada possui telefone público?</string>
+    <string name="header_reg_public_phone">Cadastro de Telefones Públicos</string>
+    <string name="header_side_has_stairs">A calçada possui escadas?</string>
+    <string name="header_side_has_ramps">A calçada possui rampas?</string>
+    <string name="button_return">RETORNAR</string>
+    <string name="header_side_trans_inclination">Medições de inclinação transversal da calçada (valor máximo permitido: 3%)</string>
+    <string name="header_slope_list_register">Cadastro de Rebaixamentos</string>
 </resources>

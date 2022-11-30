@@ -760,8 +760,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             } else {
                 lowTactWidthValue.setText(null);
                 lowTactDistValue.setText(null);
-                lowTactWidthField.setVisibility(View.INVISIBLE);
-                lowTactDistField.setVisibility(View.INVISIBLE);
+                lowTactWidthField.setVisibility(View.GONE);
+                lowTactDistField.setVisibility(View.GONE);
             }
         }
         else if (radio == upTactFloorRadio) {
@@ -771,8 +771,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             } else {
                 upTactWidthValue.setText(null);
                 upTactDistValue.setText(null);
-                upTactWidthField.setVisibility(View.INVISIBLE);
-                upTactDistField.setVisibility(View.INVISIBLE);
+                upTactWidthField.setVisibility(View.GONE);
+                upTactDistField.setVisibility(View.GONE);
             }
         }
         else if (radio == interLevelRadio) {
@@ -782,8 +782,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             } else {
                 interLvLengthValue.setText(null);
                 interLvObsValue.setText(null);
-                interLvLengthField.setVisibility(View.INVISIBLE);
-                interLvObsField.setVisibility(View.INVISIBLE);
+                interLvLengthField.setVisibility(View.GONE);
+                interLvObsField.setVisibility(View.GONE);
             }
         }
 
