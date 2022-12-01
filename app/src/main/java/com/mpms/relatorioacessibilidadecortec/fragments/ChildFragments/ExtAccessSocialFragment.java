@@ -124,7 +124,7 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
             } else if (trackGapCounter < 4) {
                 if (trackGapCounter == 1)
                     delTrackGapButton.setVisibility(View.VISIBLE);
-                trackGapFields.get(rampTrackCounter).setVisibility(View.VISIBLE);
+                trackGapFields.get(trackGapCounter).setVisibility(View.VISIBLE);
                 trackGapCounter++;
             } else
                 Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
@@ -132,11 +132,11 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
 
         delTrackGapButton.setOnClickListener(v -> {
             if (trackGapCounter > 1) {
-                rampTrackFields.get(rampTrackCounter - 1).getEditText().setText(null);
-                rampTrackFields.get(rampTrackCounter - 1).setVisibility(View.GONE);
-                rampTrackCounter--;
+                trackGapFields.get(trackGapCounter - 1).getEditText().setText(null);
+                trackGapFields.get(trackGapCounter - 1).setVisibility(View.GONE);
+                trackGapCounter--;
                 if (trackGapCounter == 1)
-                    delTrackRampButton.setVisibility(View.GONE);
+                    delTrackGapButton.setVisibility(View.GONE);
             }
         });
 
@@ -153,6 +153,7 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         gateHandleRadio = v.findViewById(R.id.gate_handle_type_radio);
         hasGateTracksRadio = v.findViewById(R.id.has_gate_tracks_radio);
         hasTrackRampRadio = v.findViewById(R.id.gate_has_track_ramp_radio);
+        hasTrackGapsRadio = v.findViewById(R.id.has_track_gaps_radio);
 //        MultilineRadioGroup
         gateTypeRadio = v.findViewById(R.id.ext_gate_type_radio);
 //        TextViews
@@ -217,6 +218,7 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
 //        RadioListeners
         hasGateTracksRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
         hasTrackRampRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
+        hasTrackGapsRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
 //        MultiRadio Listeners
         gateTypeRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
                 (view, r) -> extAccessOneMultiRadioListener(gateTypeRadio));

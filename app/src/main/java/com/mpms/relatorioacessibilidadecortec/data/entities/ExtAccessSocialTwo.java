@@ -208,4 +208,52 @@ public class ExtAccessSocialTwo {
     public void setEntranceGateDesc(String entranceGateDesc) {
         this.entranceGateDesc = entranceGateDesc;
     }
+
+    public Integer getHasFloorGap() {
+        return hasFloorGap;
+    }
+
+    public void setHasFloorGap(Integer hasFloorGap) {
+        this.hasFloorGap = hasFloorGap;
+    }
+
+    public Integer getGapCounter() {
+        return gapCounter;
+    }
+
+    public void setGapCounter(Integer gapCounter) {
+        this.gapCounter = gapCounter;
+    }
+
+    public Double getGapMeasure1() {
+        return gapMeasure1;
+    }
+
+    public void setGapMeasure1(Double gapMeasure1) {
+        this.gapMeasure1 = gapMeasure1;
+    }
+
+    public Double getGapMeasure2() {
+        return gapMeasure2;
+    }
+
+    public void setGapMeasure2(Double gapMeasure2) {
+        this.gapMeasure2 = gapMeasure2;
+    }
+
+    public Double getGapMeasure3() {
+        return gapMeasure3;
+    }
+
+    public void setGapMeasure3(Double gapMeasure3) {
+        this.gapMeasure3 = gapMeasure3;
+    }
+
+    public Double getGapMeasure4() {
+        return gapMeasure4;
+    }
+
+    public void setGapMeasure4(Double gapMeasure4) {
+        this.gapMeasure4 = gapMeasure4;
+    }
 }

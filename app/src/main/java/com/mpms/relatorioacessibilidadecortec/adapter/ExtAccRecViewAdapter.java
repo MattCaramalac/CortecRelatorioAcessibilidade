@@ -47,7 +47,7 @@ public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfa
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
         ExternalAccess extAccess = extAccessList.get(position);
         if (extAccess.getEntranceType() != null) {
-            holder.textInfoOne.setText(entranceType(extAccess.getEntranceType()));
+            holder.textInfoOne.setText(entranceType(extAccess));
             holder.textInfoTwo.setText(extAccessNumber(getItemCount()-position));
             if(selectedItems.get(position))
                 holder.background.setBackgroundColor(Color.rgb(158, 235, 247));
@@ -76,11 +76,11 @@ public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfa
         return extAccessList.size();
     }
 
-    public String entranceType(int extType) {
-        if (extType == 0)
-            return "Entrada Social";
+    public String entranceType(ExternalAccess ext) {
+        if (ext.getEntranceType() == 0)
+            return "Entrada Social - " + ext.getAccessLocation();
         else
-            return "Entrada de Veículos";
+            return "Entrada de Veículos - " + ext.getAccessLocation();
     }
 
     public String extAccessNumber(int i) {

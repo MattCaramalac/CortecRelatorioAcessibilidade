@@ -80,19 +80,19 @@ public class RestDoorUpdate {
         this.restroomID = restroomID;
     }
 
-    public double getDoorWidth() {
+    public Double getDoorWidth() {
         return doorWidth;
     }
 
-    public void setDoorWidth(double doorWidth) {
+    public void setDoorWidth(Double doorWidth) {
         this.doorWidth = doorWidth;
     }
 
-    public int getHasPict() {
+    public Integer getHasPict() {
         return hasPict;
     }
 
-    public void setHasPict(int hasPict) {
+    public void setHasPict(Integer hasPict) {
         this.hasPict = hasPict;
     }
 
@@ -100,15 +100,15 @@ public class RestDoorUpdate {
         return pictObs;
     }
 
-    public void setPictObs(String SIAObs) {
-        this.pictObs = SIAObs;
+    public void setPictObs(String pictObs) {
+        this.pictObs = pictObs;
     }
 
-    public int getOpDir() {
+    public Integer getOpDir() {
         return opDir;
     }
 
-    public void setOpDir(int opDir) {
+    public void setOpDir(Integer opDir) {
         this.opDir = opDir;
     }
 
@@ -120,11 +120,11 @@ public class RestDoorUpdate {
         this.opDirObs = opDirObs;
     }
 
-    public int getHasCoat() {
+    public Integer getHasCoat() {
         return hasCoat;
     }
 
-    public void setHasCoat(int hasCoat) {
+    public void setHasCoat(Integer hasCoat) {
         this.hasCoat = hasCoat;
     }
 
@@ -144,11 +144,11 @@ public class RestDoorUpdate {
         this.coatObs = coatObs;
     }
 
-    public int getHasVertSign() {
+    public Integer getHasVertSign() {
         return hasVertSign;
     }
 
-    public void setHasVertSign(int hasVertSign) {
+    public void setHasVertSign(Integer hasVertSign) {
         this.hasVertSign = hasVertSign;
     }
 
@@ -160,11 +160,11 @@ public class RestDoorUpdate {
         this.vertSignObs = vertSignObs;
     }
 
-    public int getSillType() {
+    public Integer getSillType() {
         return sillType;
     }
 
-    public void setSillType(int sillType) {
+    public void setSillType(Integer sillType) {
         this.sillType = sillType;
     }
 
@@ -232,6 +232,14 @@ public class RestDoorUpdate {
         this.sillSlopeWidth = sillSlopeWidth;
     }
 
+    public Double getSillSlopeHeight() {
+        return sillSlopeHeight;
+    }
+
+    public void setSillSlopeHeight(Double sillSlopeHeight) {
+        this.sillSlopeHeight = sillSlopeHeight;
+    }
+
     public String getSillTypeObs() {
         return sillTypeObs;
     }
@@ -240,11 +248,11 @@ public class RestDoorUpdate {
         this.sillTypeObs = sillTypeObs;
     }
 
-    public int getHasTactSign() {
+    public Integer getHasTactSign() {
         return hasTactSign;
     }
 
-    public void setHasTactSign(int hasTactSign) {
+    public void setHasTactSign(Integer hasTactSign) {
         this.hasTactSign = hasTactSign;
     }
 
@@ -256,11 +264,11 @@ public class RestDoorUpdate {
         this.tactSignObs = tactSignObs;
     }
 
-    public int getHasHorHandle() {
+    public Integer getHasHorHandle() {
         return hasHorHandle;
     }
 
-    public void setHasHorHandle(int hasHorHandle) {
+    public void setHasHorHandle(Integer hasHorHandle) {
         this.hasHorHandle = hasHorHandle;
     }
 

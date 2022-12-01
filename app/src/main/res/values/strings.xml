@@ -465,6 +465,10 @@
     <string name="measurement_m_2">Medição 2(m)</string>
     <string name="measurement_m_3">Medição 3(m)</string>
     <string name="measurement_m_4">Medição 4(m)</string>
+    <string name="measurement_mm_1">Medição 1(mm)</string>
+    <string name="measurement_mm_2">Medição 2(mm)</string>
+    <string name="measurement_mm_3">Medição 3(mm)</string>
+    <string name="measurement_mm_4">Medição 4(mm)</string>
     <string name="left_wing_slope_header">Medições de Inclinação Aba Esquerda</string>
     <string name="right_wing_measure_header">Medições de Inclinação Aba Direita</string>
     <string name="hint_fountain_location">Localização do Bebedouro</string>
@@ -625,7 +629,6 @@
     <string name="hint_gate_desc">Descrição do Tipo de Portão</string>
     <string name="hint_free_space_gate_2">Largura do Vão Livre - Folha 2 (m)</string>
     <string name="radio_option_handle">ALAVANCA</string>
-    <string name="radio_option_other_type">OUTRO TIPO</string>
     <string name="header_gate_op_type">Qual o tipo de dispositivo de abertura do portão?</string>
     <string name="hint_gate_handle_height">Altura do dispositivo de abertura</string>
     <string name="hint_gate_obs">Observações sobre o portão</string>

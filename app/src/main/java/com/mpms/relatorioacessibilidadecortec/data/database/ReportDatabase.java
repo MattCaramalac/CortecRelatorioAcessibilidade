@@ -1287,14 +1287,15 @@ public abstract class ReportDatabase extends RoomDatabase {
                     "hasFloorGap INTEGER, gapCounter INTEGER, gapMeasure1 REAL, gapMeasure2 REAL, gapMeasure3 REAL, gapMeasure4 REAL, gateSillType INTEGER," +
                     "sillInclinationHeight REAL, sillStepHeight REAL, sillSlopeWidth REAL, sillSlopeHeight REAL, slopeMeasureQnt INTEGER, sillSlopeAngle REAL," +
                     "sillSlopeAngle2 REAL, sillSlopeAngle3 REAL, sillSlopeAngle4 REAL, gateSillObs TEXT, gateHasObstacles INTEGER, gateHasPayphones INTEGER," +
-                    "gateHasIntercom INTEGER, intercomHeight REAL, gateHasStairs INTEGER, gateHasRamps INTEGER, gateHasSoundSign INTEGER, String extAccessObs," +
+                    "gateHasIntercom INTEGER, intercomHeight REAL, gateHasStairs INTEGER, gateHasRamps INTEGER, gateHasSoundSign INTEGER, extAccessObs TEXT," +
                     "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
-            database.execSQL("INSERT INTO ExternalAccess2 (externalAccessID, blockID, accessLocation, entranceType, floorIsAccessible, accessibleFloorObs, hasSIA," +
+
+            database.execSQL("INSERT INTO ExternalAccess2(externalAccessID, blockID, accessLocation, entranceType, floorIsAccessible, accessibleFloorObs, hasSIA," +
                     "obsSIA, entranceGateType, entranceGateDesc, freeSpaceWidth1, freeSpaceWidth2, gateHandleType, gateHandleHeight, gateObs, gateHasTracks," +
                     "gateTrackHeight, gateHasTrackRamp, trackRampQuantity, trackRampMeasure1, trackRampMeasure2, trackRampMeasure3, trackRampMeasure4, gateSillType, " +
                     "sillInclinationHeight, sillStepHeight, sillSlopeWidth, slopeMeasureQnt, sillSlopeAngle, sillSlopeAngle2, sillSlopeAngle3, sillSlopeAngle4," +
                     "gateSillObs, gateHasObstacles, gateHasPayphones, gateHasIntercom, intercomHeight, gateHasSoundSign, extAccessObs)" +
-                    "SELECT externalAccessID, blockID, accessLocation, entranceType, floorIsAccessible, accessibleFloorObs, hasSIA, obsSIA, entranceGateType, entranceGateDesc, " +
+                    " SELECT externalAccessID, blockID, accessLocation, entranceType, floorIsAccessible, accessibleFloorObs, hasSIA, obsSIA, entranceGateType, entranceGateDesc, " +
                     "freeSpaceWidth1, freeSpaceWidth2, gateHandleType, gateHandleHeight, gateObs, gateHasTracks, gateTrackHeight, gateHasTrackRamp, trackRampQuantity, " +
                     "trackRampMeasure1, trackRampMeasure2, trackRampMeasure3, trackRampMeasure4, gateSillType, sillInclinationHeight, sillStepHeight, sillSlopeWidth, " +
                     "slopeMeasureQnt, sillSlopeAngle, sillSlopeAngle2, sillSlopeAngle3, sillSlopeAngle4, gateSillObs, gateHasObstacles, gateHasPayphones, gateHasIntercom, " +
@@ -1302,7 +1303,7 @@ public abstract class ReportDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE ExternalAccess");
             database.execSQL("ALTER TABLE ExternalAccess2 RENAME TO ExternalAccess");
 
-            database.execSQL("ALTER TABLE DoorFragment ADD COLUMN sillSlopeHeight REAL");
+            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN sillSlopeHeight REAL");
             database.execSQL("ALTER TABLE PlaygroundEntry ADD COLUMN sillSlopeHeight REAL");
             database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN sillSlopeHeight REAL");
 
