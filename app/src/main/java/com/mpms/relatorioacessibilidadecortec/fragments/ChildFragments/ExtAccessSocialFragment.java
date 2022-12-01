@@ -34,15 +34,15 @@ import java.util.ArrayList;
 
 public class ExtAccessSocialFragment extends Fragment implements TagInterface {
 
-    RadioGroup hasSIARadio, gateHandleRadio, hasGateTracksRadio, hasTrackRampRadio;
+    RadioGroup hasSIARadio, gateHandleRadio, hasGateTracksRadio, hasTrackRampRadio, hasTrackGapsRadio;
     MultiLineRadioGroup gateTypeRadio;
-    TextView siaError, gateTypeError, gateHandleHeader, gateHandleError, gateLockHeader, gateTrackError, hasTrackRampHeader, trackRampError, trackRampValueError;
+    TextView siaError, gateTypeError, gateHandleHeader, gateHandleError, gateLockHeader, gateTrackError, hasTrackRampHeader, trackRampError, trackGapHeader, trackGapError;
     TextInputLayout siaObsField, gateTypeDescField, freeSpaceWidthField1, freeSpaceWidthField2, gateHandleHeightField, gateObsField, trackHeightField,
-            trackRampField1, trackRampField2, trackRampField3, trackRampField4;
+            trackRampField1, trackRampField2, trackRampField3, trackRampField4, trackGapField1, trackGapField2, trackGapField3, trackGapField4;
     TextInputEditText siaObsValue, gateTypeDescValue, freeSpaceWidthValue1, freeSpaceWidthValue2, gateHandleHeightValue, gateObsValue, trackHeightValue,
-            trackRampValue1, trackRampValue2, trackRampValue3, trackRampValue4;
-    MaterialButton addGateLockButton, addTrackRampButton, returnButton, continueButton;
-    ImageButton delTrackRampButton;
+            trackRampValue1, trackRampValue2, trackRampValue3, trackRampValue4, trackGapValue1, trackGapValue2, trackGapValue3, trackGapValue4;
+    MaterialButton addGateLockButton, addTrackRampButton, addTrackGapButton, returnButton, continueButton;
+    ImageButton delTrackRampButton, delTrackGapButton;
 
     ViewModelEntry modelEntry;
 
@@ -51,8 +51,10 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
     FragmentManager manager;
 
     int rampTrackCounter = 0;
+    int trackGapCounter = 0;
 
     ArrayList<TextInputLayout> rampTrackFields = new ArrayList<>();
+    ArrayList<TextInputLayout> trackGapFields = new ArrayList<>();
 
     Bundle extAccSocialBundle;
 
@@ -93,11 +95,11 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
                     .observe(getViewLifecycleOwner(), this::loadSocialFragData);
 
         addTrackRampButton.setOnClickListener(v -> {
-            if (rampTrackCounter < 0) {
-                rampTrackCounter = 0;
+            if (rampTrackCounter < 1) {
+                rampTrackCounter = 1;
                 Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
             } else if (rampTrackCounter < 4) {
-                if (rampTrackCounter == 0)
+                if (rampTrackCounter == 1)
                     delTrackRampButton.setVisibility(View.VISIBLE);
                 rampTrackFields.get(rampTrackCounter).setVisibility(View.VISIBLE);
                 rampTrackCounter++;
@@ -106,11 +108,34 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         });
 
         delTrackRampButton.setOnClickListener(v -> {
-            if (rampTrackCounter > 0) {
+            if (rampTrackCounter > 1) {
                 rampTrackFields.get(rampTrackCounter - 1).getEditText().setText(null);
                 rampTrackFields.get(rampTrackCounter - 1).setVisibility(View.GONE);
                 rampTrackCounter--;
-                if (rampTrackCounter == 0)
+                if (rampTrackCounter == 1)
+                    delTrackRampButton.setVisibility(View.GONE);
+            }
+        });
+
+        addTrackGapButton.setOnClickListener(v -> {
+            if (trackGapCounter < 1) {
+                trackGapCounter = 1;
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (trackGapCounter < 4) {
+                if (trackGapCounter == 1)
+                    delTrackGapButton.setVisibility(View.VISIBLE);
+                trackGapFields.get(rampTrackCounter).setVisibility(View.VISIBLE);
+                trackGapCounter++;
+            } else
+                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+        });
+
+        delTrackGapButton.setOnClickListener(v -> {
+            if (trackGapCounter > 1) {
+                rampTrackFields.get(rampTrackCounter - 1).getEditText().setText(null);
+                rampTrackFields.get(rampTrackCounter - 1).setVisibility(View.GONE);
+                rampTrackCounter--;
+                if (trackGapCounter == 1)
                     delTrackRampButton.setVisibility(View.GONE);
             }
         });
@@ -139,7 +164,8 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         gateHandleHeader = v.findViewById(R.id.label_gate_handle);
         gateHandleError = v.findViewById(R.id.gate_handle_type_error);
         gateLockHeader = v.findViewById(R.id.label_gate_lock_register);
-        trackRampValueError = v.findViewById(R.id.ramp_track_values_error);
+        trackGapHeader = v.findViewById(R.id.label_has_track_gaps);
+        trackGapError = v.findViewById(R.id.track_gap_radio_error);
 //        TextInputLayouts
         siaObsField = v.findViewById(R.id.social_entrance_sia_obs_field);
         gateTypeDescField = v.findViewById(R.id.gate_type_desc_field);
@@ -152,6 +178,10 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         trackRampField2 = v.findViewById(R.id.ramp_track_2_field);
         trackRampField3 = v.findViewById(R.id.ramp_track_3_field);
         trackRampField4 = v.findViewById(R.id.ramp_track_4_field);
+        trackGapField1 = v.findViewById(R.id.track_gap_1_field);
+        trackGapField2 = v.findViewById(R.id.track_gap_2_field);
+        trackGapField3 = v.findViewById(R.id.track_gap_3_field);
+        trackGapField4 = v.findViewById(R.id.track_gap_4_field);
 //        TextInputEditText
         siaObsValue = v.findViewById(R.id.social_entrance_sia_obs_value);
         gateTypeDescValue = v.findViewById(R.id.gate_type_desc_value);
@@ -164,13 +194,19 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         trackRampValue2 = v.findViewById(R.id.ramp_track_2_value);
         trackRampValue3 = v.findViewById(R.id.ramp_track_3_value);
         trackRampValue4 = v.findViewById(R.id.ramp_track_4_value);
+        trackGapValue1 = v.findViewById(R.id.track_gap_1_value);
+        trackGapValue2 = v.findViewById(R.id.track_gap_2_value);
+        trackGapValue3 = v.findViewById(R.id.track_gap_3_value);
+        trackGapValue4 = v.findViewById(R.id.track_gap_4_value);
 //        MaterialButtons
         addTrackRampButton = v.findViewById(R.id.add_gate_track_ramp_button);
+        addTrackGapButton = v.findViewById(R.id.add_track_gap_button);
         addGateLockButton = v.findViewById(R.id.add_gate_lock_button);
         returnButton = v.findViewById(R.id.return_ext_access_button);
         continueButton = v.findViewById(R.id.continue_ext_access2_button);
 //        ImageButton
         delTrackRampButton = v.findViewById(R.id.delete_ramp_track_measure);
+        delTrackGapButton = v.findViewById(R.id.delete_track_gap_measure);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
@@ -213,6 +249,11 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         rampTrackFields.add(trackRampField2);
         rampTrackFields.add(trackRampField3);
         rampTrackFields.add(trackRampField4);
+
+        trackGapFields.add(trackGapField1);
+        trackGapFields.add(trackGapField2);
+        trackGapFields.add(trackGapField3);
+        trackGapFields.add(trackGapField4);
     }
 
     private void extAccessRadioListener(RadioGroup radio, int checkedID) {
@@ -222,19 +263,60 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
                 trackHeightField.setVisibility(View.VISIBLE);
                 hasTrackRampHeader.setVisibility(View.VISIBLE);
                 hasTrackRampRadio.setVisibility(View.VISIBLE);
+                trackGapHeader.setVisibility(View.VISIBLE);
+                hasTrackGapsRadio.setVisibility(View.VISIBLE);
             } else {
                 trackHeightValue.setText(null);
                 trackHeightField.setVisibility(View.GONE);
                 hasTrackRampHeader.setVisibility(View.GONE);
                 hasTrackRampRadio.clearCheck();
                 hasTrackRampRadio.setVisibility(View.GONE);
+                closeTrackRampFields();
+                trackGapHeader.setVisibility(View.GONE);
+                hasTrackGapsRadio.clearCheck();
+                hasTrackGapsRadio.setVisibility(View.GONE);
+                closeTrackGapFields();
             }
         } else if (radio == hasTrackRampRadio) {
-            if (index == 1)
+            if (index == 1) {
+                trackRampError.setVisibility(View.GONE);
                 addTrackRampButton.setVisibility(View.VISIBLE);
-            else
-                addTrackRampButton.setVisibility(View.GONE);
+                trackRampField1.setVisibility(View.VISIBLE);
+                rampTrackCounter = 1;
+            } else
+                closeTrackRampFields();
+
+        } else if (radio == hasTrackGapsRadio) {
+            if (index == 1) {
+                addTrackGapButton.setVisibility(View.VISIBLE);
+                trackGapField1.setVisibility(View.VISIBLE);
+                trackGapCounter = 1;
+            } else
+                closeTrackGapFields();
         }
+    }
+
+    private void closeTrackRampFields() {
+        trackRampError.setVisibility(View.GONE);
+        addTrackRampButton.setVisibility(View.GONE);
+        delTrackRampButton.setVisibility(View.GONE);
+        for (TextInputLayout trackFields : rampTrackFields) {
+            trackFields.getEditText().setText(null);
+            trackFields.setVisibility(View.GONE);
+        }
+        rampTrackCounter = 0;
+    }
+
+
+    private void closeTrackGapFields() {
+        trackGapError.setVisibility(View.GONE);
+        addTrackGapButton.setVisibility(View.GONE);
+        delTrackGapButton.setVisibility(View.GONE);
+        for (TextInputLayout gapFields : trackGapFields) {
+            gapFields.getEditText().setText(null);
+            gapFields.setVisibility(View.GONE);
+        }
+        trackGapCounter = 0;
     }
 
     private void extAccessOneMultiRadioListener(MultiLineRadioGroup multi) {
@@ -283,14 +365,27 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
 
         if (access.getEntranceGateType() != null) {
             gateTypeRadio.checkAt(access.getEntranceGateType());
-            freeSpaceWidthValue1.setText(String.valueOf(access.getFreeSpaceWidth1()));
-            if (access.getEntranceGateType() == 1)
-                freeSpaceWidthValue2.setText(String.valueOf(access.getFreeSpaceWidth2()));
-            else if (access.getEntranceGateType() == 2)
-                gateTypeDescValue.setText(access.getEntranceGateDesc());
-            gateHandleRadio.check(gateHandleRadio.getChildAt(access.getGateHandleType()).getId());
-            gateHandleHeightValue.setText(String.valueOf(access.getGateHandleHeight()));
+            if (access.getFreeSpaceWidth1() != null)
+                freeSpaceWidthValue1.setText(String.valueOf(access.getFreeSpaceWidth1()));
+            if (access.getEntranceGateType() == 1) {
+                if (access.getFreeSpaceWidth2() != null)
+                    freeSpaceWidthValue2.setText(String.valueOf(access.getFreeSpaceWidth2()));
+            }
+            else if (access.getEntranceGateType() == 2) {
+                if (access.getEntranceGateDesc() != null) {
+                    gateTypeDescValue.setText(access.getEntranceGateDesc());
+                }
+            }
         }
+
+        if (access.getGateHandleType() != null)
+            gateHandleRadio.check(gateHandleRadio.getChildAt(access.getGateHandleType()).getId());
+
+        if (access.getGateHandleHeight() != null)
+            gateHandleHeightValue.setText(String.valueOf(access.getGateHandleHeight()));
+
+        if (access.getGateObs() != null)
+            gateObsValue.setText(access.getGateObs());
 
         if (access.getGateHasTracks() != null) {
             hasGateTracksRadio.check(hasGateTracksRadio.getChildAt(access.getGateHasTracks()).getId());
@@ -300,7 +395,7 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
                 if (access.getGateHasTrackRamp() != null) {
                     hasTrackRampRadio.check(hasTrackRampRadio.getChildAt(access.getGateHasTrackRamp()).getId());
                     rampTrackCounter = access.getTrackRampQuantity();
-                    if (rampTrackCounter > 0)
+                    if (rampTrackCounter > 1)
                         delTrackRampButton.setVisibility(View.VISIBLE);
                     switch (rampTrackCounter) {
                         case 4:
@@ -318,6 +413,28 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
                         default:
                             break;
                     }
+                }
+            }
+            if (access.getHasFloorGap() != null) {
+                hasTrackGapsRadio.check(hasTrackGapsRadio.getChildAt(access.getHasFloorGap()).getId());
+                trackGapCounter = access.getGapCounter();
+                if (trackGapCounter > 1)
+                    delTrackGapButton.setVisibility(View.VISIBLE);
+                switch (trackGapCounter) {
+                    case 4:
+                        trackGapField4.setVisibility(View.VISIBLE);
+                        trackGapValue4.setText(String.valueOf(access.getGapMeasure4()));
+                    case 3:
+                        trackGapField3.setVisibility(View.VISIBLE);
+                        trackGapValue3.setText(String.valueOf(access.getGapMeasure3()));
+                    case 2:
+                        trackGapField2.setVisibility(View.VISIBLE);
+                        trackGapValue2.setText(String.valueOf(access.getGapMeasure2()));
+                    case 1:
+                        trackGapField1.setVisibility(View.VISIBLE);
+                        trackGapValue1.setText(String.valueOf(access.getGapMeasure1()));
+                    default:
+                        break;
                 }
             }
         }
@@ -345,17 +462,17 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         } else {
             if (TextUtils.isEmpty(freeSpaceWidthValue1.getText())) {
                 i++;
-                freeSpaceWidthField1.setError(getString(R.string.blank_field_error));
+                freeSpaceWidthField1.setError(getString(R.string.req_field_error));
             }
             if (gateTypeRadio.getCheckedRadioButtonIndex() == 1) {
                 if (TextUtils.isEmpty(freeSpaceWidthValue2.getText())) {
                     i++;
-                    freeSpaceWidthField2.setError(getString(R.string.blank_field_error));
+                    freeSpaceWidthField2.setError(getString(R.string.req_field_error));
                 }
             } else if (gateTypeRadio.getCheckedRadioButtonIndex() == 2) {
                 if (TextUtils.isEmpty(gateTypeDescValue.getText())) {
                     i++;
-                    gateTypeDescField.setError(getString(R.string.blank_field_error));
+                    gateTypeDescField.setError(getString(R.string.req_field_error));
                 }
             }
             if (getCheckedRadioIndex(gateHandleRadio) == -1) {
@@ -364,7 +481,7 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
             }
             if (TextUtils.isEmpty(gateHandleHeightValue.getText())) {
                 i++;
-                gateHandleHeightField.setError(getString(R.string.blank_field_error));
+                gateHandleHeightField.setError(getString(R.string.req_field_error));
             }
         }
 
@@ -374,7 +491,7 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadioIndex(hasGateTracksRadio) == 1) {
             if (TextUtils.isEmpty(trackHeightValue.getText())) {
                 i++;
-                trackHeightField.setError(getString(R.string.blank_field_error));
+                trackHeightField.setError(getString(R.string.req_field_error));
             }
             if (getCheckedRadioIndex(hasTrackRampRadio) == -1) {
                 i++;
@@ -384,22 +501,51 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
                     case 4:
                         if (TextUtils.isEmpty(trackRampValue4.getText())) {
                             i++;
-                            trackRampValueError.setVisibility(View.VISIBLE);
+                            trackRampField4.setError(getString(R.string.req_field_error));
                         }
                     case 3:
                         if (TextUtils.isEmpty(trackRampValue3.getText())) {
                             i++;
-                            trackRampValueError.setVisibility(View.VISIBLE);
+                            trackRampField3.setError(getString(R.string.req_field_error));
                         }
                     case 2:
                         if (TextUtils.isEmpty(trackRampValue2.getText())) {
                             i++;
-                            trackRampValueError.setVisibility(View.VISIBLE);
+                            trackRampField2.setError(getString(R.string.req_field_error));
                         }
                     case 1:
                         if (TextUtils.isEmpty(trackRampValue1.getText())) {
                             i++;
-                            trackRampValueError.setVisibility(View.VISIBLE);
+                            trackRampField1.setError(getString(R.string.req_field_error));
+                        }
+                    default:
+                        break;
+                }
+            }
+            if (getCheckedRadioIndex(hasTrackGapsRadio) == -1) {
+                i++;
+                trackGapError.setVisibility(View.VISIBLE);
+            } else if (getCheckedRadioIndex(hasTrackGapsRadio) == 1) {
+                switch (trackGapCounter) {
+                    case 4:
+                        if (TextUtils.isEmpty(trackGapValue4.getText())) {
+                            i++;
+                            trackGapField4.setError(getString(R.string.req_field_error));
+                        }
+                    case 3:
+                        if (TextUtils.isEmpty(trackGapValue3.getText())) {
+                            i++;
+                            trackGapField3.setError(getString(R.string.req_field_error));
+                        }
+                    case 2:
+                        if (TextUtils.isEmpty(trackGapValue2.getText())) {
+                            i++;
+                            trackGapField2.setError(getString(R.string.req_field_error));
+                        }
+                    case 1:
+                        if (TextUtils.isEmpty(trackGapValue1.getText())) {
+                            i++;
+                            trackGapField1.setError(getString(R.string.req_field_error));
                         }
                     default:
                         break;
@@ -420,7 +566,16 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         gateTrackError.setVisibility(View.GONE);
         trackHeightField.setErrorEnabled(false);
         trackRampError.setVisibility(View.GONE);
-        trackRampValueError.setVisibility(View.GONE);
+        trackRampField1.setErrorEnabled(false);
+        trackRampField2.setErrorEnabled(false);
+        trackRampField3.setErrorEnabled(false);
+        trackRampField4.setErrorEnabled(false);
+        trackGapError.setVisibility(View.GONE);
+        trackGapField1.setErrorEnabled(false);
+        trackGapField2.setErrorEnabled(false);
+        trackGapField3.setErrorEnabled(false);
+        trackGapField4.setErrorEnabled(false);
+
     }
 
     private int getCheckedRadioIndex(RadioGroup radio) {
@@ -434,9 +589,10 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
     }
 
     private ExtAccessSocialTwo socialTwo(Bundle bundle) {
-        Integer sia = null, gateType = null, gateTracks = null, gateHandle = null, gateTrackRamps = null;
+        Integer sia = null, gateType = null, gateTracks = null, gateHandle = null, gateTrackRamps = null, floorGaps = null;
         String siaObs = null, gateDesc = null, gateObs = null;
-        Double fSpace1 = null, fSpace2 = null, handleHeight = null, trackHeight = null, rampMeasure1 = null, rampMeasure2 = null, rampMeasure3 = null, rampMeasure4 = null;
+        Double fSpace1 = null, fSpace2 = null, handleHeight = null, trackHeight = null, rampMeasure1 = null, rampMeasure2 = null, rampMeasure3 = null, rampMeasure4 = null,
+        gapMeasure1 = null, gapMeasure2 = null, gapMeasure3 = null, gapMeasure4 = null;
 
         if (getCheckedRadioIndex(hasSIARadio) > -1)
             sia = getCheckedRadioIndex(hasSIARadio);
@@ -491,10 +647,32 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
                         }
                     }
                 }
+                if (getCheckedRadioIndex(hasTrackGapsRadio) > -1) {
+                    floorGaps = getCheckedRadioIndex(hasTrackGapsRadio);
+                    if (floorGaps == 1) {
+                        switch (trackGapCounter) {
+                            case 4:
+                                if (!TextUtils.isEmpty(trackGapValue4.getText()))
+                                    gapMeasure4 = Double.parseDouble(String.valueOf(trackGapValue4.getText()));
+                            case 3:
+                                if (!TextUtils.isEmpty(trackGapValue3.getText()))
+                                    gapMeasure3 = Double.parseDouble(String.valueOf(trackGapValue3.getText()));
+                            case 2:
+                                if (!TextUtils.isEmpty(trackGapValue2.getText()))
+                                    gapMeasure2 = Double.parseDouble(String.valueOf(trackGapValue2.getText()));
+                            case 1:
+                                if (!TextUtils.isEmpty(trackGapValue1.getText()))
+                                    gapMeasure1 = Double.parseDouble(String.valueOf(trackGapValue1.getText()));
+                            default:
+                                break;
+                        }
+                    }
+                }
             }
         }
         return new ExtAccessSocialTwo(bundle.getInt(AMBIENT_ID), sia, siaObs, gateType, gateDesc, fSpace1, fSpace2, gateHandle, handleHeight,
-                gateObs, gateTracks, trackHeight, gateTrackRamps, rampTrackCounter, rampMeasure1, rampMeasure2, rampMeasure3, rampMeasure4);
+                gateObs, gateTracks, trackHeight, gateTrackRamps, rampTrackCounter, rampMeasure1, rampMeasure2, rampMeasure3, rampMeasure4,
+                floorGaps, trackGapCounter, gapMeasure1, gapMeasure2, gapMeasure3, gapMeasure4);
     }
 
 }

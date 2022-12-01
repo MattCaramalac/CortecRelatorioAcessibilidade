@@ -267,7 +267,7 @@ public class ExternalAccessFragment extends Fragment implements TagInterface {
         clearExternalAccessErrors();
         int i = 0;
         if (TextUtils.isEmpty(entranceLocationValue.getText())) {
-            entranceLocationField.setError(getText(R.string.blank_field_error));
+            entranceLocationField.setError(getText(R.string.req_field_error));
             i++;
         }
         if (entranceTypeRadio.getCheckedRadioButtonId() == -1) {
@@ -279,7 +279,7 @@ public class ExternalAccessFragment extends Fragment implements TagInterface {
             i++;
         } else if (getRadioCheckIndex(accessFloorRadio) == 0) {
             if (TextUtils.isEmpty(accessFloorObsValue.getText())) {
-                accessFloorObsField.setError(getString(R.string.blank_field_error));
+                accessFloorObsField.setError(getString(R.string.req_field_error));
                 i++;
             }
         }
@@ -322,7 +322,8 @@ public class ExternalAccessFragment extends Fragment implements TagInterface {
                 null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
-                null, null, null, hasSound, accessObs, null, null);
+                null, null, null, null, null, null, null, null, null,
+                null, null, null, hasSound, accessObs);
     }
 
     private ExtAccessSocialOne upExtAccessOne(Bundle bundle) {

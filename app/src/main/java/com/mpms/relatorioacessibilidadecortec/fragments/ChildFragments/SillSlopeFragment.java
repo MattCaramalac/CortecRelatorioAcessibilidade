@@ -31,8 +31,8 @@ import java.util.ArrayList;
 
 public class SillSlopeFragment extends Fragment implements TagInterface {
 
-    TextInputLayout slopeAngleField1, slopeAngleField2, slopeAngleField3, slopeAngleField4, sillSlopeWidthField;
-    TextInputEditText slopeAngleValue1, slopeAngleValue2, slopeAngleValue3, slopeAngleValue4, sillSlopeWidthValue;
+    TextInputLayout slopeAngleField1, slopeAngleField2, slopeAngleField3, slopeAngleField4, sillSlopeWidthField, sillSlopeHeightField;
+    TextInputEditText slopeAngleValue1, slopeAngleValue2, slopeAngleValue3, slopeAngleValue4, sillSlopeWidthValue, sillSlopeHeightValue;
     MaterialButton addAngle;
     ImageButton delAngle;
     TextView angleError;
@@ -121,12 +121,14 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
         slopeAngleField3 = view.findViewById(R.id.slope_measure_3_field);
         slopeAngleField4 = view.findViewById(R.id.slope_measure_4_field);
         sillSlopeWidthField = view.findViewById(R.id.sill_slope_width_field);
+        sillSlopeHeightField = view.findViewById(R.id.sill_slope_height_field);
 //        TextInputEditText
         slopeAngleValue1 = view.findViewById(R.id.slope_measure_1_value);
         slopeAngleValue2 = view.findViewById(R.id.slope_measure_2_value);
         slopeAngleValue3 = view.findViewById(R.id.slope_measure_3_value);
         slopeAngleValue4 = view.findViewById(R.id.slope_measure_4_value);
         sillSlopeWidthValue = view.findViewById(R.id.sill_slope_width_value);
+        sillSlopeHeightValue = view.findViewById(R.id.sill_slope_height_value);
 //        MaterialButton
         addAngle = view.findViewById(R.id.add_slope_measure_button);
 //        ImageButton
@@ -149,8 +151,14 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
     private boolean checkSlopeNoEmptyFields(Bundle bundle) {
         clearEmptyFieldErrors();
         int error = 0;
+        if (TextUtils.isEmpty(sillSlopeHeightValue.getText())) {
+            sillSlopeHeightField.setError(getString(R.string.req_field_error));
+            error++;
+        } else
+            bundle.putDouble(SLOPE_HEIGHT, Double.parseDouble(String.valueOf(sillSlopeHeightValue.getText())));
+
         if (TextUtils.isEmpty(sillSlopeWidthValue.getText())) {
-            sillSlopeWidthField.setError(getString(R.string.blank_field_error));
+            sillSlopeWidthField.setError(getString(R.string.req_field_error));
             error++;
         } else
             bundle.putDouble(SLOPE_WIDTH, Double.parseDouble(String.valueOf(sillSlopeWidthValue.getText())));

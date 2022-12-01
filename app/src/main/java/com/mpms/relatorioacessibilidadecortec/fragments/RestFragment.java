@@ -276,7 +276,7 @@ public class RestFragment extends Fragment implements TagInterface {
         int error = 0;
         if (TextUtils.isEmpty(restroomLocationValue.getText())) {
             error++;
-            restroomLocationField.setError(getString(R.string.blank_field_error));
+            restroomLocationField.setError(getString(R.string.req_field_error));
         }
         if (restroomTypeRadio.getCheckedRadioButtonIndex() == -1) {
             restroomTypeError.setVisibility(View.VISIBLE);
@@ -311,7 +311,7 @@ public class RestFragment extends Fragment implements TagInterface {
             error++;
         } else if (getRestroomCheckedRadio(restroomSwitchRadio) == 1) {
             if (TextUtils.isEmpty(restroomSwitchHeightValue.getText())) {
-                restroomSwitchHeightField.setError(getString(R.string.blank_field_error));
+                restroomSwitchHeightField.setError(getString(R.string.req_field_error));
             }
         }
         return error == 0;
@@ -354,7 +354,7 @@ public class RestFragment extends Fragment implements TagInterface {
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
-                null);
+                null, null);
     }
 
     public RestEntryUpdate updateRestroom(Bundle bundle) {

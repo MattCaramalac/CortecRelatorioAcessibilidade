@@ -275,11 +275,11 @@ public class DoorFragment extends Fragment implements TagInterface {
         int i = 0;
         if (TextUtils.isEmpty(doorLocaleValue.getText())) {
             i++;
-            doorLocaleField.setError(getString(R.string.blank_field_error));
+            doorLocaleField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(doorWidthValue.getText())) {
             i++;
-            doorWidthField.setError(getString(R.string.blank_field_error));
+            doorWidthField.setError(getString(R.string.req_field_error));
         }
         if (getDoorRadioCheck(doorHandleTypeRadio) == -1) {
             i++;
@@ -287,7 +287,7 @@ public class DoorFragment extends Fragment implements TagInterface {
         }
         if (TextUtils.isEmpty(handleHeightValue.getText())) {
             i++;
-            handleHeightField.setError(getString(R.string.blank_field_error));
+            handleHeightField.setError(getString(R.string.req_field_error));
         }
         if (getDoorRadioCheck(hasDoorLockRadio) == -1) {
             i++;
@@ -348,7 +348,7 @@ public class DoorFragment extends Fragment implements TagInterface {
         String doorLocale = null, handleObs = null, tactileSignObs = null, doorSillObs = null, doorObs = null;
         Integer handleType = null, doorHasLocks = null, hasTactileSign = null, doorSillType = null, sillSlopeQnt = null;
         Double doorWidth = null, handleHeight = null, sillInclinationHeight = null, sillStepHeight = null, slopeAngle1 = null, slopeAngle2 = null, slopeAngle3 = null,
-                slopeAngle4 = null, sillSlopeWidth = null;
+                slopeAngle4 = null, sillSlopeWidth = null, sillSlopeHeight = null;
 
         if (!TextUtils.isEmpty(doorLocaleValue.getText()))
             doorLocale = String.valueOf(doorLocaleValue.getText());
@@ -374,6 +374,7 @@ public class DoorFragment extends Fragment implements TagInterface {
                 sillStepHeight = bundle.getDouble(STEP_HEIGHT);
             } else if (doorSillType == 3) {
                 sillSlopeWidth = bundle.getDouble(SLOPE_WIDTH);
+                sillSlopeHeight = bundle.getDouble(SLOPE_HEIGHT);
                 sillSlopeQnt = bundle.getInt(SLOPE_QNT);
                 switch (sillSlopeQnt) {
                     case 4:
@@ -397,7 +398,7 @@ public class DoorFragment extends Fragment implements TagInterface {
             doorObs = String.valueOf(doorObsValue.getText());
 
         return new DoorEntry(bundle.getInt(AMBIENT_ID), doorLocale, doorWidth, handleType, handleHeight, handleObs, doorHasLocks, hasTactileSign, tactileSignObs, doorSillType,
-                sillInclinationHeight, sillStepHeight, sillSlopeQnt, slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4, sillSlopeWidth, doorSillObs, doorObs);
+                sillInclinationHeight, sillStepHeight, sillSlopeQnt, slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4, sillSlopeWidth, sillSlopeHeight, doorSillObs, doorObs);
 
     }
 

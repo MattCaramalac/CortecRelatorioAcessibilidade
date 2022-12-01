@@ -27,10 +27,18 @@ public class ExtAccessSocialTwo {
     private Double trackRampMeasure3;
     private Double trackRampMeasure4;
 
+    private Integer hasFloorGap;
+    private Integer gapCounter;
+    private Double gapMeasure1;
+    private Double gapMeasure2;
+    private Double gapMeasure3;
+    private Double gapMeasure4;
+
     public ExtAccessSocialTwo(int externalAccessID, Integer hasSIA, String obsSIA, Integer entranceGateType, String entranceGateDesc, Double freeSpaceWidth1,
                               Double freeSpaceWidth2, Integer gateHandleType, Double gateHandleHeight, String gateObs, Integer gateHasTracks, Double gateTrackHeight,
                               Integer gateHasTrackRamp, Integer trackRampQuantity, Double trackRampMeasure1, Double trackRampMeasure2, Double trackRampMeasure3,
-                              Double trackRampMeasure4) {
+                              Double trackRampMeasure4, Integer hasFloorGap, Integer gapCounter, Double gapMeasure1, Double gapMeasure2,
+                              Double gapMeasure3, Double gapMeasure4) {
         this.externalAccessID = externalAccessID;
         this.hasSIA = hasSIA;
         this.obsSIA = obsSIA;
@@ -49,6 +57,12 @@ public class ExtAccessSocialTwo {
         this.trackRampMeasure2 = trackRampMeasure2;
         this.trackRampMeasure3 = trackRampMeasure3;
         this.trackRampMeasure4 = trackRampMeasure4;
+        this.hasFloorGap = hasFloorGap;
+        this.gapCounter = gapCounter;
+        this.gapMeasure1 = gapMeasure1;
+        this.gapMeasure2 = gapMeasure2;
+        this.gapMeasure3 = gapMeasure3;
+        this.gapMeasure4 = gapMeasure4;
     }
 
     public int getExternalAccessID() {

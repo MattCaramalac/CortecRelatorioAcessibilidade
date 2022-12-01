@@ -49,6 +49,7 @@ public class RestroomEntry {
     private Double sillSlopeAngle3;
     private Double sillSlopeAngle4;
     private Double sillSlopeWidth;
+    private Double sillSlopeHeight;
     private String sillTypeObs;
     private Integer hasTactSign;
     private String tactSignObs;
@@ -182,7 +183,7 @@ public class RestroomEntry {
                          String restDistObs, Integer exEntrance, String exEntObs, Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Integer restSwitch,
                          Double switchHeight, String switchObs, Double doorWidth, Integer hasPict, String pictObs, Integer opDir, String opDirObs, Integer hasCoat, Double coatHeight, String coatObs,
                          Integer hasVertSign, String vertSignObs, Integer sillType, Double sillIncHeight, Double sillStepHeight, Integer sillSlopeQnt, Double sillSlopeAngle1, Double sillSlopeAngle2,
-                         Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth, String sillTypeObs, Integer hasTactSign, String tactSignObs, Integer hasHorHandle, Double handleHeight,
+                         Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth, Double sillSlopeHeight, String sillTypeObs, Integer hasTactSign, String tactSignObs, Integer hasHorHandle, Double handleHeight,
                          Double handleLength, Double handleDiam, String handleObs, Double upViewLength, Double upViewWidth, Double upViewMeasureA, Double upViewMeasureB, Double upViewMeasureC,
                          Double upViewMeasureD, Double upViewMeasureE, String upViewObs, Integer toType, Double toHeightNoSeat, Integer toHasSeat, Double toHeightSeat, Integer toHasSoculo, Double frSoculo,
                          Double latSoculo, Integer socCorners, Integer toHasFrontBar, Double frBarA, Double frBarB, Double frBarC, Double frBarSect, Double frBarDist, Integer toHasWall, Integer hasHorBar,
@@ -234,6 +235,7 @@ public class RestroomEntry {
         this.sillSlopeAngle3 = sillSlopeAngle3;
         this.sillSlopeAngle4 = sillSlopeAngle4;
         this.sillSlopeWidth = sillSlopeWidth;
+        this.sillSlopeHeight = sillSlopeHeight;
         this.sillTypeObs = sillTypeObs;
         this.hasTactSign = hasTactSign;
         this.tactSignObs = tactSignObs;
@@ -1690,5 +1692,13 @@ public class RestroomEntry {
 
     public void setToType(Integer toType) {
         this.toType = toType;
+    }
+
+    public Double getSillSlopeHeight() {
+        return sillSlopeHeight;
+    }
+
+    public void setSillSlopeHeight(Double sillSlopeHeight) {
+        this.sillSlopeHeight = sillSlopeHeight;
     }
 }

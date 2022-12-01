@@ -12,9 +12,27 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/sill_slope_width_field"
+            android:id="@+id/sill_slope_height_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_sill_slope_height">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sill_slope_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/sill_slope_width_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sill_slope_height_field"
             android:layout_marginTop="@dimen/usual_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -26,6 +26,7 @@ public class RestDoorUpdate {
     private Double sillSlopeAngle3;
     private Double sillSlopeAngle4;
     private Double sillSlopeWidth;
+    private Double sillSlopeHeight;
     private String sillTypeObs;
     private Integer hasTactSign;
     private String tactSignObs;
@@ -38,7 +39,7 @@ public class RestDoorUpdate {
     public RestDoorUpdate(int restroomID, double doorWidth, int hasPict, String pictObs, int opDir, String opDirObs, int hasCoat, Double coatHeight,
                           String coatObs, int hasVertSign, String vertSignObs, int sillType, Double sillIncHeight, Double sillStepHeight,
                           Integer sillSlopeQnt, Double sillSlopeAngle1, Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4,
-                          Double sillSlopeWidth, String sillTypeObs, int hasTactSign, String tactSignObs, int hasHorHandle, Double handleHeight,
+                          Double sillSlopeWidth, Double sillSlopeHeight, String sillTypeObs, int hasTactSign, String tactSignObs, int hasHorHandle, Double handleHeight,
                           Double handleLength, Double handleDiam, String handleObs) {
         this.restroomID = restroomID;
         this.doorWidth = doorWidth;
@@ -60,6 +61,7 @@ public class RestDoorUpdate {
         this.sillSlopeAngle3 = sillSlopeAngle3;
         this.sillSlopeAngle4 = sillSlopeAngle4;
         this.sillSlopeWidth = sillSlopeWidth;
+        this.sillSlopeHeight = sillSlopeHeight;
         this.sillTypeObs = sillTypeObs;
         this.hasTactSign = hasTactSign;
         this.tactSignObs = tactSignObs;

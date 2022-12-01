@@ -40,12 +40,13 @@ public class PlaygroundEntry {
     private Double slopeSillAngle2;
     private Double slopeSillAngle3;
     private Double slopeSillAngle4;
+    private Double sillSlopeHeight;
 
     public PlaygroundEntry(int blockID, String playLocation, String playFloorType, Double playGateWidth, Integer playGateHasFloorTrack, Double playFloorTrackHeight,
                            Integer playFloorTrackHasRamp, Integer rampMeasureQnt, Double rampMeasure1, Double rampMeasure2, Double rampMeasure3, Double rampMeasure4,
                            Integer playGateSillType, Double inclinationSillHeight, Double stepSillHeight, Double slopeSillAngle, Double slopeSillWidth, String sillObs,
                            Integer accessibleFloor, String accessibleFloorObs, Integer accessibleEquip, String accessibleEquipObs, String playgroundObs, Integer slopeMeasureQnt,
-                           Double slopeSillAngle2, Double slopeSillAngle3, Double slopeSillAngle4) {
+                           Double slopeSillAngle2, Double slopeSillAngle3, Double slopeSillAngle4, Double sillSlopeHeight) {
         this.blockID = blockID;
         this.playLocation = playLocation;
         this.playFloorType = playFloorType;
@@ -73,6 +74,7 @@ public class PlaygroundEntry {
         this.slopeSillAngle2 = slopeSillAngle2;
         this.slopeSillAngle3 = slopeSillAngle3;
         this.slopeSillAngle4 = slopeSillAngle4;
+        this.sillSlopeHeight = sillSlopeHeight;
     }
 
     public int getPlaygroundID() {
@@ -297,5 +299,13 @@ public class PlaygroundEntry {
 
     public void setSlopeSillAngle4(Double slopeSillAngle4) {
         this.slopeSillAngle4 = slopeSillAngle4;
+    }
+
+    public Double getSillSlopeHeight() {
+        return sillSlopeHeight;
+    }
+
+    public void setSillSlopeHeight(Double sillSlopeHeight) {
+        this.sillSlopeHeight = sillSlopeHeight;
     }
 }

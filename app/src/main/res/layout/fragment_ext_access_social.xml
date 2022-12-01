@@ -99,7 +99,7 @@
             android:layout_marginTop="@dimen/usual_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Qual o tipo de portão?"
+            android:text="@string/header_gate_type"
             android:textSize="@dimen/section_header"/>
 
         <com.whygraphics.multilineradiogroup.MultiLineRadioGroup
@@ -130,7 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="Descrição do Tipo de Portão"
+            android:hint="@string/hint_gate_desc"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ext_gate_type_error"
             android:visibility="gone">
@@ -166,7 +166,7 @@
             android:id="@+id/free_space_width_2_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Largura do Vão Livre - Folha 2 (m)"
+            android:hint="@string/hint_free_space_gate_2"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/free_space_width_1_field"
@@ -184,7 +184,7 @@
             android:id="@+id/label_gate_handle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Qual o tipo de dispositivo de abertura do portão?"
+            android:text="@string/header_gate_op_type"
             android:textSize="@dimen/section_header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/free_space_width_2_field"
@@ -204,14 +204,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@integer/weight_one"
-                android:text="ALAVANCA"
+                android:text="@string/radio_option_handle"
                 android:textSize="@dimen/radio_button_text" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@integer/weight_one"
-                android:text="OUTRO TIPO"
+                android:text="@string/radio_option_other_type"
                 android:textSize="@dimen/radio_button_text" />
 
         </RadioGroup>
@@ -232,7 +232,7 @@
             android:id="@+id/gate_handle_height_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Altura do dispositivo de abertura"
+            android:hint="@string/hint_gate_handle_height"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/gate_handle_type_error"
@@ -278,7 +278,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="Observações sobre o portão"
+            android:hint="@string/hint_gate_obs"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_gate_lock_button"
             android:visibility="gone">
@@ -529,16 +529,165 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/ramp_track_values_error"
+            android:id="@+id/label_has_track_gaps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/header_floor_gap"
+            android:textSize="@dimen/section_header"
+            android:layout_marginTop="@dimen/usual_padding"
+            app:layout_constraintTop_toBottomOf="@id/ramp_track_3_field"
+            android:visibility="gone"/>
+
+        <RadioGroup
+            android:id="@+id/has_track_gaps_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_has_track_gaps"
+            android:visibility="gone">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/track_gap_radio_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/empty_fields"
             android:textSize="14sp"
             android:textColor="@color/error_message"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/ramp_track_3_field"
+            app:layout_constraintTop_toBottomOf="@id/has_track_gaps_radio"
             app:layout_constraintStart_toStartOf="parent"
             />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_track_gap_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:backgroundTint="@color/purple_200"
+            android:text="@string/label_add_frag_entry"
+            android:textColor="@color/black"
+            app:cornerRadius="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/track_gap_radio_error"
+            android:visibility="gone"/>
+
+        <ImageButton
+            android:id="@+id/delete_track_gap_measure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/add_track_gap_button"
+            app:layout_constraintTop_toTopOf="@id/add_track_gap_button"
+            app:layout_constraintBottom_toBottomOf="@id/add_track_gap_button"
+            android:src="@drawable/ic_delete_field"
+            android:backgroundTint="@color/teal_200"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/track_gap_1_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/first_measurement_perc"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_track_gap_button"
+            app:layout_constraintEnd_toStartOf="@id/track_gap_2_field"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/track_gap_1_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/track_gap_2_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/second_measure_perc"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toEndOf="@id/track_gap_1_field"
+            app:layout_constraintBaseline_toBaselineOf="@id/track_gap_1_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/track_gap_2_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/track_gap_3_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/third_measure_perc"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/track_gap_1_field"
+            app:layout_constraintEnd_toStartOf="@id/track_gap_4_field"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/track_gap_3_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/track_gap_4_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/fourth_measure_perc"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintStart_toEndOf="@id/track_gap_3_field"
+            app:layout_constraintBaseline_toBaselineOf="@id/track_gap_3_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/track_gap_4_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/continue_ext_access2_button"
@@ -548,7 +697,7 @@
             android:text="@string/label_button_proceed_register"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ramp_track_values_error" />
+            app:layout_constraintTop_toBottomOf="@id/track_gap_4_field" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/return_ext_access_button"
@@ -556,7 +705,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/top_margins"
-            android:text="RETORNAR"
+            android:text="@string/button_return"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@id/continue_ext_access2_button"
             app:layout_constraintStart_toStartOf="parent" />

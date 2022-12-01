@@ -336,7 +336,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
         } else if (getCheckedRadioIndex(hasIntercomRadio) == 1) {
             if (TextUtils.isEmpty(intercomHeightValue.getText())){
                 i++;
-                intercomHeightField.setError(getString(R.string.blank_field_error));
+                intercomHeightField.setError(getString(R.string.req_field_error));
             }
         }
         if (getCheckedRadioIndex(hasRampsRadio) == -1) {

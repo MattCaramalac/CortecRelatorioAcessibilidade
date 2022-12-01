@@ -216,7 +216,7 @@ public class RestDoorFragment extends Fragment implements TagInterface {
         Integer slopeQnt = null;
         double doorWidth;
         Double coatHeight = null, incHeight = null, stepHeight = null, slopeAngle1 = null, slopeAngle2 = null, slopeAngle3 = null,
-                slopeAngle4 = null, slopeWidth = null, handleHeight = null, handleLength = null, handleDiam = null;
+                slopeAngle4 = null, slopeWidth = null, slopeHeight = null, handleHeight = null, handleLength = null, handleDiam = null;
         String picObs, opDirObs, coatObs, vSignObs, sillObs, tSignObs, horHandleObs;
 
         doorWidth = Double.parseDouble(String.valueOf(widthValue.getText()));
@@ -241,6 +241,7 @@ public class RestDoorFragment extends Fragment implements TagInterface {
             stepHeight = bundle.getDouble(STEP_HEIGHT);
         } else if (doorSill == 3) {
             slopeWidth = bundle.getDouble(SLOPE_WIDTH);
+            slopeHeight = bundle.getDouble(SLOPE_HEIGHT);
             slopeQnt = bundle.getInt(SLOPE_QNT);
             switch (slopeQnt) {
                 case 4:
@@ -271,7 +272,7 @@ public class RestDoorFragment extends Fragment implements TagInterface {
 
         return new RestDoorUpdate(bundle.getInt(REST_ID), doorWidth, hasPic, picObs, opDir, opDirObs, hasCoat, coatHeight, coatObs,
                 hasVertSign, vSignObs, doorSill, incHeight, stepHeight, slopeQnt, slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4, slopeWidth,
-                sillObs, hasTactSign, tSignObs, hasHorHandle, handleHeight, handleLength, handleDiam, horHandleObs);
+                slopeHeight, sillObs, hasTactSign, tSignObs, hasHorHandle, handleHeight, handleLength, handleDiam, horHandleObs);
     }
 
     public int getRestroomDoorCheckedRadio(RadioGroup radio) {
@@ -385,7 +386,7 @@ public class RestDoorFragment extends Fragment implements TagInterface {
 
         if (TextUtils.isEmpty(widthValue.getText())) {
             error++;
-            widthField.setError(getString(R.string.blank_field_error));
+            widthField.setError(getString(R.string.req_field_error));
         }
         if (getRestroomDoorCheckedRadio(pictRadio) == -1) {
             error++;
@@ -418,15 +419,15 @@ public class RestDoorFragment extends Fragment implements TagInterface {
         if (getRestroomDoorCheckedRadio(horHandleRadio) == 1) {
             if (TextUtils.isEmpty(horHandleHeightValue.getText())) {
                 error++;
-                horHandleHeightField.setError(getString(R.string.blank_field_error));
+                horHandleHeightField.setError(getString(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(horHandleLengthValue.getText())) {
                 error++;
-                horHandleLengthField.setError(getString(R.string.blank_field_error));
+                horHandleLengthField.setError(getString(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(horHandleDiamValue.getText())) {
                 error++;
-                horHandleDiamField.setError(getString(R.string.blank_field_error));
+                horHandleDiamField.setError(getString(R.string.req_field_error));
             }
         }
         return error == 0;

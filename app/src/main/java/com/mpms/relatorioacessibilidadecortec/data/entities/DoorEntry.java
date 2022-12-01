@@ -31,12 +31,14 @@ public class DoorEntry {
     private Double sillSlopeAngle3;
     private Double sillSlopeAngle4;
     private Double sillSlopeWidth;
+    private Double sillSlopeHeight;
     private String doorSillObs;
     private String doorObs;
 
     public DoorEntry(int roomID, String doorLocation, Double doorWidth, Integer doorHandleType, Double doorHandleHeight, String doorHandleObs, Integer doorHasLocks,
                      Integer doorHasTactileSign, String doorTactileSignObs, Integer doorSillType, Double sillInclinationHeight, Double sillStepHeight, Integer sillSlopeQnt,
-                     Double sillSlopeAngle1, Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth, String doorSillObs, String doorObs) {
+                     Double sillSlopeAngle1, Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth,  Double sillSlopeHeight,
+                     String doorSillObs, String doorObs) {
         this.roomID = roomID;
         this.doorLocation = doorLocation;
         this.doorWidth = doorWidth;
@@ -55,6 +57,7 @@ public class DoorEntry {
         this.sillSlopeAngle3 = sillSlopeAngle3;
         this.sillSlopeAngle4 = sillSlopeAngle4;
         this.sillSlopeWidth = sillSlopeWidth;
+        this.sillSlopeHeight = sillSlopeHeight;
         this.doorSillObs = doorSillObs;
         this.doorObs = doorObs;
     }
@@ -225,5 +228,13 @@ public class DoorEntry {
 
     public void setDoorSillObs(String doorSillObs) {
         this.doorSillObs = doorSillObs;
+    }
+
+    public Double getSillSlopeHeight() {
+        return sillSlopeHeight;
+    }
+
+    public void setSillSlopeHeight(Double sillSlopeHeight) {
+        this.sillSlopeHeight = sillSlopeHeight;
     }
 }

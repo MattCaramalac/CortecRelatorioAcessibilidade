@@ -266,15 +266,15 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
         int i = 0;
         if (TextUtils.isEmpty(playLocaleValue.getText())) {
             i++;
-            playLocaleField.setError(getString(R.string.blank_field_error));
+            playLocaleField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(floorTypeValue.getText())) {
             i++;
-            floorTypeField.setError(getString(R.string.blank_field_error));
+            floorTypeField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(playGateWidthValue.getText())) {
             i++;
-            playGateWidthField.setError(getString(R.string.blank_field_error));
+            playGateWidthField.setError(getString(R.string.req_field_error));
         }
         if (getPlayCheckRadio(playGateTrackRadio) == -1) {
             i++;
@@ -282,7 +282,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
         } else if (getPlayCheckRadio(playGateTrackRadio) == 1) {
             if (TextUtils.isEmpty(playTrackHeightValue.getText())) {
                 i++;
-                playTrackHeightField.setError(getString(R.string.blank_field_error));
+                playTrackHeightField.setError(getString(R.string.req_field_error));
             }
             if (getPlayCheckRadio(playGateTrackRampRadio) == -1) {
                 i++;
@@ -349,7 +349,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
         String playLocale, floorType, sillObs, floorObs, toyObs, playObs;
         double playGateWidth;
         Double  playTrackHeight = null, measure1 = null, measure2 = null, measure3 = null, measure4 = null, sillStep = null,
-                sillSlopeWidth = null, sillSlopeAngle = null, slopeAngle2 = null, slopeAngle3 = null, slopeAngle4 = null, sillInclination = null;
+                sillSlopeWidth = null, sillSlopeAngle = null, slopeAngle2 = null, slopeAngle3 = null, slopeAngle4 = null, sillInclination = null, sillSlopeHeight = null;
         int hasTrack, sillType, accessibleFloor, accessibleToy;
         Integer hasTrackRamp = null, slopeQnt = null;
 
@@ -396,6 +396,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
                     case 1:
                         sillSlopeAngle = bundle.getDouble(SLOPE_ANGLE_1);
                         sillSlopeWidth = bundle.getDouble(SLOPE_WIDTH);
+                        sillSlopeHeight = bundle.getDouble(SLOPE_HEIGHT);
                         break;
                 }
                 break;
@@ -409,7 +410,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
 
         return new PlaygroundEntry(bundle.getInt(BlockRegisterActivity.BLOCK_ID), playLocale, floorType, playGateWidth, hasTrack, playTrackHeight, hasTrackRamp,
                 rampTrackCounter, measure1, measure2, measure3, measure4, sillType, sillInclination, sillStep, sillSlopeAngle, sillSlopeWidth, sillObs, accessibleFloor,
-                floorObs, accessibleToy, toyObs, playObs, slopeQnt, slopeAngle2, slopeAngle3, slopeAngle4);
+                floorObs, accessibleToy, toyObs, playObs, slopeQnt, slopeAngle2, slopeAngle3, slopeAngle4, sillSlopeHeight);
     }
 
     private void clearPlayFields() {

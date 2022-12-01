@@ -70,7 +70,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 55)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 56)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1277,6 +1277,37 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_55_56 = new Migration(55, 56) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE ExternalAccess2 (externalAccessID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, accessLocation TEXT," +
+                    "entranceType INTEGER, floorIsAccessible INTEGER, accessibleFloorObs TEXT, hasSIA INTEGER, obsSIA TEXT, entranceGateType INTEGER, entranceGateDesc TEXT," +
+                    "freeSpaceWidth1 REAL, freeSpaceWidth2 REAL, gateHandleType INTEGER, gateHandleHeight REAL, gateObs TEXT,  gateHasTracks INTEGER, gateTrackHeight REAL," +
+                    "gateHasTrackRamp INTEGER, trackRampQuantity INTEGER, trackRampMeasure1 REAL, trackRampMeasure2 REAL, trackRampMeasure3 REAL, trackRampMeasure4 REAL," +
+                    "hasFloorGap INTEGER, gapCounter INTEGER, gapMeasure1 REAL, gapMeasure2 REAL, gapMeasure3 REAL, gapMeasure4 REAL, gateSillType INTEGER," +
+                    "sillInclinationHeight REAL, sillStepHeight REAL, sillSlopeWidth REAL, sillSlopeHeight REAL, slopeMeasureQnt INTEGER, sillSlopeAngle REAL," +
+                    "sillSlopeAngle2 REAL, sillSlopeAngle3 REAL, sillSlopeAngle4 REAL, gateSillObs TEXT, gateHasObstacles INTEGER, gateHasPayphones INTEGER," +
+                    "gateHasIntercom INTEGER, intercomHeight REAL, gateHasStairs INTEGER, gateHasRamps INTEGER, gateHasSoundSign INTEGER, String extAccessObs," +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO ExternalAccess2 (externalAccessID, blockID, accessLocation, entranceType, floorIsAccessible, accessibleFloorObs, hasSIA," +
+                    "obsSIA, entranceGateType, entranceGateDesc, freeSpaceWidth1, freeSpaceWidth2, gateHandleType, gateHandleHeight, gateObs, gateHasTracks," +
+                    "gateTrackHeight, gateHasTrackRamp, trackRampQuantity, trackRampMeasure1, trackRampMeasure2, trackRampMeasure3, trackRampMeasure4, gateSillType, " +
+                    "sillInclinationHeight, sillStepHeight, sillSlopeWidth, slopeMeasureQnt, sillSlopeAngle, sillSlopeAngle2, sillSlopeAngle3, sillSlopeAngle4," +
+                    "gateSillObs, gateHasObstacles, gateHasPayphones, gateHasIntercom, intercomHeight, gateHasSoundSign, extAccessObs)" +
+                    "SELECT externalAccessID, blockID, accessLocation, entranceType, floorIsAccessible, accessibleFloorObs, hasSIA, obsSIA, entranceGateType, entranceGateDesc, " +
+                    "freeSpaceWidth1, freeSpaceWidth2, gateHandleType, gateHandleHeight, gateObs, gateHasTracks, gateTrackHeight, gateHasTrackRamp, trackRampQuantity, " +
+                    "trackRampMeasure1, trackRampMeasure2, trackRampMeasure3, trackRampMeasure4, gateSillType, sillInclinationHeight, sillStepHeight, sillSlopeWidth, " +
+                    "slopeMeasureQnt, sillSlopeAngle, sillSlopeAngle2, sillSlopeAngle3, sillSlopeAngle4, gateSillObs, gateHasObstacles, gateHasPayphones, gateHasIntercom, " +
+                    "intercomHeight, gateHasSoundSign, extAccessObs FROM ExternalAccess");
+            database.execSQL("DROP TABLE ExternalAccess");
+            database.execSQL("ALTER TABLE ExternalAccess2 RENAME TO ExternalAccess");
+
+            database.execSQL("ALTER TABLE DoorFragment ADD COLUMN sillSlopeHeight REAL");
+            database.execSQL("ALTER TABLE PlaygroundEntry ADD COLUMN sillSlopeHeight REAL");
+            database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN sillSlopeHeight REAL");
+
+        }
+    };
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -1292,7 +1323,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42,
                                     MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
                                     MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
-                                    MIGRATION_54_55).build();
+                                    MIGRATION_54_55, MIGRATION_55_56).build();
                 }
             }
         }
