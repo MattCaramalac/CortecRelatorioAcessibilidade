@@ -589,11 +589,11 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         int error = 0;
         if (TextUtils.isEmpty(rampStairsWidthValue.getText())) {
             error++;
-            rampStairsWidthField.setError(getString(R.string.blank_field_error));
+            rampStairsWidthField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(flightLengthValue.getText())) {
             error++;
-            flightLengthField.setError(getString(R.string.blank_field_error));
+            flightLengthField.setError(getString(R.string.req_field_error));
         }
 
         switch (mirIncCounter) {
@@ -657,11 +657,11 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         } else if (getFlightRadioCheckedIndex(lowTactFloorRadio) == 1) {
             if (TextUtils.isEmpty(lowTactWidthValue.getText())) {
                 error++;
-                lowTactWidthField.setError(getString(R.string.blank_field_error));
+                lowTactWidthField.setError(getString(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(lowTactDistValue.getText())) {
                 error++;
-                lowTactDistField.setError(getString(R.string.blank_field_error));
+                lowTactDistField.setError(getString(R.string.req_field_error));
             }
         }
 
@@ -671,11 +671,11 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         } else if (getFlightRadioCheckedIndex(upTactFloorRadio) == 1) {
             if (TextUtils.isEmpty(upTactWidthValue.getText())) {
                 error++;
-                upTactWidthField.setError(getString(R.string.blank_field_error));
+                upTactWidthField.setError(getString(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(upTactDistValue.getText())) {
                 error++;
-                upTactDistField.setError(getString(R.string.blank_field_error));
+                upTactDistField.setError(getString(R.string.req_field_error));
             }
         }
 
@@ -685,14 +685,14 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         } else if (getFlightRadioCheckedIndex(interLevelRadio) == 1) {
             if (TextUtils.isEmpty(interLvLengthValue.getText())) {
                 error++;
-                interLvLengthField.setError(getString(R.string.blank_field_error));
+                interLvLengthField.setError(getString(R.string.req_field_error));
             }
         }
 
         if (flightBundle.getInt(RAMP_OR_STAIRS) == 0) {
             if (TextUtils.isEmpty(rampHeightValue.getText())) {
                 error++;
-                rampHeightField.setError(getString(R.string.blank_field_error));
+                rampHeightField.setError(getString(R.string.req_field_error));
             }
         }
 
@@ -703,7 +703,7 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             } else if (getFlightRadioCheckedIndex(radioStepBorderSign) == 1) {
                 if (TextUtils.isEmpty(borderSignWidthValue.getText())) {
                     error++;
-                    borderSignWidthField.setError(getString(R.string.blank_field_error));
+                    borderSignWidthField.setError(getString(R.string.req_field_error));
                 }
                 if (getFlightRadioCheckedIndex(radioIdentifiableBorderSign) == -1) {
                     error++;

@@ -113,11 +113,11 @@ public class BlackboardFragment extends Fragment implements TagInterface {
         int i = 0;
         if (TextUtils.isEmpty(boardLocationValue.getText())) {
             i++;
-            boardLocationField.setError(getString(R.string.blank_field_error));
+            boardLocationField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(boardInfHeightValue.getText())) {
             i++;
-            boardInfHeightField.setError(getString(R.string.blank_field_error));
+            boardInfHeightField.setError(getString(R.string.req_field_error));
         }
 
         return i == 0;

@@ -138,19 +138,19 @@ public class CounterFragment extends Fragment implements TagInterface {
         int error = 0;
         if (TextUtils.isEmpty(counterLocationValue.getText())) {
             error++;
-            counterLocationField.setError(getString(R.string.blank_field_error));
+            counterLocationField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(counterSupHeightValue.getText())) {
             error++;
-            counterSupHeightField.setError(getString(R.string.blank_field_error));
+            counterSupHeightField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(counterInfHeightValue.getText())) {
             error++;
-            counterInfHeightField.setError(getString(R.string.blank_field_error));
+            counterInfHeightField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(counterFrontApproxValue.getText())) {
             error++;
-            counterFrontApproxField.setError(getString(R.string.blank_field_error));
+            counterFrontApproxField.setError(getString(R.string.req_field_error));
         }
         return error == 0;
     }

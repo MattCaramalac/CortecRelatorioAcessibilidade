@@ -315,7 +315,7 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
         } else if (getCheckedSidewalkRadioButton(accessibleFloorRadio) == 0) {
             if (TextUtils.isEmpty(accessFloorObsValue.getText())) {
                 i++;
-                accessFloorObsField.setError(getString(R.string.blank_field_error));
+                accessFloorObsField.setError(getString(R.string.req_field_error));
             }
         }
 
@@ -325,7 +325,7 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
         } else if (getCheckedSidewalkRadioButton(hasAerialObsRadio) == 1) {
             if (TextUtils.isEmpty(aerialObsDescValue.getText())) {
                 i++;
-                aerialObsDescField.setError(getString(R.string.blank_field_error));
+                aerialObsDescField.setError(getString(R.string.req_field_error));
             }
         }
 
@@ -335,7 +335,7 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
         } else if (getCheckedSidewalkRadioButton(hasLidRadio) == 1) {
             if (TextUtils.isEmpty(sidewalkLidDescValue.getText())) {
                 i++;
-                sidewalkLidDescField.setError(getString(R.string.blank_field_error));
+                sidewalkLidDescField.setError(getString(R.string.req_field_error));
             }
         }
 

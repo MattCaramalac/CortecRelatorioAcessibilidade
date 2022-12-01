@@ -266,7 +266,7 @@ public class RestAccessFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadio(hangRadio) == 1) {
             if (TextUtils.isEmpty(hangerHeightValue.getText())) {
                 i++;
-                hangerHeightField.setError(getText(R.string.blank_field_error));
+                hangerHeightField.setError(getText(R.string.req_field_error));
             }
         }
         if (getCheckedRadio(objHoldRadio) == -1) {
@@ -279,7 +279,7 @@ public class RestAccessFragment extends Fragment implements TagInterface {
             }
             if (TextUtils.isEmpty(objHoldHeightValue.getText())) {
                 i++;
-                objHoldHeightField.setError(getText(R.string.blank_field_error));
+                objHoldHeightField.setError(getText(R.string.req_field_error));
             }
         }
         if (getCheckedRadio(soapRadio) == -1) {
@@ -288,7 +288,7 @@ public class RestAccessFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadio(soapRadio) == 1) {
             if (TextUtils.isEmpty(soapHoldHeightValue.getText())) {
                 i++;
-                soapHoldHeightField.setError(getText(R.string.blank_field_error));
+                soapHoldHeightField.setError(getText(R.string.req_field_error));
             }
         }
         if (getCheckedRadio(towelRadio) == -1) {
@@ -297,7 +297,7 @@ public class RestAccessFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadio(towelRadio) == 1) {
             if (TextUtils.isEmpty(towelHoldHeightValue.getText())) {
                 i++;
-                towelHoldHeightField.setError(getText(R.string.blank_field_error));
+                towelHoldHeightField.setError(getText(R.string.req_field_error));
             }
         }
         if (getCheckedRadio(mirrorRadio) == -1) {
@@ -306,11 +306,11 @@ public class RestAccessFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadio(mirrorRadio) == 1) {
             if (TextUtils.isEmpty(mirrorValueA.getText())) {
                 i++;
-                mirrorFieldA.setError(getText(R.string.blank_field_error));
+                mirrorFieldA.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(mirrorValueB.getText())) {
                 i++;
-                mirrorFieldB.setError(getText(R.string.blank_field_error));
+                mirrorFieldB.setError(getText(R.string.req_field_error));
             }
         }
 

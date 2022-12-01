@@ -417,11 +417,11 @@ public class RestToiletFragment extends Fragment implements TagInterface {
                 i++;
             } else if (getCheckedRadioIndex(tSocRadio) == 1) {
                 if (TextUtils.isEmpty(fSocValue.getText())) {
-                    fSocField.setError(getText(R.string.blank_field_error));
+                    fSocField.setError(getText(R.string.req_field_error));
                     i++;
                 }
                 if (TextUtils.isEmpty(lSocValue.getText())) {
-                    lSocField.setError(getText(R.string.blank_field_error));
+                    lSocField.setError(getText(R.string.req_field_error));
                     i++;
                 }
                 if (getCheckedRadioIndex(socCornerRadio) == -1) {
@@ -431,7 +431,7 @@ public class RestToiletFragment extends Fragment implements TagInterface {
             }
         }
         if (TextUtils.isEmpty(tNoSeatHeightValue.getText())) {
-            tNoSeatHeightField.setError(getText(R.string.blank_field_error));
+            tNoSeatHeightField.setError(getText(R.string.req_field_error));
             i++;
         }
         if (getCheckedRadioIndex(tSeatRadio) == -1) {
@@ -439,7 +439,7 @@ public class RestToiletFragment extends Fragment implements TagInterface {
             i++;
         } else if (getCheckedRadioIndex(tSeatRadio) == 1) {
             if (TextUtils.isEmpty(tSeatHeightValue.getText())) {
-                tSeatHeightField.setError(getText(R.string.blank_field_error));
+                tSeatHeightField.setError(getText(R.string.req_field_error));
                 i++;
             }
         }
@@ -452,33 +452,33 @@ public class RestToiletFragment extends Fragment implements TagInterface {
             i++;
         } else if (getCheckedRadioIndex(tFrontBarRadio) == 1) {
             if (TextUtils.isEmpty(fBarValueMeasureA.getText())) {
-                fBarFieldMeasureA.setError(getText(R.string.blank_field_error));
+                fBarFieldMeasureA.setError(getText(R.string.req_field_error));
                 i++;
             }
             if (TextUtils.isEmpty(fBarValueMeasureB.getText())) {
-                fBarFieldMeasureB.setError(getText(R.string.blank_field_error));
+                fBarFieldMeasureB.setError(getText(R.string.req_field_error));
                 i++;
             }
             if (TextUtils.isEmpty(fBarValueMeasureC.getText())) {
-                fBarFieldMeasureC.setError(getText(R.string.blank_field_error));
+                fBarFieldMeasureC.setError(getText(R.string.req_field_error));
                 i++;
             }
             if (TextUtils.isEmpty(fBarSectValue.getText())) {
-                fBarSectField.setError(getText(R.string.blank_field_error));
+                fBarSectField.setError(getText(R.string.req_field_error));
                 i++;
             }
             if (TextUtils.isEmpty(fBarDistValue.getText())) {
-                fBarDistField.setError(getText(R.string.blank_field_error));
+                fBarDistField.setError(getText(R.string.req_field_error));
                 i++;
             }
         }
         if (TextUtils.isEmpty(tActDescValue.getText())) {
             i++;
-            tActDescField.setError(getText(R.string.blank_field_error));
+            tActDescField.setError(getText(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(tActHeightValue.getText())) {
             i++;
-            tActHeightField.setError(getText(R.string.blank_field_error));
+            tActHeightField.setError(getText(R.string.req_field_error));
         }
         if (getCheckedRadioIndex(papHoldRadio) == -1) {
             pHoldError.setVisibility(View.VISIBLE);
@@ -490,11 +490,11 @@ public class RestToiletFragment extends Fragment implements TagInterface {
             } else if (getCheckedRadioIndex(papHoldTypeRadio) == 0) {
                 if (TextUtils.isEmpty(papEmbAValue.getText())) {
                     i++;
-                    papEmbAField.setError(getText(R.string.blank_field_error));
+                    papEmbAField.setError(getText(R.string.req_field_error));
                 }
                 if (TextUtils.isEmpty(papEmbBValue.getText())) {
                     i++;
-                    papEmbBField.setError(getText(R.string.blank_field_error));
+                    papEmbBField.setError(getText(R.string.req_field_error));
                 }
             } else {
                 if (getCheckedRadioIndex(pHoldAlignRadio) == -1) {
@@ -503,7 +503,7 @@ public class RestToiletFragment extends Fragment implements TagInterface {
                 }
                 if (TextUtils.isEmpty(papSupAValue.getText())) {
                     i++;
-                    papSupAField.setError(getText(R.string.blank_field_error));
+                    papSupAField.setError(getText(R.string.req_field_error));
                 }
             }
         }
@@ -513,7 +513,7 @@ public class RestToiletFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadioIndex(doucheRadio) == 1) {
             if (TextUtils.isEmpty(doucheHeightValue.getText())) {
                 i++;
-                doucheHeightField.setError(getText(R.string.blank_field_error));
+                doucheHeightField.setError(getText(R.string.req_field_error));
             }
         }
 

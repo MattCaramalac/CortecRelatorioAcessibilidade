@@ -192,7 +192,7 @@ public class RampStairsFragment extends Fragment implements TagInterface {
         int error = 0;
         if (TextUtils.isEmpty(rampStairsLocValue.getText())) {
             error++;
-            rampStairsLocField.setError(getString(R.string.blank_field_error));
+            rampStairsLocField.setError(getString(R.string.req_field_error));
         }
         return error == 0;
     }

@@ -260,24 +260,24 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadio(hasVerticalSign) == 1) {
             if (TextUtils.isEmpty(pcdVertLengthValue.getText())) {
                 i++;
-                pcdVacancyLengthField.setError(getString(R.string.blank_field_error));
+                pcdVacancyLengthField.setError(getString(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(pcdVertWidthValue.getText())) {
                 i++;
-                pcdVacancyWidthField.setError(getString(R.string.blank_field_error));
+                pcdVacancyWidthField.setError(getString(R.string.req_field_error));
             }
         }
         if (TextUtils.isEmpty(pcdVacancyLengthValue.getText())) {
             i++;
-            pcdVacancyLengthField.setError(getString(R.string.blank_field_error));
+            pcdVacancyLengthField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(pcdVacancyWidthValue.getText())) {
             i++;
-            pcdVacancyWidthField.setError(getString(R.string.blank_field_error));
+            pcdVacancyWidthField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(pcdVacLimiterWidthValue.getText())) {
             i++;
-            pcdVacLimiterWidthField.setError(getString(R.string.blank_field_error));
+            pcdVacLimiterWidthField.setError(getString(R.string.req_field_error));
         }
         if (getCheckedRadio(hasSafetyZone) == -1) {
             i++;
@@ -285,7 +285,7 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadio(hasSafetyZone) == 1) {
             if (TextUtils.isEmpty(safetyZoneWidthValue.getText())) {
                 i++;
-                safetyZoneWidthField.setError(getString(R.string.blank_field_error));
+                safetyZoneWidthField.setError(getString(R.string.req_field_error));
             }
         }
         if (getCheckedRadio(hasSiaPcd) == -1) {
@@ -294,11 +294,11 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadio(hasSiaPcd) == 1) {
             if (TextUtils.isEmpty(siaLengthValue.getText())) {
                 i++;
-                siaLengthField.setError(getString(R.string.blank_field_error));
+                siaLengthField.setError(getString(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(siaWidthValue.getText())) {
                 i++;
-                siaWidthField.setError(getString(R.string.blank_field_error));
+                siaWidthField.setError(getString(R.string.req_field_error));
             }
         }
         return i == 0;

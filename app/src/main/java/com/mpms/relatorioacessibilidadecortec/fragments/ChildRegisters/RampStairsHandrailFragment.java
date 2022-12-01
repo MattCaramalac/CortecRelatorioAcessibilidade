@@ -201,11 +201,11 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         }
         if (TextUtils.isEmpty(handrailHeightValue.getText())) {
             i++;
-            handrailHeightField.setError(getString(R.string.blank_field_error));
+            handrailHeightField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(handrailGripValue.getText())) {
             i++;
-            handrailGripField.setError(getString(R.string.blank_field_error));
+            handrailGripField.setError(getString(R.string.req_field_error));
         }
         if (getCheckedHandrailRadio(hasInitExtensionRadio) == -1) {
             i++;
@@ -213,7 +213,7 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         } else if (getCheckedHandrailRadio(hasInitExtensionRadio) == 1) {
             if (TextUtils.isEmpty(initExtLengthValue.getText())) {
                 i++;
-                initExtLengthField.setError(getString(R.string.blank_field_error));
+                initExtLengthField.setError(getString(R.string.req_field_error));
             }
         }
         if (getCheckedHandrailRadio(hasFinalExtensionRadio) == -1) {
@@ -222,7 +222,7 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         } else if (getCheckedHandrailRadio(hasFinalExtensionRadio) == 1) {
             if (TextUtils.isEmpty(finalExtLengthValue.getText())) {
                 i++;
-                finalExtLengthField.setError(getString(R.string.blank_field_error));
+                finalExtLengthField.setError(getString(R.string.req_field_error));
             }
         }
 

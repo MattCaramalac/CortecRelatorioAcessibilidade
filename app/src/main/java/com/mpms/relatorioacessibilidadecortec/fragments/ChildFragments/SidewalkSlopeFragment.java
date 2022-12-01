@@ -456,11 +456,11 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
         int i = 0;
         if (TextUtils.isEmpty(slopeLocaleValue.getText())) {
             i++;
-            slopeLocaleField.setError(getString(R.string.blank_field_error));
+            slopeLocaleField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(slopeWidthValue.getText())) {
             i++;
-            slopeWidthField.setError(getString(R.string.blank_field_error));
+            slopeWidthField.setError(getString(R.string.req_field_error));
         }
         switch (longCounter) {
             case 4:
@@ -567,7 +567,7 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
         if (getSlopeCheckedRadio(slopeIsAccessible) == 0) {
             if (TextUtils.isEmpty(accessFloorObsValue.getText())) {
                 i++;
-                accessFloorObsField.setError(getString(R.string.blank_field_error));
+                accessFloorObsField.setError(getString(R.string.req_field_error));
             }
         }
 

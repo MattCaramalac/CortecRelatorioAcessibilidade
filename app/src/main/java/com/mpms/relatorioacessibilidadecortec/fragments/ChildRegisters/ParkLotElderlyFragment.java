@@ -149,24 +149,24 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
             i++;
         } else if (getCheckedRadio(hasVerticalSign) == 1) {
             if (TextUtils.isEmpty(elderVertSignLengthValue.getText())) {
-                elderVertSignLengthField.setError(getString(R.string.blank_field_error));
+                elderVertSignLengthField.setError(getString(R.string.req_field_error));
                 i++;
             }
             if (TextUtils.isEmpty(elderVertSignWidthValue.getText())) {
-                elderVertSignWidthField.setError(getString(R.string.blank_field_error));
+                elderVertSignWidthField.setError(getString(R.string.req_field_error));
                 i++;
             }
         }
         if (TextUtils.isEmpty(elderVacancyLengthValue.getText())) {
-            elderVacancyLengthField.setError(getString(R.string.blank_field_error));
+            elderVacancyLengthField.setError(getString(R.string.req_field_error));
             i++;
         }
         if (TextUtils.isEmpty(elderVacancyWidthValue.getText())) {
-            elderVacancyWidthField.setError(getString(R.string.blank_field_error));
+            elderVacancyWidthField.setError(getString(R.string.req_field_error));
             i++;
         }
         if (TextUtils.isEmpty(elderVacancyLimitWidthValue.getText())) {
-            elderVacancyLimitWidthField.setError(getString(R.string.blank_field_error));
+            elderVacancyLimitWidthField.setError(getString(R.string.req_field_error));
             i++;
         }
         if (getCheckedRadio(hasFloorSign) == -1) {
@@ -174,11 +174,11 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
             i++;
         } else if (getCheckedRadio(hasFloorSign) == 1) {
             if (TextUtils.isEmpty(elderFloorSignLengthValue.getText())) {
-                elderFloorSignLengthField.setError(getString(R.string.blank_field_error));
+                elderFloorSignLengthField.setError(getString(R.string.req_field_error));
                 i++;
             }
             if (TextUtils.isEmpty(elderFloorSignWidthValue.getText())) {
-                elderFloorSignWidthField.setError(getString(R.string.blank_field_error));
+                elderFloorSignWidthField.setError(getString(R.string.req_field_error));
                 i++;
             }
         }

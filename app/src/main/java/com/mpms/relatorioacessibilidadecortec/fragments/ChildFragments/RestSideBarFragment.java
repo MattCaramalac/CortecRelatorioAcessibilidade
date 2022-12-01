@@ -85,19 +85,19 @@ public class RestSideBarFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadio(sBarRadio) == 1) {
             if (TextUtils.isEmpty(sBarValueD.getText())) {
                 i++;
-                sBarFieldD.setError(getText(R.string.blank_field_error));
+                sBarFieldD.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(sBarValueE.getText())) {
                 i++;
-                sBarFieldE.setError(getText(R.string.blank_field_error));
+                sBarFieldE.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(sBarValueG.getText())) {
                 i++;
-                sBarFieldG.setError(getText(R.string.blank_field_error));
+                sBarFieldG.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(sBarSecValue.getText())) {
                 i++;
-                sBarSecField.setError(getText(R.string.blank_field_error));
+                sBarSecField.setError(getText(R.string.req_field_error));
             }
         }
         if (getCheckedRadio(aBarRadio) == -1) {
@@ -106,19 +106,19 @@ public class RestSideBarFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadio(aBarRadio) == 1) {
             if (TextUtils.isEmpty(aBarValueH.getText())) {
                 i++;
-                aBarFieldH.setError(getText(R.string.blank_field_error));
+                aBarFieldH.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(aBarValueI.getText())) {
                 i++;
-                aBarFieldI.setError(getText(R.string.blank_field_error));
+                aBarFieldI.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(aBarValueJ.getText())) {
                 i++;
-                aBarFieldJ.setError(getText(R.string.blank_field_error));
+                aBarFieldJ.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(aBarSecValue.getText())) {
                 i++;
-                aBarSecField.setError(getText(R.string.blank_field_error));
+                aBarSecField.setError(getText(R.string.req_field_error));
             }
         }
 

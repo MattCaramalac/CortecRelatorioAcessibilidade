@@ -165,12 +165,12 @@ public class WaterFountainSpoutFragment extends Fragment implements TagInterface
             diffHeightsError.setVisibility(View.VISIBLE);
         }
         if (TextUtils.isEmpty(highestSpoutValue.getText())) {
-            highestSpoutField.setError(getString(R.string.blank_field_error));
+            highestSpoutField.setError(getString(R.string.req_field_error));
             errors++;
         }
         if (getCheckedIndex(hasDiffHeightsSpouts) == 1) {
             if (TextUtils.isEmpty(lowestSpoutValue.getText())) {
-                lowestSpoutField.setError(getString(R.string.blank_field_error));
+                lowestSpoutField.setError(getString(R.string.req_field_error));
                 errors++;
             }
         }
@@ -179,11 +179,11 @@ public class WaterFountainSpoutFragment extends Fragment implements TagInterface
             errors++;
         } else if (getCheckedIndex(allowFrontalApprox) == 1) {
             if (TextUtils.isEmpty(frontalApproxHeightValue.getText())) {
-                frontalApproxHeightField.setError(getString(R.string.blank_field_error));
+                frontalApproxHeightField.setError(getString(R.string.req_field_error));
                 errors++;
             }
             if (TextUtils.isEmpty(frontalApproxDepthValue.getText())) {
-                frontalApproxDepthField.setError(getString(R.string.blank_field_error));
+                frontalApproxDepthField.setError(getString(R.string.req_field_error));
                 errors++;
             }
         }

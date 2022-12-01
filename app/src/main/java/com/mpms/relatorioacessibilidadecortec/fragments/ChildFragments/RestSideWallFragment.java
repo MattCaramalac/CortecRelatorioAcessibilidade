@@ -237,27 +237,27 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadioIndex(hasHorBar) == 1) {
             if (TextUtils.isEmpty(measureValueD.getText())) {
                 i++;
-                measureFieldD.setError(getText(R.string.blank_field_error));
+                measureFieldD.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(measureValueE.getText())) {
                 i++;
-                measureFieldE.setError(getText(R.string.blank_field_error));
+                measureFieldE.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(measureValueF.getText())) {
                 i++;
-                measureFieldF.setError(getText(R.string.blank_field_error));
+                measureFieldF.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(measureValueG.getText())) {
                 i++;
-                measureFieldG.setError(getText(R.string.blank_field_error));
+                measureFieldG.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(horSectionValue.getText())) {
                 i++;
-                horSectionField.setError(getText(R.string.blank_field_error));
+                horSectionField.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(horBarDistValue.getText())) {
                 i++;
-                horBarDistField.setError(getText(R.string.blank_field_error));
+                horBarDistField.setError(getText(R.string.req_field_error));
             }
         }
         if (getCheckedRadioIndex(hasVertBar) == -1) {
@@ -266,23 +266,23 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
         } else if (getCheckedRadioIndex(hasVertBar) == 1) {
             if (TextUtils.isEmpty(measureValueJ.getText())) {
                 i++;
-                measureFieldJ.setError(getText(R.string.blank_field_error));
+                measureFieldJ.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(measureValueH.getText())) {
                 i++;
-                measureFieldH.setError(getText(R.string.blank_field_error));
+                measureFieldH.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(measureValueI.getText())) {
                 i++;
-                measureFieldI.setError(getText(R.string.blank_field_error));
+                measureFieldI.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(vertSectionValue.getText())) {
                 i++;
-                vertSectionField.setError(getText(R.string.blank_field_error));
+                vertSectionField.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(vertBarDistValue.getText())) {
                 i++;
-                vertBarDistField.setError(getText(R.string.blank_field_error));
+                vertBarDistField.setError(getText(R.string.req_field_error));
             }
         }
 

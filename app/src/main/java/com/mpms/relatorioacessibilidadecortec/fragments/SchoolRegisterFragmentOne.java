@@ -178,39 +178,39 @@ public class SchoolRegisterFragmentOne extends Fragment {
         int i = 0;
         if (TextUtils.isEmpty(schoolNameValue.getText())) {
             i++;
-            schoolNameField.setError(getString(R.string.blank_field_error));
+            schoolNameField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(addressStreetValue.getText())) {
             i++;
-            addressStreetField.setError(getString(R.string.blank_field_error));
+            addressStreetField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(addressNumberValue.getText())) {
             i++;
-            addressNumberField.setError(getString(R.string.blank_field_error));
+            addressNumberField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(addressNeighborhoodValue.getText())) {
             i++;
-            addressNeighborhoodField.setError(getString(R.string.blank_field_error));
+            addressNeighborhoodField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(addressCityValue.getText())) {
             i++;
-            addressCityField.setError(getString(R.string.blank_field_error));
+            addressCityField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(contactPhoneOneValue.getText())) {
             i++;
-            contactPhoneOneField.setError(getString(R.string.blank_field_error));
+            contactPhoneOneField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(responsibleValue.getText())) {
             i++;
-            responsibleField.setError(getString(R.string.blank_field_error));
+            responsibleField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(inspectionTeamValue.getText())) {
             i++;
-            inspectionTeamField.setError(getString(R.string.blank_field_error));
+            inspectionTeamField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(emailValue.getText())) {
             i++;
-            emailField.setError(getString(R.string.blank_field_error));
+            emailField.setError(getString(R.string.req_field_error));
         } else {
             String email = String.valueOf(emailValue.getText());
             if (!validator.isValid(email)) {

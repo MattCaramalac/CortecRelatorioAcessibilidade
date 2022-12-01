@@ -160,7 +160,7 @@ public class GateObsFragment extends Fragment {
         clearErrorsGateObs();
         int i = 0;
         if (TextUtils.isEmpty(referencePointValue.getText())) {
-            referencePointField.setError(getString(R.string.blank_field_error));
+            referencePointField.setError(getString(R.string.req_field_error));
             i++;
         }
         if (gateObsTypeRadio.getCheckedRadioButtonId() == -1) {
@@ -168,11 +168,11 @@ public class GateObsFragment extends Fragment {
             i++;
         }
         if (TextUtils.isEmpty(commandHeightValue.getText())) {
-            commandHeightField.setError(getString(R.string.blank_field_error));
+            commandHeightField.setError(getString(R.string.req_field_error));
             i++;
         }
         if (TextUtils.isEmpty(fSpaceWidthValue.getText())) {
-            fSpaceWidthField.setError(getString(R.string.blank_field_error));
+            fSpaceWidthField.setError(getString(R.string.req_field_error));
             i++;
         }
         if (gateObsSiaRadio.getCheckedRadioButtonId() == -1) {

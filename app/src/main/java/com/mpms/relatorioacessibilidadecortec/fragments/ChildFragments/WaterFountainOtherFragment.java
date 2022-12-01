@@ -154,7 +154,7 @@ public class WaterFountainOtherFragment extends Fragment implements TagInterface
             errors++;
         }
         if (TextUtils.isEmpty(faucetHeightValue.getText())) {
-            faucetHeightField.setError(getString(R.string.blank_field_error));
+            faucetHeightField.setError(getString(R.string.req_field_error));
             errors++;
         }
         if (hasCupHolder.getCheckedRadioButtonId() == -1) {
@@ -162,7 +162,7 @@ public class WaterFountainOtherFragment extends Fragment implements TagInterface
             errors++;
         }
         if (getCheckedIndex(hasCupHolder) == 1 && TextUtils.isEmpty(cupHolderHeightValue.getText())) {
-            cupHolderHeightField.setError(getString(R.string.blank_field_error));
+            cupHolderHeightField.setError(getString(R.string.req_field_error));
             errors++;
         }
         return errors == 0;

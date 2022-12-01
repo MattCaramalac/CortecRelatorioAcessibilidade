@@ -121,11 +121,11 @@ public class WindowFragment extends Fragment implements TagInterface {
         int i = 0;
         if (TextUtils.isEmpty(windowLocationValue.getText())) {
             i++;
-            windowLocationField.setError(getString(R.string.blank_field_error));
+            windowLocationField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(windowHeightValue.getText())) {
             i++;
-            windowHeightField.setError(getString(R.string.blank_field_error));
+            windowHeightField.setError(getString(R.string.req_field_error));
         }
         return i == 0;
     }

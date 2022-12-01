@@ -334,56 +334,56 @@ public class RestUrinalFragment extends Fragment implements TagInterface {
                 } else {
                     if (TextUtils.isEmpty(valueA.getText())) {
                         i++;
-                        fieldA.setError(getText(R.string.blank_field_error));
+                        fieldA.setError(getText(R.string.req_field_error));
                     }
                     if (TextUtils.isEmpty(valueB.getText())) {
                         i++;
-                        fieldB.setError(getText(R.string.blank_field_error));
+                        fieldB.setError(getText(R.string.req_field_error));
                     }
                     if (TextUtils.isEmpty(valueC.getText())) {
                         i++;
-                        fieldC.setError(getText(R.string.blank_field_error));
+                        fieldC.setError(getText(R.string.req_field_error));
                     }
                     if (TextUtils.isEmpty(valueD.getText())) {
                         i++;
-                        fieldD.setError(getText(R.string.blank_field_error));
+                        fieldD.setError(getText(R.string.req_field_error));
                     }
                     if (TextUtils.isEmpty(valueE.getText())) {
                         i++;
-                        fieldE.setError(getText(R.string.blank_field_error));
+                        fieldE.setError(getText(R.string.req_field_error));
                     }
                     if (TextUtils.isEmpty(valueF.getText())) {
                         i++;
-                        fieldF.setError(getText(R.string.blank_field_error));
+                        fieldF.setError(getText(R.string.req_field_error));
                     }
                     if (TextUtils.isEmpty(valueG.getText())) {
                         i++;
-                        fieldG.setError(getText(R.string.blank_field_error));
+                        fieldG.setError(getText(R.string.req_field_error));
                     }
                     if (TextUtils.isEmpty(valueH.getText())) {
                         i++;
-                        fieldH.setError(getText(R.string.blank_field_error));
+                        fieldH.setError(getText(R.string.req_field_error));
                     }
                     if (TextUtils.isEmpty(valueI.getText())) {
                         i++;
-                        fieldI.setError(getText(R.string.blank_field_error));
+                        fieldI.setError(getText(R.string.req_field_error));
                     }
                     if (TextUtils.isEmpty(valueJ.getText())) {
                         i++;
-                        fieldJ.setError(getText(R.string.blank_field_error));
+                        fieldJ.setError(getText(R.string.req_field_error));
                     }
                     if (TextUtils.isEmpty(valueK.getText())) {
                         i++;
-                        fieldK.setError(getText(R.string.blank_field_error));
+                        fieldK.setError(getText(R.string.req_field_error));
                     }
                     if (getCheckRadio(urinalType) == 0) {
                         if (TextUtils.isEmpty(valueL.getText())) {
                             i++;
-                            fieldL.setError(getText(R.string.blank_field_error));
+                            fieldL.setError(getText(R.string.req_field_error));
                         }
                         if (TextUtils.isEmpty(valueM.getText())) {
                             i++;
-                            fieldM.setError(getText(R.string.blank_field_error));
+                            fieldM.setError(getText(R.string.req_field_error));
                         }
                     }
                 }

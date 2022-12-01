@@ -350,7 +350,7 @@ public class SidewalkFragment extends Fragment implements TagInterface {
 
         if (TextUtils.isEmpty(sideLocationValue.getText())) {
             i++;
-            sideLocationField.setError(getString(R.string.blank_field_error));
+            sideLocationField.setError(getString(R.string.req_field_error));
         }
 
         if (getCheckedSidewalkRadioButton(streetPavementRadio) == -1) {
@@ -359,16 +359,16 @@ public class SidewalkFragment extends Fragment implements TagInterface {
         } else if (getCheckedSidewalkRadioButton(streetPavementRadio) == 0) {
             if (TextUtils.isEmpty(sideMeasureObsValue.getText())) {
                 i++;
-                sideMeasureObsField.setError(getString(R.string.blank_field_error));
+                sideMeasureObsField.setError(getString(R.string.req_field_error));
             }
         } else {
             if (TextUtils.isEmpty(sideWidthValue.getText())) {
                 i++;
-                sideWidthField.setError(getString(R.string.blank_field_error));
+                sideWidthField.setError(getString(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(sideFreeSpaceWidthValue.getText())) {
                 i++;
-                sideFreeSpaceWidthField.setError(getString(R.string.blank_field_error));
+                sideFreeSpaceWidthField.setError(getString(R.string.req_field_error));
             }
         }
 
@@ -419,11 +419,11 @@ public class SidewalkFragment extends Fragment implements TagInterface {
             }
             if (TextUtils.isEmpty(directionTileWidthValue.getText())) {
                 i++;
-                directionTileWidthField.setError(getString(R.string.blank_field_error));
+                directionTileWidthField.setError(getString(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(alertTileWidthValue.getText())) {
                 i++;
-                alertTileWidthField.setError(getString(R.string.blank_field_error));
+                alertTileWidthField.setError(getString(R.string.req_field_error));
             }
         }
 

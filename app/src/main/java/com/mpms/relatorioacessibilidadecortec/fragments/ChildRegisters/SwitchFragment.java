@@ -139,15 +139,15 @@ public class SwitchFragment extends Fragment implements TagInterface {
         int i = 0;
         if (TextUtils.isEmpty(switchLocaleValue.getText())) {
             i++;
-            switchLocaleField.setError(getString(R.string.blank_field_error));
+            switchLocaleField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(switchTypeValue.getText())) {
             i++;
-            switchTypeField.setError(getString(R.string.blank_field_error));
+            switchTypeField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(switchHeightValue.getText())) {
             i++;
-            switchHeightField.setError(getString(R.string.blank_field_error));
+            switchHeightField.setError(getString(R.string.req_field_error));
         }
 
         return i == 0;

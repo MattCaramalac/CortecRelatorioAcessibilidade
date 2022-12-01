@@ -187,10 +187,10 @@ public class SecretariatFragment extends Fragment implements TagInterface {
             } else if (getCheckedRadio(hasPCRSpaceRadio) == 1) {
                 if (TextUtils.isEmpty(pcrSpaceWidthValue.getText())){
                     error++;
-                    pcrSpaceWidthField.setError(getText(R.string.blank_field_error));
+                    pcrSpaceWidthField.setError(getText(R.string.req_field_error));
                 }
                 if (TextUtils.isEmpty(pcrSpaceDepthValue.getText())) {
-                    pcrSpaceDepthValue.setError(getText(R.string.blank_field_error));
+                    pcrSpaceDepthValue.setError(getText(R.string.req_field_error));
                     error++;
                 }
             }

@@ -95,7 +95,7 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
         clearErrorInclinationSill();
         int i = 0;
         if (TextUtils.isEmpty(sillInclinationValue.getText())) {
-            sillInclinationField.setError(getString(R.string.blank_field_error));
+            sillInclinationField.setError(getString(R.string.req_field_error));
             i++;
         } else {
             bundle.putDouble(HEIGHT_INCLINED_SILL, Double.parseDouble(String.valueOf(sillInclinationValue.getText())));

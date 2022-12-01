@@ -205,15 +205,15 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
         int error = 0;
         if (TextUtils.isEmpty(payphoneRefValue.getText())) {
             error++;
-            payphoneRefField.setError(getString(R.string.blank_field_error));
+            payphoneRefField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(keyboardHeightValue.getText())) {
             error++;
-            keyboardHeightField.setError(getString(R.string.blank_field_error));
+            keyboardHeightField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(phoneHeightValue.getText())) {
             error++;
-            phoneHeightField.setError(getString(R.string.blank_field_error));
+            phoneHeightField.setError(getString(R.string.req_field_error));
         }
         if (getCheckedRadioFloor(payphoneTactileFloorRadio) == -1) {
             error++;

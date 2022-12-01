@@ -123,32 +123,32 @@ public class SinkRightHorBarFragment extends Fragment implements TagInterface {
         int i = 0;
         if (TextUtils.isEmpty(measureValueA.getText())) {
             i++;
-            measureFieldA.setError(getText(R.string.blank_field_error));
+            measureFieldA.setError(getText(R.string.req_field_error));
         } else
             bundle.putDouble(RIGHT_A, Double.parseDouble(String.valueOf(measureValueA.getText())));
         if (TextUtils.isEmpty(measureValueB.getText())) {
             i++;
-            measureFieldB.setError(getText(R.string.blank_field_error));
+            measureFieldB.setError(getText(R.string.req_field_error));
         } else
             bundle.putDouble(RIGHT_B, Double.parseDouble(String.valueOf(measureValueB.getText())));
         if (TextUtils.isEmpty(measureValueC.getText())) {
             i++;
-            measureFieldC.setError(getText(R.string.blank_field_error));
+            measureFieldC.setError(getText(R.string.req_field_error));
         } else
             bundle.putDouble(RIGHT_C, Double.parseDouble(String.valueOf(measureValueC.getText())));
         if (TextUtils.isEmpty(measureValueD.getText())) {
             i++;
-            measureFieldD.setError(getText(R.string.blank_field_error));
+            measureFieldD.setError(getText(R.string.req_field_error));
         } else
             bundle.putDouble(RIGHT_D, Double.parseDouble(String.valueOf(measureValueD.getText())));
         if (TextUtils.isEmpty(diamValue.getText())) {
             i++;
-            diamField.setError(getText(R.string.blank_field_error));
+            diamField.setError(getText(R.string.req_field_error));
         } else
             bundle.putDouble(DIAM_B, Double.parseDouble(String.valueOf(diamValue.getText())));
         if (TextUtils.isEmpty(distValue.getText())) {
             i++;
-            distField.setError(getText(R.string.blank_field_error));
+            distField.setError(getText(R.string.req_field_error));
         } else
             bundle.putDouble(DIST_B, Double.parseDouble(String.valueOf(distValue.getText())));
 

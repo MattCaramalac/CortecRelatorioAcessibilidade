@@ -89,6 +89,7 @@ public interface TagInterface {
     String SLOPE_ANGLE_3 = "SLOPE_ANGLE_3";
     String SLOPE_ANGLE_4 = "SLOPE_ANGLE_4";
     String SLOPE_WIDTH = "SLOPE_WIDTH";
+    String SLOPE_HEIGHT = "SLOPE_HEIGHT";
 
     //    Measures
     String LEFT = "LEFT";

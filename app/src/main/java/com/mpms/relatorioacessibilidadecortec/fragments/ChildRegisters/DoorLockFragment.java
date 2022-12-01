@@ -142,12 +142,12 @@ public class DoorLockFragment extends Fragment {
         } else if (lockType.getCheckedRadioButtonIndex() == 2) {
             if (TextUtils.isEmpty(lockDescValue.getText())) {
                 i++;
-                lockDescField.setError(getString(R.string.blank_field_error));
+                lockDescField.setError(getString(R.string.req_field_error));
             }
         }
         if (TextUtils.isEmpty(lockHeightValue.getText())) {
             i++;
-            lockHeightField.setError(getString(R.string.blank_field_error));
+            lockHeightField.setError(getString(R.string.req_field_error));
         }
 
         return i == 0;

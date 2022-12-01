@@ -500,12 +500,12 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         int i = 0;
         if (TextUtils.isEmpty(roomLocaleValue.getText())) {
             i++;
-            roomLocaleField.setError(getString(R.string.blank_field_error));
+            roomLocaleField.setError(getString(R.string.req_field_error));
         }
         if (bundle.getInt(ROOM_TYPE) == 12) {
             if (TextUtils.isEmpty(roomDescValue.getText())) {
                 i++;
-                roomDescField.setError(getString(R.string.blank_field_error));
+                roomDescField.setError(getString(R.string.req_field_error));
             }
         }
         if (getCheckedRoomRadioIndex(hasVertSingRadio) == -1) {
@@ -529,7 +529,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
             } else if (getCheckedRoomRadioIndex(soundSignalRadio) == 1) {
                 if (TextUtils.isEmpty(soundSignalHeightValue.getText())) {
                     i++;
-                    soundSignalHeightField.setError(getString(R.string.blank_field_error));
+                    soundSignalHeightField.setError(getString(R.string.req_field_error));
                 }
             }
             if (getCheckedRoomRadioIndex(phoneRadio) == -1) {
@@ -538,7 +538,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
             } else if (getCheckedRoomRadioIndex(phoneRadio) == 1) {
                 if (TextUtils.isEmpty(phoneHeightValue.getText())) {
                     i++;
-                    phoneHeightField.setError(getString(R.string.blank_field_error));
+                    phoneHeightField.setError(getString(R.string.req_field_error));
                 }
             }
             if (getCheckedRoomRadioIndex(biometryRadio) == -1) {
@@ -547,7 +547,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
             } else if (getCheckedRoomRadioIndex(biometryRadio) == 1) {
                 if (TextUtils.isEmpty(biometryHeightValue.getText())) {
                     i++;
-                    biometryHeightField.setError(getString(R.string.blank_field_error));
+                    biometryHeightField.setError(getString(R.string.req_field_error));
                 }
             }
         }

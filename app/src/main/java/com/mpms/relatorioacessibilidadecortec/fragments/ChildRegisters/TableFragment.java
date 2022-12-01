@@ -155,19 +155,19 @@ public class TableFragment extends Fragment implements TagInterface {
         }
         if (TextUtils.isEmpty(supHeightValue.getText())) {
             i++;
-            supHeightField.setError(getString(R.string.blank_field_error));
+            supHeightField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(infHeightValue.getText())) {
             i++;
-            infHeightField.setError(getString(R.string.blank_field_error));
+            infHeightField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(tableWidthValue.getText())) {
             i++;
-            tableWidthField.setError(getString(R.string.blank_field_error));
+            tableWidthField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(frontalApproxValue.getText())) {
             i++;
-            frontalApproxField.setError(getString(R.string.blank_field_error));
+            frontalApproxField.setError(getString(R.string.req_field_error));
         }
 
         return i == 0;

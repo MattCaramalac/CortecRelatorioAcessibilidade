@@ -11,7 +11,6 @@ import java.util.List;
 
 public class SidewalkAnalysis implements StandardMeasurements {
 
-    static boolean err;
     static boolean irrStRamp;
     static boolean irregularPhone;
 
@@ -21,83 +20,81 @@ public class SidewalkAnalysis implements StandardMeasurements {
         String irrRampData;
         String irrPhoneData;
 
-
         for (int i = 0; i < sideList.size(); i++) {
-            err = false;
-
-
+            int check = 0;
+            AmbientAnalysis.err = false;
             List<String> sideIrregular = new ArrayList<>();
             SidewalkEntry sideEntry = sideList.get(i);
             if (sideEntry.getStreetPavement() == 1) {
                 if (sideEntry.getSidewalkWidth() < sideWidth) {
-                    checkHasSideHeader();
+                    check++;
                     sideIrregular.add("Largura da calçada inferior à 1,90 m;");
                 }
                 if (sideEntry.getSideFreeSpaceWidth() < freeLaneWidth) {
-                    checkHasSideHeader();
+                    check++;
                     sideIrregular.add("Largura da Faixa Livre da Calçada inferior à 1,20 m;");
                 }
             }
             if (sideEntry.getSidewalkObs() != null) {
-                checkHasSideHeader();
+                check++;
                 sideIrregular.add("A calçada possui as seguintes irregularidades: " + sideEntry.getSidewalkObs() + ";");
             }
-            if (sideEntry.getSideTransSlope1() != null && sideEntry.getSideTransSlope1() > 3.0 ||
-                    sideEntry.getSideTransSlope2() != null && sideEntry.getSideTransSlope2() > 3.0 ||
-                    sideEntry.getSideTransSlope3() != null && sideEntry.getSideTransSlope3() > 3.0 ||
-                    sideEntry.getSideTransSlope4() != null && sideEntry.getSideTransSlope4() > 3.0 ||
-                    sideEntry.getSideTransSlope5() != null && sideEntry.getSideTransSlope5() > 3.0 ||
-                    sideEntry.getSideTransSlope6() != null && sideEntry.getSideTransSlope6() > 3.0) {
-                checkHasSideHeader();
+            if (sideEntry.getSideTransSlope1() != null && sideEntry.getSideTransSlope1() > transSlope ||
+                    sideEntry.getSideTransSlope2() != null && sideEntry.getSideTransSlope2() > transSlope ||
+                    sideEntry.getSideTransSlope3() != null && sideEntry.getSideTransSlope3() > transSlope ||
+                    sideEntry.getSideTransSlope4() != null && sideEntry.getSideTransSlope4() > transSlope ||
+                    sideEntry.getSideTransSlope5() != null && sideEntry.getSideTransSlope5() > transSlope ||
+                    sideEntry.getSideTransSlope6() != null && sideEntry.getSideTransSlope6() > transSlope) {
+                check++;
                 sideIrregular.add("A inclinação transversal da superfície ultrapassa o valor máximo permitido de 3%;");
             }
             if (sideEntry.getHasSpecialFloor() == 1) {
                 if (sideEntry.getSpecialFloorRightColor() == 0) {
-                    checkHasSideHeader();
+                    check++;
                     sideIrregular.add("O piso tátil não possui cor suficientemente contrastante em relação ao piso;");
                 }
 
                 if (sideEntry.getSpecialTileDirectionWidth() < minDirTactWidth) {
-                    checkHasSideHeader();
+                    check++;
                     sideIrregular.add("O piso tátil direcional possui largura inferior à 0,25 m;");
                 } else if (sideEntry.getSpecialTileDirectionWidth() > maxDirTactWidth) {
-                    checkHasSideHeader();
+                    check++;
                     sideIrregular.add("O piso tátil direcional possui largura superior à 0,40 m;");
                 }
 
             } else {
-                checkHasSideHeader();
+                check++;
                 sideIrregular.add("A calçada não possui composição de piso tátil direcional e de alerta");
             }
 
             if (sideEntry.getSpecialFloorObs() != null) {
-                checkHasSideHeader();
+                check++;
                 sideIrregular.add("As seguintes observações podem ser feitas sobre o estado de conservação do piso tátil: "
                         + sideEntry.getSpecialFloorObs() + ";");
             }
 
             if (sideEntry.getSideConStatus() == 0) {
-                checkHasSideHeader();
+                check++;
                 sideIrregular.add(sideEntry.getSideConsObs() + ";");
             }
 
             if (sideEntry.getSideFloorIsAccessible() == 0) {
-                checkHasSideHeader();
+                check++;
                 sideIrregular.add("O piso não pode ser considerado acessível, pois " + sideEntry.getAccessFloorObs() + ";");
             }
 
             if (sideEntry.getSidewalkHasLids() == 1) {
-                checkHasSideHeader();
+                check++;
                 sideIrregular.add("Foi detectada a presença dos seguintes desníveis: " + sideEntry.getSidewalkLidDesc() + ";");
             }
 
             if (sideEntry.getHasAerialObstacle() == 1) {
-                checkHasSideHeader();
+                check++;
                 sideIrregular.add("Foram detectados os seguintes obstáculos aéreos: " + sideEntry.getAerialObstacleDesc() + ";");
             }
 
             if (sideEntry.getSideHasSlope() == 0 && sideEntry.getSideReqSlopes() == 1) {
-                checkHasSideHeader();
+                check++;
                 sideIrregular.add("A calçada não possui rebaixamentos por sua extensão;");
             }
             else if (sideEntry.getSideHasSlope() == 0) {
@@ -105,14 +102,14 @@ public class SidewalkAnalysis implements StandardMeasurements {
                     for (SidewalkSlopeEntry slopes : sideSlope) {
                         if (slopes.getSidewalkID() == sideEntry.getSidewalkID()) {
                             if (slopes.getSlopeWidth() < minSideSlopeWidth) {
-                                checkHasSideHeader();
+                                check++;
                                 sideIrregular.add("O rebaixamento localizado em " + slopes.getSlopeLocation() + " possui largura inferior à 1,20 m;");
                             }
                             if (slopes.getLongMeasure1() != null && slopes.getLongMeasure1() > maxSlopeLongAngle ||
                                     slopes.getLongMeasure2() != null && slopes.getLongMeasure2() > maxSlopeLongAngle ||
                                     slopes.getLongMeasure3() != null && slopes.getLongMeasure3() > maxSlopeLongAngle ||
                                     slopes.getLongMeasure4() != null && slopes.getLongMeasure4() > maxSlopeLongAngle) {
-                                checkHasSideHeader();
+                                check++;
                                 sideIrregular.add("A inclinação longitudinal do rebaixamento localizado em " + slopes.getSlopeLocation() +
                                         " ultrapassa o valor máximo permitido de 8,33%;");
                             }
@@ -121,7 +118,7 @@ public class SidewalkAnalysis implements StandardMeasurements {
                                     slopes.getLeftMeasure2() != null && slopes.getLeftMeasure2() > maxSlopeLongAngle ||
                                     slopes.getLeftMeasure3() != null && slopes.getLeftMeasure3() > maxSlopeLongAngle ||
                                     slopes.getLeftMeasure4() != null && slopes.getLeftMeasure4() > maxSlopeLongAngle) {
-                                checkHasSideHeader();
+                                check++;
                                 sideIrregular.add("A inclinação longitudinal da aba esquerda do rebaixamento localizado em " + slopes.getSlopeLocation() +
                                         " ultrapassa o valor máximo permitido de 8,33%;");
                             }
@@ -130,13 +127,13 @@ public class SidewalkAnalysis implements StandardMeasurements {
                                     slopes.getRightMeasure2() != null && slopes.getRightMeasure2() > maxSlopeLongAngle ||
                                     slopes.getRightMeasure3() != null && slopes.getRightMeasure3() > maxSlopeLongAngle ||
                                     slopes.getRightMeasure4() != null && slopes.getRightMeasure4() > maxSlopeLongAngle) {
-                                checkHasSideHeader();
+                                check++;
                                 sideIrregular.add("A inclinação longitudinal da aba direita do rebaixamento localizado em " + slopes.getSlopeLocation() +
                                         " ultrapassa o valor máximo permitido de 8,33%;");
                             }
 
                             if (slopes.getHasTactileFloor() == 0) {
-                                checkHasSideHeader();
+                                check++;
                                 sideIrregular.add("O rebaixamento localizado em " + slopes.getSlopeLocation() + " não possui piso tátil;");
                             } else {
                                 if (!slopes.getTactileFloorObs().isEmpty())
@@ -145,31 +142,31 @@ public class SidewalkAnalysis implements StandardMeasurements {
                             }
 
                             if (slopes.getAccessibleSlopeFloor() == 0) {
-                                checkHasSideHeader();
+                                check++;
                                 sideIrregular.add("O piso do rebaixamento, localizado em " + slopes.getSlopeLocation() + ", não pode ser considerado" +
                                         "acessível, pois " + slopes.getAccessibleSlopeFloorObs());
                             }
 
                             if (!slopes.getStreetSlopeObs().isEmpty() && slopes.getStreetSlopeJunction() < 2) {
-                                checkHasSideHeader();
+                                check++;
                                 sideIrregular.add("As seguintes observações devem ser pontuadas sobre a junção do rebaixamento com a via pública, " +
                                         "localizada em " + slopes.getSlopeLocation() + ": " + slopes.getStreetSlopeObs() + ";");
                             } else if (!slopes.getStreetSlopeObs().isEmpty() && slopes.getStreetSlopeJunction() == 2) {
-                                checkHasSideHeader();
+                                check++;
                                 sideIrregular.add("As junção do rebaixamento com a via pública, localizada em " + slopes.getSlopeLocation() +
                                         ", é feita através de degrau. Além disso, " + slopes.getStreetSlopeObs() + ";");
                             } else if (slopes.getStreetSlopeJunction() == 2) {
-                                checkHasSideHeader();
+                                check++;
                                 sideIrregular.add("As junção do rebaixamento com a via pública, localizada em " + slopes.getSlopeLocation() +
                                         ", é feita através de degrau com altura de " + slopes.getStepJunctionHeight() + "cm;");
                             } else if (slopes.getStreetSlopeJunction() == 3) {
-                                checkHasSideHeader();
+                                check++;
                                 sideIrregular.add("As seguintes observações devem ser pontuadas sobre a junção do rebaixamento com a via pública, " +
                                         "localizada em " + slopes.getSlopeLocation() + ": " + slopes.getStreetSlopeObs() + ";");
                             }
 
                             if (!slopes.getSlopeObs().isEmpty()) {
-                                checkHasSideHeader();
+                                check++;
                                 sideIrregular.add("As seguintes observações devem ser pontuadas sobre o rebaixamento com a via pública, " +
                                         "localizada em " + slopes.getSlopeLocation() + ": " + slopes.getSlopeObs() + ";");
                             }
@@ -286,7 +283,7 @@ public class SidewalkAnalysis implements StandardMeasurements {
 
 
                                     if (irrStRamp && builder.length() != 0) {
-                                        checkHasSideHeader();
+                                        check++;
                                         builder.insert(18, "localizada em " + rStairs.getRampStairsLocation() + " ");
                                         irrRampData = builder.toString();
                                         sideIrregular.add(irrRampData);
@@ -358,7 +355,7 @@ public class SidewalkAnalysis implements StandardMeasurements {
                         }
 
                         if (irregularPhone && builder.length() != 0) {
-                            checkHasSideHeader();
+                            check++;
                             builder.insert(29, "localizado em " + phone.getPhoneRefPoint() + " ");
                             irrPhoneData = builder.toString();
                             sideIrregular.add(irrPhoneData);
@@ -368,23 +365,14 @@ public class SidewalkAnalysis implements StandardMeasurements {
                 }
             }
 
-            if (err) {
+            if (check > 0)
+                AmbientAnalysis.checkHasAccessHeader();
+
+            if (AmbientAnalysis.err) {
                 AmbientAnalysis.sideLocationList.add("Calçada, ao longo da " + sideEntry.getSidewalkLocation() + ", com:");
                 AmbientAnalysis.sideIrregularities.put(i, sideIrregular);
             }
-
-
         }
-    }
-
-    public static void checkHasSideHeader() {
-        err = true;
-        for (int i = 0; i < AmbientAnalysis.placeType.size(); i++) {
-            if (AmbientAnalysis.placeType.get(i).equals(AmbientAnalysis.ACCESS_TITLE))
-                return;
-        }
-        AmbientAnalysis.placeType.add(AmbientAnalysis.ACCESS_TITLE);
-
     }
 
     public static void rampTextIrregular(StringBuilder builder) {

@@ -201,12 +201,12 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface 
             if (hasRailingRadio.getCheckedRadioButtonIndex() == 2) {
                 if (TextUtils.isEmpty(railingHeightValue.getText())) {
                     i++;
-                    railingHeightField.setError(getString(R.string.blank_field_error));
+                    railingHeightField.setError(getString(R.string.req_field_error));
                 }
             } else if (hasRailingRadio.getCheckedRadioButtonIndex() == 1) {
                 if (TextUtils.isEmpty(railingHeightValue.getText())) {
                     i++;
-                    railingHeightField.setError(getString(R.string.blank_field_error));
+                    railingHeightField.setError(getString(R.string.req_field_error));
                 }
                 if (getCheckedRailingRadio(hasBeaconRadio) == -1) {
                     i++;
@@ -214,7 +214,7 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface 
                 } else if (getCheckedRailingRadio(hasBeaconRadio) == 1) {
                     if (TextUtils.isEmpty(beaconHeightValue.getText())) {
                         i++;
-                        beaconHeightField.setError(getString(R.string.blank_field_error));
+                        beaconHeightField.setError(getString(R.string.req_field_error));
                     }
                 }
             } else if (hasRailingRadio.getCheckedRadioButtonIndex() == 0) {
@@ -224,7 +224,7 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface 
                 } else if (getCheckedRailingRadio(hasBeaconRadio) == 1) {
                     if (TextUtils.isEmpty(beaconHeightValue.getText())) {
                         i++;
-                        beaconHeightField.setError(getString(R.string.blank_field_error));
+                        beaconHeightField.setError(getString(R.string.req_field_error));
                     }
                 }
             }

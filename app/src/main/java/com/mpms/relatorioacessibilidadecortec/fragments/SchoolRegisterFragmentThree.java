@@ -178,11 +178,11 @@ public class SchoolRegisterFragmentThree extends Fragment {
         int i = 0;
         if (TextUtils.isEmpty(startAgeValue.getText())) {
             i++;
-            startAgeField.setError(getString(R.string.blank_field_error));
+            startAgeField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(finalAgeValue.getText())) {
             i++;
-            finalAgeField.setError(getString(R.string.blank_field_error));
+            finalAgeField.setError(getString(R.string.req_field_error));
         }
         if (youngestMonthYearRadio.getCheckedRadioButtonId() == -1 || oldestMonthYearRadio.getCheckedRadioButtonId() == -1) {
             i++;
@@ -190,27 +190,27 @@ public class SchoolRegisterFragmentThree extends Fragment {
         }
         if (TextUtils.isEmpty(totalStudentsValue.getText())) {
             i++;
-            totalStudentsField.setError(getString(R.string.blank_field_error));
+            totalStudentsField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(totalStudentsPcdValue.getText())) {
             i++;
-            totalStudentsPcdField.setError(getString(R.string.blank_field_error));
+            totalStudentsPcdField.setError(getString(R.string.req_field_error));
         } else if (TextUtils.isEmpty(studentPcdDescriptionValue.getText()) &&
                 !TextUtils.equals(String.valueOf(totalStudentsPcdValue.getText()), "0")) {
             i++;
-            studentPcdDescriptionField.setError(getString(R.string.blank_field_error));
+            studentPcdDescriptionField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(totalWorkersValue.getText())) {
             i++;
-            totalWorkersField.setError(getString(R.string.blank_field_error));
+            totalWorkersField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(totalWorkersPcdValue.getText())) {
             i++;
-            totalWorkersPcdField.setError(getString(R.string.blank_field_error));
+            totalWorkersPcdField.setError(getString(R.string.req_field_error));
         } else if (TextUtils.isEmpty(workersPcdDescriptionValue.getText()) &&
                 !TextUtils.equals(String.valueOf(totalWorkersPcdValue.getText()), "0")) {
             i++;
-            studentPcdDescriptionField.setError(getString(R.string.blank_field_error));
+            studentPcdDescriptionField.setError(getString(R.string.req_field_error));
         }
         if (getCheckedIndex(hasWorkersLibras) == -1) {
             i++;
@@ -218,16 +218,16 @@ public class SchoolRegisterFragmentThree extends Fragment {
         } else if (getCheckedIndex(hasWorkersLibras) == 1) {
             if (TextUtils.isEmpty(totalWorkersLibrasValue.getText())) {
                 i++;
-                totalWorkersLibrasField.setError(getString(R.string.blank_field_error));
+                totalWorkersLibrasField.setError(getString(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(workersLibrasDescriptionValue.getText())) {
                 i++;
-                workersLibrasDescriptionField.setError(getString(R.string.blank_field_error));
+                workersLibrasDescriptionField.setError(getString(R.string.req_field_error));
             }
         }
         if (TextUtils.isEmpty(initialDateInspectionValue.getText())) {
             i++;
-            initialDateInspectionField.setError(getString(R.string.blank_field_error));
+            initialDateInspectionField.setError(getString(R.string.req_field_error));
         }
         return i == 0;
     }

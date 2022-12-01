@@ -85,7 +85,7 @@
     <string name="label_save_quit_button">Salvar e Sair</string>
     <string name="label_save_finish_button">Salvar e Finalizar</string>
 
-    <string name="blank_field_error">Campo Obrigatório</string>
+    <string name="req_field_error">Campo Obrigatório</string>
     <string name="wrong_input_error">Este campo só aceita números</string>
     <string name="invalid_input_error">Este número é inválido</string>
     <string name="empty_fields">Um ou mais campos não foram preenchidos</string>
@@ -116,7 +116,7 @@
     <string name="radio_button_no">NÃO</string>
     <string name="frag_ext_gate">Portão</string>
     <string name="hint_ext_gate_width">Largura do Portão de Acesso</string>
-    <string name="hint_ext_trail_height">Altura do Trilho do Portão de Acesso</string>
+    <string name="hint_ext_trail_height">Altura do Trilho do Portão de Acesso (mm)</string>
     <string name="frag_ext_trail_ledge">O portão possui rampa para o trilho?</string>
     <string name="radio_button_has_it">POSSUI</string>
     <string name="radio_button_doesnt_have_it">NÃO POSSUI</string>
@@ -262,7 +262,8 @@
     <string name="hint_sill_inclination_height">Altura do Desnível da Soleira</string>
     <string name="hint_sill_step_height">Altura do degrau da soleira (cm)</string>
     <string name="hint_sill_slope_inclination">Inclinação da rampa da soleira</string>
-    <string name="hint_sill_slope_width">Largura da rampa da soleira</string>
+    <string name="hint_sill_slope_height">Altura da rampa da soleira (m)</string>
+    <string name="hint_sill_slope_width">Largura da rampa da soleira (m)</string>
     <string name="hint_switch_location">Localização do interruptor</string>
     <string name="hint_switch_type">Tipo de interruptor</string>
     <string name="hint_switch_height">Altura do Interruptor (m)</string>
@@ -620,4 +621,13 @@
     <string name="button_return">RETORNAR</string>
     <string name="header_side_trans_inclination">Medições de inclinação transversal da calçada (valor máximo permitido: 3%)</string>
     <string name="header_slope_list_register">Cadastro de Rebaixamentos</string>
+    <string name="header_gate_type">Qual o tipo de portão?</string>
+    <string name="hint_gate_desc">Descrição do Tipo de Portão</string>
+    <string name="hint_free_space_gate_2">Largura do Vão Livre - Folha 2 (m)</string>
+    <string name="radio_option_handle">ALAVANCA</string>
+    <string name="radio_option_other_type">OUTRO TIPO</string>
+    <string name="header_gate_op_type">Qual o tipo de dispositivo de abertura do portão?</string>
+    <string name="hint_gate_handle_height">Altura do dispositivo de abertura</string>
+    <string name="hint_gate_obs">Observações sobre o portão</string>
+    <string name="header_floor_gap">O piso posui frestas devido ao trilho?</string>
 </resources>

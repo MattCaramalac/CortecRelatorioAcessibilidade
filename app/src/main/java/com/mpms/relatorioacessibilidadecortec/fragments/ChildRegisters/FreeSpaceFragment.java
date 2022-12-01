@@ -135,11 +135,11 @@ public class FreeSpaceFragment extends Fragment implements TagInterface {
         int i = 0;
         if (TextUtils.isEmpty(fSpaceLocaleValue.getText())) {
             i++;
-            fSpaceLocaleField.setError(getString(R.string.blank_field_error));
+            fSpaceLocaleField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(fSpaceWidthValue.getText())) {
             i++;
-            fSpaceWidthField.setError(getString(R.string.blank_field_error));
+            fSpaceWidthField.setError(getString(R.string.req_field_error));
         }
 
         return i == 0;

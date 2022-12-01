@@ -292,23 +292,23 @@ public class RestSinkFragment extends Fragment implements TagInterface {
         }
         if (TextUtils.isEmpty(measureValueA.getText())) {
             i++;
-            measureFieldA.setError(getText(R.string.blank_field_error));
+            measureFieldA.setError(getText(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(measureValueB.getText())) {
             i++;
-            measureFieldB.setError(getText(R.string.blank_field_error));
+            measureFieldB.setError(getText(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(measureValueC.getText())) {
             i++;
-            measureFieldC.setError(getText(R.string.blank_field_error));
+            measureFieldC.setError(getText(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(measureValueD.getText())) {
             i++;
-            measureFieldD.setError(getText(R.string.blank_field_error));
+            measureFieldD.setError(getText(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(measureValueE.getText())) {
             i++;
-            measureFieldE.setError(getText(R.string.blank_field_error));
+            measureFieldE.setError(getText(R.string.req_field_error));
         }
         if (getCheckRadio(hasBarRadio) == -1) {
             i++;
@@ -329,11 +329,11 @@ public class RestSinkFragment extends Fragment implements TagInterface {
         } else if (getCheckRadio(mirrorRadio) == 1) {
             if (TextUtils.isEmpty(mirrorValueA.getText())) {
                 i++;
-                mirrorFieldA.setError(getText(R.string.blank_field_error));
+                mirrorFieldA.setError(getText(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(mirrorValueB.getText())) {
                 i++;
-                mirrorFieldB.setError(getText(R.string.blank_field_error));
+                mirrorFieldB.setError(getText(R.string.req_field_error));
             }
         }
         if (!leftData || !rightData)

@@ -188,7 +188,7 @@ public class WaterFountainFragment extends Fragment implements TagInterface {
         int errors = 0;
         if (TextUtils.isEmpty(fountainLocationValue.getText())) {
             errors++;
-            fountainLocationField.setError(getString(R.string.blank_field_error));
+            fountainLocationField.setError(getString(R.string.req_field_error));
         }
         if (typeWaterFountain.getCheckedRadioButtonId() == -1) {
             typeWaterFountainError.setVisibility(View.VISIBLE);
