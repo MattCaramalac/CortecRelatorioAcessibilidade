@@ -44,7 +44,7 @@ public class JsonCreation {
     private final int intPark;
     private final List<BlockSpaceEntry> blockList;
     private final List<RoomEntry> roomList;
-    private final List<ExternalAccess> extList;
+    private final List<ExternalAccess> extList; //*
     private final List<PlaygroundEntry> playList;
     private final List<ParkingLotEntry> parkList;
     private final List<RestroomEntry> restList;
@@ -52,7 +52,7 @@ public class JsonCreation {
     private final List<WaterFountainEntry> fountList;
     private final List<RampStairsEntry> roomStRaList;
     private final List<RampStairsEntry> sideStRaList; //*
-    private final List<RampStairsEntry> extStRaList;
+    private final List<RampStairsEntry> extStRaList; //*
     private final List<RampStairsEntry> parkStRaList;
     private final List<BlackboardEntry> boardList;
     private final List<CounterEntry> counterList;
@@ -62,29 +62,29 @@ public class JsonCreation {
     private final List<TableEntry> tableList;
     private final List<WindowEntry> windowList;
     private final List<DoorLockEntry> doorLockList;
-    private final List<DoorLockEntry> gateLockList;
-    private final List<GateObsEntry> gateList;
-    private final List<PayPhoneEntry> extPhoneList;
+    private final List<DoorLockEntry> gateLockList; //*
+    private final List<GateObsEntry> gateObsList; //*
+    private final List<PayPhoneEntry> extPhoneList; //*
     private final List<PayPhoneEntry> sidePhoneList; //*
     private final List<SidewalkSlopeEntry> slopeList;//*
     private final List<RampStairsFlightEntry> roomFlightList;
     private final List<RampStairsFlightEntry> sideFlightList; //*
-    private final List<RampStairsFlightEntry> extFlightList;
+    private final List<RampStairsFlightEntry> extFlightList; //*
     private final List<RampStairsFlightEntry> parkFlightList;
     private final List<RampStairsRailingEntry> roomRailList;
     private final List<RampStairsRailingEntry> sideRailList; //*
-    private final List<RampStairsRailingEntry> extRailList;
+    private final List<RampStairsRailingEntry> extRailList; //*
     private final List<RampStairsRailingEntry> parkRailList;
     private final List<RampStairsHandrailEntry> roomHandList;
     private final List<RampStairsHandrailEntry> sideHandList; //*
-    private final List<RampStairsHandrailEntry> extHandList;
+    private final List<RampStairsHandrailEntry> extHandList; //*
     private final List<RampStairsHandrailEntry> parkHandList;
 
     public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blockList, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList,
                         List<PlaygroundEntry> playList, List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList,
                         List<RampStairsEntry> roomStRaList, List<RampStairsEntry> sideStRaList, List<RampStairsEntry> extStRaList, List<RampStairsEntry> parkStRaList,
                         List<BlackboardEntry> boardList, List<CounterEntry> counterList, List<DoorEntry> doorList, List<FreeSpaceEntry> freeList, List<SwitchEntry> switchList,
-                        List<TableEntry> tableList, List<WindowEntry> windowList, List<DoorLockEntry> doorLockList, List<DoorLockEntry> gateLockList, List<GateObsEntry> gateList,
+                        List<TableEntry> tableList, List<WindowEntry> windowList, List<DoorLockEntry> doorLockList, List<DoorLockEntry> gateLockList, List<GateObsEntry> gateObsList,
                         List<PayPhoneEntry> extPhoneList, List<PayPhoneEntry> sidePhoneList, List<SidewalkSlopeEntry> slopeList, List<RampStairsFlightEntry> roomFlightList,
                         List<RampStairsFlightEntry> sideFlightList, List<RampStairsFlightEntry> extFlightList, List<RampStairsFlightEntry> parkFlightList,
                         List<RampStairsRailingEntry> roomRailList, List<RampStairsRailingEntry> sideRailList, List<RampStairsRailingEntry> extRailList,
@@ -112,7 +112,7 @@ public class JsonCreation {
         this.windowList = windowList;
         this.doorLockList = doorLockList;
         this.gateLockList = gateLockList;
-        this.gateList = gateList;
+        this.gateObsList = gateObsList;
         this.extPhoneList = extPhoneList;
         this.sidePhoneList = sidePhoneList;
         this.slopeList = slopeList;
@@ -642,8 +642,8 @@ public class JsonCreation {
         return gateLockList;
     }
 
-    public List<GateObsEntry> getGateList() {
-        return gateList;
+    public List<GateObsEntry> getGateObsList() {
+        return gateObsList;
     }
 
     public List<PayPhoneEntry> getExtPhoneList() {

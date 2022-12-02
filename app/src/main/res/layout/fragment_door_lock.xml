@@ -81,7 +81,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_door_lock_height">
+                android:hint="@string/hint_dispositive_height">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/door_lock_height_value"

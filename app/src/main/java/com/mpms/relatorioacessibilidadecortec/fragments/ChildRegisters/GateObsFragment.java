@@ -20,12 +20,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class GateObsFragment extends Fragment {
-
-    public static final String GATE_OBS_ID = "GATE_OBS_ID";
+public class GateObsFragment extends Fragment implements TagInterface {
 
     TextInputLayout referencePointField, commandHeightField, fSpaceWidthField, obsField;
     TextInputEditText referencePointValue, commandHeightValue, fSpaceWidthValue, obsValue;
@@ -49,7 +47,7 @@ public class GateObsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            obsBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
+            obsBundle.putInt(EXT_ACCESS_ID, this.getArguments().getInt(EXT_ACCESS_ID));
             obsBundle.putInt(GATE_OBS_ID, this.getArguments().getInt(GATE_OBS_ID));
         }
     }
@@ -132,23 +130,17 @@ public class GateObsFragment extends Fragment {
 
     public GateObsEntry newGateObstacle(Bundle bundle) {
         int accessType, obsHasSia;
-        Double barrierHeight = null, barrierWidth = null, gateHeight = null, gateWidth = null;
+        Double barrierHeight = null, barrierWidth = null;
         String referencePoint, obstacleObs = null;
 
         referencePoint = String.valueOf(referencePointValue.getText());
         accessType = getCheckedRadio(gateObsTypeRadio);
-        if (accessType == 0) {
-            barrierHeight = Double.parseDouble(String.valueOf(commandHeightValue.getText()));
-            barrierWidth = Double.parseDouble(String.valueOf(fSpaceWidthValue.getText()));
-        } else if (accessType == 1) {
-            gateHeight = Double.parseDouble(String.valueOf(commandHeightValue.getText()));
-            gateWidth = Double.parseDouble(String.valueOf(fSpaceWidthValue.getText()));
-        }
+        barrierHeight = Double.parseDouble(String.valueOf(commandHeightValue.getText()));
+        barrierWidth = Double.parseDouble(String.valueOf(fSpaceWidthValue.getText()));
         obsHasSia = getCheckedRadio(gateObsSiaRadio);
         obstacleObs = String.valueOf(obsValue.getText());
 
-        return new GateObsEntry(bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID), referencePoint, accessType, gateHeight, gateWidth, barrierHeight, barrierWidth,
-                obsHasSia, obstacleObs);
+        return new GateObsEntry(bundle.getInt(EXT_ACCESS_ID), referencePoint, accessType, barrierHeight, barrierWidth, obsHasSia, obstacleObs);
 
     }
 
@@ -202,20 +194,15 @@ public class GateObsFragment extends Fragment {
     public void loadGateObsData(GateObsEntry gateObs) {
         if (gateObs.getAccessRefPoint() != null)
             referencePointValue.setText(gateObs.getAccessRefPoint());
-        gateObsTypeRadio.check(gateObsTypeRadio.getChildAt(gateObs.getAccessType()).getId());
-        if (gateObs.getAccessType() == 0) {
-            if (gateObs.getBarrierHeight() != null)
-                commandHeightValue.setText(String.valueOf(gateObs.getBarrierHeight()));
-            if (gateObs.getBarrierWidth() != null)
-                fSpaceWidthValue.setText(String.valueOf(gateObs.getBarrierWidth()));
-        } else {
-            if (gateObs.getGateDoorHeight() != null)
-                commandHeightValue.setText(String.valueOf(gateObs.getGateDoorHeight()));
-            if (gateObs.getGateDoorWidth() != null)
-                fSpaceWidthValue.setText(String.valueOf(gateObs.getGateDoorWidth()));
-        }
+        if (gateObs.getAccessType() != null)
+            gateObsTypeRadio.check(gateObsTypeRadio.getChildAt(gateObs.getAccessType()).getId());
+        if (gateObs.getObsHeight() != null)
+            commandHeightValue.setText(String.valueOf(gateObs.getObsHeight()));
+        if (gateObs.getObsWidth() != null)
+            fSpaceWidthValue.setText(String.valueOf(gateObs.getObsWidth()));
         if (gateObs.getObsHasSia() != null)
             gateObsSiaRadio.check(gateObsSiaRadio.getChildAt(gateObs.getObsHasSia()).getId());
-        obsValue.setText(gateObs.getGateObstacleObs());
+        if (gateObs.getGateObstacleObs() != null)
+            obsValue.setText(gateObs.getGateObstacleObs());
     }
 }

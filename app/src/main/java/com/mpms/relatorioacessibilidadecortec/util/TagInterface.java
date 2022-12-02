@@ -145,4 +145,11 @@ public interface TagInterface {
     String FAUCET_HEIGHT = "FAUCET_HEIGHT";
     String HAS_CUP_HOLDER = "HAS_CUP_HOLDER";
     String CUP_HOLDER_HEIGHT = "CUP_HOLDER_HEIGHT";
+
+    //    Gate Obstacles
+    String GATE_OBS_ID = "GATE_OBS_ID";
+    String LOCK_ID = "LOCK_ID";
+
+    //    External Access
+    String EXT_ACCESS_ID = "EXT_ACCESS_ID";
 }

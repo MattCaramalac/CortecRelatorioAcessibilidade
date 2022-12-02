@@ -418,7 +418,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins"
-                android:text="Cadastro de Escadas"
+                android:text="@string/header_stairs_register"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/room_add_free_space_button" />
@@ -441,7 +441,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins"
-                android:text="Cadastro de Rampas"
+                android:text="@string/header_ramp_register"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/room_add_stairs_button" />
@@ -546,7 +546,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/hint_bell_command_height"
+                android:hint="@string/hint_command_height"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/has_bell_activation_error"
                 android:visibility="gone">
@@ -565,7 +565,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/hint_bell_command_obs"
+                android:hint="@string/hint_command_obs"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/bell_activation_height_field"
                 android:visibility="gone">

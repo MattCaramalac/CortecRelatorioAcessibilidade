@@ -32,8 +32,6 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 public class ExternalAccessFragment extends Fragment implements TagInterface {
 
-    public static final String EXT_ACCESS_ID = "EXT_ACCESS_ID";
-
     RadioGroup entranceTypeRadio, accessFloorRadio;
     TextInputLayout entranceLocationField, accessFloorObsField;
     TextInputEditText entranceLocationValue, accessFloorObsValue;

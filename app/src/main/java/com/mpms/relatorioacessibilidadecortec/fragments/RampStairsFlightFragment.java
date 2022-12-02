@@ -41,11 +41,11 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             borderSignRadioError, borderSignIdentifiableRadioError, mirInclError, stepError, flightNumber;
     TextInputLayout rampStairsWidthField, pavementObsField, tactileFloorObsField, borderSignWidthField, borderSignObsField,
             mirIncField1, mirIncField2, mirIncField3, mirIncField4, stepField1, stepField2, stepField3, stepField4,
-            flightLengthField, rampHeightField, lowTactWidthField, lowTactDistField, upTactWidthField, upTactDistField,
+            flightLengthField, flightHeightField, lowTactWidthField, lowTactDistField, upTactWidthField, upTactDistField,
             interLvLengthField, interLvObsField, flightObsField;
     TextInputEditText rampStairsWidthValue, pavementObsValue, tactileFloorObsValue, borderSignWidthValue, borderSignObsValue,
             mirIncValue1, mirIncValue2, mirIncValue3, mirIncValue4, stepValue1, stepValue2, stepValue3, stepValue4,
-            flightLengthValue, rampHeightValue, lowTactWidthValue, lowTactDistValue, upTactWidthValue, upTactDistValue,
+            flightLengthValue, flightHeightValue, lowTactWidthValue, lowTactDistValue, upTactWidthValue, upTactDistValue,
             interLvLengthValue, interLvObsValue, flightObsValue;
     MaterialButton mirIncButton, stepButton, railingButton, handrailButton, saveFlight, cancelFlight;
     ImageButton deleteMirInc, deleteStep;
@@ -222,7 +222,7 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
                 mirIncField4.setHint(getString(R.string.measurement_m_4));
                 break;
             case 2:
-                rampHeightField.setVisibility(View.VISIBLE);
+                flightLengthField.setVisibility(View.VISIBLE);
                 flightHeader.setText(getString(R.string.label_ramp_flights_header));
                 rampStairsWidthField.setHint(getString(R.string.hint_ramp_width));
                 dimensionsButtonsHeader.setText(getString(R.string.label_inclination_ramp_header));
@@ -277,7 +277,7 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         stepField3 = view.findViewById(R.id.step_3_field);
         stepField4 = view.findViewById(R.id.step_4_field);
         flightLengthField = view.findViewById(R.id.lance_length_field);
-        rampHeightField = view.findViewById(R.id.ramp_height_field);
+        flightHeightField = view.findViewById(R.id.lance_height_field);
         lowTactWidthField = view.findViewById(R.id.lower_tact_floor_width_field);
         lowTactDistField = view.findViewById(R.id.lower_tact_floor_dist_field);
         upTactWidthField = view.findViewById(R.id.upper_tact_floor_width_field);
@@ -300,7 +300,7 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         stepValue3 = view.findViewById(R.id.step_3_value);
         stepValue4 = view.findViewById(R.id.step_4_value);
         flightLengthValue = view.findViewById(R.id.lance_length_value);
-        rampHeightValue = view.findViewById(R.id.ramp_height_value);
+        flightHeightValue = view.findViewById(R.id.lance_height_value);
         lowTactWidthValue = view.findViewById(R.id.lower_tact_floor_width_value);
         lowTactDistValue = view.findViewById(R.id.lower_tact_floor_dist_value);
         upTactWidthValue = view.findViewById(R.id.upper_tact_floor_width_value);
@@ -452,8 +452,9 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
 
         if (!TextUtils.isEmpty(rampStairsWidthValue.getText()))
             flightWidth = Double.parseDouble(String.valueOf(rampStairsWidthValue.getText()));
-        if (!TextUtils.isEmpty(flightLengthValue.getText()))
-            flightLength = Double.parseDouble(String.valueOf(flightLengthValue.getText()));
+        if (!TextUtils.isEmpty(flightHeightValue.getText()))
+            rampHeight = Double.parseDouble(String.valueOf(flightHeightValue.getText()));
+
 
         if (bundle.getInt(RAMP_OR_STAIRS) == 1) {
             mirrorCounter = mirIncCounter;
@@ -508,8 +509,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
 
         else if (bundle.getInt(RAMP_OR_STAIRS) == 2) {
 
-            if (!TextUtils.isEmpty(rampHeightValue.getText()))
-                rampHeight = Double.parseDouble(String.valueOf(rampHeightValue.getText()));
+            if (!TextUtils.isEmpty(flightLengthValue.getText()))
+                flightLength = Double.parseDouble(String.valueOf(flightLengthValue.getText()));
 
             inclinationCounter = mirIncCounter;
             if (mirIncCounter > 0) {
@@ -591,9 +592,10 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             error++;
             rampStairsWidthField.setError(getString(R.string.req_field_error));
         }
-        if (TextUtils.isEmpty(flightLengthValue.getText())) {
+
+        if (TextUtils.isEmpty(flightHeightValue.getText())) {
             error++;
-            flightLengthField.setError(getString(R.string.req_field_error));
+            flightHeightField.setError(getString(R.string.req_field_error));
         }
 
         switch (mirIncCounter) {
@@ -690,9 +692,9 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         }
 
         if (flightBundle.getInt(RAMP_OR_STAIRS) == 0) {
-            if (TextUtils.isEmpty(rampHeightValue.getText())) {
+            if (TextUtils.isEmpty(flightLengthValue.getText())) {
                 error++;
-                rampHeightField.setError(getString(R.string.req_field_error));
+                flightLengthField.setError(getString(R.string.req_field_error));
             }
         }
 
@@ -718,7 +720,7 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
     public void clearEmptyFlightFieldsErrors() {
         rampStairsWidthField.setErrorEnabled(false);
         flightLengthField.setErrorEnabled(false);
-        rampHeightField.setErrorEnabled(false);
+        flightHeightField.setErrorEnabled(false);
         tactileSignRadioError.setVisibility(View.GONE);
         lowerTactFloorRadioError.setVisibility(View.GONE);
         lowTactWidthField.setErrorEnabled(false);
@@ -796,8 +798,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         if (rampStairs.getFlightWidth() != null)
             rampStairsWidthValue.setText(String.valueOf(rampStairs.getFlightWidth()));
 
-        if (rampStairs.getFlightLength() != null)
-            flightLengthValue.setText(String.valueOf(rampStairs.getFlightLength()));
+        if (rampStairs.getRampHeight() != null)
+            flightHeightValue.setText(String.valueOf(rampStairs.getRampHeight()));
 
         if (flightBundle.getInt(RAMP_OR_STAIRS) == 1) {
             mirIncCounter = rampStairs.getMirrorCounter();
@@ -862,8 +864,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
 
         }
         else if (flightBundle.getInt(RAMP_OR_STAIRS) == 2) {
-            if (rampStairs.getRampHeight() != null)
-                rampHeightValue.setText(String.valueOf(rampStairs.getRampHeight()));
+            if (rampStairs.getFlightLength() != null)
+                flightLengthValue.setText(String.valueOf(rampStairs.getFlightLength()));
 
             mirIncCounter = rampStairs.getSlopeCounter();
             switch (mirIncCounter) {

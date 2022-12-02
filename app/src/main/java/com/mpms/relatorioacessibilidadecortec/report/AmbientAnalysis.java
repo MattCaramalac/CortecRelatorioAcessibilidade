@@ -24,6 +24,8 @@ import java.util.Map;
 
 public class AmbientAnalysis implements StandardMeasurements {
 
+    public static boolean err = false;
+
     private CTAbstractNum ctAbsNum;
 
     private final XWPFDocument mDoc;
@@ -33,15 +35,30 @@ public class AmbientAnalysis implements StandardMeasurements {
 
     public final Map<Integer, Integer> blockNumber = new HashMap<>();
     public static final Map<Integer, List<String>> sideIrregularities = new HashMap<>();
+    public static final Map<Integer, List<String>> extIrregularities = new HashMap<>();
     public static final List<String> sideLocationList = new ArrayList<>();
+    public static final List<String> extAccessList = new ArrayList<>();
     public static final List<String> placeType = new ArrayList<>();
 
     public AmbientAnalysis(XWPFDocument mDoc, XWPFParagraph mParagraph, JsonCreation jCreate) {
         this.mDoc = mDoc;
         this.mParagraph = mParagraph;
         blockCorrespondence(jCreate.getBlockList());
-        SidewalkAnalysis.sidewalkVerification(jCreate.getSideList(), jCreate.getSideStRaList(), jCreate.getSideFlightList(),
-                jCreate.getSidePhoneList(), jCreate.getSlopeList());
+        SidewalkAnalysis.sidewalkVerification(jCreate.getSideList(), jCreate.getSideStRaList(), jCreate.getSideFlightList(), jCreate.getSidePhoneList(),
+                jCreate.getSlopeList());
+        ExtAccessAnalysis.extAccessVerification(jCreate.getExtList(), jCreate.getGateLockList(), jCreate.getGateObsList(), jCreate.getExtPhoneList(),
+                jCreate.getExtStRaList(), jCreate.getExtFlightList(), jCreate.getExtRailList(), jCreate.getExtHandList());
+    }
+
+
+    public static void checkHasAccessHeader() {
+        err = true;
+        for (int i = 0; i < AmbientAnalysis.placeType.size(); i++) {
+            if (AmbientAnalysis.placeType.get(i).equals(AmbientAnalysis.ACCESS_TITLE))
+                return;
+        }
+        AmbientAnalysis.placeType.add(AmbientAnalysis.ACCESS_TITLE);
+
     }
 
     public void blockCorrespondence(List<BlockSpaceEntry> blockList) {
@@ -74,6 +91,17 @@ public class AmbientAnalysis implements StandardMeasurements {
                 createIrregularList(string2, numID, cursor, 1);
 
                 List<String> irregular = sideIrregularities.get(j);
+                if (irregular != null) {
+                    for (String string3 : irregular)
+                        createIrregularList(string3, numID, cursor, 2);
+                }
+            }
+
+            for (int j = 0; j < extAccessList.size(); j++) {
+                String string2 = extAccessList.get(j);
+                createIrregularList(string2, numID, cursor, 1);
+
+                List<String> irregular = extIrregularities.get(j);
                 if (irregular != null) {
                     for (String string3 : irregular)
                         createIrregularList(string3, numID, cursor, 2);

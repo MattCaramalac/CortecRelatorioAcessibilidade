@@ -16,7 +16,7 @@ public interface GateObsDao {
     @Insert
     void insertGateObs (GateObsEntry gateObs);
 
-    @Query("SELECT * FROM GateObsEntry WHERE externalAccessID == :externalAccessID ORDER BY gateObsID DESC")
+    @Query("SELECT * FROM GateObsEntry WHERE extAccessID == :externalAccessID ORDER BY gateObsID DESC")
     LiveData<List<GateObsEntry>> selectAllGateObsEntries(int externalAccessID);
 
     @Query("SELECT * FROM GateObsEntry WHERE gateObsID == :gateObsID")
@@ -31,6 +31,6 @@ public interface GateObsDao {
     @Query("DELETE FROM GateObsEntry WHERE gateObsID == :gateObsID")
     void deleteGateObsEntry(int gateObsID);
 
-    @Query("DELETE FROM GateObsEntry WHERE externalAccessID == :externalAccessID")
+    @Query("DELETE FROM GateObsEntry WHERE extAccessID == :externalAccessID")
     void deleteAllGateObsEntries(int externalAccessID);
 }

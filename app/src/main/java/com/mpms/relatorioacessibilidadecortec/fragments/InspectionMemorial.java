@@ -108,7 +108,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     List<DoorLockEntry> doorLockList = new ArrayList<>();
     List<DoorLockEntry> gateLockList = new ArrayList<>();
     //    Gate Entities
-    List<GateObsEntry> gateList = new ArrayList<>();
+    List<GateObsEntry> gateObsList = new ArrayList<>();
     //    Gate & Sidewalk Entities
     List<PayPhoneEntry> extPhoneList = new ArrayList<>();
     List<PayPhoneEntry> sidePhoneList = new ArrayList<>();
@@ -197,7 +197,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         List<Integer> idList = idBlockList.getIdList();
 
         ViewModelEntry.getAllLocksFromGates(idList).observe(getViewLifecycleOwner(), dLoList -> gateLockList = dLoList);
-        ViewModelEntry.getAllGateObs(idList).observe(getViewLifecycleOwner(), gList -> gateList = gList);
+        ViewModelEntry.getAllGateObs(idList).observe(getViewLifecycleOwner(), gList -> gateObsList = gList);
         ViewModelEntry.getAllPhonesExtAccess(idList).observe(getViewLifecycleOwner(), phList -> extPhoneList = phList);
         ViewModelEntry.getAllRampStExt(idList).observe(getViewLifecycleOwner(), rampList -> {
             extStRaList = rampList;
@@ -378,7 +378,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
             JsonCreation jCreate = new JsonCreation(school, blockList, roomList, extList, parkList, playList, restList, sideList, fountList, roomStRaList, sideStRaList,
                     extStRaList, parkStRaList, boardList, counterList, doorList, freeList, switchList, tableList, windowList, doorLockList,
-                    gateLockList, gateList, extPhoneList, sidePhoneList, slopeList, roomFlightList, sideFlightList, extFlightList, parkFlightList,
+                    gateLockList, gateObsList, extPhoneList, sidePhoneList, slopeList, roomFlightList, sideFlightList, extFlightList, parkFlightList,
                     roomRailList, sideRailList, extRailList, parkRailList, roomHandList, sideHandList, extHandList, parkHandList, blockQnt, hasHelpSpace, extParkQnt, intParkQnt);
 
             tData = jCreate.createJson();

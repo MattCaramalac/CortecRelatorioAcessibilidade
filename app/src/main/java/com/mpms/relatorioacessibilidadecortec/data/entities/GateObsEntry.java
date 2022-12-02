@@ -6,31 +6,27 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = @ForeignKey(entity = ExternalAccess.class, parentColumns = "externalAccessID", childColumns = "externalAccessID", onDelete = CASCADE, onUpdate = CASCADE))
+@Entity (foreignKeys = @ForeignKey(entity = ExternalAccess.class, parentColumns = "externalAccessID", childColumns = "extAccessID",
+        onDelete = CASCADE, onUpdate = CASCADE))
 public class GateObsEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int gateObsID;
-    private int externalAccessID;
+    private int extAccessID;
 
     private String accessRefPoint;
     private Integer accessType;
-    private Double gateDoorHeight;
-    private Double gateDoorWidth;
-    private Double barrierHeight;
-    private Double barrierWidth;
+    private Double obsHeight;
+    private Double obsWidth;
     private Integer obsHasSia;
     private String gateObstacleObs;
 
-    public GateObsEntry(int externalAccessID, String accessRefPoint, Integer accessType, Double gateDoorHeight, Double gateDoorWidth, Double barrierHeight,
-                        Double barrierWidth, Integer obsHasSia, String gateObstacleObs) {
-        this.externalAccessID = externalAccessID;
+    public GateObsEntry(int extAccessID, String accessRefPoint, Integer accessType, Double obsHeight, Double obsWidth, Integer obsHasSia, String gateObstacleObs) {
+        this.extAccessID = extAccessID;
         this.accessRefPoint = accessRefPoint;
         this.accessType = accessType;
-        this.gateDoorHeight = gateDoorHeight;
-        this.gateDoorWidth = gateDoorWidth;
-        this.barrierHeight = barrierHeight;
-        this.barrierWidth = barrierWidth;
+        this.obsHeight = obsHeight;
+        this.obsWidth = obsWidth;
         this.obsHasSia = obsHasSia;
         this.gateObstacleObs = gateObstacleObs;
     }
@@ -43,12 +39,12 @@ public class GateObsEntry {
         this.gateObsID = gateObsID;
     }
 
-    public int getExternalAccessID() {
-        return externalAccessID;
+    public int getExtAccessID() {
+        return extAccessID;
     }
 
-    public void setExternalAccessID(int externalAccessID) {
-        this.externalAccessID = externalAccessID;
+    public void setExtAccessID(int extAccessID) {
+        this.extAccessID = extAccessID;
     }
 
     public String getAccessRefPoint() {
@@ -67,36 +63,20 @@ public class GateObsEntry {
         this.accessType = accessType;
     }
 
-    public Double getGateDoorHeight() {
-        return gateDoorHeight;
+    public Double getObsHeight() {
+        return obsHeight;
     }
 
-    public void setGateDoorHeight(Double gateDoorHeight) {
-        this.gateDoorHeight = gateDoorHeight;
+    public void setObsHeight(Double obsHeight) {
+        this.obsHeight = obsHeight;
     }
 
-    public Double getGateDoorWidth() {
-        return gateDoorWidth;
+    public Double getObsWidth() {
+        return obsWidth;
     }
 
-    public void setGateDoorWidth(Double gateDoorWidth) {
-        this.gateDoorWidth = gateDoorWidth;
-    }
-
-    public Double getBarrierHeight() {
-        return barrierHeight;
-    }
-
-    public void setBarrierHeight(Double barrierHeight) {
-        this.barrierHeight = barrierHeight;
-    }
-
-    public Double getBarrierWidth() {
-        return barrierWidth;
-    }
-
-    public void setBarrierWidth(Double barrierWidth) {
-        this.barrierWidth = barrierWidth;
+    public void setObsWidth(Double obsWidth) {
+        this.obsWidth = obsWidth;
     }
 
     public Integer getObsHasSia() {

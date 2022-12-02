@@ -17,13 +17,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
-public class DoorLockFragment extends Fragment {
-
-    public static final String LOCK_ID = "LOCK_ID";
+public class DoorLockFragment extends Fragment implements TagInterface {
 
     TextInputLayout lockDescField, lockHeightField, lockObsField;
     TextInputEditText lockDescValue, lockHeightValue, lockObsValue;
@@ -48,8 +46,8 @@ public class DoorLockFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             lockBundle.putInt(LOCK_ID, this.getArguments().getInt(LOCK_ID));
-            lockBundle.putInt(DoorFragment.DOOR_ID, this.getArguments().getInt(DoorFragment.DOOR_ID));
-            lockBundle.putInt(ExternalAccessFragment.EXT_ACCESS_ID, this.getArguments().getInt(ExternalAccessFragment.EXT_ACCESS_ID));
+            lockBundle.putInt(DOOR_ID, this.getArguments().getInt(DOOR_ID));
+            lockBundle.putInt(EXT_ACCESS_ID, this.getArguments().getInt(EXT_ACCESS_ID));
         }
     }
 
@@ -173,10 +171,10 @@ public class DoorLockFragment extends Fragment {
         String lDesc = null, lObs = null;
         double lHeight;
 
-        if (bundle.getInt(DoorFragment.DOOR_ID) > 0)
-            doorID = bundle.getInt(DoorFragment.DOOR_ID);
-        else if (bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID) > 0)
-            extAccessID = bundle.getInt(ExternalAccessFragment.EXT_ACCESS_ID);
+        if (bundle.getInt(DOOR_ID) > 0)
+            doorID = bundle.getInt(DOOR_ID);
+        else if (bundle.getInt(AMBIENT_ID) > 0)
+            extAccessID = bundle.getInt(AMBIENT_ID);
 
         lType = lockType.getCheckedRadioButtonIndex();
         if (lType == 2)

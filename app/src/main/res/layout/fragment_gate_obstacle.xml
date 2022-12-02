@@ -81,7 +81,7 @@
             app:layout_constraintTop_toBottomOf="@id/gate_obstacle_type_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_gate_barrier_height">
+            android:hint="@string/hint_command_height">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/gate_obs_height_value"
@@ -99,7 +99,7 @@
             android:layout_marginTop="@dimen/usual_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_gate_barrier_width">
+            android:hint="@string/hint_free_space_width">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/gate_obs_width_value"
@@ -113,7 +113,7 @@
             android:id="@+id/label_obs_has_SIA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Obstáculo possui SIA?"
+            android:text="@string/header_has_sia"
             android:layout_marginTop="@dimen/usual_padding"
             android:textSize="@dimen/section_header"
             app:layout_constraintStart_toStartOf="parent"

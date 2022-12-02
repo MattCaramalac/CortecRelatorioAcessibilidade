@@ -111,7 +111,7 @@
 
     <string name="label_exp_dropdown">Escolha um item</string>
 
-    <string name="frag_ext_sia">Possui SIA?</string>
+    <string name="header_has_sia">Possui SIA?</string>
     <string name="radio_button_yes">SIM</string>
     <string name="radio_button_no">NÃO</string>
     <string name="frag_ext_gate">Portão</string>
@@ -145,10 +145,8 @@
     <string name="hint_visual_signal">Sinalização Visual</string>
     <string name="hint_visual_signals">Sinalização Visual Vertical</string>
     <string name="label_room_entrance_door">Dimensões da Porta de Entrada</string>
-    <string name="hint_door_width">Largura do Vão Livre (m)</string>
     <string name="hint_uneven_door">Desvível da Porta</string>
     <string name="label_door_ramp">Porta com rampa?</string>
-    <string name="hint_window_height">Altura do comando da janela</string>
     <string name="hint_room_carpet">Capacho da Sala</string>
     <string name="hint_circulation_room">Espaço de circulação da sala</string>
     <string name="label_table_register">Cadastro de Mesas e Suas Dimensões</string>
@@ -273,7 +271,6 @@
     <string name="hint_window_obs">Observações sobre a janela</string>
     <string name="dialog_add_window_header">Adicionar Janelas</string>
     <string name="hint_free_space_obs">Observações sobre a faixa livre</string>
-    <string name="hint_free_space_width">Largura da faixa livre</string>
     <string name="dialog_add_free_space_header">Adicionar Faixa Livre</string>
     <string name="hint_table_obs">Observações sobre a mesa</string>
     <string name="hint_superior_border_table_height">Altura da borda superior da mesa</string>
@@ -291,8 +288,8 @@
     <string name="label_gate_obs_type_header">Qual é o tipo de acesso utilizado?</string>
     <string name="radio_option_gate">PORTA DE ACESSO</string>
     <string name="radio_option_gate_bar">CANCELA</string>
-    <string name="hint_gate_barrier_height">Altura do Comando</string>
-    <string name="hint_gate_barrier_width">Largura do Vão Livre</string>
+    <string name="hint_command_height">Altura do Comando (m)</string>
+    <string name="hint_free_space_width">Largura do Vão Livre (m)</string>
     <string name="hint_payphone_ref_location">Ponto de referência telefone público</string>
     <string name="hint_height_keyboard_payphone">Altura operacional do teclado</string>
     <string name="hint_height_phone_payphone">Altura operacional do fone</string>
@@ -322,7 +319,7 @@
     <string name="label_railing_beacon_register_header">Cadastro de guarda-corpos e balizamentos</string>
     <string name="label_button_handrails">Corrimãos e Prolongamentos</string>
     <string name="label_button_railing">Guarda-corpo e balizamento</string>
-    <string name="label_border_sign_header">O lance de escadas possui sinalização nas bordas?</string>
+    <string name="label_border_sign_header">Os degraus deste lance de escadas possuem sinalização nas bordas?</string>
     <string name="label_handrail_header">Cadastro de corrimãos e seus prolongamentos</string>
     <string name="hint_border_sign_width">Largura da Sinalização de Borda</string>
     <string name="label_border_sign_identifiable_header">A sinalização de borda é identificável?</string>
@@ -396,7 +393,7 @@
     <string name="label_restroom_has_mirrors">O sanitário possui espelho?</string>
     <string name="label_header_urinal">O sanitário possui mictório?</string>
     <string name="hint_paper_holder_obs">Observações sobre a papeleira</string>
-    <string name="hint_emergency_signal_height">Altura do dispositivo</string>
+    <string name="hint_dispositive_height">Altura do dispositivo (m)</string>
     <string name="hint_emergency_signal_obs">Observações sobre o dispositivo de emergência</string>
     <string name="hint_bidet_obs">Observações sobre a ducha higiênica</string>
     <string name="hint_paper_holder_height">Altura da Papeleira</string>
@@ -508,8 +505,7 @@
     <string name="header_adm_equip">Equipamentos Administrativos</string>
     <string name="hint_adm_equip_location">Localização dos equipamentos</string>
     <string name="header_has_bell_command">Local possui comando para o sinal sonoro?</string>
-    <string name="hint_bell_command_height">Altura do Comando (m)</string>
-    <string name="hint_bell_command_obs">Observações do Comando</string>
+    <string name="hint_command_obs">Observações do Comando</string>
     <string name="header_has_internal_phone">Local possui o fone interno do interfone?</string>
     <string name="hint_int_phone_height">Altura do fone interno (m)</string>
     <string name="hint_int_phone_obs">Observações do Interfone</string>
@@ -544,7 +540,6 @@
     <string name="header_slope_measure_register">Medidas de inclinação da rampa</string>
     <string name="header_door_lock_register">Cadastro de Dispositivos de Travamento</string>
     <string name="hint_other_lock_type">Descrição do Tipo de Dispositivo</string>
-    <string name="hint_door_lock_height">Altura do Dispositivo</string>
     <string name="radio_button_lever_type_handle">ALAVANCA</string>
     <string name="radio_button_other_type_handle">OUTROS TIPOS</string>
     <string name="label_accessible_floor_header">O piso pode ser considerado acessível?</string>
@@ -630,7 +625,6 @@
     <string name="hint_free_space_gate_2">Largura do Vão Livre - Folha 2 (m)</string>
     <string name="radio_option_handle">ALAVANCA</string>
     <string name="header_gate_op_type">Qual o tipo de dispositivo de abertura do portão?</string>
-    <string name="hint_gate_handle_height">Altura do dispositivo de abertura</string>
     <string name="hint_gate_obs">Observações sobre o portão</string>
     <string name="header_floor_gap">O piso posui frestas devido ao trilho?</string>
 </resources>

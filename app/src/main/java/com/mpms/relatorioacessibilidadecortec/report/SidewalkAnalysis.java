@@ -284,7 +284,7 @@ public class SidewalkAnalysis implements StandardMeasurements {
 
                                     if (irrStRamp && builder.length() != 0) {
                                         check++;
-                                        builder.insert(18, "localizada em " + rStairs.getRampStairsLocation() + " ");
+                                        builder.replace(17, 18,", localizada em " + rStairs.getRampStairsLocation() + ", ");
                                         irrRampData = builder.toString();
                                         sideIrregular.add(irrRampData);
                                     }
@@ -356,7 +356,7 @@ public class SidewalkAnalysis implements StandardMeasurements {
 
                         if (irregularPhone && builder.length() != 0) {
                             check++;
-                            builder.insert(29, "localizado em " + phone.getPhoneRefPoint() + " ");
+                            builder.replace(28, 29, ", localizado em " + phone.getPhoneRefPoint() + ", ");
                             irrPhoneData = builder.toString();
                             sideIrregular.add(irrPhoneData);
 
