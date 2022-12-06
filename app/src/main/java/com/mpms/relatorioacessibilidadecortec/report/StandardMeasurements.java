@@ -69,6 +69,16 @@ public interface StandardMeasurements {
     double minSumTactDistStairs = 0.50;
     double maxSumTactDistStairs = 0.65;
     double minLengthStairsInterLevel = 1.20;
-    double minBorderSignWidth = 0.03;
+    double minBorderSignWidth = 3; //in cm
+    double minBorderSignLength = 7; // in cm
 
+//    Stairs & Ramps Measurements
+    double minRailHeight = 1.10;
+    double minBeaconHeight = 0.05;
+    double highHandrail = 0.92;
+    double lowHandrail = 0.70;
+    double extendHandrail = 0.30;
+    double minHandrailGrip = 30; //in mm
+    double maxHandrailGrip = 45; //in mm
+    double minDistHandrail = 40; //in mm
 }

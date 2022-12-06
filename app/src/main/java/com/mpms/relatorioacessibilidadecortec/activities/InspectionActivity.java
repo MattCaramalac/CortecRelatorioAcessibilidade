@@ -183,9 +183,6 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 case 3:
                     displayRoomsRegisterListFragment(choice);
                     break;
-                case 4:
-                    displayRestroomListFragment();
-                    break;
             }
         } else if (inspectionBundle.getBoolean(SUP_AREA_REG)) {
             switch (choice) {

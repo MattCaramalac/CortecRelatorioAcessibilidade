@@ -70,7 +70,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 57)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 58)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1317,8 +1317,23 @@ public abstract class ReportDatabase extends RoomDatabase {
             database.execSQL("CREATE TABLE GateObsEntry (gateObsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, extAccessID INTEGER NOT NULL, accessRefPoint TEXT, accessType INTEGER," +
                     " obsHeight REAL, obsWidth REAL, obsHasSia INTEGER, gateObstacleObs TEXT, " +
                     "FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
 
+    static final Migration MIGRATION_57_58 = new Migration(57, 58) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE RampStairsHandrailEntry2 (handrailID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, flightID INTEGER NOT NULL, " +
+                    " handrailPlacement INTEGER NOT NULL, hasHandrail INTEGER NOT NULL DEFAULT 1, handrailHeight REAL, handrailGrip REAL, handrailDist REAL, " +
+                    "hasInitExtension INTEGER, initExtLength REAL, hasFinalExtension INTEGER, finalExtLength REAL, handrailObs TEXT," +
+                    "FOREIGN KEY (flightID) REFERENCES RampStairsFlightEntry (flightID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO RampStairsHandrailEntry2 (handrailID, flightID, handrailPlacement,  handrailHeight, handrailGrip, hasInitExtension, initExtLength," +
+                    "hasFinalExtension, finalExtLength, handrailObs) SELECT handrailID, flightID, handrailPlacement,  handrailHeight, handrailGrip, hasInitExtension, initExtLength," +
+                    "hasFinalExtension, finalExtLength, handrailObs FROM RampStairsHandrailEntry");
+            database.execSQL("DROP TABLE RampStairsHandrailEntry");
+            database.execSQL("ALTER TABLE RampStairsHandrailEntry2 RENAME TO RampStairsHandrailEntry");
 
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN borderSignLength REAL");
         }
     };
 
@@ -1336,7 +1351,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42,
                                     MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
                                     MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
-                                    MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57).build();
+                                    MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58).build();
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.data.entities;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -14,27 +15,31 @@ public class RampStairsHandrailEntry {
     private int handrailID;
     private int flightID;
     private int handrailPlacement;
-    private double handrailHeight;
-    private double handrailGrip;
-    private String handrailObs;
-    private int hasInitExtension;
+    @ColumnInfo(defaultValue = "1")
+    private int hasHandrail;
+    private Double handrailHeight;
+    private Double handrailGrip;
+    private Double handrailDist;
+    private Integer hasInitExtension;
     private Double initExtLength;
-    private int hasFinalExtension;
+    private Integer hasFinalExtension;
     private Double finalExtLength;
-    private String extensionObs;
+    private String handrailObs;
 
-    public RampStairsHandrailEntry(int flightID, int handrailPlacement, double handrailHeight, double handrailGrip, String handrailObs,
-                                   int hasInitExtension, Double initExtLength, int hasFinalExtension, Double finalExtLength, String extensionObs) {
+
+    public RampStairsHandrailEntry(int flightID, int handrailPlacement, int hasHandrail, Double handrailHeight, Double handrailGrip, Double handrailDist,
+                                   Integer hasInitExtension, Double initExtLength, Integer hasFinalExtension, Double finalExtLength, String handrailObs) {
         this.flightID = flightID;
         this.handrailPlacement = handrailPlacement;
+        this.hasHandrail = hasHandrail;
         this.handrailHeight = handrailHeight;
         this.handrailGrip = handrailGrip;
+        this.handrailDist = handrailDist;
         this.handrailObs = handrailObs;
         this.hasInitExtension = hasInitExtension;
         this.initExtLength = initExtLength;
         this.hasFinalExtension = hasFinalExtension;
         this.finalExtLength = finalExtLength;
-        this.extensionObs = extensionObs;
     }
 
     public int getHandrailID() {
@@ -61,20 +66,36 @@ public class RampStairsHandrailEntry {
         this.handrailPlacement = handrailPlacement;
     }
 
-    public double getHandrailHeight() {
+    public int getHasHandrail() {
+        return hasHandrail;
+    }
+
+    public void setHasHandrail(int hasHandrail) {
+        this.hasHandrail = hasHandrail;
+    }
+
+    public Double getHandrailHeight() {
         return handrailHeight;
     }
 
-    public void setHandrailHeight(double handrailHeight) {
+    public void setHandrailHeight(Double handrailHeight) {
         this.handrailHeight = handrailHeight;
     }
 
-    public double getHandrailGrip() {
+    public Double getHandrailGrip() {
         return handrailGrip;
     }
 
-    public void setHandrailGrip(double handrailGrip) {
+    public void setHandrailGrip(Double handrailGrip) {
         this.handrailGrip = handrailGrip;
+    }
+
+    public Double getHandrailDist() {
+        return handrailDist;
+    }
+
+    public void setHandrailDist(Double handrailDist) {
+        this.handrailDist = handrailDist;
     }
 
     public String getHandrailObs() {
@@ -85,11 +106,11 @@ public class RampStairsHandrailEntry {
         this.handrailObs = handrailObs;
     }
 
-    public int getHasInitExtension() {
+    public Integer getHasInitExtension() {
         return hasInitExtension;
     }
 
-    public void setHasInitExtension(int hasInitExtension) {
+    public void setHasInitExtension(Integer hasInitExtension) {
         this.hasInitExtension = hasInitExtension;
     }
 
@@ -101,11 +122,11 @@ public class RampStairsHandrailEntry {
         this.initExtLength = initExtLength;
     }
 
-    public int getHasFinalExtension() {
+    public Integer getHasFinalExtension() {
         return hasFinalExtension;
     }
 
-    public void setHasFinalExtension(int hasFinalExtension) {
+    public void setHasFinalExtension(Integer hasFinalExtension) {
         this.hasFinalExtension = hasFinalExtension;
     }
 
@@ -117,11 +138,4 @@ public class RampStairsHandrailEntry {
         this.finalExtLength = finalExtLength;
     }
 
-    public String getExtensionObs() {
-        return extensionObs;
-    }
-
-    public void setExtensionObs(String extensionObs) {
-        this.extensionObs = extensionObs;
-    }
 }
