@@ -2,6 +2,7 @@ package com.mpms.relatorioacessibilidadecortec.report;
 
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.apache.poi.xwpf.usermodel.XWPFAbstractNum;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AmbientAnalysis implements StandardMeasurements {
+public class AmbientAnalysis implements StandardMeasurements, TagInterface {
 
     public static boolean err = false;
 
@@ -31,13 +32,13 @@ public class AmbientAnalysis implements StandardMeasurements {
     private final XWPFDocument mDoc;
     private final XWPFParagraph mParagraph;
 
-    public static final String ACCESS_TITLE = "Acessos e Circulações";
-
     public final Map<Integer, Integer> blockNumber = new HashMap<>();
-    public static final Map<Integer, List<String>> sideIrregularities = new HashMap<>();
-    public static final Map<Integer, List<String>> extIrregularities = new HashMap<>();
+    public static final Map<Integer, List<String>> sideIrregular = new HashMap<>();
+    public static final Map<Integer, List<String>> extIrregular = new HashMap<>();
+    public static final Map<Integer, List<String>> extRoomIrregular = new HashMap<>();
     public static final List<String> sideLocationList = new ArrayList<>();
     public static final List<String> extAccessList = new ArrayList<>();
+    public static final List<String> extRoomList = new ArrayList<>();
     public static final List<String> placeType = new ArrayList<>();
 
     public AmbientAnalysis(XWPFDocument mDoc, XWPFParagraph mParagraph, JsonCreation jCreate) {
@@ -90,7 +91,7 @@ public class AmbientAnalysis implements StandardMeasurements {
                 String string2 = sideLocationList.get(j);
                 createIrregularList(string2, numID, cursor, 1);
 
-                List<String> irregular = sideIrregularities.get(j);
+                List<String> irregular = sideIrregular.get(j);
                 if (irregular != null) {
                     for (String string3 : irregular)
                         createIrregularList(string3, numID, cursor, 2);
@@ -101,7 +102,7 @@ public class AmbientAnalysis implements StandardMeasurements {
                 String string2 = extAccessList.get(j);
                 createIrregularList(string2, numID, cursor, 1);
 
-                List<String> irregular = extIrregularities.get(j);
+                List<String> irregular = extIrregular.get(j);
                 if (irregular != null) {
                     for (String string3 : irregular)
                         createIrregularList(string3, numID, cursor, 2);

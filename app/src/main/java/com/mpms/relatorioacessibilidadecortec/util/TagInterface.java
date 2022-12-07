@@ -152,4 +152,7 @@ public interface TagInterface {
 
     //    External Access
     String EXT_ACCESS_ID = "EXT_ACCESS_ID";
+
+    //    Títulos Locais Análise
+    String ACCESS_TITLE = "Acessos, Circulações e Área Externa";
 }

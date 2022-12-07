@@ -1,7 +1,8 @@
-package com.mpms.relatorioacessibilidadecortec.report;
+package com.mpms.relatorioacessibilidadecortec.report.Components;
 
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
+import com.mpms.relatorioacessibilidadecortec.report.StandardMeasurements;
 
 import java.util.List;
 

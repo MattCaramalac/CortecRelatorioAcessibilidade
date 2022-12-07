@@ -42,12 +42,48 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/counter_upper_edge_field"
+                android:id="@+id/counter_width_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/counter_ref_location_field"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_counter_width">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/counter_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/counter_fs_width_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/counter_width_field"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_fs_counter_width">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/counter_fs_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/counter_upper_edge_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/counter_fs_width_field"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_counter_upper_edge">
 

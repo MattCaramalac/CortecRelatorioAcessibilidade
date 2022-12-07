@@ -25,8 +25,10 @@ import java.util.Objects;
 
 public class CounterFragment extends Fragment implements TagInterface {
 
-    TextInputLayout counterLocationField, counterSupHeightField, counterInfHeightField, counterFrontApproxField, counterObsField;
-    TextInputEditText counterLocationValue, counterSupHeightValue, counterInfHeightValue, counterFrontApproxValue, counterObsValue;
+    TextInputLayout counterLocationField, counterSupHeightField, counterInfHeightField, counterFrontApproxField, counterObsField,
+            counterWidthField, counterFreeWidthField;
+    TextInputEditText counterLocationValue, counterSupHeightValue, counterInfHeightValue, counterFrontApproxValue, counterObsValue,
+            counterWidthValue, counterFreeWidthValue;
     MaterialButton saveCounter, cancelCounter;
 
     Bundle counterBundle;
@@ -74,7 +76,7 @@ public class CounterFragment extends Fragment implements TagInterface {
                     ViewModelEntry.updateCounter(newCounter);
                     Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                     requireActivity().getSupportFragmentManager().popBackStackImmediate();
-                } else if (counterBundle.getInt(COUNTER_ID)  == 0) {
+                } else if (counterBundle.getInt(COUNTER_ID) == 0) {
                     ViewModelEntry.insertCounter(newCounter);
                     Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     clearCounterFields();
@@ -96,12 +98,16 @@ public class CounterFragment extends Fragment implements TagInterface {
         counterInfHeightField = view.findViewById(R.id.counter_lower_edge_field);
         counterFrontApproxField = view.findViewById(R.id.counter_frontal_approx_field);
         counterObsField = view.findViewById(R.id.counter_obs_field);
+        counterWidthField = view.findViewById(R.id.counter_width_field);
+        counterFreeWidthField = view.findViewById(R.id.counter_fs_width_field);
 //        TextInputEditText
         counterLocationValue = view.findViewById(R.id.counter_ref_location_value);
         counterSupHeightValue = view.findViewById(R.id.counter_upper_edge_value);
         counterInfHeightValue = view.findViewById(R.id.counter_lower_edge_value);
         counterFrontApproxValue = view.findViewById(R.id.counter_frontal_approx_value);
         counterObsValue = view.findViewById(R.id.counter_obs_value);
+        counterWidthValue = view.findViewById(R.id.counter_width_value);
+        counterFreeWidthValue = view.findViewById(R.id.counter_fs_width_value);
 //        MaterialButton
         saveCounter = view.findViewById(R.id.save_counter_button);
         cancelCounter = view.findViewById(R.id.cancel_counter_button);
@@ -112,9 +118,12 @@ public class CounterFragment extends Fragment implements TagInterface {
     }
 
     private void loadCounterData(CounterEntry counter) {
-        counterLocationValue.setText(counter.getCounterLocation());
+        if (counter.getCounterLocation() != null)
+            counterLocationValue.setText(counter.getCounterLocation());
         counterSupHeightValue.setText(String.valueOf(counter.getCounterUpperEdge()));
         counterInfHeightValue.setText(String.valueOf(counter.getCounterLowerEdge()));
+        counterWidthValue.setText(String.valueOf(counter.getCounterWidth()));
+        counterFreeWidthValue.setText(String.valueOf(counter.getCounterFreeWidth()));
         counterFrontApproxValue.setText(String.valueOf(counter.getCounterFrontalApprox()));
         if (counter.getCounterObs() != null)
             counterObsValue.setText(counter.getCounterObs());
@@ -140,6 +149,14 @@ public class CounterFragment extends Fragment implements TagInterface {
             error++;
             counterLocationField.setError(getString(R.string.req_field_error));
         }
+        if (TextUtils.isEmpty(counterWidthValue.getText())) {
+            error++;
+            counterWidthField.setError(getString(R.string.req_field_error));
+        }
+        if (TextUtils.isEmpty(counterFreeWidthValue.getText())) {
+            error++;
+            counterFreeWidthField.setError(getString(R.string.req_field_error));
+        }
         if (TextUtils.isEmpty(counterSupHeightValue.getText())) {
             error++;
             counterSupHeightField.setError(getString(R.string.req_field_error));
@@ -159,6 +176,8 @@ public class CounterFragment extends Fragment implements TagInterface {
         counterLocationField.setErrorEnabled(false);
         counterSupHeightField.setErrorEnabled(false);
         counterInfHeightField.setErrorEnabled(false);
+        counterWidthField.setErrorEnabled(false);
+        counterFreeWidthField.setErrorEnabled(false);
         counterFrontApproxField.setErrorEnabled(false);
     }
 
@@ -167,20 +186,24 @@ public class CounterFragment extends Fragment implements TagInterface {
         counterSupHeightValue.setText(null);
         counterInfHeightValue.setText(null);
         counterFrontApproxValue.setText(null);
+        counterWidthValue.setText(null);
+        counterFreeWidthValue.setText(null);
         counterObsValue.setText(null);
     }
 
     public CounterEntry newCounter(Bundle bundle) {
         String counterLocale, counterObs = null;
-        double counterSupHeight, counterInfHeight, counterFrontApprox;
+        double counterSupHeight, counterInfHeight, counterFrontApprox, counterWidth, counterFreeWidth;
 
-        counterLocale = Objects.requireNonNull(counterLocationValue.getText()).toString();
-        counterSupHeight = Double.parseDouble(Objects.requireNonNull(counterSupHeightValue.getText()).toString());
-        counterInfHeight = Double.parseDouble(Objects.requireNonNull(counterInfHeightValue.getText()).toString());
+        counterLocale = String.valueOf(counterLocationValue.getText());
+        counterSupHeight = Double.parseDouble(String.valueOf(counterSupHeightValue.getText()));
+        counterInfHeight = Double.parseDouble(String.valueOf(counterInfHeightValue.getText()));
+        counterWidth = Double.parseDouble(String.valueOf(counterWidthValue.getText()));
+        counterFreeWidth = Double.parseDouble(String.valueOf(counterFreeWidthValue.getText()));
         counterFrontApprox = Double.parseDouble(Objects.requireNonNull(counterFrontApproxValue.getText()).toString());
         if (!TextUtils.isEmpty(counterObsValue.getText()))
             counterObs = Objects.requireNonNull(counterLocationValue.getText()).toString();
 
-        return new CounterEntry(bundle.getInt(AMBIENT_ID), counterLocale, counterSupHeight, counterInfHeight, counterFrontApprox, counterObs);
+        return new CounterEntry(bundle.getInt(AMBIENT_ID), counterLocale, counterSupHeight, counterInfHeight, counterFrontApprox, counterObs, counterWidth, counterFreeWidth);
     }
 }

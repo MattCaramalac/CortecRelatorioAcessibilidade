@@ -15,12 +15,14 @@ public class FreeSpaceEntry {
     private String freeSpaceLocation;
     private Double freeSpaceWidth;
     private  String freeSpaceObs;
+    private Double obstacleWidth;
 
-    public FreeSpaceEntry(int roomID, String freeSpaceLocation, Double freeSpaceWidth, String freeSpaceObs) {
+    public FreeSpaceEntry(int roomID, String freeSpaceLocation, Double freeSpaceWidth, String freeSpaceObs, Double obstacleWidth) {
         this.roomID = roomID;
         this.freeSpaceLocation = freeSpaceLocation;
         this.freeSpaceWidth = freeSpaceWidth;
         this.freeSpaceObs = freeSpaceObs;
+        this.obstacleWidth = obstacleWidth;
     }
 
     public int getFreeSpaceID() {
@@ -61,5 +63,13 @@ public class FreeSpaceEntry {
 
     public void setFreeSpaceObs(String freeSpaceObs) {
         this.freeSpaceObs = freeSpaceObs;
+    }
+
+    public Double getObstacleWidth() {
+        return obstacleWidth;
+    }
+
+    public void setObstacleWidth(Double obstacleWidth) {
+        this.obstacleWidth = obstacleWidth;
     }
 }

@@ -150,7 +150,7 @@
     <string name="hint_room_carpet">Capacho da Sala</string>
     <string name="hint_circulation_room">Espaço de circulação da sala</string>
     <string name="label_table_register">Cadastro de Mesas e Suas Dimensões</string>
-    <string name="hint_handle_height">Altura da maçaneta</string>
+    <string name="hint_handle_height">Altura da maçaneta (m)</string>
     <string name="secretary_helping_desk">Dimensões Balcão de Atendimento</string>
     <string name="helping_desk_height">Altura do Balcão</string>
     <string name="helping_desk_width">Profundidade do Balcão</string>
@@ -173,7 +173,7 @@
     <string name="hint_frontal_approx">Aproximação Frontal</string>
     <string name="hint_PCR_spaces">Espaço PCR</string>
 
-    <string name="hint_blackboard_height">Altura da Borda Inferior da Lousa</string>
+    <string name="hint_blackboard_height">Altura da Borda Inferior da Lousa (m)</string>
     <string name="label_distance_shelves">Distância entre as estantes é igual ou maior que 90 centímetros?</string>
     <string name="label_PCR_maneuver">Existem bolsões para manobras de PCR nos corredores entre as estantes
         à cada 15 metros?</string>
@@ -257,7 +257,7 @@
     <string name="hint_door_location">Localização da Porta</string>
     <string name="label_sill_type_door">Tipo de Soleira da Porta</string>
     <string name="hint_sill_type_obs">Observações sobre a soleira</string>
-    <string name="hint_sill_inclination_height">Altura do Desnível da Soleira</string>
+    <string name="hint_sill_inclination_height">Altura do Desnível da Soleira (cm)</string>
     <string name="hint_sill_step_height">Altura do degrau da soleira (cm)</string>
     <string name="hint_sill_slope_inclination">Inclinação da rampa da soleira</string>
     <string name="hint_sill_slope_height">Altura da rampa da soleira (m)</string>
@@ -273,10 +273,10 @@
     <string name="hint_free_space_obs">Observações sobre a faixa livre</string>
     <string name="dialog_add_free_space_header">Adicionar Faixa Livre</string>
     <string name="hint_table_obs">Observações sobre a mesa</string>
-    <string name="hint_superior_border_table_height">Altura da borda superior da mesa</string>
-    <string name="hint_inferior_border_table_height">Altura da borda inferior da mesa</string>
-    <string name="hint_table_width">Largura da mesa</string>
-    <string name="hint_frontal_approx_table">Medida da aproximação frontal</string>
+    <string name="hint_superior_border_table_height">Altura da borda superior da mesa (m)</string>
+    <string name="hint_inferior_border_table_height">Altura da borda inferior da mesa (m)</string>
+    <string name="hint_table_width">Largura da mesa (m)</string>
+    <string name="hint_frontal_approx_table">Medida da aproximação frontal (m)</string>
     <string name="label_table_type_header">Tipo de mesa a ser cadastrada</string>
     <string name="radio_option_teacher_table">MESA PROFESSOR</string>
     <string name="radio_option_student_table">MESA ALUNO</string>
@@ -298,9 +298,9 @@
     <string name="hint_public_phone_obs">Observações sobre o telefone público</string>
     <string name="dialog_add_payphone_header">Adicionar Telefones Públicos</string>
     <string name="hint_counter_location">Localização do balcão</string>
-    <string name="hint_counter_upper_edge">Altura da borda superior</string>
-    <string name="hint_counter_lower_edge">Altura da borda inferior</string>
-    <string name="hint_counter_frontal_approx">Medida de aproximação frontal do balcão</string>
+    <string name="hint_counter_upper_edge">Altura da borda superior (m)</string>
+    <string name="hint_counter_lower_edge">Altura da borda inferior (m)</string>
+    <string name="hint_counter_frontal_approx">Medida de aproximação frontal do balcão (m)</string>
     <string name="hint_counter_obs">Observações sobre o balcão</string>
     <string name="dialog_add_counter_header">Adicionar Balcão</string>
     <string name="label_stairs_register">Cadastro de Escadarias</string>
@@ -629,4 +629,7 @@
     <string name="hint_gate_obs">Observações sobre o portão</string>
     <string name="header_floor_gap">O piso posui frestas devido ao trilho?</string>
     <string name="hint_handrail_dist">Distância do corrimão até a parede (mm)</string>
+    <string name="hint_obstacle_width">Largura do Obstáculo Vencido (m)</string>
+    <string name="hint_counter_width">Largura do Balcão (m)</string>
+    <string name="hint_fs_counter_width">Largura Livre do Balcão (m)</string>
 </resources>

@@ -370,7 +370,7 @@ public class SidewalkAnalysis implements StandardMeasurements {
 
             if (AmbientAnalysis.err) {
                 AmbientAnalysis.sideLocationList.add("Calçada, ao longo da " + sideEntry.getSidewalkLocation() + ", com:");
-                AmbientAnalysis.sideIrregularities.put(i, sideIrregular);
+                AmbientAnalysis.sideIrregular.put(i, sideIrregular);
             }
         }
     }

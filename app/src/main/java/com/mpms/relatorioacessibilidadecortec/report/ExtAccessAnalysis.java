@@ -8,6 +8,9 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
+import com.mpms.relatorioacessibilidadecortec.report.Components.DoorLockAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Components.RampAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Components.StairsAnalysis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +20,6 @@ public class ExtAccessAnalysis implements StandardMeasurements {
     static boolean irregularLock;
     static boolean irregularPhone;
     static boolean irregularObs;
-    static boolean irregularStairs;
-    static boolean irregularRamp;
 
     public static void extAccessVerification(List<ExternalAccess> extAccess, List<DoorLockEntry> gateLock, List<GateObsEntry> extObs, List<PayPhoneEntry> extPhone,
                                              List<RampStairsEntry> rStGate, List<RampStairsFlightEntry> rStFlight, List<RampStairsRailingEntry> rStRail,
@@ -27,8 +28,6 @@ public class ExtAccessAnalysis implements StandardMeasurements {
         String irrPhoneData;
         String irrObsData;
         String irrLockData;
-        String irrStairs;
-        String irrRamp;
 
         for (int i = 0; i < extAccess.size(); i++) {
             int check = 0;
@@ -95,36 +94,40 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                 }
 
                 if (gateLock.size() > 0) {
-                    for (DoorLockEntry lock : gateLock) {
-                        irregularLock = false;
-                        if (lock.getExtAccessID() == access.getExternalAccessID()) {
-                            StringBuilder builder = new StringBuilder();
-                            if (lock.getLockType() > 1) {
-                                lockIrregular(builder);
-                                builder.append("tipo de dispositivo de travamento não atende aos princípios do desenho universal");
-                            }
-                            if (lock.getLockHeight() < minDoorHandle) {
-                                lockIrregular(builder);
-                                builder.append("altura do dispositivo inferior a " + minDoorHandle + " m");
-                            } else if (lock.getLockHeight() > maxDoorHandle) {
-                                lockIrregular(builder);
-                                builder.append("altura do dispositivo superior a " + maxDoorHandle + " m");
-                            }
-
-                            if (lock.getLockObs() != null) {
-                                lockIrregular(builder);
-                                builder.append("devem ser apontadas as seguintes observações: ").append(lock.getLockObs());
-                            }
-
-                            if (irregularLock && builder.length() != 0) {
-                                check++;
-                                builder.replace(45, 46, " " + lock.getLockType() + " ");
-                                irrLockData = builder.toString();
-                                extIrregular.add(irrLockData);
-
-                            }
-                        }
+                    List<String> gLockList = DoorLockAnalysis.gateLockVerification(access.getExternalAccessID(), gateLock);
+                    if (gLockList.size() > 0) {
+                        check++;
+                        extIrregular.addAll(gLockList);
                     }
+//                    for (DoorLockEntry lock : gateLock) {
+//                        irregularLock = false;
+//                        if (lock.getExtAccessID() == access.getExternalAccessID()) {
+//                            StringBuilder builder = new StringBuilder();
+//                            if (lock.getLockType() > 1) {
+//                                lockIrregular(builder);
+//                                builder.append("tipo de dispositivo de travamento não atende aos princípios do desenho universal");
+//                            }
+//                            if (lock.getLockHeight() < minDoorHandle) {
+//                                lockIrregular(builder);
+//                                builder.append("altura do dispositivo inferior a " + minDoorHandle + " m");
+//                            } else if (lock.getLockHeight() > maxDoorHandle) {
+//                                lockIrregular(builder);
+//                                builder.append("altura do dispositivo superior a " + maxDoorHandle + " m");
+//                            }
+//
+//                            if (lock.getLockObs() != null) {
+//                                lockIrregular(builder);
+//                                builder.append("devem ser apontadas as seguintes observações: ").append(lock.getLockObs());
+//                            }
+//
+//                            if (irregularLock && builder.length() != 0) {
+//                                check++;
+//                                builder.replace(45, 46, " " + lock.getLockType() + " ");
+//                                irrLockData = builder.toString();
+//                                extIrregular.add(irrLockData);
+//                            }
+//                        }
+//                    }
                 }
 
                 if (access.getGateObs() != null) {
@@ -331,6 +334,7 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                 if (access.getGateHasStairs() == 1) {
                     List<String> stAnalysis = StairsAnalysis.stairsVerification(access.getExternalAccessID(), rStGate, rStFlight, rStRail, rStHandrail);
                     if (stAnalysis.size() > 0) {
+                        check++;
                         extIrregular.addAll(stAnalysis);
                     }
 
@@ -338,8 +342,10 @@ public class ExtAccessAnalysis implements StandardMeasurements {
 
                 if (access.getGateHasRamps() == 1) {
                     List<String> rampAnalysis = RampAnalysis.rampVerification(access.getExternalAccessID(), rStGate, rStFlight, rStRail, rStHandrail);
-                    if (rampAnalysis.size() > 0)
+                    if (rampAnalysis.size() > 0) {
                         extIrregular.addAll(rampAnalysis);
+                        check++;
+                    }
                 }
             } else {
                 if (access.getGateHasSoundSign() == 0) {
@@ -356,7 +362,7 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                     AmbientAnalysis.extAccessList.add("Entrada social, localizada na " + access.getAccessLocation() + " com as seguintes irregularidades: ");
                 else
                     AmbientAnalysis.extAccessList.add("Entrada para Veículos, localizada na " + access.getAccessLocation() + " com as seguintes irregularidades: ");
-                AmbientAnalysis.extIrregularities.put(i, extIrregular);
+                AmbientAnalysis.extIrregular.put(i, extIrregular);
 
             }
 

@@ -42,6 +42,24 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/obstacle_width_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_obstacle_width"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/free_space_placement_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/obstacle_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/free_space_width_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -49,7 +67,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_free_space_width"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/free_space_placement_field">
+                app:layout_constraintTop_toBottomOf="@id/obstacle_width_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/free_space_width_value"

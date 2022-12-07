@@ -126,6 +126,24 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/table_fs_width_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/table_width_field"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="Largura Livre da Mesa (m)">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/table_fs_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/table_frontal_approx_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -133,7 +151,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_frontal_approx_table"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/table_width_field">
+                app:layout_constraintTop_toBottomOf="@id/table_fs_width_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/table_frontal_approx_value"

@@ -26,8 +26,8 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 public class TableFragment extends Fragment implements TagInterface {
 
-    TextInputLayout supHeightField, infHeightField, tableWidthField, frontalApproxField, obsField;
-    TextInputEditText supHeightValue, infHeightValue, tableWidthValue, frontalApproxValue, obsValue;
+    TextInputLayout supHeightField, infHeightField, tableWidthField, frontalApproxField, obsField, freeWidthField;
+    TextInputEditText supHeightValue, infHeightValue, tableWidthValue, frontalApproxValue, obsValue, freeWidthValue;
     TextView tableRegisterHeader, tableTypeHeader, tableTypeError;
     RadioGroup tableTypeRadio;
     MaterialButton saveTable, cancelTable;
@@ -99,12 +99,14 @@ public class TableFragment extends Fragment implements TagInterface {
         tableWidthField = view.findViewById(R.id.table_width_field);
         frontalApproxField = view.findViewById(R.id.table_frontal_approx_field);
         obsField = view.findViewById(R.id.table_obs_field);
+        freeWidthField = view.findViewById(R.id.table_fs_width_field);
 //        TextInputEditText
         supHeightValue = view.findViewById(R.id.table_superior_border_height_value);
         infHeightValue = view.findViewById(R.id.table_inferior_border_height_value);
         tableWidthValue = view.findViewById(R.id.table_width_value);
         frontalApproxValue = view.findViewById(R.id.table_frontal_approx_value);
         obsValue = view.findViewById(R.id.table_obs_value);
+        freeWidthValue = view.findViewById(R.id.table_fs_width_value);
 //        TextView
         tableRegisterHeader = view.findViewById(R.id.table_register_header);
         tableRegisterHeader.setText(getString(R.string.header_table_register));
@@ -136,6 +138,7 @@ public class TableFragment extends Fragment implements TagInterface {
         infHeightValue.setText(String.valueOf(tableEntry.getInferiorBorderHeight()));
         tableWidthValue.setText(String.valueOf(tableEntry.getTableWidth()));
         frontalApproxValue.setText(String.valueOf(tableEntry.getTableWidth()));
+        freeWidthValue.setText(String.valueOf(tableEntry.getTableFreeWidth()));
         if (tableEntry.getTableObs() != null)
             obsValue.setText(tableEntry.getTableObs());
     }
@@ -169,6 +172,10 @@ public class TableFragment extends Fragment implements TagInterface {
             i++;
             frontalApproxField.setError(getString(R.string.req_field_error));
         }
+        if (TextUtils.isEmpty(freeWidthValue.getText())) {
+            i++;
+            freeWidthField.setError(getString(R.string.req_field_error));
+        }
 
         return i == 0;
     }
@@ -179,11 +186,12 @@ public class TableFragment extends Fragment implements TagInterface {
         infHeightField.setErrorEnabled(false);
         tableWidthField.setErrorEnabled(false);
         frontalApproxField.setErrorEnabled(false);
+        freeWidthField.setErrorEnabled(false);
     }
 
     private TableEntry newTableEntry(Bundle bundle) {
         Integer tableType = null;
-        double supHeight, infHeight, tableWidth, frontAprox;
+        double supHeight, infHeight, tableWidth, frontAprox, freeWidth;
         String tableObs = null;
 
         if (bundle.getInt(ROOM_TYPE) == 11) {
@@ -193,11 +201,12 @@ public class TableFragment extends Fragment implements TagInterface {
         infHeight = Double.parseDouble(String.valueOf(infHeightValue.getText()));
         tableWidth = Double.parseDouble(String.valueOf(tableWidthValue.getText()));
         frontAprox = Double.parseDouble(String.valueOf(frontalApproxValue.getText()));
+        freeWidth = Double.parseDouble(String.valueOf(freeWidthValue.getText()));
         if (!TextUtils.isEmpty(obsValue.getText()))
             tableObs = String.valueOf(obsValue.getText());
 
         return new TableEntry(bundle.getInt(AMBIENT_ID), bundle.getInt(ROOM_TYPE), tableType, supHeight, infHeight,
-                tableWidth, frontAprox, tableObs);
+                tableWidth, frontAprox, tableObs, freeWidth);
     }
 
     private void clearTableFields() {
@@ -206,6 +215,7 @@ public class TableFragment extends Fragment implements TagInterface {
         infHeightValue.setText(null);
         tableWidthValue.setText(null);
         frontalApproxValue.setText(null);
+        freeWidthValue.setText(null);
         obsValue.setText(null);
     }
 

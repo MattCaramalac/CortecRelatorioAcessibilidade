@@ -19,16 +19,20 @@ public class CounterEntry {
     private double counterLowerEdge;
     private double counterFrontalApprox;
     private String counterObs;
+    private double counterWidth;
+    private double counterFreeWidth;
 
-    public CounterEntry(int roomID, String counterLocation, double counterUpperEdge, double counterLowerEdge, double counterFrontalApprox, String counterObs) {
+    public CounterEntry(int roomID, String counterLocation, double counterUpperEdge, double counterLowerEdge, double counterFrontalApprox, String counterObs,
+                        double counterWidth, double counterFreeWidth) {
         this.roomID = roomID;
         this.counterLocation = counterLocation;
         this.counterUpperEdge = counterUpperEdge;
         this.counterLowerEdge = counterLowerEdge;
         this.counterFrontalApprox = counterFrontalApprox;
         this.counterObs = counterObs;
+        this.counterWidth = counterWidth;
+        this.counterFreeWidth = counterFreeWidth;
     }
-
 
     public int getCounterID() {
         return counterID;
@@ -84,5 +88,21 @@ public class CounterEntry {
 
     public void setCounterObs(String counterObs) {
         this.counterObs = counterObs;
+    }
+
+    public double getCounterWidth() {
+        return counterWidth;
+    }
+
+    public void setCounterWidth(double counterWidth) {
+        this.counterWidth = counterWidth;
+    }
+
+    public double getCounterFreeWidth() {
+        return counterFreeWidth;
+    }
+
+    public void setCounterFreeWidth(double counterFreeWidth) {
+        this.counterFreeWidth = counterFreeWidth;
     }
 }

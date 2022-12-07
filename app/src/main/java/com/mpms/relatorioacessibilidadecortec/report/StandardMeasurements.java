@@ -39,6 +39,8 @@ public interface StandardMeasurements {
     double maxWinHeight = 1.2;
     double minDoorHandle = 0.8;
     double maxDoorHandle = 1.1;
+    double minPrecisionCom = 0.8;
+    double maxPrecisionCom = 1.0;
 
     //    Alert Tactile Floor Distance
     double distAlertTactSuspObj = 0.6;
@@ -57,7 +59,7 @@ public interface StandardMeasurements {
     //    Gate Slope Sill
     double minSillSlopeWidth = 0.9;
 
-//    Stairs Measurements
+    //    Stairs Measurements
     double minStepHeight = 0.16;
     double maxStepHeight = 0.18;
     double minStepWidth = 0.28;
@@ -72,7 +74,7 @@ public interface StandardMeasurements {
     double minBorderSignWidth = 3; //in cm
     double minBorderSignLength = 7; // in cm
 
-//    Stairs & Ramps Measurements
+    //    Stairs & Ramps Measurements
     double minRailHeight = 1.10;
     double minBeaconHeight = 0.05;
     double highHandrail = 0.92;
@@ -81,4 +83,28 @@ public interface StandardMeasurements {
     double minHandrailGrip = 30; //in mm
     double maxHandrailGrip = 45; //in mm
     double minDistHandrail = 40; //in mm
+
+    //    Tables
+    double minTableWidth = 0.90;
+    double minTableFreeWidth = 0.80;
+    double minUnderTableHeight = 0.73;
+    double minUpperTableHeight = 0.75;
+    double maxUpperTableHeight = 0.85;
+    double underTableDepth = 0.50;
+
+    //    Blackboard
+    double maxBlackboardHeight = 0.90;
+
+    //    Free Space
+    double limitWidthObstacle = 0.40;
+    double lowerFreeWidth = 0.8;
+    double higherFreeWidth = 0.9;
+
+    //    Counter - Atendimento
+    double minCounterWidth = 0.90;
+    double minCounterFreeWidth = 0.80;
+    double minUnderCounterHeight = 0.73;
+    double minUpperCounterHeight = 0.75;
+    double maxUpperCounterHeight = 0.85;
+    double underCounterDepth = 0.30;
 }

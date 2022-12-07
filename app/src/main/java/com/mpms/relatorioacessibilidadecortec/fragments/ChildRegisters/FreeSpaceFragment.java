@@ -21,8 +21,8 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 public class FreeSpaceFragment extends Fragment implements TagInterface {
 
-    TextInputLayout fSpaceLocaleField, fSpaceWidthField, fSpaceObsField;
-    TextInputEditText fSpaceLocaleValue, fSpaceWidthValue, fSpaceObsValue;
+    TextInputLayout fSpaceLocaleField, fSpaceWidthField, fSpaceObsField, obsWidthField;
+    TextInputEditText fSpaceLocaleValue, fSpaceWidthValue, fSpaceObsValue, obsWidthValue;
     MaterialButton saveFreeSp, cancelFreeSp;
 
     ViewModelEntry modelEntry;
@@ -89,10 +89,12 @@ public class FreeSpaceFragment extends Fragment implements TagInterface {
         fSpaceLocaleField = view.findViewById(R.id.free_space_placement_field);
         fSpaceWidthField = view.findViewById(R.id.free_space_width_field);
         fSpaceObsField = view.findViewById(R.id.free_space_obs_field);
+        obsWidthField = view.findViewById(R.id.obstacle_width_field);
 //        TextInputEditText
         fSpaceLocaleValue = view.findViewById(R.id.free_space_placement_value);
         fSpaceWidthValue = view.findViewById(R.id.free_space_width_value);
         fSpaceObsValue = view.findViewById(R.id.free_space_obs_value);
+        obsWidthValue = view.findViewById(R.id.obstacle_width_value);
 //        MaterialButton
         saveFreeSp = view.findViewById(R.id.save_free_space);
         cancelFreeSp = view.findViewById(R.id.cancel_free_space);
@@ -101,33 +103,40 @@ public class FreeSpaceFragment extends Fragment implements TagInterface {
     }
 
     private void loadFreeSpData(FreeSpaceEntry fSpace) {
-        fSpaceLocaleValue.setText(fSpace.getFreeSpaceLocation());
-        fSpaceWidthValue.setText(String.valueOf(fSpace.getFreeSpaceWidth()));
+        if (fSpace.getFreeSpaceLocation() != null)
+            fSpaceLocaleValue.setText(fSpace.getFreeSpaceLocation());
+        if (fSpace.getObstacleWidth() != null)
+            obsWidthValue.setText(String.valueOf(fSpace.getObstacleWidth()));
+        if (fSpace.getFreeSpaceWidth() != null)
+            fSpaceWidthValue.setText(String.valueOf(fSpace.getFreeSpaceWidth()));
         if (fSpace.getFreeSpaceObs() != null)
             fSpaceObsValue.setText(fSpace.getFreeSpaceObs());
     }
 
     private void clearFreeSpEmptyFieldErrors() {
         fSpaceLocaleField.setErrorEnabled(false);
+        obsWidthField.setErrorEnabled(false);
         fSpaceWidthField.setErrorEnabled(false);
     }
 
     private void clearFreeSpFields() {
         fSpaceLocaleValue.setText(null);
         fSpaceWidthValue.setText(null);
+        obsWidthValue.setText(null);
         fSpaceObsValue.setText(null);
     }
 
     private FreeSpaceEntry newFreeSpEntry(Bundle bundle) {
         String fSpLocale, fSpObs = null;
-        double fSpWidth;
+        double fSpWidth, obsWidth;
 
         fSpLocale = String.valueOf(fSpaceLocaleValue.getText());
         fSpWidth = Double.parseDouble(String.valueOf(fSpaceWidthValue.getText()));
+        obsWidth = Double.parseDouble(String.valueOf(obsWidthValue.getText()));
         if (!TextUtils.isEmpty(fSpaceObsValue.getText()))
             fSpObs = String.valueOf(fSpaceObsValue.getText());
 
-        return new FreeSpaceEntry(bundle.getInt(AMBIENT_ID), fSpLocale, fSpWidth, fSpObs);
+        return new FreeSpaceEntry(bundle.getInt(AMBIENT_ID), fSpLocale, fSpWidth, fSpObs, obsWidth);
     }
 
     private boolean fSpaceNoEmptyFields() {
@@ -136,6 +145,10 @@ public class FreeSpaceFragment extends Fragment implements TagInterface {
         if (TextUtils.isEmpty(fSpaceLocaleValue.getText())) {
             i++;
             fSpaceLocaleField.setError(getString(R.string.req_field_error));
+        }
+        if (TextUtils.isEmpty(obsWidthValue.getText())) {
+            i++;
+            obsWidthField.setError(getString(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(fSpaceWidthValue.getText())) {
             i++;

@@ -70,7 +70,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 58)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 59)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1337,6 +1337,18 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_58_59 = new Migration(58, 59) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE FreeSpaceEntry ADD COLUMN obstacleWidth REAL");
+
+            database.execSQL("ALTER TABLE CounterEntry ADD COLUMN counterWidth REAL NOT NULL");
+            database.execSQL("ALTER TABLE CounterEntry ADD COLUMN counterfREEWidth REAL NOT NULL");
+
+            database.execSQL("ALTER TABLE FreeSpaceEntry ADD COLUMN tableFreeWidth REAL NOT NULL");
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ReportDatabase.class) {
@@ -1351,7 +1363,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40, MIGRATION_40_41, MIGRATION_41_42,
                                     MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
                                     MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
-                                    MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58).build();
+                                    MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58, MIGRATION_58_59).build();
                 }
             }
         }
