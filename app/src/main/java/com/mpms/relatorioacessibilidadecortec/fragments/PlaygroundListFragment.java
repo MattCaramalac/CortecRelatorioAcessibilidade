@@ -159,7 +159,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     @Override
     public void OnEntryClick(int position) {
         PlaygroundEntry playEntry = modelEntry.allPlaygrounds.getValue().get(position);
-        playBundle.putInt(PLAY_ID, playEntry.getPlaygroundID());
+        playBundle.putInt(PLAY_ID, playEntry.getPlayID());
         openPlayFragment();
     }
 

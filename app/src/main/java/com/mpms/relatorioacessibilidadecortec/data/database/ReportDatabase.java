@@ -885,7 +885,6 @@ public abstract class ReportDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE ExternalAccess");
             database.execSQL("ALTER TABLE ExternalAccess2 RENAME TO ExternalAccess");
 
-//toDO - EVENTUALMENTE CRIAR UMA TABELA PARA O PORTÃO E ASSOCIAR COM DOORLOCK EM VEZ DE ASSOCIAR COM EXTACCESS
             database.execSQL("CREATE TABLE DoorLockEntry2(lockID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, doorID INTEGER, extAccessID INTEGER, lockType INTEGER NOT NULL," +
                     "lockDesc TEXT, lockHeight REAL NOT NULL, lockObs TEXT, FOREIGN KEY (doorID) REFERENCES DoorEntry (doorID) ON UPDATE CASCADE ON DELETE CASCADE," +
                     " FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE)");
@@ -1342,10 +1341,19 @@ public abstract class ReportDatabase extends RoomDatabase {
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE FreeSpaceEntry ADD COLUMN obstacleWidth REAL");
 
-            database.execSQL("ALTER TABLE CounterEntry ADD COLUMN counterWidth REAL NOT NULL");
-            database.execSQL("ALTER TABLE CounterEntry ADD COLUMN counterfREEWidth REAL NOT NULL");
+            database.execSQL("ALTER TABLE CounterEntry ADD COLUMN counterWidth REAL");
+            database.execSQL("ALTER TABLE CounterEntry ADD COLUMN counterFreeWidth REAL");
 
-            database.execSQL("ALTER TABLE FreeSpaceEntry ADD COLUMN tableFreeWidth REAL NOT NULL");
+            database.execSQL("ALTER TABLE TableEntry ADD COLUMN tableFreeWidth REAL");
+
+            database.execSQL("DROP TABLE PlaygroundEntry");
+            database.execSQL("CREATE TABLE PlaygroundEntry (playID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, playLocation TEXT, playFloorType TEXT, " +
+                    "playGateWidth REAL, playGateHasFloorTrack INTEGER, playFloorTrackHeight REAL, playFloorTrackHasRamp INTEGER, rampMeasureQnt INTEGER, rampMeasure1 REAL," +
+                    "rampMeasure2 REAL,rampMeasure3 REAL, rampMeasure4 REAL, hasFloorGap INTEGER, floorGapQnt INTEGER, floorGap1 REAL, floorGap2 REAL, floorGap3 REAL, " +
+                    "floorGap4 REAL, playGateSillType INTEGER, inclinationSillHeight REAL, stepSillHeight REAL, slopeMeasureQnt INTEGER," +
+                    "slopeSillAngle1 REAL, slopeSillAngle2 REAL, slopeSillAngle3 REAL, slopeSillAngle4 REAL, slopeSillWidth REAL, slopeSillHeight REAL, sillObs TEXT," +
+                    " accessibleFloor INTEGER, accessibleFloorObs TEXT, accessibleEquip INTEGER, accessibleEquipObs TEXT, playgroundObs TEXT," +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
         }
     };
 

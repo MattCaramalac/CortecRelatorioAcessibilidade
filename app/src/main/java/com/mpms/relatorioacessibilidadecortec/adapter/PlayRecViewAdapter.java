@@ -83,7 +83,7 @@ public class PlayRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterface
     public void deleteItemList() {
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
-            ViewModelEntry.deleteOnePlayground(playList.get(selectedItems.keyAt(i)).getPlaygroundID());
+            ViewModelEntry.deleteOnePlayground(playList.get(selectedItems.keyAt(i)).getPlayID());
         }
     }
 

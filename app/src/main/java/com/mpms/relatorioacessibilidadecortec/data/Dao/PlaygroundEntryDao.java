@@ -16,19 +16,19 @@ public interface PlaygroundEntryDao {
     @Insert
     void insertPlayground(PlaygroundEntry play);
 
-    @Query("SELECT * FROM PlaygroundEntry WHERE blockID == :blockID ORDER BY playgroundID DESC")
+    @Query("SELECT * FROM PlaygroundEntry WHERE blockID == :blockID ORDER BY playID DESC")
     LiveData<List<PlaygroundEntry>> getAllPlaygroundsPerBlock(int blockID);
 
     @Query("SELECT * FROM PlaygroundEntry WHERE blockID IN (:blockID)")
     LiveData<List<PlaygroundEntry>> getAllPlaygrounds(List<Integer> blockID);
 
-    @Query("SELECT * FROM PlaygroundEntry WHERE playgroundID == :playgroundID")
+    @Query("SELECT * FROM PlaygroundEntry WHERE playID == :playgroundID")
     LiveData<PlaygroundEntry> getOnePlayground(int playgroundID);
 
     @Update
     void updatePlayground(PlaygroundEntry play);
 
-    @Query("DELETE FROM PlaygroundEntry WHERE playgroundID == :playgroundID")
+    @Query("DELETE FROM PlaygroundEntry WHERE playID == :playgroundID")
     void deleteOnePlayground(int playgroundID);
 
     @Query("DELETE FROM PlaygroundEntry WHERE blockID == :blockID")
