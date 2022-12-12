@@ -47,7 +47,7 @@ public class DoorLockFragment extends Fragment implements TagInterface {
         if (getArguments() != null) {
             lockBundle.putInt(LOCK_ID, this.getArguments().getInt(LOCK_ID));
             lockBundle.putInt(DOOR_ID, this.getArguments().getInt(DOOR_ID));
-            lockBundle.putInt(EXT_ACCESS_ID, this.getArguments().getInt(EXT_ACCESS_ID));
+            lockBundle.putInt(AMBIENT_ID, this.getArguments().getInt(AMBIENT_ID));
         }
     }
 

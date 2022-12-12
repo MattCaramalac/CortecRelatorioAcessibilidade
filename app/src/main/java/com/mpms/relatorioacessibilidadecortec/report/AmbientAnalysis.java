@@ -2,6 +2,7 @@ package com.mpms.relatorioacessibilidadecortec.report;
 
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.report.Components.PlaygroundAnalysis;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.apache.poi.xwpf.usermodel.XWPFAbstractNum;
@@ -36,9 +37,13 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public static final Map<Integer, List<String>> sideIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> extIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> extRoomIrregular = new HashMap<>();
+    public static final Map<Integer, List<String>> helpRoomIrregular = new HashMap<>();
+    public static final Map<Integer, List<String>> playIrregular = new HashMap<>();
     public static final List<String> sideLocationList = new ArrayList<>();
     public static final List<String> extAccessList = new ArrayList<>();
     public static final List<String> extRoomList = new ArrayList<>();
+    public static final List<String> helpRoomList = new ArrayList<>();
+    public static final List<String> playList = new ArrayList<>();
     public static final List<String> placeType = new ArrayList<>();
 
     public AmbientAnalysis(XWPFDocument mDoc, XWPFParagraph mParagraph, JsonCreation jCreate) {
@@ -49,17 +54,29 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
                 jCreate.getSlopeList());
         ExtAccessAnalysis.extAccessVerification(jCreate.getExtList(), jCreate.getGateLockList(), jCreate.getGateObsList(), jCreate.getExtPhoneList(),
                 jCreate.getExtStRaList(), jCreate.getExtFlightList(), jCreate.getExtRailList(), jCreate.getExtHandList());
+        PlaygroundAnalysis.playVerification(jCreate.getPlayList());
+        RoomAnalysis.roomVerification(jCreate.getBlockList(),jCreate.getRoomList(), jCreate.getDoorList(), jCreate.getDoorLockList(), jCreate.getSwitchList(),
+                jCreate.getWindowList(), jCreate.getTableList(), jCreate.getBoardList(), jCreate.getFreeList(), jCreate.getRoomStRaList(), jCreate.getRoomFlightList(),
+                jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList());
     }
 
 
     public static void checkHasAccessHeader() {
         err = true;
         for (int i = 0; i < AmbientAnalysis.placeType.size(); i++) {
-            if (AmbientAnalysis.placeType.get(i).equals(AmbientAnalysis.ACCESS_TITLE))
+            if (AmbientAnalysis.placeType.get(i).equals(ACCESS_TITLE))
                 return;
         }
-        AmbientAnalysis.placeType.add(AmbientAnalysis.ACCESS_TITLE);
+        AmbientAnalysis.placeType.add(ACCESS_TITLE);
+    }
 
+    public static void checkHelpAreaHeader() {
+        err = true;
+        for (int i = 0; i < AmbientAnalysis.placeType.size(); i++) {
+            if (AmbientAnalysis.placeType.get(i).equals(HELP_TITLE))
+                return;
+        }
+        AmbientAnalysis.placeType.add(HELP_TITLE);
     }
 
     public void blockCorrespondence(List<BlockSpaceEntry> blockList) {
@@ -84,29 +101,35 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
         XWPFRun emptyRun = emptyPar.createRun();
         emptyRun.setText("");
 
+        int i = 0;
         for (String string : placeType) { //Iterador passando por toda a lista de string
             createIrregularList(string, numID, cursor, 0);
 
-            for (int j = 0; j < sideLocationList.size(); j++) {
-                String string2 = sideLocationList.get(j);
-                createIrregularList(string2, numID, cursor, 1);
-
-                List<String> irregular = sideIrregular.get(j);
-                if (irregular != null) {
-                    for (String string3 : irregular)
-                        createIrregularList(string3, numID, cursor, 2);
-                }
+            if (i == 0) {
+                irregularTextListing(sideLocationList, sideIrregular, numID, cursor);
+                irregularTextListing(extAccessList, extIrregular, numID, cursor);
+                irregularTextListing(extRoomList, extRoomIrregular, numID, cursor);
+            }
+            else if (i == 1) {
+                irregularTextListing(playList, playIrregular, numID, cursor);
+                irregularTextListing(helpRoomList, helpRoomIrregular, numID, cursor);
             }
 
-            for (int j = 0; j < extAccessList.size(); j++) {
-                String string2 = extAccessList.get(j);
-                createIrregularList(string2, numID, cursor, 1);
 
-                List<String> irregular = extIrregular.get(j);
-                if (irregular != null) {
-                    for (String string3 : irregular)
-                        createIrregularList(string3, numID, cursor, 2);
-                }
+
+            i++;
+        }
+    }
+
+    private void irregularTextListing(List<String> list, Map<Integer, List<String>> map, BigInteger numID, XmlCursor cursor) {
+        for (int j = 0; j < list.size(); j++) {
+            String string2 = list.get(j);
+            createIrregularList(string2, numID, cursor, 1);
+
+            List<String> irregular = map.get(j);
+            if (irregular != null) {
+                for (String string3 : irregular)
+                    createIrregularList(string3, numID, cursor, 2);
             }
         }
     }

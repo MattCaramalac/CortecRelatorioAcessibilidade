@@ -86,7 +86,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/door_lock_height_value"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

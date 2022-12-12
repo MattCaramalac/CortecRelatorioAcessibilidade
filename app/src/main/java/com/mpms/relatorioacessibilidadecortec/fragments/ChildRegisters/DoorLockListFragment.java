@@ -83,8 +83,7 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
                     lockListBundle.putInt(DOOR_ID, lastDoor.getDoorID()));
         }
 
-//        Necessário para travar este observador. Quando trocar as tabelas, será mudado o método
-        if (lockListBundle.getInt(AMBIENT_ID) == 0) {
+        if (lockListBundle.getInt(DOOR_ID) != 0) {
             modelEntry.getDoorLocksFromDoor(lockListBundle.getInt(DOOR_ID)).observe(getViewLifecycleOwner(), lockList -> {
                 lockAdapter = new DoorLockRecViewAdapter(lockList, requireActivity(), this);
                 recyclerView.setAdapter(lockAdapter);
@@ -108,30 +107,33 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
                 });
             });
         }
+        else {
+            modelEntry.getDoorLocksFromGates(lockListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), extLockList -> {
+                lockAdapter = new DoorLockRecViewAdapter(extLockList, requireActivity(), this);
+                recyclerView.setAdapter(lockAdapter);
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+                recyclerView.addItemDecoration(dividerItemDecoration);
 
+                lockAdapter.setListener(new ListClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        if (actionMode == null)
+                            OnEntryClick(position);
+                        else
+                            enableActionMode();
+                    }
 
-        modelEntry.getDoorLocksFromGates(lockListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), extLockList -> {
-            lockAdapter = new DoorLockRecViewAdapter(extLockList, requireActivity(), this);
-            recyclerView.setAdapter(lockAdapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-            recyclerView.addItemDecoration(dividerItemDecoration);
-
-            lockAdapter.setListener(new ListClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    if (actionMode == null)
-                        OnEntryClick(position);
-                    else
+                    @Override
+                    public void onItemLongClick(int position) {
                         enableActionMode();
-                }
-
-                @Override
-                public void onItemLongClick(int position) {
-                    enableActionMode();
-                }
+                    }
+                });
             });
-        });
+        }
+
+
+
 
         closeLockList.setOnClickListener(v -> {
             if (actionMode != null)

@@ -468,8 +468,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         buttonPressed = 0;
     }
 
-//    TODO - Testar salas com esses adendos
-
     private void clearRoomFields() {
         roomLocaleValue.setText(null);
         roomDescValue.setText(null);
@@ -676,45 +674,53 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
     }
 
     private void loadRoomData(RoomEntry roomEntry) {
-        roomLocaleValue.setText(roomEntry.getRoomLocation());
+        if (roomEntry.getRoomLocation() != null)
+            roomLocaleValue.setText(roomEntry.getRoomLocation());
         if (roomEntry.getRoomDescription() != null)
             roomDescValue.setText(roomEntry.getRoomDescription());
-        hasVertSingRadio.check(hasVertSingRadio.getChildAt(roomEntry.getRoomHasVertSing()).getId());
+        if (roomEntry.getRoomHasVertSing() != null && roomEntry.getRoomHasVertSing() != -1)
+            hasVertSingRadio.check(hasVertSingRadio.getChildAt(roomEntry.getRoomHasVertSing()).getId());
         if (roomEntry.getRoomVertSignObs() != null)
             vertSignObsValue.setText(roomEntry.getRoomVertSignObs());
-        hasVertSingRadio.check(hasVertSingRadio.getChildAt(roomEntry.getRoomHasVertSing()).getId());
-        if (roomEntry.getRoomVertSignObs() != null)
-            vertSignObsValue.setText(roomEntry.getRoomVertSignObs());
-        hasLooseCarpetRadio.check(hasLooseCarpetRadio.getChildAt(roomEntry.getRoomHasLooseCarpet()).getId());
-        if (roomEntry.getLooseCarpetObs() != null)
-            looseCarpetObsValue.setText(roomEntry.getLooseCarpetObs());
-        if (roomEntry.getRoomAccessFloor() != null)
+        if (roomEntry.getRoomHasLooseCarpet() != null && roomEntry.getRoomHasLooseCarpet() != -1) {
+            hasLooseCarpetRadio.check(hasLooseCarpetRadio.getChildAt(roomEntry.getRoomHasLooseCarpet()).getId());
+            if (roomEntry.getRoomHasLooseCarpet() == 1 && roomEntry.getLooseCarpetObs() != null)
+                looseCarpetObsValue.setText(roomEntry.getLooseCarpetObs());
+        }
+        if (roomEntry.getRoomAccessFloor() != null) {
             hasAccessFloorRadio.check(hasAccessFloorRadio.getChildAt(roomEntry.getRoomAccessFloor()).getId());
-        if (roomEntry.getAccessFloorObs() != null)
-            accessFloorObsValue.setText(roomEntry.getAccessFloorObs());
+            if (roomEntry.getRoomAccessFloor() == 0 && roomEntry.getAccessFloorObs() != null)
+                accessFloorObsValue.setText(roomEntry.getAccessFloorObs());
+        }
+
         if (roomEntry.getRoomObs() != null)
             roomObsValue.setText(roomEntry.getRoomObs());
 
-        if (roomEntry.getHasBellControl() != null)
+        if (roomEntry.getHasBellControl() != null && roomEntry.getHasBellControl() != -1) {
             soundSignalRadio.check(soundSignalRadio.getChildAt(roomEntry.getHasBellControl()).getId());
-        if (roomEntry.getBellControlHeight() != null)
-            soundSignalHeightValue.setText(String.valueOf(roomEntry.getBellControlHeight()));
-        if (roomEntry.getBellControlObs() != null)
-            soundSignalObsValue.setText(roomEntry.getBellControlObs());
+            if (roomEntry.getBellControlHeight() != null)
+                soundSignalHeightValue.setText(String.valueOf(roomEntry.getBellControlHeight()));
+            if (roomEntry.getBellControlObs() != null)
+                soundSignalObsValue.setText(roomEntry.getBellControlObs());
+        }
 
-        if (roomEntry.getHasInternalPhone() != null)
+
+        if (roomEntry.getHasInternalPhone() != null && roomEntry.getHasInternalPhone() != -1) {
             phoneRadio.check(phoneRadio.getChildAt(roomEntry.getHasInternalPhone()).getId());
-        if (roomEntry.getInternalPhoneHeight() != null)
-            phoneHeightValue.setText(String.valueOf(roomEntry.getInternalPhoneHeight()));
-        if (roomEntry.getInternalPhoneObs() != null)
-            phoneObsValue.setText(roomEntry.getInternalPhoneObs());
+            if (roomEntry.getInternalPhoneHeight() != null)
+                phoneHeightValue.setText(String.valueOf(roomEntry.getInternalPhoneHeight()));
+            if (roomEntry.getInternalPhoneObs() != null)
+                phoneObsValue.setText(roomEntry.getInternalPhoneObs());
+        }
 
-        if (roomEntry.getHasBiometricClock() != null)
+
+        if (roomEntry.getHasBiometricClock() != null && roomEntry.getHasBiometricClock() != -1) {
             biometryRadio.check(biometryRadio.getChildAt(roomEntry.getHasBiometricClock()).getId());
-        if (roomEntry.getBiometricClockHeight() != null)
-            biometryHeightValue.setText(String.valueOf(roomEntry.getBiometricClockHeight()));
-        if (roomEntry.getBiometricClockObs() != null)
-            biometryObsValue.setText(roomEntry.getBiometricClockObs());
+            if (roomEntry.getBiometricClockHeight() != null)
+                biometryHeightValue.setText(String.valueOf(roomEntry.getBiometricClockHeight()));
+            if (roomEntry.getBiometricClockObs() != null)
+                biometryObsValue.setText(roomEntry.getBiometricClockObs());
+        }
 
         if (roomEntry.getRoomType() == 2 || roomEntry.getRoomType() == 11)
             getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, roomBundle);

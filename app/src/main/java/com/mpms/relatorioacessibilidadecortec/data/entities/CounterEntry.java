@@ -19,8 +19,8 @@ public class CounterEntry {
     private double counterLowerEdge;
     private double counterFrontalApprox;
     private String counterObs;
-    private double counterWidth;
-    private double counterFreeWidth;
+    private Double counterWidth;
+    private Double counterFreeWidth;
 
     public CounterEntry(int roomID, String counterLocation, double counterUpperEdge, double counterLowerEdge, double counterFrontalApprox, String counterObs,
                         double counterWidth, double counterFreeWidth) {
@@ -94,7 +94,7 @@ public class CounterEntry {
         return counterWidth;
     }
 
-    public void setCounterWidth(double counterWidth) {
+    public void setCounterWidth(Double counterWidth) {
         this.counterWidth = counterWidth;
     }
 
@@ -102,7 +102,7 @@ public class CounterEntry {
         return counterFreeWidth;
     }
 
-    public void setCounterFreeWidth(double counterFreeWidth) {
+    public void setCounterFreeWidth(Double counterFreeWidth) {
         this.counterFreeWidth = counterFreeWidth;
     }
 }

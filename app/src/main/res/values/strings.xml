@@ -115,7 +115,7 @@
     <string name="radio_button_yes">SIM</string>
     <string name="radio_button_no">NÃO</string>
     <string name="frag_ext_gate">Portão</string>
-    <string name="hint_ext_gate_width">Largura do Portão de Acesso</string>
+    <string name="hint_ext_gate_width">Largura do Portão de Acesso (m)</string>
     <string name="hint_ext_trail_height">Altura do Trilho do Portão de Acesso (mm)</string>
     <string name="frag_ext_trail_ledge">O portão possui rampa para o trilho?</string>
     <string name="radio_button_has_it">POSSUI</string>
@@ -517,7 +517,7 @@
     <string name="hint_playground_location">Localização ou Referência</string>
     <string name="header_accessible_play_floor">O piso do playground pode ser considerado acessível?</string>
     <string name="hint_playground_floor_obs">Observações sobre o piso</string>
-    <string name="header_accessible_play_equip">O brinquedos do playground podem ser considerados acessíveis?</string>
+    <string name="header_accessible_play_equip">Os brinquedos do playground podem ser considerados acessíveis?</string>
     <string name="hint_play_equip_obs">Observações sobre os brinquedos</string>
     <string name="hint_playground_obs">Outras observações sobre o playground</string>
     <string name="header_playground_register">Cadastro de Playgrounds</string>

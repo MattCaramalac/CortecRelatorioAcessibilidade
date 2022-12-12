@@ -155,4 +155,5 @@ public interface TagInterface {
 
     //    Títulos Locais Análise
     String ACCESS_TITLE = "Acessos, Circulações e Área Externa";
+    String HELP_TITLE = "Áreas de Apoio";
 }

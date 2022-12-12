@@ -252,8 +252,8 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
                     slopeAngleValue2.setText(String.valueOf(playEntry.getSlopeSillAngle2()));
             case 1:
                 slopeAngleField1.setVisibility(View.VISIBLE);
-                if (playEntry.getSlopeSillAngle() != null)
-                    slopeAngleValue1.setText(String.valueOf(playEntry.getSlopeSillAngle()));
+                if (playEntry.getSlopeSillAngle1() != null)
+                    slopeAngleValue1.setText(String.valueOf(playEntry.getSlopeSillAngle1()));
                 break;
             default:
                 break;

@@ -86,7 +86,7 @@ public class DoorAnalysis implements StandardMeasurements {
         }
 
         String doorSill = DoorSillAnalysis.doorSillVerification(door);
-        if (doorSill.length() > 0) {
+        if (doorSill != null && doorSill.length() > 0) {
             doorIrregular(doors);
             doors.append(doorSill);
         }

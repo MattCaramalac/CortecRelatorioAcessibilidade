@@ -19,10 +19,10 @@ public class TableEntry {
     private double tableWidth;
     private double tableFrontalApprox;
     private String tableObs;
-    private double tableFreeWidth;
+    private Double tableFreeWidth;
 
     public TableEntry(int roomID, int roomType, Integer tableType, double inferiorBorderHeight, double superiorBorderHeight, double tableWidth,
-                      double tableFrontalApprox, String tableObs, double tableFreeWidth) {
+                      double tableFrontalApprox, String tableObs, Double tableFreeWidth) {
         this.roomID = roomID;
         this.roomType = roomType;
         this.tableType = tableType;
@@ -106,11 +106,11 @@ public class TableEntry {
         this.tableObs = tableObs;
     }
 
-    public double getTableFreeWidth() {
+    public Double getTableFreeWidth() {
         return tableFreeWidth;
     }
 
-    public void setTableFreeWidth(double tableFreeWidth) {
+    public void setTableFreeWidth(Double tableFreeWidth) {
         this.tableFreeWidth = tableFreeWidth;
     }
 }

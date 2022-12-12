@@ -99,35 +99,6 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                         check++;
                         extIrregular.addAll(gLockList);
                     }
-//                    for (DoorLockEntry lock : gateLock) {
-//                        irregularLock = false;
-//                        if (lock.getExtAccessID() == access.getExternalAccessID()) {
-//                            StringBuilder builder = new StringBuilder();
-//                            if (lock.getLockType() > 1) {
-//                                lockIrregular(builder);
-//                                builder.append("tipo de dispositivo de travamento não atende aos princípios do desenho universal");
-//                            }
-//                            if (lock.getLockHeight() < minDoorHandle) {
-//                                lockIrregular(builder);
-//                                builder.append("altura do dispositivo inferior a " + minDoorHandle + " m");
-//                            } else if (lock.getLockHeight() > maxDoorHandle) {
-//                                lockIrregular(builder);
-//                                builder.append("altura do dispositivo superior a " + maxDoorHandle + " m");
-//                            }
-//
-//                            if (lock.getLockObs() != null) {
-//                                lockIrregular(builder);
-//                                builder.append("devem ser apontadas as seguintes observações: ").append(lock.getLockObs());
-//                            }
-//
-//                            if (irregularLock && builder.length() != 0) {
-//                                check++;
-//                                builder.replace(45, 46, " " + lock.getLockType() + " ");
-//                                irrLockData = builder.toString();
-//                                extIrregular.add(irrLockData);
-//                            }
-//                        }
-//                    }
                 }
 
                 if (access.getGateObs() != null) {
@@ -366,15 +337,6 @@ public class ExtAccessAnalysis implements StandardMeasurements {
 
             }
 
-        }
-    }
-
-    public static void lockIrregular(StringBuilder builder) {
-        if (!irregularLock) {
-            irregularLock = true;
-            builder.append("Presença de dispositivo de travamento do tipo com as seguintes irregularidades: "); //45 46
-        } else {
-            builder.append(", ");
         }
     }
 
