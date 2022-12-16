@@ -324,12 +324,16 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> parkingLotElderlyDao.insertElderlyParkingLot(elderlyEntry));
     }
 
-    public LiveData<List<ParkingLotElderlyEntry>> selectAllElderlyParkingLot(int parkingLotID) {
-        return parkingLotElderlyDao.selectAllElderlyParkingLot(parkingLotID);
+    public LiveData<List<ParkingLotElderlyEntry>> getElderVacanciesPark(int parkingLotID) {
+        return parkingLotElderlyDao.getElderVacanciesPark(parkingLotID);
     }
 
-    public LiveData<ParkingLotElderlyEntry> selectOneElderlyParkingLot(int parkingElderlyID) {
-        return parkingLotElderlyDao.selectOneElderlyParkingLot(parkingElderlyID);
+    public LiveData<List<ParkingLotElderlyEntry>> getAllElderVacancies(List<Integer> parkingLotID) {
+        return parkingLotElderlyDao.getAllElderVacancies(parkingLotID);
+    }
+
+    public LiveData<ParkingLotElderlyEntry> getOneElderVacancy(int parkingElderlyID) {
+        return parkingLotElderlyDao.getOneElderVacancy(parkingElderlyID);
     }
 
     public void updateElderlyParkingLot(ParkingLotElderlyEntry parkingLotElderlyEntry) {
@@ -346,12 +350,16 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> parkingLotPcdDao.insertPcdParkingLot(pdmrEntry));
     }
 
-    public LiveData<List<ParkingLotPCDEntry>> selectAllPcdParkingLot(int parkingLotID) {
-        return parkingLotPcdDao.selectAllPcdParkingLot(parkingLotID);
+    public LiveData<List<ParkingLotPCDEntry>> getPcdVacanciesPark(int parkingLotID) {
+        return parkingLotPcdDao.getPcdVacanciesPark(parkingLotID);
     }
 
-    public LiveData<ParkingLotPCDEntry> selectOnePcdParkingLot(int parkingPcdID) {
-        return parkingLotPcdDao.selectOnePcdParkingLot(parkingPcdID);
+    public LiveData<List<ParkingLotPCDEntry>> getAllPcdVacancies(List<Integer> parkingLotID) {
+        return parkingLotPcdDao.getAllPcdVacancies(parkingLotID);
+    }
+
+    public LiveData<ParkingLotPCDEntry> getOnePcdVacancy(int parkingPcdID) {
+        return parkingLotPcdDao.getOnePcdVacancy(parkingPcdID);
     }
 
     public void updatePcdParkingLot(ParkingLotPCDEntry pdmrEntry) {

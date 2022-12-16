@@ -71,7 +71,10 @@ public class RampAnalysis implements StandardMeasurements {
                     rampIrregular(builder);
                     builder.append("largura livre mínima inferior à 1,20 m");
                 }
-//                                        TODO - trocar nome para flightHeight
+                if (flight.getFlightLength() > maxLengthUntilInterLevel) {
+                    rampIrregular(builder);
+                    builder.append("comprimento do lance é superior à " + maxLengthUntilInterLevel + " m");
+                }
                 if (flight.getRampHeight() > highestRampHeight) {
                     flightIrregular(builder);
                     builder.append("altura do desnivel acima de ").append(highestRampHeight).append(" m");

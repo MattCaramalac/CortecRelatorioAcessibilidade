@@ -14,13 +14,13 @@ public class DoorSillAnalysis implements StandardMeasurements {
             if (door.getDoorSillType() == 2) {
                 if (door.getDoorSillObs() == null)
                     irrDoorSill = "a soleira é composta por um degrau de " + door.getSillStepHeight() + " cm;";
-                else
+                else if (door.getDoorSillObs() != null && door.getDoorSillObs().length() > 0)
                     irrDoorSill = "a soleira é composta por um degrau de " + door.getSillStepHeight() + " cm e possui as seguintes observações: "
                             + door.getDoorSillObs() + ";";
             } else if (door.getDoorSillType() == 3) {
                 StringBuilder irregular = new StringBuilder();
                 if (door.getSillSlopeWidth() < minSillSlopeWidth) {
-                    irregular.append("A largura da rampa na soleira do portão é inferior a " + minSillSlopeWidth + " m; ");
+                    irregular.append("a largura da rampa na soleira do portão é inferior a " + minSillSlopeWidth + " m; ");
                 }
 
                 if (door.getSillSlopeHeight() > highestRampHeight) {
@@ -52,8 +52,8 @@ public class DoorSillAnalysis implements StandardMeasurements {
                         irregular.append("inclinação da rampa da soleira acima do máximo permitido de " + maxAngleRamp + "%");
                     }
                 }
-                if (door.getDoorSillObs() != null)
-                    irregular.append(" ").append(door.getDoorSillObs());
+                if (door.getDoorSillObs() != null && door.getDoorSillObs().length() > 0)
+                    irregular.append("observações sobre a soleira da porta: ").append(door.getDoorSillObs());
 
                 irrDoorSill = irregular.toString();
             }

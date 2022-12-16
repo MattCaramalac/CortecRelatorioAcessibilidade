@@ -107,4 +107,17 @@ public interface StandardMeasurements {
     double minUpperCounterHeight = 0.75;
     double maxUpperCounterHeight = 0.85;
     double underCounterDepth = 0.30;
+
+//    Parking
+    double minLengthVacParallelPCD = 5.00;
+    double minWidthVac = 2.20;
+    double maxWidthVac = 2.70;
+    double minWidthVacOthersPCD = 2.50;
+    double minVacLimWidth = 0.10;
+    double maxVacLimWidth = 0.20;
+    double minVacLimWidthPCD = 0.20;
+    double minVacFreeSpace = 1.20;
+    double siaDimensions = 1.20;
+    double minLetterHeight = 0.25;
+    double maxLetterHeight = 0.40;
 }

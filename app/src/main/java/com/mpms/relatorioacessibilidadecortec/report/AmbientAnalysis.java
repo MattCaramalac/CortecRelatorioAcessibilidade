@@ -2,7 +2,6 @@ package com.mpms.relatorioacessibilidadecortec.report;
 
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
-import com.mpms.relatorioacessibilidadecortec.report.Components.PlaygroundAnalysis;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.apache.poi.xwpf.usermodel.XWPFAbstractNum;
@@ -38,11 +37,15 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public static final Map<Integer, List<String>> extIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> extRoomIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> helpRoomIrregular = new HashMap<>();
+    public static final Map<Integer, List<String>> extParkIrregular = new HashMap<>();
+    public static final Map<Integer, List<String>> helpParkIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> playIrregular = new HashMap<>();
     public static final List<String> sideLocationList = new ArrayList<>();
     public static final List<String> extAccessList = new ArrayList<>();
     public static final List<String> extRoomList = new ArrayList<>();
     public static final List<String> helpRoomList = new ArrayList<>();
+    public static final List<String> extParkList = new ArrayList<>();
+    public static final List<String> helpParkList = new ArrayList<>();
     public static final List<String> playList = new ArrayList<>();
     public static final List<String> placeType = new ArrayList<>();
 
@@ -54,6 +57,8 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
                 jCreate.getSlopeList());
         ExtAccessAnalysis.extAccessVerification(jCreate.getExtList(), jCreate.getGateLockList(), jCreate.getGateObsList(), jCreate.getExtPhoneList(),
                 jCreate.getExtStRaList(), jCreate.getExtFlightList(), jCreate.getExtRailList(), jCreate.getExtHandList());
+        ParkingAnalysis.parkVerification(jCreate.getBlockList(), jCreate.getParkList(), jCreate.getElderList(), jCreate.getPcdList(), jCreate.getParkStRaList(),
+                jCreate.getParkFlightList(), jCreate.getParkRailList(), jCreate.getParkHandList());
         PlaygroundAnalysis.playVerification(jCreate.getPlayList());
         RoomAnalysis.roomVerification(jCreate.getBlockList(),jCreate.getRoomList(), jCreate.getDoorList(), jCreate.getDoorLockList(), jCreate.getSwitchList(),
                 jCreate.getWindowList(), jCreate.getTableList(), jCreate.getBoardList(), jCreate.getFreeList(), jCreate.getRoomStRaList(), jCreate.getRoomFlightList(),
@@ -109,10 +114,12 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
                 irregularTextListing(sideLocationList, sideIrregular, numID, cursor);
                 irregularTextListing(extAccessList, extIrregular, numID, cursor);
                 irregularTextListing(extRoomList, extRoomIrregular, numID, cursor);
+                irregularTextListing(extParkList, extParkIrregular, numID, cursor);
             }
             else if (i == 1) {
                 irregularTextListing(playList, playIrregular, numID, cursor);
                 irregularTextListing(helpRoomList, helpRoomIrregular, numID, cursor);
+                irregularTextListing(helpParkList, helpParkIrregular, numID, cursor);
             }
 
 

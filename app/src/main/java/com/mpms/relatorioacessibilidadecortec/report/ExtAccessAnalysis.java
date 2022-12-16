@@ -116,7 +116,7 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                             access.getTrackRampMeasure3() != null && access.getTrackRampMeasure3() > maxSlopePerc ||
                             access.getTrackRampMeasure4() != null && access.getTrackRampMeasure4() > maxSlopePerc) {
                         check++;
-                        extIrregular.add("A rampa associada ao trilho do portão possui inclinação superior à " + maxSlopePerc + "%");
+                        extIrregular.add("A rampa associada ao trilho do portão possui inclinação superior à " + maxSlopePerc + "% ;");
                     }
                 }
 
@@ -232,18 +232,18 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                                 StringBuilder builder = new StringBuilder();
                                 if (phone.getPhoneHeight() < minIntTelHeight) {
                                     phoneIrregular(builder);
-                                    builder.append("Altura operacional do fone inferior a " + minIntTelHeight + " m");
+                                    builder.append("altura operacional do fone inferior a " + minIntTelHeight + " m");
                                 } else if (phone.getPhoneHeight() > minIntTelHeight) {
                                     phoneIrregular(builder);
-                                    builder.append("Altura operacional do fone superior a " + maxIntTelHeight + " m");
+                                    builder.append("altura operacional do fone superior a " + maxIntTelHeight + " m");
                                 }
 
                                 if (phone.getPhoneKeyboardHeight() < minIntTelHeight) {
                                     phoneIrregular(builder);
-                                    builder.append("Altura operacional do teclado inferior a " + minIntTelHeight + " m");
+                                    builder.append("altura operacional do teclado inferior a " + minIntTelHeight + " m");
                                 } else if (phone.getPhoneKeyboardHeight() > minIntTelHeight) {
                                     phoneIrregular(builder);
-                                    builder.append("Altura operacional do teclado superior a " + maxIntTelHeight + " m");
+                                    builder.append("altura operacional do teclado superior a " + maxIntTelHeight + " m");
                                 }
 
                                 if (phone.getHasTactileFloor() == 0) {
@@ -276,16 +276,16 @@ public class ExtAccessAnalysis implements StandardMeasurements {
 
                                     if (phone.getPayPhoneObs() != null) {
                                         phoneIrregular(builder);
-                                        builder.append("As seguintes observações devem ser feitas sobre este telefone público: ").append(phone.getPayPhoneObs());
+                                        builder.append("as seguintes observações devem ser feitas sobre este telefone público: ").append(phone.getPayPhoneObs());
                                     }
                                 }
 
                                 if (irregularPhone && builder.length() != 0) {
                                     check++;
-                                    builder.insert(29, "localizado em " + phone.getPhoneRefPoint() + " ");
+                                    builder.replace(43, 44, String.valueOf(phone.getPhoneRefPoint()));
+                                    builder.append(";");
                                     irrPhoneData = builder.toString();
                                     extIrregular.add(irrPhoneData);
-
                                 }
                             }
                         }
@@ -343,7 +343,7 @@ public class ExtAccessAnalysis implements StandardMeasurements {
     public static void phoneIrregular(StringBuilder builder) {
         if (!irregularPhone) {
             irregularPhone = true;
-            builder.append("Presença de telefone público com as seguintes irregularidades: ");
+            builder.append("Presença de telefone público localizado em x com as seguintes irregularidades: ");
         } else {
             builder.append(", ");
         }

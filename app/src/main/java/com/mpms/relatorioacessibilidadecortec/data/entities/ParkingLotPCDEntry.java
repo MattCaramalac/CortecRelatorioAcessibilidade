@@ -1,6 +1,5 @@
 package com.mpms.relatorioacessibilidadecortec.data.entities;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -8,13 +7,15 @@ import androidx.room.PrimaryKey;
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity (foreignKeys = @ForeignKey(entity = ParkingLotEntry.class, parentColumns = "parkingID",
-                childColumns = "parkingLotID", onDelete = CASCADE, onUpdate = CASCADE))
+                childColumns = "parkID", onDelete = CASCADE, onUpdate = CASCADE))
 public class ParkingLotPCDEntry {
 
     @PrimaryKey(autoGenerate = true)
-    private int parkingPcdID;
-    private int parkingLotID;
+    private int parkPcdID;
+    private int parkID;
 
+    private String pcdVacancyLocal;
+    private int vacancyPosition;
     private int hasVisualPcdVertSign;
     private Double vertPcdSignLength;
     private Double vertPcdSignWidth;
@@ -22,7 +23,6 @@ public class ParkingLotPCDEntry {
     private double pcdVacancyLength;
     private double pcdVacancyWidth;
     private double pcdVacancyLimitWidth;
-    private String pcdVacancyObs;
     private int hasSecurityZone;
     private Double securityZoneWidth;
     private String securityZoneObs;
@@ -30,21 +30,38 @@ public class ParkingLotPCDEntry {
     private Double pcdSiaWidth;
     private Double pcdSiaLength;
     private String pcdSiaObs;
+    private String pcdVacancyObs;
 
-    public int getParkingPcdID() {
-        return parkingPcdID;
+    public String getPcdVacancyLocal() {
+        return pcdVacancyLocal;
     }
 
-    public void setParkingPcdID(int parkingPcdID) {
-        this.parkingPcdID = parkingPcdID;
+    public void setPcdVacancyLocal(String pcdVacancyLocal) {
+        this.pcdVacancyLocal = pcdVacancyLocal;
     }
 
-    public int getParkingLotID() {
-        return parkingLotID;
+    public int getVacancyPosition() {
+        return vacancyPosition;
     }
 
-    public void setParkingLotID(int parkingLotID) {
-        this.parkingLotID = parkingLotID;
+    public void setVacancyPosition(int vacancyPosition) {
+        this.vacancyPosition = vacancyPosition;
+    }
+
+    public int getParkPcdID() {
+        return parkPcdID;
+    }
+
+    public void setParkPcdID(int parkPcdID) {
+        this.parkPcdID = parkPcdID;
+    }
+
+    public int getParkID() {
+        return parkID;
+    }
+
+    public void setParkID(int parkID) {
+        this.parkID = parkID;
     }
 
     public int getHasVisualPcdVertSign() {
@@ -103,14 +120,6 @@ public class ParkingLotPCDEntry {
         this.pcdVacancyLimitWidth = pcdVacancyLimitWidth;
     }
 
-    public String getPcdVacancyObs() {
-        return pcdVacancyObs;
-    }
-
-    public void setPcdVacancyObs(String pcdVacancyObs) {
-        this.pcdVacancyObs = pcdVacancyObs;
-    }
-
     public int getHasSecurityZone() {
         return hasSecurityZone;
     }
@@ -167,12 +176,20 @@ public class ParkingLotPCDEntry {
         this.pcdSiaObs = pcdSiaObs;
     }
 
-    public ParkingLotPCDEntry(@NonNull Integer parkingLotID, int hasVisualPcdVertSign, Double vertPcdSignLength,
-                              Double vertPcdSignWidth, String vertPcdSignObs, double pcdVacancyLength,
-                              double pcdVacancyWidth, double pcdVacancyLimitWidth, String pcdVacancyObs,
-                              int hasSecurityZone, Double securityZoneWidth, String securityZoneObs,
-                              int hasPcdSia, Double pcdSiaWidth, Double pcdSiaLength, String pcdSiaObs) {
-        this.parkingLotID = parkingLotID;
+    public String getPcdVacancyObs() {
+        return pcdVacancyObs;
+    }
+
+    public void setPcdVacancyObs(String pcdVacancyObs) {
+        this.pcdVacancyObs = pcdVacancyObs;
+    }
+
+    public ParkingLotPCDEntry(int parkID, String pcdVacancyLocal, int vacancyPosition, int hasVisualPcdVertSign, Double vertPcdSignLength, Double vertPcdSignWidth,
+                              String vertPcdSignObs, double pcdVacancyLength, double pcdVacancyWidth, double pcdVacancyLimitWidth,int hasSecurityZone, Double securityZoneWidth,
+                              String securityZoneObs, int hasPcdSia, Double pcdSiaWidth, Double pcdSiaLength, String pcdSiaObs, String pcdVacancyObs) {
+        this.parkID = parkID;
+        this.pcdVacancyLocal = pcdVacancyLocal;
+        this.vacancyPosition = vacancyPosition;
         this.hasVisualPcdVertSign = hasVisualPcdVertSign;
         this.vertPcdSignLength = vertPcdSignLength;
         this.vertPcdSignWidth = vertPcdSignWidth;
@@ -180,7 +197,6 @@ public class ParkingLotPCDEntry {
         this.pcdVacancyLength = pcdVacancyLength;
         this.pcdVacancyWidth = pcdVacancyWidth;
         this.pcdVacancyLimitWidth = pcdVacancyLimitWidth;
-        this.pcdVacancyObs = pcdVacancyObs;
         this.hasSecurityZone = hasSecurityZone;
         this.securityZoneWidth = securityZoneWidth;
         this.securityZoneObs = securityZoneObs;
@@ -188,5 +204,6 @@ public class ParkingLotPCDEntry {
         this.pcdSiaWidth = pcdSiaWidth;
         this.pcdSiaLength = pcdSiaLength;
         this.pcdSiaObs = pcdSiaObs;
+        this.pcdVacancyObs = pcdVacancyObs;
     }
 }

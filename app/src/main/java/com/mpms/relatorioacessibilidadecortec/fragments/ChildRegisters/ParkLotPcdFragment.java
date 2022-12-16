@@ -20,20 +20,22 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
+import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
 public class ParkLotPcdFragment extends Fragment implements TagInterface {
 
-    TextView pcdVertError, pcdSafetyZoneError, pcdSiaError;
+    TextView pcdVertError, pcdSafetyZoneError, pcdSiaError, vacPositionError;
     RadioGroup hasVerticalSign, hasSafetyZone, hasSiaPcd;
+    MultiLineRadioGroup vacPositionRadio;
     Button cancelParkingLotPcd, saveParkingLotPcd;
     TextInputLayout pcdVertLengthField, pcdVertWidthField, pcdVertSignObsField, pcdVacancyLengthField,
-            pcdVacancyWidthField, pcdVacLimiterWidthField, pcdVacancyObsField, safetyZoneWidthField,
-            safetyZoneObsField, siaLengthField, siaWidthField, siaObsField;
+            pcdVacancyWidthField, pcdVacLimiterWidthField, safetyZoneWidthField,
+            safetyZoneObsField, siaLengthField, siaWidthField, siaObsField, pcdVacancyObsField, vacancyLocalField;
     TextInputEditText pcdVertLengthValue, pcdVertWidthValue, pcdVertSignObsValue, pcdVacancyLengthValue,
-            pcdVacancyWidthValue, pcdVacLimiterWidthValue, pcdVacancyObsValue, safetyZoneWidthValue,
-            safetyZoneObsValue, siaLengthValue, siaWidthValue, siaObsValue;
+            pcdVacancyWidthValue, pcdVacLimiterWidthValue, safetyZoneWidthValue,
+            safetyZoneObsValue, siaLengthValue, siaWidthValue, siaObsValue, pcdVacancyObsValue, vacancyLocalValue;
     ArrayList<TextInputLayout> verticalFields, safetyFields, siaFields;
 
     public Bundle pcdBundle = new Bundle();
@@ -75,7 +77,7 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         hasSiaPcd.setOnCheckedChangeListener(this::radioListener);
 
         if (pcdBundle.getInt(PCD_ID) > 0)
-            modelEntry.getOnePcdParkingLot(pcdBundle.getInt(PCD_ID)).observe(getViewLifecycleOwner(), this::gatherPcdLotData);
+            modelEntry.getOnePcdVacancy(pcdBundle.getInt(PCD_ID)).observe(getViewLifecycleOwner(), this::loadPcdLotData);
 
         cancelParkingLotPcd.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
@@ -87,7 +89,7 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
                     clearPcdFields();
                     Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                 } else if (pcdBundle.getInt(PCD_ID) > 0) {
-                    pcdEntry.setParkingPcdID(pcdBundle.getInt(PCD_ID));
+                    pcdEntry.setParkPcdID(pcdBundle.getInt(PCD_ID));
                     ViewModelEntry.updatePcdParkingLot(pcdEntry);
                     clearPcdFields();
                     Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
@@ -102,7 +104,7 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
 
     private void instantiatePcdViews(View view) {
 //        TextViews
-
+        vacPositionError = view.findViewById(R.id.vacancy_position_error);
         pcdVertError = view.findViewById(R.id.vertical_sign_error);
         pcdSafetyZoneError = view.findViewById(R.id.safety_zone_error);
         pcdSiaError = view.findViewById(R.id.PCD_SIA_error);
@@ -110,6 +112,8 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         hasVerticalSign = view.findViewById(R.id.vertical_sign_PDMR_radio);
         hasSafetyZone = view.findViewById(R.id.safety_zone_PCD_radio);
         hasSiaPcd = view.findViewById(R.id.PCD_SIA_radio);
+//        MultiLineRadioGroup
+        vacPositionRadio = view.findViewById(R.id.vacancy_position_radio);
 //        TextInputLayout
         pcdVertLengthField = view.findViewById(R.id.vertical_sign_PCD_length_field);
         pcdVertWidthField = view.findViewById(R.id.vertical_sign_PCD_width_field);
@@ -117,12 +121,13 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         pcdVacancyLengthField = view.findViewById(R.id.PCD_vacancy_length_field);
         pcdVacancyWidthField = view.findViewById(R.id.PCD_vacancy_width_field);
         pcdVacLimiterWidthField = view.findViewById(R.id.PCD_vacancy_limiter_width_field);
-        pcdVacancyObsField = view.findViewById(R.id.PCD_vacancy_obs_field);
         safetyZoneWidthField = view.findViewById(R.id.safety_zone_PCD_width_field);
         safetyZoneObsField = view.findViewById(R.id.safety_zone_PCD_obs_field);
         siaLengthField = view.findViewById(R.id.PCD_SIA_length_field);
         siaWidthField = view.findViewById(R.id.PCD_SIA_width_field);
         siaObsField = view.findViewById(R.id.PCD_SIA_obs_field);
+        pcdVacancyObsField = view.findViewById(R.id.PCD_vacancy_obs_field);
+        vacancyLocalField = view.findViewById(R.id.PCD_vacancy_locale_field);
 //        TextInputEditText
         pcdVertLengthValue = view.findViewById(R.id.vertical_sign_PCD_length_value);
         pcdVertWidthValue = view.findViewById(R.id.vertical_sign_PCD_width_value);
@@ -130,12 +135,13 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         pcdVacancyLengthValue = view.findViewById(R.id.PCD_vacancy_length_value);
         pcdVacancyWidthValue = view.findViewById(R.id.PCD_vacancy_width_value);
         pcdVacLimiterWidthValue = view.findViewById(R.id.PCD_vacancy_limiter_width_value);
-        pcdVacancyObsValue = view.findViewById(R.id.PCD_vacancy_obs_value);
         safetyZoneWidthValue = view.findViewById(R.id.safety_zone_PCD_width_value);
         safetyZoneObsValue = view.findViewById(R.id.safety_zone_PCD_obs_value);
         siaLengthValue = view.findViewById(R.id.PCD_SIA_length_value);
         siaWidthValue = view.findViewById(R.id.PCD_SIA_width_value);
         siaObsValue = view.findViewById(R.id.PCD_SIA_obs_value);
+        pcdVacancyObsValue = view.findViewById(R.id.PCD_vacancy_obs_value);
+        vacancyLocalValue = view.findViewById(R.id.PCD_vacancy_locale_value);
 //        MaterialButton
         cancelParkingLotPcd = view.findViewById(R.id.cancel_parking_lot_pcd);
         saveParkingLotPcd = view.findViewById(R.id.save_parking_lot_pcd);
@@ -197,7 +203,9 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         }
     }
 
-    private void gatherPcdLotData(ParkingLotPCDEntry pcdEntry) {
+    private void loadPcdLotData(ParkingLotPCDEntry pcdEntry) {
+        vacancyLocalValue.setText(pcdEntry.getPcdVacancyLocal());
+        vacPositionRadio.checkAt(pcdEntry.getVacancyPosition());
         hasVerticalSign.check(hasVerticalSign.getChildAt(pcdEntry.getHasVisualPcdVertSign()).getId());
         if (pcdEntry.getHasVisualPcdVertSign() == 1) {
             pcdVertLengthValue.setText(String.valueOf(pcdEntry.getVertPcdSignLength()));
@@ -207,7 +215,6 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         pcdVacancyLengthValue.setText(String.valueOf(pcdEntry.getPcdVacancyLength()));
         pcdVacancyWidthValue.setText(String.valueOf(pcdEntry.getPcdVacancyWidth()));
         pcdVacLimiterWidthValue.setText(String.valueOf(pcdEntry.getPcdVacancyLimitWidth()));
-        pcdVacancyObsValue.setText(pcdEntry.getPcdVacancyObs());
         hasSafetyZone.check(hasSafetyZone.getChildAt(pcdEntry.getHasSecurityZone()).getId());
         if (pcdEntry.getHasSecurityZone() == 1)
             safetyZoneWidthValue.setText(String.valueOf(pcdEntry.getSecurityZoneWidth()));
@@ -217,9 +224,12 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
             siaWidthValue.setText(String.valueOf(pcdEntry.getPcdSiaWidth()));
         }
         siaObsValue.setText(pcdEntry.getPcdSiaObs());
+        pcdVacancyObsValue.setText(pcdEntry.getPcdVacancyObs());
     }
 
     private void clearErrorMessages() {
+        vacancyLocalField.setErrorEnabled(false);
+        vacPositionError.setVisibility(View.GONE);
         pcdVertError.setVisibility(View.GONE);
         pcdSafetyZoneError.setVisibility(View.GONE);
         pcdSiaError.setVisibility(View.GONE);
@@ -234,6 +244,8 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
     }
 
     private void clearPcdFields() {
+        vacancyLocalValue.setText(null);
+        vacPositionRadio.clearCheck();
         hasVerticalSign.clearCheck();
         hasSiaPcd.clearCheck();
         hasSafetyZone.clearCheck();
@@ -243,17 +255,25 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         pcdVacancyLengthValue.setText(null);
         pcdVacancyWidthValue.setText(null);
         pcdVacLimiterWidthValue.setText(null);
-        pcdVacancyObsValue.setText(null);
         safetyZoneWidthValue.setText(null);
         safetyZoneObsValue.setText(null);
         siaLengthValue.setText(null);
         siaWidthValue.setText(null);
         siaObsValue.setText(null);
+        pcdVacancyObsValue.setText(null);
     }
 
     private boolean verifyEmptyPcdFields() {
         clearErrorMessages();
         int i = 0;
+        if (TextUtils.isEmpty(vacancyLocalValue.getText())) {
+            i++;
+            vacancyLocalField.setError(getString(R.string.req_field_error));
+        }
+        if (vacPositionRadio.getCheckedRadioButtonIndex() == -1) {
+            i++;
+            vacPositionError.setVisibility(View.VISIBLE);
+        }
         if (getCheckedRadio(hasVerticalSign) == -1) {
             i++;
             pcdVertError.setVisibility(View.VISIBLE);
@@ -309,12 +329,14 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
     }
 
     public ParkingLotPCDEntry newPcdEntry(Bundle bundle) {
-        int hasPcdVertSign, hasPcdSafety, hasPcdSia;
+        int hasPcdVertSign, hasPcdSafety, hasPcdSia, vacPosition;
         double vacancyLength, vacancyWidth, vacancyLimiterWidth;
         Double pcdVertSingLength = null, pcdVertSignWidth = null,
                 safetyZoneWidth = null, pcdSiaLength = null, pcdSiaWidth = null;
-        String pcdVertSignObs, pcdVacancyObs, safetyZoneObs, pcdSiaObs;
+        String locale, pcdVertSignObs, pcdHorVacancyObs, safetyZoneObs, pcdSiaObs, pcdVacancyObs;
 
+        locale = String.valueOf(vacancyLocalValue.getText());
+        vacPosition = vacPositionRadio.getCheckedRadioButtonIndex();
         hasPcdVertSign = getCheckedRadio(hasVerticalSign);
         if (hasPcdVertSign == 1) {
             pcdVertSingLength = Double.valueOf(String.valueOf(pcdVertLengthValue.getText()));
@@ -324,7 +346,6 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         vacancyLength = Double.parseDouble(String.valueOf(pcdVacancyLengthValue.getText()));
         vacancyWidth = Double.parseDouble(String.valueOf(pcdVacancyWidthValue.getText()));
         vacancyLimiterWidth = Double.parseDouble(String.valueOf(pcdVacLimiterWidthValue.getText()));
-        pcdVacancyObs = String.valueOf(pcdVacancyObsValue.getText());
         hasPcdSafety = getCheckedRadio(hasSafetyZone);
         if (hasPcdSafety == 1) {
             safetyZoneWidth = Double.valueOf(String.valueOf(safetyZoneWidthValue.getText()));
@@ -336,11 +357,12 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
             pcdSiaWidth = Double.valueOf(String.valueOf(siaWidthValue.getText()));
         }
         pcdSiaObs = String.valueOf(siaObsValue.getText());
+        pcdVacancyObs = String.valueOf(pcdVacancyObsValue.getText());
 
-        return new ParkingLotPCDEntry(bundle.getInt(PARKING_ID), hasPcdVertSign,
+        return new ParkingLotPCDEntry(bundle.getInt(PARKING_ID), locale, vacPosition, hasPcdVertSign,
                 pcdVertSingLength, pcdVertSignWidth, pcdVertSignObs, vacancyLength, vacancyWidth, vacancyLimiterWidth,
-                pcdVacancyObs, hasPcdSafety, safetyZoneWidth, safetyZoneObs, hasPcdSia, pcdSiaLength,
-                pcdSiaWidth, pcdSiaObs);
+                hasPcdSafety, safetyZoneWidth, safetyZoneObs, hasPcdSia, pcdSiaLength,
+                pcdSiaWidth, pcdSiaObs, pcdVacancyObs);
     }
 
 

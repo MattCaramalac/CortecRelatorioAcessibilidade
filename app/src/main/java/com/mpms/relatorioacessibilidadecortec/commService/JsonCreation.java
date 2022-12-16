@@ -10,7 +10,9 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
@@ -47,6 +49,8 @@ public class JsonCreation {
     private final List<ExternalAccess> extList; //*
     private final List<PlaygroundEntry> playList;
     private final List<ParkingLotEntry> parkList;
+    private final List<ParkingLotElderlyEntry> elderList;
+    private final List<ParkingLotPCDEntry> pcdList;
     private final List<RestroomEntry> restList;
     private final List<SidewalkEntry> sideList; //*
     private final List<WaterFountainEntry> fountList;
@@ -89,7 +93,8 @@ public class JsonCreation {
                         List<RampStairsFlightEntry> sideFlightList, List<RampStairsFlightEntry> extFlightList, List<RampStairsFlightEntry> parkFlightList,
                         List<RampStairsRailingEntry> roomRailList, List<RampStairsRailingEntry> sideRailList, List<RampStairsRailingEntry> extRailList,
                         List<RampStairsRailingEntry> parkRailList, List<RampStairsHandrailEntry> roomHandList, List<RampStairsHandrailEntry> sideHandList,
-                        List<RampStairsHandrailEntry> extHandList, List<RampStairsHandrailEntry> parkHandList, int qntBlocks, boolean hasHelpSpace, int extPark, int intPark) {
+                        List<RampStairsHandrailEntry> extHandList, List<RampStairsHandrailEntry> parkHandList, int qntBlocks, boolean hasHelpSpace, int extPark, int intPark,
+                        List<ParkingLotElderlyEntry> elderList, List<ParkingLotPCDEntry> pcdList) {
         this.school = school;
         this.blockList = blockList;
         this.roomList = roomList;
@@ -132,6 +137,8 @@ public class JsonCreation {
         this.hasHelpSpace = hasHelpSpace;
         this.extPark = extPark;
         this.intPark = intPark;
+        this.elderList = elderList;
+        this.pcdList = pcdList;
     }
 
     public List<String> ambListCreator() {
@@ -320,14 +327,14 @@ public class JsonCreation {
                 }
 
                 if (park == 1)
-                    build.append("1 (um) estacionamento interno");
+                    build.append("1 (um) estacionamento interno, ");
                 else if (park > 1)
-                    build.append(park).append(" estacionamentos internos");
+                    build.append(park).append(" estacionamentos internos, ");
 
                 if (play == 1)
-                    build.append("Playground, ");
+                    build.append("playground, ");
                 else if (play > 1)
-                    build.append(play).append(" Playgrounds, ");
+                    build.append(play).append(" playgrounds, ");
 
                 if (mBan == 1)
                     build.append("1 (um) sanitario masculino, ");
@@ -704,5 +711,13 @@ public class JsonCreation {
 
     public List<RampStairsHandrailEntry> getParkHandList() {
         return parkHandList;
+    }
+
+    public List<ParkingLotElderlyEntry> getElderList() {
+        return elderList;
+    }
+
+    public List<ParkingLotPCDEntry> getPcdList() {
+        return pcdList;
     }
 }

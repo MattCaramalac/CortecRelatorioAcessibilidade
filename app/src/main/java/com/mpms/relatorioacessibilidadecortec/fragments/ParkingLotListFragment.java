@@ -32,9 +32,6 @@ import java.util.Objects;
 
 public class ParkingLotListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
-    //    TODO - Trocar por AmbientID?
-    public static final String PARKING_ID = "PARKING_ID";
-
     MaterialButton closeParkingList, addParkingLot, invisible;
     TextView parkingHeader;
 

@@ -77,7 +77,7 @@ public class ParkLotElderListFragment extends Fragment implements OnEntryClickLi
 
         instantiateElderListViews(view);
 
-        modelEntry.getAllElderlyParkingLot(elderBundle.getInt(ParkingLotListFragment.PARKING_ID))
+        modelEntry.getElderVacanciesPark(elderBundle.getInt(ParkingLotListFragment.PARKING_ID))
                 .observe(getViewLifecycleOwner(), elderList -> {
                     elderAdapter = new ParkElderRecViewAdapter(elderList, requireActivity(), this);
                     recyclerView.setAdapter(elderAdapter);
@@ -202,7 +202,7 @@ public class ParkLotElderListFragment extends Fragment implements OnEntryClickLi
     @Override
     public void OnEntryClick(int position) {
         ParkingLotElderlyEntry elderEntry = modelEntry.allElderLots.getValue().get(position);
-        elderBundle.putInt(ELDER_ID, elderEntry.getParkingElderlyID());
+        elderBundle.putInt(ELDER_ID, elderEntry.getParkElderID());
         openElderFragment();
     }
 }

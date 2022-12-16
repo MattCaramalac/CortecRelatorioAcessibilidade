@@ -29,8 +29,8 @@
     </string-array>
 
     <string-array name="multi_radio_lock_type">
-        <item>PORTA CADEADO</item>
         <item>TRAVA DESLIZANTE</item>
+        <item>PORTA CADEADO</item>
         <item>OUTRO DISPOSITIVO</item>
     </string-array>
 
@@ -45,6 +45,12 @@
         <item>FEMININO</item>
         <item>FAMILIAR</item>
         <item>INFANTIL</item>
+    </string-array>
+
+    <string-array name="multi_radio_park_position">
+        <item>PARALELA</item>
+        <item>PERPENDICULAR</item>
+        <item>EM ÂNGULO</item>
     </string-array>
 
 
@@ -202,6 +208,7 @@
     <string name="label_parking_lot_has_PDMR_vacancy">Estacionamento possui vagas para PCD e PMR?</string>
     <string name="label_has_Vertical_PDMR_sign">Vagas para PCD e PMR possuem sinalização vertical?</string>
     <string name="hint_PDMR_vertical_sign_obs">Observações Sinalização Vertical</string>
+    <string name="hint_PDMR_horizontal_sign_obs">Observações Sinalização Horizontal</string>
     <string name="label_parking_horizontal_sign_header">Sinalização Horizontal</string>
     <string name="label_parking_vertical_sign_header">Sinalização Vertical</string>
     <string name="label_security_zone_PDMR">As Vagas para PCD e PMR possuem faixa adicional?</string>
@@ -632,4 +639,5 @@
     <string name="hint_obstacle_width">Largura do Obstáculo Vencido (m)</string>
     <string name="hint_counter_width">Largura do Balcão (m)</string>
     <string name="hint_fs_counter_width">Largura Livre do Balcão (m)</string>
+    <string name="hint_vacancy_identification">Localização/Identificação da Vaga</string>
 </resources>

@@ -37,7 +37,7 @@ public class WindowAnalysis implements StandardMeasurements {
             builder.append("a altura do comando da janela é inferior a " + minWinHeight + " m");
         }
 
-        if (window.getWindowObs() != null) {
+        if (window.getWindowObs() != null && window.getWindowObs().length() > 0) {
             windowIrregular(builder);
             builder.append("as seguintes observações devem ser apontadas sobre a janela: ").append(window.getWindowObs());
         }

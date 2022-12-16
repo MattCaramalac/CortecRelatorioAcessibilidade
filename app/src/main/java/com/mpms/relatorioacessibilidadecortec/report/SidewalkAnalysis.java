@@ -278,7 +278,7 @@ public class SidewalkAnalysis implements StandardMeasurements {
 
                                     if (flight.getFlightObs() != null) {
                                         rampTextIrregular(builder);
-                                        builder.append(flight.getFlightObs());
+                                        builder.append("O lance possui as seguintes irregularidades: ").append(flight.getFlightObs());
                                     }
 
 
@@ -302,20 +302,20 @@ public class SidewalkAnalysis implements StandardMeasurements {
                         StringBuilder builder = new StringBuilder();
                         if (phone.getPhoneHeight() < minIntTelHeight) {
                             phoneIrregular(builder);
-                            builder.append("Altura operacional do fone inferior a " + minIntTelHeight + " m");
+                            builder.append("altura operacional do fone inferior a " + minIntTelHeight + " m");
                         }
                         else if (phone.getPhoneHeight() > minIntTelHeight) {
                             phoneIrregular(builder);
-                            builder.append("Altura operacional do fone superior a " + maxIntTelHeight + " m");
+                            builder.append("altura operacional do fone superior a " + maxIntTelHeight + " m");
                         }
 
                         if (phone.getPhoneKeyboardHeight() < minIntTelHeight) {
                             phoneIrregular(builder);
-                            builder.append("Altura operacional do teclado inferior a " + minIntTelHeight + " m");
+                            builder.append("altura operacional do teclado inferior a " + minIntTelHeight + " m");
                         }
                         else if (phone.getPhoneKeyboardHeight() > minIntTelHeight) {
                             phoneIrregular(builder);
-                            builder.append("Altura operacional do teclado superior a " + maxIntTelHeight + " m");
+                            builder.append("altura operacional do teclado superior a " + maxIntTelHeight + " m");
                         }
 
                         if (phone.getHasTactileFloor() == 0) {
@@ -348,9 +348,9 @@ public class SidewalkAnalysis implements StandardMeasurements {
                                 builder.append("o telefone público está inoperante");
                             }
 
-                            if (phone.getPayPhoneObs() != null) {
+                            if (phone.getPayPhoneObs() != null && phone.getPayPhoneObs().length() > 0) {
                                 phoneIrregular(builder);
-                                builder.append("As seguintes observações devem ser feitas sobre este telefone público: ").append(phone.getPayPhoneObs());
+                                builder.append("as seguintes observações devem ser feitas sobre este telefone público: ").append(phone.getPayPhoneObs());
                             }
                         }
 

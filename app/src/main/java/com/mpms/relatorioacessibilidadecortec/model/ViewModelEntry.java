@@ -265,22 +265,30 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.selectLastInsertedParkingLot();
     }
 
-    public LiveData<List<ParkingLotElderlyEntry>> getAllElderlyParkingLot(int parkingLotID) {
-        allElderLots = repository.selectAllElderlyParkingLot(parkingLotID);
+    public LiveData<List<ParkingLotElderlyEntry>> getElderVacanciesPark(int parkingLotID) {
+        allElderLots = repository.getElderVacanciesPark(parkingLotID);
         return allElderLots;
     }
 
-    public LiveData<List<ParkingLotPCDEntry>> getAllPcdParkingLot(int parkingLotID) {
-        allPcdLots = repository.selectAllPcdParkingLot(parkingLotID);
+    public static LiveData<List<ParkingLotElderlyEntry>> getAllElderVacancies(List<Integer> parkingLotID) {
+        return repository.getAllElderVacancies(parkingLotID);
+    }
+
+    public LiveData<List<ParkingLotPCDEntry>> getPcdVacanciesPark(int parkingLotID) {
+        allPcdLots = repository.getPcdVacanciesPark(parkingLotID);
         return allPcdLots;
     }
 
-    public LiveData<ParkingLotElderlyEntry> getOneElderlyParkingLot(int parkingElderlyID) {
-        return repository.selectOneElderlyParkingLot(parkingElderlyID);
+    public static LiveData<List<ParkingLotPCDEntry>> getAllPcdVacancies(List<Integer> parkingLotID) {
+        return repository.getAllPcdVacancies(parkingLotID);
     }
 
-    public LiveData<ParkingLotPCDEntry> getOnePcdParkingLot(int parkingPcdID) {
-        return repository.selectOnePcdParkingLot(parkingPcdID);
+    public LiveData<ParkingLotElderlyEntry> getOneElderVacancy(int parkingElderlyID) {
+        return repository.getOneElderVacancy(parkingElderlyID);
+    }
+
+    public LiveData<ParkingLotPCDEntry> getOnePcdVacancy(int parkingPcdID) {
+        return repository.getOnePcdVacancy(parkingPcdID);
     }
 
     public static void insertRoomEntry(RoomEntry roomEntry) {

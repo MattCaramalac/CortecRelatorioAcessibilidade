@@ -34,6 +34,10 @@ public class RoomAnalysis implements StandardMeasurements {
                                         List<FreeSpaceEntry> fsList, List<RampStairsEntry> rStRoom, List<RampStairsFlightEntry> rStFlight,
                                         List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList) {
 
+        int extRoom = 0;
+        int helpRoom = 0;
+        int blockRoom = 0;
+
         for (BlockSpaceEntry block : blockList) {
             int blockID = block.getBlockSpaceID();
 
@@ -212,7 +216,8 @@ public class RoomAnalysis implements StandardMeasurements {
 
                     if (AmbientAnalysis.err) {
                         AmbientAnalysis.extRoomList.add(room.getRoomLocation() + ", com as seguintes irregularidades: ");
-                        AmbientAnalysis.extRoomIrregular.put(i, roomIrr);
+                        AmbientAnalysis.extRoomIrregular.put(extRoom, roomIrr);
+                        extRoom++;
                     }
 
                 }
@@ -223,7 +228,8 @@ public class RoomAnalysis implements StandardMeasurements {
 
                     if (AmbientAnalysis.err) {
                         AmbientAnalysis.helpRoomList.add(room.getRoomLocation() + ", com as seguintes irregularidades: ");
-                        AmbientAnalysis.helpRoomIrregular.put(i, roomIrr);
+                        AmbientAnalysis.helpRoomIrregular.put(helpRoom, roomIrr);
+                        helpRoom++;
                     }
                 }
 

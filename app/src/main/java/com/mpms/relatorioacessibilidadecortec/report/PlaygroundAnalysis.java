@@ -1,8 +1,6 @@
-package com.mpms.relatorioacessibilidadecortec.report.Components;
+package com.mpms.relatorioacessibilidadecortec.report;
 
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
-import com.mpms.relatorioacessibilidadecortec.report.AmbientAnalysis;
-import com.mpms.relatorioacessibilidadecortec.report.StandardMeasurements;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -19,7 +19,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
@@ -32,10 +31,10 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
     MaterialButton cancelParkingLotElderly, saveParkingLotElderly;
     TextInputLayout elderVertSignLengthField, elderVertSignWidthField, verticalSignObsField,
             elderVacancyLengthField, elderVacancyWidthField, elderVacancyLimitWidthField, elderVacancyObsField,
-            elderFloorSignLengthField, elderFloorSignWidthField, elderFloorSignObsField;
+            elderVacLocalField, elderFloorSignWidthField, elderFloorSignObsField;
     TextInputEditText elderVertSignLengthValue, elderVertSignWidthValue, verticalSignObsValue,
             elderVacancyLengthValue, elderVacancyWidthValue, elderVacancyLimitWidthValue, elderVacancyObsValue,
-            elderFloorSignLengthValue, elderFloorSignWidthValue, elderFloorSignObsFieldValue;
+            elderVacLocalValue, elderFloorSignWidthValue, elderFloorSignObsFieldValue;
     ArrayList<TextInputLayout> elderVertSignFields, elderFloorSignFields;
     ViewModelEntry modelEntry;
 
@@ -81,8 +80,8 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         hasFloorSign.setOnCheckedChangeListener(this::radioListener);
 
         if (elderlyBundle.getInt(ELDER_ID) > 0) {
-            modelEntry.getOneElderlyParkingLot(elderlyBundle.getInt(ELDER_ID))
-                    .observe(getViewLifecycleOwner(), this::gatherElderlyLotData);
+            modelEntry.getOneElderVacancy(elderlyBundle.getInt(ELDER_ID))
+                    .observe(getViewLifecycleOwner(), this::loadElderlyLotData);
         }
 
         cancelParkingLotElderly.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
@@ -100,7 +99,7 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         elderVacancyWidthField = view.findViewById(R.id.elder_vacancy_width_field);
         elderVacancyLimitWidthField = view.findViewById(R.id.elderly_vacancy_limiter_width_field);
         elderVacancyObsField = view.findViewById(R.id.elder_horizontal_sign_obs_field);
-        elderFloorSignLengthField = view.findViewById(R.id.elder_floor_sign_length_field);
+        elderVacLocalField = view.findViewById(R.id.elderly_vacancy_locale_field);
         elderFloorSignWidthField = view.findViewById(R.id.elder_floor_sign_width_field);
         elderFloorSignObsField = view.findViewById(R.id.elder_floor_sign_obs_field);
 //        TextInputEditText
@@ -111,7 +110,7 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         elderVacancyWidthValue = view.findViewById(R.id.elder_vacancy_width_value);
         elderVacancyLimitWidthValue = view.findViewById(R.id.elderly_vacancy_limiter_width_value);
         elderVacancyObsValue = view.findViewById(R.id.elder_horizontal_sign_obs_value);
-        elderFloorSignLengthValue = view.findViewById(R.id.elder_floor_sign_length_value);
+        elderVacLocalValue = view.findViewById(R.id.elderly_vacancy_locale_value);
         elderFloorSignWidthValue = view.findViewById(R.id.elder_floor_sign_width_value);
         elderFloorSignObsFieldValue = view.findViewById(R.id.elder_floor_sign_obs_value);
 //        RadioGroup
@@ -137,13 +136,17 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         elderVacancyLengthField.setErrorEnabled(false);
         elderVacancyWidthField.setErrorEnabled(false);
         elderVacancyLimitWidthField.setErrorEnabled(false);
-        elderFloorSignLengthField.setErrorEnabled(false);
+        elderVacLocalField.setErrorEnabled(false);
         elderFloorSignWidthField.setErrorEnabled(false);
     }
 
     public boolean verifyEmptyFields() {
         clearErrorMessages();
         int i = 0;
+        if (TextUtils.isEmpty(elderVacLocalValue.getText())) {
+            elderVacLocalField.setError(getString(R.string.req_field_error));
+            i++;
+        }
         if (getCheckedRadio(hasVerticalSign) == -1) {
             verticalSignError.setVisibility(View.VISIBLE);
             i++;
@@ -173,10 +176,6 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
             floorSingError.setVisibility(View.VISIBLE);
             i++;
         } else if (getCheckedRadio(hasFloorSign) == 1) {
-            if (TextUtils.isEmpty(elderFloorSignLengthValue.getText())) {
-                elderFloorSignLengthField.setError(getString(R.string.req_field_error));
-                i++;
-            }
             if (TextUtils.isEmpty(elderFloorSignWidthValue.getText())) {
                 elderFloorSignWidthField.setError(getString(R.string.req_field_error));
                 i++;
@@ -185,7 +184,8 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         return i == 0;
     }
 
-    private void gatherElderlyLotData(ParkingLotElderlyEntry elderlyEntry) {
+    private void loadElderlyLotData(ParkingLotElderlyEntry elderlyEntry) {
+        elderVacLocalValue.setText(String.valueOf(elderlyEntry.getElderVacLocation()));
         hasVerticalSign.check(hasVerticalSign.getChildAt(elderlyEntry.getHasElderlyVertSign()).getId());
         if (elderlyEntry.getHasElderlyVertSign() == 1) {
             elderVertSignLengthValue.setText(String.valueOf(elderlyEntry.getElderlyVertSignLength()));
@@ -198,8 +198,7 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         elderVacancyObsValue.setText(elderlyEntry.getElderlyVacancyObs());
         hasFloorSign.check(hasFloorSign.getChildAt(elderlyEntry.getHasElderlyFloorIndicator()).getId());
         if (elderlyEntry.getHasElderlyFloorIndicator() == 1) {
-            elderFloorSignLengthValue.setText(String.valueOf(elderlyEntry.getFloorIndicatorLength()));
-            elderFloorSignWidthValue.setText(String.valueOf(elderlyEntry.getFloorIndicatorWidth()));
+            elderFloorSignWidthValue.setText(String.valueOf(elderlyEntry.getFloorIndicatorHeight()));
         }
         elderFloorSignObsFieldValue.setText(elderlyEntry.getFloorIndicatorObs());
     }
@@ -208,7 +207,7 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         if (verifyEmptyFields()) {
             ParkingLotElderlyEntry newEntry = newElderlyEntry(elderlyBundle);
             if (elderlyBundle.getInt(ELDER_ID) > 0) {
-                newEntry.setParkingElderlyID(elderlyBundle.getInt(ELDER_ID));
+                newEntry.setParkElderID(elderlyBundle.getInt(ELDER_ID));
                 ViewModelEntry.updateElderlyParkingLot(newEntry);
                 Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
                 requireActivity().getSupportFragmentManager().popBackStack(ParkingLotFragment.ELDER_LIST, 0);
@@ -234,7 +233,6 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         elderVertSignFields.add(elderVertSignLengthField);
         elderVertSignFields.add(elderVertSignWidthField);
 
-        elderFloorSignFields.add(elderFloorSignLengthField);
         elderFloorSignFields.add(elderFloorSignWidthField);
     }
 
@@ -272,16 +270,17 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         elderVacancyLengthValue.setText(null);
         elderVacancyWidthValue.setText(null);
         elderVacancyLimitWidthValue.setText(null);
-        elderFloorSignLengthValue.setText(null);
+        elderVacLocalValue.setText(null);
         elderFloorSignWidthValue.setText(null);
     }
 
     public ParkingLotElderlyEntry newElderlyEntry(Bundle bundle) {
         int hasVertSign, hasElderFloorSign;
         double elderVacancyLength, elderVacancyWidth, elderVacancyLimitWidth;
-        Double elderVertLength = null, elderVertWidth = null, floorLength = null, floorWidth = null;
-        String elderVertObs, elderVacancyObs, elderFloorObs;
+        Double elderVertLength = null, elderVertWidth = null, floorHeight = null;
+        String elderLoc, elderVertObs, elderVacancyObs, elderFloorObs;
 
+        elderLoc = String.valueOf(elderVacLocalValue.getText());
         hasVertSign = getCheckedRadio(hasVerticalSign);
         if (hasVertSign == 1) {
             elderVertLength = Double.valueOf(String.valueOf(elderVertSignLengthValue.getText()));
@@ -294,14 +293,13 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         elderVacancyObs = String.valueOf(elderVacancyObsValue.getText());
         hasElderFloorSign = getCheckedRadio(hasFloorSign);
         if (hasElderFloorSign == 1) {
-            floorLength = Double.valueOf(String.valueOf(elderVertSignLengthValue.getText()));
-            floorWidth = Double.valueOf(String.valueOf(elderVertSignWidthValue.getText()));
+            floorHeight = Double.valueOf(String.valueOf(elderFloorSignWidthValue.getText()));
         }
         elderFloorObs = String.valueOf(verticalSignObsValue.getText());
 
-        return new ParkingLotElderlyEntry(bundle.getInt(ParkingLotListFragment.PARKING_ID),hasVertSign, elderVertLength,
+        return new ParkingLotElderlyEntry(bundle.getInt(PARKING_ID), elderLoc ,hasVertSign, elderVertLength,
                 elderVertWidth, elderVertObs, elderVacancyLength, elderVacancyWidth, elderVacancyLimitWidth,
-                elderVacancyObs, hasElderFloorSign, floorLength, floorWidth, elderFloorObs);
+                elderVacancyObs, hasElderFloorSign, floorHeight, elderFloorObs);
     }
 
 }

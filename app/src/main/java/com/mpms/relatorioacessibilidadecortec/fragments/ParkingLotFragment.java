@@ -29,8 +29,8 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 public class ParkingLotFragment extends Fragment implements TagInterface {
 
     RadioGroup accessFloorRadio, hasPcdVacancy, hasElderlyVacancy, parkHasStairs, parkHasRamps, parkHasAccessRoute;
-    TextInputLayout parkAccessFloorObsField, parkAccessRouteObsField;
-    TextInputEditText parkAccessFloorObsValue, parkAccessRouteObsValue;
+    TextInputLayout extParkLocalField, parkAccessFloorObsField, parkAccessRouteObsField;
+    TextInputEditText extParkLocalValue, parkAccessFloorObsValue, parkAccessRouteObsValue;
     Button addParkStairs, addParkRamps, cancelParkingLotRegister, saveParkingLotRegister;
     TextView parkingAccessError, pcdVacancyError, elderlyVacancyError, parkHasStairsError, parkHasRampsError, parkAccessRouteError;
     Bundle parkingBundle;
@@ -149,12 +149,16 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
         parkHasRampsError = view.findViewById(R.id.parking_has_ramps_error);
         parkAccessRouteError = view.findViewById(R.id.parking_lot_access_route_error);
 //        TextInputLayout
+        extParkLocalField = view.findViewById(R.id.ext_park_location_field);
         parkAccessFloorObsField = view.findViewById(R.id.parking_lot_floor_field);
         parkAccessRouteObsField = view.findViewById(R.id.parking_lot_route_field);
 //        TextInputEditText
+        extParkLocalValue = view.findViewById(R.id.ext_park_location_value);
         parkAccessFloorObsValue = view.findViewById(R.id.parking_lot_floor_value);
         parkAccessRouteObsValue = view.findViewById(R.id.parking_lot_route_value);
 //
+        if (parkingBundle.getBoolean(EXT_AREA_REG))
+            extParkLocalField.setVisibility(View.VISIBLE);
         parkHasStairs.setOnCheckedChangeListener(this::parkRadioListener);
         parkHasRamps.setOnCheckedChangeListener(this::parkRadioListener);
         accessFloorRadio.setOnCheckedChangeListener(this::parkRadioListener);
@@ -166,6 +170,8 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
     }
 
     private void loadParkingLotData(ParkingLotEntry parkingEntry) {
+        if (parkingEntry.getExtParkLocation() != null)
+            extParkLocalValue.setText(parkingEntry.getExtParkLocation());
         if (parkingEntry.getHasPCDVacancy() != null)
             hasPcdVacancy.check(hasPcdVacancy.getChildAt(parkingEntry.getHasPCDVacancy()).getId());
         if (parkingEntry.getHasElderVacancy() != null)
@@ -256,11 +262,11 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
                             parkingBundle.putBoolean(HAS_PCD, getBooleanFromRadio(getCheckedRadio(hasPcdVacancy)));
                             parkingBundle.putBoolean(HAS_ELDERLY, getBooleanFromRadio(getCheckedRadio(hasElderlyVacancy)));
                             saveAttempt = true;
-                        } else
-                            Toast.makeText(getContext(), "Cadastro efetuado com sucesso", Toast.LENGTH_SHORT).show();
+                        }
                         ViewModelEntry.insertParkingLot(newEntry);
                         parkingBundle.putBoolean(RECENT_ENTRY, true);
                         clearFields();
+                        openParkingLotTypeFragment();
                     }
                 } else {
                     Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
@@ -303,6 +309,12 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
     public boolean checkEmptyFields() {
         clearErrorsParkingLot();
         int error = 0;
+        if (parkingBundle.getBoolean(EXT_AREA_REG)) {
+            if (TextUtils.isEmpty(extParkLocalValue.getText())) {
+                error++;
+                extParkLocalField.setError(getString(R.string.req_field_error));
+            }
+        }
         if (hasPcdVacancy.getCheckedRadioButtonId() == -1) {
             pcdVacancyError.setVisibility(View.VISIBLE);
             error++;
@@ -328,7 +340,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
             error++;
         } else if (getCheckedRadio(accessFloorRadio) == 0) {
             if (TextUtils.isEmpty(parkAccessFloorObsValue.getText())) {
-                parkAccessFloorObsField.setError(getString(R.string.unexpected_error));
+                parkAccessFloorObsField.setError(getString(R.string.req_field_error));
                 error++;
             }
         }
@@ -337,7 +349,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
             error++;
         } else if (getCheckedRadio(parkHasAccessRoute) == 0) {
             if (TextUtils.isEmpty(parkAccessRouteObsValue.getText())) {
-                parkAccessRouteObsField.setError(getString(R.string.unexpected_error));
+                parkAccessRouteObsField.setError(getString(R.string.req_field_error));
                 error++;
             }
         }
@@ -353,6 +365,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
         parkAccessRouteError.setVisibility(View.GONE);
         parkAccessFloorObsField.setErrorEnabled(false);
         parkAccessRouteObsField.setErrorEnabled(false);
+        extParkLocalField.setErrorEnabled(false);
     }
 
     private int getCheckedRadio(RadioGroup radio) {
@@ -365,21 +378,24 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
         parkHasRamps.clearCheck();
         parkHasStairs.clearCheck();
         parkAccessFloorObsValue.setText(null);
+        parkAccessRouteObsValue.setText(null);
+        extParkLocalValue.setText(null);
         hasPcdVacancy.clearCheck();
         hasElderlyVacancy.clearCheck();
     }
 
     public ParkingLotEntry newParkingLotEntry(Bundle bundle) {
-        int typeParking;
-        if (bundle.getBoolean(EXT_AREA_REG))
-            typeParking = 1;
-        else
-//        else if (bundle.getBoolean(SUP_AREA_REG))
-            typeParking = 2;
-//        else
-//            typeParking = 3;
-        String accessFloorObs = null, accessRouteObs = null;
+        String accessFloorObs = null, accessRouteObs = null, extLocal = null;
         Integer sideID = null;
+        int typeParking;
+        if (bundle.getBoolean(EXT_AREA_REG)) {
+            typeParking = 1;
+            if (!TextUtils.isEmpty(extParkLocalValue.getText()))
+                extLocal = String.valueOf(extParkLocalValue.getText());
+        }
+        else
+            typeParking = 2;
+
 
         if (bundle.getInt(AMBIENT_ID) > 0)
             sideID = bundle.getInt(AMBIENT_ID);
@@ -390,7 +406,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
 
         return new ParkingLotEntry(bundle.getInt(BLOCK_ID), sideID, typeParking, getCheckedRadio(accessFloorRadio),
                 accessFloorObs, getCheckedRadio(hasPcdVacancy), getCheckedRadio(hasElderlyVacancy), getCheckedRadio(parkHasAccessRoute),
-                accessRouteObs, getCheckedRadio(parkHasStairs), getCheckedRadio(parkHasRamps));
+                accessRouteObs, getCheckedRadio(parkHasStairs), getCheckedRadio(parkHasRamps), extLocal);
     }
 
 }

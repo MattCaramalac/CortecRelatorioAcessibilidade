@@ -7,14 +7,15 @@ import androidx.room.PrimaryKey;
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys =
-        @ForeignKey(entity = ParkingLotEntry.class, parentColumns = "parkingID", childColumns = "parkingLotID",
+        @ForeignKey(entity = ParkingLotEntry.class, parentColumns = "parkingID", childColumns = "parkID",
                 onDelete = CASCADE, onUpdate = CASCADE))
 public class ParkingLotElderlyEntry {
 
     @PrimaryKey(autoGenerate = true)
-    private int parkingElderlyID;
-    private int parkingLotID;
+    private int parkElderID;
+    private int parkID;
 
+    private String elderVacLocation;
     private int hasElderlyVertSign;
     private Double elderlyVertSignLength;
     private Double elderlyVertSingWidth;
@@ -24,24 +25,23 @@ public class ParkingLotElderlyEntry {
     private double elderlyVacancyLimiterWidth;
     private String elderlyVacancyObs;
     private int hasElderlyFloorIndicator;
-    private Double floorIndicatorLength;
-    private Double floorIndicatorWidth;
+    private Double floorIndicatorHeight;
     private String floorIndicatorObs;
 
-    public int getParkingElderlyID() {
-        return parkingElderlyID;
+    public int getParkElderID() {
+        return parkElderID;
     }
 
-    public void setParkingElderlyID(int parkingElderlyID) {
-        this.parkingElderlyID = parkingElderlyID;
+    public void setParkElderID(int parkElderID) {
+        this.parkElderID = parkElderID;
     }
 
-    public int getParkingLotID() {
-        return parkingLotID;
+    public int getParkID() {
+        return parkID;
     }
 
-    public void setParkingLotID(int parkingLotID) {
-        this.parkingLotID = parkingLotID;
+    public void setParkID(int parkID) {
+        this.parkID = parkID;
     }
 
     public int getHasElderlyVertSign() {
@@ -116,22 +116,6 @@ public class ParkingLotElderlyEntry {
         this.hasElderlyFloorIndicator = hasElderlyFloorIndicator;
     }
 
-    public Double getFloorIndicatorLength() {
-        return floorIndicatorLength;
-    }
-
-    public void setFloorIndicatorLength(Double floorIndicatorLength) {
-        this.floorIndicatorLength = floorIndicatorLength;
-    }
-
-    public Double getFloorIndicatorWidth() {
-        return floorIndicatorWidth;
-    }
-
-    public void setFloorIndicatorWidth(Double floorIndicatorWidth) {
-        this.floorIndicatorWidth = floorIndicatorWidth;
-    }
-
     public String getFloorIndicatorObs() {
         return floorIndicatorObs;
     }
@@ -140,12 +124,27 @@ public class ParkingLotElderlyEntry {
         this.floorIndicatorObs = floorIndicatorObs;
     }
 
-    public ParkingLotElderlyEntry(int parkingLotID, int hasElderlyVertSign, Double elderlyVertSignLength,
-                                  Double elderlyVertSingWidth, String elderlyVertSignObs, double elderlyVacancyLength,
-                                  double elderlyVacancyWidth, double elderlyVacancyLimiterWidth, String elderlyVacancyObs,
-                                  int hasElderlyFloorIndicator, Double floorIndicatorLength, Double floorIndicatorWidth,
-                                  String floorIndicatorObs) {
-        this.parkingLotID = parkingLotID;
+    public String getElderVacLocation() {
+        return elderVacLocation;
+    }
+
+    public void setElderVacLocation(String elderVacLocation) {
+        this.elderVacLocation = elderVacLocation;
+    }
+
+    public Double getFloorIndicatorHeight() {
+        return floorIndicatorHeight;
+    }
+
+    public void setFloorIndicatorHeight(Double floorIndicatorHeight) {
+        this.floorIndicatorHeight = floorIndicatorHeight;
+    }
+
+    public ParkingLotElderlyEntry(int parkID, String elderVacLocation, int hasElderlyVertSign, Double elderlyVertSignLength, Double elderlyVertSingWidth,
+                                  String elderlyVertSignObs, double elderlyVacancyLength, double elderlyVacancyWidth, double elderlyVacancyLimiterWidth,
+                                  String elderlyVacancyObs, int hasElderlyFloorIndicator, Double floorIndicatorHeight, String floorIndicatorObs) {
+        this.parkID = parkID;
+        this.elderVacLocation = elderVacLocation;
         this.hasElderlyVertSign = hasElderlyVertSign;
         this.elderlyVertSignLength = elderlyVertSignLength;
         this.elderlyVertSingWidth = elderlyVertSingWidth;
@@ -155,8 +154,7 @@ public class ParkingLotElderlyEntry {
         this.elderlyVacancyLimiterWidth = elderlyVacancyLimiterWidth;
         this.elderlyVacancyObs = elderlyVacancyObs;
         this.hasElderlyFloorIndicator = hasElderlyFloorIndicator;
-        this.floorIndicatorLength = floorIndicatorLength;
-        this.floorIndicatorWidth = floorIndicatorWidth;
+        this.floorIndicatorHeight = floorIndicatorHeight;
         this.floorIndicatorObs = floorIndicatorObs;
     }
 }

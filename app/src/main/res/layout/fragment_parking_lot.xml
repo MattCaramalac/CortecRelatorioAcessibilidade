@@ -28,6 +28,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/ext_park_location_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/parking_lot_header"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Localização do Estacionamento"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ext_park_location_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <TextView
                 android:id="@+id/parking_lot_PDMR_vacancy_header"
                 android:layout_width="match_parent"
@@ -36,7 +55,7 @@
                 android:text="@string/label_parking_lot_has_PDMR_vacancy"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/parking_lot_header" />
+                app:layout_constraintTop_toBottomOf="@id/ext_park_location_field" />
 
             <RadioGroup
                 android:id="@+id/parking_lot_PCD_vacancy_radio"

@@ -38,7 +38,7 @@ public class SwitchAnalysis implements StandardMeasurements {
             builder.append("a altura do interruptor é inferior a " + minSwHeight + " m");
         }
 
-        if (swEntry.getSwitchObs() != null) {
+        if (swEntry.getSwitchObs() != null && swEntry.getSwitchObs().length() > 0) {
             switchIrregular(builder);
             builder.append("as seguintes observações devem ser apontadas sobre o interruptor: ").append(swEntry.getSwitchObs());
         }

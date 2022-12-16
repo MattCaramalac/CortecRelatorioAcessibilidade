@@ -41,8 +41,10 @@ public class ParkElderRecViewAdapter extends RecyclerView.Adapter<ViewHolderInte
 
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-        if (elderList.get(position) != null) {
-            holder.textInfoOne.setText(elderNumber(getItemCount()-position));
+        ParkingLotElderlyEntry elder = elderList.get(position);
+        if (elder != null) {
+            holder.textInfoOne.setText(pcdLocale(elder.getElderVacLocation()));
+            holder.textInfoTwo.setText(elderNumber(getItemCount()-position));
             if (selectedItems.get(position))
                 holder.background.setBackgroundColor(Color.rgb(158, 235, 247));
             else
@@ -74,11 +76,15 @@ public class ParkElderRecViewAdapter extends RecyclerView.Adapter<ViewHolderInte
         return "Vaga Idosos nº"+i;
     }
 
+    private String pcdLocale(String locale) {
+        return "Vaga - " + locale;
+    }
+
     @Override
     public void deleteItemList() {
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
-            ViewModelEntry.deleteElderlyParkingLot(elderList.get(selectedItems.keyAt(i)).getParkingElderlyID());
+            ViewModelEntry.deleteElderlyParkingLot(elderList.get(selectedItems.keyAt(i)).getParkID());
         }
     }
 

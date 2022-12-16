@@ -71,7 +71,6 @@ public class StairsAnalysis implements StandardMeasurements {
                     flightIrregular(builder);
                     builder.append("a largura livre mínima inferior à 1,20 m");
                 }
-//                                        TODO - trocar nome para flightHeight
                 if (flight.getRampHeight() > maxHeightUntilInterLevel) {
                     flightIrregular(builder);
                     builder.append("a altura do desnível é superior ao máximo permitido de " + maxHeightUntilInterLevel + " m");

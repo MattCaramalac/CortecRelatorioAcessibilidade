@@ -47,40 +47,34 @@ public class DoorAnalysis implements StandardMeasurements {
 
         if (door.getDoorHandleHeight() < minDoorHandle) {
             doorIrregular(doors);
-            if (door.getDoorHandleObs() != null)
+            if (door.getDoorHandleObs() != null && door.getDoorHandleObs().length() > 0)
                 doors.append("a altura da maçaneta é inferior à " + minDoorHandle + "m e deve-se destacar as seguintes observações sobre a maçaneta: ")
                         .append(door.getDoorHandleObs());
             else
                 doors.append("a altura da maçaneta é inferior à " + minDoorHandle + "m");
         } else if (door.getDoorHandleHeight() > maxDoorHandle) {
             doorIrregular(doors);
-            if (door.getDoorHandleObs() != null)
+            if (door.getDoorHandleObs() != null && door.getDoorHandleObs().length() > 0)
                 doors.append("a altura da maçaneta é superior à " + maxDoorHandle + "m e deve-se destacar as seguintes observações sobre a maçaneta: ")
                         .append(door.getDoorHandleObs());
             else
                 doors.append("a altura da maçaneta é superior à " + maxDoorHandle + "m");
         } else {
-            if (door.getDoorHandleObs() != null)
+            if (door.getDoorHandleObs() != null && door.getDoorHandleObs().length() > 0)
                 doors.append("a altura da maçaneta está de acordo com a norma, porém deve-se destacar as seguintes observações sobre a maçaneta: ")
                         .append(door.getDoorHandleObs());
         }
 
-        if (dLockList.size() > 0) {
-            String dLocks = DoorLockAnalysis.doorLockVerification(door.getDoorID(), dLockList);
-            if (dLocks.length() > 0) {
-                doorIrregular(doors);
-                doors.append(dLocks);
-            }
-        }
-
         if (door.getDoorHasTactileSign() == 0) {
             doorIrregular(doors);
-            if (door.getDoorTactileSignObs() != null) {
+            if (door.getDoorTactileSignObs() != null && door.getDoorTactileSignObs().length() > 0) {
                 doors.append("a porta não possui sinalização tátil e as seguintes observações devem ser feitas: ").append(door.getDoorTactileSignObs());
             }
+            else
+                doors.append("a porta não possui sinalização tátil");
         }
         else if (door.getDoorHasTactileSign() == 1) {
-            if (door.getDoorTactileSignObs() != null) {
+            if (door.getDoorTactileSignObs() != null && door.getDoorTactileSignObs().length() > 0) {
                 doors.append("a porta possui sinalização tátil, porém as seguintes observações devem ser feitas: ").append(door.getDoorTactileSignObs());
             }
         }
@@ -89,6 +83,14 @@ public class DoorAnalysis implements StandardMeasurements {
         if (doorSill != null && doorSill.length() > 0) {
             doorIrregular(doors);
             doors.append(doorSill);
+        }
+
+        if (dLockList.size() > 0) {
+            String dLocks = DoorLockAnalysis.doorLockVerification(door.getDoorID(), dLockList);
+            if (dLocks.length() > 0) {
+                doorIrregular(doors);
+                doors.append(dLocks);
+            }
         }
 
         return doors.toString();

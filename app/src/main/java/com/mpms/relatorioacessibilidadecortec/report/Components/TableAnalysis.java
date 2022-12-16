@@ -57,7 +57,7 @@ public class TableAnalysis implements StandardMeasurements {
             builder.append("a largura livre da mesa é inferior ao mínimo de " + minTableFreeWidth + " m");
         }
 
-        if (table.getTableObs() != null) {
+        if (table.getTableObs() != null && table.getTableObs() .length() > 0) {
             tableIrregular(builder);
             builder.append("as seguintes observações devem ser apontadas sobre a mesa em questão: ").append(table.getTableObs());
         }

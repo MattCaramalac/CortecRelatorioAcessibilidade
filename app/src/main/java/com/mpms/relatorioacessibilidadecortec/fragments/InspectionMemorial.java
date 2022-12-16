@@ -28,7 +28,9 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
@@ -87,6 +89,8 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     List<BlockSpaceEntry> blockList = new ArrayList<>();
     List<ExternalAccess> extList = new ArrayList<>();
     List<ParkingLotEntry> parkList = new ArrayList<>();
+    List<ParkingLotElderlyEntry> elderList = new ArrayList<>();
+    List<ParkingLotPCDEntry> pcdList = new ArrayList<>();
     List<PlaygroundEntry> playList = new ArrayList<>();
     List<RestroomEntry> restList = new ArrayList<>();
     List<SidewalkEntry> sideList = new ArrayList<>();
@@ -219,6 +223,8 @@ public class InspectionMemorial extends Fragment implements TagInterface {
                 stRaList.add(st.getRampStairsID());
             flParkID.setIdList(stRaList);
         });
+        ViewModelEntry.getAllElderVacancies(idList).observe(getViewLifecycleOwner(), elder -> elderList = elder);
+        ViewModelEntry.getAllPcdVacancies(idList).observe(getViewLifecycleOwner(), pcdVacancy -> pcdList = pcdVacancy);
     };
 
     Observer sideIdList = (o, arg) -> {
@@ -379,7 +385,8 @@ public class InspectionMemorial extends Fragment implements TagInterface {
             JsonCreation jCreate = new JsonCreation(school, blockList, roomList, extList, parkList, playList, restList, sideList, fountList, roomStRaList, sideStRaList,
                     extStRaList, parkStRaList, boardList, counterList, doorList, freeList, switchList, tableList, windowList, doorLockList,
                     gateLockList, gateObsList, extPhoneList, sidePhoneList, slopeList, roomFlightList, sideFlightList, extFlightList, parkFlightList,
-                    roomRailList, sideRailList, extRailList, parkRailList, roomHandList, sideHandList, extHandList, parkHandList, blockQnt, hasHelpSpace, extParkQnt, intParkQnt);
+                    roomRailList, sideRailList, extRailList, parkRailList, roomHandList, sideHandList, extHandList, parkHandList, blockQnt, hasHelpSpace, extParkQnt, intParkQnt,
+                    elderList, pcdList);
 
             tData = jCreate.createJson();
 

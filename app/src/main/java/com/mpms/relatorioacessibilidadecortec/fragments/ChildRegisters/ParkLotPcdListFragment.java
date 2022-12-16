@@ -76,7 +76,7 @@ public class ParkLotPcdListFragment extends Fragment implements OnEntryClickList
 
         instantiatePcdListViews(view);
 
-        modelEntry.getAllPcdParkingLot(pcdBundle.getInt(PARKING_ID))
+        modelEntry.getPcdVacanciesPark(pcdBundle.getInt(PARKING_ID))
                 .observe(getViewLifecycleOwner(), pcdList -> {
                     pcdAdapter = new ParkPcdRecViewAdapter(pcdList, requireActivity(), this);
                     recyclerView.setAdapter(pcdAdapter);
@@ -216,7 +216,7 @@ public class ParkLotPcdListFragment extends Fragment implements OnEntryClickList
     @Override
     public void OnEntryClick(int position) {
         ParkingLotPCDEntry pcdEntry = modelEntry.allPcdLots.getValue().get(position);
-        pcdBundle.putInt(ParkLotPcdFragment.PCD_ID, pcdEntry.getParkingPcdID());
+        pcdBundle.putInt(ParkLotPcdFragment.PCD_ID, pcdEntry.getParkPcdID());
         openPcdFragment();
     }
 }

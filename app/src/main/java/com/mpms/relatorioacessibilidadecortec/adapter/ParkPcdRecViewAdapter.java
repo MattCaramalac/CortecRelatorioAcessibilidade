@@ -40,8 +40,10 @@ public class ParkPcdRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterf
 
     @Override
     public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-        if (pcdList.get(position) != null) {
-            holder.textInfoOne.setText(pcdNumber(getItemCount()-position));
+        ParkingLotPCDEntry pcdEntry = pcdList.get(position);
+        if (pcdEntry != null) {
+            holder.textInfoOne.setText(pcdLocale(pcdEntry.getPcdVacancyLocal()));
+            holder.textInfoTwo.setText(pcdNumber(getItemCount()-position));
             if (selectedItems.get(position))
                 holder.background.setBackgroundColor(Color.rgb(158, 235, 247));
             else
@@ -73,11 +75,15 @@ public class ParkPcdRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterf
         return "Vaga PCD nº"+i;
     }
 
+    private String pcdLocale(String locale) {
+        return "Vaga - " + locale;
+    }
+
     @Override
     public void deleteItemList() {
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
-            ViewModelEntry.deletePdmrParkingLot(pcdList.get(selectedItems.keyAt(i)).getParkingPcdID());
+            ViewModelEntry.deletePdmrParkingLot(pcdList.get(selectedItems.keyAt(i)).getParkID());
         }
     }
 
