@@ -2,6 +2,7 @@ package com.mpms.relatorioacessibilidadecortec.report;
 
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.util.MapUtil;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.apache.poi.xwpf.usermodel.XWPFAbstractNum;
@@ -31,12 +32,14 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
 
     private final XWPFDocument mDoc;
     private final XWPFParagraph mParagraph;
+    private final JsonCreation jCreate;
 
     public final Map<Integer, Integer> blockNumber = new HashMap<>();
     public static final Map<Integer, List<String>> sideIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> extIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> extRoomIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> helpRoomIrregular = new HashMap<>();
+    public static final Map<Integer, List<String>> blockRoomIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> extParkIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> helpParkIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> playIrregular = new HashMap<>();
@@ -44,6 +47,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public static final List<String> extAccessList = new ArrayList<>();
     public static final List<String> extRoomList = new ArrayList<>();
     public static final List<String> helpRoomList = new ArrayList<>();
+    public static final List<String> blockRoomList = new ArrayList<>();
     public static final List<String> extParkList = new ArrayList<>();
     public static final List<String> helpParkList = new ArrayList<>();
     public static final List<String> playList = new ArrayList<>();
@@ -52,7 +56,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public AmbientAnalysis(XWPFDocument mDoc, XWPFParagraph mParagraph, JsonCreation jCreate) {
         this.mDoc = mDoc;
         this.mParagraph = mParagraph;
-        blockCorrespondence(jCreate.getBlockList());
+        this.jCreate = jCreate;
         SidewalkAnalysis.sidewalkVerification(jCreate.getSideList(), jCreate.getSideStRaList(), jCreate.getSideFlightList(), jCreate.getSidePhoneList(),
                 jCreate.getSlopeList());
         ExtAccessAnalysis.extAccessVerification(jCreate.getExtList(), jCreate.getGateLockList(), jCreate.getGateObsList(), jCreate.getExtPhoneList(),
@@ -60,9 +64,11 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
         ParkingAnalysis.parkVerification(jCreate.getBlockList(), jCreate.getParkList(), jCreate.getElderList(), jCreate.getPcdList(), jCreate.getParkStRaList(),
                 jCreate.getParkFlightList(), jCreate.getParkRailList(), jCreate.getParkHandList());
         PlaygroundAnalysis.playVerification(jCreate.getPlayList());
-        RoomAnalysis.roomVerification(jCreate.getBlockList(),jCreate.getRoomList(), jCreate.getDoorList(), jCreate.getDoorLockList(), jCreate.getSwitchList(),
+        RoomAnalysis.roomVerification(jCreate.getBlockList(), jCreate.getRoomList(), jCreate.getDoorList(), jCreate.getDoorLockList(), jCreate.getSwitchList(),
                 jCreate.getWindowList(), jCreate.getTableList(), jCreate.getBoardList(), jCreate.getFreeList(), jCreate.getRoomStRaList(), jCreate.getRoomFlightList(),
                 jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList());
+        blockCorrespondence(jCreate.getBlockList());
+
     }
 
 
@@ -84,11 +90,23 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
         AmbientAnalysis.placeType.add(HELP_TITLE);
     }
 
+    public static void checkBlockHeader(int n) {
+        err = true;
+        for (int i = 0; i < AmbientAnalysis.placeType.size(); i++) {
+            if (AmbientAnalysis.placeType.get(i).equals(BLOCK_TITLE + " " + n)) ;
+            return;
+        }
+        AmbientAnalysis.placeType.add(BLOCK_TITLE + " " + n);
+    }
+
     public void blockCorrespondence(List<BlockSpaceEntry> blockList) {
-        for (int i = 0; i < blockList.size(); i++) {
-            BlockSpaceEntry bEntry = blockList.get(i);
+        for (BlockSpaceEntry bEntry : blockList) {
             if (bEntry.getBlockSpaceType() == 0)
                 blockNumber.put(bEntry.getBlockSpaceID(), bEntry.getBlockSpaceNumber());
+        }
+        MapUtil.sortByValue(blockNumber);
+        for (Integer bNumber : blockNumber.values()) {
+            checkBlockHeader(bNumber);
         }
     }
 
@@ -115,15 +133,24 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
                 irregularTextListing(extAccessList, extIrregular, numID, cursor);
                 irregularTextListing(extRoomList, extRoomIrregular, numID, cursor);
                 irregularTextListing(extParkList, extParkIrregular, numID, cursor);
-            }
-            else if (i == 1) {
+            } else if (i == 1) {
                 irregularTextListing(playList, playIrregular, numID, cursor);
                 irregularTextListing(helpRoomList, helpRoomIrregular, numID, cursor);
                 irregularTextListing(helpParkList, helpParkIrregular, numID, cursor);
+            } else {
+                blockRoomList.clear();
+                blockRoomIrregular.clear();
+                for (Integer bNumber : blockNumber.values()) {
+                    RoomAnalysis.blockRoomVerification(bNumber, jCreate.getRoomList(), jCreate.getDoorList(), jCreate.getDoorLockList(), jCreate.getSwitchList(),
+                            jCreate.getWindowList(), jCreate.getTableList(), jCreate.getBoardList(), jCreate.getFreeList(), jCreate.getRoomStRaList(), jCreate.getRoomFlightList(),
+                            jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList());
+                    if (blockRoomList.size() == 0 && blockRoomIrregular.size() == 0) {
+                        blockRoomList.add("Este bloco não possui salas com irregularidades");
+                    }
+                    irregularTextListing(blockRoomList, blockRoomIrregular, numID, cursor);
+                }
+
             }
-
-
-
             i++;
         }
     }
