@@ -87,77 +87,77 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
             modelEntry.getSidewalkSlopeEntry(slopeBundle.getInt(SIDEWALK_SLOPE_ID)).observe(getViewLifecycleOwner(), this::loadSlopeData);
         }
 
-        longButton.setOnClickListener(v -> {
-            if (longCounter < 0) {
-                longCounter = 0;
-                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-            } else if (longCounter < 4) {
-                if (longCounter == 0)
-                    deleteLong.setVisibility(View.VISIBLE);
-                longFields.get(longCounter).setVisibility(View.VISIBLE);
-                longCounter++;
-            } else
-                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
-        });
-
-        leftButton.setOnClickListener(v -> {
-            if (leftCounter < 0) {
-                leftCounter = 0;
-                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-            } else if (leftCounter < 4) {
-                if (leftCounter == 0) {
-                    deleteLeft.setVisibility(View.VISIBLE);
-                }
-                leftFields.get(leftCounter).setVisibility(View.VISIBLE);
-                leftCounter++;
-            } else {
-                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        rightButton.setOnClickListener(v -> {
-            if (rightCounter < 0) {
-                rightCounter = 0;
-                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-            } else if (rightCounter < 4) {
-                if (rightCounter == 0) {
-                    deleteRight.setVisibility(View.VISIBLE);
-                }
-                rightFields.get(rightCounter).setVisibility(View.VISIBLE);
-                rightCounter++;
-            } else
-                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
-        });
-
-        deleteLong.setOnClickListener(v -> {
-            if (longCounter > 0) {
-                longFields.get(longCounter - 1).getEditText().setText(null);
-                longFields.get(longCounter - 1).setVisibility(View.GONE);
-                longCounter--;
-                if (longCounter == 0)
-                    deleteLong.setVisibility(View.GONE);
-            }
-        });
-
-        deleteLeft.setOnClickListener(v -> {
-            if (leftCounter > 0) {
-                leftFields.get(leftCounter - 1).getEditText().setText(null);
-                leftFields.get(leftCounter - 1).setVisibility(View.GONE);
-                leftCounter--;
-                if (leftCounter == 0)
-                    deleteLeft.setVisibility(View.GONE);
-            }
-        });
-
-        deleteRight.setOnClickListener(v -> {
-            if (rightCounter > 0) {
-                rightFields.get(rightCounter - 1).getEditText().setText(null);
-                rightFields.get(rightCounter - 1).setVisibility(View.GONE);
-                rightCounter--;
-                if (rightCounter == 0)
-                    deleteRight.setVisibility(View.GONE);
-            }
-        });
+//        longButton.setOnClickListener(v -> {
+//            if (longCounter < 0) {
+//                longCounter = 0;
+//                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+//            } else if (longCounter < 4) {
+//                if (longCounter == 0)
+//                    deleteLong.setVisibility(View.VISIBLE);
+//                longFields.get(longCounter).setVisibility(View.VISIBLE);
+//                longCounter++;
+//            } else
+//                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
+//        });
+//
+//        leftButton.setOnClickListener(v -> {
+//            if (leftCounter < 0) {
+//                leftCounter = 0;
+//                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+//            } else if (leftCounter < 4) {
+//                if (leftCounter == 0) {
+//                    deleteLeft.setVisibility(View.VISIBLE);
+//                }
+//                leftFields.get(leftCounter).setVisibility(View.VISIBLE);
+//                leftCounter++;
+//            } else {
+//                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        rightButton.setOnClickListener(v -> {
+//            if (rightCounter < 0) {
+//                rightCounter = 0;
+//                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+//            } else if (rightCounter < 4) {
+//                if (rightCounter == 0) {
+//                    deleteRight.setVisibility(View.VISIBLE);
+//                }
+//                rightFields.get(rightCounter).setVisibility(View.VISIBLE);
+//                rightCounter++;
+//            } else
+//                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
+//        });
+//
+//        deleteLong.setOnClickListener(v -> {
+//            if (longCounter > 0) {
+//                longFields.get(longCounter - 1).getEditText().setText(null);
+//                longFields.get(longCounter - 1).setVisibility(View.GONE);
+//                longCounter--;
+//                if (longCounter == 0)
+//                    deleteLong.setVisibility(View.GONE);
+//            }
+//        });
+//
+//        deleteLeft.setOnClickListener(v -> {
+//            if (leftCounter > 0) {
+//                leftFields.get(leftCounter - 1).getEditText().setText(null);
+//                leftFields.get(leftCounter - 1).setVisibility(View.GONE);
+//                leftCounter--;
+//                if (leftCounter == 0)
+//                    deleteLeft.setVisibility(View.GONE);
+//            }
+//        });
+//
+//        deleteRight.setOnClickListener(v -> {
+//            if (rightCounter > 0) {
+//                rightFields.get(rightCounter - 1).getEditText().setText(null);
+//                rightFields.get(rightCounter - 1).setVisibility(View.GONE);
+//                rightCounter--;
+//                if (rightCounter == 0)
+//                    deleteRight.setVisibility(View.GONE);
+//            }
+//        });
 
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (checkSideSlopeEmptyFields() && bundle.getBoolean(CHILD_DATA_COMPLETE)) {
@@ -265,30 +265,157 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 
-        addLayoutsToArrays();
+//        addLayoutsToArrays();
         hasRightWing.setOnCheckedChangeListener(this::slopeWingRadioListener);
         hasLeftWing.setOnCheckedChangeListener(this::slopeWingRadioListener);
         slopeIsAccessible.setOnCheckedChangeListener(this::slopeWingRadioListener);
         slopeStreetJunction.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
                 (v, r) -> slopeMultiRadioListener(slopeStreetJunction));
+        longButton.setOnClickListener(this::addFieldClickListener);
+        leftButton.setOnClickListener(this::addFieldClickListener);
+        rightButton.setOnClickListener(this::addFieldClickListener);
     }
 
-    private void addLayoutsToArrays() {
-        longFields.add(longMeasureField1);
-        longFields.add(longMeasureField2);
-        longFields.add(longMeasureField3);
-        longFields.add(longMeasureField4);
-
-        leftFields.add(leftMeasureField1);
-        leftFields.add(leftMeasureField2);
-        leftFields.add(leftMeasureField3);
-        leftFields.add(leftMeasureField4);
-
-        rightFields.add(rightMeasureField1);
-        rightFields.add(rightMeasureField2);
-        rightFields.add(rightMeasureField3);
-        rightFields.add(rightMeasureField4);
+    private void addFieldClickListener(View v) {
+        if (v == longButton) {
+            if (longCounter < 1) {
+                longCounter = 1;
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (longCounter == 1) {
+                deleteLong.setVisibility(View.VISIBLE);
+                longMeasureField2.setVisibility(View.VISIBLE);
+                longCounter++;
+            } else if (longCounter == 2) {
+                longMeasureField3.setVisibility(View.VISIBLE);
+                longCounter++;
+            } else if (longCounter == 3) {
+                longMeasureField4.setVisibility(View.VISIBLE);
+                longCounter++;
+            } else
+                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+        } else if (v == deleteLong) {
+            if (longCounter < 1) {
+                longCounter = 1;
+                deleteLong.setVisibility(View.GONE);
+                longMeasureValue2.setText(null);
+                longMeasureField2.setVisibility(View.GONE);
+                longMeasureValue3.setText(null);
+                longMeasureField3.setVisibility(View.GONE);
+                longMeasureValue4.setText(null);
+                longMeasureField4.setVisibility(View.GONE);
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (longCounter == 4) {
+                longMeasureValue4.setText(null);
+                longMeasureField4.setVisibility(View.GONE);
+            } else if (longCounter == 3) {
+                longMeasureValue3.setText(null);
+                longMeasureField3.setVisibility(View.GONE);
+            } else if (longCounter == 2) {
+                longMeasureValue2.setText(null);
+                longMeasureField2.setVisibility(View.GONE);
+                deleteLong.setVisibility(View.GONE);
+            }
+            if (longCounter > 1)
+                longCounter--;
+        } else if (v == leftButton) {
+            if (leftCounter < 1) {
+                leftCounter = 1;
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (leftCounter == 1) {
+                deleteLeft.setVisibility(View.VISIBLE);
+                leftMeasureField2.setVisibility(View.VISIBLE);
+                leftCounter++;
+            } else if (leftCounter == 2) {
+                leftMeasureField3.setVisibility(View.VISIBLE);
+                leftCounter++;
+            } else if (leftCounter == 3) {
+                leftMeasureField4.setVisibility(View.VISIBLE);
+                leftCounter++;
+            } else
+                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+        } else if (v == deleteLeft) {
+            if (leftCounter < 1) {
+                leftCounter = 1;
+                deleteLeft.setVisibility(View.GONE);
+                leftMeasureValue2.setText(null);
+                leftMeasureField2.setVisibility(View.GONE);
+                leftMeasureValue3.setText(null);
+                leftMeasureField3.setVisibility(View.GONE);
+                leftMeasureValue4.setText(null);
+                leftMeasureField4.setVisibility(View.GONE);
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (leftCounter == 4) {
+                leftMeasureValue4.setText(null);
+                leftMeasureField4.setVisibility(View.GONE);
+            } else if (leftCounter == 3) {
+                leftMeasureValue3.setText(null);
+                leftMeasureField3.setVisibility(View.GONE);
+            } else if (leftCounter == 2) {
+                leftMeasureValue2.setText(null);
+                leftMeasureField2.setVisibility(View.GONE);
+                deleteLeft.setVisibility(View.GONE);
+            }
+            if (leftCounter > 1)
+                leftCounter--;
+        } else if (v == rightButton) {
+            if (rightCounter < 1) {
+                rightCounter = 1;
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (rightCounter == 1) {
+                deleteRight.setVisibility(View.VISIBLE);
+                rightMeasureField2.setVisibility(View.VISIBLE);
+                rightCounter++;
+            } else if (rightCounter == 2) {
+                rightMeasureField3.setVisibility(View.VISIBLE);
+                rightCounter++;
+            } else if (rightCounter == 3) {
+                rightMeasureField4.setVisibility(View.VISIBLE);
+                rightCounter++;
+            } else
+                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+        } else if (v == deleteRight) {
+            if (rightCounter < 1) {
+                rightCounter = 1;
+                deleteRight.setVisibility(View.GONE);
+                rightMeasureValue2.setText(null);
+                rightMeasureField2.setVisibility(View.GONE);
+                rightMeasureValue3.setText(null);
+                rightMeasureField3.setVisibility(View.GONE);
+                rightMeasureValue4.setText(null);
+                rightMeasureField4.setVisibility(View.GONE);
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (rightCounter == 4) {
+                rightMeasureValue4.setText(null);
+                rightMeasureField4.setVisibility(View.GONE);
+            } else if (rightCounter == 3) {
+                rightMeasureValue3.setText(null);
+                rightMeasureField3.setVisibility(View.GONE);
+            } else if (rightCounter == 2) {
+                rightMeasureValue2.setText(null);
+                rightMeasureField2.setVisibility(View.GONE);
+                deleteRight.setVisibility(View.GONE);
+            }
+            if (rightCounter > 1)
+                rightCounter--;
+        }
     }
+
+//    private void addLayoutsToArrays() {
+//        longFields.add(longMeasureField1);
+//        longFields.add(longMeasureField2);
+//        longFields.add(longMeasureField3);
+//        longFields.add(longMeasureField4);
+//
+//        leftFields.add(leftMeasureField1);
+//        leftFields.add(leftMeasureField2);
+//        leftFields.add(leftMeasureField3);
+//        leftFields.add(leftMeasureField4);
+//
+//        rightFields.add(rightMeasureField1);
+//        rightFields.add(rightMeasureField2);
+//        rightFields.add(rightMeasureField3);
+//        rightFields.add(rightMeasureField4);
+//    }
 
     private int getSlopeCheckedRadio(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));

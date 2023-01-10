@@ -200,9 +200,9 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
     }
 
     private void removeSillFragments() {
-        Fragment fragment = requireActivity().getSupportFragmentManager().findFragmentById(R.id.ext_access_sill_fragment);
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.ext_access_sill_fragment);
         if (fragment != null)
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+            getChildFragmentManager().beginTransaction().remove(fragment).commit();
     }
 
     private void extAccessRadioListener(RadioGroup radio, int checkedID) {

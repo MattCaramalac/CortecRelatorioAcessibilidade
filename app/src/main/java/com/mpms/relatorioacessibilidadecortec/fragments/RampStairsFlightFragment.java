@@ -3,7 +3,6 @@ package com.mpms.relatorioacessibilidadecortec.fragments;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,8 +53,6 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
     Bundle flightBundle;
 
     ArrayList<TextInputEditText> flightObsArray = new ArrayList<>();
-    ArrayList<TextInputLayout> mirIncFields = new ArrayList<>();
-    ArrayList<TextInputLayout> stepFields = new ArrayList<>();
 
     View buttonClicked;
 
@@ -174,20 +171,6 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             flightObsArray.add(pavementObsValue);
             flightObsArray.add(tactileFloorObsValue);
             flightObsArray.add(borderSignObsValue);
-        }
-
-        if (mirIncFields.size() == 0) {
-            mirIncFields.add(mirIncField1);
-            mirIncFields.add(mirIncField2);
-            mirIncFields.add(mirIncField3);
-            mirIncFields.add(mirIncField4);
-        }
-
-        if (stepFields.size() == 0) {
-            stepFields.add(stepField1);
-            stepFields.add(stepField2);
-            stepFields.add(stepField3);
-            stepFields.add(stepField4);
         }
     }
 
@@ -362,41 +345,88 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             if (mirIncCounter < 0) {
                 mirIncCounter = 0;
                 Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-            } else if (mirIncCounter < 4) {
-                if (mirIncCounter == 0)
-                    deleteMirInc.setVisibility(View.VISIBLE);
-                Log.i("Array", mirIncFields.get(mirIncCounter).toString());
-                mirIncFields.get(mirIncCounter).setVisibility(View.VISIBLE);
+            } else if (mirIncCounter == 0) {
+                mirIncField1.setVisibility(View.VISIBLE);
                 mirIncCounter++;
-            } else
+            } else if (mirIncCounter == 1) {
+                deleteMirInc.setVisibility(View.VISIBLE);
+                mirIncField2.setVisibility(View.VISIBLE);
+                mirIncCounter++;
+            } else if (mirIncCounter == 2) {
+                mirIncField3.setVisibility(View.VISIBLE);
+                mirIncCounter++;
+            } else if (mirIncCounter == 3) {
+                mirIncField4.setVisibility(View.VISIBLE);
+                mirIncCounter++;
+            }else
                 Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
         } else if (view == deleteMirInc) {
-            if (mirIncCounter > 0) {
-                mirIncFields.get(mirIncCounter - 1).getEditText().setText(null);
-                mirIncFields.get(mirIncCounter - 1).setVisibility(View.GONE);
-                mirIncCounter--;
-                if (mirIncCounter == 0)
-                    deleteMirInc.setVisibility(View.GONE);
+            if (mirIncCounter < 1) {
+                mirIncCounter = 1;
+                deleteMirInc.setVisibility(View.GONE);
+                mirIncValue2.setText(null);
+                mirIncField2.setVisibility(View.GONE);
+                mirIncValue3.setText(null);
+                mirIncField3.setVisibility(View.GONE);
+                mirIncValue4.setText(null);
+                mirIncField4.setVisibility(View.GONE);
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (mirIncCounter == 4) {
+                mirIncValue4.setText(null);
+                mirIncField4.setVisibility(View.GONE);
+            } else if (mirIncCounter == 3) {
+                mirIncValue3.setText(null);
+                mirIncField3.setVisibility(View.GONE);
+            } else if (mirIncCounter == 2) {
+                mirIncValue2.setText(null);
+                mirIncField2.setVisibility(View.GONE);
+                deleteMirInc.setVisibility(View.GONE);
             }
+            if (mirIncCounter > 1)
+                mirIncCounter--;
         } else if (view == stepButton) {
             if (stepCounter < 0) {
                 stepCounter = 0;
                 Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-            } else if (stepCounter < 4) {
-                if (stepCounter == 0)
-                    deleteStep.setVisibility(View.VISIBLE);
-                stepFields.get(stepCounter).setVisibility(View.VISIBLE);
+            } else if (stepCounter == 0) {
+                stepField1.setVisibility(View.VISIBLE);
+                stepCounter++;
+            } else if (stepCounter == 1) {
+                deleteStep.setVisibility(View.VISIBLE);
+                stepField2.setVisibility(View.VISIBLE);
+                stepCounter++;
+            } else if (stepCounter == 2) {
+                stepField3.setVisibility(View.VISIBLE);
+                stepCounter++;
+            } else if (stepCounter == 3) {
+                stepField4.setVisibility(View.VISIBLE);
                 stepCounter++;
             } else
                 Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
         } else if (view == deleteStep) {
-            if (stepCounter > 0) {
-                stepFields.get(stepCounter - 1).getEditText().setText(null);
-                stepFields.get(stepCounter - 1).setVisibility(View.GONE);
-                stepCounter--;
-                if (stepCounter == 0)
-                    deleteStep.setVisibility(View.GONE);
+            if (stepCounter < 1) {
+                stepCounter = 1;
+                deleteStep.setVisibility(View.GONE);
+                stepValue2.setText(null);
+                stepField2.setVisibility(View.GONE);
+                stepValue3.setText(null);
+                stepField3.setVisibility(View.GONE);
+                stepValue4.setText(null);
+                stepField4.setVisibility(View.GONE);
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (stepCounter == 4) {
+                stepValue4.setText(null);
+                stepField4.setVisibility(View.GONE);
+            } else if (stepCounter == 3) {
+                stepValue3.setText(null);
+                stepField3.setVisibility(View.GONE);
+            } else if (stepCounter == 2) {
+                stepValue2.setText(null);
+                stepField2.setVisibility(View.GONE);
+                deleteStep.setVisibility(View.GONE);
             }
+            if (stepCounter > 1)
+                stepCounter--;
         } else {
             buttonClicked = view;
             if (flightBundle.getInt(FLIGHT_ID) == 0) {

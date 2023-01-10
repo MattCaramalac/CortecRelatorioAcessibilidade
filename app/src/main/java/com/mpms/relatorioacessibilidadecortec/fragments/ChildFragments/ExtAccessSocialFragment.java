@@ -31,6 +31,8 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExtAccessSocialFragment extends Fragment implements TagInterface {
 
@@ -49,6 +51,8 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
     ViewModelFragments modelFragments;
 
     FragmentManager manager;
+
+    Map<Integer, TextInputLayout> teste = new HashMap<>();
 
     int rampTrackCounter = 0;
     int trackGapCounter = 0;
@@ -94,57 +98,18 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
             modelEntry.getOneExternalAccess(extAccSocialBundle.getInt(AMBIENT_ID))
                     .observe(getViewLifecycleOwner(), this::loadSocialFragData);
 
-        addTrackRampButton.setOnClickListener(v -> {
-            if (rampTrackCounter < 1) {
-                rampTrackCounter = 1;
-                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-            } else if (rampTrackCounter < 4) {
-                if (rampTrackCounter == 1)
-                    delTrackRampButton.setVisibility(View.VISIBLE);
-                rampTrackFields.get(rampTrackCounter).setVisibility(View.VISIBLE);
-                rampTrackCounter++;
-            } else
-                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
-        });
-
-        delTrackRampButton.setOnClickListener(v -> {
-            if (rampTrackCounter > 1) {
-                rampTrackFields.get(rampTrackCounter - 1).getEditText().setText(null);
-                rampTrackFields.get(rampTrackCounter - 1).setVisibility(View.GONE);
-                rampTrackCounter--;
-                if (rampTrackCounter == 1)
-                    delTrackRampButton.setVisibility(View.GONE);
-            }
-        });
-
-        addTrackGapButton.setOnClickListener(v -> {
-            if (trackGapCounter < 1) {
-                trackGapCounter = 1;
-                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-            } else if (trackGapCounter < 4) {
-                if (trackGapCounter == 1)
-                    delTrackGapButton.setVisibility(View.VISIBLE);
-                trackGapFields.get(trackGapCounter).setVisibility(View.VISIBLE);
-                trackGapCounter++;
-            } else
-                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
-        });
-
-        delTrackGapButton.setOnClickListener(v -> {
-            if (trackGapCounter > 1) {
-                trackGapFields.get(trackGapCounter - 1).getEditText().setText(null);
-                trackGapFields.get(trackGapCounter - 1).setVisibility(View.GONE);
-                trackGapCounter--;
-                if (trackGapCounter == 1)
-                    delTrackGapButton.setVisibility(View.GONE);
-            }
-        });
-
         returnButton.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
         continueButton.setOnClickListener(v -> openNextFragment(extAccSocialBundle, v));
 
         addGateLockButton.setOnClickListener(v -> openNextFragment(extAccSocialBundle, v));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (trackGapFields.size() == 0 && rampTrackFields.size() == 0)
+            addRampTrackToArrays();
     }
 
     private void instantiateSocialViews(View v) {
@@ -222,9 +187,97 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
 //        MultiRadio Listeners
         gateTypeRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
                 (view, r) -> extAccessOneMultiRadioListener(gateTypeRadio));
-//        ArrayList
-        addRampTrackToArrays();
+//        ClickListeners
+        addTrackRampButton.setOnClickListener(this::addFieldClickListener);
+        delTrackRampButton.setOnClickListener(this::addFieldClickListener);
+        addTrackGapButton.setOnClickListener(this::addFieldClickListener);
+        delTrackGapButton.setOnClickListener(this::addFieldClickListener);
     }
+
+    private void addFieldClickListener(View v) {
+        if (v == addTrackRampButton) {
+            if (rampTrackCounter < 1) {
+                rampTrackCounter = 1;
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (rampTrackCounter == 1) {
+                delTrackRampButton.setVisibility(View.VISIBLE);
+                trackRampField2.setVisibility(View.VISIBLE);
+                rampTrackCounter++;
+            } else if (rampTrackCounter == 2) {
+                trackRampField3.setVisibility(View.VISIBLE);
+                rampTrackCounter++;
+            } else if (rampTrackCounter == 3) {
+                trackRampField4.setVisibility(View.VISIBLE);
+                rampTrackCounter++;
+            } else
+                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+        } else if (v == delTrackRampButton) {
+            if (rampTrackCounter < 1) {
+                rampTrackCounter = 1;
+                delTrackRampButton.setVisibility(View.GONE);
+                trackRampValue2.setText(null);
+                trackRampField2.setVisibility(View.GONE);
+                trackRampValue3.setText(null);
+                trackRampField3.setVisibility(View.GONE);
+                trackRampValue4.setText(null);
+                trackRampField4.setVisibility(View.GONE);
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (rampTrackCounter == 4) {
+                trackRampValue4.setText(null);
+                trackRampField4.setVisibility(View.GONE);
+            } else if (rampTrackCounter == 3) {
+                trackRampValue3.setText(null);
+                trackRampField3.setVisibility(View.GONE);
+            } else if (rampTrackCounter == 2) {
+                trackRampValue2.setText(null);
+                trackRampField2.setVisibility(View.GONE);
+                delTrackRampButton.setVisibility(View.GONE);
+            }
+            if (rampTrackCounter > 1)
+                rampTrackCounter--;
+        } else if (v == addTrackGapButton) {
+            if (trackGapCounter < 1) {
+                trackGapCounter = 1;
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (trackGapCounter == 1) {
+                delTrackGapButton.setVisibility(View.VISIBLE);
+                trackGapField2.setVisibility(View.VISIBLE);
+                trackGapCounter++;
+            } else if (trackGapCounter == 2) {
+                trackGapField3.setVisibility(View.VISIBLE);
+                trackGapCounter++;
+            } else if (trackGapCounter == 3) {
+                trackGapField4.setVisibility(View.VISIBLE);
+                trackGapCounter++;
+            } else
+                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+        } else if (v == delTrackGapButton) {
+            if (trackGapCounter < 1) {
+                trackGapCounter = 1;
+                delTrackGapButton.setVisibility(View.GONE);
+                trackGapValue2.setText(null);
+                trackGapField2.setVisibility(View.GONE);
+                trackGapValue3.setText(null);
+                trackGapField3.setVisibility(View.GONE);
+                trackGapValue4.setText(null);
+                trackGapField4.setVisibility(View.GONE);
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            } else if (trackGapCounter == 4) {
+                trackGapValue4.setText(null);
+                trackGapField4.setVisibility(View.GONE);
+            } else if (trackGapCounter == 3) {
+                trackGapValue3.setText(null);
+                trackGapField3.setVisibility(View.GONE);
+            } else if (trackGapCounter == 2) {
+                trackGapValue2.setText(null);
+                trackGapField2.setVisibility(View.GONE);
+                delTrackGapButton.setVisibility(View.GONE);
+            }
+            if (trackGapCounter > 1)
+                trackGapCounter--;
+        }
+    }
+
 
     private void openNextFragment(Bundle bundle, View v) {
         Fragment frag = null;
@@ -372,8 +425,7 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
             if (access.getEntranceGateType() == 1) {
                 if (access.getFreeSpaceWidth2() != null)
                     freeSpaceWidthValue2.setText(String.valueOf(access.getFreeSpaceWidth2()));
-            }
-            else if (access.getEntranceGateType() == 2) {
+            } else if (access.getEntranceGateType() == 2) {
                 if (access.getEntranceGateDesc() != null) {
                     gateTypeDescValue.setText(access.getEntranceGateDesc());
                 }
@@ -594,7 +646,7 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         Integer sia = null, gateType = null, gateTracks = null, gateHandle = null, gateTrackRamps = null, floorGaps = null;
         String siaObs = null, gateDesc = null, gateObs = null;
         Double fSpace1 = null, fSpace2 = null, handleHeight = null, trackHeight = null, rampMeasure1 = null, rampMeasure2 = null, rampMeasure3 = null, rampMeasure4 = null,
-        gapMeasure1 = null, gapMeasure2 = null, gapMeasure3 = null, gapMeasure4 = null;
+                gapMeasure1 = null, gapMeasure2 = null, gapMeasure3 = null, gapMeasure4 = null;
 
         if (getCheckedRadioIndex(hasSIARadio) > -1)
             sia = getCheckedRadioIndex(hasSIARadio);
