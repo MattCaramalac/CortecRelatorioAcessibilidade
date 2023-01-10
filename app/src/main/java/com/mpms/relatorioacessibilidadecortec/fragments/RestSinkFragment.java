@@ -36,7 +36,7 @@ public class RestSinkFragment extends Fragment implements TagInterface {
     RadioGroup sinkRadio1, sinkRadio2, hasBarRadio, leftSinkRadio, rightSinkRadio, mirrorRadio;
     TextInputLayout measureFieldA, measureFieldB, measureFieldC, measureFieldD, measureFieldE, mirrorFieldA, mirrorFieldB, sinkObsField;
     TextInputEditText measureValueA, measureValueB, measureValueC, measureValueD, measureValueE, mirrorValueA, mirrorValueB, sinkObsValue;
-    TextView sinkError, barError, leftHeader, rightHeader, leftError, rightError, mirrorError;
+    TextView sinkError, barError, leftHeader, rightHeader, leftError, rightError, mirrorError, sinkTypeWarning;
     FrameLayout leftFrag, rightFrag;
     MaterialButton returnAccess, saveSink;
     Fragment lFrag, rFrag;
@@ -152,6 +152,7 @@ public class RestSinkFragment extends Fragment implements TagInterface {
         leftError = view.findViewById(R.id.left_bar_error);
         rightError = view.findViewById(R.id.right_bar_error);
         mirrorError = view.findViewById(R.id.sink_mirror_error);
+        sinkTypeWarning = view.findViewById(R.id.select_sink_type_warning);
 //        FrameLayout
         leftFrag = view.findViewById(R.id.left_bar_fragment);
         rightFrag = view.findViewById(R.id.right_bar_fragment);
@@ -215,6 +216,13 @@ public class RestSinkFragment extends Fragment implements TagInterface {
             rightSinkRadio.clearCheck();
             hasBarRadio.clearCheck();
             check2 = true;
+            if (getCheckRadio(hasBarRadio) == 1) {
+                sinkTypeWarning.setVisibility(View.GONE);
+                leftHeader.setVisibility(View.VISIBLE);
+                rightHeader.setVisibility(View.VISIBLE);
+                leftSinkRadio.setVisibility(View.VISIBLE);
+                rightSinkRadio.setVisibility(View.VISIBLE);
+            }
         } else if (radio == sinkRadio2 && check2) {
             check1 = false;
             sinkRadio1.clearCheck();
@@ -224,13 +232,24 @@ public class RestSinkFragment extends Fragment implements TagInterface {
             rightSinkRadio.clearCheck();
             hasBarRadio.clearCheck();
             check1 = true;
-        } else if (radio == hasBarRadio) {
-            if (radioIndex == 1) {
+            if (getCheckRadio(hasBarRadio) == 1) {
+                sinkTypeWarning.setVisibility(View.GONE);
                 leftHeader.setVisibility(View.VISIBLE);
                 rightHeader.setVisibility(View.VISIBLE);
                 leftSinkRadio.setVisibility(View.VISIBLE);
                 rightSinkRadio.setVisibility(View.VISIBLE);
+            }
+        } else if (radio == hasBarRadio) {
+            if (radioIndex == 1 && (getCheckRadio(sinkRadio1) != -1 || getCheckRadio(sinkRadio2) != -1)) {
+                sinkTypeWarning.setVisibility(View.GONE);
+                leftHeader.setVisibility(View.VISIBLE);
+                rightHeader.setVisibility(View.VISIBLE);
+                leftSinkRadio.setVisibility(View.VISIBLE);
+                rightSinkRadio.setVisibility(View.VISIBLE);
+            } else if (radioIndex == 1) {
+                sinkTypeWarning.setVisibility(View.VISIBLE);
             } else {
+                sinkTypeWarning.setVisibility(View.VISIBLE);
                 leftSinkRadio.clearCheck();
                 rightSinkRadio.clearCheck();
                 leftHeader.setVisibility(View.GONE);

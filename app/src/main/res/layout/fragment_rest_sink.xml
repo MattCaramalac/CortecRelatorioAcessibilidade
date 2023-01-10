@@ -345,6 +345,18 @@
                 app:layout_constraintTop_toBottomOf="@id/sink_has_bar_radio" />
 
             <TextView
+                android:id="@+id/select_sink_type_warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="Por favor, selecione o tipo de lavatório para prosseguir com o cadastro"
+                android:textColor="@color/error_message"
+                android:textSize="@dimen/section_header"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sink_has_bar_error" />
+
+            <TextView
                 android:id="@+id/sink_left_bar_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -353,7 +365,7 @@
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sink_has_bar_error" />
+                app:layout_constraintTop_toBottomOf="@id/select_sink_type_warning" />
 
             <RadioGroup
                 android:id="@+id/left_bar_radio"

@@ -42,6 +42,8 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public static final Map<Integer, List<String>> blockRoomIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> extParkIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> helpParkIrregular = new HashMap<>();
+    public static final Map<Integer, List<String>> helpRestIrregular = new HashMap<>();
+    public static final Map<Integer, List<String>> blockRestIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> playIrregular = new HashMap<>();
     public static final List<String> sideLocationList = new ArrayList<>();
     public static final List<String> extAccessList = new ArrayList<>();
@@ -50,6 +52,8 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public static final List<String> blockRoomList = new ArrayList<>();
     public static final List<String> extParkList = new ArrayList<>();
     public static final List<String> helpParkList = new ArrayList<>();
+    public static final List<String> helpRestList = new ArrayList<>();
+    public static final List<String> blockRestList = new ArrayList<>();
     public static final List<String> playList = new ArrayList<>();
     public static final List<String> placeType = new ArrayList<>();
 
@@ -67,6 +71,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
         RoomAnalysis.roomVerification(jCreate.getBlockList(), jCreate.getRoomList(), jCreate.getDoorList(), jCreate.getDoorLockList(), jCreate.getSwitchList(),
                 jCreate.getWindowList(), jCreate.getTableList(), jCreate.getBoardList(), jCreate.getFreeList(), jCreate.getRoomStRaList(), jCreate.getRoomFlightList(),
                 jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList());
+        RestAnalysis.restVerification(jCreate.getBlockList(), jCreate.getRestList());
         blockCorrespondence(jCreate.getBlockList());
 
     }
@@ -91,11 +96,6 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     }
 
     public static void checkBlockHeader(int n) {
-        err = true;
-        for (int i = 0; i < AmbientAnalysis.placeType.size(); i++) {
-            if (AmbientAnalysis.placeType.get(i).equals(BLOCK_TITLE + " " + n)) ;
-            return;
-        }
         AmbientAnalysis.placeType.add(BLOCK_TITLE + " " + n);
     }
 
@@ -125,6 +125,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
         emptyRun.setText("");
 
         int i = 0;
+        int j = 1;
         for (String string : placeType) { //Iterador passando por toda a lista de string
             createIrregularList(string, numID, cursor, 0);
 
@@ -140,16 +141,26 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
             } else {
                 blockRoomList.clear();
                 blockRoomIrregular.clear();
-                for (Integer bNumber : blockNumber.values()) {
-                    RoomAnalysis.blockRoomVerification(bNumber, jCreate.getRoomList(), jCreate.getDoorList(), jCreate.getDoorLockList(), jCreate.getSwitchList(),
-                            jCreate.getWindowList(), jCreate.getTableList(), jCreate.getBoardList(), jCreate.getFreeList(), jCreate.getRoomStRaList(), jCreate.getRoomFlightList(),
-                            jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList());
-                    if (blockRoomList.size() == 0 && blockRoomIrregular.size() == 0) {
-                        blockRoomList.add("Este bloco não possui salas com irregularidades");
+                blockRestList.clear();
+                blockRestIrregular.clear();
+                for (Map.Entry<Integer,Integer> blNum : blockNumber.entrySet()) {
+                    Integer blockID = blNum.getKey();
+                    Integer blockNum = blNum.getValue();
+                    if (blockNum == j) {
+                        RoomAnalysis.blockRoomVerification(blockID, jCreate.getRoomList(), jCreate.getDoorList(), jCreate.getDoorLockList(), jCreate.getSwitchList(),
+                                jCreate.getWindowList(), jCreate.getTableList(), jCreate.getBoardList(), jCreate.getFreeList(), jCreate.getRoomStRaList(), jCreate.getRoomFlightList(),
+                                jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList());
+                        if (blockRoomList.size() == 0 && blockRoomIrregular.size() == 0) {
+                            blockRoomList.add("Este bloco não possui salas com irregularidades");
+                        }
+                        RestAnalysis.blockRestVerification(blockID, jCreate.getRestList());
+                        if (blockRestList.size() == 0 && blockRestIrregular.size() == 0)
+                            blockRestList.add("Este bloco não possui sanitários com irregularidades");
+                        irregularTextListing(blockRoomList, blockRoomIrregular, numID, cursor);
+                        irregularTextListing(blockRestList, blockRestIrregular, numID, cursor);
                     }
-                    irregularTextListing(blockRoomList, blockRoomIrregular, numID, cursor);
                 }
-
+                j++;
             }
             i++;
         }

@@ -603,7 +603,7 @@
     <string name="hint_room_length">Comprimento Ambiente (m)</string>
     <string name="hint_room_width">Largura Ambiente (m)</string>
     <string name="hint_trans_section_bar">Seção transversal da barra (mm)</string>
-    <string name="hint_wall_bar_distance">Distância face externa barra até parede (m)</string>
+    <string name="hint_wall_bar_distance">Distância face externa barra até parede (mm)</string>
     <string name="blank_fields_message">Um ou mais campos não foram preenchidos</string>
     <string name="parking_PCD_header">Cadastro Vagas PCD e PMR</string>
     <string name="label_button_finish">FINALIZAR</string>

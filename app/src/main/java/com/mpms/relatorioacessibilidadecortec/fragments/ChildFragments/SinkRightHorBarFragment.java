@@ -26,7 +26,7 @@ public class SinkRightHorBarFragment extends Fragment implements TagInterface {
     TextInputEditText measureValueA, measureValueB, measureValueC, measureValueD, diamValue, distValue;
     ImageButton horImage, horImage2;
 
-    Bundle imgBundle;
+    Bundle imgBundle = new Bundle();
 
     ViewModelEntry modelEntry;
 
@@ -113,7 +113,7 @@ public class SinkRightHorBarFragment extends Fragment implements TagInterface {
     private void imgExpandClick(View view) {
         if (view == horImage)
             imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sinkhorbar);
-        if (view == horImage)
+        if (view == horImage2)
             imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.sinkhorbar2);
         ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
     }

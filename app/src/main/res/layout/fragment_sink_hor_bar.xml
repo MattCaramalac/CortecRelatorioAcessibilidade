@@ -115,7 +115,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sink_hor_diam_value"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -134,7 +135,8 @@
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/dist_hor_bar_value"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:inputType="numberDecimal">
 
     </com.google.android.material.textfield.TextInputEditText>
 

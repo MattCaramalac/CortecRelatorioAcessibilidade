@@ -41,15 +41,24 @@ public interface StandardMeasurements {
     double maxDoorHandle = 1.1;
     double minPrecisionCom = 0.8;
     double maxPrecisionCom = 1.0;
+    double minActionHeight = 0.40;
+    double maxActionHeight = 0.75;
+    double minAccessHeight = 0.80;
+    double maxAccessHeight = 1.20;
+
 
     //    Alert Tactile Floor Distance
     double distAlertTactSuspObj = 0.6;
     double minWidthAlertTactSuspObj = 0.25;
     double maxWidthAlertTactSuspObj = 0.60;
 
-    //    Door FreeSpace
+    //    Door
     double freeSpaceGeneral = 0.8;
     double freeSpaceSports = 1.0;
+    double antiImpactCoatHeight = 0.4;
+    double minHorHandleLength = 0.4;
+    double minHandleGrip = 25; //in mm
+    double maxHandleGrip = 35; // in mm
 
     //    Gate Track Height
     double maxHeightTrack = 20; //in mm
@@ -120,4 +129,66 @@ public interface StandardMeasurements {
     double siaDimensions = 1.20;
     double minLetterHeight = 0.25;
     double maxLetterHeight = 0.40;
+
+//    Restroom
+    double minDistToiletWall = 0.8;
+    double maxManUnderToilet = 0.1;
+    double maxManUnderSink = 0.3;
+    double maneuverArea = 1.5;
+    double minToiletHeightAdult = 0.43;
+    double maxToiletHeightAdult = 0.45;
+    double minToiletHeightChild = 0.33;
+    double maxToiletHeightChild = 0.35;
+    double maxToiletHeightAdultSeat = 0.46;
+    double maxToiletHeightChildSeat = 0.36;
+    double maxSoculo = 0.05;
+    double frBarHeightAdult = 0.75;
+    double frBarMaxHeightAdult = 0.89;
+    double frBarHeightChild = 0.60;
+    double frBarMaxHeightChild = 0.72;
+    double frBarMinLength = 0.80;
+    double frBarToiletAxisChild = 0.15;
+    double frBarToiletAxisAdult = 0.30;
+    double fixSideBarMinLengthToilet = 0.20;
+    double wallFixBarDistToiletEndBar = 0.50;
+    double sideBarToiletAxisAdult = 0.40;
+    double sideBarToiletAxisChild = 0.25;
+    double artSideBarMinLengthToilet = 0.10;
+    double wallFixBarVertDistToilet = 0.30;
+    double wallFixBarVertMinLength = 0.70;
+    double wallFixBarDistInterBar = 0.10;
+    double toiletActionMaxHeight = 1.00;
+    double embPaperHolderDistToilet = 0.20;
+    double embPaperHolderHeight = 0.55;
+    double supPaperHolderHeight = 1.00;
+    double minLowerHeightWallMirror = 0.50;
+    double minUpperHeightWallMirror = 1.80;
+    double sinkFaucetMaxDist = 0.50;
+    double sinkFrontApproxKnee = 0.12;
+    double sinkFrontApproxFeet = 0.30;
+    double sinkMinUnderSpace = 0.30;
+    double sinkMinHeight = 0.78;
+    double sinkMaxHeight = 0.80;
+    double sinkHorBarMinLatDist = 0.04;
+    double sinkBarMaxFrontDist = 0.20;
+    double sinkHorBarMinUpperHeight = 0.78;
+    double sinkHorBarMaxUpperHeight = 0.80;
+    double sinkHorBarLowerHeight = 0.65;
+    double sinkVertBarMaxDistSinkAxis = 0.50;
+    double sinkVertBarMinLength = 0.40;
+    double sinkVertBarHeight = 0.90;
+    double sinkMirrorMaxLowerHeight = 0.90;
+
+    double urinalDistancePartitions = 0.8;
+    double urinalDistanceBars = 0.6;
+    double urinalDistAxisLeftBar = 0.3;
+    double urinalDistAxisRightBar = 0.3;
+    double urinalVertBarMinLength = 0.70;
+    double urinalVertBarFloorHeight = 0.75;
+    double urinalPartitionWidth = 0.40;
+    double urinalPartitionHeight = 1.20;
+    double urinalPartitionFloorHeight = 0.30;
+    double urinalValveHeight = 1.00;
+    double urinalMinLowerOpenHeight = 0.60;
+    double urinalMaxLowerOpenHeight = 0.65;
 }
