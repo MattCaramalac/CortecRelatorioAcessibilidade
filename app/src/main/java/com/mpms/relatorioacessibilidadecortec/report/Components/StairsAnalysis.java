@@ -15,7 +15,7 @@ public class StairsAnalysis implements StandardMeasurements {
     static boolean irregularFlight;
 
     public static List<String> stairsVerification(int ambientID, List<RampStairsEntry> rStList, List<RampStairsFlightEntry> rStFlight, List<RampStairsRailingEntry> rStRail,
-                                            List<RampStairsHandrailEntry> rStHandrail) {
+                                                  List<RampStairsHandrailEntry> rStHandrail) {
 
         List<String> stairsText = new ArrayList<>();
 
@@ -45,7 +45,7 @@ public class StairsAnalysis implements StandardMeasurements {
     public static void stairsIrregular(StringBuilder builder) {
         if (!irregularStairs) {
             irregularStairs = true;
-            builder.replace(0, 1,"Presença de escada, localizada em x, com as seguintes irregularidades: "); //34,35
+            builder.replace(0, 1, "Presença de escada, localizada em x, com as seguintes irregularidades: "); //34,35
         } else {
             builder.append(", ");
         }
@@ -54,7 +54,7 @@ public class StairsAnalysis implements StandardMeasurements {
     public static void flightIrregular(StringBuilder builder) {
         if (!irregularFlight) {
             irregularFlight = true;
-            builder.append("No lance de nºx, "); //14,15
+            builder.append("No lance de nºx: "); //14,15
         } else {
             builder.append(", ");
         }
@@ -131,12 +131,13 @@ public class StairsAnalysis implements StandardMeasurements {
                             .append(flight.getSignPavementObs());
                 }
 
+                Double frequentStep = getMostFrequentValue(flight);
+
                 if (flight.getHasLowTactFloor() == 0) {
                     flightIrregular(builder);
                     builder.append("o lance não possui sinalização tátil de alerta em seu nível mais baixo");
                 } else {
-//                                            TODO - Encontrar o valor mais frequente para utilização
-                    if (flight.getLowTactDist() > flight.getStairStep1()) {
+                    if (flight.getLowTactDist() > frequentStep) {
                         flightIrregular(builder);
                         builder.append("a distância da sinalização tátil de alerta até a base da escadaria é superior ao máximo permitido");
                     }
@@ -161,8 +162,7 @@ public class StairsAnalysis implements StandardMeasurements {
                     flightIrregular(builder);
                     builder.append("o lance não possui sinalização tátil de alerta em seu nível mais alto");
                 } else {
-//                                            TODO - Encontrar o valor mais frequente para utilização
-                    if (flight.getUpTactDist() < flight.getStairStep1()) {
+                    if (flight.getUpTactDist() < frequentStep) {
                         flightIrregular(builder);
                         builder.append("a distância do final do lance até a sinalização tátil de alerta é inferior ao mínimo recomendado");
                     }
@@ -227,11 +227,44 @@ public class StairsAnalysis implements StandardMeasurements {
                 }
 
                 if (irregularFlight && builder.length() != 0) {
-                    builder.replace(14,15, String.valueOf(flight.getFlightNumber()));
+                    builder.replace(14, 15, String.valueOf(flight.getFlightNumber()));
                     flightText.append(builder.toString());
                 }
             }
         }
         return flightText.toString();
+    }
+
+    static int countOccurrences(Double[] list, Double targetValue) {
+        int count = 0;
+        if (targetValue != null) {
+            for (Double aDouble : list) {
+                if (aDouble != null && aDouble.equals(targetValue)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+
+    static Double getMostFrequentValue(RampStairsFlightEntry rStFlight) {
+        Double[] list = new Double[4];
+        list[0] = rStFlight.getStairStep1();
+        list[1] = rStFlight.getStairStep2();
+        list[2] = rStFlight.getStairStep3();
+        list[3] = rStFlight.getStairStep4();
+        int mostFrequentCount = 0;
+        double mostFrequentValue = 0;
+        for (Double value : list) {
+            if (value != null) {
+                int count = countOccurrences(list, value);
+                if (count > mostFrequentCount) {
+                    mostFrequentCount = count;
+                    mostFrequentValue = value;
+                }
+            }
+        }
+        return mostFrequentValue;
     }
 }

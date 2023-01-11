@@ -23,10 +23,10 @@ public class HandRailAnalysis implements StandardMeasurements {
                     if (railing.getHasRailing() == 0) {
                         builder.append(" o lance não possui guarda-corpo");
                         if (leftB)
-                            builder.append(" a sua esquerda,");
+                            builder.append(" a sua esquerda");
                         else
-                            builder.append(" a sua direita,");
-                        if (railing.getRailingObs() != null)
+                            builder.append(" a sua direita");
+                        if (railing.getRailingObs() != null && railing.getRailingObs().length() > 0)
                             builder.append(" e as seguintes observações devem ser apontadas: ").append(railing.getRailingObs());
                     } else if (railing.getHasRailing() == 1) {
                         if (railing.getRailingHeight() < minRailHeight) {
@@ -36,7 +36,7 @@ public class HandRailAnalysis implements StandardMeasurements {
                             else
                                 builder.append(" a sua direita");
                             builder.append(" com altura inferior à " + minRailHeight + " m,");
-                            if (railing.getRailingObs() != null)
+                            if (railing.getRailingObs() != null && railing.getRailingObs().length() > 0)
                                 builder.append(" e as seguintes observações devem ser apontadas: ").append(railing.getRailingObs());
                         }
 //                                        todo - esperar confirmação de medições do Jean
@@ -48,12 +48,12 @@ public class HandRailAnalysis implements StandardMeasurements {
                             else
                                 builder.append(" a sua direita");
                             builder.append(" com altura inferior à " + minRailHeight + " m,");
-                            if (railing.getRailingObs() != null)
+                            if (railing.getRailingObs() != null && railing.getRailingObs().length() > 0)
                                 builder.append(" e as seguintes observações devem ser apontadas: ").append(railing.getRailingObs());
                         }
                         //                                        todo - esperar confirmação de medições do Jean
                     } else {
-                        if (railing.getRailingObs() != null)
+                        if (railing.getRailingObs() != null && railing.getRailingObs().length() > 0)
                             builder.append(" o lance possui uma parede ao lado ");
                         if (leftB)
                             builder.append(" esquerdo");
@@ -69,7 +69,7 @@ public class HandRailAnalysis implements StandardMeasurements {
                             else
                                 builder.append("direito,");
 
-                            if (railing.getBeaconObs() != null)
+                            if (railing.getBeaconObs() != null && railing.getBeaconObs().length() > 0)
                                 builder.append(" e as seguintes observações devem ser apontadas: ").append(railing.getRailingObs()).append(",");
                         } else {
                             if (railing.getBeaconHeight() < minBeaconHeight) {
@@ -79,10 +79,10 @@ public class HandRailAnalysis implements StandardMeasurements {
                                 else
                                     builder.append("direito");
                                 builder.append(" com altura inferior ao mínimo de " + minBeaconHeight + " m,");
-                                if (railing.getBeaconObs() != null)
+                                if (railing.getBeaconObs() != null  && railing.getBeaconObs().length() > 0)
                                     builder.append(" e as seguintes observações devem ser apontadas: ").append(railing.getRailingObs()).append(",");
                             } else {
-                                if (railing.getBeaconObs() != null) {
+                                if (railing.getBeaconObs() != null  && railing.getBeaconObs().length() > 0) {
                                     builder.append(" o lance possui guia de balizamento em seu lado ");
                                     if (leftB)
                                         builder.append("esquerdo");
