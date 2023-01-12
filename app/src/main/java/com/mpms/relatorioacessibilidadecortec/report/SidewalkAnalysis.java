@@ -373,6 +373,9 @@ public class SidewalkAnalysis implements StandardMeasurements {
                 AmbientAnalysis.sideIrregular.put(i, sideIrregular);
             }
         }
+
+        if (AmbientAnalysis.sideLocationList.size() == 0)
+            AmbientAnalysis.sideLocationList.add("Não há cadastro de calçadas com irregularidades;");
     }
 
     public static void rampTextIrregular(StringBuilder builder) {

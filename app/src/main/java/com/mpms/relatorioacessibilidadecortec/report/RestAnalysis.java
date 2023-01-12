@@ -723,7 +723,7 @@ public class RestAnalysis implements StandardMeasurements {
             check++;
             restIrr.add("o lavatório não possui barras de apoio;");
         }
-        if (rest.getHasSinkBar() == 2) {
+        else if (rest.getHasSinkBar() == 2) {
             check++;
             restIrr.add("o lavatório possui barras de apoio que estão fora do padrão estipulado em norma;");
         } else {

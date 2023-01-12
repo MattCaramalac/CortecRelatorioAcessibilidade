@@ -334,10 +334,11 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                 else
                     AmbientAnalysis.extAccessList.add("Entrada para Veículos, localizada na " + access.getAccessLocation() + " com as seguintes irregularidades: ");
                 AmbientAnalysis.extIrregular.put(i, extIrregular);
-
             }
-
         }
+
+        if (AmbientAnalysis.extAccessList.size() == 0)
+            AmbientAnalysis.extAccessList.add("Não há cadastro de acessos externos com irregularidades;");
     }
 
     public static void phoneIrregular(StringBuilder builder) {

@@ -137,8 +137,8 @@ public class PlaygroundAnalysis implements StandardMeasurements {
                 AmbientAnalysis.playList.add("Playground, localizado em " + play.getPlayLocation() + ", com as seguintes irregularidades:");
                 AmbientAnalysis.playIrregular.put(i, pIrregular);
             }
-
-
         }
+        if (AmbientAnalysis.playList.size() == 0)
+            AmbientAnalysis.playList.add("Não há cadastro de playgrounds com irregularidades;");
     }
 }

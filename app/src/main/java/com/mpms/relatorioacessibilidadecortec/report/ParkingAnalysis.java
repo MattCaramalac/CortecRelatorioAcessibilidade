@@ -108,9 +108,9 @@ public class ParkingAnalysis implements StandardMeasurements {
 
         if (parkList.size() == 0) {
             AmbientAnalysis.checkHasAccessHeader();
-            AmbientAnalysis.extParkList.add("O prédio não possui estacionamentos, tampouco vagas acessíveis");
+            AmbientAnalysis.extParkList.add("Não há cadastros de estacionamentos externos com irregularidades;");
+            AmbientAnalysis.checkHelpAreaHeader();
+            AmbientAnalysis.helpParkList.add("Não há cadastros de estacionamentos internos com irregularidades;");
         }
-
-
     }
 }

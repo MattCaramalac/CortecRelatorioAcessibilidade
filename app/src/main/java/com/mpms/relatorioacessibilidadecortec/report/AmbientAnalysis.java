@@ -72,6 +72,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
                 jCreate.getWindowList(), jCreate.getTableList(), jCreate.getBoardList(), jCreate.getFreeList(), jCreate.getRoomStRaList(), jCreate.getRoomFlightList(),
                 jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList());
         RestAnalysis.restVerification(jCreate.getBlockList(), jCreate.getRestList());
+        checkHelpAreaHeader();
         blockCorrespondence(jCreate.getBlockList());
 
     }

@@ -76,10 +76,14 @@ public class RoomAnalysis implements StandardMeasurements {
                         helpRoom++;
                     }
                 }
-
-
             }
         }
+
+        if (AmbientAnalysis.extRoomList.size() == 0)
+            AmbientAnalysis.extRoomList.add("Não há cadastro de ambientes externos com irregularidades;");
+
+        if (AmbientAnalysis.helpRoomList.size() == 0)
+            AmbientAnalysis.helpRoomList.add("Não há cadastro de ambientes de apoio com irregularidades;");
     }
 
     public static void blockRoomVerification(Integer blockID, List<RoomEntry> roomList, List<DoorEntry> doorList, List<DoorLockEntry> doorLockList,

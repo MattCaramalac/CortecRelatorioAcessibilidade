@@ -311,15 +311,15 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
             bundle.putDouble(SIZE_D, Double.parseDouble(String.valueOf(measureValueD.getText())));
             bundle.putDouble(SIZE_E, Double.parseDouble(String.valueOf(measureValueE.getText())));
             bundle.putDouble(SIZE_F, Double.parseDouble(String.valueOf(measureValueF.getText())));
-            bundle.putDouble(SIZE_G, Double.parseDouble(String.valueOf(measureValueF.getText())));
+            bundle.putDouble(SIZE_G, Double.parseDouble(String.valueOf(measureValueG.getText())));
             bundle.putDouble(DIAM_A, Double.parseDouble(String.valueOf(horSectionValue.getText())));
             bundle.putDouble(DIST_A, Double.parseDouble(String.valueOf(horBarDistValue.getText())));
         }
         bundle.putInt(HAS_VERT, getCheckedRadioIndex(hasVertBar));
         if (getCheckedRadioIndex(hasVertBar) == 1) {
-            bundle.putDouble(SIZE_H, Double.parseDouble(String.valueOf(measureValueG.getText())));
-            bundle.putDouble(SIZE_I, Double.parseDouble(String.valueOf(measureValueH.getText())));
-            bundle.putDouble(SIZE_J, Double.parseDouble(String.valueOf(measureValueI.getText())));
+            bundle.putDouble(SIZE_H, Double.parseDouble(String.valueOf(measureValueH.getText())));
+            bundle.putDouble(SIZE_I, Double.parseDouble(String.valueOf(measureValueI.getText())));
+            bundle.putDouble(SIZE_J, Double.parseDouble(String.valueOf(measureValueJ.getText())));
             bundle.putDouble(DIAM_B, Double.parseDouble(String.valueOf(vertSectionValue.getText())));
             bundle.putDouble(DIST_B, Double.parseDouble(String.valueOf(vertBarDistValue.getText())));
         }
