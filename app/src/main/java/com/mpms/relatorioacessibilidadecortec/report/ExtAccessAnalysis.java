@@ -17,7 +17,6 @@ import java.util.List;
 
 public class ExtAccessAnalysis implements StandardMeasurements {
 
-    static boolean irregularLock;
     static boolean irregularPhone;
     static boolean irregularObs;
 
@@ -27,7 +26,6 @@ public class ExtAccessAnalysis implements StandardMeasurements {
 
         String irrPhoneData;
         String irrObsData;
-        String irrLockData;
 
         for (int i = 0; i < extAccess.size(); i++) {
             int check = 0;
@@ -106,7 +104,7 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                     extIrregular.add("O portão possui as seguintes observações a serem pontuadas: " + access.getGateObs() + ";");
                 }
 
-                if (access.getGateHasTracks() == 1) {
+                if (access.getGateHasTracks() != null && access.getGateHasTracks() == 1) {
                     if (access.getGateTrackHeight() > maxHeightTrack) {
                         check++;
                         extIrregular.add("A altura do trilho do portão é superior à " + maxHeightTrack + "mm;");
@@ -120,7 +118,7 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                     }
                 }
 
-                if (access.getHasFloorGap() == 1) {
+                if (access.getHasFloorGap() != null && access.getHasFloorGap() == 1) {
                     if (access.getGapMeasure1() != null && access.getGapMeasure1() > maxTrackGapSize ||
                             access.getGapMeasure2() != null && access.getGapMeasure2() > maxTrackGapSize ||
                             access.getGapMeasure3() != null && access.getGapMeasure3() > maxTrackGapSize ||
@@ -233,7 +231,7 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                                 if (phone.getPhoneHeight() < minIntTelHeight) {
                                     phoneIrregular(builder);
                                     builder.append("altura operacional do fone inferior a " + minIntTelHeight + " m");
-                                } else if (phone.getPhoneHeight() > minIntTelHeight) {
+                                } else if (phone.getPhoneHeight() > maxIntTelHeight) {
                                     phoneIrregular(builder);
                                     builder.append("altura operacional do fone superior a " + maxIntTelHeight + " m");
                                 }
@@ -241,7 +239,7 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                                 if (phone.getPhoneKeyboardHeight() < minIntTelHeight) {
                                     phoneIrregular(builder);
                                     builder.append("altura operacional do teclado inferior a " + minIntTelHeight + " m");
-                                } else if (phone.getPhoneKeyboardHeight() > minIntTelHeight) {
+                                } else if (phone.getPhoneKeyboardHeight() > maxIntTelHeight) {
                                     phoneIrregular(builder);
                                     builder.append("altura operacional do teclado superior a " + maxIntTelHeight + " m");
                                 }

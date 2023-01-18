@@ -9,18 +9,20 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.mpms.relatorioacessibilidadecortec.BuildConfig;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
@@ -34,6 +36,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.report.TextUpdate;
+import com.mpms.relatorioacessibilidadecortec.util.BoolObservable;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.apache.poi.openxml4j.exceptions.OpenXML4JRuntimeException;
@@ -42,6 +45,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observer;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -52,7 +56,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 //    -----------------------------------
 
     static File filePath;
-    private static Context context;
+    Uri fileUri;
+//    private static Context context;
     private static String[] address;
     Future<?> check;
 
@@ -62,7 +67,26 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     static TextUpdate upText;
     static HashMap<String, String> tData;
     static ActivityResultLauncher<String> fillCreatedDocxFile;
-    static ProgressBar bar;
+    static CircularProgressIndicator circBar;
+
+    //    ------------------------------------
+    static BoolObservable endReport = new BoolObservable();
+
+    Observer repObserver = (o, arg) -> {
+        BoolObservable bEnd = (BoolObservable) o;
+        boolean hasFinished = bEnd.getFinished();
+
+        if (hasFinished) {
+            if (!upText.error && Build.VERSION.SDK_INT > Build.VERSION_CODES.Q)
+                sendEmailIntent(fileUri, address, this);
+            else if (!upText.error)
+                sendEmailIntent(Uri.parse("placeholder"), address, this);
+            else {
+                showProgress(false);
+                Toast.makeText(getApplicationContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
 //    ------------------------------------
 
@@ -81,12 +105,9 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         setContentView(R.layout.activity_inspection);
         modelEntry = new ViewModelEntry(getApplication());
         inspectionBundle = getIntent().getBundleExtra(AREAS_REG_BUNDLE);
-//        --------------------
-        context = this;
         service = Executors.newSingleThreadExecutor();
         handler = new Handler(Looper.getMainLooper());
-        bar = findViewById(R.id.progress_bar);
-//        ---------------------
+        circBar = findViewById(R.id.progress_indicator);
 
         if (inspectionBundle.getInt(BLOCK_ID) == 0) {
             int areaType = 0;
@@ -99,6 +120,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
 
         upText = new TextUpdate();
+
+        endReport.addObserver(repObserver);
 
         this.getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
@@ -115,20 +138,16 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
         fillCreatedDocxFile = registerForActivityResult(new CreateDocumentDaex(), result -> {
 
-            showProgress(true);
-
             Future<?> future = service.submit(() -> {
-                boolean finish = false;
                 try {
-                    finish = upText.docFiller(tData, result, context);
+                    fileUri = result;
+                    handler.post(() -> {
+                        boolean finish = upText.docFiller(tData, result, getApplicationContext());
+                        endReport.setFinished(finish);
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                boolean finalFinish = finish;
-                handler.post(() -> {
-                    if (finalFinish)
-                        sendEmailIntent(result, address);
-                });
             });
 
             try {
@@ -143,7 +162,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     e.printStackTrace();
                 }
             }
-            showProgress(false);
+
         });
     }
 
@@ -282,9 +301,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         return i == 0;
     }
 
-//    ------------------------------------------
-
-    public static void callFunction(HashMap<String, String> tData, JsonCreation jCreate) {
+    public static void callFunction(HashMap<String, String> tData, JsonCreation jCreate, Context context) {
+        showProgress(true);
         address = new String[]{jCreate.getSchool().getEmailAddress()};
         InspectionActivity.tData = tData;
         List<String> blockList = jCreate.ambListCreator();
@@ -292,9 +310,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         upText.newFileName();
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
             try {
-                InspectionActivity.endRegister = 1;
-                upText.docFiller(tData, Uri.parse("placeholder"), context);
-                sendEmailIntent(Uri.parse("placeholder"), address);
+                boolean finish = upText.docFiller(tData, Uri.parse("placeholder"), context.getApplicationContext());
+                endReport.setFinished(finish);
             } catch (OpenXML4JRuntimeException e) {
                 InspectionActivity.endRegister = 0;
                 e.printStackTrace();
@@ -305,7 +322,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-    public static void sendEmailIntent(Uri uri, String[] address) {
+    public static void sendEmailIntent(Uri uri, String[] address, Context context) {
         Intent sender = new Intent(Intent.ACTION_SEND);
         sender.putExtra(Intent.EXTRA_SUBJECT, "Relatório DOCX");
         sender.putExtra(Intent.EXTRA_EMAIL, address);
@@ -317,11 +334,13 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         sender.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         sender.setType("message/rfc822");
         InspectionActivity.endRegister = 1;
+        showProgress(false);
         context.startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
     }
 
     public static class CreateDocumentDaex extends ActivityResultContracts.CreateDocument {
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @NonNull
         @NotNull
         @Override
@@ -334,7 +353,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public static void showProgress(boolean show) {
-        bar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+        circBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 }
 

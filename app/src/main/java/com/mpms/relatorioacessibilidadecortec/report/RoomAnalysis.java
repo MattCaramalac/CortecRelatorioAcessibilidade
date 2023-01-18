@@ -52,6 +52,8 @@ public class RoomAnalysis implements StandardMeasurements {
                             rStFlight, rStRail, rStHandrail, counterList);
                 }
 
+                String rType = roomTyping(room.getRoomType());
+
 //            Area externa = 1
                 if (block.getBlockSpaceType() == 1) {
 
@@ -59,7 +61,7 @@ public class RoomAnalysis implements StandardMeasurements {
                         AmbientAnalysis.checkHasAccessHeader();
 
                     if (AmbientAnalysis.err) {
-                        AmbientAnalysis.extRoomList.add(room.getRoomLocation() + ", com as seguintes irregularidades: ");
+                        AmbientAnalysis.extRoomList.add(rType + room.getRoomLocation() + ", com as seguintes irregularidades: ");
                         AmbientAnalysis.extRoomIrregular.put(extRoom, roomIrr);
                         extRoom++;
                     }
@@ -71,7 +73,7 @@ public class RoomAnalysis implements StandardMeasurements {
                         AmbientAnalysis.checkHelpAreaHeader();
 
                     if (AmbientAnalysis.err) {
-                        AmbientAnalysis.helpRoomList.add(room.getRoomLocation() + ", com as seguintes irregularidades: ");
+                        AmbientAnalysis.helpRoomList.add(rType + room.getRoomLocation() + ", com as seguintes irregularidades: ");
                         AmbientAnalysis.helpRoomIrregular.put(helpRoom, roomIrr);
                         helpRoom++;
                     }
@@ -102,8 +104,10 @@ public class RoomAnalysis implements StandardMeasurements {
                 roomIrr = checkRoomIrregularities(room, doorList, doorLockList, switchList, winList, tableList, bList, fsList, rStRoom,
                         rStFlight, rStRail, rStHandrail, counterList);
 
+            String rType = roomTyping(room.getRoomType());
+
             if (check > 0) {
-                AmbientAnalysis.blockRoomList.add(room.getRoomLocation() + ", com as seguintes irregularidades: ");
+                AmbientAnalysis.blockRoomList.add(rType + room.getRoomLocation() + ", com as seguintes irregularidades: ");
                 AmbientAnalysis.blockRoomIrregular.put(blockRoom, roomIrr);
                 blockRoom++;
             }
@@ -133,7 +137,8 @@ public class RoomAnalysis implements StandardMeasurements {
 
         if (room.getRoomAccessFloor() == 0) {
             check++;
-            roomIrr.add("o piso não pode ser considerado acessível, pois " + room.getAccessFloorObs() + ";");
+            if (room.getAccessFloorObs() != null && room.getAccessFloorObs().length() > 0)
+                roomIrr.add("o piso não pode ser considerado acessível, pois " + room.getAccessFloorObs() + ";");
         }
 
         if (doorList.size() > 0) {
@@ -276,6 +281,31 @@ public class RoomAnalysis implements StandardMeasurements {
             }
         }
         return roomIrr;
+    }
+
+    public static String roomTyping(int i) {
+        switch (i) {
+            case 2:
+                return "Biblioteca - ";
+            case 3:
+                return "Coordenação - ";
+            case 4:
+                return "Diretoria - ";
+            case 5:
+                return "Refeitório - ";
+            case 6:
+                return "Sala de Aula - ";
+            case 7:
+                return "Sala de Tecnologia -";
+            case 8:
+                return "Sala de Recursos - ";
+            case 9:
+                return "Sala dos Professores - ";
+            case 11:
+                return "Secretaria - ";
+            default:
+                return "";
+        }
     }
 }
 

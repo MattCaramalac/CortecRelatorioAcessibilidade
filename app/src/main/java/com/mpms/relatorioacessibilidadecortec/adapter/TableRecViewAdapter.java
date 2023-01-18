@@ -72,7 +72,7 @@ public class TableRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
     }
 
     public String tableTypeText(TableEntry table, int i) {
-        if (table.getRoomType() == 11) {
+        if (table.getRoomType() == 6) {
             if (table.getTableType() == 0)
                 return "Mesa do Aluno nº" + i;
             else
@@ -83,7 +83,7 @@ public class TableRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
     }
 
     public String tableNumber(TableEntry tableEntry, int i) {
-        if (tableEntry.getRoomType() == 11)
+        if (tableEntry.getRoomType() == 6)
             return "Mesa nº" + i;
         else
             return "";

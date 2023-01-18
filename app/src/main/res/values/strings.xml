@@ -640,4 +640,5 @@
     <string name="hint_counter_width">Largura do Balcão (m)</string>
     <string name="hint_fs_counter_width">Largura Livre do Balcão (m)</string>
     <string name="hint_vacancy_identification">Localização/Identificação da Vaga</string>
+    <string name="lack_flight_comp_message">Por favor, cadastre os corrimãos, guarda-corpos e balizas deste lance</string>
 </resources>

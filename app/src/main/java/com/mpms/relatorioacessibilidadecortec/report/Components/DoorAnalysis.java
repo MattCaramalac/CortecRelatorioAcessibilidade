@@ -18,15 +18,11 @@ public class DoorAnalysis implements StandardMeasurements {
         if (doorList.size() > 0) {
             for (DoorEntry door : doorList) {
                 irregularDoor = false;
-                StringBuilder doorBuilder = new StringBuilder();
                 String analysis = null;
                 if (door.getRoomID() == roomID)
                     analysis = doorTexts(door, doorLockList);
                 if (analysis != null && analysis.length() > 0) {
-                    doorBuilder.append(analysis);
-                    doorIrregular(doorBuilder);
-                    doorBuilder.replace(21, 22, door.getDoorLocation());
-                    doorText.add(doorBuilder.toString());
+                    doorText.add(analysis);
                 }
             }
         }
@@ -93,6 +89,8 @@ public class DoorAnalysis implements StandardMeasurements {
             }
         }
 
+        if (doors.length() > 0)
+            doors.replace(21, 22, door.getDoorLocation());
         return doors.toString();
 
     }

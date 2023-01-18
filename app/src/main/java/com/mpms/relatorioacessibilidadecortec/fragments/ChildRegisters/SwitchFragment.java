@@ -163,6 +163,7 @@ public class SwitchFragment extends Fragment implements TagInterface {
         switchLocaleValue.setText(null);
         switchTypeValue.setText(null);
         switchHeightValue.setText(null);
+        switchObsValue.setText(null);
     }
 
     private boolean scrollingField(View v, MotionEvent event) {

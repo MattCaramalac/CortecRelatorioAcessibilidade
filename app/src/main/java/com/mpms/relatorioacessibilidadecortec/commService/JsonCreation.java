@@ -142,6 +142,7 @@ public class JsonCreation {
     }
 
     public List<String> ambListCreator() {
+
         List<String> ambientList = new ArrayList<>();
         for (int i = 0; i < blockList.size(); i++) {
             BlockSpaceEntry block = blockList.get(i);
@@ -181,7 +182,7 @@ public class JsonCreation {
                                 sec++;
                                 break;
                             case 12:
-                                build.append(entry.getRoomDescription()).append(", ");
+                                build.append(entry.getRoomLocation()).append(", ");
                         }
                     }
                 }
@@ -277,8 +278,7 @@ public class JsonCreation {
                     build.append(water).append(" bebedouros.");
 
                 ambientList.add(build.toString());
-            }
-            else if (block.getBlockSpaceType() == 2) {
+            } else if (block.getBlockSpaceType() == 2) {
                 int water = 0, park = 0, play = 0, mBan = 0, fBan = 0, famBan = 0, infBan = 0, other = 0;
                 build.append("Espaços de Apoio, sendo: ");
 
@@ -375,6 +375,10 @@ public class JsonCreation {
     }
 
     public HashMap<String, String> createJson() {
+
+        int schServQnt = 0;
+        int schHourQnt = 0;
+
         try {
             JSONArray schoolData = new JSONArray();
 
@@ -386,7 +390,10 @@ public class JsonCreation {
             schoolObj.put("schoolAddress", school.getSchoolAddress());
             schoolObj.put("schoolNumber", school.getAddressNumber());
             schoolObj.put("schoolNeighbour", school.getAddressNeighborhood());
-            schoolObj.put("schoolDistrict", school.getNameDistrict());
+            if (school.getNameDistrict() != null && school.getNameDistrict().length() > 0)
+                schoolObj.put("schoolDistrict", "distrito de " + school.getNameDistrict() + ",");
+            else
+                schoolObj.put("schoolDistrict", "");
             schoolObj.put("cityName", school.getNameCity());
 
             schoolObj.put("techName", school.getNameInspectionTeam());
@@ -419,7 +426,6 @@ public class JsonCreation {
             schoolObj.put("hasParking", parking);
 
             StringBuilder blockText = new StringBuilder();
-            blockText.append("constituído por ");
             if (qntBlocks == 1)
                 blockText.append("1 (um) bloco arquitetônico");
             else
@@ -428,10 +434,10 @@ public class JsonCreation {
                 blockText.append(", ladeados por espaços de apoio");
             schoolObj.put("blockQnt", blockText);
 
-            if (school.getFinalDateInspection() == null)
+            if (school.getFinalDateInspection() == null || school.getFinalDateInspection().length() == 0)
                 schoolObj.put("visitDate", "Em " + school.getInitialDateInspection());
             else {
-                schoolObj.put("visitDate", "Nos dias " + school.getInitialDateInspection() +
+                schoolObj.put("visitDate", "Entre os dias " + school.getInitialDateInspection() +
                         " e " + school.getFinalDateInspection());
             }
             schoolObj.put("responsibleVisit", school.getNameResponsibleVisit());
@@ -441,51 +447,98 @@ public class JsonCreation {
             schoolObj.put("ageClassYoung", moOrYe(school.getYoungestStudentAge(), school.getMonthYearYoungest()));
             schoolObj.put("ageClassOldest", moOrYe(school.getOldestStudentAge(), school.getMonthYearOldest()));
 
+
+//            Serviços Oferecidos
+            int schCounter = 1;
+
             StringBuilder services = new StringBuilder();
-            if (school.getHasNursery() != null && school.getHasNursery().equals(1))
-                services.append("Berçário, ");
-            if (school.getHasDayCare() != null && school.getHasDayCare().equals(1))
-                services.append("Creche, ");
-            if (school.getHasMaternal() != null && school.getHasMaternal().equals(1))
-                services.append("Maternal, ");
-            if (school.getHasPreschool() != null && school.getHasPreschool().equals(1))
-                services.append("Pré-Escola, ");
-            if (school.getHasElementaryMiddle() != null && school.getHasElementaryMiddle().equals(1))
-                services.append("Ensino Fundamental, ");
-            if (school.getHasHighSchool() != null && school.getHasHighSchool().equals(1))
-                services.append("Ensino Médio, ");
-            if (school.getHasEja() != null && school.getHasEja().equals(1))
-                services.append("e E.J.A");
+            Integer[] schServices = new Integer[7];
+            schServices[0] = school.getHasNursery();
+            schServices[1] = school.getHasDayCare();
+            schServices[2] = school.getHasMaternal();
+            schServices[3] = school.getHasPreschool();
+            schServices[4] = school.getHasElementaryMiddle();
+            schServices[5] = school.getHasHighSchool();
+            schServices[6] = school.getHasEja();
+
+            for (Integer sch : schServices) {
+                if (sch != null)
+                    schServQnt += sch;
+            }
+
+            if (schServices[0] != null && schServices[0].equals(1) && schCounter <= schServQnt) {
+                services.append("Berçário");
+                schoolServices(services, schCounter, schServQnt);
+                schCounter++;
+            }
+            if (schServices[1] != null && schServices[1].equals(1) && schCounter <= schServQnt) {
+                services.append("Creche");
+                schoolServices(services, schCounter, schServQnt);
+                schCounter++;
+            }
+            if (schServices[2] != null && schServices[2].equals(1) && schCounter <= schServQnt) {
+                services.append("Maternal");
+                schoolServices(services, schCounter, schServQnt);
+                schCounter++;
+            }
+            if (schServices[3] != null && schServices[3].equals(1) && schCounter <= schServQnt) {
+                services.append("Pré-Escola");
+                schoolServices(services, schCounter, schServQnt);
+                schCounter++;
+            }
+            if (schServices[4] != null && schServices[4].equals(1) && schCounter <= schServQnt) {
+                services.append("Ensino Fundamental");
+                schoolServices(services, schCounter, schServQnt);
+                schCounter++;
+            }
+            if (schServices[5] != null && schServices[5].equals(1) && schCounter <= schServQnt) {
+                services.append("Ensino Médio");
+                schoolServices(services, schCounter, schServQnt);
+                schCounter++;
+            }
+            if (schServices[6] != null && schServices[6].equals(1) && schCounter <= schServQnt) {
+                services.append("E.J.A");
+                schoolServices(services, schCounter, schServQnt);
+            }
             schoolObj.put("schoolServices", services.toString());
 
+//            Horário de Funcionamento
+            int hourCounter = 1;
 
             StringBuilder workHour = new StringBuilder();
-            int counter = 0;
-            counter += school.getHasMorningClasses();
-            counter += school.getHasAfternoonClasses();
-            counter += school.getHasEveningClasses();
+            Integer[] schHours = new Integer[3];
 
-            if (counter == 1)
+            schHours[0] = school.getHasMorningClasses();
+            schHours[1] = school.getHasAfternoonClasses();
+            schHours[2] = school.getHasEveningClasses();
+
+            for (Integer hour : schHours) {
+                if (hour != null)
+                    schHourQnt += hour;
+            }
+
+            if (schHourQnt == 1)
                 workHour.append("no período ");
             else
                 workHour.append("nos períodos ");
-            if (school.getHasMorningClasses() != null && school.getHasMorningClasses().equals(1)) {
+
+            if (schHours[0] != null && schHours[0].equals(1) && hourCounter <= schHourQnt) {
                 workHour.append("matutino (").append(school.getMorningStart()).append("hs às ")
                         .append(school.getMorningEnd()).append("hs)");
-                if (school.getHasAfternoonClasses().equals(1) && school.getHasEveningClasses().equals(1))
-                    workHour.append(",");
-                else
-                    workHour.append(" e ");
+                schoolWorkHour(workHour, hourCounter, schHourQnt);
+                hourCounter++;
             }
-            if (school.getHasAfternoonClasses() != null && school.getHasAfternoonClasses().equals(1)) {
+            if (schHours[1] != null && schHours[1].equals(1) && hourCounter <= schHourQnt) {
                 workHour.append("vespertino (").append(school.getAfternoonStart()).append("hs às ")
                         .append(school.getAfternoonEnd()).append("hs)");
-                if (school.getHasEveningClasses().equals(1))
-                    workHour.append(" e ");
+                schoolWorkHour(workHour, hourCounter, schHourQnt);
+                hourCounter++;
             }
-            if (school.getHasEveningClasses() != null && school.getHasEveningClasses().equals(1))
+            if (schHours[2] != null && schHours[2].equals(1) && hourCounter <= schHourQnt) {
                 workHour.append("noturno (").append(school.getEveningStart()).append("hs às ")
                         .append(school.getEveningEnd()).append("hs)");
+                schoolWorkHour(workHour, hourCounter, schHourQnt);
+            }
             schoolObj.put("workingHours", workHour.toString());
 
             schoolObj.put("numberStudents", String.valueOf(school.getNumberStudents()));
@@ -543,6 +596,20 @@ public class JsonCreation {
 
         return null;
 
+    }
+
+    public static void schoolServices(StringBuilder builder, int schCounter, int schServQnt) {
+        if (schCounter + 1 < schServQnt)
+            builder.append(", ");
+        else if (schCounter + 1 == schServQnt)
+            builder.append(" e ");
+    }
+
+    public static void schoolWorkHour(StringBuilder builder, int hourCounter, int schHourQnt) {
+        if (hourCounter + 1 < schHourQnt)
+            builder.append(", ");
+        else if (hourCounter + 1 == schHourQnt)
+            builder.append(" e ");
     }
 
     public SchoolEntry getSchool() {

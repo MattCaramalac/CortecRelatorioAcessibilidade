@@ -118,21 +118,21 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
             if (checkEmptyFlightFields()) {
                 if (flightBundle.getInt(FLIGHT_ID) == 0) {
                     if (updateFlight == 0 && !flightBundle.getBoolean(FROM_SIDEWALK)) {
-                        Toast.makeText(getContext(), "Por favor, cadastre os componentes deste local", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.lack_flight_comp_message), Toast.LENGTH_LONG).show();
                     }
                     else if (updateFlight == 0 && flightBundle.getBoolean(FROM_SIDEWALK)) {
                         RampStairsFlightEntry newFlight = newFlightEntry(flightBundle);
                         ViewModelEntry.insertRampsStairsFlight(newFlight);
-                        Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                         requireActivity().getSupportFragmentManager().popBackStackImmediate();
                     }
                     else if (updateFlight > 0 || flightBundle.getBoolean(FROM_SIDEWALK)) {
                         if (checkRampStairsComponents() || flightBundle.getBoolean(FROM_SIDEWALK)) {
                             updateFlight(flightBundle);
-                            Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                             requireActivity().getSupportFragmentManager().popBackStackImmediate();
                         } else {
-                            Toast.makeText(getContext(), "Por favor, cadastre os componentes deste local", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.lack_flight_comp_message), Toast.LENGTH_LONG).show();
                         }
                     } else {
                         errorFlightProcedure();
@@ -140,10 +140,10 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
                 } else if (flightBundle.getInt(FLIGHT_ID) > 0) {
                     if (checkRampStairsComponents() || flightBundle.getBoolean(FROM_SIDEWALK)) {
                         updateFlight(flightBundle);
-                        Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                         requireActivity().getSupportFragmentManager().popBackStackImmediate();
                     } else {
-                        Toast.makeText(getContext(), "Por favor, cadastre os componentes deste local", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.lack_flight_comp_message), Toast.LENGTH_LONG).show();
                     }
                 } else {
                     errorFlightProcedure();

@@ -120,12 +120,11 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
                         clearRoomFields();
                         resetVariables(bundle);
                         Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
-
-                    }
                     requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0);
-                }
+                } else
+                    Toast.makeText(getContext(), getString(R.string.req_field_error), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -455,6 +454,8 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                     }
                     requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0);
+                } else {
+                    Toast.makeText(getContext(), getString(R.string.req_field_error), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -687,7 +688,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
             if (roomEntry.getRoomHasLooseCarpet() == 1 && roomEntry.getLooseCarpetObs() != null)
                 looseCarpetObsValue.setText(roomEntry.getLooseCarpetObs());
         }
-        if (roomEntry.getRoomAccessFloor() != null) {
+        if (roomEntry.getRoomAccessFloor() != null && roomEntry.getRoomAccessFloor() != -1) {
             hasAccessFloorRadio.check(hasAccessFloorRadio.getChildAt(roomEntry.getRoomAccessFloor()).getId());
             if (roomEntry.getRoomAccessFloor() == 0 && roomEntry.getAccessFloorObs() != null)
                 accessFloorObsValue.setText(roomEntry.getAccessFloorObs());

@@ -18,11 +18,11 @@ public class RestAnalysis implements StandardMeasurements {
             if (block.getBlockSpaceType() == 2) {
                 int blockID = block.getBlockSpaceID();
 
-                for (int i = 0; i < restList.size(); i++) {
+                int i = 0;
+                for (RestroomEntry rest : restList) {
                     check = 0;
                     AmbientAnalysis.err = false;
                     List<String> restIrr = new ArrayList<>();
-                    RestroomEntry rest = restList.get(i);
                     if (rest.getBlockID() == blockID)
                         restIrr = checkRestIrregularities(rest);
 
@@ -31,6 +31,7 @@ public class RestAnalysis implements StandardMeasurements {
                         String type = restroomTyping(rest.getRestType());
                         AmbientAnalysis.helpRestList.add("Sanitário " + type + ", localizado em " + rest.getRestLocation() + ", com as seguintes irregularidades: ");
                         AmbientAnalysis.helpRestIrregular.put(i, restIrr);
+                        i++;
                     }
                 }
             }
@@ -292,7 +293,7 @@ public class RestAnalysis implements StandardMeasurements {
             }
             if (rest.getSocCorners() == 1) {
                 soculoIrregular(builder);
-                restIrr.add("presença de cantos vivos;");
+                builder.append("presença de cantos vivos;");
             }
 
             if (builder.toString().length() > 0) {

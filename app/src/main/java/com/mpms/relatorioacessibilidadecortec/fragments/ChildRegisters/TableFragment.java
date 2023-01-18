@@ -125,14 +125,14 @@ public class TableFragment extends Fragment implements TagInterface {
     }
 
     private void classroomTableView(Bundle bundle) {
-        if (bundle.getInt(ROOM_TYPE) == 11) {
+        if (bundle.getInt(ROOM_TYPE) == 6) {
             tableRegisterHeader.setVisibility(View.VISIBLE);
             tableTypeRadio.setVisibility(View.VISIBLE);
         }
     }
 
     private void loadTableData(TableEntry tableEntry, Bundle bundle) {
-        if (bundle.getInt(ROOM_TYPE) == 11)
+        if (bundle.getInt(ROOM_TYPE) == 6)
             tableTypeRadio.check(tableTypeRadio.getChildAt(tableEntry.getTableType()).getId());
         supHeightValue.setText(String.valueOf(tableEntry.getSuperiorBorderHeight()));
         infHeightValue.setText(String.valueOf(tableEntry.getInferiorBorderHeight()));
@@ -150,7 +150,7 @@ public class TableFragment extends Fragment implements TagInterface {
     private boolean tableNoEmptyFields(Bundle bundle) {
         clearTableEmptyFieldsErrors();
         int i = 0;
-        if (bundle.getInt(ROOM_TYPE) == 11) {
+        if (bundle.getInt(ROOM_TYPE) == 6) {
             if (getRadioCheckedButton(tableTypeRadio) == -1) {
                 i++;
                 tableTypeError.setVisibility(View.VISIBLE);
@@ -194,7 +194,7 @@ public class TableFragment extends Fragment implements TagInterface {
         double supHeight, infHeight, tableWidth, frontAprox, freeWidth;
         String tableObs = null;
 
-        if (bundle.getInt(ROOM_TYPE) == 11) {
+        if (bundle.getInt(ROOM_TYPE) == 6) {
             tableType = getRadioCheckedButton(tableTypeRadio);
         }
         supHeight = Double.parseDouble(String.valueOf(supHeightValue.getText()));

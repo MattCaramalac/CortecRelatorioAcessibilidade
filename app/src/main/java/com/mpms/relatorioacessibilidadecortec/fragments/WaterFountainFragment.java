@@ -137,7 +137,6 @@ public class WaterFountainFragment extends Fragment implements TagInterface {
         cancelWaterFountain = view.findViewById(R.id.cancel_waterfountain);
         saveWaterFountain = view.findViewById(R.id.save_waterfountain);
 //        ViewModels
-//        modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Listener
         typeWaterFountain.setOnCheckedChangeListener(this::typeFountainListener);
@@ -208,9 +207,12 @@ public class WaterFountainFragment extends Fragment implements TagInterface {
 
     public WaterFountainEntry createFountain(Bundle bundle) {
         String fountainLocation, fountainTypeObs = null, latApproxObs = null, fountainObs = null;
-        Integer fountainType, spoutDifHeight = null, spoutFrontApprox = null, otherSideApprox = null, otherCupHolder = null;
+        int fountainType;
+        Integer roomID = null, spoutDifHeight = null, spoutFrontApprox = null, otherSideApprox = null, otherCupHolder = null;
         Double spoutHighest = null, spoutLowest = null, spoutFrontHeight = null, spoutFrontDepth = null, otherHeight = null, otherCupHeight = null;
 
+        if (bundle.getInt(AMBIENT_ID) != 0)
+            roomID = bundle.getInt(AMBIENT_ID);
         fountainLocation = String.valueOf(fountainLocationValue.getText());
         fountainType = getCheckedFountainType(typeWaterFountain);
         if (!TextUtils.isEmpty(fountainTypeObsValue.getText()))
@@ -238,7 +240,7 @@ public class WaterFountainFragment extends Fragment implements TagInterface {
         if (!TextUtils.isEmpty(waterFountainObsValue.getText()))
             fountainObs = String.valueOf(waterFountainObsValue.getText());
 
-        return new WaterFountainEntry(bundle.getInt(BLOCK_ID), bundle.getInt(AMBIENT_ID), fountainLocation, fountainType,
+        return new WaterFountainEntry(bundle.getInt(BLOCK_ID), roomID, fountainLocation, fountainType,
                 fountainTypeObs, otherSideApprox, latApproxObs, otherHeight, otherCupHolder, otherCupHeight, spoutDifHeight, spoutHighest, spoutLowest, spoutFrontApprox,
                 spoutFrontDepth, spoutFrontHeight, fountainObs);
     }

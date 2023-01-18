@@ -139,6 +139,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
                 irregularTextListing(playList, playIrregular, numID, cursor);
                 irregularTextListing(helpRoomList, helpRoomIrregular, numID, cursor);
                 irregularTextListing(helpParkList, helpParkIrregular, numID, cursor);
+                irregularTextListing(helpRestList, helpRestIrregular, numID, cursor);
             } else {
                 blockRoomList.clear();
                 blockRoomIrregular.clear();

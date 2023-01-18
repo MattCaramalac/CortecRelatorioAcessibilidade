@@ -37,6 +37,7 @@ public class TextUpdate {
     public File path;
     public String fName;
     public String fileName;
+    public boolean error = false;
     static FileOutputStream outStream;
     static JsonCreation jCreate;
     static List<String> blockContent;
@@ -59,6 +60,7 @@ public class TextUpdate {
             outStream.close();
         } catch (IOException | OpenXML4JRuntimeException | XmlException e) {
             LOGGER.error(e);
+            error = true;
         }
         return true;
     }

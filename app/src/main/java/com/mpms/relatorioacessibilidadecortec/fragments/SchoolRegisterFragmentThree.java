@@ -29,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterThree;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -41,7 +42,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 
-public class SchoolRegisterFragmentThree extends Fragment {
+public class SchoolRegisterFragmentThree extends Fragment implements TagInterface {
 
     TextInputLayout startAgeField, finalAgeField, totalStudentsField, totalStudentsPcdField, studentPcdDescriptionField,
             totalWorkersField, totalWorkersPcdField, workersPcdDescriptionField, totalWorkersLibrasField, workersLibrasDescriptionField,
@@ -54,9 +55,7 @@ public class SchoolRegisterFragmentThree extends Fragment {
     MaterialDatePicker<Long> initialDate, finalDate;
     CalendarConstraints.Builder constraints;
 
-    Integer youngestStudent, youngestMonthYear, oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents, totalEmployees,
-            totalPcdEmployees, hasLibrasEmployees, totalLibrasEmployees;
-    String studentsPcdDescription, employeesPcdDescription, librasDescriptions, initialDateInspection, finalDateInspection;
+
 
     int defaultColor;
 
@@ -262,7 +261,7 @@ public class SchoolRegisterFragmentThree extends Fragment {
         if (school.getOldestStudentAge() != null)
             finalAgeValue.setText(String.valueOf(school.getOldestStudentAge()));
         if (school.getMonthYearOldest() != null)
-            oldestMonthYearRadio.check(oldestMonthYearRadio.getChildAt(school.getMonthYearYoungest()).getId());
+            oldestMonthYearRadio.check(oldestMonthYearRadio.getChildAt(school.getMonthYearOldest()).getId());
         if (school.getNumberStudents() != null)
             totalStudentsValue.setText(String.valueOf(school.getNumberStudents()));
         if (school.getNumberStudentsPCD() != null)
@@ -362,28 +361,33 @@ public class SchoolRegisterFragmentThree extends Fragment {
     }
 
     private SchoolRegisterThree updateRegisterThree(Bundle bundle) {
-        youngestStudent = Integer.valueOf(String.valueOf(startAgeValue.getText()));
+        int youngestStudent, youngestMonthYear, oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents, totalEmployees, totalPcdEmployees,
+                hasLibrasEmployees;
+        Integer totalLibrasEmployees = null;
+        String studentsPcdDescription = null, employeesPcdDescription = null, librasDescriptions = null, initialDateInspection, finalDateInspection = null;
+
+        youngestStudent = Integer.parseInt(String.valueOf(startAgeValue.getText()));
         youngestMonthYear = getCheckedIndex(youngestMonthYearRadio);
-        oldestStudent = Integer.valueOf(String.valueOf(finalAgeValue.getText()));
+        oldestStudent = Integer.parseInt(String.valueOf(finalAgeValue.getText()));
         oldestMonthYear = getCheckedIndex(oldestMonthYearRadio);
-        totalStudents = Integer.valueOf(String.valueOf(totalStudentsValue.getText()));
-        totalPcdStudents = Integer.valueOf(String.valueOf(totalStudentsPcdValue.getText()));
-        studentsPcdDescription = String.valueOf(studentPcdDescriptionValue.getText());
-        totalEmployees = Integer.valueOf(String.valueOf(totalWorkersValue.getText()));
-        totalPcdEmployees = Integer.valueOf(String.valueOf(totalWorkersPcdValue.getText()));
-        employeesPcdDescription = String.valueOf(workersPcdDescriptionValue.getText());
+        totalStudents = Integer.parseInt(String.valueOf(totalStudentsValue.getText()));
+        totalPcdStudents = Integer.parseInt(String.valueOf(totalStudentsPcdValue.getText()));
+        if (!TextUtils.isEmpty(studentPcdDescriptionValue.getText()))
+            studentsPcdDescription = String.valueOf(studentPcdDescriptionValue.getText());
+        totalEmployees = Integer.parseInt(String.valueOf(totalWorkersValue.getText()));
+        totalPcdEmployees = Integer.parseInt(String.valueOf(totalWorkersPcdValue.getText()));
+        if (!TextUtils.isEmpty(workersPcdDescriptionValue.getText()))
+            employeesPcdDescription = String.valueOf(workersPcdDescriptionValue.getText());
         hasLibrasEmployees = getCheckedIndex(hasWorkersLibras);
         if (hasLibrasEmployees == 1) {
             totalLibrasEmployees = Integer.valueOf(String.valueOf(totalWorkersLibrasValue.getText()));
             librasDescriptions = String.valueOf(workersLibrasDescriptionValue.getText());
-        } else {
-            totalLibrasEmployees = null;
-            librasDescriptions = null;
         }
         initialDateInspection = String.valueOf(initialDateInspectionValue.getText());
-        finalDateInspection = String.valueOf(finalDateInspectionValue.getText());
+        if (!TextUtils.isEmpty(finalDateInspectionValue.getText()))
+            finalDateInspection = String.valueOf(finalDateInspectionValue.getText());
 
-        return new SchoolRegisterThree(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), youngestStudent, youngestMonthYear,
+        return new SchoolRegisterThree(bundle.getInt(SCHOOL_ID), youngestStudent, youngestMonthYear,
                 oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents, studentsPcdDescription, totalEmployees,
                 totalPcdEmployees, employeesPcdDescription, hasLibrasEmployees, totalLibrasEmployees, librasDescriptions,
                 initialDateInspection, finalDateInspection);

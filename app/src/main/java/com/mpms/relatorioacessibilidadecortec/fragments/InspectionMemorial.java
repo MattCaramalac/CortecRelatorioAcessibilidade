@@ -390,7 +390,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
             tData = jCreate.createJson();
 
-            InspectionActivity.callFunction(tData, jCreate);
+            InspectionActivity.callFunction(tData, jCreate, getActivity().getApplicationContext());
         });
     }
 
