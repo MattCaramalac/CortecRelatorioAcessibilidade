@@ -23,10 +23,11 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestUrinalUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 
-public class RestUrinalFragment extends Fragment implements TagInterface {
+public class RestUrinalFragment extends Fragment implements TagInterface, ScrollEditText {
 
     ImageButton frontUrinal, frontUrinal2, sideUrinal;
     RadioGroup hasUrinal, accessRadio, urinalType;
@@ -134,6 +135,8 @@ public class RestUrinalFragment extends Fragment implements TagInterface {
         urinalType.setOnCheckedChangeListener(this::radioListener);
         saveUrinal.setOnClickListener(this::saveClick);
         returnSink.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+
+        allowObsScroll(urinalObsValue);
     }
 
     private void saveClick(View view) {
@@ -142,7 +145,8 @@ public class RestUrinalFragment extends Fragment implements TagInterface {
             ViewModelEntry.updateRestUrinalData(urData);
             Toast.makeText(getContext(), getText(R.string.register_created_message), Toast.LENGTH_SHORT).show();
             requireActivity().getSupportFragmentManager().popBackStack(REST_LIST, 0);
-        }
+        } else
+            Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
     }
 
     private RestUrinalUpdate urUpdate (Bundle bundle) {

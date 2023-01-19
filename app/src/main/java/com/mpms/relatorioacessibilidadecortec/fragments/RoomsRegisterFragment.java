@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,11 +34,12 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.TableList
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.WindowListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 
-public class RoomsRegisterFragment extends Fragment implements TagInterface {
+public class RoomsRegisterFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextView roomIdentifier, vertSignError, looseCarpetError, accessFloorError, blackboardHeader, counterHeader, soundError, phoneError, biometryError,
             soundHeader, phoneHeader, biometryHeader;
@@ -124,7 +123,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                     requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0);
                 } else
-                    Toast.makeText(getContext(), getString(R.string.req_field_error), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -241,7 +240,8 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         addStairs.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
         saveRegister.setOnClickListener(v -> buttonClickedListener(roomBundle, view));
         cancelRegister.setOnClickListener(v -> cancelClick());
-        allowRoomObsScroll();
+        addObsFieldsToArray();
+        allowObsScroll(roomScrollArray);
         setChildFragView(roomBundle);
 
     }
@@ -368,22 +368,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface {
         roomScrollArray.add(looseCarpetObsValue);
         roomScrollArray.add(accessFloorObsValue);
         roomScrollArray.add(roomObsValue);
-    }
-
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowRoomObsScroll() {
-        addObsFieldsToArray();
-        for (TextInputEditText scroll : roomScrollArray) {
-            scroll.setOnTouchListener(this::scrollingField);
-        }
     }
 
     private void saveUpdateRoomEntry(Bundle bundle) {

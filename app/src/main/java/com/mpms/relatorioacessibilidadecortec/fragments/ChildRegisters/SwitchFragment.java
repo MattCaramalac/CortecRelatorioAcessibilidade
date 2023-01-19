@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -20,9 +18,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class SwitchFragment extends Fragment implements TagInterface {
+public class SwitchFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout switchLocaleField, switchTypeField, switchHeightField, switchObsField;
     TextInputEditText switchLocaleValue, switchTypeValue, switchHeightValue, switchObsValue;
@@ -108,7 +107,7 @@ public class SwitchFragment extends Fragment implements TagInterface {
 //        ViewModels
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //
-        allowSwitchScrollFields();
+        allowObsScroll(switchObsValue);
     }
 
     private SwitchEntry newSwitchEntry(Bundle bundle) {
@@ -164,18 +163,5 @@ public class SwitchFragment extends Fragment implements TagInterface {
         switchTypeValue.setText(null);
         switchHeightValue.setText(null);
         switchObsValue.setText(null);
-    }
-
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowSwitchScrollFields() {
-        switchObsValue.setOnTouchListener(this::scrollingField);
     }
 }

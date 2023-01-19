@@ -23,10 +23,6 @@ public class LibraryFragment extends Fragment implements TagInterface {
 
     ViewModelEntry modelEntry;
 
-    public static final String DISTANCE_SHELVES = "DISTANCE_SHELVES";
-    public static final String MANEUVER_PCR = "MANEUVER_PCR";
-    public static final String COMPUTER_ACCESSIBLE = "COMPUTER_ACCESSIBLE";
-
     public LibraryFragment() {
         // Required empty public constructor
     }

@@ -18,9 +18,10 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class WaterFountainOtherFragment extends Fragment implements TagInterface {
+public class WaterFountainOtherFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextView lateralApproxError, hasCupHolderError;
     RadioGroup allowLateralApprox, hasCupHolder;
@@ -118,6 +119,8 @@ public class WaterFountainOtherFragment extends Fragment implements TagInterface
 //        Listeners
         hasCupHolder.setOnCheckedChangeListener(this::otherRadioListener);
         allowLateralApprox.setOnCheckedChangeListener(this::otherRadioListener);
+
+        allowObsScroll(latApproxObsValue);
     }
 
     public void otherRadioListener(RadioGroup group, int checkedID) {

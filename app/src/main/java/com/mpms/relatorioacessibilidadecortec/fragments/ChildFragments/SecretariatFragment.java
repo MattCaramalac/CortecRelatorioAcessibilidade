@@ -19,15 +19,10 @@ import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class SecretariatFragment extends Fragment implements TagInterface {
-
-    public static final String HAS_FIXED_SEATS = "HAS_FIXED_SEATS";
-    public static final String HAS_PCR_SPACE = "HAS_PCR_SPACE";
-    public static final String PCR_WIDTH = "PCR_WIDTH";
-    public static final String PCR_DEPTH = "PCR_DEPTH";
-    public static final String PCR_OBS = "PCR_OBS";
+public class SecretariatFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout pcrSpaceWidthField, pcrSpaceDepthField, pcrSpaceObsField;
     TextInputEditText pcrSpaceWidthValue, pcrSpaceDepthValue, pcrSpaceObsValue;
@@ -100,6 +95,7 @@ public class SecretariatFragment extends Fragment implements TagInterface {
 //        Listeners
         hasFixedSeatsRadio.setOnCheckedChangeListener(this::secretariatRadioListener);
         hasPCRSpaceRadio.setOnCheckedChangeListener(this::secretariatRadioListener);
+        allowObsScroll(pcrSpaceObsValue);
     }
 
     public void secretariatRadioListener(RadioGroup radio, int checkedID) {
@@ -170,8 +166,6 @@ public class SecretariatFragment extends Fragment implements TagInterface {
                 }
             }
         }
-
-
     }
 
     public boolean checkEmptySecretariatFields() {

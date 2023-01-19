@@ -17,12 +17,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class ExtAccessVehicleFragment extends Fragment implements TagInterface {
-
-    public static final String HAS_SOUND = "HAS_SOUND";
-    public static final String ACCESS_OBS = "ACCESS_OBS";
+public class ExtAccessVehicleFragment extends Fragment implements TagInterface, ScrollEditText {
 
     RadioGroup hasSoundSignRadio;
     TextView soundSingError;
@@ -86,6 +84,7 @@ public class ExtAccessVehicleFragment extends Fragment implements TagInterface {
         accessObsValue = view.findViewById(R.id.external_access_sound_obs_value);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        allowObsScroll(accessObsValue);
     }
 
     private int getRadioCheckIndex(RadioGroup radio) {

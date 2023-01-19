@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -29,11 +27,12 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.RampStair
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 
-public class RampStairsFlightFragment extends Fragment implements TagInterface {
+public class RampStairsFlightFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextView flightHeader, flightNumberHeader, dimensionsButtonsHeader, borderSignHeader, identifiableBorderSignHeader,
             tactileSignRadioError, lowerTactFloorRadioError, upperTactFloorRadioError, interLevelRadioError,
@@ -158,27 +157,11 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
 
     }
 
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
     private void addObsFieldsToArray() {
         if (flightObsArray.size() == 0) {
             flightObsArray.add(pavementObsValue);
             flightObsArray.add(tactileFloorObsValue);
             flightObsArray.add(borderSignObsValue);
-        }
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowFlightObsScroll() {
-        addObsFieldsToArray();
-        for (TextInputEditText obsScroll : flightObsArray) {
-            obsScroll.setOnTouchListener(this::scrollingField);
         }
     }
 
@@ -328,7 +311,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface {
         upTactFloorRadio.setOnCheckedChangeListener(this::radioListener);
         interLevelRadio.setOnCheckedChangeListener(this::radioListener);
 
-        allowFlightObsScroll();
+        addObsFieldsToArray();
+        allowObsScroll(flightObsArray);
         setRampStairsFlightTemplate(flightBundle);
 
     }

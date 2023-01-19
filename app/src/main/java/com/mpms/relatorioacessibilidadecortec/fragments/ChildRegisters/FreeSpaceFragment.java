@@ -17,9 +17,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class FreeSpaceFragment extends Fragment implements TagInterface {
+public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout fSpaceLocaleField, fSpaceWidthField, fSpaceObsField, obsWidthField;
     TextInputEditText fSpaceLocaleValue, fSpaceWidthValue, fSpaceObsValue, obsWidthValue;
@@ -100,6 +101,7 @@ public class FreeSpaceFragment extends Fragment implements TagInterface {
         cancelFreeSp = view.findViewById(R.id.cancel_free_space);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        allowObsScroll(fSpaceObsValue);
     }
 
     private void loadFreeSpData(FreeSpaceEntry fSpace) {

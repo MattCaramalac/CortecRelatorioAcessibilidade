@@ -24,10 +24,13 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlope
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
-public class DoorFragment extends Fragment implements TagInterface {
+import java.util.ArrayList;
+
+public class DoorFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout doorLocaleField, doorWidthField, handleHeightField, handleObsField, tactileSignObsField, doorSillObsField, doorObsField;
     TextInputEditText doorLocaleValue, doorWidthValue, handleHeightValue, handleObsValue, tactileSignObsValue, doorSillObsValue, doorObsValue;
@@ -37,6 +40,8 @@ public class DoorFragment extends Fragment implements TagInterface {
     MaterialButton addDoorLockButton, saveDoorButton, cancelDoorButton;
 
     Bundle doorBundle = new Bundle();
+
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     ViewModelEntry modelEntry;
 
@@ -167,6 +172,16 @@ public class DoorFragment extends Fragment implements TagInterface {
         saveDoorButton.setOnClickListener(v -> doorButtonClickListener(doorBundle, v));
         addDoorLockButton.setOnClickListener(v -> doorButtonClickListener(doorBundle, v));
         cancelDoorButton.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+
+        editTextFields();
+        allowObsScroll(eText);
+    }
+
+    private void editTextFields() {
+        eText.add(handleObsValue);
+        eText.add(tactileSignObsValue);
+        eText.add(doorSillObsValue);
+        eText.add(doorObsValue);
     }
 
     private void doorMultiRadioListener(MultiLineRadioGroup multi) {

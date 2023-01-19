@@ -9,6 +9,8 @@ public interface TagInterface {
 
     //    Tags defining block info
     String BLOCK_ID = "BLOCK_ID";
+    String BLOCK_OR_SPACE = "BLOCK_OR_SPACE";
+    String NEXT_ENTRY = "NEXT_ENTRY";
 
     //    Tags defining ambient info
     String AMBIENT_ID = "AMBIENT_ID";
@@ -152,9 +154,23 @@ public interface TagInterface {
 
     //    External Access
     String EXT_ACCESS_ID = "EXT_ACCESS_ID";
+    String HAS_SOUND = "HAS_SOUND";
+    String ACCESS_OBS = "ACCESS_OBS";
 
     //    Títulos Locais Análise
     String ACCESS_TITLE = "Acessos, Circulações e Área Externa";
     String HELP_TITLE = "Áreas de Apoio";
     String BLOCK_TITLE = "Bloco Nº";
+
+    //    Biblioteca
+    String DISTANCE_SHELVES = "DISTANCE_SHELVES";
+    String MANEUVER_PCR = "MANEUVER_PCR";
+    String COMPUTER_ACCESSIBLE = "COMPUTER_ACCESSIBLE";
+
+    //    Secretaria
+    String HAS_FIXED_SEATS = "HAS_FIXED_SEATS";
+    String HAS_PCR_SPACE = "HAS_PCR_SPACE";
+    String PCR_WIDTH = "PCR_WIDTH";
+    String PCR_DEPTH = "PCR_DEPTH";
+    String PCR_OBS = "PCR_OBS";
 }

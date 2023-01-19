@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -27,14 +25,13 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorLockListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-public class ExtAccessSocialFragment extends Fragment implements TagInterface {
+public class ExtAccessSocialFragment extends Fragment implements TagInterface, ScrollEditText {
 
     RadioGroup hasSIARadio, gateHandleRadio, hasGateTracksRadio, hasTrackRampRadio, hasTrackGapsRadio;
     MultiLineRadioGroup gateTypeRadio;
@@ -52,11 +49,9 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
 
     FragmentManager manager;
 
-    Map<Integer, TextInputLayout> teste = new HashMap<>();
-
     int rampTrackCounter = 0;
     int trackGapCounter = 0;
-
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
     ArrayList<TextInputLayout> rampTrackFields = new ArrayList<>();
     ArrayList<TextInputLayout> trackGapFields = new ArrayList<>();
 
@@ -179,7 +174,9 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
 //        Fragment Manager
         manager = getChildFragmentManager();
 //        Obs Fields Scrolling
-        allowObsScroll();
+        eText.add(siaObsValue);
+        eText.add(gateObsValue);
+        allowObsScroll(eText);
 //        RadioListeners
         hasGateTracksRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
         hasTrackRampRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
@@ -494,14 +491,6 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         }
     }
 
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
     private boolean socialFragOneNoEmptyFields() {
         clearSocialFragOneErrors();
         int i = 0;
@@ -636,11 +625,7 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowObsScroll() {
-        siaObsValue.setOnTouchListener(this::scrollingField);
-        gateObsValue.setOnTouchListener(this::scrollingField);
-    }
+
 
     private ExtAccessSocialTwo socialTwo(Bundle bundle) {
         Integer sia = null, gateType = null, gateTracks = null, gateHandle = null, gateTrackRamps = null, floorGaps = null;

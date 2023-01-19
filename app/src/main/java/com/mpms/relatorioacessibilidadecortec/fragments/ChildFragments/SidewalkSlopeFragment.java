@@ -21,12 +21,13 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
-public class SidewalkSlopeFragment extends Fragment implements TagInterface {
+public class SidewalkSlopeFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout slopeLocaleField, slopeWidthField, longMeasureField1, longMeasureField2, longMeasureField3, longMeasureField4,
             leftMeasureField1, leftMeasureField2, leftMeasureField3, leftMeasureField4, rightMeasureField1, rightMeasureField2,
@@ -41,13 +42,11 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
     TextView tactileFloorError, longitudinalError, leftWingRadioError, leftWingHeader, leftWingError, rightWingRadioError, rightWingHeader,
             rightWingError, slopeAccessFloorRadioError, streetSlopeError;
 
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
+
     Bundle slopeBundle;
 
     ViewModelEntry modelEntry;
-
-    ArrayList<TextInputLayout> longFields = new ArrayList<>();
-    ArrayList<TextInputLayout> leftFields = new ArrayList<>();
-    ArrayList<TextInputLayout> rightFields = new ArrayList<>();
 
     int longCounter = 0;
     int leftCounter = 0;
@@ -86,78 +85,6 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
         if (slopeBundle.getInt(SIDEWALK_SLOPE_ID) > 0) {
             modelEntry.getSidewalkSlopeEntry(slopeBundle.getInt(SIDEWALK_SLOPE_ID)).observe(getViewLifecycleOwner(), this::loadSlopeData);
         }
-
-//        longButton.setOnClickListener(v -> {
-//            if (longCounter < 0) {
-//                longCounter = 0;
-//                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-//            } else if (longCounter < 4) {
-//                if (longCounter == 0)
-//                    deleteLong.setVisibility(View.VISIBLE);
-//                longFields.get(longCounter).setVisibility(View.VISIBLE);
-//                longCounter++;
-//            } else
-//                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
-//        });
-//
-//        leftButton.setOnClickListener(v -> {
-//            if (leftCounter < 0) {
-//                leftCounter = 0;
-//                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-//            } else if (leftCounter < 4) {
-//                if (leftCounter == 0) {
-//                    deleteLeft.setVisibility(View.VISIBLE);
-//                }
-//                leftFields.get(leftCounter).setVisibility(View.VISIBLE);
-//                leftCounter++;
-//            } else {
-//                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        rightButton.setOnClickListener(v -> {
-//            if (rightCounter < 0) {
-//                rightCounter = 0;
-//                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-//            } else if (rightCounter < 4) {
-//                if (rightCounter == 0) {
-//                    deleteRight.setVisibility(View.VISIBLE);
-//                }
-//                rightFields.get(rightCounter).setVisibility(View.VISIBLE);
-//                rightCounter++;
-//            } else
-//                Toast.makeText(getContext(), getString(R.string.max_measure_limit_msg), Toast.LENGTH_SHORT).show();
-//        });
-//
-//        deleteLong.setOnClickListener(v -> {
-//            if (longCounter > 0) {
-//                longFields.get(longCounter - 1).getEditText().setText(null);
-//                longFields.get(longCounter - 1).setVisibility(View.GONE);
-//                longCounter--;
-//                if (longCounter == 0)
-//                    deleteLong.setVisibility(View.GONE);
-//            }
-//        });
-//
-//        deleteLeft.setOnClickListener(v -> {
-//            if (leftCounter > 0) {
-//                leftFields.get(leftCounter - 1).getEditText().setText(null);
-//                leftFields.get(leftCounter - 1).setVisibility(View.GONE);
-//                leftCounter--;
-//                if (leftCounter == 0)
-//                    deleteLeft.setVisibility(View.GONE);
-//            }
-//        });
-//
-//        deleteRight.setOnClickListener(v -> {
-//            if (rightCounter > 0) {
-//                rightFields.get(rightCounter - 1).getEditText().setText(null);
-//                rightFields.get(rightCounter - 1).setVisibility(View.GONE);
-//                rightCounter--;
-//                if (rightCounter == 0)
-//                    deleteRight.setVisibility(View.GONE);
-//            }
-//        });
 
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (checkSideSlopeEmptyFields() && bundle.getBoolean(CHILD_DATA_COMPLETE)) {
@@ -274,6 +201,15 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
         longButton.setOnClickListener(this::addFieldClickListener);
         leftButton.setOnClickListener(this::addFieldClickListener);
         rightButton.setOnClickListener(this::addFieldClickListener);
+        editTextFields();
+        allowObsScroll(eText);
+    }
+
+    private void editTextFields() {
+        eText.add(tactileFloorObsValue);
+        eText.add(accessFloorObsValue);
+        eText.add(slopeObsValue);
+        eText.add(slopeStreetObsValue);
     }
 
     private void addFieldClickListener(View v) {
@@ -399,23 +335,6 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
                 rightCounter--;
         }
     }
-
-//    private void addLayoutsToArrays() {
-//        longFields.add(longMeasureField1);
-//        longFields.add(longMeasureField2);
-//        longFields.add(longMeasureField3);
-//        longFields.add(longMeasureField4);
-//
-//        leftFields.add(leftMeasureField1);
-//        leftFields.add(leftMeasureField2);
-//        leftFields.add(leftMeasureField3);
-//        leftFields.add(leftMeasureField4);
-//
-//        rightFields.add(rightMeasureField1);
-//        rightFields.add(rightMeasureField2);
-//        rightFields.add(rightMeasureField3);
-//        rightFields.add(rightMeasureField4);
-//    }
 
     private int getSlopeCheckedRadio(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
@@ -806,6 +725,5 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface {
                 hasLeft, leftCounter, left1, left2, left3, left4, hasRight, rightCounter, right1, right2, right3, right4, hasTactile, tactFloorObs,
                 hasAccess, accessSlopeFloorObs, streetJunction, junInclHeight, junStepHeight, junctionObs, slopeObs);
     }
-
 
 }

@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,11 +26,12 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestSideBarFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestSideWallFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 
-public class RestToiletFragment extends Fragment implements TagInterface {
+public class RestToiletFragment extends Fragment implements TagInterface, ScrollEditText {
 
     ImageButton toilet1, toilet2, toilet3, frontBar, pHolder1, pHolder2, pHolder3;
     TextView pHoldError, pHoldTypeHeader, pHoldTypeError, pHoldAlignHeader, pHoldAlignError, tTypeError, tSeatError, tSocError, socCornerError,
@@ -88,7 +87,6 @@ public class RestToiletFragment extends Fragment implements TagInterface {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateSupportView(view);
-        allowSupBarObsScroll();
 
         if (resToilBundle.getInt(REST_ID) > 0)
             modelEntry.getRestToiletData(resToilBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadToiletData);
@@ -118,26 +116,14 @@ public class RestToiletFragment extends Fragment implements TagInterface {
     }
 
     private void toastMessage() {
-        Toast.makeText(getContext(), getText(R.string.blank_fields_message), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getText(R.string.empty_fields), Toast.LENGTH_SHORT).show();
     }
 
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowSupBarObsScroll() {
+    private void addObsFields() {
         toiletObsArray.add(tObsValue);
         toiletObsArray.add(tActObsValue);
         toiletObsArray.add(papObsValue);
         toiletObsArray.add(doucheObsValue);
-        for (TextInputEditText obsScroll : toiletObsArray) {
-            obsScroll.setOnTouchListener(this::scrollingField);
-        }
     }
 
     private void instantiateSupportView(View view) {
@@ -248,6 +234,8 @@ public class RestToiletFragment extends Fragment implements TagInterface {
         doucheRadio.setOnCheckedChangeListener(this::radioListener);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        addObsFields();
+        allowObsScroll(toiletObsArray);
     }
 
     private void imgExpandClickListener(View view) {

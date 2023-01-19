@@ -19,12 +19,13 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
-public class ParkLotPcdFragment extends Fragment implements TagInterface {
+public class ParkLotPcdFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextView pcdVertError, pcdSafetyZoneError, pcdSiaError, vacPositionError;
     RadioGroup hasVerticalSign, hasSafetyZone, hasSiaPcd;
@@ -37,6 +38,7 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
             pcdVacancyWidthValue, pcdVacLimiterWidthValue, safetyZoneWidthValue,
             safetyZoneObsValue, siaLengthValue, siaWidthValue, siaObsValue, pcdVacancyObsValue, vacancyLocalValue;
     ArrayList<TextInputLayout> verticalFields, safetyFields, siaFields;
+    ArrayList<TextInputEditText> eText;
 
     public Bundle pcdBundle = new Bundle();
 
@@ -149,6 +151,7 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 
         createArrays();
+        allowObsScroll(eText);
     }
 
     private void createArrays() {
@@ -163,6 +166,11 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface {
 
         siaFields.add(siaLengthField);
         siaFields.add(siaWidthField);
+
+        eText.add(siaObsValue);
+        eText.add(pcdVacancyObsValue);
+        eText.add(safetyZoneObsValue);
+        eText.add(pcdVertSignObsValue);
 
     }
 

@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,12 +25,13 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntryUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
-public class RestFragment extends Fragment implements TagInterface {
+public class RestFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout restroomLocationField, accessibleRouteObsField, integratedRestroomObsField, restroomDistanceObsField,
             exclusiveEntranceObsField, driftingFloorObsField, restroomDrainObsField, restroomSwitchObsField,
@@ -103,9 +102,6 @@ public class RestFragment extends Fragment implements TagInterface {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateRestroomViews(view);
-        enableObsScrollingFields();
-
-
 
         //      Usado quando um novo cadastro é realizado, colocando o ID no bundle e chamando o próximo fragmento
         modelEntry.getLastRestroomEntry().observe(getViewLifecycleOwner(), restroom -> {
@@ -159,7 +155,8 @@ public class RestFragment extends Fragment implements TagInterface {
                     recentEntry = 0;
                     Toast.makeText(getContext(), "Houve um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
                 }
-            }
+            } else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
     }
@@ -214,6 +211,9 @@ public class RestFragment extends Fragment implements TagInterface {
         restroomSwitchRadio.setOnCheckedChangeListener(this::activateSwitchHeight);
         cancelRestroom.setOnClickListener(v -> cancelClick());
 
+        addFieldsToArrays();
+        allowObsScroll(obsValues);
+
     }
 
     private void cancelClick() {
@@ -240,14 +240,6 @@ public class RestFragment extends Fragment implements TagInterface {
         }
     }
 
-    public boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
     public void addFieldsToArrays() {
         obsValues.add(accessibleRouteObsValue);
         obsValues.add(integratedRestroomObsValue);
@@ -257,14 +249,6 @@ public class RestFragment extends Fragment implements TagInterface {
         obsValues.add(restroomDrainObsValue);
         obsValues.add(restroomSwitchObsValue);
         obsValues.add(restroomSwitchHeightValue);
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    public void enableObsScrollingFields() {
-        addFieldsToArrays();
-        for (TextInputEditText obsScroll :obsValues) {
-            obsScroll.setOnTouchListener(this::scrollingField);
-        }
     }
 
     public int getRestroomCheckedRadio(RadioGroup radio) {

@@ -17,13 +17,9 @@ import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-import static com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity.SCHOOL_ID;
-
-public class BlockRegisterFragment extends Fragment {
-
-    public static final String BLOCK_OR_SPACE = "BLOCK_OR_SPACE";
-    public static final String NEXT_ENTRY = "NEXT_ENTRY";
+public class BlockRegisterFragment extends Fragment implements TagInterface {
 
     MaterialButton newBlock, saveQuit;
 

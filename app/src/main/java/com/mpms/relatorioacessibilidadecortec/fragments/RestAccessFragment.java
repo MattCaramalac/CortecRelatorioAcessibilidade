@@ -1,15 +1,14 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,11 +23,14 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class RestAccessFragment extends Fragment implements TagInterface {
+public class RestAccessFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout hangerHeightField, hangerObsField, objHoldHeightField, objHoldObsField, soapHoldHeightField, soapHoldObsField, towelHoldHeightField, towelHoldObsField,
             mirrorFieldA, mirrorFieldB, mirrorObsField;
@@ -59,7 +61,7 @@ public class RestAccessFragment extends Fragment implements TagInterface {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (this.getArguments() != null)
             rAccessBundle = new Bundle(this.getArguments());
@@ -83,7 +85,8 @@ public class RestAccessFragment extends Fragment implements TagInterface {
                 RestAccessUpdate access = accUpdate(rAccessBundle);
                 ViewModelEntry.updateRestAccessData(access);
                 callSinkFragment(rAccessBundle);
-            }
+            } else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
 
@@ -193,7 +196,8 @@ public class RestAccessFragment extends Fragment implements TagInterface {
         towelRadio.setOnCheckedChangeListener(this::radioListener);
         mirrorRadio.setOnCheckedChangeListener(this::radioListener);
         mirrorImage.setOnClickListener(this::imgExpandClick);
-        allowObsScroll();
+        addEditTextFields();
+        allowObsScroll(accessObsArray);
 
     }
 
@@ -372,24 +376,12 @@ public class RestAccessFragment extends Fragment implements TagInterface {
                 soapObs, hasTowelHold, towelHoldHeight, towelObs, hasWallMirror, mirrorA, mirrorB, mirrorObs);
     }
 
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowObsScroll() {
+    private void addEditTextFields() {
         accessObsArray.add(hangerObsValue);
         accessObsArray.add(objHoldObsValue);
         accessObsArray.add(soapHoldObsValue);
         accessObsArray.add(towelHoldObsValue);
         accessObsArray.add(mirrorObsValue);
-        for (TextInputEditText obsScroll : accessObsArray) {
-            obsScroll.setOnTouchListener(this::scrollingField);
-        }
     }
 
 }

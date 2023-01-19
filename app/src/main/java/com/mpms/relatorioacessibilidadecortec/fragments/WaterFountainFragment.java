@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,10 +22,13 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.WaterFountainOtherFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.WaterFountainSpoutFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.ArrayList;
 
-public class WaterFountainFragment extends Fragment implements TagInterface {
+
+public class WaterFountainFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout fountainLocationField, fountainTypeObsField, waterFountainObsField;
     TextInputEditText fountainLocationValue, fountainTypeObsValue, waterFountainObsValue;
@@ -36,6 +37,7 @@ public class WaterFountainFragment extends Fragment implements TagInterface {
     Button cancelWaterFountain, saveWaterFountain;
 
     Bundle waterFountainBundle = new Bundle();
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     ViewModelEntry modelEntry;
 
@@ -140,7 +142,9 @@ public class WaterFountainFragment extends Fragment implements TagInterface {
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Listener
         typeWaterFountain.setOnCheckedChangeListener(this::typeFountainListener);
-        allowWaterFountainObsScroll();
+        eText.add(fountainTypeObsValue);
+        eText.add(waterFountainObsValue);
+        allowObsScroll(eText);
     }
 
     public void typeFountainListener(RadioGroup group, int checkedID) {
@@ -243,20 +247,6 @@ public class WaterFountainFragment extends Fragment implements TagInterface {
         return new WaterFountainEntry(bundle.getInt(BLOCK_ID), roomID, fountainLocation, fountainType,
                 fountainTypeObs, otherSideApprox, latApproxObs, otherHeight, otherCupHolder, otherCupHeight, spoutDifHeight, spoutHighest, spoutLowest, spoutFrontApprox,
                 spoutFrontDepth, spoutFrontHeight, fountainObs);
-    }
-
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowWaterFountainObsScroll() {
-        fountainTypeObsValue.setOnTouchListener(this::scrollingField);
-        waterFountainObsValue.setOnTouchListener(this::scrollingField);
     }
 
 }

@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -27,12 +25,13 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillIncli
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
-public class PlaygroundFragment extends Fragment implements TagInterface {
+public class PlaygroundFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout playLocaleField, floorTypeField, playGateWidthField, playTrackHeightField, trackMeasureField1, trackMeasureField2,
             trackMeasureField3, trackMeasureField4, playGateSillObsField, floorObsField, toyObsField, playObsField,
@@ -55,6 +54,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
 
     ArrayList<TextInputLayout> rampTrackFields = new ArrayList<>();
     ArrayList<TextInputLayout> floorGapFields = new ArrayList<>();
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     int rampCounter = 0;
     int gapCounter = 0;
@@ -87,7 +87,6 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         instantiatePlayViews(view);
-        allowExternalObsScroll();
 
         if (playBundle.getInt(PLAY_ID) > 0)
             modelEntry.getOnePlayground(playBundle.getInt(PLAY_ID)).observe(getViewLifecycleOwner(), this::loadPlaygroundData);
@@ -207,6 +206,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
         gateSillRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener) (v, r) -> playMultiRadioListener(gateSillRadio));
 //        ArrayLists
         addRampTrackToArrays();
+        allowObsScroll(eText);
     }
 
     private void addFieldClickListener(View v) {
@@ -531,22 +531,23 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
                         break;
                 }
             }
-        }
-        hasFloorGap = getPlayCheckRadio(playFloorGapRadio);
-        if (getPlayCheckRadio(playFloorGapRadio) == 1) {
-            switch (gapCounter) {
-                case 4:
-                    gap4 = Double.valueOf(String.valueOf(trackGapValue4.getText()));
-                case 3:
-                    gap3 = Double.valueOf(String.valueOf(trackGapValue3.getText()));
-                case 2:
-                    gap2 = Double.valueOf(String.valueOf(trackGapValue2.getText()));
-                case 1:
-                    gap1 = Double.valueOf(String.valueOf(trackGapValue1.getText()));
-                default:
-                    break;
+            hasFloorGap = getPlayCheckRadio(playFloorGapRadio);
+            if (getPlayCheckRadio(playFloorGapRadio) == 1) {
+                switch (gapCounter) {
+                    case 4:
+                        gap4 = Double.valueOf(String.valueOf(trackGapValue4.getText()));
+                    case 3:
+                        gap3 = Double.valueOf(String.valueOf(trackGapValue3.getText()));
+                    case 2:
+                        gap2 = Double.valueOf(String.valueOf(trackGapValue2.getText()));
+                    case 1:
+                        gap1 = Double.valueOf(String.valueOf(trackGapValue1.getText()));
+                    default:
+                        break;
+                }
             }
         }
+
 
         sillType = gateSillRadio.getCheckedRadioButtonIndex();
         switch (sillType) {
@@ -611,22 +612,6 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
         playObsValue.setText(null);
     }
 
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowExternalObsScroll() {
-        playGateSillObsValue.setOnTouchListener(this::scrollingField);
-        floorObsValue.setOnTouchListener(this::scrollingField);
-        toyObsValue.setOnTouchListener(this::scrollingField);
-        playObsValue.setOnTouchListener(this::scrollingField);
-    }
-
     private void addRampTrackToArrays() {
         rampTrackFields.add(trackMeasureField1);
         rampTrackFields.add(trackMeasureField2);
@@ -637,6 +622,11 @@ public class PlaygroundFragment extends Fragment implements TagInterface {
         floorGapFields.add(trackGapField2);
         floorGapFields.add(trackGapField3);
         floorGapFields.add(trackGapField4);
+
+        eText.add(floorObsValue);
+        eText.add(playObsValue);
+        eText.add(toyObsValue);
+        eText.add(playGateSillObsValue);
     }
 
     private void loadPlaygroundData(PlaygroundEntry playEntry) {

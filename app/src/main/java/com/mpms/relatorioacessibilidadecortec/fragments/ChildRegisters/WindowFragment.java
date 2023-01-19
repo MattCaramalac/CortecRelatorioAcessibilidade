@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -20,9 +18,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class WindowFragment extends Fragment implements TagInterface {
+public class WindowFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout windowLocationField, windowHeightField, windowObsField;
     TextInputEditText windowLocationValue, windowHeightValue, windowObsValue;
@@ -106,6 +105,8 @@ public class WindowFragment extends Fragment implements TagInterface {
         cancelWindow = view.findViewById(R.id.cancel_window);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+
+        allowObsScroll(windowObsValue);
     }
 
     private void loadWindowData(WindowEntry window) {
@@ -151,18 +152,5 @@ public class WindowFragment extends Fragment implements TagInterface {
             winObs = String.valueOf(windowObsValue.getText());
 
         return new WindowEntry(bundle.getInt(AMBIENT_ID), winLocale, winHeight, winObs);
-    }
-
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowSwitchScrollFields() {
-        windowObsValue.setOnTouchListener(this::scrollingField);
     }
 }

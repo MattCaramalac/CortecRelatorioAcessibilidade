@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,17 +19,20 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class PayPhoneFragment extends Fragment implements TagInterface {
+import java.util.ArrayList;
 
-    public static final String PHONE_ID = "PHONE_ID";
+public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout payphoneRefField, keyboardHeightField, phoneHeightField, payphoneObsField, tactFloorDistField, phoneTactileFloorWidthField, tactileFloorObsField;
     TextInputEditText payphoneRefValue, keyboardHeightValue, phoneHeightValue, payphoneObsValue, tactFloorDistValue, phoneTactileFloorWidthValue, tactileFloorObsValue;
     TextView payphoneFloorError, payphoneTactileColorError, phoneTactColorHeader, phoneTactDimensionsHeader, phoneTactDimensionError, payphoneWorkingError;
     RadioGroup payphoneTactileFloorRadio, payphoneTactileColorRadio, payphoneWorkingRadio;
     Button savePayphone, cancelPayphone;
+
+    ArrayList<TextInputEditText> eTexts = new ArrayList<>();
 
     Bundle phoneBundle;
 
@@ -127,23 +128,13 @@ public class PayPhoneFragment extends Fragment implements TagInterface {
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //
-        allowPayPhoneObsScroll();
+        eTexts.add(payphoneObsValue);
+        eTexts.add(tactileFloorObsValue);
+        allowObsScroll(eTexts);
         payphoneTactileFloorRadio.setOnCheckedChangeListener(this::payphoneRadioListener);
     }
 
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowPayPhoneObsScroll() {
-        payphoneObsValue.setOnTouchListener(this::scrollingField);
-        tactileFloorObsValue.setOnTouchListener(this::scrollingField);
-    }
 
     private int getCheckedRadioFloor(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));

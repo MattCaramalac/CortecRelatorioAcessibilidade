@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,12 +20,13 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
-public class RampStairsRailingFragment extends Fragment implements TagInterface {
+public class RampStairsRailingFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout railingHeightField, railingObsField, beaconHeightField, beaconObsField;
     TextInputEditText railingHeightValue, railingObsValue, beaconHeightValue, beaconObsValue;
@@ -127,7 +126,8 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface 
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Initialize Methods
-        allowRailingObsScroll();
+        addRailingFieldsToArrays();
+        allowObsScroll(obsRailingArray);
         initializeRailingFragment();
     }
 
@@ -162,25 +162,9 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface 
         hasRailingRadio.clearCheck();
     }
 
-    public boolean scrollingDoorField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
     private void addRailingFieldsToArrays() {
         obsRailingArray.add(railingObsValue);
         obsRailingArray.add( beaconObsValue);
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowRailingObsScroll() {
-        addRailingFieldsToArrays();
-        for (TextInputEditText obsScroll : obsRailingArray) {
-            obsScroll.setOnTouchListener(this::scrollingDoorField);
-        }
     }
 
     private int getCheckedRailingRadio(RadioGroup radio) {

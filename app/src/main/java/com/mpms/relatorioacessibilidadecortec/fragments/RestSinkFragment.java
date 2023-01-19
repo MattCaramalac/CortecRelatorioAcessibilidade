@@ -28,9 +28,10 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SinkLeftV
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SinkRightHorBarFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SinkRightVertBarFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class RestSinkFragment extends Fragment implements TagInterface {
+public class RestSinkFragment extends Fragment implements TagInterface, ScrollEditText {
 
     ImageButton sink1, sink2, sink3, sink4, sink5, sinkApprox, sinkMirror;
     RadioGroup sinkRadio1, sinkRadio2, hasBarRadio, leftSinkRadio, rightSinkRadio, mirrorRadio;
@@ -85,6 +86,8 @@ public class RestSinkFragment extends Fragment implements TagInterface {
             else {
                 if (checkEmptyFields())
                     saveSinkData(bundle);
+                else
+                    Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
                 leftData = true;
                 rightData = true;
             }
@@ -95,6 +98,8 @@ public class RestSinkFragment extends Fragment implements TagInterface {
             rightData = bundle.getBoolean(CHILD_DATA_COMPLETE_2);
             if (checkEmptyFields())
                 saveSinkData(bundle);
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
             leftData = true;
             rightData = true;
         });
@@ -179,6 +184,8 @@ public class RestSinkFragment extends Fragment implements TagInterface {
 
         saveSink.setOnClickListener(this::saveClick);
         returnAccess.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+
+        allowObsScroll(sinkObsValue);
     }
 
     private void imgExpandClick(View view) {

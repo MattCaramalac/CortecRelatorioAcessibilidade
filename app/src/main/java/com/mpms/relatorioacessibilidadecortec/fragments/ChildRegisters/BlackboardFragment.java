@@ -17,9 +17,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class BlackboardFragment extends Fragment implements TagInterface {
+public class BlackboardFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout boardLocationField, boardInfHeightField, boardObsField;
     TextInputEditText boardLocationValue, boardInfHeightValue, boardObsValue;
@@ -99,6 +100,8 @@ public class BlackboardFragment extends Fragment implements TagInterface {
         cancelBoard = view.findViewById(R.id.cancel_board);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+
+        allowObsScroll(boardObsValue);
     }
 
     private void loadBoardData(BlackboardEntry entry) {

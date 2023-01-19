@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -26,11 +24,12 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 
-public class SidewalkFragment extends Fragment implements TagInterface {
+public class SidewalkFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout sideLocationField, sideWidthField, sideFreeSpaceWidthField, sideMeasureObsField, sideTransSlopeField1, sideTransSlopeField2, sideTransSlopeField3,
             sideTransSlopeField4, sideTransSlopeField5, sideTransSlopeField6, directionTileWidthField, alertTileWidthField,
@@ -47,7 +46,6 @@ public class SidewalkFragment extends Fragment implements TagInterface {
     int slopeMeasureQnt = 1;
 
     ArrayList<TextInputEditText> sidewalkObsArray = new ArrayList<>();
-    ArrayList<TextInputLayout> sideMeasureArray = new ArrayList<>();
 
     Bundle sideBundle;
 
@@ -219,7 +217,8 @@ public class SidewalkFragment extends Fragment implements TagInterface {
         tactileFloorColorRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
         cancelSidewalk.setOnClickListener(v -> cancelClick());
 //        Methods
-        allowSidewalkObsScroll();
+        addObsFieldsToArray();
+        allowObsScroll(sidewalkObsArray);
 
     }
 
@@ -477,27 +476,10 @@ public class SidewalkFragment extends Fragment implements TagInterface {
             tactileFloorColorError.setVisibility(View.GONE);
         }
 
-        private boolean scrollingField (View v, MotionEvent event){
-            v.getParent().requestDisallowInterceptTouchEvent(true);
-            if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-                v.getParent().requestDisallowInterceptTouchEvent(false);
-            }
-            return false;
-        }
-
         private void addObsFieldsToArray () {
             sidewalkObsArray.add(sideMeasureObsValue);
             sidewalkObsArray.add(tactileFloorObsValue);
         }
-
-        @SuppressLint("ClickableViewAccessibility")
-        private void allowSidewalkObsScroll () {
-            addObsFieldsToArray();
-            for (TextInputEditText obsScroll : sidewalkObsArray) {
-                obsScroll.setOnTouchListener(this::scrollingField);
-            }
-        }
-
 
         private SidewalkEntry newSidewalk (Bundle bundle){
             String sideLocale = null, sideMeasureObs = null, tactFloorObs = null;

@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,21 +19,22 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestDoorUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillInclinationFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
-import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
 
-public class RestDoorFragment extends Fragment implements TagInterface {
+public class RestDoorFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout widthField, pictObsField, opDirObsField, coatHeightField, coatObsField, vertSignObsField, sillObsField, tactSignObsField,
             horHandleHeightField, horHandleLengthField, horHandleDiamField, horHandleObsField;
@@ -85,7 +84,6 @@ public class RestDoorFragment extends Fragment implements TagInterface {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateRestDoorViews(view);
-        enableDoorObsScrollingFields();
 
         if (restDoorBundle.getInt(REST_ID) > 0) {
             modelEntry.getRestDoorData(restDoorBundle.getInt(REST_ID))
@@ -95,7 +93,8 @@ public class RestDoorFragment extends Fragment implements TagInterface {
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (checkEmptyRestDoorDataFields() && bundle.getBoolean(CHILD_DATA_COMPLETE)) {
                 updateRestData(bundle);
-            }
+            } else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
 
@@ -161,6 +160,9 @@ public class RestDoorFragment extends Fragment implements TagInterface {
         coatRadio.setOnCheckedChangeListener(this::handleCheckListener);
         doorSillRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
                 (v, r) -> doorMultiRadioListener(doorSillRadio));
+
+        addDoorFieldsToArrays();
+        allowObsScroll(obsDoorValues);
     }
 
     private void doorMultiRadioListener(MultiLineRadioGroup multi) {
@@ -306,14 +308,6 @@ public class RestDoorFragment extends Fragment implements TagInterface {
 
     }
 
-    public boolean scrollingDoorField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
     public void addDoorFieldsToArrays() {
         obsDoorValues.add(pictObsValue);
         obsDoorValues.add(opDirObsValue);
@@ -322,14 +316,6 @@ public class RestDoorFragment extends Fragment implements TagInterface {
         obsDoorValues.add(sillObsValue);
         obsDoorValues.add(tactSignObsValue);
         obsDoorValues.add(horHandleObsValue);
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    public void enableDoorObsScrollingFields() {
-        addDoorFieldsToArrays();
-        for (TextInputEditText obsScroll : obsDoorValues) {
-            obsScroll.setOnTouchListener(this::scrollingDoorField);
-        }
     }
 
     public void loadRestDoorData(RestroomEntry restroomEntry) {
@@ -447,23 +433,7 @@ public class RestDoorFragment extends Fragment implements TagInterface {
         horHandleDiamField.setErrorEnabled(false);
     }
 
-    public void openChildFragment(RadioGroup radio, int checkedID) {
-        int index = getRestroomDoorCheckedRadio(radio);
-        switch (index) {
-            case 1:
-                getChildFragmentManager().beginTransaction().replace(R.id.door_sill_fragment, new SillInclinationFragment()).commit();
-                break;
-            case 2:
-                getChildFragmentManager().beginTransaction().replace(R.id.door_sill_fragment, new SillStepFragment()).commit();
-                break;
-            case 3:
-                getChildFragmentManager().beginTransaction().replace(R.id.door_sill_fragment, new SillSlopeFragment()).commit();
-                break;
-            default:
-                removeSillTypeFragments();
-                break;
-        }
-    }
+
 
     public void removeSillTypeFragments() {
         Fragment fragment = manager.findFragmentById(R.id.door_sill_fragment);

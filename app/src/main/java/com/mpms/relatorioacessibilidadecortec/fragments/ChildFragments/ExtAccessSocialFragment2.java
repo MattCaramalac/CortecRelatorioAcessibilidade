@@ -24,10 +24,13 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.GateObsLi
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.PayPhoneListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
-public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
+import java.util.ArrayList;
+
+public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, ScrollEditText {
 
     RadioGroup hasObstaclesRadio, hasPayphoneRadio, hasIntercomRadio, hasStairsRadio, hasRampsRadio;
     MultiLineRadioGroup sillTypeRadio;
@@ -41,6 +44,8 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
 
     Bundle socialTwoBundle;
     Bundle childFragBundle = new Bundle();
+
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     int buttonPressed = 0;
 
@@ -177,6 +182,9 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface {
         returnSocialAccess.setOnClickListener(view -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
         sillTypeRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
                 (view, r) -> extAccessTwoMultiRadioListener(sillTypeRadio));
+        eText.add(sillObsValue);
+        eText.add(accessObsValue);
+        allowObsScroll(eText);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
     }

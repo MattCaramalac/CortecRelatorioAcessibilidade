@@ -24,9 +24,12 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.ParkLotElderListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.ParkLotPcdListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class ParkingLotFragment extends Fragment implements TagInterface {
+import java.util.ArrayList;
+
+public class ParkingLotFragment extends Fragment implements TagInterface, ScrollEditText {
 
     RadioGroup accessFloorRadio, hasPcdVacancy, hasElderlyVacancy, parkHasStairs, parkHasRamps, parkHasAccessRoute;
     TextInputLayout extParkLocalField, parkAccessFloorObsField, parkAccessRouteObsField;
@@ -34,6 +37,8 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
     Button addParkStairs, addParkRamps, cancelParkingLotRegister, saveParkingLotRegister;
     TextView parkingAccessError, pcdVacancyError, elderlyVacancyError, parkHasStairsError, parkHasRampsError, parkAccessRouteError;
     Bundle parkingBundle;
+
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     ViewModelEntry modelEntry;
 
@@ -167,6 +172,10 @@ public class ParkingLotFragment extends Fragment implements TagInterface {
         addParkStairs.setOnClickListener(this::buttonClick);
         addParkRamps.setOnClickListener(this::buttonClick);
         cancelParkingLotRegister.setOnClickListener(v -> cancelClick());
+
+        eText.add(parkAccessFloorObsValue);
+        eText.add(parkAccessRouteObsValue);
+        allowObsScroll(eText);
     }
 
     private void loadParkingLotData(ParkingLotEntry parkingEntry) {

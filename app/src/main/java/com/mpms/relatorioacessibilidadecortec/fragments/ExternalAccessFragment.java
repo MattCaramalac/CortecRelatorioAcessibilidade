@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,9 +26,10 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessVehicleFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class ExternalAccessFragment extends Fragment implements TagInterface {
+public class ExternalAccessFragment extends Fragment implements TagInterface, ScrollEditText {
 
     RadioGroup entranceTypeRadio, accessFloorRadio;
     TextInputLayout entranceLocationField, accessFloorObsField;
@@ -202,7 +201,7 @@ public class ExternalAccessFragment extends Fragment implements TagInterface {
         accessFloorRadio.setOnCheckedChangeListener(this::radioGroupActivation);
         cancelExternalAccess.setOnClickListener(v -> cancelClick());
 
-        allowExternalObsScroll();
+        allowObsScroll(accessFloorObsValue);
     }
 
     private void loadExtAccessInfo(ExternalAccess extAccess) {
@@ -246,19 +245,6 @@ public class ExternalAccessFragment extends Fragment implements TagInterface {
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.external_access_layout);
         if (fragment != null)
             getChildFragmentManager().beginTransaction().remove(fragment).commit();
-    }
-
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowExternalObsScroll() {
-        accessFloorObsValue.setOnTouchListener(this::scrollingField);
     }
 
     private boolean checkEmptyFields() {

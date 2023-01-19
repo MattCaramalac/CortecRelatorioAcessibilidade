@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -25,11 +23,12 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryTwo;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SidewalkSlopeListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.PayPhoneListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 
-public class SidewalkFragmentTwo extends Fragment implements TagInterface {
+public class SidewalkFragmentTwo extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout accessFloorObsField, sidewalkObsField, aerialObsDescField, sidewalkLidDescField, sideConsObsField;
     TextInputEditText accessFloorObsValue, sidewalkObsValue, aerialObsDescValue, sidewalkLidDescValue, sideConsObsValue;
@@ -172,7 +171,8 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
 
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 
-        allowSidewalkObsScroll();
+        addObsFieldsToArray();
+        allowObsScroll(sidewalk2ObsArray);
     }
 
     private void childFragButtonListener(View view) {
@@ -432,27 +432,10 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface {
                 hasLid, lidDesc, consStatus, consDesc, hasPayphone, hasStairs, hasRamp, reqSlope);
     }
 
-
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
     private void addObsFieldsToArray() {
         sidewalk2ObsArray.add(accessFloorObsValue);
         sidewalk2ObsArray.add(sidewalkObsValue);
         sidewalk2ObsArray.add(sidewalkLidDescValue);
         sidewalk2ObsArray.add(aerialObsDescValue);
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowSidewalkObsScroll() {
-        addObsFieldsToArray();
-        for (TextInputEditText obsScroll : sidewalk2ObsArray) {
-            obsScroll.setOnTouchListener(this::scrollingField);
-        }
     }
 }

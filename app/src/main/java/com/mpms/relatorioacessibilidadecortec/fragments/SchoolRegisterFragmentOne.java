@@ -21,10 +21,11 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterOne;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
-public class SchoolRegisterFragmentOne extends Fragment {
+public class SchoolRegisterFragmentOne extends Fragment implements ScrollEditText {
 
     TextInputLayout schoolNameField, addressStreetField, addressComplementField, addressNumberField, addressNeighborhoodField,
             addressCityField, schoolDistrictField, contactPhoneOneField, contactPhoneTwoField, responsibleField, inspectionTeamField,
@@ -126,6 +127,8 @@ public class SchoolRegisterFragmentOne extends Fragment {
 //        TODO - verificar possibilidade de usar classe de máscaras (para adicionar parênteses)
         contactPhoneOneValue.addTextChangedListener(new PhoneNumberFormattingTextWatcher("BR"));
         contactPhoneTwoValue.addTextChangedListener(new PhoneNumberFormattingTextWatcher("BR"));
+
+        allowObsScroll(inspectionTeamValue);
     }
 
     private void regOneDataHandling(Bundle bundle) {

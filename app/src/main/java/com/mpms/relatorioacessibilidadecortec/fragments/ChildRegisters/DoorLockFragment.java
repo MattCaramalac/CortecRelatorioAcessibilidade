@@ -18,10 +18,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
-public class DoorLockFragment extends Fragment implements TagInterface {
+public class DoorLockFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout lockDescField, lockHeightField, lockObsField;
     TextInputEditText lockDescValue, lockHeightValue, lockObsValue;
@@ -111,6 +112,7 @@ public class DoorLockFragment extends Fragment implements TagInterface {
 //        Listener
         lockType.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
                 (v, r) -> doorLockMultiRadio(lockType));
+        allowObsScroll(lockObsValue);
     }
 
     private void doorLockMultiRadio(MultiLineRadioGroup multi) {

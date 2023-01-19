@@ -20,11 +20,12 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 
-public class ParkLotElderlyFragment extends Fragment implements TagInterface {
+public class ParkLotElderlyFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextView verticalSignError, floorSingError;
     RadioGroup hasVerticalSign, hasFloorSign;
@@ -34,8 +35,9 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
             elderVacLocalField, elderFloorSignWidthField, elderFloorSignObsField;
     TextInputEditText elderVertSignLengthValue, elderVertSignWidthValue, verticalSignObsValue,
             elderVacancyLengthValue, elderVacancyWidthValue, elderVacancyLimitWidthValue, elderVacancyObsValue,
-            elderVacLocalValue, elderFloorSignWidthValue, elderFloorSignObsFieldValue;
+            elderVacLocalValue, elderFloorSignWidthValue, elderFloorSignObsValue;
     ArrayList<TextInputLayout> elderVertSignFields, elderFloorSignFields;
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
     ViewModelEntry modelEntry;
 
     public int saveAttempt = 0;
@@ -112,7 +114,7 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         elderVacancyObsValue = view.findViewById(R.id.elder_horizontal_sign_obs_value);
         elderVacLocalValue = view.findViewById(R.id.elderly_vacancy_locale_value);
         elderFloorSignWidthValue = view.findViewById(R.id.elder_floor_sign_width_value);
-        elderFloorSignObsFieldValue = view.findViewById(R.id.elder_floor_sign_obs_value);
+        elderFloorSignObsValue = view.findViewById(R.id.elder_floor_sign_obs_value);
 //        RadioGroup
         hasVerticalSign = view.findViewById(R.id.elder_vertical_sign_radio);
         hasFloorSign = view.findViewById(R.id.elder_floor_sign_radio);
@@ -126,6 +128,7 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Methods
         addFieldsToArrays();
+        allowObsScroll(eText);
     }
 
     public void clearErrorMessages() {
@@ -200,7 +203,7 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         if (elderlyEntry.getHasElderlyFloorIndicator() == 1) {
             elderFloorSignWidthValue.setText(String.valueOf(elderlyEntry.getFloorIndicatorHeight()));
         }
-        elderFloorSignObsFieldValue.setText(elderlyEntry.getFloorIndicatorObs());
+        elderFloorSignObsValue.setText(elderlyEntry.getFloorIndicatorObs());
     }
 
     private void elderSaveClick() {
@@ -234,6 +237,10 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface {
         elderVertSignFields.add(elderVertSignWidthField);
 
         elderFloorSignFields.add(elderFloorSignWidthField);
+
+        eText.add(elderVacancyObsValue);
+        eText.add(verticalSignObsValue);
+        eText.add(elderFloorSignObsValue);
     }
 
     private void radioListener(RadioGroup group, int checkedID) {

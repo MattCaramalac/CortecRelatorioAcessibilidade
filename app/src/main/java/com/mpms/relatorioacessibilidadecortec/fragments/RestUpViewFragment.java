@@ -1,14 +1,13 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,9 +20,12 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestUpViewUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class RestUpViewFragment extends Fragment implements TagInterface {
+import org.jetbrains.annotations.NotNull;
+
+public class RestUpViewFragment extends Fragment implements TagInterface, ScrollEditText {
 
     ImageButton upperViewImgButton;
     Button saveUpMeasures, returnRestDoorData;
@@ -51,7 +53,7 @@ public class RestUpViewFragment extends Fragment implements TagInterface {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         if (this.getArguments() != null)
@@ -67,7 +69,6 @@ public class RestUpViewFragment extends Fragment implements TagInterface {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateUpperViews(view);
-        allowUpperViewObsScroll();
 
         Glide.with(this).load(R.drawable.upperview).centerCrop().into(upperViewImgButton);
 
@@ -75,15 +76,6 @@ public class RestUpViewFragment extends Fragment implements TagInterface {
             imgData.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.upperview);
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgData);
         });
-
-
-//        modelEntry.getLastRestroomUpViewEntry().observe(getViewLifecycleOwner(), upViewEntry -> {
-//            if (recentEntry == 1) {
-//                recentEntry = 0;
-//                restroomDataBundle.putInt(REST_UP_ID, upViewEntry.getUpViewID());
-//                callSupBarFragment(restroomDataBundle);
-//            }
-//        });
 
         modelEntry.getRestUpViewData(restUpBundle.getInt(REST_ID))
                 .observe(getViewLifecycleOwner(), upView -> {
@@ -98,7 +90,8 @@ public class RestUpViewFragment extends Fragment implements TagInterface {
                 RestUpViewUpdate newUpView = newRestUpView(restUpBundle);
                 ViewModelEntry.updateRestUpViewData(newUpView);
                 callToiletFragment(restUpBundle);
-            }
+            } else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -129,20 +122,8 @@ public class RestUpViewFragment extends Fragment implements TagInterface {
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 
-    }
+        allowObsScroll(upViewObsValue);
 
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowUpperViewObsScroll() {
-        upViewObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public void callToiletFragment(Bundle bundle) {

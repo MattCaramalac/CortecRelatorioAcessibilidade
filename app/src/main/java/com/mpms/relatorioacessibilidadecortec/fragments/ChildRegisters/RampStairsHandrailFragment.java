@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,12 +19,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
-import java.util.ArrayList;
-
-public class RampStairsHandrailFragment extends Fragment implements TagInterface {
+public class RampStairsHandrailFragment extends Fragment implements TagInterface, ScrollEditText {
 
     Bundle handrailBundle;
 
@@ -38,8 +35,6 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
     Button saveHandrail, cancelHandrail;
 
     ViewModelEntry modelEntry;
-
-    ArrayList<TextInputEditText> obsHandrailArray = new ArrayList<>();
 
     public RampStairsHandrailFragment() {
         // Required empty public constructor
@@ -136,7 +131,7 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Initial Methods
-        allowHandrailObsScroll();
+        allowObsScroll(handrailObsValue);
         initializeHandrailFragment();
     }
 
@@ -167,26 +162,6 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         hasFinalExtensionRadio.setVisibility(View.GONE);
         finalExtensionError.setVisibility(View.GONE);
         helper2.setVisibility(View.GONE);
-    }
-
-    public boolean scrollingDoorField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    private void addRailingFieldsToArrays() {
-        obsHandrailArray.add(handrailObsValue);
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowHandrailObsScroll() {
-        addRailingFieldsToArrays();
-        for (TextInputEditText obsScroll : obsHandrailArray) {
-            obsScroll.setOnTouchListener(this::scrollingDoorField);
-        }
     }
 
     private void loadHandrailData(RampStairsHandrailEntry entry) {

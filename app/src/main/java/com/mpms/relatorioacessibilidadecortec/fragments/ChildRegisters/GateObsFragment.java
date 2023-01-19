@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,9 +19,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class GateObsFragment extends Fragment implements TagInterface {
+public class GateObsFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout referencePointField, commandHeightField, fSpaceWidthField, obsField;
     TextInputEditText referencePointValue, commandHeightValue, fSpaceWidthValue, obsValue;
@@ -63,7 +62,6 @@ public class GateObsFragment extends Fragment implements TagInterface {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateGateObsViews(view);
-        allowGateObsScroll();
 
         if (obsBundle.getInt(GATE_OBS_ID) > 0)
             modelEntry.getOneGateObsEntry(obsBundle.getInt(GATE_OBS_ID)).observe(getViewLifecycleOwner(), this::loadGateObsData);
@@ -113,24 +111,12 @@ public class GateObsFragment extends Fragment implements TagInterface {
         gateObsSiaError = view.findViewById(R.id.obs_has_SIA_error);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
-    }
-
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowGateObsScroll() {
-        obsValue.setOnTouchListener(this::scrollingField);
+        allowObsScroll(obsValue);
     }
 
     public GateObsEntry newGateObstacle(Bundle bundle) {
         int accessType, obsHasSia;
-        Double barrierHeight = null, barrierWidth = null;
+        double barrierHeight, barrierWidth;
         String referencePoint, obstacleObs = null;
 
         referencePoint = String.valueOf(referencePointValue.getText());
@@ -138,7 +124,8 @@ public class GateObsFragment extends Fragment implements TagInterface {
         barrierHeight = Double.parseDouble(String.valueOf(commandHeightValue.getText()));
         barrierWidth = Double.parseDouble(String.valueOf(fSpaceWidthValue.getText()));
         obsHasSia = getCheckedRadio(gateObsSiaRadio);
-        obstacleObs = String.valueOf(obsValue.getText());
+        if (!TextUtils.isEmpty(obsValue.getText()))
+            obstacleObs = String.valueOf(obsValue.getText());
 
         return new GateObsEntry(bundle.getInt(EXT_ACCESS_ID), referencePoint, accessType, barrierHeight, barrierWidth, obsHasSia, obstacleObs);
 

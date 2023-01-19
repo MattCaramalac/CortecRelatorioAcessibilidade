@@ -1,11 +1,9 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -29,6 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterThree;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.text.DateFormat;
@@ -37,12 +36,13 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 
-public class SchoolRegisterFragmentThree extends Fragment implements TagInterface {
+public class SchoolRegisterFragmentThree extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout startAgeField, finalAgeField, totalStudentsField, totalStudentsPcdField, studentPcdDescriptionField,
             totalWorkersField, totalWorkersPcdField, workersPcdDescriptionField, totalWorkersLibrasField, workersLibrasDescriptionField,
@@ -55,7 +55,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
     MaterialDatePicker<Long> initialDate, finalDate;
     CalendarConstraints.Builder constraints;
 
-
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     int defaultColor;
 
@@ -94,8 +94,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         super.onViewCreated(view, savedInstanceState);
 
         instantiateSchoolFragThree(view);
-        allowSchoolThreeObsScroll();
-        hasWorkersLibras.setOnCheckedChangeListener(this::librasListener);
+
 
         if (bundleFragThree.getInt(SchoolRegisterActivity.SCHOOL_ID) > 0)
             modelEntry.getEntry(bundleFragThree.getInt(SchoolRegisterActivity.SCHOOL_ID)).observe(getViewLifecycleOwner(), this::gatherSchoolDataFragThree);
@@ -170,6 +169,16 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
 //        ViewModels
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        hasWorkersLibras.setOnCheckedChangeListener(this::librasListener);
+
+        addScrollFields();
+        allowObsScroll(eText);
+    }
+
+    private void addScrollFields() {
+        eText.add(workersPcdDescriptionValue);
+        eText.add(studentPcdDescriptionValue);
+        eText.add(workersLibrasDescriptionValue);
     }
 
     private boolean checkEmptyFieldsFragThree() {
@@ -344,20 +353,6 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
             }
             return date != null ? date.getTime() : 0;
         }
-    }
-
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowSchoolThreeObsScroll() {
-        studentPcdDescriptionValue.setOnTouchListener(this::scrollingField);
-        workersPcdDescriptionValue.setOnTouchListener(this::scrollingField);
     }
 
     private SchoolRegisterThree updateRegisterThree(Bundle bundle) {

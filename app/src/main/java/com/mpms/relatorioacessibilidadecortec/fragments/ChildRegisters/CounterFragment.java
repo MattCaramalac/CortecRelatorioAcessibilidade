@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -19,11 +17,12 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class CounterFragment extends Fragment implements TagInterface {
+public class CounterFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout counterLocationField, counterSupHeightField, counterInfHeightField, counterFrontApproxField, counterObsField,
             counterWidthField, counterFreeWidthField;
@@ -114,7 +113,7 @@ public class CounterFragment extends Fragment implements TagInterface {
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        InitializingMethods
-        allowCounterObsScroll();
+        allowObsScroll(counterObsValue);
     }
 
     private void loadCounterData(CounterEntry counter) {
@@ -127,19 +126,6 @@ public class CounterFragment extends Fragment implements TagInterface {
         counterFrontApproxValue.setText(String.valueOf(counter.getCounterFrontalApprox()));
         if (counter.getCounterObs() != null)
             counterObsValue.setText(counter.getCounterObs());
-    }
-
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowCounterObsScroll() {
-        counterObsValue.setOnTouchListener(this::scrollingField);
     }
 
     public boolean checkEmptyCounterFields() {

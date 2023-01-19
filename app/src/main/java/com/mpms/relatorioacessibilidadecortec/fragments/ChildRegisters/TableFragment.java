@@ -1,10 +1,8 @@
 package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -22,9 +20,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class TableFragment extends Fragment implements TagInterface {
+public class TableFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout supHeightField, infHeightField, tableWidthField, frontalApproxField, obsField, freeWidthField;
     TextInputEditText supHeightValue, infHeightValue, tableWidthValue, frontalApproxValue, obsValue, freeWidthValue;
@@ -121,7 +120,7 @@ public class TableFragment extends Fragment implements TagInterface {
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
 //        TableType Enabler
         classroomTableView(bundle);
-        allowSwitchScrollFields();
+        allowObsScroll(obsValue);
     }
 
     private void classroomTableView(Bundle bundle) {
@@ -217,20 +216,5 @@ public class TableFragment extends Fragment implements TagInterface {
         frontalApproxValue.setText(null);
         freeWidthValue.setText(null);
         obsValue.setText(null);
-    }
-
-
-
-    private boolean scrollingField(View v, MotionEvent event) {
-        v.getParent().requestDisallowInterceptTouchEvent(true);
-        if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-            v.getParent().requestDisallowInterceptTouchEvent(false);
-        }
-        return false;
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void allowSwitchScrollFields() {
-        obsValue.setOnTouchListener(this::scrollingField);
     }
 }

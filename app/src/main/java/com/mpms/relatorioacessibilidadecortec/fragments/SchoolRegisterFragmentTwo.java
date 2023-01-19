@@ -23,8 +23,12 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterTwo;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.MaskWatcher;
+import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class SchoolRegisterFragmentTwo extends Fragment {
+import java.util.ArrayList;
+
+public class SchoolRegisterFragmentTwo extends Fragment implements ScrollEditText, TagInterface {
 
     TextInputLayout morningStartField, morningEndField, afternoonStartField, afternoonEndField, eveningStartField,
             eveningEndField, workHoursObsField, maternalStartField, maternalEndField, preSchoolStartField, preSchoolEndField,
@@ -38,12 +42,10 @@ public class SchoolRegisterFragmentTwo extends Fragment {
             highCheck, ejaCheck;
     TextView workingHoursError, servicesError;
 
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
+
     ViewModelEntry modelEntry;
     ViewModelFragments modelFragments;
-
-
-    String morningStart, morningEnd, afternoonStart, afternoonEnd, eveningStart, eveningEnd, workingHoursObs, maternalStart, maternalEnd,
-            preSchoolStart, preSchoolEnd, elementaryMiddleStart, elementaryMiddleEnd, highStart, highEnd, ejaStart, ejaEnd, servicesObs;
 
     static Bundle bundleFragTwo = new Bundle();
 
@@ -166,6 +168,10 @@ public class SchoolRegisterFragmentTwo extends Fragment {
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+
+        eText.add(servicesObsValue);
+        eText.add(workHoursObsValue);
+        allowObsScroll(eText);
     }
 
     private boolean checkEmptyFieldsFragTwo() {
@@ -387,6 +393,9 @@ public class SchoolRegisterFragmentTwo extends Fragment {
 
     private SchoolRegisterTwo updateRegisterTwo(Bundle bundle) {
 
+        String morningStart = null, morningEnd = null, afternoonStart = null, afternoonEnd = null, eveningStart = null, eveningEnd = null,
+                workingHoursObs = null, maternalStart = null, maternalEnd = null, preSchoolStart = null, preSchoolEnd = null,
+                elementaryMiddleStart = null, elementaryMiddleEnd = null, highStart = null, highEnd = null, ejaStart = null, ejaEnd = null, servicesObs = null;
         int hasMorning = 0, hasAfternoon = 0, hasEvening = 0, hasNursery = 0, hasDaycare = 0, hasMaternal = 0, hasPreSchool = 0,
                 hasElementaryMiddle = 0, hasHigh = 0, hasEja = 0;
 
@@ -405,7 +414,8 @@ public class SchoolRegisterFragmentTwo extends Fragment {
             eveningStart = String.valueOf(eveningStartValue.getText());
             eveningEnd = String.valueOf(eveningEndValue.getText());
         }
-        workingHoursObs = String.valueOf(workHoursObsValue.getText());
+        if (!TextUtils.isEmpty(workHoursObsValue.getText()))
+            workingHoursObs = String.valueOf(workHoursObsValue.getText());
         if(nurseryCheck.isChecked())
             hasNursery = 1;
         if (daycareCheck.isChecked())
@@ -435,9 +445,10 @@ public class SchoolRegisterFragmentTwo extends Fragment {
             ejaStart = String.valueOf(ejaStartValue.getText());
             ejaEnd = String.valueOf(ejaEndValue.getText());
         }
-        servicesObs = String.valueOf(servicesObsValue.getText());
+        if (!TextUtils.isEmpty(servicesObsValue.getText()))
+            servicesObs = String.valueOf(servicesObsValue.getText());
 
-        return new SchoolRegisterTwo(bundle.getInt(SchoolRegisterActivity.SCHOOL_ID), hasMorning, morningStart, morningEnd,
+        return new SchoolRegisterTwo(bundle.getInt(SCHOOL_ID), hasMorning, morningStart, morningEnd,
                 hasAfternoon, afternoonStart, afternoonEnd, hasEvening, eveningStart, eveningEnd, workingHoursObs, hasNursery,
                 hasDaycare, hasMaternal, maternalStart, maternalEnd, hasPreSchool, preSchoolStart, preSchoolEnd, hasElementaryMiddle,
                 elementaryMiddleStart, elementaryMiddleEnd, hasHigh, highStart, highEnd, hasEja, ejaStart, ejaEnd, servicesObs);
