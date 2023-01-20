@@ -63,6 +63,7 @@ public interface TagInterface {
     String SIDEWALK_LIST = "SIDEWALK_LIST";
     String ALLOW_UPDATE = "ALLOW_UPDATE";
     String ROOM_LIST = "ROOM_LIST";
+    String ROOM_OBJ_LIST = "ROOM_OBJ_LIST";
     String ADM_EQUIP_LIST = "ADM_EQUIP_LIST";
     String PLAYGROUND_LIST = "PLAYGROUND_LIST";
 

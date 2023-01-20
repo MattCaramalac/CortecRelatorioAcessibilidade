@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,8 +39,6 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private DoorRecViewAdapter doorAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
@@ -58,7 +54,7 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
     }
 
     @Override
-    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
             doorListBundle = new Bundle(this.getArguments());
@@ -73,7 +69,7 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateDoorViews(view);
@@ -193,12 +189,11 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
 
     private void openDoorFragment() {
         DoorFragment doorFragment = DoorFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
         doorFragment.setArguments(doorListBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, doorFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, doorFragment).addToBackStack(null).commit();
     }
 
     @Override

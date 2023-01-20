@@ -578,7 +578,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         if (fragment != null) {
             fragment.setArguments(bundle);
             requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
+                    .replace(R.id.show_fragment_selected, fragment).addToBackStack(ROOM_OBJ_LIST).commit();
         } else
             Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
     }

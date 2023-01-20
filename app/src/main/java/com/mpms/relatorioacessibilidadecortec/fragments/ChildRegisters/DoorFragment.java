@@ -17,7 +17,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillInclinationFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
@@ -234,7 +233,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
                         Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
-                        requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.ROOM_LIST, 0);
+                        requireActivity().getSupportFragmentManager().popBackStack(ROOM_OBJ_LIST, 0);
                     }
                 }
             }

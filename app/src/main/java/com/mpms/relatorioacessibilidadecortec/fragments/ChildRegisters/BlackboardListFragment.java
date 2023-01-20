@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,15 +39,11 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private BlackboardRecViewAdapter boardAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     private int delClick = 0;
 
     Bundle boardListBundle = new Bundle();
-
-
 
     public BlackboardListFragment(){
 
@@ -75,7 +69,7 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         instantiateGateObsViews(view);
@@ -114,7 +108,7 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
 
-        addBoard.setOnClickListener(v -> openSwitchFragment());
+        addBoard.setOnClickListener(v -> openBoardFragment());
     }
 
     @Override
@@ -198,10 +192,10 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
     public void OnEntryClick(int position) {
         BlackboardEntry boardEntry = modelEntry.allBlackboards.getValue().get(position);
         boardListBundle.putInt(BOARD_ID, boardEntry.getBoardID());
-        openSwitchFragment();
+        openBoardFragment();
     }
 
-    private void openSwitchFragment() {
+    private void openBoardFragment() {
         BlackboardFragment boardFragment = BlackboardFragment.newInstance();
         boardFragment.setArguments(boardListBundle);
         if (actionMode != null)
