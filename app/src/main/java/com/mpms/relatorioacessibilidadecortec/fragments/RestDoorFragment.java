@@ -305,7 +305,6 @@ public class RestDoorFragment extends Fragment implements TagInterface, ScrollEd
                 coatHeightField.setVisibility(View.GONE);
             }
         }
-
     }
 
     public void addDoorFieldsToArrays() {

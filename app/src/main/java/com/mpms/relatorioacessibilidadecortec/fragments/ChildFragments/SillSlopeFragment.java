@@ -207,6 +207,8 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
     private void loadSlopeExtAccData(ExternalAccess access) {
         if (access.getSillSlopeWidth() != null)
             sillSlopeWidthValue.setText(String.valueOf(access.getSillSlopeWidth()));
+        if (access.getSillSlopeHeight() != null)
+            sillSlopeHeightValue.setText(String.valueOf(access.getSillSlopeHeight()));
         measureQnt = access.getSlopeMeasureQnt();
         switch (measureQnt) {
             case 4:
@@ -235,6 +237,8 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
     private void loadSlopePlayData(PlaygroundEntry playEntry) {
         if (playEntry.getSlopeSillWidth() != null)
             sillSlopeWidthValue.setText(String.valueOf(playEntry.getSlopeSillWidth()));
+        if (playEntry.getSlopeSillHeight() != null)
+            sillSlopeHeightValue.setText(String.valueOf(playEntry.getSlopeSillHeight()));
         measureQnt = playEntry.getSlopeMeasureQnt();
         switch (measureQnt) {
             case 4:
@@ -263,6 +267,8 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
     private void loadSlopeDoorData(DoorEntry doorEntry) {
         if (doorEntry.getSillSlopeWidth() != null)
             sillSlopeWidthValue.setText(String.valueOf(doorEntry.getSillSlopeWidth()));
+        if (doorEntry.getSillSlopeHeight() != null)
+            sillSlopeHeightValue.setText(String.valueOf(doorEntry.getSillSlopeHeight()));
         measureQnt = doorEntry.getSillSlopeQnt();
         switch (measureQnt) {
             case 4:
@@ -290,6 +296,8 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
     private void loadSlopeRestData(RestroomEntry entry) {
         if (entry.getSillSlopeWidth() != null)
             sillSlopeWidthValue.setText(String.valueOf(entry.getSillSlopeWidth()));
+        if (entry.getSillSlopeHeight() != null)
+            sillSlopeHeightValue.setText(String.valueOf(entry.getSillSlopeHeight()));
         measureQnt = entry.getSillSlopeQnt();
         switch (measureQnt) {
             case 4:
@@ -299,15 +307,15 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
             case 3:
                 slopeAngleField3.setVisibility(View.VISIBLE);
                 if (entry.getSillSlopeAngle3() != null)
-                    slopeAngleValue4.setText(String.valueOf(entry.getSillSlopeAngle3()));
+                    slopeAngleValue3.setText(String.valueOf(entry.getSillSlopeAngle3()));
             case 2:
                 slopeAngleField2.setVisibility(View.VISIBLE);
                 if (entry.getSillSlopeAngle2() != null)
-                    slopeAngleValue4.setText(String.valueOf(entry.getSillSlopeAngle2()));
+                    slopeAngleValue2.setText(String.valueOf(entry.getSillSlopeAngle2()));
             case 1:
                 slopeAngleField1.setVisibility(View.VISIBLE);
                 if (entry.getSillSlopeAngle1() != null)
-                    slopeAngleValue4.setText(String.valueOf(entry.getSillSlopeAngle1()));
+                    slopeAngleValue1.setText(String.valueOf(entry.getSillSlopeAngle1()));
                 break;
             default:
                 break;
