@@ -110,6 +110,12 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        rStListBundle.putInt(RAMP_STAIRS_ID, 0);
+    }
+
     private void listLayoutCreator(List<RampStairsEntry> list, OnEntryClickListener listener) {
         rampStairsAdapter = new RampStairsRecViewAdapter(list, requireActivity(), listener);
         recyclerView.setAdapter(rampStairsAdapter);
