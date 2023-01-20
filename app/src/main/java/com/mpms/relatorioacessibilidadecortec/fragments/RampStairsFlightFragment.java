@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.RampStairsHandrailList;
@@ -84,6 +86,13 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
             flightBundle = new Bundle(this.getArguments());
         else
             flightBundle = new Bundle();
+
+        getActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                cancelClick();
+            }
+        });
     }
 
     @Override
@@ -152,9 +161,22 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
         });
 
 //        Comando faz retornar a tela de cadastro da escadaria
-//        TODO - Inserir dialog de perda de dados cadastrados ao tentar retornar para a tela inicial de cadastro
-        cancelFlight.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
+        cancelFlight.setOnClickListener(v -> cancelClick());
 
+    }
+
+    private void cancelClick() {
+        if (updateFlight > 0 || recentFlight > 0) {
+            CancelEntryDialog dialog = CancelEntryDialog.newInstance();
+            dialog.setListener(() -> {
+                ViewModelEntry.deleteOneFlight(flightBundle.getInt(FLIGHT_ID));
+                flightBundle = null;
+                requireActivity().getSupportFragmentManager().popBackStackImmediate();
+            });
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
+            dialog.show(manager, "MOSTRA");
+        } else
+            requireActivity().getSupportFragmentManager().popBackStackImmediate();
     }
 
     private void addObsFieldsToArray() {
@@ -344,7 +366,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
                 mirIncCounter++;
             }else
                 Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
-        } else if (view == deleteMirInc) {
+        }
+        else if (view == deleteMirInc) {
             if (mirIncCounter < 1) {
                 mirIncCounter = 1;
                 deleteMirInc.setVisibility(View.GONE);
@@ -368,7 +391,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
             }
             if (mirIncCounter > 1)
                 mirIncCounter--;
-        } else if (view == stepButton) {
+        }
+        else if (view == stepButton) {
             if (stepCounter < 0) {
                 stepCounter = 0;
                 Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
@@ -387,7 +411,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
                 stepCounter++;
             } else
                 Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
-        } else if (view == deleteStep) {
+        }
+        else if (view == deleteStep) {
             if (stepCounter < 1) {
                 stepCounter = 1;
                 deleteStep.setVisibility(View.GONE);
@@ -411,7 +436,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
             }
             if (stepCounter > 1)
                 stepCounter--;
-        } else {
+        }
+        else {
             buttonClicked = view;
             if (flightBundle.getInt(FLIGHT_ID) == 0) {
                 if (updateFlight == 0) {
