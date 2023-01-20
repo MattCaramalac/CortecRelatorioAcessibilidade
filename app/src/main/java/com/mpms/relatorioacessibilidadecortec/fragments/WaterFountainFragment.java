@@ -71,15 +71,15 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
         super.onViewCreated(view, savedInstanceState);
 
         instantiateFountainViews(view);
+
+        if (waterFountainBundle.getInt(FOUNTAIN_ID) > 0) {
+            modelEntry.getOneWaterFountain(waterFountainBundle.getInt(FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadFountainInfo);
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        if (waterFountainBundle.getInt(FOUNTAIN_ID) > 0) {
-            modelEntry.getOneWaterFountain(waterFountainBundle.getInt(FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadFountainInfo);
-        }
 
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (bundle.getBoolean(CHILD_DATA_COMPLETE) && checkNoEmptyFieldsFountain()) {
@@ -116,7 +116,7 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
     }
 
     private void removeFountainFragments() {
-        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fountain_type_radio);
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.water_fountain_info);
         if (fragment != null)
             getChildFragmentManager().beginTransaction().remove(fragment).commit();
 
@@ -149,19 +149,20 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
 
     public void typeFountainListener(RadioGroup group, int checkedID) {
         int index = getCheckedFountainType(group);
-        Fragment fragment;
         switch (index) {
             case 0:
-                fragment = new WaterFountainSpoutFragment();
+                removeFountainFragments();
+                Fragment fragment = new WaterFountainSpoutFragment();
                 if (waterFountainBundle.getInt(FOUNTAIN_ID) > 0)
                     fragment.setArguments(waterFountainBundle);
                 getChildFragmentManager().beginTransaction().replace(R.id.water_fountain_info, fragment).commit();
                 break;
             case 1:
-                fragment = new WaterFountainOtherFragment();
+                removeFountainFragments();
+                Fragment fragment2 = new WaterFountainOtherFragment();
                 if (waterFountainBundle.getInt(FOUNTAIN_ID) > 0)
-                    fragment.setArguments(waterFountainBundle);
-                getChildFragmentManager().beginTransaction().replace(R.id.water_fountain_info, fragment).commit();
+                    fragment2.setArguments(waterFountainBundle);
+                getChildFragmentManager().beginTransaction().replace(R.id.water_fountain_info, fragment2).commit();
                 break;
             default:
                 break;
@@ -170,20 +171,16 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
     }
 
     private void loadFountainInfo(WaterFountainEntry waterFountain) {
-        fountainLocationValue.setText(waterFountain.getFountainLocation());
-        typeWaterFountain.check(typeWaterFountain.getChildAt(waterFountain.getFountainType()).getId());
+        if (waterFountain.getFountainLocation() != null)
+            fountainLocationValue.setText(waterFountain.getFountainLocation());
+        if (waterFountain.getFountainType() != null && waterFountain.getFountainType() > -1) {
+            typeWaterFountain.check(typeWaterFountain.getChildAt(waterFountain.getFountainType()).getId());
+            getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, waterFountainBundle);
+        }
         if (waterFountain.getFountainTypeObs() != null)
             fountainTypeObsValue.setText(waterFountain.getFountainTypeObs());
-        Fragment fragment;
-        if (waterFountain.getFountainType() == 0) {
-            fragment = new WaterFountainSpoutFragment();
-            fragment.setArguments(waterFountainBundle);
-            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.water_fountain_info, fragment).commit();
-        } else if (waterFountain.getFountainType() == 1) {
-            fragment = new WaterFountainOtherFragment();
-            fragment.setArguments(waterFountainBundle);
-            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.water_fountain_info, fragment).commit();
-        }
+        if (waterFountain.getFountainObs() != null)
+            waterFountainObsValue.setText(waterFountain.getFountainObs());
     }
 
     public boolean checkNoEmptyFieldsFountain() {

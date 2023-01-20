@@ -75,13 +75,18 @@ public class WaterFountainOtherFragment extends Fragment implements TagInterface
     }
 
     private void loadOtherFountainData(WaterFountainEntry fountainEntry) {
-        allowLateralApprox.check(allowLateralApprox.getChildAt(fountainEntry.getAllowSideApprox()).getId());
-        if (fountainEntry.getAllowSideApprox() != null)
+        if (fountainEntry.getAllowSideApprox() != null && fountainEntry.getAllowSideApprox() > -1)
+            allowLateralApprox.check(allowLateralApprox.getChildAt(fountainEntry.getAllowSideApprox()).getId());
+        if (fountainEntry.getSideApproxObs() != null)
             latApproxObsValue.setText(fountainEntry.getSideApproxObs());
-        faucetHeightValue.setText(String.valueOf(fountainEntry.getFaucetHeight()));
-        hasCupHolder.check(hasCupHolder.getChildAt(fountainEntry.getHasCupHolder()).getId());
-        if (fountainEntry.getHasCupHolder() == 1)
-            cupHolderHeightValue.setText(String.valueOf(fountainEntry.getCupHolderHeight()));
+        if (fountainEntry.getFaucetHeight() != null)
+            faucetHeightValue.setText(String.valueOf(fountainEntry.getFaucetHeight()));
+        if (fountainEntry.getHasCupHolder() != null && fountainEntry.getHasCupHolder() > -1) {
+            hasCupHolder.check(hasCupHolder.getChildAt(fountainEntry.getHasCupHolder()).getId());
+            if (fountainEntry.getHasCupHolder() == 1)
+                cupHolderHeightValue.setText(String.valueOf(fountainEntry.getCupHolderHeight()));
+        }
+
     }
 
     private void gatherOtherFountainData(Bundle bundle) {

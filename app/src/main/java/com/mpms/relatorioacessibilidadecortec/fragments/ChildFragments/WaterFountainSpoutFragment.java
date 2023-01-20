@@ -126,19 +126,26 @@ public class WaterFountainSpoutFragment extends Fragment implements TagInterface
     }
 
     private void loadSpoutFountainData(WaterFountainEntry fountainEntry) {
-        hasDiffHeightsSpouts.check(hasDiffHeightsSpouts.getChildAt(fountainEntry.getHasSpoutsDifferentHeights()).getId());
-        switch (fountainEntry.getHasSpoutsDifferentHeights()) {
-            case 1:
-                lowestSpoutValue.setText(String.valueOf(fountainEntry.getLowestSpoutHeight()));
-            case 0:
-                highestSpoutValue.setText(String.valueOf(fountainEntry.getHighestSpoutHeight()));
-                break;
+        if (fountainEntry.getHasSpoutsDifferentHeights() != null && fountainEntry.getHasSpoutsDifferentHeights() > -1) {
+            hasDiffHeightsSpouts.check(hasDiffHeightsSpouts.getChildAt(fountainEntry.getHasSpoutsDifferentHeights()).getId());
+            switch (fountainEntry.getHasSpoutsDifferentHeights()) {
+                case 1:
+                    lowestSpoutValue.setText(String.valueOf(fountainEntry.getLowestSpoutHeight()));
+                case 0:
+                    highestSpoutValue.setText(String.valueOf(fountainEntry.getHighestSpoutHeight()));
+                    break;
+            }
         }
-        allowFrontalApprox.check(allowFrontalApprox.getChildAt(fountainEntry.getAllowFrontApprox()).getId());
-        if (fountainEntry.getAllowFrontApprox() == 1) {
-            frontalApproxHeightValue.setText(String.valueOf(fountainEntry.getFrontalApproxLowestSpout()));
-            frontalApproxDepthValue.setText(String.valueOf(fountainEntry.getFrontalApproxDepth()));
+        if (fountainEntry.getAllowFrontApprox() != null && fountainEntry.getAllowFrontApprox() > -1) {
+            allowFrontalApprox.check(allowFrontalApprox.getChildAt(fountainEntry.getAllowFrontApprox()).getId());
+            if (fountainEntry.getAllowFrontApprox() == 1) {
+                if (fountainEntry.getFrontalApproxLowestSpout() != null)
+                    frontalApproxHeightValue.setText(String.valueOf(fountainEntry.getFrontalApproxLowestSpout()));
+                if (fountainEntry.getFrontalApproxDepth() != null)
+                    frontalApproxDepthValue.setText(String.valueOf(fountainEntry.getFrontalApproxDepth()));
+            }
         }
+
     }
 
     private void gatherSpoutFountainData(Bundle bundle) {
