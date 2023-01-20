@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,14 +32,12 @@ import java.util.Objects;
 
 public class RampStairsFlightListFrag extends Fragment implements OnEntryClickListener, TagInterface {
 
-    MaterialButton closeFlights, addFlights, invisible;
+    MaterialButton closeFlights, addFlights, finishFlights;
     TextView flightsHeader;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private FlightListRecViewAdapter flightAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
@@ -92,6 +88,8 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
                 });
 
         addFlights.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
             flightBundle.putInt(NEXT_FLIGHT, entryCounter+1);
             openFlightFragment();
         });
@@ -100,6 +98,12 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
             if (actionMode != null)
                 actionMode.finish();
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
+        });
+
+        finishFlights.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
+            requireActivity().getSupportFragmentManager().popBackStack(ROOM_OBJ_LIST, 0);
         });
 
     }
@@ -114,8 +118,8 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
 //        MaterialButton
         closeFlights = v.findViewById(R.id.cancel_child_items_entries);
         addFlights = v.findViewById(R.id.add_child_items_entries);
-        invisible = v.findViewById(R.id.continue_child_items_entries);
-        invisible.setVisibility(View.GONE);
+        finishFlights = v.findViewById(R.id.continue_child_items_entries);
+        finishFlights.setText("CONCLUIR");
 //        TextView
         flightsHeader = v.findViewById(R.id.identifier_header);
         flightsHeader.setText(R.string.header_flight_register);
@@ -196,9 +200,8 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
         flightFrag.setArguments(flightBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, flightFrag).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.show_fragment_selected, flightFrag).addToBackStack(null).commit();
     }
 
 

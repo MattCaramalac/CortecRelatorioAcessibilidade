@@ -50,6 +50,7 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
     MaterialButton mirIncButton, stepButton, railingButton, handrailButton, saveFlight, cancelFlight;
     ImageButton deleteMirInc, deleteStep;
     RadioGroup hasPavementSignRadio, lowTactFloorRadio, upTactFloorRadio, interLevelRadio, radioStepBorderSign, radioIdentifiableBorderSign;
+    int fNumber;
 
     Bundle flightBundle;
 
@@ -491,7 +492,12 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
                 borderSignLength = null;
         String signPavementObs = null, tactileFloorObs = null, interLvObs = null, borderSignObs = null, flightObs = null;
 
-        int numberFlights = bundle.getInt(NEXT_FLIGHT);
+        int numberFlights;
+
+        if (bundle.getInt(FLIGHT_ID) <= 0)
+            numberFlights = bundle.getInt(NEXT_FLIGHT);
+        else
+            numberFlights = fNumber;
 
         if (!TextUtils.isEmpty(rampStairsWidthValue.getText()))
             flightWidth = Double.parseDouble(String.valueOf(rampStairsWidthValue.getText()));
@@ -846,6 +852,7 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
     }
 
     private void loadFlightData(RampStairsFlightEntry rampStairs) {
+        fNumber = rampStairs.getFlightNumber();
         flightNumber.setText(String.valueOf(rampStairs.getFlightNumber()));
 
         if (rampStairs.getFlightWidth() != null)
