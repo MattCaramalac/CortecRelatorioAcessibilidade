@@ -67,115 +67,115 @@ public class RampAnalysis implements StandardMeasurements {
             irregularFlight = false;
             StringBuilder builder = new StringBuilder();
             if (flight.getRampStairsID() == rStID) {
-                if (flight.getFlightWidth() < minFlightWidth) {
-                    rampIrregular(builder);
-                    builder.append("largura livre mínima inferior à 1,20 m");
-                }
-                if (flight.getFlightLength() > maxLengthUntilInterLevel) {
-                    rampIrregular(builder);
-                    builder.append("comprimento do lance é superior à " + maxLengthUntilInterLevel + " m");
-                }
-                if (flight.getRampHeight() > highestRampHeight) {
-                    flightIrregular(builder);
-                    builder.append("altura do desnivel acima de ").append(highestRampHeight).append(" m");
-                } else if (flight.getRampHeight() <= highestRampHeight && flight.getRampHeight() > medRampHeight) {
-                    if (flight.getRampSlope1() != null && flight.getRampSlope1() > minAngleRamp ||
-                            flight.getRampSlope2() != null && flight.getRampSlope2() > minAngleRamp ||
-                            flight.getRampSlope3() != null && flight.getRampSlope3() > minAngleRamp ||
-                            flight.getRampSlope4() != null && flight.getRampSlope4() > minAngleRamp) {
+                double angle = (flight.getRampHeight() * 100) / flight.getFlightLength();
+                if (angle > 5 || flight.getRampSlope1() != null && flight.getRampSlope1() > 5 || flight.getRampSlope2() != null && flight.getRampSlope2() > 5
+                || flight.getRampSlope3() != null && flight.getRampSlope3() > 5 || flight.getRampSlope4() != null && flight.getRampSlope4() > 5) {
+                    if (flight.getFlightWidth() < minFlightWidth) {
                         flightIrregular(builder);
-                        builder.append("inclinação da rampa acima do máximo permitido de ").append(minAngleRamp).append("%");
+                        builder.append("largura livre mínima inferior à 1,20 m");
                     }
-                } else if (flight.getRampHeight() <= medRampHeight && flight.getRampHeight() > lowestRampHeight) {
-                    if (flight.getRampSlope1() != null && flight.getRampSlope1() > medAngleRamp ||
-                            flight.getRampSlope2() != null && flight.getRampSlope2() > medAngleRamp ||
-                            flight.getRampSlope3() != null && flight.getRampSlope3() > medAngleRamp ||
-                            flight.getRampSlope4() != null && flight.getRampSlope4() > medAngleRamp) {
+                    if (flight.getFlightLength() > maxLengthUntilInterLevel) {
                         flightIrregular(builder);
-                        builder.append("inclinação da rampa acima do máximo permitido de ").append(medAngleRamp).append("%");
+                        builder.append("comprimento do lance é superior à " + maxLengthUntilInterLevel + " m");
                     }
-                } else if (flight.getRampHeight() <= lowestRampHeight) {
-                    if (flight.getRampSlope1() != null && flight.getRampSlope1() < medAngleRamp ||
-                            flight.getRampSlope2() != null && flight.getRampSlope2() < medAngleRamp ||
-                            flight.getRampSlope3() != null && flight.getRampSlope3() < medAngleRamp ||
-                            flight.getRampSlope4() != null && flight.getRampSlope4() < medAngleRamp) {
+                    if (flight.getRampHeight() > highestRampHeight) {
                         flightIrregular(builder);
-                        builder.append("inclinação da rampa abaixo do mínimo permitido de ").append(medAngleRamp).append("%");
-                    } else if (flight.getRampSlope1() != null && flight.getRampSlope1() > maxAngleRamp ||
-                            flight.getRampSlope2() != null && flight.getRampSlope2() > maxAngleRamp ||
-                            flight.getRampSlope3() != null && flight.getRampSlope3() > maxAngleRamp ||
-                            flight.getRampSlope4() != null && flight.getRampSlope4() > maxAngleRamp) {
-                        flightIrregular(builder);
-                        builder.append("inclinação da rampa acima do máximo permitido de ").append(maxAngleRamp).append("%");
+                        builder.append("altura do desnivel a ser vencido é superior a ").append(highestRampHeight).append(" m, e deveria ser vencido por mais de 1 lance");
                     }
-                }
-
-                if (flight.getHasLowTactFloor() == 0) {
-                    flightIrregular(builder);
-                    builder.append("ausência de piso tátil de alerta ao início da rampa");
-                } else if (flight.getHasLowTactFloor() == 1) {
-                    if (flight.getLowTactWidth() < minTactWidthRamp) {
-                        flightIrregular(builder);
-                        builder.append("largura do piso tátil de alerta ao início da rampa inferior à ").append(minTactWidthRamp).append(" m");
-                    } else if (flight.getLowTactWidth() > maxTactWidthRamp) {
-                        flightIrregular(builder);
-                        builder.append("largura do piso tátil de alerta ao início da rampa superior à ").append(maxTactWidthRamp).append(" m");
+                    if (flight.getRampHeight() > highestRampHeight ||
+                            (flight.getRampHeight() <= highestRampHeight && flight.getRampHeight() > medRampHeight)) {
+                        if (flight.getRampSlope1() != null && flight.getRampSlope1() > minAngleRamp ||
+                                flight.getRampSlope2() != null && flight.getRampSlope2() > minAngleRamp ||
+                                flight.getRampSlope3() != null && flight.getRampSlope3() > minAngleRamp ||
+                                flight.getRampSlope4() != null && flight.getRampSlope4() > minAngleRamp) {
+                            flightIrregular(builder);
+                            builder.append("inclinação da rampa acima do máximo permitido de ").append(minAngleRamp).append("%");
+                        }
+                    } else if (flight.getRampHeight() <= medRampHeight && flight.getRampHeight() > lowestRampHeight) {
+                        if (flight.getRampSlope1() != null && flight.getRampSlope1() > medAngleRamp ||
+                                flight.getRampSlope2() != null && flight.getRampSlope2() > medAngleRamp ||
+                                flight.getRampSlope3() != null && flight.getRampSlope3() > medAngleRamp ||
+                                flight.getRampSlope4() != null && flight.getRampSlope4() > medAngleRamp) {
+                            flightIrregular(builder);
+                            builder.append("inclinação da rampa acima do máximo permitido de ").append(medAngleRamp).append("%");
+                        }
+                    } else if (flight.getRampHeight() <= lowestRampHeight) {
+                            if (flight.getRampSlope1() != null && flight.getRampSlope1() > maxAngleRamp ||
+                                flight.getRampSlope2() != null && flight.getRampSlope2() > maxAngleRamp ||
+                                flight.getRampSlope3() != null && flight.getRampSlope3() > maxAngleRamp ||
+                                flight.getRampSlope4() != null && flight.getRampSlope4() > maxAngleRamp) {
+                            flightIrregular(builder);
+                            builder.append("inclinação da rampa acima do máximo permitido de ").append(maxAngleRamp).append("%");
+                        }
                     }
 
-                    if (flight.getLowTactDist() != 0) {
+                    if (flight.getHasLowTactFloor() == 0) {
                         flightIrregular(builder);
-                        builder.append("existência de distância entre o piso tátil de alerta e o início da rampa");
+                        builder.append("ausência de piso tátil de alerta ao início da rampa");
+                    } else if (flight.getHasLowTactFloor() == 1) {
+                        if (flight.getLowTactWidth() < minTactWidthRamp) {
+                            flightIrregular(builder);
+                            builder.append("largura do piso tátil de alerta ao início da rampa inferior à ").append(minTactWidthRamp).append(" m");
+                        } else if (flight.getLowTactWidth() > maxTactWidthRamp) {
+                            flightIrregular(builder);
+                            builder.append("largura do piso tátil de alerta ao início da rampa superior à ").append(maxTactWidthRamp).append(" m");
+                        }
+
+                        if (flight.getLowTactDist() != 0) {
+                            flightIrregular(builder);
+                            builder.append("existência de distância entre o piso tátil de alerta e o início da rampa");
+                        }
                     }
-                }
 
-                if (flight.getHasUpTactFloor() == 0) {
-                    flightIrregular(builder);
-                    builder.append("ausência de piso tátil de alerta ao final da rampa");
-                } else if (flight.getHasUpTactFloor() == 1) {
-                    if (flight.getUpTactWidth() < minTactWidthRamp) {
+                    if (flight.getHasUpTactFloor() == 0) {
                         flightIrregular(builder);
-                        builder.append("largura do piso tátil de alerta ao final da rampa inferior à ").append(minTactWidthRamp).append(" m");
-                    } else if (flight.getUpTactWidth() > maxTactWidthRamp) {
-                        flightIrregular(builder);
-                        builder.append("largura do piso tátil de alerta ao final da rampa superior à ").append(maxTactWidthRamp).append(" m");
+                        builder.append("ausência de piso tátil de alerta ao final da rampa");
+                    } else if (flight.getHasUpTactFloor() == 1) {
+                        if (flight.getUpTactWidth() < minTactWidthRamp) {
+                            flightIrregular(builder);
+                            builder.append("largura do piso tátil de alerta ao final da rampa inferior à ").append(minTactWidthRamp).append(" m");
+                        } else if (flight.getUpTactWidth() > maxTactWidthRamp) {
+                            flightIrregular(builder);
+                            builder.append("largura do piso tátil de alerta ao final da rampa superior à ").append(maxTactWidthRamp).append(" m");
+                        }
+
+                        if (flight.getUpTactDist() < minDistTactRamp) {
+                            flightIrregular(builder);
+                            builder.append("distância entre o piso tátil de alerta e o final da rampa inferior à ").append(minDistTactRamp).append(" m");
+                        } else if (flight.getUpTactDist() > maxDistTactRamp) {
+                            flightIrregular(builder);
+                            builder.append("distância entre o piso tátil de alerta e o final da rampa superior à ").append(maxDistTactRamp).append(" m");
+                        }
                     }
 
-                    if (flight.getUpTactDist() < minDistTactRamp) {
+                    String handRail = HandRailAnalysis.handRailVerification(flight.getFlightID(), rStRail, rStHandrail);
+                    if (handRail != null) {
                         flightIrregular(builder);
-                        builder.append("distância entre o piso tátil de alerta e o final da rampa inferior à ").append(minDistTactRamp).append(" m");
-                    } else if (flight.getUpTactDist() > maxDistTactRamp) {
-                        flightIrregular(builder);
-                        builder.append("distância entre o piso tátil de alerta e o final da rampa superior à ").append(maxDistTactRamp).append(" m");
+                        builder.append(handRail);
                     }
-                }
 
-                String handRail = HandRailAnalysis.handRailVerification(flight.getFlightID(), rStRail, rStHandrail);
-                if (handRail != null) {
-                    flightIrregular(builder);
-                    builder.append(handRail);
-                }
-
-                if (flight.getTactileFloorObs() != null) {
-                    flightIrregular(builder);
-                    builder.append("observações sobre o piso tátil: ").append(flight.getTactileFloorObs());
-                }
-
-                if (flight.getHasInterLevel() == 1) {
-                    if (flight.getInterLevelLength() < minInterLength) {
+                    if (flight.getTactileFloorObs() != null) {
                         flightIrregular(builder);
-                        builder.append("comprimento do patamar intermediário inferior à ").append(minInterLength).append(" m");
+                        builder.append("observações sobre o piso tátil: ").append(flight.getTactileFloorObs());
                     }
-                }
 
-                if (flight.getFlightObs() != null) {
-                    flightIrregular(builder);
-                    builder.append(flight.getFlightObs());
-                }
+                    if (flight.getHasInterLevel() == 1) {
+                        if (flight.getInterLevelLength() < minInterLength) {
+                            flightIrregular(builder);
+                            builder.append("comprimento do patamar intermediário inferior à ").append(minInterLength).append(" m");
+                        }
+                    }
+
+                    if (flight.getFlightObs() != null) {
+                        flightIrregular(builder);
+                        builder.append(flight.getFlightObs());
+                    }
 
 
-                if (irregularFlight && builder.length() != 0) {
-                    builder.replace(14, 15, String.valueOf(flight.getFlightNumber()));
-                    flightText.append(builder.toString());
+                    if (irregularFlight && builder.length() != 0) {
+                        builder.replace(14, 15, String.valueOf(flight.getFlightNumber()));
+                        flightText.append(builder.toString());
+                    }
                 }
             }
         }

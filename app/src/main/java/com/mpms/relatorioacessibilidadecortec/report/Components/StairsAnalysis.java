@@ -102,7 +102,7 @@ public class StairsAnalysis implements StandardMeasurements {
                         flight.getStairStep3() != null && flight.getStairStep3() < minStepWidth ||
                         flight.getStairStep4() != null && flight.getStairStep4() < minStepWidth) {
                     flightIrregular(builder);
-                    builder.append("a largura dos pisos é inferior ao mínimo permitido de ").append(minStepWidth).append(" m");
+                    builder.append("o comprimento dos pisos é inferior ao mínimo permitido de ").append(minStepWidth).append(" m");
                 } else if (flight.getStairStep1() != null && flight.getStairStep1() > maxStepWidth ||
                         flight.getStairStep2() != null && flight.getStairStep2() > maxStepWidth ||
                         flight.getStairStep3() != null && flight.getStairStep3() > maxStepWidth ||
@@ -111,9 +111,9 @@ public class StairsAnalysis implements StandardMeasurements {
                     builder.append("a largura dos pisos é superior ao máximo permitido de ").append(maxStepWidth).append(" m");
                 }
 
-                if (!flight.getStairStep1().equals(flight.getStairStep2()) ||
-                        !flight.getStairStep1().equals(flight.getStairStep3()) ||
-                        !flight.getStairStep1().equals(flight.getStairStep4())) {
+                if (flight.getStairStep2() != null && !flight.getStairStep1().equals(flight.getStairStep2()) ||
+                        (flight.getStairStep3() != null && !flight.getStairStep1().equals(flight.getStairStep3())) ||
+                        (flight.getStairStep4() != null && !flight.getStairStep1().equals(flight.getStairStep4()))) {
                     flightIrregular(builder);
                     builder.append("as larguras dos pisos são divergentes entre si");
                 }
@@ -206,23 +206,25 @@ public class StairsAnalysis implements StandardMeasurements {
                     builder.append(handRail);
                 }
 
-                if (flight.getBorderSign() == 0) {
-                    flightIrregular(builder);
-                    builder.append("os degraus não possuem sinalização visual de borda");
-                } else if (flight.getBorderSign() == 1) {
-                    if (flight.getBorderSignWidth() < minBorderSignWidth) {
+                if (flight.getBorderSign() != null) {
+                    if (flight.getBorderSign() == 0) {
                         flightIrregular(builder);
-                        builder.append("largura da sinalização de borda dos degraus é inferior à " + minBorderSignWidth + " cm");
-                    }
+                        builder.append("os degraus não possuem sinalização visual de borda");
+                    } else if (flight.getBorderSign() == 1) {
+                        if (flight.getBorderSignWidth() < minBorderSignWidth) {
+                            flightIrregular(builder);
+                            builder.append("largura da sinalização de borda dos degraus é inferior à " + minBorderSignWidth + " cm");
+                        }
 
-                    if (flight.getBorderSignLength() < minBorderSignLength) {
-                        flightIrregular(builder);
-                        builder.append("comprimento da sinalização de borda dos degraus é inferior à " + minBorderSignLength + " cm");
-                    }
+                        if (flight.getBorderSignLength() < minBorderSignLength) {
+                            flightIrregular(builder);
+                            builder.append("comprimento da sinalização de borda dos degraus é inferior à " + minBorderSignLength + " cm");
+                        }
 
-                    if (flight.getBorderSignIdentifiable() == 0) {
-                        flightIrregular(builder);
-                        builder.append("a sinalização de borda das escadas não é identificável");
+                        if (flight.getBorderSignIdentifiable() == 0) {
+                            flightIrregular(builder);
+                            builder.append("a sinalização de borda das escadas não é identificável");
+                        }
                     }
                 }
 

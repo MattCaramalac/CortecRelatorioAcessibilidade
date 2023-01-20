@@ -70,7 +70,7 @@ public class HandRailAnalysis implements StandardMeasurements {
                                 builder.append("direito,");
 
                             if (railing.getBeaconObs() != null && railing.getBeaconObs().length() > 0)
-                                builder.append(" e as seguintes observações devem ser apontadas: ").append(railing.getRailingObs()).append(",");
+                                builder.append(" e as seguintes observações devem ser apontadas: ").append(railing.getBeaconObs()).append(",");
                         } else {
                             if (railing.getBeaconHeight() < minBeaconHeight) {
                                 builder.append(" o lance possui guia de balizamento em seu lado ");
@@ -79,18 +79,18 @@ public class HandRailAnalysis implements StandardMeasurements {
                                 else
                                     builder.append("direito");
                                 builder.append(" com altura inferior ao mínimo de " + minBeaconHeight + " m,");
-                                if (railing.getBeaconObs() != null  && railing.getBeaconObs().length() > 0)
-                                    builder.append(" e as seguintes observações devem ser apontadas: ").append(railing.getRailingObs()).append(",");
+                                if (railing.getBeaconObs() != null && railing.getBeaconObs().length() > 0)
+                                    builder.append(" e as seguintes observações devem ser apontadas: ").append(railing.getBeaconObs()).append(",");
                             } else {
-                                if (railing.getBeaconObs() != null  && railing.getBeaconObs().length() > 0) {
+                                if (railing.getBeaconObs() != null && railing.getBeaconObs().length() > 0) {
                                     builder.append(" o lance possui guia de balizamento em seu lado ");
                                     if (leftB)
                                         builder.append("esquerdo");
                                     else
                                         builder.append("direito");
                                 }
-                                builder.append("com altura de acordo com a norma , porém as seguintes observações devem ser apontadas: ")
-                                        .append(railing.getRailingObs()).append(",");
+                                builder.append("com altura de acordo com a norma, porém as seguintes observações devem ser apontadas: ")
+                                        .append(railing.getBeaconObs()).append(",");
                             }
                         }
                     }
@@ -263,6 +263,8 @@ public class HandRailAnalysis implements StandardMeasurements {
                             }
                         }
                     }
+                    if (handrail.getHandrailObs() != null && handrail.getHandrailObs().length() > 0)
+                        builder.append("e as seguintes observações podem ser feitas: ").append(handrail.getHandrailObs()).append(", ");
                 }
             }
 
