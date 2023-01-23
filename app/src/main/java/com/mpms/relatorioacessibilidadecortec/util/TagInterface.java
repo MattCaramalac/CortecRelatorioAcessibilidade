@@ -19,6 +19,8 @@ public interface TagInterface {
     String EXT_AREA_REG = "EXT_AREA_REG";
     String SUP_AREA_REG = "SUP_AREA_REG";
     String ROOM_TYPE = "ROOM_TYPE";
+    String CHOICE = "CHOICE";
+    String HEADER_TEXT = "HEADER_TEXT";
 
     //    Tags defining ramps and stairs info
     String RAMP_OR_STAIRS = "RAMP_OR_STAIRS";

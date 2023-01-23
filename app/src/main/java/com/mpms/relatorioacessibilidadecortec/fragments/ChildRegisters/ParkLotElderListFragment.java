@@ -15,8 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,8 +39,6 @@ public class ParkLotElderListFragment extends Fragment implements OnEntryClickLi
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private ParkElderRecViewAdapter elderAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
@@ -159,6 +155,7 @@ public class ParkLotElderListFragment extends Fragment implements OnEntryClickLi
     private void instantiateElderListViews(View view) {
 //        TextView
         elderListIdentifier = view.findViewById(R.id.identifier_header);
+        elderListIdentifier.setVisibility(View.VISIBLE);
         elderListIdentifier.setText(R.string.parking_elderly_header);
 //        MaterialButton & its definitions
         closeElderList = view.findViewById(R.id.cancel_child_items_entries);

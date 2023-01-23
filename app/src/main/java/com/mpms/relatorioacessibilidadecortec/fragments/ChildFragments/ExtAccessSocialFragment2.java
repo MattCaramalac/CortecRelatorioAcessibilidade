@@ -167,7 +167,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
         addRamps = v.findViewById(R.id.add_gate_ramps_button);
         addStairs = v.findViewById(R.id.add_gate_stairs_button);
         saveSocialAccess = v.findViewById(R.id.save_ext_access_button);
-        returnSocialAccess = v.findViewById(R.id.return_ext_access2_button);
+        returnSocialAccess = v.findViewById(R.id.return_ext_access_button);
 //        FrameLayout
         sillFragment = v.findViewById(R.id.ext_access_sill_fragment);
 //        Listeners

@@ -102,6 +102,7 @@ public class RampStairsHandrailList extends Fragment implements OnEntryClickList
         invisible.setVisibility(View.GONE);
 //        TextView
         handrailHeader = v.findViewById(R.id.identifier_header);
+        handrailHeader.setVisibility(View.VISIBLE);
         handrailHeader.setText(R.string.header_handrail_register);
 //        RecyclerView
         recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);

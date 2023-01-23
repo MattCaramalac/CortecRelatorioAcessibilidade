@@ -185,7 +185,8 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 //        TextView
         registerHeader = v.findViewById(R.id.identifier_header);
-        registerHeader.setText(R.string.header_playground_register);
+        registerHeader.setVisibility(View.GONE);
+
 //        ViewModel
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
     }

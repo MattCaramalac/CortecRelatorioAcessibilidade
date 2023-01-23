@@ -173,6 +173,7 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
     public void instantiateGateObsViews (View v) {
 //        TextView
         boardHeader = v.findViewById(R.id.identifier_header);
+        boardHeader.setVisibility(View.VISIBLE);
         boardHeader.setText(R.string.label_blackboard_register);
 //        MaterialButton
         closeBoardList = v.findViewById(R.id.cancel_child_items_entries);

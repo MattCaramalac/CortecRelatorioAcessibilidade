@@ -195,6 +195,7 @@ public class PayPhoneListFragment extends Fragment implements OnEntryClickListen
     public void instantiatePayPhoneViews(View v) {
 //        TextView
         payPhoneHeader = v.findViewById(R.id.identifier_header);
+        payPhoneHeader.setVisibility(View.VISIBLE);
         payPhoneHeader.setText(R.string.header_text_payphone_register);
 //        MaterialButton
         closePayPhoneList = v.findViewById(R.id.cancel_child_items_entries);

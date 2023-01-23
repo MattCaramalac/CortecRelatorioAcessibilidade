@@ -100,6 +100,7 @@ public class RampStairsRailingList extends Fragment implements OnEntryClickListe
         invisible.setVisibility(View.GONE);
 //        TextView
         railHeader = v.findViewById(R.id.identifier_header);
+        railHeader.setVisibility(View.VISIBLE);
         railHeader.setText(R.string.label_railing_beacon_register_header);
 //        RecyclerView
         recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);

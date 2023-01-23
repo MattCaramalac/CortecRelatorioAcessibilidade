@@ -641,4 +641,13 @@
     <string name="hint_fs_counter_width">Largura Livre do Balcão (m)</string>
     <string name="hint_vacancy_identification">Localização/Identificação da Vaga</string>
     <string name="lack_flight_comp_message">Por favor, cadastre os corrimãos, guarda-corpos e balizas deste lance</string>
+    <string name="header_library_register">Cadastro de Bibliotecas</string>
+    <string name="header_coordination_register">Cadastro de Coordenações</string>
+    <string name="header_directory_register">Cadastro de Diretorias</string>
+    <string name="header_cafeteria_register">Cadastro de Refeitórios</string>
+    <string name="header_classroom_register">Cadastro de Salas de Aula</string>
+    <string name="header_tech_room_register">Cadastro Salas de Tecnologia</string>
+    <string name="header_resource_room_register">Cadastro Salas de Recursos</string>
+    <string name="header_teacher_room_register">Cadastro Salas dos Professores</string>
+    <string name="header_secretary_register">Cadastro de Secretarias</string>
 </resources>

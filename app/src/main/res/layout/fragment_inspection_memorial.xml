@@ -38,5 +38,15 @@
         android:text="@string/label_save_quit_button"
         />
 
+    <TextView
+        android:id="@+id/register_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/saveAndQuit"
+        android:layout_marginTop="@dimen/usual_padding"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

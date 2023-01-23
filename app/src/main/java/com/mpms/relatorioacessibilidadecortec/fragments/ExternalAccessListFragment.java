@@ -116,7 +116,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
         invisible.setVisibility(View.GONE);
 //        TextView
         extAccessHeader = v.findViewById(R.id.identifier_header);
-        extAccessHeader.setText(R.string.ext_access_reg_header);
+        extAccessHeader.setVisibility(View.GONE);
 //        RecyclerView
         recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);

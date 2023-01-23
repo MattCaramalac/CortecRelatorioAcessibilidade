@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,8 +39,6 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private DoorLockRecViewAdapter lockAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
@@ -132,9 +128,6 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
             });
         }
 
-
-
-
         closeLockList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
@@ -207,6 +200,7 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
     public void instantiateGateObsViews (View v) {
 //        TextView
         lockHeader = v.findViewById(R.id.identifier_header);
+        lockHeader.setVisibility(View.VISIBLE);
         lockHeader.setText(R.string.header_door_lock_register);
 //        MaterialButton
         closeLockList = v.findViewById(R.id.cancel_child_items_entries);
@@ -237,11 +231,10 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
 
     private void openDoorLockFragment() {
         DoorLockFragment lockFragment = DoorLockFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
         lockFragment.setArguments(lockListBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, lockFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, lockFragment).addToBackStack(null).commit();
     }
 }

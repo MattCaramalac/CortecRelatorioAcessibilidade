@@ -34,7 +34,7 @@ public class TableListFragment extends Fragment implements OnEntryClickListener,
 
     MaterialButton closeTableList, addTable, continueButton;
 
-    TextView windowHeader;
+    TextView tableHeader;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
@@ -189,8 +189,9 @@ public class TableListFragment extends Fragment implements OnEntryClickListener,
 
     private void instantiateTableListViews(View v) {
         //        TextView
-        windowHeader = v.findViewById(R.id.identifier_header);
-        windowHeader.setText(R.string.header_table_register);
+        tableHeader = v.findViewById(R.id.identifier_header);
+        tableHeader.setVisibility(View.VISIBLE);
+        tableHeader.setText(R.string.header_table_register);
 //        MaterialButton
         closeTableList = v.findViewById(R.id.cancel_child_items_entries);
         addTable = v.findViewById(R.id.add_child_items_entries);

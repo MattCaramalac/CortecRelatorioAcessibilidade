@@ -123,7 +123,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     private void instantiateRoomListViews(View view) {
 //        TextView
         roomListIdentifier = view.findViewById(R.id.identifier_header);
-        roomListIdentifier.setText(roomHeader(roomListBundle));
+        roomHeader(roomListBundle);
 //        MaterialButtons
         closeRoomList = view.findViewById(R.id.cancel_child_items_entries);
         addRoom = view.findViewById(R.id.add_child_items_entries);
@@ -184,35 +184,9 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         }
     }
 
-    public static String roomHeader(Bundle bundle) {
+    public static void roomHeader(Bundle bundle) {
         if (bundle.getBoolean(EXT_AREA_REG) || bundle.getBoolean(SUP_AREA_REG)) {
             bundle.putInt(ROOM_TYPE, 12);
-            return "Cadastro de Outros Ambientes";
-        }  else {
-            switch (bundle.getInt(ROOM_TYPE)) {
-                case 2:
-                    return "Cadastro de Bibliotecas";
-                case 3:
-                    return "Cadastro de Coordenações";
-                case 4:
-                    return "Cadastro de Diretorias";
-                case 5:
-                    return "Cadastro de Refeitórios";
-                case 6:
-                    return "Cadastro de Salas de Aula";
-                case 7:
-                    return "Cadastro Salas de Tecnologia";
-                case 8:
-                    return "Cadastro Salas de Recursos";
-                case 9:
-                    return "Cadastro Salas dos Professores";
-                case 11:
-                    return "Cadastro de Secretarias";
-                case 12:
-                    return "Cadastro de Outros Ambientes";
-                default:
-                    return "";
-            }
         }
     }
 

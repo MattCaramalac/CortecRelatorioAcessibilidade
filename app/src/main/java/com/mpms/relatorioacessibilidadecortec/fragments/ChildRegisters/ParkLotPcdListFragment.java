@@ -120,6 +120,7 @@ public class ParkLotPcdListFragment extends Fragment implements OnEntryClickList
     private void instantiatePcdListViews(View view) {
 //        TextView & its definitions
         pcdListIdentifier = view.findViewById(R.id.identifier_header);
+        pcdListIdentifier.setVisibility(View.VISIBLE);
         pcdListIdentifier.setText(R.string.parking_PCD_header);
 //        MaterialButton & its definitions
         closePcdList = view.findViewById(R.id.cancel_child_items_entries);

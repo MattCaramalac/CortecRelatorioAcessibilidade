@@ -173,6 +173,7 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
     public void instantiateGateObsViews (View v) {
 //        TextView
         switchHeader = v.findViewById(R.id.identifier_header);
+        switchHeader.setVisibility(View.VISIBLE);
         switchHeader.setText(R.string.header_switch_register);
 //        MaterialButton
         closeSwitchList = v.findViewById(R.id.cancel_child_items_entries);

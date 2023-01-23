@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,8 +42,6 @@ public class GateObsListFragment extends Fragment implements OnEntryClickListene
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private GateObstacleViewAdapter gateObsAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
@@ -172,6 +168,7 @@ public class GateObsListFragment extends Fragment implements OnEntryClickListene
     public void instantiateGateObsViews (View v) {
 //        TextView
         gateObsHeader = v.findViewById(R.id.identifier_header);
+        gateObsHeader.setVisibility(View.VISIBLE);
         gateObsHeader.setText(R.string.header_text_obstacle_register);
 //        MaterialButton
         closeGateList = v.findViewById(R.id.cancel_child_items_entries);
@@ -197,11 +194,10 @@ public class GateObsListFragment extends Fragment implements OnEntryClickListene
 
     private void openGateObsFragment() {
         GateObsFragment gateObsFragment = GateObsFragment.newInstance();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
         gateObsFragment.setArguments(gateObsBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentTransaction.replace(R.id.show_fragment_selected, gateObsFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, gateObsFragment).addToBackStack(null).commit();
     }
 }

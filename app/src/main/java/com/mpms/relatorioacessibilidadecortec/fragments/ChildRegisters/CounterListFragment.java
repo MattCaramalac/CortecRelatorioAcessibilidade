@@ -174,6 +174,7 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
     public void instantiateGateObsViews (View v) {
 //        TextView
         counterHeader = v.findViewById(R.id.identifier_header);
+        counterHeader.setVisibility(View.VISIBLE);
         counterHeader.setText(R.string.header_counter_register);
 //        MaterialButton
         closeCounterList = v.findViewById(R.id.cancel_child_items_entries);

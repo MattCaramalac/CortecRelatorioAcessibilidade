@@ -112,10 +112,8 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
         invisible.setVisibility(View.GONE);
 //        TextView
         parkingHeader = v.findViewById(R.id.identifier_header);
-        if (parkListBundle.getBoolean(EXT_AREA_REG))
-            parkingHeader.setText(R.string.ext_park_reg_header);
-        else if (parkListBundle.getBoolean(SUP_AREA_REG))
-            parkingHeader.setText(R.string.int_park_reg_header);
+        if (parkListBundle.getBoolean(EXT_AREA_REG) || parkListBundle.getBoolean(SUP_AREA_REG))
+            parkingHeader.setVisibility(View.GONE);
         else
             parkingHeader.setText(R.string.side_park_reg_header);
 //        RecyclerView

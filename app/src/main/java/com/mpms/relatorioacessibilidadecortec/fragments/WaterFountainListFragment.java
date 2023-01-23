@@ -125,7 +125,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
         invisible.setVisibility(View.GONE);
 //        TextView
         fountHeader = v.findViewById(R.id.identifier_header);
-        fountHeader.setText(R.string.fountain_reg_header);
+        fountHeader.setVisibility(View.GONE);
 //        RecyclerView & methods
         recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -186,9 +186,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     @Override
     public void OnEntryClick(int position) {
         WaterFountainEntry fountainEntry = modelEntry.allFountainsInSchool.getValue().get(position);
-
         fountainBundle.putInt(FOUNTAIN_ID, fountainEntry.getWaterFountainID());
-
         OpenFountainFragment();
     }
 

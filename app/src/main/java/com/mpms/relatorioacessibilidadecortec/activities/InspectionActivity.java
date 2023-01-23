@@ -235,9 +235,12 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     break;
             }
         }
+        inspectionBundle.putInt(CHOICE, choice);
+        getSupportFragmentManager().setFragmentResult(HEADER_TEXT, inspectionBundle);
     }
 
     public void displayExtAccessListFragment() {
+
         ExternalAccessListFragment extAccessList = ExternalAccessListFragment.newInstance();
         extAccessList.setArguments(inspectionBundle);
         fragmentTransaction = fragmentManager.beginTransaction();

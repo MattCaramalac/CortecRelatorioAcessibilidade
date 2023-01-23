@@ -173,6 +173,7 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
     private void instantiateDoorViews (View v) {
 //        TextView
         doorHeader = v.findViewById(R.id.identifier_header);
+        doorHeader.setVisibility(View.VISIBLE);
         doorHeader.setText(getString(R.string.header_door_register));
 //        MaterialButton
         closeDoorList = v.findViewById(R.id.cancel_child_items_entries);

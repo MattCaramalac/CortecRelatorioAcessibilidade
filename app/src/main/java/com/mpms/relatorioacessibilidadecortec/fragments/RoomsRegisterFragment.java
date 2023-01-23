@@ -156,7 +156,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
     private void instantiateRoomViews(View view) {
 //        TextView
         roomIdentifier = view.findViewById(R.id.room_register_header);
-        roomIdentifier.setText(RoomRegisterListFragment.roomHeader(roomBundle));
+        RoomRegisterListFragment.roomHeader(roomBundle);
         vertSignError = view.findViewById(R.id.visual_sign_error);
         looseCarpetError = view.findViewById(R.id.carpet_error);
         accessFloorError = view.findViewById(R.id.room_accessible_floor_error);

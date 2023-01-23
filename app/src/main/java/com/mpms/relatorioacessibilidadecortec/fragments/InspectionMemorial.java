@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,6 +67,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
     OnFragmentInteractionListener listener;
     TextInputLayout dropdownMenuLocations;
+    TextView registerHeader;
     AutoCompleteTextView listItemsMemorial;
     ArrayAdapter<String> adapterLocations;
     HashMap<String, String> tData;
@@ -339,6 +341,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         final View rootView = inflater.inflate(R.layout.fragment_inspection_memorial, container, false);
         dropdownMenuLocations = rootView.findViewById(R.id.menu_options_memorial);
         listItemsMemorial = rootView.findViewById(R.id.list_item_memorial);
+        registerHeader = rootView.findViewById(R.id.register_header);
 
         return rootView;
     }
@@ -391,6 +394,8 @@ public class InspectionMemorial extends Fragment implements TagInterface {
             tData = jCreate.createJson();
 
             InspectionActivity.callFunction(tData, jCreate, getActivity().getApplicationContext());
+
+
         });
     }
 
@@ -403,6 +408,8 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         } else {
             throw new ClassCastException(context.toString());
         }
+
+        getParentFragmentManager().setFragmentResultListener(HEADER_TEXT, this, (key, bundle) -> registerHeader.setText(setHeaderText(bundle)));
     }
 
     @Override
@@ -415,7 +422,75 @@ public class InspectionMemorial extends Fragment implements TagInterface {
             adapterLocations = new ArrayAdapter<>(getContext(), R.layout.dropdown_list_memorial, HeaderNames.blockOptions);
         listItemsMemorial.setAdapter(adapterLocations);
         listItemsMemorial.setOnItemClickListener((parent, view, position, id) -> listener.onDropdownChoice(position));
+
         super.onResume();
+    }
+
+    private String setHeaderText(Bundle bundle) {
+        int choice = bundle.getInt(CHOICE);
+        if (bundle.getBoolean(EXT_AREA_REG)) {
+            switch (choice) {
+                case 0:
+                    return getString(R.string.label_external_access_header);
+                case 1:
+                    return getString(R.string.label_sidewalk_header);
+                case 2:
+                    return getString(R.string.ext_park_reg_header);
+                case 3:
+                    return getString(R.string.header_other_spaces);
+            }
+        } else if (bundle.getBoolean(SUP_AREA_REG)) {
+            switch (choice) {
+                case 0:
+                    return getString(R.string.fountain_reg_header);
+                case 1:
+                    return getString(R.string.int_park_reg_header);
+                case 2:
+                    return getString(R.string.header_other_spaces);
+                case 3:
+                    return getString(R.string.header_playground_register);
+                case 4:
+                    return getString(R.string.restroom_reg_header);
+            }
+        } else {
+            switch (choice) {
+                case 0:
+                case 10:
+                    return getString(R.string.restroom_reg_header);
+                case 1:
+                    return getString(R.string.fountain_reg_header);
+                default:
+                    return roomHeader(choice);
+            }
+        }
+        return null;
+    }
+
+    private String roomHeader(int choice) {
+            switch (choice) {
+                case 2:
+                    return getString(R.string.header_library_register);
+                case 3:
+                    return getString(R.string.header_coordination_register);
+                case 4:
+                    return getString(R.string.header_directory_register);
+                case 5:
+                    return getString(R.string.header_cafeteria_register);
+                case 6:
+                    return getString(R.string.header_classroom_register);
+                case 7:
+                    return getString(R.string.header_tech_room_register);
+                case 8:
+                    return getString(R.string.header_resource_room_register);
+                case 9:
+                    return getString(R.string.header_teacher_room_register);
+                case 11:
+                    return getString(R.string.header_secretary_register);
+                case 12:
+                    return getString(R.string.header_other_spaces);
+                default:
+                    return "";
+            }
     }
 
     private void instanceMemorial(View view) {

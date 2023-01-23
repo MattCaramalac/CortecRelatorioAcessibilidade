@@ -196,7 +196,8 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
         invisible.setVisibility(View.GONE);
 //        TextView
         sidewalkHeader = v.findViewById(R.id.identifier_header);
-        sidewalkHeader.setText(R.string.sidewalk_reg_header);
+        sidewalkHeader.setVisibility(View.GONE);
+
 //        RecyclerView
         recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);

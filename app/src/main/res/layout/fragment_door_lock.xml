@@ -28,7 +28,6 @@
                 android:id="@+id/label_door_lock_sill_type"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="@dimen/usual_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/header_lock_type"

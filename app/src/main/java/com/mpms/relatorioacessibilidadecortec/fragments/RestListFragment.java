@@ -122,7 +122,8 @@ public class RestListFragment extends Fragment implements OnEntryClickListener, 
         invisible.setVisibility(View.GONE);
 //        TextView
         restroomIdentifier = v.findViewById(R.id.identifier_header);
-        restroomIdentifier.setText(R.string.restroom_reg_header); //Parcial, mudará quando tiver cadastro de banheiros tb
+        restroomIdentifier.setVisibility(View.GONE);
+
 //        RecyclerView
         recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);

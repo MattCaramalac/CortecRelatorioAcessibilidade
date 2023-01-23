@@ -190,6 +190,7 @@ public class WindowListFragment extends Fragment implements OnEntryClickListener
     private void instantiateWindowListViews(View v) {
         //        TextView
         windowHeader = v.findViewById(R.id.identifier_header);
+        windowHeader.setVisibility(View.VISIBLE);
         windowHeader.setText(R.string.header_window_register);
 //        MaterialButton
         closeWindowList = v.findViewById(R.id.cancel_child_items_entries);
