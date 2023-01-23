@@ -31,8 +31,10 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
     Button saveUpMeasures, returnRestDoorData;
     Bundle restUpBundle, imgData;
 
-    TextInputLayout measureFieldA, measureFieldB, measureFieldC, measureFieldD, measureFieldE, restLengthField, restWidthField, upViewObsField;
-    TextInputEditText measureValueA, measureValueB, measureValueC, measureValueD, measureValueE, restLengthValue, restWidthValue, upViewObsValue;
+    TextInputLayout  measureFieldB, measureFieldC, measureFieldD, measureFieldE, restLengthField, restWidthField, upViewObsField;
+//    measureFieldA,
+    TextInputEditText  measureValueB, measureValueC, measureValueD, measureValueE, restLengthValue, restWidthValue, upViewObsValue;
+//    measureValueA,
 
     ViewModelEntry modelEntry;
 
@@ -99,7 +101,7 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
 //        ImageButton
         upperViewImgButton = view.findViewById(R.id.rest_upper_view_image);
 //        TextInputLayout
-        measureFieldA = view.findViewById(R.id.upper_view_A_measurement_field);
+//        measureFieldA = view.findViewById(R.id.upper_view_A_measurement_field);
         measureFieldB = view.findViewById(R.id.upper_view_B_measurement_field);
         measureFieldC = view.findViewById(R.id.upper_view_C_measurement_field);
         measureFieldD = view.findViewById(R.id.upper_view_D_measurement_field);
@@ -108,7 +110,7 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
         restWidthField = view.findViewById(R.id.upper_view_width_field);
         upViewObsField = view.findViewById(R.id.upper_view_obs_field);
 //        TextInputEditText
-        measureValueA = view.findViewById(R.id.upper_view_A_measurement_value);
+//        measureValueA = view.findViewById(R.id.upper_view_A_measurement_value);
         measureValueB = view.findViewById(R.id.upper_view_B_measurement_value);
         measureValueC = view.findViewById(R.id.upper_view_C_measurement_value);
         measureValueD = view.findViewById(R.id.upper_view_D_measurement_value);
@@ -136,18 +138,18 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
     public boolean checkEmptyMeasurementsFields() {
         clearEmptyMeasurementsErrors();
         int i = 0;
-        if (TextUtils.isEmpty(measureValueA.getText())) {
-            i++;
-            measureFieldA.setError(getText(R.string.req_field_error));
-        }
+//        if (TextUtils.isEmpty(measureValueA.getText())) {
+//            i++;
+//            measureFieldA.setError(getText(R.string.req_field_error));
+//        }
         if (TextUtils.isEmpty(measureValueB.getText())) {
             i++;
             measureFieldB.setError(getText(R.string.req_field_error));
         }
-        if (TextUtils.isEmpty(measureValueC.getText())) {
-            i++;
-            measureFieldC.setError(getText(R.string.req_field_error));
-        }
+//        if (TextUtils.isEmpty(measureValueC.getText())) {
+//            i++;
+//            measureFieldC.setError(getText(R.string.req_field_error));
+//        }
         if (TextUtils.isEmpty(measureValueD.getText())) {
             i++;
             measureFieldD.setError(getText(R.string.req_field_error));
@@ -164,7 +166,7 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
     }
 
     public void clearEmptyMeasurementsErrors() {
-        measureFieldA.setErrorEnabled(false);
+//        measureFieldA.setErrorEnabled(false);
         measureFieldB.setErrorEnabled(false);
         measureFieldC.setErrorEnabled(false);
         measureFieldD.setErrorEnabled(false);
@@ -173,17 +175,17 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
     }
 
     public RestUpViewUpdate newRestUpView(Bundle bundle) {
-        double measureA, measureB, measureC, measureD, upLength, upWidth;
-        Double measureE = null;
+        Double measureA = null,  measureC = null, measureE = null;
+        double measureB, measureD, upLength, upWidth;
         String upViewObs;
 
         upLength = Double.parseDouble(String.valueOf(restLengthValue.getText()));
         upWidth = Double.parseDouble(String.valueOf(restWidthValue.getText()));
-        measureA = Double.parseDouble(String.valueOf(measureValueA.getText()));
+//        measureA = Double.parseDouble(String.valueOf(measureValueA.getText()));
         measureB = Double.parseDouble(String.valueOf(measureValueB.getText()));
-        measureC = Double.parseDouble(String.valueOf(measureValueC.getText()));
+        if (!TextUtils.isEmpty(measureValueC.getText()))
+            measureC = Double.parseDouble(String.valueOf(measureValueC.getText()));
         measureD = Double.parseDouble(String.valueOf(measureValueD.getText()));
-
         if (!TextUtils.isEmpty(measureValueE.getText()))
             measureE = Double.valueOf(String.valueOf(measureValueE.getText()));
 
@@ -198,8 +200,8 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
             restLengthValue.setText(String.valueOf(upViewEntry.getUpViewLength()));
         if (upViewEntry.getUpViewWidth() != null)
             restWidthValue.setText(String.valueOf(upViewEntry.getUpViewWidth()));
-        if (upViewEntry.getUpViewMeasureA() != null)
-            measureValueA.setText(String.valueOf(upViewEntry.getUpViewMeasureA()));
+//        if (upViewEntry.getUpViewMeasureA() != null)
+//            measureValueA.setText(String.valueOf(upViewEntry.getUpViewMeasureA()));
         if (upViewEntry.getUpViewMeasureB() != null)
             measureValueB.setText(String.valueOf(upViewEntry.getUpViewMeasureB()));
         if (upViewEntry.getUpViewMeasureC() != null)
