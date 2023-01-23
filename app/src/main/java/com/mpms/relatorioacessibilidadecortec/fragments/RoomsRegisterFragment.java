@@ -439,7 +439,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                     }
                     requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0);
                 } else {
-                    Toast.makeText(getContext(), getString(R.string.req_field_error), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
                 }
             }
         }

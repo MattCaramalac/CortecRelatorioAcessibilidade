@@ -128,6 +128,8 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
                     clearPlayFields();
                 }
             }
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
     }
 

@@ -101,6 +101,8 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
                     Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente!", Toast.LENGTH_SHORT).show();
                 }
             }
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
     }
 

@@ -95,6 +95,8 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
                     clearFountainFields();
                 }
             }
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
         saveWaterFountain.setOnClickListener(v -> {

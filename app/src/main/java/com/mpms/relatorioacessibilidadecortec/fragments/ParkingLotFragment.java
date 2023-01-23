@@ -282,6 +282,8 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
                     requireActivity().getSupportFragmentManager().popBackStack(PARKING_LIST, 0);
                 }
             }
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         }
     }
 

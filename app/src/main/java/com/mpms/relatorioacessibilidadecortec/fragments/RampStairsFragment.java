@@ -114,6 +114,8 @@ public class RampStairsFragment extends Fragment implements TagInterface {
                     errorEscape();
                 }
             }
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
     }

@@ -158,6 +158,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
                     errorFlightProcedure();
                 }
             }
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
 
         });
 

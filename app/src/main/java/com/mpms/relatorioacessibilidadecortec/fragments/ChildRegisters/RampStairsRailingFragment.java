@@ -91,6 +91,8 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface,
 
                 requireActivity().getSupportFragmentManager().popBackStackImmediate();
             }
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
         cancelRailing.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());

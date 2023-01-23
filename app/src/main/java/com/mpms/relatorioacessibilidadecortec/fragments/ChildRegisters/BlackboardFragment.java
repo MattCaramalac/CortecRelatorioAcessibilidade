@@ -80,7 +80,8 @@ public class BlackboardFragment extends Fragment implements TagInterface, Scroll
                     boardBundle.putInt(BOARD_ID,0);
                     Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
                 }
-            }
+            } else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
         cancelBoard.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());

@@ -253,10 +253,10 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
                 rightHeader.setVisibility(View.VISIBLE);
                 leftSinkRadio.setVisibility(View.VISIBLE);
                 rightSinkRadio.setVisibility(View.VISIBLE);
-            } else if (radioIndex == 1) {
+            } else if (radioIndex == 1 && getCheckRadio(sinkRadio1) == -1 && getCheckRadio(sinkRadio2) == -1) {
                 sinkTypeWarning.setVisibility(View.VISIBLE);
             } else {
-                sinkTypeWarning.setVisibility(View.VISIBLE);
+                sinkTypeWarning.setVisibility(View.GONE);
                 leftSinkRadio.clearCheck();
                 rightSinkRadio.clearCheck();
                 leftHeader.setVisibility(View.GONE);

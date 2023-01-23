@@ -109,6 +109,8 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface, Scrol
                     requireActivity().getSupportFragmentManager().popBackStack(SIDEWALK_LIST, 0);
                 }
             }
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
         returnSideOne.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());

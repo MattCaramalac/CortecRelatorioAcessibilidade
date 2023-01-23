@@ -128,6 +128,8 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
                         Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
                     }
                 }
+                else
+                    Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -223,6 +223,8 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface, Sc
                 Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente!", Toast.LENGTH_SHORT).show();
             }
         }
+        else
+            Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
     }
 
     public int getCheckedRadio(RadioGroup radio) {

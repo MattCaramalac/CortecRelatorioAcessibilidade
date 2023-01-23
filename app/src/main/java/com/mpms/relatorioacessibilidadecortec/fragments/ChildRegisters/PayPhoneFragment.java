@@ -83,11 +83,13 @@ public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEd
                     ViewModelEntry.updatePayPhone(newPhone);
                     Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                     requireActivity().getSupportFragmentManager().popBackStackImmediate();
-                } else {
+                } else
                     Toast.makeText(getContext(), R.string.unexpected_error, Toast.LENGTH_SHORT).show();
-                }
+
                 phoneBundle.putInt(PHONE_ID, 0);
             }
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
         cancelPayphone.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());

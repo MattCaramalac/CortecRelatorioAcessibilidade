@@ -114,8 +114,10 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
                         Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
-                }
-                requireActivity().getSupportFragmentManager().popBackStack(EXTERNAL_LIST, 0);
+
+                    requireActivity().getSupportFragmentManager().popBackStack(EXTERNAL_LIST, 0);
+                } else
+                    Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
             }
         });
     }

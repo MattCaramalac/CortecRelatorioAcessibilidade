@@ -100,6 +100,8 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
                         requireActivity().getSupportFragmentManager().popBackStackImmediate();
                     }
                 }
+                else
+                    Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
             }
         });
     }

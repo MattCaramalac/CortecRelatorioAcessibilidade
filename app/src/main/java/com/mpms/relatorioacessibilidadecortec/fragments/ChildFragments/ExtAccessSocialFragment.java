@@ -284,7 +284,8 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface, S
                 ViewModelEntry.updateExtAccessRegTwo(newSocialTwo);
                 frag = new ExtAccessSocialFragment2();
                 frag.setArguments(bundle);
-            }
+            } else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         } else if (v == addGateLockButton) {
             ExtAccessSocialTwo newSocialTwo = socialTwo(bundle);
             ViewModelEntry.updateExtAccessRegTwo(newSocialTwo);

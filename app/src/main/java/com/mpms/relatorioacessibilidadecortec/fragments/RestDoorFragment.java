@@ -195,9 +195,9 @@ public class RestDoorFragment extends Fragment implements TagInterface, ScrollEd
         if (doorSillRadio.getCheckedRadioButtonIndex() > 0) {
             getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);
         } else {
-            if (checkEmptyRestDoorDataFields()) {
+            if (checkEmptyRestDoorDataFields())
                 updateRestData(bundle);
-            } else {
+            else {
                 Toast.makeText(getContext(), "Um ou mais campos não foram preenchidos", Toast.LENGTH_SHORT).show();
             }
         }

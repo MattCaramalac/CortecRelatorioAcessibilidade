@@ -87,9 +87,10 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         }
 
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
-            if (checkSideSlopeEmptyFields() && bundle.getBoolean(CHILD_DATA_COMPLETE)) {
+            if (checkSideSlopeEmptyFields() && bundle.getBoolean(CHILD_DATA_COMPLETE))
                 saveSideSlopeEntry(bundle);
-            }
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
         cancelSlope.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
