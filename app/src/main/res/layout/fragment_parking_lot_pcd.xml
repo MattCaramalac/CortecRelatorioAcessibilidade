@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/label_frag_parking_lot_PDMR"
-        android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,9 +19,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.87"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/parking_lot_PCD_PMR_header">
+        app:layout_constraintTop_toBottomOf="@id/parking_lot_PCD_PMR_header"
+        android:layout_marginTop="@dimen/usual_padding">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parking_lot_PDMR_constraint_layout"
@@ -34,7 +34,6 @@
                 android:id="@+id/PCD_vacancy_locale_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_vacancy_identification"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -83,8 +82,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_parking_vertical_sign_header"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="@dimen/section_header_big"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vacancy_position_error"/>
@@ -204,8 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins"
                 android:text="@string/label_parking_horizontal_sign_header"
-                android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="@dimen/section_header_big"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vertical_sign_PCD_obs_field" />

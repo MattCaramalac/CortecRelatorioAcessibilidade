@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:scrollbars="vertical"
     tools:context=".fragments.WaterFountainFragment">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <TextView
             android:text="@string/label_water_fountain_header"
@@ -22,134 +18,149 @@
             android:textSize="@dimen/section_header"
             />
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/water_fountain_location_field"
+        <ScrollView
+            android:id="@+id/water_scroll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_fountain_location"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/usual_padding"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/water_fountain_header">
+            app:layout_constraintTop_toBottomOf="@id/water_fountain_header"
+            app:layout_constraintHeight_percent="0.85">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/water_fountain_location_value"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/water_fountain_location_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_fountain_location"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/fountain_type_header_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/water_fountain_location_field"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:textSize="@dimen/section_header"
-            android:text="@string/label_water_fountain_type"/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/water_fountain_location_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
-        <RadioGroup
-            android:id="@+id/fountain_type_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fountain_type_header_text"
-            android:orientation="horizontal"
-            >
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_option_bica_type"
-                android:textSize="14sp"
-                android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/fountain_type_header_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/water_fountain_location_field"
+                    android:layout_marginTop="@dimen/usual_padding"
+                    android:textSize="@dimen/section_header"
+                    android:text="@string/label_water_fountain_type"/>
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_option_other_type"
-                android:textSize="14sp"
-                android:textColor="@color/black"/>
+                <RadioGroup
+                    android:id="@+id/fountain_type_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fountain_type_header_text"
+                    android:orientation="horizontal"
+                    >
 
-        </RadioGroup>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_option_bica_type"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"/>
 
-        <TextView
-            android:id="@+id/water_fountain_type_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/fountain_type_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_option_other_type"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/water_fountain_type_obs_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_fountain_type_obs"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/water_fountain_type_error">
+                </RadioGroup>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/water_fountain_type_obs_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:inputType="textMultiLine"
-                android:lines="@integer/multiline_obs_field"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:scrollHorizontally="false" />
+                <TextView
+                    android:id="@+id/water_fountain_type_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_fields"
+                    android:textSize="14sp"
+                    android:textColor="@color/error_message"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/fountain_type_radio"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/water_fountain_type_obs_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/usual_padding"
+                    android:hint="@string/hint_fountain_type_obs"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/water_fountain_type_error">
 
-        <FrameLayout
-            android:id="@+id/water_fountain_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/water_fountain_type_obs_field"
-            android:layout_marginTop="@dimen/top_margins"/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/water_fountain_type_obs_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:inputType="textMultiLine"
+                        android:lines="@integer/multiline_obs_field"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/water_fountain_obs_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/water_fountain_info"
-            android:hint="Outras Observações">
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/water_fountain_obs_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="@integer/multiline_obs_field"/>
+                <FrameLayout
+                    android:id="@+id/water_fountain_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/water_fountain_type_obs_field"
+                    android:layout_marginTop="@dimen/top_margins"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/water_fountain_obs_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/usual_padding"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/water_fountain_info"
+                    android:hint="Outras Observações">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/water_fountain_obs_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textMultiLine"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbars="vertical"
+                        android:gravity="start"
+                        android:scrollHorizontally="false"
+                        android:lines="@integer/multiline_obs_field"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/save_waterfountain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/water_fountain_obs_field"
+            app:layout_constraintTop_toBottomOf="@id/water_scroll"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="@dimen/top_margins"
             android:text="@string/label_button_save"
@@ -168,6 +179,4 @@
             android:text="@string/label_button_cancel"
             />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

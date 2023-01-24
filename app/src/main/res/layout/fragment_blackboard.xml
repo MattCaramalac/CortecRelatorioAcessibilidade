@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,14 +10,18 @@
         android:id="@+id/blackboard_register_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/section_header_big"
+        android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"
-        android:text="@string/label_blackboard_register"/>
+        android:text="@string/label_blackboard_register"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <ScrollView
+        android:id="@+id/blackboard_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/blackboard_register_header"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
+        app:layout_constraintTop_toBottomOf="@id/blackboard_register_header"
         android:layout_marginTop="@dimen/usual_padding">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -82,29 +86,29 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/save_board"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/usual_padding"
-                android:text="@string/label_button_save"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/blackboard_obs_field" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancel_board"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/top_margins"
-                android:text="@string/label_button_cancel"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@id/save_board"
-                app:layout_constraintStart_toStartOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
-</RelativeLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_board"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/usual_padding"
+        android:text="@string/label_button_save"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/blackboard_scroll" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_board"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_button_cancel"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/save_board"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

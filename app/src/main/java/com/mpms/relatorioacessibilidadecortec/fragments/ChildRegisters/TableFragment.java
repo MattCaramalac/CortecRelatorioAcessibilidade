@@ -27,7 +27,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
 
     TextInputLayout supHeightField, infHeightField, tableWidthField, frontalApproxField, obsField, freeWidthField;
     TextInputEditText supHeightValue, infHeightValue, tableWidthValue, frontalApproxValue, obsValue, freeWidthValue;
-    TextView tableRegisterHeader, tableTypeHeader, tableTypeError;
+    TextView tableTypeHeader, tableTypeError;
     RadioGroup tableTypeRadio;
     MaterialButton saveTable, cancelTable;
 
@@ -108,8 +108,6 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         obsValue = view.findViewById(R.id.table_obs_value);
         freeWidthValue = view.findViewById(R.id.table_fs_width_value);
 //        TextView
-        tableRegisterHeader = view.findViewById(R.id.table_register_header);
-        tableRegisterHeader.setText(getString(R.string.header_table_register));
         tableTypeHeader = view.findViewById(R.id.table_type_header_text);
         tableTypeError = view.findViewById(R.id.table_type_error);
 //        RadioGroup
@@ -126,7 +124,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
 
     private void classroomTableView(Bundle bundle) {
         if (bundle.getInt(ROOM_TYPE) == 6) {
-            tableRegisterHeader.setVisibility(View.VISIBLE);
+            tableTypeHeader.setVisibility(View.VISIBLE);
             tableTypeRadio.setVisibility(View.VISIBLE);
         }
     }

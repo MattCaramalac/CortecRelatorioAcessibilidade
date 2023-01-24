@@ -11,7 +11,7 @@
         android:id="@+id/room_register_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/section_header_big"
+        android:textSize="@dimen/section_header_bigger"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ScrollView
@@ -21,7 +21,7 @@
         android:layout_below="@id/room_register_header"
         android:layout_marginTop="@dimen/usual_padding"
         app:layout_constraintTop_toBottomOf="@id/room_register_header"
-        app:layout_constraintHeight_percent="0.87">
+        app:layout_constraintHeight_percent="0.85">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

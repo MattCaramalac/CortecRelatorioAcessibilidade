@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/usual_padding"
     tools:context=".fragments.ChildFragments.SidewalkSlopeFragment">
 
     <TextView
@@ -12,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sidewalk_slope_register_header"
-        android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="0.83"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sidewalk_slope_header">
 

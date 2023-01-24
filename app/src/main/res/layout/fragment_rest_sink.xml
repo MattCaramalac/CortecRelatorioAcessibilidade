@@ -4,42 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="@dimen/usual_padding"
-    android:paddingEnd="@dimen/usual_padding"
     tools:context=".fragments.RestSinkFragment">
+
+    <TextView
+        android:id="@+id/sink_info_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cadastro de Sanitário - Lavatório"
+        android:textSize="@dimen/section_header_bigger"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/sink_scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="0.87"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_small"
+        app:layout_constraintTop_toBottomOf="@id/sink_info_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/sink_info_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Cadastro de Sanitário - Lavatório"
-                android:textSize="@dimen/section_header_big"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/sink_choice_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
                 android:text="Selecione o tipo de lavatório presente na instalação (clique na imagem para ampliar)"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sink_info_header" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <ImageButton
                 android:id="@+id/sink_type_1"

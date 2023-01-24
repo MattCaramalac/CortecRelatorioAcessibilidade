@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,7 +24,6 @@ public class SwitchFragment extends Fragment implements TagInterface, ScrollEdit
 
     TextInputLayout switchLocaleField, switchTypeField, switchHeightField, switchObsField;
     TextInputEditText switchLocaleValue, switchTypeValue, switchHeightValue, switchObsValue;
-    TextView switchHeader;
     MaterialButton cancelSwitch, saveSwitch;
 
     Bundle switchBundle;
@@ -103,9 +101,6 @@ public class SwitchFragment extends Fragment implements TagInterface, ScrollEdit
 //        MaterialButton
         cancelSwitch = v.findViewById(R.id.cancel_switch);
         saveSwitch = v.findViewById(R.id.save_switch);
-//        TextView
-        switchHeader = v.findViewById(R.id.switch_register_header);
-        switchHeader.setText(R.string.header_switch_register);
 //        ViewModels
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //

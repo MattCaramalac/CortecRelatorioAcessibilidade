@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,7 +24,6 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
 
     TextInputLayout windowLocationField, windowHeightField, windowObsField;
     TextInputEditText windowLocationValue, windowHeightValue, windowObsValue;
-    TextView windowHeader;
     MaterialButton saveWindow, cancelWindow;
 
     Bundle windowBundle;
@@ -99,9 +97,6 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
         windowLocationValue = view.findViewById(R.id.window_placement_value);
         windowHeightValue = view.findViewById(R.id.window_height_value);
         windowObsValue = view.findViewById(R.id.window_obs_value);
-//        TextView
-        windowHeader = view.findViewById(R.id.window_register_header);
-        windowHeader.setText(getText(R.string.header_window_register));
 //        MaterialButton
         saveWindow = view.findViewById(R.id.save_window);
         cancelWindow = view.findViewById(R.id.cancel_window);

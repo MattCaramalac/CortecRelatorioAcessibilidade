@@ -4,16 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="@dimen/usual_padding"
-    android:paddingEnd="@dimen/usual_padding"
     tools:context=".fragments.RestFragment">
 
     <ScrollView
         android:id="@+id/rest_scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="0.87"
+        app:layout_constraintHeight_percent="0.89"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -22,24 +19,13 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/restroom_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_restroom_register_header"
-                android:textSize="@dimen/section_header_big"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/restroom_type_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
                 android:text="Qual é o tipo de sanitário a ser cadastrado?"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/restroom_header" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.whygraphics.multilineradiogroup.MultiLineRadioGroup xmlns:multi_line_radio_group="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/restroom_type_multiradio"

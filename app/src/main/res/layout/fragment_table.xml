@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,12 +10,18 @@
         android:id="@+id/table_register_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/section_header_big" />
+        android:textSize="@dimen/section_header_bigger"
+        android:textStyle="bold"
+        android:text="@string/header_table_register"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ScrollView
+        android:id="@+id/table_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/table_register_header">
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_small"
+        app:layout_constraintTop_toBottomOf="@id/table_register_header"
+        android:layout_marginTop="@dimen/usual_padding">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,7 +31,6 @@
                 android:id="@+id/table_type_header_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:textSize="@dimen/section_header"
                 android:text="@string/label_table_type_header"
@@ -68,7 +73,7 @@
                 android:textColor="@color/error_message"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/table_type_radio"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="@dimen/usual_padding"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -76,7 +81,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_superior_border_table_height"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/table_type_error">
@@ -185,30 +189,29 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/save_table"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/top_margins"
-                android:text="@string/label_button_save"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/table_obs_field" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancel_table"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/top_margins"
-                android:text="@string/label_button_cancel"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@id/save_table"
-                app:layout_constraintStart_toStartOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_table"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_button_save"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/table_scroll" />
 
-</RelativeLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_table"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_button_cancel"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/save_table"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

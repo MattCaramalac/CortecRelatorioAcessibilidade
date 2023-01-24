@@ -369,7 +369,7 @@
     <string name="hint_measurement_D">Medida D (m)</string>
     <string name="hint_measurement_E">Medida E (m)</string>
     <string name="label_back_button">RETORNAR</string>
-    <string name="label_toilet_header">Dimensões do Sanitário - Bacia Sanitária e Barras de Suporte</string>
+    <string name="label_toilet_header">Cadastro de Sanitário - Bacia Sanitária e Barras de Suporte</string>
     <string name="label_sup_bar_measurements">Dimensões da Barra de Apoio</string>
     <string name="hint_measurement_F">Medida F (m)</string>
     <string name="hint_measurement_G">Medida G (m)</string>

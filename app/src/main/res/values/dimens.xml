@@ -9,12 +9,16 @@
 
     <dimen name="section_header">18sp</dimen>
     <dimen name="section_header_big">22sp</dimen>
+    <dimen name="section_header_bigger">24sp</dimen>
     <dimen name="radio_button_text">15sp</dimen>
     <dimen name="error_message">12sp</dimen>
     <dimen name="radio_option_size">15sp</dimen>
     <dimen name="usual_padding">8dp</dimen>
     <dimen name="dimen_field">185dp</dimen>
     <dimen name="square_image_100">100dp</dimen>
+
+    <dimen name="scroll_dimens_medium">0.85</dimen>
+    <dimen name="scroll_dimens_small">0.83</dimen>
 
     <integer name="max_length_age">3</integer>
     <integer name="min_length_grade">1</integer>

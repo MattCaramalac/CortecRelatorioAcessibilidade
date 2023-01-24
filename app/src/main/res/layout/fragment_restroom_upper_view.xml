@@ -4,41 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="@dimen/usual_padding"
-    android:paddingEnd="@dimen/usual_padding"
     tools:context=".fragments.RestUpViewFragment">
+
+    <TextView
+        android:id="@+id/rest_upper_view_header"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/label_upper_view_rest_dimens"
+        android:textSize="@dimen/section_header_bigger"
+        android:textStyle="bold"/>
 
     <ScrollView
         android:id="@+id/t_up_scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="0.87"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_small"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/rest_upper_view_header">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/rest_upper_view_header"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_upper_view_rest_dimens"
-            android:textSize="@dimen/section_header"
-            android:textStyle="bold"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/upper_view_length_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/rest_upper_view_header"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_room_length">
 
             <com.google.android.material.textfield.TextInputEditText

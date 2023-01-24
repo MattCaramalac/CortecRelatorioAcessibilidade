@@ -1,963 +1,965 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.RampStairsFlightFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/flight_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/section_header_bigger"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/flight_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+    <ScrollView
+        android:id="@+id/flight_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/usual_padding"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
+        app:layout_constraintTop_toBottomOf="@id/flight_header">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             android:textSize="@dimen/section_header_big"
-            android:textStyle="bold"/>
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/flight_number_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/flight_header"
-            android:layout_marginTop="@dimen/top_margins"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/section_header"
-            android:text="@string/header_flight_number_indicator"
-            android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/flight_number_header"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/header_flight_number_indicator"
+                android:textColor="@color/black"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/flight_number"
-            app:layout_constraintStart_toEndOf="@id/flight_number_header"
-            app:layout_constraintBaseline_toBaselineOf="@id/flight_number_header"
-            android:layout_marginTop="@dimen/top_margins"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/usual_padding"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/purple_700"/>
+            <TextView
+                android:id="@+id/flight_number"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
+                android:layout_marginTop="@dimen/top_margins"
+                android:textColor="@color/purple_700"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@id/flight_number_header"
+                app:layout_constraintStart_toEndOf="@id/flight_number_header" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ramp_staircase_width_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/flight_number_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/usual_padding">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ramp_staircase_width_value"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ramp_staircase_width_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/flight_number_header">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ramp_staircase_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lance_length_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/ramp_staircase_width_field"
-            app:layout_constraintStart_toStartOf="parent"
-            android:hint="@string/hint_ramp_length"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/usual_padding">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/lance_length_value"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lance_length_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_ramp_length"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ramp_staircase_width_field">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/lance_length_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lance_height_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/lance_length_field"
-            app:layout_constraintStart_toStartOf="parent"
-            android:hint="@string/hint_ramp_height"
-            android:layout_marginTop="@dimen/usual_padding">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/lance_height_value"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lance_height_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_ramp_height"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lance_length_field">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/lance_height_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
 
-        <TextView
-            android:id="@+id/dimensions_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lance_height_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/section_header"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mirror_inclination_button"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/dimensions_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:backgroundTint="@color/purple_200"
-            android:textColor="@color/black" />
-
-        <ImageButton
-            android:id="@+id/delete_mirror_inclination_measure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/mirror_inclination_button"
-            app:layout_constraintTop_toTopOf="@id/mirror_inclination_button"
-            app:layout_constraintBottom_toBottomOf="@id/mirror_inclination_button"
-            android:src="@drawable/ic_delete_field"
-            android:backgroundTint="@color/teal_200"
-            android:visibility="gone"
-            tools:ignore="ContentDescription" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/mirror_inclination_1_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:weightSum="@integer/weight_one"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mirror_inclination_button"
-            app:layout_constraintEnd_toStartOf="@id/mirror_inclination_2_field"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/mirror_inclination_1_value"
+            <TextView
+                android:id="@+id/dimensions_header"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lance_height_field" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/mirror_inclination_button"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:backgroundTint="@color/purple_200"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dimensions_header" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/mirror_inclination_2_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:weightSum="@integer/weight_one"
-            app:layout_constraintStart_toEndOf="@id/mirror_inclination_1_field"
-            app:layout_constraintBaseline_toBaselineOf="@id/mirror_inclination_1_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/usual_padding"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/mirror_inclination_2_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/mirror_inclination_3_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:weightSum="@integer/weight_one"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mirror_inclination_1_field"
-            app:layout_constraintEnd_toStartOf="@id/mirror_inclination_4_field"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/mirror_inclination_3_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/mirror_inclination_4_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:weightSum="@integer/weight_one"
-            app:layout_constraintStart_toEndOf="@id/mirror_inclination_3_field"
-            app:layout_constraintBaseline_toBaselineOf="@id/mirror_inclination_3_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/usual_padding"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/mirror_inclination_4_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/mirror_inclination_values_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/mirror_inclination_3_field"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/step_button"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mirror_inclination_values_error"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:backgroundTint="@color/purple_200"
-            android:text="@string/label_step_register_text"
-            android:textColor="@color/black"
-            android:visibility="gone"/>
-
-        <ImageButton
-            android:id="@+id/delete_step_measure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/step_button"
-            app:layout_constraintTop_toTopOf="@id/step_button"
-            app:layout_constraintBottom_toBottomOf="@id/step_button"
-            android:src="@drawable/ic_delete_field"
-            android:backgroundTint="@color/teal_200"
-            android:visibility="gone"
-            tools:ignore="ContentDescription" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/step_1_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:weightSum="@integer/weight_one"
-            android:hint="@string/measurement_m_1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/step_button"
-            app:layout_constraintEnd_toStartOf="@id/step_2_field"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/step_1_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/step_2_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:weightSum="@integer/weight_one"
-            android:hint="@string/measurement_m_2"
-            app:layout_constraintStart_toEndOf="@id/step_1_field"
-            app:layout_constraintBaseline_toBaselineOf="@id/step_1_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/usual_padding"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/step_2_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/step_3_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:weightSum="@integer/weight_one"
-            android:hint="@string/measurement_m_3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/step_1_field"
-            app:layout_constraintEnd_toStartOf="@id/step_4_field"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/step_3_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/step_4_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:weightSum="@integer/weight_one"
-            android:hint="@string/measurement_m_4"
-            app:layout_constraintStart_toEndOf="@id/step_3_field"
-            app:layout_constraintBaseline_toBaselineOf="@id/step_3_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/usual_padding"
-            android:visibility="gone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/step_4_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/step_values_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/step_3_field"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <TextView
-            android:id="@+id/tactile_sign_pavement_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/step_values_error"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_pavement_tactile_sign_header"
-            android:textSize="@dimen/section_header"/>
-
-        <RadioGroup
-            android:id="@+id/pavement_tactile_sign_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tactile_sign_pavement_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal">
-
-            <RadioButton
+            <ImageButton
+                android:id="@+id/delete_mirror_inclination_measure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="15sp"/>
+                android:backgroundTint="@color/teal_200"
+                android:src="@drawable/ic_delete_field"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/mirror_inclination_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/mirror_inclination_button"
+                app:layout_constraintTop_toTopOf="@id/mirror_inclination_button"
+                tools:ignore="ContentDescription" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/mirror_inclination_1_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="15sp"/>
+                android:layout_marginTop="@dimen/usual_padding"
+                android:visibility="gone"
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintEnd_toStartOf="@id/mirror_inclination_2_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mirror_inclination_button">
 
-            <RadioButton
-                android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mirror_inclination_1_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/mirror_inclination_2_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_not_applicable"
-                android:textSize="15sp"/>
-        </RadioGroup>
+                android:layout_marginStart="@dimen/usual_padding"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:visibility="gone"
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintBaseline_toBaselineOf="@id/mirror_inclination_1_field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/mirror_inclination_1_field">
 
-        <TextView
-            android:id="@+id/tactile_sign_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/pavement_tactile_sign_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mirror_inclination_2_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pavement_tact_sign_obs_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tactile_sign_error"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_pavement_tact_sign_obs">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/pavement_tact_sign_obs_value"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/mirror_inclination_3_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:visibility="gone"
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintEnd_toStartOf="@id/mirror_inclination_4_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mirror_inclination_1_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mirror_inclination_3_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/mirror_inclination_4_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:visibility="gone"
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintBaseline_toBaselineOf="@id/mirror_inclination_3_field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/mirror_inclination_3_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/mirror_inclination_4_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/mirror_inclination_values_error"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="@integer/multiline_obs_field"/>
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mirror_inclination_3_field" />
 
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/tactile_floor_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pavement_tact_sign_obs_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_tactile_floor_header"
-            android:textSize="@dimen/section_header"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/step_button"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:backgroundTint="@color/purple_200"
+                android:text="@string/label_step_register_text"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mirror_inclination_values_error" />
 
-        <RadioGroup
-            android:id="@+id/lower_tactile_floor_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tactile_floor_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal">
-
-            <RadioButton
+            <ImageButton
+                android:id="@+id/delete_step_measure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="15sp"/>
+                android:backgroundTint="@color/teal_200"
+                android:src="@drawable/ic_delete_field"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/step_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/step_button"
+                app:layout_constraintTop_toTopOf="@id/step_button"
+                tools:ignore="ContentDescription" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/step_1_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="15sp"/>
-        </RadioGroup>
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/measurement_m_1"
+                android:visibility="gone"
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintEnd_toStartOf="@id/step_2_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/step_button">
 
-        <TextView
-            android:id="@+id/lower_tactile_floor_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/lower_tactile_floor_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/step_1_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lower_tact_floor_width_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/lower_tactile_floor_error"
-            app:layout_constraintStart_toStartOf="parent"
-            android:hint="@string/hint_tact_floor_width"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:visibility="gone">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/lower_tact_floor_width_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lower_tact_floor_dist_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/lower_tact_floor_width_field"
-            app:layout_constraintStart_toStartOf="parent"
-            android:hint="@string/hint_tact_floor_dist"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/lower_tact_floor_dist_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/upper_tactile_floor_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lower_tact_floor_dist_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_upper_tactile_floor_header"
-            android:textSize="@dimen/section_header"/>
-
-        <RadioGroup
-            android:id="@+id/upper_tactile_floor_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/upper_tactile_floor_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/step_2_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="15sp"/>
+                android:layout_marginStart="@dimen/usual_padding"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/measurement_m_2"
+                android:visibility="gone"
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintBaseline_toBaselineOf="@id/step_1_field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/step_1_field">
 
-            <RadioButton
-                android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/step_2_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/step_3_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="15sp"/>
-        </RadioGroup>
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/measurement_m_3"
+                android:visibility="gone"
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintEnd_toStartOf="@id/step_4_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/step_1_field">
 
-        <TextView
-            android:id="@+id/upper_tactile_floor_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/upper_tactile_floor_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/step_3_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/upper_tact_floor_width_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/upper_tactile_floor_error"
-            app:layout_constraintStart_toStartOf="parent"
-            android:hint="@string/hint_tact_floor_width"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:visibility="gone">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/upper_tact_floor_width_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/upper_tact_floor_dist_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/upper_tact_floor_width_field"
-            app:layout_constraintStart_toStartOf="parent"
-            android:hint="@string/hint_tact_floor_dist"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/upper_tact_floor_dist_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tactile_floor_obs_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/upper_tact_floor_dist_field"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_tactile_floor_obs">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tactile_floor_obs_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="@integer/multiline_obs_field"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/inter_level_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tactile_floor_obs_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/header_intermediate_level"
-            android:textSize="@dimen/section_header"/>
-
-        <RadioGroup
-            android:id="@+id/inter_level_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/inter_level_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/step_4_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="15sp"/>
+                android:layout_marginStart="@dimen/usual_padding"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/measurement_m_4"
+                android:visibility="gone"
+                android:weightSum="@integer/weight_one"
+                app:layout_constraintBaseline_toBaselineOf="@id/step_3_field"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/step_3_field">
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="15sp"/>
-        </RadioGroup>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/step_4_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
 
-        <TextView
-            android:id="@+id/inter_level_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/inter_level_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inter_level_length_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/inter_level_error"
-            app:layout_constraintStart_toStartOf="parent"
-            android:hint="@string/hint_inter_level_length"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inter_level_length_value"
+            <TextView
+                android:id="@+id/step_values_error"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inter_level_obs_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/inter_level_length_field"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_tactile_floor_obs"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inter_level_obs_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="@integer/multiline_obs_field"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/railing_beacon_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inter_level_obs_field"
-            android:layout_marginTop="@dimen/top_margins"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_railing_beacon_register_header"
-            android:textSize="@dimen/section_header"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/railing_beacon_button"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/railing_beacon_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:layout_marginStart="@dimen/top_margins"
-            android:backgroundTint="@color/purple_200"
-            android:text="@string/label_button_railing"
-            android:textColor="@color/black"/>
-
-        <TextView
-            android:id="@+id/handrail_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/railing_beacon_button"
-            android:layout_marginTop="@dimen/top_margins"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_handrail_header"
-            android:textSize="@dimen/section_header"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/handrail_button"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/handrail_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:layout_marginStart="@dimen/top_margins"
-            android:backgroundTint="@color/purple_200"
-            android:text="@string/label_button_handrails"
-            android:textColor="@color/black"/>
-
-        <TextView
-            android:id="@+id/border_sign_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/handrail_button"
-            android:layout_marginTop="@dimen/top_margins"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/label_border_sign_header"
-            android:textSize="@dimen/section_header"
-            android:visibility="gone"/>
-
-        <RadioGroup
-            android:id="@+id/border_sign_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/border_sign_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <RadioButton
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="15sp"/>
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/step_3_field" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="15sp"/>
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_not_applicable"
-                android:textSize="15sp"/>
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/border_sign_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/border_sign_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/border_signal_length_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/border_sign_error"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_border_sign_length"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/border_signal_length_value"
+            <TextView
+                android:id="@+id/tactile_sign_pavement_header"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/border_signal_width_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/border_signal_length_field"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_border_sign_width"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/border_signal_width_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/border_sign_identifiable_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:text="@string/label_border_sign_identifiable_header"
-            android:textSize="@dimen/section_header"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/border_signal_width_field" />
-
-        <RadioGroup
-            android:id="@+id/border_sign_identifiable_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/border_sign_identifiable_header"
-            app:layout_constraintStart_toStartOf="parent"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <RadioButton
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="15sp"/>
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/label_pavement_tactile_sign_header"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/step_values_error" />
 
-            <RadioButton
-                android:layout_width="wrap_content"
+            <RadioGroup
+                android:id="@+id/pavement_tactile_sign_radio"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="15sp"/>
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tactile_sign_pavement_header">
 
-        </RadioGroup>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/border_sign_identifiable_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textColor="@color/error_message"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/border_sign_identifiable_radio" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="15sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/border_signal_obs_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/border_sign_identifiable_error"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_border_sign_obs"
-            android:visibility="gone">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_not_applicable"
+                    android:textSize="15sp" />
+            </RadioGroup>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/border_signal_obs_value"
+            <TextView
+                android:id="@+id/tactile_sign_error"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="@integer/multiline_obs_field"/>
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pavement_tactile_sign_radio" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ramp_stairs_obs_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/border_signal_obs_field"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_obs">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ramp_stairs_obs_value"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/pavement_tact_sign_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="@integer/multiline_obs_field"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_pavement_tact_sign_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tactile_sign_error">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/pavement_tact_sign_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_flight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/top_margins"
-            android:text="@string/label_button_save"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ramp_stairs_obs_field" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_flight"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/top_margins"
-            android:text="@string/label_button_cancel"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@id/save_flight"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/tactile_floor_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_tactile_floor_header"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pavement_tact_sign_obs_field" />
+
+            <RadioGroup
+                android:id="@+id/lower_tactile_floor_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tactile_floor_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="15sp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/lower_tactile_floor_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lower_tactile_floor_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lower_tact_floor_width_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_tact_floor_width"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lower_tactile_floor_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/lower_tact_floor_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lower_tact_floor_dist_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_tact_floor_dist"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lower_tact_floor_width_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/lower_tact_floor_dist_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/upper_tactile_floor_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_upper_tactile_floor_header"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lower_tact_floor_dist_field" />
+
+            <RadioGroup
+                android:id="@+id/upper_tactile_floor_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/upper_tactile_floor_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="15sp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/upper_tactile_floor_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/upper_tactile_floor_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/upper_tact_floor_width_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_tact_floor_width"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/upper_tactile_floor_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/upper_tact_floor_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/upper_tact_floor_dist_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_tact_floor_dist"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/upper_tact_floor_width_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/upper_tact_floor_dist_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tactile_floor_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_tactile_floor_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/upper_tact_floor_dist_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tactile_floor_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/inter_level_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/header_intermediate_level"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tactile_floor_obs_field" />
+
+            <RadioGroup
+                android:id="@+id/inter_level_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inter_level_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="15sp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/inter_level_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inter_level_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inter_level_length_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_inter_level_length"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inter_level_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inter_level_length_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inter_level_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_tactile_floor_obs"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inter_level_length_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inter_level_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/railing_beacon_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_railing_beacon_register_header"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inter_level_obs_field" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/railing_beacon_button"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/top_margins"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:backgroundTint="@color/purple_200"
+                android:text="@string/label_button_railing"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/railing_beacon_header" />
+
+            <TextView
+                android:id="@+id/handrail_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_handrail_header"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/railing_beacon_button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/handrail_button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/top_margins"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:backgroundTint="@color/purple_200"
+                android:text="@string/label_button_handrails"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/handrail_header" />
+
+            <TextView
+                android:id="@+id/border_sign_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_border_sign_header"
+                android:textSize="@dimen/section_header"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/handrail_button" />
+
+            <RadioGroup
+                android:id="@+id/border_sign_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border_sign_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_not_applicable"
+                    android:textSize="15sp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/border_sign_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border_sign_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/border_signal_length_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_border_sign_length"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border_sign_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/border_signal_length_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/border_signal_width_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_border_sign_width"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border_signal_length_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/border_signal_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/border_sign_identifiable_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_border_sign_identifiable_header"
+                android:textSize="@dimen/section_header"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border_signal_width_field" />
+
+            <RadioGroup
+                android:id="@+id/border_sign_identifiable_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border_sign_identifiable_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="15sp" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/border_sign_identifiable_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border_sign_identifiable_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/border_signal_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_border_sign_obs"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border_sign_identifiable_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/border_signal_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ramp_stairs_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/border_signal_obs_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ramp_stairs_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_flight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_button_save"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flight_scroll" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_flight"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_button_cancel"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/save_flight"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
