@@ -194,6 +194,7 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
         continueButton.setVisibility(View.GONE);
 //        TextView
         fSpaceHeader = view.findViewById(R.id.identifier_header);
+        fSpaceHeader.setVisibility(View.VISIBLE);
         fSpaceHeader.setText(getString(R.string.header_free_space_register));
 //        RecyclerView
         recyclerView = view.findViewById(R.id.child_items_entries_recycler_view);

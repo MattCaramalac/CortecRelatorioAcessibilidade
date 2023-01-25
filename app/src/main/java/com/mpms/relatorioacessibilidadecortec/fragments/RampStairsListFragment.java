@@ -15,8 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,8 +41,6 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private RampStairsRecViewAdapter rampStairsAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
@@ -133,6 +129,7 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
         invisible.setVisibility(View.GONE);
 //        TextView
         rampStairsHeader = v.findViewById(R.id.identifier_header);
+        rampStairsHeader.setVisibility(View.VISIBLE);
         if (rStListBundle.getInt(RAMP_OR_STAIRS) == 1)
             rampStairsHeader.setText(R.string.header_stairs_register);
         else
@@ -215,9 +212,8 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
         rampStairsFragment.setArguments(rStListBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, rampStairsFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, rampStairsFragment).addToBackStack(null).commit();
     }
 
     @Override
