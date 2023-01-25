@@ -31,8 +31,8 @@ public class CancelEntryDialog extends DialogFragment implements TagInterface {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         AlertDialog.Builder aBuilder = new AlertDialog.Builder(requireActivity());
-        aBuilder.setTitle("Aviso")
-                .setMessage("Você deseja interromper este cadastro? Todos os dados inseridos serão perdidos")
+        aBuilder.setTitle("AVISO")
+                .setMessage("Você deseja interromper este cadastro? Todos os dados inseridos serão excluídos")
                 .setPositiveButton("Interromper", (dialog, which) -> {
                     listener.onPositiveClick();
                     if (dialog != null)

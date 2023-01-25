@@ -9,13 +9,16 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillInclinationFragment;
@@ -57,10 +60,25 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null)
+        if (this.getArguments() != null) {
             doorBundle = new Bundle(this.getArguments());
+            doorBundle.putBoolean(RECENT_ENTRY, false);
+        }
         else
             doorBundle = new Bundle();
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (doorBundle.getBoolean(RECENT_ENTRY))
+                    cancelClick();
+                else {
+                    setEnabled(false);
+                    requireActivity().onBackPressed();
+                }
+                setEnabled(true);
+            }
+        });
     }
 
     @Override
@@ -99,8 +117,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                         requireActivity().getSupportFragmentManager().popBackStackImmediate();
                     }
-                }
-                else
+                } else
                     Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
             }
         });
@@ -111,12 +128,9 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         super.onResume();
         RoomsRegisterFragment.roomModelFragments.getNewChildRegID().observe(getViewLifecycleOwner(), newDoorID -> {
             if (newDoorID != null && newDoorID > 0) {
-                if (newEntry == 1) {
-                    newEntry = 0;
+                if (newEntry == 1)
                     recentEntry = 1;
-                } else {
-                    newEntry = 0;
-                }
+                newEntry = 0;
                 doorBundle.putInt(DOOR_ID, newDoorID);
                 if (!modelEntry.getSpecificDoor(doorBundle.getInt(DOOR_ID)).hasActiveObservers())
                     modelEntry.getSpecificDoor(doorBundle.getInt(DOOR_ID)).observe(getViewLifecycleOwner(), this::loadDoorData);
@@ -178,6 +192,20 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         allowObsScroll(eText);
     }
 
+    private void cancelClick() {
+        if (doorBundle.getBoolean(RECENT_ENTRY)) {
+            CancelEntryDialog dialog = CancelEntryDialog.newInstance();
+            dialog.setListener(() -> {
+                ViewModelEntry.deleteDoor(doorBundle.getInt(DOOR_ID));
+                doorBundle = null;
+                requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0);
+            });
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
+            dialog.show(manager, "MOSTRA");
+        } else
+            requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0);
+    }
+
     private void editTextFields() {
         eText.add(handleObsValue);
         eText.add(tactileSignObsValue);
@@ -216,6 +244,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
 
     private void doorButtonClickListener(Bundle bundle, View view) {
         if (view == addDoorLockButton) {
+            bundle.putBoolean(RECENT_ENTRY, true);
             if (doorSillRadio.getCheckedRadioButtonIndex() > 0) {
                 bundle.putBoolean(ADD_ITEM_REQUEST, true);
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);

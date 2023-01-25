@@ -57,8 +57,7 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            lockListBundle.putInt(DOOR_ID, this.getArguments().getInt(DOOR_ID));
-            lockListBundle.putInt(AMBIENT_ID, this.getArguments().getInt(AMBIENT_ID));
+            lockListBundle = new Bundle(this.getArguments());
         }
     }
 
@@ -74,59 +73,23 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
 
         instantiateGateObsViews(view);
 
-        if (lockListBundle.getInt(DOOR_ID) == 0 && lockListBundle.getInt(AMBIENT_ID) == 0) {
+        if (lockListBundle.getBoolean(FROM_ROOMS)) {
             modelEntry.getLastDoorEntry().observe(getViewLifecycleOwner(), lastDoor ->
                     lockListBundle.putInt(DOOR_ID, lastDoor.getDoorID()));
+        } else {
+            modelEntry.getDoorLocksFromGates(lockListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), extLockList -> {
+                lockAdapter = new DoorLockRecViewAdapter(extLockList, requireActivity(), this);
+                listCreator(lockAdapter);
+            });
         }
 
         if (lockListBundle.getInt(DOOR_ID) != 0) {
             modelEntry.getDoorLocksFromDoor(lockListBundle.getInt(DOOR_ID)).observe(getViewLifecycleOwner(), lockList -> {
                 lockAdapter = new DoorLockRecViewAdapter(lockList, requireActivity(), this);
-                recyclerView.setAdapter(lockAdapter);
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-                recyclerView.addItemDecoration(dividerItemDecoration);
-
-                lockAdapter.setListener(new ListClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        if (actionMode == null)
-                            OnEntryClick(position);
-                        else
-                            enableActionMode();
-                    }
-
-                    @Override
-                    public void onItemLongClick(int position) {
-                        enableActionMode();
-                    }
-                });
+                listCreator(lockAdapter);
             });
         }
-        else {
-            modelEntry.getDoorLocksFromGates(lockListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), extLockList -> {
-                lockAdapter = new DoorLockRecViewAdapter(extLockList, requireActivity(), this);
-                recyclerView.setAdapter(lockAdapter);
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-                recyclerView.addItemDecoration(dividerItemDecoration);
 
-                lockAdapter.setListener(new ListClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        if (actionMode == null)
-                            OnEntryClick(position);
-                        else
-                            enableActionMode();
-                    }
-
-                    @Override
-                    public void onItemLongClick(int position) {
-                        enableActionMode();
-                    }
-                });
-            });
-        }
 
         closeLockList.setOnClickListener(v -> {
             if (actionMode != null)
@@ -140,14 +103,40 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
     @Override
     public void onResume() {
         super.onResume();
-        lockListBundle.putInt(DoorLockFragment.LOCK_ID, 0);
+        lockListBundle.putInt(LOCK_ID, 0);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (lockListBundle.getInt(AMBIENT_ID) == 0)
+        if (lockListBundle.getBoolean(FROM_ROOMS))
             RoomsRegisterFragment.roomModelFragments.setNewChildRegID(lockListBundle.getInt(DOOR_ID));
+    }
+
+    private void listCreator(DoorLockRecViewAdapter adapter) {
+        adapter.setListener(clickListener());
+
+        recyclerView.setAdapter(adapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+    }
+
+    private ListClickListener clickListener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
     }
 
     private void enableActionMode() {

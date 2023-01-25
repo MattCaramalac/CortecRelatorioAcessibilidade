@@ -543,6 +543,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
     private void childFragCaller(int i, Bundle bundle) {
         Fragment fragment = null;
+        bundle.putBoolean(FROM_ROOMS, true);
         switch (i) {
             case 1:
                 fragment = DoorListFragment.newInstance();
@@ -568,17 +569,14 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             case 8:
                 bundle.putInt(RAMP_OR_STAIRS, 1);
                 bundle.putInt(AMBIENT_TYPE, 4);
-                bundle.putBoolean(FROM_ROOMS, true);
                 fragment = RampStairsListFragment.newInstance();
                 break;
             case 9:
                 bundle.putInt(RAMP_OR_STAIRS, 2);
                 bundle.putInt(AMBIENT_TYPE, 4);
-                bundle.putBoolean(FROM_ROOMS, true);
                 fragment = RampStairsListFragment.newInstance();
                 break;
             case 10:
-                bundle.putBoolean(FROM_ROOMS, true);
                 fragment = WaterFountainListFragment.newInstance();
         }
         if (fragment != null) {
