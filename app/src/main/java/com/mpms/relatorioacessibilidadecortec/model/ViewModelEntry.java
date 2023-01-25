@@ -56,7 +56,8 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static ReportRepository repository;
     public LiveData<List<ExternalAccess>> allExtAccSchool;
-    public LiveData<List<WaterFountainEntry>> allFountainsInSchool;
+    public LiveData<List<WaterFountainEntry>> allFountainsInBlock;
+    public LiveData<List<WaterFountainEntry>> allFountainsInRoom;
     public LiveData<List<RestroomEntry>> allRestSchool;
     public LiveData<List<ParkingLotEntry>> allParkingLots;
     public LiveData<List<SidewalkEntry>> allSidewalks;
@@ -213,13 +214,22 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastSchoolEntry();
     }
 
-    public LiveData<List<WaterFountainEntry>> getAllFountainsInSchool(int schoolEntryID) {
-        allFountainsInSchool = repository.getAllFountainsInSchool(schoolEntryID);
-        return allFountainsInSchool;
+    public LiveData<List<WaterFountainEntry>> getAllBlockWaterFountain(int blockID) {
+        allFountainsInBlock = repository.getAllBlockWaterFountains(blockID);
+        return allFountainsInBlock;
     }
 
     public static LiveData<List<WaterFountainEntry>> getAllWaterFountains(List<Integer> blockID) {
         return repository.getAllWaterFountains(blockID);
+    }
+
+    public LiveData<List<WaterFountainEntry>> getRoomWaterFountains(int roomID) {
+        allFountainsInRoom = repository.getRoomWaterFountains(roomID);
+        return allFountainsInRoom;
+    }
+
+    public static LiveData<List<WaterFountainEntry>> getAllRoomWaterFountains(List<Integer> roomID) {
+        return repository.getAllRoomWaterFountains(roomID);
     }
 
     public LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountainID) {

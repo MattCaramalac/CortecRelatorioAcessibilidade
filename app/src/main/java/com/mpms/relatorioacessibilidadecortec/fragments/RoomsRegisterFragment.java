@@ -47,7 +47,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             soundSignalHeightField, soundSignalObsField, phoneHeightField, phoneObsField, biometryHeightField, biometryObsField;
     TextInputEditText roomLocaleValue, roomDescValue, vertSignObsValue, looseCarpetObsValue, accessFloorObsValue, roomObsValue,
             soundSignalHeightValue, soundSignalObsValue, phoneHeightValue, phoneObsValue, biometryHeightValue, biometryObsValue;
-    MaterialButton addDoor, addSwitch, addWindow, addTable, addFreeSpace, addBlackboard, addCounter, addRamp, addStairs, cancelRegister, saveRegister;
+    MaterialButton addDoor, addSwitch, addWindow, addTable, addFreeSpace, addBlackboard, addCounter, addRamp, addStairs, addFountain, cancelRegister, saveRegister;
     RadioGroup hasVertSingRadio, hasLooseCarpetRadio, hasAccessFloorRadio, soundSignalRadio, phoneRadio, biometryRadio;
     FrameLayout childFrag;
 
@@ -134,11 +134,9 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         roomModelFragments.getNewRoomID().observe(getViewLifecycleOwner(), newRoomID -> {
             if (newRoomID != null && newRoomID > 0) {
                 if (newEntry == 1) {
-                    newEntry = 0;
                     recentEntry = 1;
-                } else {
-                    newEntry = 0;
                 }
+                newEntry = 0;
                 roomBundle.putInt(AMBIENT_ID, newRoomID);
                 if (!modelEntry.getRoomEntry(roomBundle.getInt(AMBIENT_ID)).hasActiveObservers())
                     modelEntry.getRoomEntry(newRoomID).observe(getViewLifecycleOwner(), this::loadRoomData);
@@ -156,7 +154,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
     private void instantiateRoomViews(View view) {
 //        TextView
         roomIdentifier = view.findViewById(R.id.room_register_header);
-        RoomRegisterListFragment.roomHeader(roomBundle);
+        roomIdentifier.setVisibility(View.GONE);
         vertSignError = view.findViewById(R.id.visual_sign_error);
         looseCarpetError = view.findViewById(R.id.carpet_error);
         accessFloorError = view.findViewById(R.id.room_accessible_floor_error);
@@ -206,6 +204,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         addCounter = view.findViewById(R.id.room_add_counter_button);
         addRamp = view.findViewById(R.id.room_add_ramps_button);
         addStairs = view.findViewById(R.id.room_add_stairs_button);
+        addFountain = view.findViewById(R.id.room_add_fountain_button);
         cancelRegister = view.findViewById(R.id.cancel_room);
         saveRegister = view.findViewById(R.id.save_room);
 //        RadioGroup
@@ -238,6 +237,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         addCounter.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
         addRamp.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
         addStairs.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
+        addFountain.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
         saveRegister.setOnClickListener(v -> buttonClickedListener(roomBundle, view));
         cancelRegister.setOnClickListener(v -> cancelClick());
         addObsFieldsToArray();
@@ -409,6 +409,9 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             case (R.id.room_add_ramps_button):
                 buttonPressed = 9;
                 break;
+            case (R.id.room_add_fountain_button):
+                buttonPressed = 10;
+                break;
             default:
                 buttonPressed = 0;
                 break;
@@ -574,6 +577,9 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 bundle.putBoolean(FROM_ROOMS, true);
                 fragment = RampStairsListFragment.newInstance();
                 break;
+            case 10:
+                bundle.putBoolean(FROM_ROOMS, true);
+                fragment = WaterFountainListFragment.newInstance();
         }
         if (fragment != null) {
             fragment.setArguments(bundle);

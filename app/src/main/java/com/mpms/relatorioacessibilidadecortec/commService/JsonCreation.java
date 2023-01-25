@@ -83,6 +83,7 @@ public class JsonCreation {
     private final List<RampStairsHandrailEntry> sideHandList; //*
     private final List<RampStairsHandrailEntry> extHandList; //*
     private final List<RampStairsHandrailEntry> parkHandList;
+    private final List<WaterFountainEntry> roomWater;
 
     public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blockList, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList,
                         List<PlaygroundEntry> playList, List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList,
@@ -94,7 +95,7 @@ public class JsonCreation {
                         List<RampStairsRailingEntry> roomRailList, List<RampStairsRailingEntry> sideRailList, List<RampStairsRailingEntry> extRailList,
                         List<RampStairsRailingEntry> parkRailList, List<RampStairsHandrailEntry> roomHandList, List<RampStairsHandrailEntry> sideHandList,
                         List<RampStairsHandrailEntry> extHandList, List<RampStairsHandrailEntry> parkHandList, int qntBlocks, boolean hasHelpSpace, int extPark, int intPark,
-                        List<ParkingLotElderlyEntry> elderList, List<ParkingLotPCDEntry> pcdList) {
+                        List<ParkingLotElderlyEntry> elderList, List<ParkingLotPCDEntry> pcdList, List<WaterFountainEntry> roomWater) {
         this.school = school;
         this.blockList = blockList;
         this.roomList = roomList;
@@ -139,6 +140,7 @@ public class JsonCreation {
         this.intPark = intPark;
         this.elderList = elderList;
         this.pcdList = pcdList;
+        this.roomWater = roomWater;
     }
 
     public List<String> ambListCreator() {
@@ -786,5 +788,9 @@ public class JsonCreation {
 
     public List<ParkingLotPCDEntry> getPcdList() {
         return pcdList;
+    }
+
+    public List<WaterFountainEntry> getRoomWater() {
+        return roomWater;
     }
 }

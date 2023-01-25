@@ -13,6 +13,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEnt
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
 import com.mpms.relatorioacessibilidadecortec.report.Components.BlackboardAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.CounterAnalysis;
@@ -34,7 +35,8 @@ public class RoomAnalysis implements StandardMeasurements {
     public static void roomVerification(List<BlockSpaceEntry> blockList, List<RoomEntry> roomList, List<DoorEntry> doorList, List<DoorLockEntry> doorLockList,
                                         List<SwitchEntry> switchList, List<WindowEntry> winList, List<TableEntry> tableList, List<BlackboardEntry> bList,
                                         List<FreeSpaceEntry> fsList, List<RampStairsEntry> rStRoom, List<RampStairsFlightEntry> rStFlight,
-                                        List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList) {
+                                        List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList,
+                                        List<WaterFountainEntry> waterList) {
 
         int extRoom = 0;
         int helpRoom = 0;
@@ -42,14 +44,13 @@ public class RoomAnalysis implements StandardMeasurements {
         for (BlockSpaceEntry block : blockList) {
             int blockID = block.getBlockSpaceID();
 
-            for (int i = 0; i < roomList.size(); i++) {
+            for (RoomEntry room : roomList) {
                 check = 0;
                 AmbientAnalysis.err = false;
                 List<String> roomIrr = new ArrayList<>();
-                RoomEntry room = roomList.get(i);
                 if (room.getBlockID() == blockID) {
                     roomIrr = checkRoomIrregularities(room, doorList, doorLockList, switchList, winList, tableList, bList, fsList, rStRoom,
-                            rStFlight, rStRail, rStHandrail, counterList);
+                            rStFlight, rStRail, rStHandrail, counterList, waterList);
                 }
 
                 String rType = roomTyping(room.getRoomType());
@@ -91,7 +92,8 @@ public class RoomAnalysis implements StandardMeasurements {
     public static void blockRoomVerification(Integer blockID, List<RoomEntry> roomList, List<DoorEntry> doorList, List<DoorLockEntry> doorLockList,
                                              List<SwitchEntry> switchList, List<WindowEntry> winList, List<TableEntry> tableList, List<BlackboardEntry> bList,
                                              List<FreeSpaceEntry> fsList, List<RampStairsEntry> rStRoom, List<RampStairsFlightEntry> rStFlight,
-                                             List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList) {
+                                             List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList,
+                                             List<WaterFountainEntry> waterList) {
 
         int blockRoom = 0;
 
@@ -102,7 +104,7 @@ public class RoomAnalysis implements StandardMeasurements {
             RoomEntry room = roomList.get(i);
             if (room.getBlockID() == blockID)
                 roomIrr = checkRoomIrregularities(room, doorList, doorLockList, switchList, winList, tableList, bList, fsList, rStRoom,
-                        rStFlight, rStRail, rStHandrail, counterList);
+                        rStFlight, rStRail, rStHandrail, counterList, waterList);
 
             String rType = roomTyping(room.getRoomType());
 
@@ -117,7 +119,8 @@ public class RoomAnalysis implements StandardMeasurements {
     public static List<String> checkRoomIrregularities(RoomEntry room, List<DoorEntry> doorList, List<DoorLockEntry> doorLockList,
                                                        List<SwitchEntry> switchList, List<WindowEntry> winList, List<TableEntry> tableList, List<BlackboardEntry> bList,
                                                        List<FreeSpaceEntry> fsList, List<RampStairsEntry> rStRoom, List<RampStairsFlightEntry> rStFlight,
-                                                       List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList) {
+                                                       List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList,
+                                                       List<WaterFountainEntry> waterList) {
         List<String> roomIrr = new ArrayList<>();
         if (room.getRoomHasVertSing() == 0) {
             check++;
@@ -209,6 +212,14 @@ public class RoomAnalysis implements StandardMeasurements {
             if (counterError.size() > 0) {
                 check++;
                 roomIrr.addAll(counterError);
+            }
+        }
+
+        if (waterList.size() > 0) {
+            List<String> waterError = FountainAnalysis.roomFountainVerification(room.getRoomID(), waterList);
+            if (waterError.size() > 0) {
+                check++;
+                roomIrr.addAll(waterError);
             }
         }
 

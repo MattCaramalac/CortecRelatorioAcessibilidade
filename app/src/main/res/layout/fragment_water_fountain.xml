@@ -103,19 +103,13 @@
                     android:layout_marginTop="@dimen/usual_padding"
                     android:hint="@string/hint_fountain_type_obs"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/water_fountain_type_error">
+                    app:layout_constraintTop_toBottomOf="@id/water_fountain_type_error"
+                    android:visibility="gone">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/water_fountain_type_obs_value"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="start"
-                        android:inputType="textMultiLine"
-                        android:lines="@integer/multiline_obs_field"
-                        android:overScrollMode="always"
-                        android:scrollbarStyle="outsideInset"
-                        android:scrollbars="vertical"
-                        android:scrollHorizontally="false" />
+                        android:layout_height="match_parent"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,7 +130,7 @@
                     android:layout_marginTop="@dimen/usual_padding"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/water_fountain_info"
-                    android:hint="Outras Observações">
+                    android:hint="@string/hint_obs">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/water_fountain_obs_value"

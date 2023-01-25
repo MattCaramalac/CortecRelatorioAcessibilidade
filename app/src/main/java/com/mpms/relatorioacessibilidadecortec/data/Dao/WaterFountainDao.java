@@ -16,11 +16,17 @@ public interface WaterFountainDao {
     @Insert
     void insertWaterFountain(WaterFountainEntry waterFountain);
 
-    @Query("SELECT * FROM WaterFountainEntry WHERE blockID == :blockID ORDER BY waterFountainID DESC")
-    LiveData<List<WaterFountainEntry>> getAllSchoolWaterFountains(int blockID);
+    @Query("SELECT * FROM WaterFountainEntry WHERE blockID == :blockID AND roomID IS NULL ORDER BY waterFountainID DESC")
+    LiveData<List<WaterFountainEntry>> getAllBlockWaterFountains(int blockID);
 
-    @Query("SELECT * FROM WaterFountainEntry WHERE blockID IN (:blockID)")
+    @Query("SELECT * FROM WaterFountainEntry WHERE blockID IN (:blockID) AND roomID IS NULL")
     LiveData<List<WaterFountainEntry>> getAllWaterFountains(List<Integer> blockID);
+
+    @Query("SELECT * FROM WaterFountainEntry WHERE roomID == :roomID ORDER BY waterFountainID DESC")
+    LiveData<List<WaterFountainEntry>> getRoomWaterFountains(int roomID);
+
+    @Query("SELECT * FROM WaterFountainEntry WHERE roomID IN (:roomID)")
+    LiveData<List<WaterFountainEntry>> getAllRoomWaterFountains(List<Integer> roomID);
 
     @Query("SELECT * FROM WaterFountainEntry WHERE waterFountainID == :waterFountain")
     LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountain);

@@ -212,12 +212,20 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> blockSpaceDao.deleteAllBlockSpacesSchool(schoolID));
     }
 
-    public LiveData<List<WaterFountainEntry>> getAllFountainsInSchool(int schoolEntryID) {
-        return waterFountainDao.getAllSchoolWaterFountains(schoolEntryID);
+    public LiveData<List<WaterFountainEntry>> getAllBlockWaterFountains(int blockID) {
+        return waterFountainDao.getAllBlockWaterFountains(blockID);
     }
 
     public LiveData<List<WaterFountainEntry>> getAllWaterFountains(List<Integer> blockID) {
         return waterFountainDao.getAllWaterFountains(blockID);
+    }
+
+    public LiveData<List<WaterFountainEntry>> getRoomWaterFountains(int roomID) {
+        return waterFountainDao.getRoomWaterFountains(roomID);
+    }
+
+    public LiveData<List<WaterFountainEntry>> getAllRoomWaterFountains(List<Integer> roomID) {
+        return waterFountainDao.getAllRoomWaterFountains(roomID);
     }
 
     public LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountainID) {

@@ -179,10 +179,10 @@ public interface StandardMeasurements {
     double sinkVertBarHeight = 0.90;
     double sinkMirrorMaxLowerHeight = 0.90;
 
-    double urinalDistancePartitions = 0.8;
-    double urinalDistanceBars = 0.6;
-    double urinalDistAxisLeftBar = 0.3;
-    double urinalDistAxisRightBar = 0.3;
+    double urinalDistancePartitions = 0.80;
+    double urinalDistanceBars = 0.60;
+    double urinalDistAxisLeftBar = 0.30;
+    double urinalDistAxisRightBar = 0.30;
     double urinalVertBarMinLength = 0.70;
     double urinalVertBarFloorHeight = 0.75;
     double urinalPartitionWidth = 0.40;
@@ -191,4 +191,12 @@ public interface StandardMeasurements {
     double urinalValveHeight = 1.00;
     double urinalMinLowerOpenHeight = 0.60;
     double urinalMaxLowerOpenHeight = 0.65;
+
+//    WaterFountain
+    double lowestSpout = 0.90;
+    double minHighestSpout = 1.00;
+    double maxHighestSpout = 1.10;
+    double lowestSpoutFreeHeight = 0.73;
+    double oFountMinActionHeight = 0.80;
+    double oFountMaxActionHeight = 1.20;
 }

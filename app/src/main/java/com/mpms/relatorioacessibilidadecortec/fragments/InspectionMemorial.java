@@ -97,6 +97,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     List<RestroomEntry> restList = new ArrayList<>();
     List<SidewalkEntry> sideList = new ArrayList<>();
     List<WaterFountainEntry> fountList = new ArrayList<>();
+    List<WaterFountainEntry> roomFountList = new ArrayList<>();
     //    Ramp & Stairs Lists
     List<RampStairsEntry> roomStRaList = new ArrayList<>();
     List<RampStairsEntry> sideStRaList = new ArrayList<>();
@@ -196,6 +197,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         ViewModelEntry.getAllSwitches(idList).observe(getViewLifecycleOwner(), sList -> switchList = sList);
         ViewModelEntry.getAllTables(idList).observe(getViewLifecycleOwner(), tList -> tableList = tList);
         ViewModelEntry.getAllWindows(idList).observe(getViewLifecycleOwner(), wList -> windowList = wList);
+        ViewModelEntry.getAllRoomWaterFountains(idList).observe(getViewLifecycleOwner(), waterList -> roomFountList = waterList);
     };
 
     Observer extAccessIdList = (o, arg) -> {
@@ -389,7 +391,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
                     extStRaList, parkStRaList, boardList, counterList, doorList, freeList, switchList, tableList, windowList, doorLockList,
                     gateLockList, gateObsList, extPhoneList, sidePhoneList, slopeList, roomFlightList, sideFlightList, extFlightList, parkFlightList,
                     roomRailList, sideRailList, extRailList, parkRailList, roomHandList, sideHandList, extHandList, parkHandList, blockQnt, hasHelpSpace, extParkQnt, intParkQnt,
-                    elderList, pcdList);
+                    elderList, pcdList, roomFountList);
 
             tData = jCreate.createJson();
 

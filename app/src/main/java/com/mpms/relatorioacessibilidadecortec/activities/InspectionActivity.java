@@ -188,6 +188,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     @Override
     public void onDropdownChoice(int choice) {
+        inspectionBundle.putBoolean(FROM_ROOMS, false);
         if (inspectionBundle.getBoolean(EXT_AREA_REG)) {
             switch (choice) {
                 case 0:
@@ -201,6 +202,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     break;
                 case 3:
                     displayRoomsRegisterListFragment(choice);
+                    inspectionBundle.putBoolean(FROM_ROOMS, true);
                     break;
             }
         } else if (inspectionBundle.getBoolean(SUP_AREA_REG)) {
@@ -213,6 +215,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     break;
                 case 2:
                     displayRoomsRegisterListFragment(choice);
+                    inspectionBundle.putBoolean(FROM_ROOMS, true);
                     break;
                 case 3:
                     displayPlaygroundListFragment();
@@ -232,6 +235,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                     break;
                 default:
                     displayRoomsRegisterListFragment(choice);
+                    inspectionBundle.putBoolean(FROM_ROOMS, true);
                     break;
             }
         }
@@ -298,7 +302,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         else {
             if (frag instanceof ExternalAccessListFragment || frag instanceof ParkingLotListFragment || frag instanceof PlaygroundListFragment
                     || frag instanceof RestListFragment || frag instanceof RoomRegisterListFragment || frag instanceof SidewalkListFragment
-                    || frag instanceof WaterFountainListFragment)
+                    || (frag instanceof WaterFountainListFragment && !inspectionBundle.getBoolean(FROM_ROOMS)))
                 i = 0;
         }
         return i == 0;

@@ -10,19 +10,17 @@ public class WindowAnalysis implements StandardMeasurements {
 
     static boolean irregularWindow;
 
-    public static List<String> winTextList (int roomID, List<WindowEntry> winList) {
+    public static List<String> winTextList(int roomID, List<WindowEntry> winList) {
 
         List<String> winListing = new ArrayList<>();
 
-        if (winList.size() > 0) {
-            for (WindowEntry window : winList) {
-                irregularWindow = false;
-                String analysis = null;
-                if (window.getRoomID() == roomID)
-                    analysis = winText(window);
-                if (analysis != null && analysis.length() > 0)
-                    winListing.add(analysis);
-            }
+        for (WindowEntry window : winList) {
+            irregularWindow = false;
+            String analysis = null;
+            if (window.getRoomID() == roomID)
+                analysis = winText(window);
+            if (analysis != null && analysis.length() > 0)
+                winListing.add(analysis);
         }
         return winListing;
     }

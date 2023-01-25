@@ -68,7 +68,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         if (tableBundle.getInt(TABLE_ID) > 0)
             modelEntry.selectSpecificTable(tableBundle.getInt(TABLE_ID)).observe(getViewLifecycleOwner(), table -> loadTableData(table, tableBundle));
 
-        saveTable.setOnClickListener(v-> {
+        saveTable.setOnClickListener(v -> {
             if (tableNoEmptyFields(tableBundle)) {
                 TableEntry newTable = newTableEntry(tableBundle);
                 if (tableBundle.getInt(TABLE_ID) > 0) {
@@ -84,8 +84,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
                     tableBundle.putInt(TABLE_ID, 0);
                     Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
                 }
-            }
-            else
+            } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
@@ -142,17 +141,15 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
     }
 
     private int getRadioCheckedButton(RadioGroup radio) {
-        return radio.indexOfChild(radio.getChildAt(radio.getCheckedRadioButtonId()));
+        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
     private boolean tableNoEmptyFields(Bundle bundle) {
         clearTableEmptyFieldsErrors();
         int i = 0;
-        if (bundle.getInt(ROOM_TYPE) == 6) {
-            if (getRadioCheckedButton(tableTypeRadio) == -1) {
-                i++;
-                tableTypeError.setVisibility(View.VISIBLE);
-            }
+        if (bundle.getInt(ROOM_TYPE) == 6 && getRadioCheckedButton(tableTypeRadio) == -1) {
+            i++;
+            tableTypeError.setVisibility(View.VISIBLE);
         }
         if (TextUtils.isEmpty(supHeightValue.getText())) {
             i++;

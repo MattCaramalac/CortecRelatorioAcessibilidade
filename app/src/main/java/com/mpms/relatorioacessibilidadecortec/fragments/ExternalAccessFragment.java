@@ -97,7 +97,7 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
                         extAccess.setExternalAccessID(bundle.getInt(AMBIENT_ID));
                         ViewModelEntry.updateExternalAccess(extAccess);
                         Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
-                        requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.EXTERNAL_LIST, 0);
+                        requireActivity().getSupportFragmentManager().popBackStack(EXTERNAL_LIST, 0);
                     } else if (bundle.getInt(AMBIENT_ID) == 0) {
                         ViewModelEntry.insertExternalAccess(extAccess);
                         Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();

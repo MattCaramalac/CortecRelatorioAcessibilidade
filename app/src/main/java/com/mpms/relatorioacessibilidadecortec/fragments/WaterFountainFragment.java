@@ -36,7 +36,7 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
     TextView typeWaterFountainError;
     Button cancelWaterFountain, saveWaterFountain;
 
-    Bundle waterFountainBundle = new Bundle();
+    Bundle waterBundle = new Bundle();
     ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     ViewModelEntry modelEntry;
@@ -53,10 +53,9 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            waterFountainBundle.putInt(BLOCK_ID, this.getArguments().getInt(BLOCK_ID));
-            waterFountainBundle.putInt(AMBIENT_ID, this.getArguments().getInt(AMBIENT_ID));
-            waterFountainBundle.putInt(FOUNTAIN_ID, this.getArguments().getInt(FOUNTAIN_ID));
-        }
+            waterBundle = this.getArguments();
+        } else
+            waterBundle = new Bundle();
     }
 
     @Override
@@ -72,8 +71,8 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
 
         instantiateFountainViews(view);
 
-        if (waterFountainBundle.getInt(FOUNTAIN_ID) > 0) {
-            modelEntry.getOneWaterFountain(waterFountainBundle.getInt(FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadFountainInfo);
+        if (waterBundle.getInt(FOUNTAIN_ID) > 0) {
+            modelEntry.getOneWaterFountain(waterBundle.getInt(FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadFountainInfo);
         }
     }
 
@@ -94,19 +93,24 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
                     Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     clearFountainFields();
                 }
-            }
-            else
+            } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
         saveWaterFountain.setOnClickListener(v -> {
             if (getCheckedFountainType(typeWaterFountain) != -1)
-                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, waterFountainBundle);
+                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, waterBundle);
             else
                 checkNoEmptyFieldsFountain();
         });
 
-        cancelWaterFountain.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack(WATER_LIST, 0));
+        cancelWaterFountain.setOnClickListener(v -> {
+            if (waterBundle.getBoolean(FROM_ROOMS))
+                requireActivity().getSupportFragmentManager().popBackStackImmediate();
+            else
+                requireActivity().getSupportFragmentManager().popBackStack(WATER_LIST, 0);
+        });
+
     }
 
     private void clearFountainFields() {
@@ -154,16 +158,19 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
         switch (index) {
             case 0:
                 removeFountainFragments();
+                fountainTypeObsValue.setText(null);
+                fountainTypeObsField.setVisibility(View.GONE);
                 Fragment fragment = new WaterFountainSpoutFragment();
-                if (waterFountainBundle.getInt(FOUNTAIN_ID) > 0)
-                    fragment.setArguments(waterFountainBundle);
+                if (waterBundle.getInt(FOUNTAIN_ID) > 0)
+                    fragment.setArguments(waterBundle);
                 getChildFragmentManager().beginTransaction().replace(R.id.water_fountain_info, fragment).commit();
                 break;
             case 1:
                 removeFountainFragments();
+                fountainTypeObsField.setVisibility(View.VISIBLE);
                 Fragment fragment2 = new WaterFountainOtherFragment();
-                if (waterFountainBundle.getInt(FOUNTAIN_ID) > 0)
-                    fragment2.setArguments(waterFountainBundle);
+                if (waterBundle.getInt(FOUNTAIN_ID) > 0)
+                    fragment2.setArguments(waterBundle);
                 getChildFragmentManager().beginTransaction().replace(R.id.water_fountain_info, fragment2).commit();
                 break;
             default:
@@ -177,7 +184,7 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
             fountainLocationValue.setText(waterFountain.getFountainLocation());
         if (waterFountain.getFountainType() != null && waterFountain.getFountainType() > -1) {
             typeWaterFountain.check(typeWaterFountain.getChildAt(waterFountain.getFountainType()).getId());
-            getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, waterFountainBundle);
+            getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, waterBundle);
         }
         if (waterFountain.getFountainTypeObs() != null)
             fountainTypeObsValue.setText(waterFountain.getFountainTypeObs());
@@ -196,6 +203,10 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
             typeWaterFountainError.setVisibility(View.VISIBLE);
             errors++;
         }
+        if (getCheckedFountainType(typeWaterFountain) == 1 && TextUtils.isEmpty(fountainTypeObsValue.getText())) {
+            errors++;
+            fountainTypeObsField.setError(getString(R.string.req_field_error));
+        }
         return errors == 0;
     }
 
@@ -203,8 +214,9 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
-    public void clearWaterFountainErrors(){
+    public void clearWaterFountainErrors() {
         fountainLocationField.setErrorEnabled(false);
+        fountainTypeObsField.setErrorEnabled(false);
         typeWaterFountainError.setVisibility(View.GONE);
     }
 

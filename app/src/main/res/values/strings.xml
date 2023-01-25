@@ -572,7 +572,7 @@
     <string name="header_slope_near_pcd">Rebaixamento está próximo à vaga para PMR ou PCD?</string>
     <string name="max_measure_limit_msg">O limite de medições foi atingido!</string>
     <string name="hint_frontal_approx_depth">Profundidade Aprox. Frontal (m)</string>
-    <string name="hint_fountain_type_obs">Observações sobre o tipo de bebedouro</string>
+    <string name="hint_fountain_type_obs">Descrição do tipo de bebedouro</string>
 
     <string name="header_social_entrance">Acesso Externo - Entrada Social</string>
     <string name="header_block_register">Cadastro de Blocos</string>

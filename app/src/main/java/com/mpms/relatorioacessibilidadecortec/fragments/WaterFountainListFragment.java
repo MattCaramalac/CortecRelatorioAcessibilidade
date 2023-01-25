@@ -16,14 +16,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.WaterRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -61,7 +59,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            fountainBundle.putInt(BLOCK_ID, this.getArguments().getInt(BLOCK_ID));
+            fountainBundle = this.getArguments();
         }
     }
 
@@ -78,36 +76,28 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
 
         instantiateWaterListViews(view);
 
-        modelEntry.getAllFountainsInSchool(fountainBundle.getInt(BlockRegisterActivity.BLOCK_ID)).
-                observe(getViewLifecycleOwner(), fountainEntry -> {
-                    fountainAdapter = new WaterRecViewAdapter(fountainEntry, requireActivity(), this);
-                    recyclerView.setAdapter(fountainAdapter);
-                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                    dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-                    recyclerView.addItemDecoration(dividerItemDecoration);
-
-                    fountainAdapter.setListener(new ListClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            if (actionMode == null)
-                                OnEntryClick(position);
-                            else
-                                enableActionMode();
-                        }
-
-                        @Override
-                        public void onItemLongClick(int position) {
-                            enableActionMode();
-                        }
+        if (fountainBundle.getBoolean(FROM_ROOMS) && fountainBundle.getInt(AMBIENT_ID) == 0)
+            modelEntry.getLastRoomEntry().observe(this, room -> fountainBundle.putInt(AMBIENT_ID, room.getRoomID()));
+        else
+            modelEntry.getAllBlockWaterFountain(fountainBundle.getInt(BLOCK_ID)).
+                    observe(getViewLifecycleOwner(), fountainEntry -> {
+                        fountainAdapter = new WaterRecViewAdapter(fountainEntry, requireActivity(), this);
+                        listCreator(fountainAdapter);
                     });
-                });
+
+        if (fountainBundle.getInt(AMBIENT_ID) > 0) {
+            modelEntry.getRoomWaterFountains(fountainBundle.getInt(AMBIENT_ID)).observe(this, fountain -> {
+                fountainAdapter = new WaterRecViewAdapter(fountain, requireActivity(), this);
+                listCreator(fountainAdapter);
+            });
+        }
 
         addFountain.setOnClickListener(v -> OpenFountainFragment());
 
         closeFountainList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
     }
 
@@ -115,6 +105,40 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public void onResume() {
         super.onResume();
         fountainBundle.putInt(FOUNTAIN_ID, 0);
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (fountainBundle.getBoolean(FROM_ROOMS))
+            RoomsRegisterFragment.roomModelFragments.setNewRoomID(fountainBundle.getInt(AMBIENT_ID));
+    }
+
+    private void listCreator(WaterRecViewAdapter adapter) {
+        adapter.setListener(clickListener());
+
+        recyclerView.setAdapter(adapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+    }
+
+    private ListClickListener clickListener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
     }
 
     private void instantiateWaterListViews(View v) {
@@ -125,13 +149,17 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
         invisible.setVisibility(View.GONE);
 //        TextView
         fountHeader = v.findViewById(R.id.identifier_header);
-        fountHeader.setVisibility(View.GONE);
+        if (fountainBundle.getBoolean(FROM_ROOMS)){
+            fountHeader.setVisibility(View.VISIBLE);
+            fountHeader.setText(getText(R.string.fountain_reg_header));
+        }
 //        RecyclerView & methods
         recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 //        ViewModel
-        modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+//        modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+        modelEntry = new ViewModelEntry(requireActivity().getApplication());
 
 
     }
@@ -185,7 +213,11 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
 
     @Override
     public void OnEntryClick(int position) {
-        WaterFountainEntry fountainEntry = modelEntry.allFountainsInSchool.getValue().get(position);
+        WaterFountainEntry fountainEntry;
+        if (fountainBundle.getBoolean(FROM_ROOMS))
+            fountainEntry = modelEntry.allFountainsInRoom.getValue().get(position);
+        else
+            fountainEntry = modelEntry.allFountainsInBlock.getValue().get(position);
         fountainBundle.putInt(FOUNTAIN_ID, fountainEntry.getWaterFountainID());
         OpenFountainFragment();
     }
