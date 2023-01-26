@@ -11,10 +11,11 @@
         android:id="@+id/menu_options_memorial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/saveAndQuit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/saveAndQuit"
+        app:layout_constraintTop_toTopOf="@id/saveAndQuit"
+        app:layout_constraintBottom_toBottomOf="@id/saveAndQuit"
+        android:layout_marginTop="@dimen/top_margins"
         android:hint="@string/label_pick_memorial_option"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu">
 
@@ -29,17 +30,17 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveAndQuit"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="125dp"
         android:text="@string/label_save_quit_button"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="25sp"
         app:icon="@drawable/ic_baseline_save_24"
-        app:iconSize="25dp"
-        app:layout_constraintTop_toBottomOf="@id/menu_options_memorial"
+        app:iconSize="50dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/menu_options_memorial"
+        app:layout_constraintBottom_toTopOf="@id/register_header"
         android:layout_marginTop="@dimen/top_margins"
         />
 
