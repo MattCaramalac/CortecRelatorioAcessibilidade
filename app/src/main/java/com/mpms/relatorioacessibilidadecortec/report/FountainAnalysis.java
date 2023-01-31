@@ -76,7 +76,7 @@ public class FountainAnalysis implements StandardMeasurements {
             StringBuilder fBuild = new StringBuilder();
             if (analysisList != null && analysisList.size() > 0) {
                 String fType = fountainTyping(fountain);
-                fBuild.append("Bebeouro, do tipo ").append(fType).append(" e localizado em ").append(fountain.getFountainLocation());
+                fBuild.append("Bebeouro, ").append(fType).append(" e localizado em ").append(fountain.getFountainLocation());
                 if (analysisList.size() > 1) {
                     fBuild.append(", com as seguintes irregularidades: ");
                     for (int i = 0; i < analysisList.size(); i++) {
@@ -88,7 +88,7 @@ public class FountainAnalysis implements StandardMeasurements {
                             fBuild.append(", ");
                     }
                 } else {
-                    fBuild.append(", com as seguinte irregularidade: ");
+                    fBuild.append(", com a seguinte irregularidade: ");
                     fBuild.append(analysisList.get(0)).append(";");
                 }
                 analysis = fBuild.toString();

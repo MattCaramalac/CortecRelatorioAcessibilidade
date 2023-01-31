@@ -400,7 +400,7 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
             leftMeasureField3.setVisibility(View.GONE);
             leftMeasureField4.setVisibility(View.GONE);
             leftCounter = 0;
-            hasLeftWing.clearCheck();
+//            hasLeftWing.clearCheck();
         } else if (radio == hasRightWing) {
             rightMeasureValue1.setText(null);
             rightMeasureValue2.setText(null);
@@ -414,7 +414,7 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
             rightMeasureField3.setVisibility(View.GONE);
             rightMeasureField4.setVisibility(View.GONE);
             rightCounter = 0;
-            hasRightWing.clearCheck();
+//            hasRightWing.clearCheck();
         } else if (radio == slopeIsAccessible) {
             accessFloorObsValue.setText(null);
             accessFloorObsField.setVisibility(View.GONE);

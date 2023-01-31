@@ -19,7 +19,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:text="@string/header_school_info_work_services"
             android:textSize="@dimen/section_header"
-            android:textColor="@color/black"/>
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/school_working_hours_header"
@@ -29,8 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:text="@string/working_hours"
             android:textSize="@dimen/section_header"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:textColor="@color/black"/>
+            android:layout_marginTop="@dimen/usual_padding"/>
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/checkbox_morning_hours"
@@ -68,7 +67,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/to"
-            android:textColor="@color/black"
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/morning_hours_start_field"
             app:layout_constraintEnd_toStartOf="@id/morning_hours_end_field"
@@ -131,7 +129,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/to"
-            android:textColor="@color/black"
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/afternoon_hours_start_field"
             app:layout_constraintEnd_toStartOf="@id/afternoon_hours_end_field"
@@ -193,7 +190,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/to"
-            android:textColor="@color/black"
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/evening_hours_start_field"
             app:layout_constraintEnd_toStartOf="@id/evening_hours_end_field"
@@ -264,8 +260,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:text="@string/offered_services"
             android:textSize="@dimen/section_header"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:textColor="@color/black"/>
+            android:layout_marginTop="@dimen/usual_padding"/>
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/checkbox_nursery"
@@ -323,7 +318,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/ao"
-            android:textColor="@color/black"
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/maternal_first_level_field"
             app:layout_constraintEnd_toStartOf="@id/maternal_last_level_field"
@@ -385,7 +379,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/ao"
-            android:textColor="@color/black"
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/pre_school_first_level_field"
             app:layout_constraintEnd_toStartOf="@id/pre_school_last_level_field"
@@ -448,7 +441,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/ao"
-            android:textColor="@color/black"
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/elem_middle_school_first_level_field"
             app:layout_constraintEnd_toStartOf="@id/elem_middle_school_last_level_field"
@@ -520,7 +512,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/ao"
-            android:textColor="@color/black"
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/high_school_first_level_field"
             app:layout_constraintEnd_toStartOf="@id/high_school_last_level_field"
@@ -583,7 +574,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/ao"
-            android:textColor="@color/black"
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/EJA_first_level_field"
             app:layout_constraintEnd_toStartOf="@id/EJA_last_level_field"

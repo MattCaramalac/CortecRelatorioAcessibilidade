@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -29,6 +30,7 @@ public class SchoolRegisterActivity extends AppCompatActivity {
     public static final String SCHOOL_BUNDLE = "SCHOOL_BUNDLE";
 
     Button saveUpdateCloseButton, saveUpdateContinueButton;
+    ScrollView scroll;
     FragmentManager manager;
 
     public static Bundle schoolRegBundle = new Bundle();
@@ -64,10 +66,12 @@ public class SchoolRegisterActivity extends AppCompatActivity {
                     modelFragments.setSaveUpdateSchoolReg(null);
                     setSecondFragment(schoolRegBundle);
                     manager.beginTransaction().replace(R.id.show_register_school_fragment, fragmentTwo).addToBackStack(null).commit();
+                    scroll.smoothScrollTo(0,0); //dá scroll depois pelo menos, porém muito "rápido"
                 } else if (schoolReg.getBoolean(OPEN_FRAG_THREE)) {
                     modelFragments.setSaveUpdateSchoolReg(null);
                     setThirdFragment(schoolRegBundle);
                     manager.beginTransaction().replace(R.id.show_register_school_fragment, fragmentThree).addToBackStack(null).commit();
+                    scroll.smoothScrollTo(0,0);
                 } else if (schoolReg.getBoolean(NEXT_ACTIVITY)) {
                     modelFragments.setSaveUpdateSchoolReg(null);
                     Intent blockSpaceIntent = new Intent(this, SchoolAreasRegisterActivity.class);
@@ -87,6 +91,7 @@ public class SchoolRegisterActivity extends AppCompatActivity {
     private void instantiateSchoolRegisterActivity() {
         saveUpdateCloseButton = findViewById(R.id.save_update_close_register);
         saveUpdateContinueButton = findViewById(R.id.save_update_continue_register);
+        scroll = findViewById(R.id.register_scroll_view);
 
         setButtonConfiguration();
 
@@ -95,6 +100,8 @@ public class SchoolRegisterActivity extends AppCompatActivity {
         manager = getSupportFragmentManager();
 
         manager.beginTransaction().replace(R.id.show_register_school_fragment, fragmentOne).commit();
+        scroll.scrollTo(0,0);
+
 
         modelFragments = new ViewModelProvider(this).get(ViewModelFragments.class);
     }

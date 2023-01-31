@@ -82,20 +82,29 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
             if (rStListBundle.getBoolean(FROM_EXT_ACCESS)) {
                 modelEntry.getStairsRampFromExtAccess(rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
+                if (rStListBundle.getInt(AMBIENT_ID) == 0)
+                modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), lExt -> rStListBundle.putInt(AMBIENT_ID, lExt.getExternalAccessID()));
             } else if (rStListBundle.getBoolean(FROM_SIDEWALK)) {
                 modelEntry.getStairsRampFromSidewalk(rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
+                if (rStListBundle.getInt(AMBIENT_ID) == 0)
+                    modelEntry.getLastSidewalkEntry().observe(getViewLifecycleOwner(), lSide -> rStListBundle.putInt(AMBIENT_ID, lSide.getSidewalkID()));
             } else if (rStListBundle.getBoolean(FROM_PARKING)) {
                 modelEntry.getStairsRampFromParking(rStListBundle.getInt(PARKING_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
+                if (rStListBundle.getInt(AMBIENT_ID) == 0)
+                    modelEntry.getLastInsertedParkingLot().observe(getViewLifecycleOwner(), lPark -> rStListBundle.putInt(AMBIENT_ID, lPark.getParkingID()));
             } else if (rStListBundle.getBoolean(FROM_ROOMS)) {
                 modelEntry.getStairsRampFromRoom(rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
+                if (rStListBundle.getInt(AMBIENT_ID) == 0)
+                    modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lRoom -> rStListBundle.putInt(AMBIENT_ID, lRoom.getRoomID()));
             }
         } else {
             Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         }
+
 
         addRampStairs.setOnClickListener(v -> openRampStairsFragment());
 

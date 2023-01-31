@@ -7,8 +7,7 @@ public class HeaderNames {
     public static final String[] externalAreaOptions = {
             "Acesso externo",
             "Calçada",
-            "Estacionamento Externo",
-            "Outros Ambientes",
+            "Estacionamento Externo"
     };
 
     public static final String[] blockOptions = {

@@ -19,7 +19,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:text="@string/header_school_register"
             android:textSize="@dimen/section_header"
-            android:textColor="@color/black"/>
+            android:textStyle="bold"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

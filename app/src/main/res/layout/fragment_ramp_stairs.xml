@@ -11,13 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/section_header_bigger"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/ramp_stairs_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_small"
         app:layout_constraintTop_toBottomOf="@id/ramp_stairs_header"
         android:layout_marginTop="@dimen/usual_padding">
 

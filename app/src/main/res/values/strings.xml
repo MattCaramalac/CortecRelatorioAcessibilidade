@@ -447,7 +447,7 @@
     <string name="check_box_middle_school">Fundamental II:</string>
     <string name="check_box_high_school">Ensino Médio:</string>
 
-    <string name="students_employees_register_header">Informações sobre os Estudantes e Alunos da Instituição</string>
+    <string name="students_employees_register_header">Informações sobre os Alunos e Colaboradores da Instituição</string>
     <string name="students_ages_header">Idades dos Alunos atendidos pela Instituição</string>
     <string name="up_to">até</string>
     <string name="hint_start_inspection_date">Data do Início da Inspeção</string>

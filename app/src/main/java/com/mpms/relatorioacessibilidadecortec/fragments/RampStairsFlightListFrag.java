@@ -122,6 +122,7 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
         finishFlights.setText("CONCLUIR");
 //        TextView
         flightsHeader = v.findViewById(R.id.identifier_header);
+        flightsHeader.setVisibility(View.VISIBLE);
         flightsHeader.setText(R.string.header_flight_register);
 //        RecyclerView
         recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);

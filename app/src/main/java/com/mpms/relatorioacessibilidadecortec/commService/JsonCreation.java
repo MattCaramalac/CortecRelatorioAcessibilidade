@@ -436,7 +436,8 @@ public class JsonCreation {
                 blockText.append(", ladeados por espaços de apoio");
             schoolObj.put("blockQnt", blockText);
 
-            if (school.getFinalDateInspection() == null || school.getFinalDateInspection().length() == 0)
+            if (school.getFinalDateInspection() == null || school.getFinalDateInspection().length() == 0
+            || school.getFinalDateInspection().equals(school.getInitialDateInspection()))
                 schoolObj.put("visitDate", "Em " + school.getInitialDateInspection());
             else {
                 schoolObj.put("visitDate", "Entre os dias " + school.getInitialDateInspection() +
@@ -446,7 +447,10 @@ public class JsonCreation {
 
             schoolObj.put("youngAge", String.valueOf(school.getYoungestStudentAge()));
             schoolObj.put("oldestAge", String.valueOf(school.getOldestStudentAge()));
-            schoolObj.put("ageClassYoung", moOrYe(school.getYoungestStudentAge(), school.getMonthYearYoungest()));
+            if (!school.getMonthYearYoungest().equals(school.getMonthYearOldest()))
+                schoolObj.put("ageClassYoung", moOrYe(school.getYoungestStudentAge(), school.getMonthYearYoungest()));
+            else
+                schoolObj.put("ageClassYoung", "");
             schoolObj.put("ageClassOldest", moOrYe(school.getOldestStudentAge(), school.getMonthYearOldest()));
 
 
