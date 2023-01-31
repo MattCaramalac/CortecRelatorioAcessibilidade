@@ -18,18 +18,18 @@
     <!--            android:orientation="vertical"-->
     <!--            android:background="?android:attr/selectableItemBackground">-->
 
+<!--    TODO - Corrigir essa versão para garantir um correto wrap no nome OU scroll horizontal texto -->
     <TextView
         android:id="@+id/schoolNameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.5"
         android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:textAppearance="?android:textAppearanceMedium"
+        android:textAppearance="?android:textAppearanceMediumInverse"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        tools:ignore="RtlSymmetry"
-        android:background="?android:attr/selectableItemBackground"/>
+        android:background="?android:attr/selectableItemBackground"
+        android:maxLines="1"/>
 
     <TextView
         android:id="@+id/cityNameLayout"
@@ -37,10 +37,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="top"
-        android:paddingStart="16dp"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@android:color/black"
-        tools:ignore="RtlSymmetry"
         android:background="?android:attr/selectableItemBackground"/>
 
     <TextView
@@ -48,10 +46,8 @@
         android:layout_height="0dp"
         android:layout_weight="0.2"
         android:gravity="top"
-        android:paddingStart="16dp"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@android:color/black"
-        tools:ignore="RtlSymmetry"
         android:background="?android:attr/selectableItemBackground"/>
 
 </LinearLayout>
