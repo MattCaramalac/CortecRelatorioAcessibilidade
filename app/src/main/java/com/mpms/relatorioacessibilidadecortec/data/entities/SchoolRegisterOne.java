@@ -20,10 +20,12 @@ public class SchoolRegisterOne {
     private String nameResponsibleVisit;
     private String nameInspectionTeam;
     private String emailAddress;
+    private String contactName1;
+    private String contactName2;
 
     public SchoolRegisterOne(Integer schoolID, String schoolName, String schoolAddress, String addressComplement, String addressNumber,
                              String addressNeighborhood, String nameCity, String nameDistrict, String contactPhone1, String contactPhone2,
-                             String nameResponsibleVisit, String nameInspectionTeam, String emailAddress) {
+                             String nameResponsibleVisit, String nameInspectionTeam, String emailAddress, String contactName1, String contactName2) {
         this.cadID = schoolID;
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
@@ -37,6 +39,8 @@ public class SchoolRegisterOne {
         this.nameResponsibleVisit = nameResponsibleVisit;
         this.nameInspectionTeam = nameInspectionTeam;
         this.emailAddress = emailAddress;
+        this.contactName1 = contactName1;
+        this.contactName2 = contactName2;
     }
 
     public Integer getCadID() {
@@ -141,5 +145,21 @@ public class SchoolRegisterOne {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getContactName1() {
+        return contactName1;
+    }
+
+    public void setContactName1(String contactName1) {
+        this.contactName1 = contactName1;
+    }
+
+    public String getContactName2() {
+        return contactName2;
+    }
+
+    public void setContactName2(String contactName2) {
+        this.contactName2 = contactName2;
     }
 }

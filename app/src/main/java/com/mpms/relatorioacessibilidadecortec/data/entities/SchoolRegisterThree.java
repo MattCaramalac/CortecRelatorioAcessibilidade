@@ -23,11 +23,12 @@ public class SchoolRegisterThree {
     private String workersLibrasDescriptions;
     private String initialDateInspection;
     private String finalDateInspection;
+    private String registerStudentObs;
 
     public SchoolRegisterThree(Integer cadID, Integer youngestStudentAge, Integer monthYearYoungest, Integer oldestStudentAge, Integer monthYearOldest,
                                Integer numberStudents, Integer numberStudentsPCD, String studentsPCDDescription, Integer numberWorkers,
                                Integer numberWorkersPCD, String workersPCDDescription, Integer hasWorkersLibras, Integer numberWorkersLibras,
-                               String workersLibrasDescription, String initialDateInspection, String finalDateInspection) {
+                               String workersLibrasDescription, String initialDateInspection, String finalDateInspection, String registerStudentObs) {
         this.cadID = cadID;
         this.youngestStudentAge = youngestStudentAge;
         this.monthYearYoungest = monthYearYoungest;
@@ -44,6 +45,7 @@ public class SchoolRegisterThree {
         this.workersLibrasDescriptions = workersLibrasDescription;
         this.initialDateInspection = initialDateInspection;
         this.finalDateInspection = finalDateInspection;
+        this.registerStudentObs = registerStudentObs;
     }
 
     public Integer getCadID() {
@@ -172,5 +174,13 @@ public class SchoolRegisterThree {
 
     public void setFinalDateInspection(String finalDateInspection) {
         this.finalDateInspection = finalDateInspection;
+    }
+
+    public String getRegisterStudentObs() {
+        return registerStudentObs;
+    }
+
+    public void setRegisterStudentObs(String registerStudentObs) {
+        this.registerStudentObs = registerStudentObs;
     }
 }

@@ -65,6 +65,9 @@ public class SchoolEntry implements Serializable {
     private String initialDateInspection;
     private String finalDateInspection;
     private String emailAddress;
+    private String contactName1;
+    private String contactName2;
+    private String registerStudentObs;
 
     public SchoolEntry(String schoolName, String schoolAddress, String addressComplement, String addressNumber, String addressNeighborhood,
                        String nameCity, String nameDistrict, String contactPhone1, String contactPhone2, String nameResponsibleVisit,
@@ -76,7 +79,7 @@ public class SchoolEntry implements Serializable {
                        String ejaLastGrade, String servicesObs, Integer youngestStudentAge, Integer monthYearYoungest, Integer oldestStudentAge, Integer monthYearOldest,
                        Integer numberStudents, Integer numberStudentsPCD, String studentsPCDDescription, Integer numberWorkers, Integer numberWorkersPCD,
                        String workersPCDDescription, Integer hasWorkersLibras, Integer numberWorkersLibras, String workersLibrasDescriptions,
-                       String initialDateInspection, String finalDateInspection, String emailAddress) {
+                       String initialDateInspection, String finalDateInspection, String emailAddress, String contactName1, String contactName2, String registerStudentObs) {
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
         this.addressComplement = addressComplement;
@@ -132,6 +135,9 @@ public class SchoolEntry implements Serializable {
         this.initialDateInspection = initialDateInspection;
         this.finalDateInspection = finalDateInspection;
         this.emailAddress = emailAddress;
+        this.contactName1 = contactName1;
+        this.contactName2 = contactName2;
+        this.registerStudentObs = registerStudentObs;
     }
 
     public int getCadID() {
@@ -580,5 +586,29 @@ public class SchoolEntry implements Serializable {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getContactName1() {
+        return contactName1;
+    }
+
+    public void setContactName1(String contactName1) {
+        this.contactName1 = contactName1;
+    }
+
+    public String getContactName2() {
+        return contactName2;
+    }
+
+    public void setContactName2(String contactName2) {
+        this.contactName2 = contactName2;
+    }
+
+    public String getRegisterStudentObs() {
+        return registerStudentObs;
+    }
+
+    public void setRegisterStudentObs(String registerStudentObs) {
+        this.registerStudentObs = registerStudentObs;
     }
 }

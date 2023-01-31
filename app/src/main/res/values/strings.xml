@@ -650,4 +650,7 @@
     <string name="header_resource_room_register">Cadastro Salas de Recursos</string>
     <string name="header_teacher_room_register">Cadastro Salas dos Professores</string>
     <string name="header_secretary_register">Cadastro de Secretarias</string>
+    <string name="hint_contact_name1">Nome Contato 1</string>
+    <string name="hint_contact_name2">Nome Contato 2</string>
+    <string name="hint_email">Endereço de e-mail analista responsável</string>
 </resources>

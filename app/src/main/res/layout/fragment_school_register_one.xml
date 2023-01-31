@@ -82,7 +82,7 @@
             android:id="@+id/address_number_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
+            android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_address_number"
             app:layout_constraintBaseline_toBaselineOf="@id/address_complement_field"
             app:layout_constraintStart_toEndOf="@id/address_complement_field"
@@ -155,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_contact_phone1"
-            app:layout_constraintEnd_toStartOf="@id/second_telephone_number_field"
+            app:layout_constraintEnd_toStartOf="@id/first_telephone_name_field"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/school_district_field"
             app:layout_constraintHorizontal_weight="@integer/weight_one"
@@ -172,16 +172,36 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/second_telephone_number_field"
+            android:id="@+id/first_telephone_name_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_contact_phone2"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_contact_name1"
             app:layout_constraintBaseline_toBaselineOf="@id/first_telephone_number_field"
             app:layout_constraintStart_toEndOf="@id/first_telephone_number_field"
             app:layout_constraintHorizontal_weight="@integer/weight_one"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/first_telephone_name_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/second_telephone_number_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_contact_phone2"
+            app:layout_constraintEnd_toStartOf="@id/second_telephone_name_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/first_telephone_number_field"
+            app:layout_constraintHorizontal_weight="@integer/weight_one"
+            android:layout_marginEnd="@dimen/usual_padding">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/second_telephone_number_value"
@@ -194,13 +214,33 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/second_telephone_name_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:hint="@string/hint_contact_name2"
+            app:layout_constraintBaseline_toBaselineOf="@id/second_telephone_number_field"
+            app:layout_constraintStart_toEndOf="@id/second_telephone_number_field"
+            app:layout_constraintHorizontal_weight="@integer/weight_one"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/second_telephone_name_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/name_responsible_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_name_responsible_visit"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/first_telephone_number_field">
+            app:layout_constraintTop_toBottomOf="@id/second_telephone_name_field">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name_responsible_value"
@@ -239,7 +279,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="Endereço de e-mail analista responsável"
+            android:hint="@string/hint_email"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name_team_components_field">
 

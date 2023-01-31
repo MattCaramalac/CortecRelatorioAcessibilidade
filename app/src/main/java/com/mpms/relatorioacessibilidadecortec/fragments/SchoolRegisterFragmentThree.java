@@ -46,10 +46,10 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
 
     TextInputLayout startAgeField, finalAgeField, totalStudentsField, totalStudentsPcdField, studentPcdDescriptionField,
             totalWorkersField, totalWorkersPcdField, workersPcdDescriptionField, totalWorkersLibrasField, workersLibrasDescriptionField,
-            initialDateInspectionField, finalDateInspectionField;
+            initialDateInspectionField, finalDateInspectionField, studentRegisterObsField;
     TextInputEditText startAgeValue, finalAgeValue, totalStudentsValue, totalStudentsPcdValue, studentPcdDescriptionValue,
             totalWorkersValue, totalWorkersPcdValue, workersPcdDescriptionValue, totalWorkersLibrasValue, workersLibrasDescriptionValue,
-            initialDateInspectionValue, finalDateInspectionValue;
+            initialDateInspectionValue, finalDateInspectionValue, studentRegisterObsValue;
     RadioGroup youngestMonthYearRadio, oldestMonthYearRadio, hasWorkersLibras;
     TextView studentsAgeError, librasWorkersError;
     MaterialDatePicker<Long> initialDate, finalDate;
@@ -138,6 +138,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         workersLibrasDescriptionField = v.findViewById(R.id.libras_workers_obs_field);
         initialDateInspectionField = v.findViewById(R.id.initial_date_inspection_field);
         finalDateInspectionField = v.findViewById(R.id.final_date_inspection_field);
+        studentRegisterObsField  = v.findViewById(R.id.students_register_obs_field);
 //        TextInputEditText
         startAgeValue = v.findViewById(R.id.students_newest_age_value);
         finalAgeValue = v.findViewById(R.id.students_oldest_age_value);
@@ -151,6 +152,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         workersLibrasDescriptionValue = v.findViewById(R.id.libras_workers_obs_value);
         initialDateInspectionValue = v.findViewById(R.id.initial_date_inspection_value);
         finalDateInspectionValue = v.findViewById(R.id.final_date_inspection_value);
+        studentRegisterObsValue = v.findViewById(R.id.students_register_obs_value);
 //        RadioGroups
         youngestMonthYearRadio = v.findViewById(R.id.youngest_age_month_year_radio);
         oldestMonthYearRadio = v.findViewById(R.id.oldest_age_month_year_radio);
@@ -359,7 +361,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         int youngestStudent, youngestMonthYear, oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents, totalEmployees, totalPcdEmployees,
                 hasLibrasEmployees;
         Integer totalLibrasEmployees = null;
-        String studentsPcdDescription = null, employeesPcdDescription = null, librasDescriptions = null, initialDateInspection, finalDateInspection = null;
+        String studentsPcdDescription = null, employeesPcdDescription = null, librasDescriptions = null, initialDateInspection, finalDateInspection = null, registerObs = null;
 
         youngestStudent = Integer.parseInt(String.valueOf(startAgeValue.getText()));
         youngestMonthYear = getCheckedIndex(youngestMonthYearRadio);
@@ -378,6 +380,8 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
             totalLibrasEmployees = Integer.valueOf(String.valueOf(totalWorkersLibrasValue.getText()));
             librasDescriptions = String.valueOf(workersLibrasDescriptionValue.getText());
         }
+        if (!TextUtils.isEmpty(studentRegisterObsValue.getText()))
+            registerObs = String.valueOf(studentRegisterObsValue.getText());
         initialDateInspection = String.valueOf(initialDateInspectionValue.getText());
         if (!TextUtils.isEmpty(finalDateInspectionValue.getText()))
             finalDateInspection = String.valueOf(finalDateInspectionValue.getText());
@@ -385,6 +389,6 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         return new SchoolRegisterThree(bundle.getInt(SCHOOL_ID), youngestStudent, youngestMonthYear,
                 oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents, studentsPcdDescription, totalEmployees,
                 totalPcdEmployees, employeesPcdDescription, hasLibrasEmployees, totalLibrasEmployees, librasDescriptions,
-                initialDateInspection, finalDateInspection);
+                initialDateInspection, finalDateInspection, registerObs);
     }
 }
