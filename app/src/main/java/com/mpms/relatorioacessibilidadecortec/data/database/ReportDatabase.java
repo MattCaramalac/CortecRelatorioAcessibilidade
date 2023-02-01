@@ -1386,6 +1386,8 @@ public abstract class ReportDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE SchoolEntry ADD COLUMN contactName2 TEXT");
             database.execSQL("ALTER TABLE SchoolEntry ADD COLUMN registerStudentObs TEXT");
 
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN hasSidewalk INTEGER");
+
         }
     };
 

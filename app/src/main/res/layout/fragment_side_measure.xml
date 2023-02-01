@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.ChildFragments.SideMeasureFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_width_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_sidewalk_width"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_width_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_free_space_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_free_space_sidewalk_width"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_width_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_free_space_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_measurements_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_sidewalk_measurements_obs"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_free_space_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_measurements_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:lines="@integer/multiline_obs_field"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/header_add_sidewalk_inclination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="@string/header_side_trans_inclination"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_measurements_obs_field" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_sidewalk_measure_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:backgroundTint="@color/purple_200"
+            android:text="@string/label_add_frag_entry"
+            android:textColor="@color/black"
+            app:cornerRadius="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_add_sidewalk_inclination" />
+
+        <ImageButton
+            android:id="@+id/delete_sidewalk_measure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/teal_200"
+            android:src="@drawable/ic_delete_field"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/add_sidewalk_measure_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/add_sidewalk_measure_button"
+            app:layout_constraintTop_toTopOf="@id/add_sidewalk_measure_button"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_measure_1_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/first_measurement_perc"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintEnd_toStartOf="@id/sidewalk_measure_2_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_sidewalk_measure_button">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_measure_1_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_measure_2_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/second_measure_perc"
+            android:visibility="gone"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintBaseline_toBaselineOf="@id/sidewalk_measure_1_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sidewalk_measure_1_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_measure_2_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_measure_3_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/third_measure_perc"
+            android:visibility="gone"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintEnd_toStartOf="@id/sidewalk_measure_4_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_measure_1_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_measure_3_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_measure_4_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/fourth_measure_perc"
+            android:visibility="gone"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintBaseline_toBaselineOf="@id/sidewalk_measure_3_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sidewalk_measure_3_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_measure_4_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_measure_5_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/fifth_measure_perc"
+            android:visibility="gone"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintEnd_toStartOf="@id/sidewalk_measure_6_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_measure_3_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_measure_5_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_measure_6_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/sixth_measure_perc"
+            android:visibility="gone"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintBaseline_toBaselineOf="@id/sidewalk_measure_5_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/sidewalk_measure_5_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_measure_6_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/sidewalk_measure_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_measure_5_field" />
+
+        <TextView
+            android:id="@+id/label_has_special_floor_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_margins"
+            android:text="@string/label_has_special_floor"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_measure_error" />
+
+        <RadioGroup
+            android:id="@+id/radio_sidewalk_special_floor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/label_has_special_floor_header">
+
+            <RadioButton
+                android:id="@+id/radio_special_floor_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:id="@+id/radio_special_floor_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/has_tactile_floor_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/radio_sidewalk_special_floor" />
+
+        <TextView
+            android:id="@+id/label_special_floor_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="@string/label_special_floor_color"
+            android:textSize="@dimen/section_header"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/has_tactile_floor_error" />
+
+        <RadioGroup
+            android:id="@+id/special_floor_color_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/label_special_floor_color">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/special_floor_color_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/special_floor_color_radio" />
+
+        <TextView
+            android:id="@+id/label_direction_special_floor_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="@string/header_direction_special_floor_size"
+            android:textSize="@dimen/section_header"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/special_floor_color_error" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/direction_floor_width_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_width"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/label_direction_special_floor_size">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/direction_floor_width_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/label_alert_special_floor_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="@string/label_alert_special_floor_dimensions"
+            android:textSize="@dimen/section_header"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/direction_floor_width_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/alert_floor_width_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_width"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/label_alert_special_floor_size">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/alert_floor_width_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sidewalk_special_floor_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_conservation_status_special_floor"
+            app:layout_constraintTop_toBottomOf="@id/alert_floor_width_field">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sidewalk_special_floor_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:lines="@integer/multiline_obs_field"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

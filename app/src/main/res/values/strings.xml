@@ -653,4 +653,5 @@
     <string name="hint_contact_name1">Nome Contato 1</string>
     <string name="hint_contact_name2">Nome Contato 2</string>
     <string name="hint_email">Endereço de e-mail analista responsável</string>
+    <string name="label_has_sidewalk_header">A via possui calçada?</string>
 </resources>

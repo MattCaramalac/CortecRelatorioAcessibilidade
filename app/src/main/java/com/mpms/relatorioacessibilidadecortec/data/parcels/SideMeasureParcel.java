@@ -1,40 +1,34 @@
-package com.mpms.relatorioacessibilidadecortec.data.entities;
+package com.mpms.relatorioacessibilidadecortec.data.parcels;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import org.parceler.Parcel;
 
-@Entity
-public class SidewalkEntryOne {
+@Parcel
+public class SideMeasureParcel {
 
-    @PrimaryKey
-    private int sidewalkID;
+    Double sidewalkWidth;
+    Double sideFreeSpaceWidth;
+    String sideMeasureObs;
+    Integer slopeMeasureQnt;
+    Double sideTransSlope1;
+    Double sideTransSlope2;
+    Double sideTransSlope3;
+    Double sideTransSlope4;
+    Double sideTransSlope5;
+    Double sideTransSlope6;
+    Integer hasSpecialFloor;
+    Integer specialFloorRightColor;
+    Double specialTileDirectionWidth;
+    Double specialTileAlertWidth;
+    String specialFloorObs;
 
-    private String sidewalkLocation;
-    private Integer streetPavement;
-    private Double sidewalkWidth;
-    private Double sideFreeSpaceWidth;
-    private String sideMeasureObs;
-    private Integer slopeMeasureQnt;
-    private Double sideTransSlope1;
-    private Double sideTransSlope2;
-    private Double sideTransSlope3;
-    private Double sideTransSlope4;
-    private Double sideTransSlope5;
-    private Double sideTransSlope6;
-    private Integer hasSpecialFloor;
-    private Integer specialFloorRightColor;
-    private Double specialTileDirectionWidth;
-    private Double specialTileAlertWidth;
-    private String specialFloorObs;
-    private Integer hasSidewalk;
 
-    public SidewalkEntryOne(int sidewalkID, String sidewalkLocation, Integer streetPavement, Double sidewalkWidth, Double sideFreeSpaceWidth,
-                            String sideMeasureObs, Integer slopeMeasureQnt, Double sideTransSlope1, Double sideTransSlope2, Double sideTransSlope3,
-                            Double sideTransSlope4, Double sideTransSlope5, Double sideTransSlope6, Integer hasSpecialFloor, Integer specialFloorRightColor,
-                            Double specialTileDirectionWidth, Double specialTileAlertWidth, String specialFloorObs, Integer hasSidewalk) {
-        this.sidewalkID = sidewalkID;
-        this.sidewalkLocation = sidewalkLocation;
-        this.streetPavement = streetPavement;
+    public SideMeasureParcel() {
+//        empty constructor
+    }
+
+    public SideMeasureParcel(Double sidewalkWidth, Double sideFreeSpaceWidth, String sideMeasureObs, Integer slopeMeasureQnt, Double sideTransSlope1,
+                             Double sideTransSlope2, Double sideTransSlope3, Double sideTransSlope4, Double sideTransSlope5, Double sideTransSlope6, Integer hasSpecialFloor,
+                             Integer specialFloorRightColor, Double specialTileDirectionWidth, Double specialTileAlertWidth, String specialFloorObs) {
         this.sidewalkWidth = sidewalkWidth;
         this.sideFreeSpaceWidth = sideFreeSpaceWidth;
         this.sideMeasureObs = sideMeasureObs;
@@ -50,31 +44,7 @@ public class SidewalkEntryOne {
         this.specialTileDirectionWidth = specialTileDirectionWidth;
         this.specialTileAlertWidth = specialTileAlertWidth;
         this.specialFloorObs = specialFloorObs;
-        this.hasSidewalk = hasSidewalk;
-    }
 
-    public int getSidewalkID() {
-        return sidewalkID;
-    }
-
-    public void setSidewalkID(int sidewalkID) {
-        this.sidewalkID = sidewalkID;
-    }
-
-    public String getSidewalkLocation() {
-        return sidewalkLocation;
-    }
-
-    public void setSidewalkLocation(String sidewalkLocation) {
-        this.sidewalkLocation = sidewalkLocation;
-    }
-
-    public Integer getStreetPavement() {
-        return streetPavement;
-    }
-
-    public void setStreetPavement(Integer streetPavement) {
-        this.streetPavement = streetPavement;
     }
 
     public Double getSidewalkWidth() {
@@ -195,13 +165,5 @@ public class SidewalkEntryOne {
 
     public void setSpecialFloorObs(String specialFloorObs) {
         this.specialFloorObs = specialFloorObs;
-    }
-
-    public Integer getHasSidewalk() {
-        return hasSidewalk;
-    }
-
-    public void setHasSidewalk(Integer hasSidewalk) {
-        this.hasSidewalk = hasSidewalk;
     }
 }

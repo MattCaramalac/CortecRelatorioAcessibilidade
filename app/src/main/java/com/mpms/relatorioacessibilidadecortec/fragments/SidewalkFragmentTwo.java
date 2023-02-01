@@ -81,7 +81,7 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface, Scrol
             modelEntry.getSidewalkEntry(sidewalk2Data.getInt(AMBIENT_ID))
                     .observe(getViewLifecycleOwner(), this::loadSidewalk2Data);
         } else {
-            Toast.makeText(getContext(), "Ocorreu um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
             requireActivity().getSupportFragmentManager().popBackStack(SIDEWALK_LIST, 0);
         }
 
@@ -101,11 +101,11 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface, Scrol
                         Toast.makeText(getContext(), "A calçada possui rebaixamentos. Marque a opção correta ou delete os rebaixamentos", Toast.LENGTH_LONG).show();
                     } else {
                         ViewModelEntry.updateSidewalkTwo(updateSideTwo(sidewalk2Data));
-                        Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                         requireActivity().getSupportFragmentManager().popBackStack(InspectionActivity.SIDEWALK_LIST, 0);
                     }
                 } else {
-                    Toast.makeText(getContext(), "Ocorreu um erro. Por favor, tente novamente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
                     requireActivity().getSupportFragmentManager().popBackStack(SIDEWALK_LIST, 0);
                 }
             }

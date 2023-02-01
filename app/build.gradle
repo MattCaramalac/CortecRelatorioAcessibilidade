@@ -109,5 +109,9 @@ dependencies {
 
     implementation group: 'javax.xml.stream', name: 'stax-api', version: '1.0-2'
 
+//    Parcelable library
+    implementation 'org.parceler:parceler-api:1.1.12'
+    annotationProcessor 'org.parceler:parceler:1.1.12'
+
 
 }
