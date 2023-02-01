@@ -176,4 +176,7 @@ public interface TagInterface {
     String PCR_WIDTH = "PCR_WIDTH";
     String PCR_DEPTH = "PCR_DEPTH";
     String PCR_OBS = "PCR_OBS";
+
+//    Parcel Indicator
+    String CHILD_PARCEL = "CHILD_PARCEL";
 }

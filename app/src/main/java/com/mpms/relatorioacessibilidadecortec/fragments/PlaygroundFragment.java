@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.InclinationParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillInclinationFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
@@ -29,21 +31,25 @@ import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 
 public class PlaygroundFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout playLocaleField, floorTypeField, playGateWidthField, playTrackHeightField, trackMeasureField1, trackMeasureField2,
+    TextInputLayout playLocaleField, playGateWidthField, playTrackHeightField, trackMeasureField1, trackMeasureField2,
             trackMeasureField3, trackMeasureField4, playGateSillObsField, floorObsField, toyObsField, playObsField,
-            trackGapField1, trackGapField2, trackGapField3, trackGapField4;
-    TextInputEditText playLocaleValue, floorTypeValue, playGateWidthValue, playTrackHeightValue, trackMeasureValue1, trackMeasureValue2,
+            trackGapField1, trackGapField2, trackGapField3, trackGapField4, photoField;
+    TextInputEditText playLocaleValue, playGateWidthValue, playTrackHeightValue, trackMeasureValue1, trackMeasureValue2,
             trackMeasureValue3, trackMeasureValue4, playGateSillObsValue, floorObsValue, toyObsValue, playObsValue,
-            trackGapValue1, trackGapValue2, trackGapValue3, trackGapValue4;
-    RadioGroup playGateTrackRadio, playGateTrackRampRadio, playFloorGapRadio, accessibleFloorRadio, accessibleToyRadio;
+            trackGapValue1, trackGapValue2, trackGapValue3, trackGapValue4, photoValue;
+    RadioGroup playGateTrackRadio, playGateTrackRampRadio, playFloorGapRadio, accessibleFloorRadio, accessibleToyRadio, playHasGateRadio;
     MultiLineRadioGroup gateSillRadio;
     MaterialButton addTrackRampButton, addTrackGapButton, savePlay, cancelPlay;
     ImageButton delTrackRampButton, delTrackGapButton;
-    TextView playGateTrackError, hasTrackRampHeader, playTrackRampError, playSillTypeError, playAccessFloorError, playAccessToyError, playFloorGapError, floorGapHeader;
+    TextView playGateTrackError, hasTrackRampHeader, playTrackRampError, playSillTypeError, playAccessFloorError, playAccessToyError, playFloorGapError, floorGapHeader,
+            playHasGateError, gateTrackHeader, gateSillTypeHeader;
+    FrameLayout sillFrame;
 
     FragmentManager manager;
 
@@ -127,8 +133,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
                     Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     clearPlayFields();
                 }
-            }
-            else
+            } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
     }
@@ -136,7 +141,6 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
     private void instantiatePlayViews(View view) {
 //        TextInputLayout
         playLocaleField = view.findViewById(R.id.location_playground_field);
-        floorTypeField = view.findViewById(R.id.floor_type_playground_field);
         playGateWidthField = view.findViewById(R.id.gate_width_play_field);
         playTrackHeightField = view.findViewById(R.id.play_tracks_height_field);
         trackMeasureField1 = view.findViewById(R.id.play_ramp_track_1_field);
@@ -151,9 +155,9 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
         floorObsField = view.findViewById(R.id.playground_floor_obs_field);
         toyObsField = view.findViewById(R.id.playground_equips_obs_field);
         playObsField = view.findViewById(R.id.playground_obs_field);
+        photoField = view.findViewById(R.id.play_photo_field);
 //        TextInputEditText
         playLocaleValue = view.findViewById(R.id.location_playground_value);
-        floorTypeValue = view.findViewById(R.id.floor_type_playground_value);
         playGateWidthValue = view.findViewById(R.id.gate_width_play_value);
         playTrackHeightValue = view.findViewById(R.id.play_tracks_height_value);
         trackMeasureValue1 = view.findViewById(R.id.play_ramp_track_1_value);
@@ -168,7 +172,9 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
         floorObsValue = view.findViewById(R.id.playground_floor_obs_value);
         toyObsValue = view.findViewById(R.id.playground_equips_obs_value);
         playObsValue = view.findViewById(R.id.playground_obs_value);
+        photoValue = view.findViewById(R.id.play_photo_value);
 //        RadioGroup
+        playHasGateRadio = view.findViewById(R.id.has_play_gate_radio);
         playGateTrackRadio = view.findViewById(R.id.has_play_gate_tracks_radio);
         playGateTrackRampRadio = view.findViewById(R.id.gate_has_play_track_ramp_radio);
         accessibleFloorRadio = view.findViewById(R.id.play_has_accessible_floor_radio);
@@ -185,14 +191,19 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
         delTrackRampButton = view.findViewById(R.id.delete_play_ramp_track_measure);
         delTrackGapButton = view.findViewById(R.id.delete_play_track_gap_measure);
 //        TextView
+        playHasGateError = view.findViewById(R.id.has_play_gate_error);
+        gateTrackHeader = view.findViewById(R.id.label_play_has_gate_tracks);
         playGateTrackError = view.findViewById(R.id.has_play_gate_tracks_error);
         hasTrackRampHeader = view.findViewById(R.id.label_play_gate_has_track_ramp);
         playTrackRampError = view.findViewById(R.id.has_play_track_ramp_error);
+        floorGapHeader = view.findViewById(R.id.label_play_has_track_gaps);
+        playFloorGapError = view.findViewById(R.id.play_track_gap_radio_error);
+        gateSillTypeHeader = view.findViewById(R.id.label_type_sill);
         playSillTypeError = view.findViewById(R.id.playground_sill_type_error);
         playAccessFloorError = view.findViewById(R.id.play_has_accessible_floor_error);
         playAccessToyError = view.findViewById(R.id.play_has_accessible_equips_error);
-        playFloorGapError = view.findViewById(R.id.play_track_gap_radio_error);
-        floorGapHeader = view.findViewById(R.id.label_play_has_track_gaps);
+//        FrameLayout
+        sillFrame = view.findViewById(R.id.playground_sill_fragment);
 //        Fragment Manager
         manager = getChildFragmentManager();
 //        ViewModel
@@ -202,6 +213,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
         addTrackRampButton.setOnClickListener(this::addFieldClickListener);
         delTrackGapButton.setOnClickListener(this::addFieldClickListener);
         delTrackRampButton.setOnClickListener(this::addFieldClickListener);
+        playHasGateRadio.setOnCheckedChangeListener(this::playRadioListener);
         playGateTrackRadio.setOnCheckedChangeListener(this::playRadioListener);
         playFloorGapRadio.setOnCheckedChangeListener(this::playRadioListener);
         playGateTrackRampRadio.setOnCheckedChangeListener(this::playRadioListener);
@@ -315,7 +327,44 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
 
     private void playRadioListener(RadioGroup radio, int checkedID) {
         int index = radio.indexOfChild(radio.findViewById(checkedID));
-        if (radio == playGateTrackRadio) {
+        if (radio == playHasGateRadio) {
+            if (index == 1) {
+                playGateWidthField.setVisibility(View.VISIBLE);
+                gateTrackHeader.setVisibility(View.VISIBLE);
+                playGateTrackRadio.setVisibility(View.VISIBLE);
+                gateSillTypeHeader.setVisibility(View.VISIBLE);
+                gateSillRadio.setVisibility(View.VISIBLE);
+                sillFrame.setVisibility(View.VISIBLE);
+                playGateSillObsField.setVisibility(View.VISIBLE);
+            } else {
+                playGateWidthValue.setText(null);
+                playGateWidthField.setVisibility(View.GONE);
+                gateTrackHeader.setVisibility(View.GONE);
+                playTrackHeightValue.setText(null);
+                playTrackHeightField.setVisibility(View.GONE);
+                playGateTrackRadio.clearCheck();
+                playGateTrackRadio.setVisibility(View.GONE);
+                gateSillTypeHeader.setVisibility(View.GONE);
+                gateSillRadio.clearCheck();
+                gateSillRadio.setVisibility(View.GONE);
+                removeSillFragments();
+                sillFrame.setVisibility(View.GONE);
+                playGateSillObsValue.setText(null);
+                playGateSillObsField.setVisibility(View.GONE);
+                hasTrackRampHeader.setVisibility(View.GONE);
+                playGateTrackRampRadio.clearCheck();
+                clearRadioListener(rampTrackFields);
+                addTrackRampButton.setVisibility(View.GONE);
+                delTrackRampButton.setVisibility(View.GONE);
+                rampCounter = 0;
+                clearRadioListener(floorGapFields);
+                playFloorGapRadio.clearCheck();
+                floorGapHeader.setVisibility(View.GONE);
+                addTrackGapButton.setVisibility(View.GONE);
+                delTrackGapButton.setVisibility(View.GONE);
+                gapCounter = 0;
+            }
+        } else if (radio == playGateTrackRadio) {
             if (index == 1) {
                 playTrackHeightField.setVisibility(View.VISIBLE);
                 hasTrackRampHeader.setVisibility(View.VISIBLE);
@@ -388,89 +437,91 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
             i++;
             playLocaleField.setError(getString(R.string.req_field_error));
         }
-        if (TextUtils.isEmpty(floorTypeValue.getText())) {
+        if (getPlayCheckRadio(playHasGateRadio) == -1) {
             i++;
-            floorTypeField.setError(getString(R.string.req_field_error));
-        }
-        if (TextUtils.isEmpty(playGateWidthValue.getText())) {
-            i++;
-            playGateWidthField.setError(getString(R.string.req_field_error));
-        }
-        if (getPlayCheckRadio(playGateTrackRadio) == -1) {
-            i++;
-            playGateTrackError.setVisibility(View.VISIBLE);
-        } else if (getPlayCheckRadio(playGateTrackRadio) == 1) {
-            if (TextUtils.isEmpty(playTrackHeightValue.getText())) {
+            playHasGateError.setVisibility(View.VISIBLE);
+        } else if (getPlayCheckRadio(playHasGateRadio) == 1) {
+            if (TextUtils.isEmpty(playGateWidthValue.getText())) {
                 i++;
-                playTrackHeightField.setError(getString(R.string.req_field_error));
+                playGateWidthField.setError(getString(R.string.req_field_error));
             }
-            if (getPlayCheckRadio(playGateTrackRampRadio) == -1) {
+            if (getPlayCheckRadio(playGateTrackRadio) == -1) {
                 i++;
-                playTrackRampError.setVisibility(View.VISIBLE);
-            } else if (getPlayCheckRadio(playGateTrackRampRadio) == 1) {
-                switch (rampCounter) {
-                    case 4:
-                        if (TextUtils.isEmpty(trackMeasureValue4.getText())) {
-                            i++;
-                            trackMeasureField4.setError(getString(R.string.req_field_error));
-                        }
-                    case 3:
-                        if (TextUtils.isEmpty(trackMeasureValue3.getText())) {
-                            i++;
-                            trackMeasureField3.setError(getString(R.string.req_field_error));
-                        }
-                    case 2:
-                        if (TextUtils.isEmpty(trackMeasureValue2.getText())) {
-                            i++;
-                            trackMeasureField2.setError(getString(R.string.req_field_error));
-                        }
-                    case 1:
-                        if (TextUtils.isEmpty(trackMeasureValue1.getText())) {
-                            i++;
-                            trackMeasureField1.setError(getString(R.string.req_field_error));
-                        }
-                        break;
-                    default:
-                        break;
+                playGateTrackError.setVisibility(View.VISIBLE);
+            } else if (getPlayCheckRadio(playGateTrackRadio) == 1) {
+                if (TextUtils.isEmpty(playTrackHeightValue.getText())) {
+                    i++;
+                    playTrackHeightField.setError(getString(R.string.req_field_error));
+                }
+                if (getPlayCheckRadio(playGateTrackRampRadio) == -1) {
+                    i++;
+                    playTrackRampError.setVisibility(View.VISIBLE);
+                } else if (getPlayCheckRadio(playGateTrackRampRadio) == 1) {
+                    switch (rampCounter) {
+                        case 4:
+                            if (TextUtils.isEmpty(trackMeasureValue4.getText())) {
+                                i++;
+                                trackMeasureField4.setError(getString(R.string.req_field_error));
+                            }
+                        case 3:
+                            if (TextUtils.isEmpty(trackMeasureValue3.getText())) {
+                                i++;
+                                trackMeasureField3.setError(getString(R.string.req_field_error));
+                            }
+                        case 2:
+                            if (TextUtils.isEmpty(trackMeasureValue2.getText())) {
+                                i++;
+                                trackMeasureField2.setError(getString(R.string.req_field_error));
+                            }
+                        case 1:
+                            if (TextUtils.isEmpty(trackMeasureValue1.getText())) {
+                                i++;
+                                trackMeasureField1.setError(getString(R.string.req_field_error));
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                if (getPlayCheckRadio(playFloorGapRadio) == -1) {
+                    i++;
+                    playFloorGapError.setVisibility(View.VISIBLE);
+                } else if (getPlayCheckRadio(playFloorGapRadio) == 1) {
+                    switch (gapCounter) {
+                        case 4:
+                            if (TextUtils.isEmpty(trackGapValue4.getText())) {
+                                i++;
+                                trackGapField4.setError(getString(R.string.req_field_error));
+                            }
+                        case 3:
+                            if (TextUtils.isEmpty(trackGapValue3.getText())) {
+                                i++;
+                                trackGapField3.setError(getString(R.string.req_field_error));
+                            }
+                        case 2:
+                            if (TextUtils.isEmpty(trackGapValue2.getText())) {
+                                i++;
+                                trackGapField2.setError(getString(R.string.req_field_error));
+                            }
+                        case 1:
+                            if (TextUtils.isEmpty(trackGapValue1.getText())) {
+                                i++;
+                                trackGapField1.setError(getString(R.string.req_field_error));
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
 
-            if (getPlayCheckRadio(playFloorGapRadio) == -1) {
+            if (gateSillRadio.getCheckedRadioButtonIndex() == -1) {
                 i++;
-                playFloorGapError.setVisibility(View.VISIBLE);
-            } else if (getPlayCheckRadio(playFloorGapRadio) == 1) {
-                switch (gapCounter) {
-                    case 4:
-                        if (TextUtils.isEmpty(trackGapValue4.getText())) {
-                            i++;
-                            trackGapField4.setError(getString(R.string.req_field_error));
-                        }
-                    case 3:
-                        if (TextUtils.isEmpty(trackGapValue3.getText())) {
-                            i++;
-                            trackGapField3.setError(getString(R.string.req_field_error));
-                        }
-                    case 2:
-                        if (TextUtils.isEmpty(trackGapValue2.getText())) {
-                            i++;
-                            trackGapField2.setError(getString(R.string.req_field_error));
-                        }
-                    case 1:
-                        if (TextUtils.isEmpty(trackGapValue1.getText())) {
-                            i++;
-                            trackGapField1.setError(getString(R.string.req_field_error));
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                playSillTypeError.setVisibility(View.VISIBLE);
             }
         }
 
-        if (gateSillRadio.getCheckedRadioButtonIndex() == -1) {
-            i++;
-            playSillTypeError.setVisibility(View.VISIBLE);
-        }
         if (getPlayCheckRadio(accessibleFloorRadio) == -1) {
             i++;
             playTrackRampError.setVisibility(View.VISIBLE);
@@ -493,7 +544,6 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
         trackGapField2.setErrorEnabled(false);
         trackGapField1.setErrorEnabled(false);
         playLocaleField.setErrorEnabled(false);
-        floorTypeField.setErrorEnabled(false);
         playGateWidthField.setErrorEnabled(false);
         playGateTrackError.setVisibility(View.GONE);
         playTrackHeightField.setErrorEnabled(false);
@@ -501,96 +551,117 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
         playSillTypeError.setVisibility(View.GONE);
         playTrackRampError.setVisibility(View.GONE);
         playFloorGapError.setVisibility(View.GONE);
+        playHasGateError.setVisibility(View.GONE);
     }
 
     private PlaygroundEntry newPlayground(Bundle bundle) {
-        String playLocale, floorType, sillObs, floorObs, toyObs, playObs;
-        double playGateWidth;
-        Double playTrackHeight = null, measure1 = null, measure2 = null, measure3 = null, measure4 = null, sillStep = null,
-                sillSlopeWidth = null, sillSlopeAngle = null, slopeAngle2 = null, slopeAngle3 = null, slopeAngle4 = null, sillInclination = null, sillSlopeHeight = null,
+        String playLocale, sillObs = null, floorObs = null, toyObs = null, playObs = null, playPhoto = null;
+        Double playGateWidth = null, playTrackHeight = null, measure1 = null, measure2 = null, measure3 = null, measure4 = null, stepHeight = null,
+                sillSlopeWidth = null, sillSlopeAngle = null, slopeAngle2 = null, slopeAngle3 = null, slopeAngle4 = null, inclHeight = null, inclAngle1 = null,
+                inclAngle2 = null, inclAngle3 = null, inclAngle4 = null, slopeHeight = null,
                 gap1 = null, gap2 = null, gap3 = null, gap4 = null;
-        int hasTrack, sillType, accessibleFloor, accessibleToy;
-        Integer hasTrackRamp = null, hasFloorGap = null, slopeQnt = null;
+        int hasGate, accessibleFloor, accessibleToy;
+        Integer hasTrack = null, sillType = null, hasTrackRamp = null, hasFloorGap = null, slopeQnt = null, inclQnt = null;
 
         playLocale = String.valueOf(playLocaleValue.getText());
-        floorType = String.valueOf(floorTypeValue.getText());
-        playGateWidth = Double.parseDouble(String.valueOf(playGateWidthValue.getText()));
-        hasTrack = getPlayCheckRadio(playGateTrackRadio);
-        if (getPlayCheckRadio(playGateTrackRadio) == 1) {
-            playTrackHeight = Double.valueOf(String.valueOf(playTrackHeightValue.getText()));
-            hasTrackRamp = getPlayCheckRadio(playGateTrackRampRadio);
-            if (getPlayCheckRadio(playGateTrackRampRadio) == 1) {
-                switch (rampCounter) {
-                    case 4:
-                        measure4 = Double.valueOf(String.valueOf(trackMeasureValue4.getText()));
-                    case 3:
-                        measure3 = Double.valueOf(String.valueOf(trackMeasureValue3.getText()));
-                    case 2:
-                        measure2 = Double.valueOf(String.valueOf(trackMeasureValue2.getText()));
+        hasGate = getPlayCheckRadio(playHasGateRadio);
+        if (hasGate == 1) {
+            playGateWidth = Double.parseDouble(String.valueOf(playGateWidthValue.getText()));
+            hasTrack = getPlayCheckRadio(playGateTrackRadio);
+            if (hasTrack == 1) {
+                playTrackHeight = Double.valueOf(String.valueOf(playTrackHeightValue.getText()));
+                hasTrackRamp = getPlayCheckRadio(playGateTrackRampRadio);
+                if (hasTrackRamp == 1) {
+                    switch (rampCounter) {
+                        case 4:
+                            measure4 = Double.valueOf(String.valueOf(trackMeasureValue4.getText()));
+                        case 3:
+                            measure3 = Double.valueOf(String.valueOf(trackMeasureValue3.getText()));
+                        case 2:
+                            measure2 = Double.valueOf(String.valueOf(trackMeasureValue2.getText()));
+                        case 1:
+                            measure1 = Double.valueOf(String.valueOf(trackMeasureValue1.getText()));
+                        default:
+                            break;
+                    }
+                }
+                hasFloorGap = getPlayCheckRadio(playFloorGapRadio);
+                if (hasFloorGap == 1) {
+                    switch (gapCounter) {
+                        case 4:
+                            gap4 = Double.valueOf(String.valueOf(trackGapValue4.getText()));
+                        case 3:
+                            gap3 = Double.valueOf(String.valueOf(trackGapValue3.getText()));
+                        case 2:
+                            gap2 = Double.valueOf(String.valueOf(trackGapValue2.getText()));
+                        case 1:
+                            gap1 = Double.valueOf(String.valueOf(trackGapValue1.getText()));
+                        default:
+                            break;
+                    }
+                }
+
+                sillType = gateSillRadio.getCheckedRadioButtonIndex();
+                switch (sillType) {
                     case 1:
-                        measure1 = Double.valueOf(String.valueOf(trackMeasureValue1.getText()));
-                    default:
+                        InclinationParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+
+                        inclHeight = parcel.getInclHeight();
+                        inclQnt = parcel.getInclQnt();
+                        if (parcel.getInclMeasure4() != null)
+                            inclAngle4 = parcel.getInclMeasure4();
+                        if (parcel.getInclMeasure3() != null)
+                            inclAngle3 = parcel.getInclMeasure3();
+                        if (parcel.getInclMeasure2() != null)
+                            inclAngle2 = parcel.getInclMeasure2();
+                        if (parcel.getInclMeasure1() != null)
+                            inclAngle1 = parcel.getInclMeasure1();
+                        break;
+                    case 2:
+                        stepHeight = bundle.getDouble(STEP_HEIGHT);
+                        break;
+                    case 3:
+                        slopeQnt = bundle.getInt(SLOPE_QNT);
+                        switch (slopeQnt) {
+                            case 4:
+                                slopeAngle4 = bundle.getDouble(SLOPE_ANGLE_4);
+                            case 3:
+                                slopeAngle3 = bundle.getDouble(SLOPE_ANGLE_3);
+                            case 2:
+                                slopeAngle2 = bundle.getDouble(SLOPE_ANGLE_2);
+                            case 1:
+                                sillSlopeAngle = bundle.getDouble(SLOPE_ANGLE_1);
+                                sillSlopeWidth = bundle.getDouble(SLOPE_WIDTH);
+                                slopeHeight = bundle.getDouble(SLOPE_HEIGHT);
+                                break;
+                        }
                         break;
                 }
+                sillObs = String.valueOf(playGateSillObsValue.getText());
             }
-            hasFloorGap = getPlayCheckRadio(playFloorGapRadio);
-            if (getPlayCheckRadio(playFloorGapRadio) == 1) {
-                switch (gapCounter) {
-                    case 4:
-                        gap4 = Double.valueOf(String.valueOf(trackGapValue4.getText()));
-                    case 3:
-                        gap3 = Double.valueOf(String.valueOf(trackGapValue3.getText()));
-                    case 2:
-                        gap2 = Double.valueOf(String.valueOf(trackGapValue2.getText()));
-                    case 1:
-                        gap1 = Double.valueOf(String.valueOf(trackGapValue1.getText()));
-                    default:
-                        break;
-                }
-            }
+
         }
 
-
-        sillType = gateSillRadio.getCheckedRadioButtonIndex();
-        switch (sillType) {
-            case 1:
-                sillInclination = bundle.getDouble(HEIGHT_INCLINED_SILL);
-                break;
-            case 2:
-                sillStep = bundle.getDouble(STEP_HEIGHT);
-                break;
-            case 3:
-                slopeQnt = bundle.getInt(SLOPE_QNT);
-                switch (slopeQnt) {
-                    case 4:
-                        slopeAngle4 = bundle.getDouble(SLOPE_ANGLE_4);
-                    case 3:
-                        slopeAngle3 = bundle.getDouble(SLOPE_ANGLE_3);
-                    case 2:
-                        slopeAngle2 = bundle.getDouble(SLOPE_ANGLE_2);
-                    case 1:
-                        sillSlopeAngle = bundle.getDouble(SLOPE_ANGLE_1);
-                        sillSlopeWidth = bundle.getDouble(SLOPE_WIDTH);
-                        sillSlopeHeight = bundle.getDouble(SLOPE_HEIGHT);
-                        break;
-                }
-                break;
-        }
-        sillObs = String.valueOf(playGateSillObsValue.getText());
         accessibleFloor = getPlayCheckRadio(accessibleFloorRadio);
-        floorObs = String.valueOf(floorObsValue.getText());
+        if (!TextUtils.isEmpty(floorObsValue.getText()))
+            floorObs = String.valueOf(floorObsValue.getText());
         accessibleToy = getPlayCheckRadio(accessibleFloorRadio);
-        toyObs = String.valueOf(toyObsValue.getText());
-        playObs = String.valueOf(playObsValue.getText());
+        if (!TextUtils.isEmpty(toyObsValue.getText()))
+            toyObs = String.valueOf(toyObsValue.getText());
+        if (!TextUtils.isEmpty(playObsValue.getText()))
+            playObs = String.valueOf(playObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            playPhoto = String.valueOf(photoValue.getText());
 
-        return new PlaygroundEntry(bundle.getInt(BLOCK_ID), playLocale, floorType, playGateWidth, hasTrack, playTrackHeight, hasTrackRamp, rampCounter,
-                measure1, measure2, measure3, measure4, hasFloorGap, gapCounter, gap1, gap2, gap3, gap4, sillType, sillInclination, sillStep, slopeQnt, sillSlopeAngle,
-                slopeAngle2, slopeAngle3, slopeAngle4, sillSlopeWidth, sillSlopeHeight, sillObs, accessibleFloor, floorObs, accessibleToy, toyObs, playObs);
+        return new PlaygroundEntry(bundle.getInt(BLOCK_ID), playLocale, hasGate, playGateWidth, hasTrack, playTrackHeight, hasTrackRamp, rampCounter, measure1, measure2,
+                measure3, measure4, hasFloorGap, gapCounter, gap1, gap2, gap3, gap4, sillType, inclHeight, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight,
+                slopeQnt, sillSlopeAngle, slopeAngle2, slopeAngle3, slopeAngle4, sillSlopeWidth, slopeHeight, sillObs, accessibleFloor, floorObs, accessibleToy, toyObs, playObs,
+                playPhoto);
     }
 
     private void clearPlayFields() {
         playLocaleValue.setText(null);
-        floorTypeValue.setText(null);
+        playHasGateRadio.clearCheck();
         playGateWidthValue.setText(null);
         playGateTrackRadio.clearCheck();
         hasTrackRampHeader.setVisibility(View.GONE);
@@ -632,73 +703,92 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
     }
 
     private void loadPlaygroundData(PlaygroundEntry playEntry) {
-        playLocaleValue.setText(playEntry.getPlayLocation());
-        floorTypeValue.setText(playEntry.getPlayFloorType());
-        playGateWidthValue.setText(String.valueOf(playEntry.getPlayGateWidth()));
-        playGateTrackRadio.check(playGateTrackRadio.getChildAt(playEntry.getPlayGateHasFloorTrack()).getId());
-        if (playEntry.getPlayGateHasFloorTrack() == 1) {
-            playTrackHeightValue.setText(String.valueOf(playEntry.getPlayFloorTrackHeight()));
-            playGateTrackRampRadio.check(playGateTrackRampRadio.getChildAt(playEntry.getPlayFloorTrackHasRamp()).getId());
-            if (playEntry.getPlayFloorTrackHasRamp() == 1) {
-                rampCounter = playEntry.getRampMeasureQnt();
-                switch (rampCounter) {
-                    case 4:
-                        delTrackRampButton.setVisibility(View.VISIBLE);
-                        trackMeasureField4.setVisibility(View.VISIBLE);
-                        trackMeasureValue4.setText(String.valueOf(playEntry.getRampMeasure4()));
-                    case 3:
-                        delTrackRampButton.setVisibility(View.VISIBLE);
-                        trackMeasureField3.setVisibility(View.VISIBLE);
-                        trackMeasureValue3.setText(String.valueOf(playEntry.getRampMeasure3()));
-                    case 2:
-                        delTrackRampButton.setVisibility(View.VISIBLE);
-                        trackMeasureField2.setVisibility(View.VISIBLE);
-                        trackMeasureValue2.setText(String.valueOf(playEntry.getRampMeasure2()));
-                    case 1:
-                        trackMeasureField1.setVisibility(View.VISIBLE);
-                        trackMeasureValue1.setText(String.valueOf(playEntry.getRampMeasure1()));
-                    default:
-                        break;
+        if (playEntry.getPlayLocation() != null)
+            playLocaleValue.setText(playEntry.getPlayLocation());
+        if (playEntry.getPlayHasGate() != null) {
+            playHasGateRadio.check(playHasGateRadio.getChildAt(playEntry.getPlayHasGate()).getId());
+            if (playEntry.getPlayHasGate() == 1) {
+                if (playEntry.getPlayGateWidth() != null)
+                    playGateWidthValue.setText(String.valueOf(playEntry.getPlayGateWidth()));
+                if (playEntry.getGateHasFloorTrack() != null) {
+                    playGateTrackRadio.check(playGateTrackRadio.getChildAt(playEntry.getGateHasFloorTrack()).getId());
+                    if (playEntry.getGateHasFloorTrack() == 1) {
+                        if (playEntry.getFloorTrackHeight() != null)
+                            playTrackHeightValue.setText(String.valueOf(playEntry.getFloorTrackHeight()));
+                        if (playEntry.getFloorTrackHasRamp() != null) {
+                            playGateTrackRampRadio.check(playGateTrackRampRadio.getChildAt(playEntry.getFloorTrackHasRamp()).getId());
+                            if (playEntry.getFloorTrackHasRamp() == 1) {
+                                rampCounter = playEntry.getRampMeasureQnt();
+                                switch (rampCounter) {
+                                    case 4:
+                                        delTrackRampButton.setVisibility(View.VISIBLE);
+                                        trackMeasureField4.setVisibility(View.VISIBLE);
+                                        trackMeasureValue4.setText(String.valueOf(playEntry.getRampMeasure4()));
+                                    case 3:
+                                        delTrackRampButton.setVisibility(View.VISIBLE);
+                                        trackMeasureField3.setVisibility(View.VISIBLE);
+                                        trackMeasureValue3.setText(String.valueOf(playEntry.getRampMeasure3()));
+                                    case 2:
+                                        delTrackRampButton.setVisibility(View.VISIBLE);
+                                        trackMeasureField2.setVisibility(View.VISIBLE);
+                                        trackMeasureValue2.setText(String.valueOf(playEntry.getRampMeasure2()));
+                                    case 1:
+                                        trackMeasureField1.setVisibility(View.VISIBLE);
+                                        trackMeasureValue1.setText(String.valueOf(playEntry.getRampMeasure1()));
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                        if (playEntry.getHasFloorGap() != null) {
+                            playFloorGapRadio.check(playFloorGapRadio.getChildAt(playEntry.getHasFloorGap()).getId());
+                            if (playEntry.getHasFloorGap() == 1) {
+                                if (playEntry.getFloorGapQnt() != null) {
+                                    gapCounter = playEntry.getFloorGapQnt();
+                                    switch (gapCounter) {
+                                        case 4:
+                                            delTrackGapButton.setVisibility(View.VISIBLE);
+                                            trackGapField4.setVisibility(View.VISIBLE);
+                                            trackGapValue4.setText(String.valueOf(playEntry.getFloorGap4()));
+                                        case 3:
+                                            delTrackGapButton.setVisibility(View.VISIBLE);
+                                            trackGapField3.setVisibility(View.VISIBLE);
+                                            trackGapValue3.setText(String.valueOf(playEntry.getFloorGap3()));
+                                        case 2:
+                                            delTrackGapButton.setVisibility(View.VISIBLE);
+                                            trackGapField2.setVisibility(View.VISIBLE);
+                                            trackGapValue2.setText(String.valueOf(playEntry.getFloorGap2()));
+                                        default:
+                                            trackGapField1.setVisibility(View.VISIBLE);
+                                            trackGapValue1.setText(String.valueOf(playEntry.getFloorGap1()));
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-            playFloorGapRadio.check(playFloorGapRadio.getChildAt(playEntry.getHasFloorGap()).getId());
-            if (playEntry.getHasFloorGap() == 1) {
-                gapCounter = playEntry.getFloorGapQnt();
-                switch (gapCounter) {
-                    case 4:
-                        delTrackGapButton.setVisibility(View.VISIBLE);
-                        trackGapField4.setVisibility(View.VISIBLE);
-                        trackGapValue4.setText(String.valueOf(playEntry.getFloorGap4()));
-                    case 3:
-                        delTrackGapButton.setVisibility(View.VISIBLE);
-                        trackGapField3.setVisibility(View.VISIBLE);
-                        trackGapValue3.setText(String.valueOf(playEntry.getFloorGap3()));
-                    case 2:
-                        delTrackGapButton.setVisibility(View.VISIBLE);
-                        trackGapField2.setVisibility(View.VISIBLE);
-                        trackGapValue2.setText(String.valueOf(playEntry.getFloorGap2()));
-                    case 1:
-                        trackGapField1.setVisibility(View.VISIBLE);
-                        trackGapValue1.setText(String.valueOf(playEntry.getFloorGap1()));
-                    default:
-                        break;
+
+                if (playEntry.getGateSillType() != null) {
+                    gateSillRadio.checkAt(playEntry.getGateSillType());
+                    if (playEntry.getGateSillType() > 0)
+                        getChildFragmentManager().setFragmentResult(InspectionActivity.LOAD_CHILD_DATA, playBundle);
                 }
+                if (playEntry.getSillObs() != null)
+                    playGateSillObsValue.setText(playEntry.getSillObs());
             }
         }
-        if (playEntry.getPlayGateSillType() != null) {
-            gateSillRadio.checkAt(playEntry.getPlayGateSillType());
-            if (playEntry.getPlayGateSillType() > 0)
-                getChildFragmentManager().setFragmentResult(InspectionActivity.LOAD_CHILD_DATA, playBundle);
-        }
-        if (playEntry.getSillObs() != null)
-            playGateSillObsValue.setText(playEntry.getSillObs());
-        accessibleFloorRadio.check(accessibleFloorRadio.getChildAt(playEntry.getAccessibleFloor()).getId());
-        if (playEntry.getAccessibleFloorObs() != null)
-            floorObsValue.setText(playEntry.getAccessibleFloorObs());
-        accessibleToyRadio.check(accessibleToyRadio.getChildAt(playEntry.getAccessibleEquip()).getId());
-        if (playEntry.getAccessibleEquipObs() != null)
-            toyObsValue.setText(playEntry.getAccessibleEquipObs());
+        if (playEntry.getAccessibleFloor() != null)
+            accessibleFloorRadio.check(accessibleFloorRadio.getChildAt(playEntry.getAccessibleFloor()).getId());
+        if (playEntry.getAccessFloorObs() != null)
+            floorObsValue.setText(playEntry.getAccessFloorObs());
+        if (playEntry.getAccessibleEquip() != null)
+            accessibleToyRadio.check(accessibleToyRadio.getChildAt(playEntry.getAccessibleEquip()).getId());
+        if (playEntry.getAccessEquipObs() != null)
+            toyObsValue.setText(playEntry.getAccessEquipObs());
         if (playEntry.getPlaygroundObs() != null)
             playObsValue.setText(playEntry.getPlaygroundObs());
+        if (playEntry.getPlayPhotoNumber() != null)
+            photoValue.setText(playEntry.getPlayPhotoNumber());
     }
 }

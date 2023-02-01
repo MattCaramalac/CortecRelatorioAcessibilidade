@@ -15,11 +15,11 @@ public class PlaygroundEntry {
     private int blockID;
 
     private String playLocation;
-    private String playFloorType;
+    private Integer playHasGate;
     private Double playGateWidth;
-    private Integer playGateHasFloorTrack;
-    private Double playFloorTrackHeight;
-    private Integer playFloorTrackHasRamp;
+    private Integer gateHasFloorTrack;
+    private Double floorTrackHeight;
+    private Integer floorTrackHasRamp;
     private Integer rampMeasureQnt;
     private Double rampMeasure1;
     private Double rampMeasure2;
@@ -31,36 +31,41 @@ public class PlaygroundEntry {
     private Double floorGap2;
     private Double floorGap3;
     private Double floorGap4;
-    private Integer playGateSillType;
-    private Double inclinationSillHeight;
-    private Double stepSillHeight;
+    private Integer gateSillType;
+    private Double inclHeight;
+    private Integer inclMeasureQnt;
+    private Double inclAngle1;
+    private Double inclAngle2;
+    private Double inclAngle3;
+    private Double inclAngle4;
+    private Double stepHeight;
     private Integer slopeMeasureQnt;
-    private Double slopeSillAngle1;
-    private Double slopeSillAngle2;
-    private Double slopeSillAngle3;
-    private Double slopeSillAngle4;
-    private Double slopeSillWidth;
-    private Double slopeSillHeight;
+    private Double slopeAngle1;
+    private Double slopeAngle2;
+    private Double slopeAngle3;
+    private Double slopeAngle4;
+    private Double slopeWidth;
+    private Double slopeHeight;
     private String sillObs;
     private Integer accessibleFloor;
-    private String accessibleFloorObs;
+    private String accessFloorObs;
     private Integer accessibleEquip;
-    private String accessibleEquipObs;
+    private String accessEquipObs;
     private String playgroundObs;
+    private String playPhotoNumber;
 
-    public PlaygroundEntry(int blockID, String playLocation, String playFloorType, Double playGateWidth, Integer playGateHasFloorTrack, Double playFloorTrackHeight,
-                           Integer playFloorTrackHasRamp, Integer rampMeasureQnt, Double rampMeasure1, Double rampMeasure2, Double rampMeasure3, Double rampMeasure4,
-                           Integer hasFloorGap, Integer floorGapQnt, Double floorGap1, Double floorGap2, Double floorGap3, Double floorGap4, Integer playGateSillType,
-                           Double inclinationSillHeight, Double stepSillHeight, Integer slopeMeasureQnt, Double slopeSillAngle1, Double slopeSillAngle2, Double slopeSillAngle3,
-                           Double slopeSillAngle4, Double slopeSillWidth, Double slopeSillHeight, String sillObs, Integer accessibleFloor, String accessibleFloorObs,
-                           Integer accessibleEquip, String accessibleEquipObs, String playgroundObs) {
+    public PlaygroundEntry(int blockID, String playLocation, Integer playHasGate, Double playGateWidth, Integer gateHasFloorTrack, Double floorTrackHeight, Integer floorTrackHasRamp, Integer rampMeasureQnt,
+                           Double rampMeasure1, Double rampMeasure2, Double rampMeasure3, Double rampMeasure4, Integer hasFloorGap, Integer floorGapQnt, Double floorGap1, Double floorGap2, Double floorGap3,
+                           Double floorGap4, Integer gateSillType, Double inclHeight, Integer inclMeasureQnt, Double inclAngle1, Double inclAngle2, Double inclAngle3, Double inclAngle4, Double stepHeight,
+                           Integer slopeMeasureQnt, Double slopeAngle1, Double slopeAngle2, Double slopeAngle3, Double slopeAngle4, Double slopeWidth, Double slopeHeight, String sillObs, Integer accessibleFloor,
+                           String accessFloorObs, Integer accessibleEquip, String accessEquipObs, String playgroundObs, String playPhotoNumber) {
         this.blockID = blockID;
         this.playLocation = playLocation;
-        this.playFloorType = playFloorType;
+        this.playHasGate = playHasGate;
         this.playGateWidth = playGateWidth;
-        this.playGateHasFloorTrack = playGateHasFloorTrack;
-        this.playFloorTrackHeight = playFloorTrackHeight;
-        this.playFloorTrackHasRamp = playFloorTrackHasRamp;
+        this.gateHasFloorTrack = gateHasFloorTrack;
+        this.floorTrackHeight = floorTrackHeight;
+        this.floorTrackHasRamp = floorTrackHasRamp;
         this.rampMeasureQnt = rampMeasureQnt;
         this.rampMeasure1 = rampMeasure1;
         this.rampMeasure2 = rampMeasure2;
@@ -72,22 +77,28 @@ public class PlaygroundEntry {
         this.floorGap2 = floorGap2;
         this.floorGap3 = floorGap3;
         this.floorGap4 = floorGap4;
-        this.playGateSillType = playGateSillType;
-        this.inclinationSillHeight = inclinationSillHeight;
-        this.stepSillHeight = stepSillHeight;
+        this.gateSillType = gateSillType;
+        this.inclHeight = inclHeight;
+        this.inclMeasureQnt = inclMeasureQnt;
+        this.inclAngle1 = inclAngle1;
+        this.inclAngle2 = inclAngle2;
+        this.inclAngle3 = inclAngle3;
+        this.inclAngle4 = inclAngle4;
+        this.stepHeight = stepHeight;
         this.slopeMeasureQnt = slopeMeasureQnt;
-        this.slopeSillAngle1 = slopeSillAngle1;
-        this.slopeSillAngle2 = slopeSillAngle2;
-        this.slopeSillAngle3 = slopeSillAngle3;
-        this.slopeSillAngle4 = slopeSillAngle4;
-        this.slopeSillWidth = slopeSillWidth;
-        this.slopeSillHeight = slopeSillHeight;
+        this.slopeAngle1 = slopeAngle1;
+        this.slopeAngle2 = slopeAngle2;
+        this.slopeAngle3 = slopeAngle3;
+        this.slopeAngle4 = slopeAngle4;
+        this.slopeWidth = slopeWidth;
+        this.slopeHeight = slopeHeight;
         this.sillObs = sillObs;
         this.accessibleFloor = accessibleFloor;
-        this.accessibleFloorObs = accessibleFloorObs;
+        this.accessFloorObs = accessFloorObs;
         this.accessibleEquip = accessibleEquip;
-        this.accessibleEquipObs = accessibleEquipObs;
+        this.accessEquipObs = accessEquipObs;
         this.playgroundObs = playgroundObs;
+        this.playPhotoNumber = playPhotoNumber;
     }
 
     public int getPlayID() {
@@ -114,12 +125,12 @@ public class PlaygroundEntry {
         this.playLocation = playLocation;
     }
 
-    public String getPlayFloorType() {
-        return playFloorType;
+    public Integer getPlayHasGate() {
+        return playHasGate;
     }
 
-    public void setPlayFloorType(String playFloorType) {
-        this.playFloorType = playFloorType;
+    public void setPlayHasGate(Integer playHasGate) {
+        this.playHasGate = playHasGate;
     }
 
     public Double getPlayGateWidth() {
@@ -130,28 +141,28 @@ public class PlaygroundEntry {
         this.playGateWidth = playGateWidth;
     }
 
-    public Integer getPlayGateHasFloorTrack() {
-        return playGateHasFloorTrack;
+    public Integer getGateHasFloorTrack() {
+        return gateHasFloorTrack;
     }
 
-    public void setPlayGateHasFloorTrack(Integer playGateHasFloorTrack) {
-        this.playGateHasFloorTrack = playGateHasFloorTrack;
+    public void setGateHasFloorTrack(Integer gateHasFloorTrack) {
+        this.gateHasFloorTrack = gateHasFloorTrack;
     }
 
-    public Double getPlayFloorTrackHeight() {
-        return playFloorTrackHeight;
+    public Double getFloorTrackHeight() {
+        return floorTrackHeight;
     }
 
-    public void setPlayFloorTrackHeight(Double playFloorTrackHeight) {
-        this.playFloorTrackHeight = playFloorTrackHeight;
+    public void setFloorTrackHeight(Double floorTrackHeight) {
+        this.floorTrackHeight = floorTrackHeight;
     }
 
-    public Integer getPlayFloorTrackHasRamp() {
-        return playFloorTrackHasRamp;
+    public Integer getFloorTrackHasRamp() {
+        return floorTrackHasRamp;
     }
 
-    public void setPlayFloorTrackHasRamp(Integer playFloorTrackHasRamp) {
-        this.playFloorTrackHasRamp = playFloorTrackHasRamp;
+    public void setFloorTrackHasRamp(Integer floorTrackHasRamp) {
+        this.floorTrackHasRamp = floorTrackHasRamp;
     }
 
     public Integer getRampMeasureQnt() {
@@ -194,140 +205,20 @@ public class PlaygroundEntry {
         this.rampMeasure4 = rampMeasure4;
     }
 
-    public Integer getPlayGateSillType() {
-        return playGateSillType;
-    }
-
-    public void setPlayGateSillType(Integer playGateSillType) {
-        this.playGateSillType = playGateSillType;
-    }
-
-    public Double getInclinationSillHeight() {
-        return inclinationSillHeight;
-    }
-
-    public void setInclinationSillHeight(Double inclinationSillHeight) {
-        this.inclinationSillHeight = inclinationSillHeight;
-    }
-
-    public Double getStepSillHeight() {
-        return stepSillHeight;
-    }
-
-    public void setStepSillHeight(Double stepSillHeight) {
-        this.stepSillHeight = stepSillHeight;
-    }
-
-    public Integer getSlopeMeasureQnt() {
-        return slopeMeasureQnt;
-    }
-
-    public void setSlopeMeasureQnt(Integer slopeMeasureQnt) {
-        this.slopeMeasureQnt = slopeMeasureQnt;
-    }
-
-    public Double getSlopeSillAngle1() {
-        return slopeSillAngle1;
-    }
-
-    public void setSlopeSillAngle1(Double slopeSillAngle1) {
-        this.slopeSillAngle1 = slopeSillAngle1;
-    }
-
-    public Double getSlopeSillAngle2() {
-        return slopeSillAngle2;
-    }
-
-    public void setSlopeSillAngle2(Double slopeSillAngle2) {
-        this.slopeSillAngle2 = slopeSillAngle2;
-    }
-
-    public Double getSlopeSillAngle3() {
-        return slopeSillAngle3;
-    }
-
-    public void setSlopeSillAngle3(Double slopeSillAngle3) {
-        this.slopeSillAngle3 = slopeSillAngle3;
-    }
-
-    public Double getSlopeSillAngle4() {
-        return slopeSillAngle4;
-    }
-
-    public void setSlopeSillAngle4(Double slopeSillAngle4) {
-        this.slopeSillAngle4 = slopeSillAngle4;
-    }
-
-    public Double getSlopeSillWidth() {
-        return slopeSillWidth;
-    }
-
-    public void setSlopeSillWidth(Double slopeSillWidth) {
-        this.slopeSillWidth = slopeSillWidth;
-    }
-
-    public Double getSlopeSillHeight() {
-        return slopeSillHeight;
-    }
-
-    public void setSlopeSillHeight(Double slopeSillHeight) {
-        this.slopeSillHeight = slopeSillHeight;
-    }
-
-    public String getSillObs() {
-        return sillObs;
-    }
-
-    public void setSillObs(String sillObs) {
-        this.sillObs = sillObs;
-    }
-
-    public Integer getAccessibleFloor() {
-        return accessibleFloor;
-    }
-
-    public void setAccessibleFloor(Integer accessibleFloor) {
-        this.accessibleFloor = accessibleFloor;
-    }
-
-    public String getAccessibleFloorObs() {
-        return accessibleFloorObs;
-    }
-
-    public void setAccessibleFloorObs(String accessibleFloorObs) {
-        this.accessibleFloorObs = accessibleFloorObs;
-    }
-
-    public Integer getAccessibleEquip() {
-        return accessibleEquip;
-    }
-
-    public void setAccessibleEquip(Integer accessibleEquip) {
-        this.accessibleEquip = accessibleEquip;
-    }
-
-    public String getAccessibleEquipObs() {
-        return accessibleEquipObs;
-    }
-
-    public void setAccessibleEquipObs(String accessibleEquipObs) {
-        this.accessibleEquipObs = accessibleEquipObs;
-    }
-
-    public String getPlaygroundObs() {
-        return playgroundObs;
-    }
-
-    public void setPlaygroundObs(String playgroundObs) {
-        this.playgroundObs = playgroundObs;
-    }
-
     public Integer getHasFloorGap() {
         return hasFloorGap;
     }
 
     public void setHasFloorGap(Integer hasFloorGap) {
         this.hasFloorGap = hasFloorGap;
+    }
+
+    public Integer getFloorGapQnt() {
+        return floorGapQnt;
+    }
+
+    public void setFloorGapQnt(Integer floorGapQnt) {
+        this.floorGapQnt = floorGapQnt;
     }
 
     public Double getFloorGap1() {
@@ -362,11 +253,179 @@ public class PlaygroundEntry {
         this.floorGap4 = floorGap4;
     }
 
-    public Integer getFloorGapQnt() {
-        return floorGapQnt;
+    public Integer getGateSillType() {
+        return gateSillType;
     }
 
-    public void setFloorGapQnt(Integer floorGapQnt) {
-        this.floorGapQnt = floorGapQnt;
+    public void setGateSillType(Integer gateSillType) {
+        this.gateSillType = gateSillType;
+    }
+
+    public Double getInclHeight() {
+        return inclHeight;
+    }
+
+    public void setInclHeight(Double inclHeight) {
+        this.inclHeight = inclHeight;
+    }
+
+    public Integer getInclMeasureQnt() {
+        return inclMeasureQnt;
+    }
+
+    public void setInclMeasureQnt(Integer inclMeasureQnt) {
+        this.inclMeasureQnt = inclMeasureQnt;
+    }
+
+    public Double getInclAngle1() {
+        return inclAngle1;
+    }
+
+    public void setInclAngle1(Double inclAngle1) {
+        this.inclAngle1 = inclAngle1;
+    }
+
+    public Double getInclAngle2() {
+        return inclAngle2;
+    }
+
+    public void setInclAngle2(Double inclAngle2) {
+        this.inclAngle2 = inclAngle2;
+    }
+
+    public Double getInclAngle3() {
+        return inclAngle3;
+    }
+
+    public void setInclAngle3(Double inclAngle3) {
+        this.inclAngle3 = inclAngle3;
+    }
+
+    public Double getInclAngle4() {
+        return inclAngle4;
+    }
+
+    public void setInclAngle4(Double inclAngle4) {
+        this.inclAngle4 = inclAngle4;
+    }
+
+    public Double getStepHeight() {
+        return stepHeight;
+    }
+
+    public void setStepHeight(Double stepHeight) {
+        this.stepHeight = stepHeight;
+    }
+
+    public Integer getSlopeMeasureQnt() {
+        return slopeMeasureQnt;
+    }
+
+    public void setSlopeMeasureQnt(Integer slopeMeasureQnt) {
+        this.slopeMeasureQnt = slopeMeasureQnt;
+    }
+
+    public Double getSlopeAngle1() {
+        return slopeAngle1;
+    }
+
+    public void setSlopeAngle1(Double slopeAngle1) {
+        this.slopeAngle1 = slopeAngle1;
+    }
+
+    public Double getSlopeAngle2() {
+        return slopeAngle2;
+    }
+
+    public void setSlopeAngle2(Double slopeAngle2) {
+        this.slopeAngle2 = slopeAngle2;
+    }
+
+    public Double getSlopeAngle3() {
+        return slopeAngle3;
+    }
+
+    public void setSlopeAngle3(Double slopeAngle3) {
+        this.slopeAngle3 = slopeAngle3;
+    }
+
+    public Double getSlopeAngle4() {
+        return slopeAngle4;
+    }
+
+    public void setSlopeAngle4(Double slopeAngle4) {
+        this.slopeAngle4 = slopeAngle4;
+    }
+
+    public Double getSlopeWidth() {
+        return slopeWidth;
+    }
+
+    public void setSlopeWidth(Double slopeWidth) {
+        this.slopeWidth = slopeWidth;
+    }
+
+    public Double getSlopeHeight() {
+        return slopeHeight;
+    }
+
+    public void setSlopeHeight(Double slopeHeight) {
+        this.slopeHeight = slopeHeight;
+    }
+
+    public String getSillObs() {
+        return sillObs;
+    }
+
+    public void setSillObs(String sillObs) {
+        this.sillObs = sillObs;
+    }
+
+    public Integer getAccessibleFloor() {
+        return accessibleFloor;
+    }
+
+    public void setAccessibleFloor(Integer accessibleFloor) {
+        this.accessibleFloor = accessibleFloor;
+    }
+
+    public String getAccessFloorObs() {
+        return accessFloorObs;
+    }
+
+    public void setAccessFloorObs(String accessFloorObs) {
+        this.accessFloorObs = accessFloorObs;
+    }
+
+    public Integer getAccessibleEquip() {
+        return accessibleEquip;
+    }
+
+    public void setAccessibleEquip(Integer accessibleEquip) {
+        this.accessibleEquip = accessibleEquip;
+    }
+
+    public String getAccessEquipObs() {
+        return accessEquipObs;
+    }
+
+    public void setAccessEquipObs(String accessEquipObs) {
+        this.accessEquipObs = accessEquipObs;
+    }
+
+    public String getPlaygroundObs() {
+        return playgroundObs;
+    }
+
+    public void setPlaygroundObs(String playgroundObs) {
+        this.playgroundObs = playgroundObs;
+    }
+
+    public String getPlayPhotoNumber() {
+        return playPhotoNumber;
+    }
+
+    public void setPlayPhotoNumber(String playPhotoNumber) {
+        this.playPhotoNumber = playPhotoNumber;
     }
 }

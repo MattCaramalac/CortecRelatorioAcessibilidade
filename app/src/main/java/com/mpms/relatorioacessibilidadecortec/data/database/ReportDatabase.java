@@ -1388,8 +1388,29 @@ public abstract class ReportDatabase extends RoomDatabase {
 
             database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN hasSidewalk INTEGER");
 
+            database.execSQL("CREATE TABLE PlaygroundEntry2 (playID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, " +
+                    "playLocation TEXT, playHasGate INTEGER, playGateWidth REAL, gateHasFloorTrack INTEGER, floorTrackHeight REAL, floorTrackHasRamp INTEGER," +
+                    "rampMeasureQnt INTEGER, rampMeasure1 REAL, rampMeasure2 REAL, rampMeasure3 REAL, rampMeasure4 REAL, hasFloorGap INTEGER, floorGapQnt INTEGER," +
+                    "floorGap1 REAL, floorGap2 REAL, floorGap3 REAL, floorGap4 REAL, gateSillType INTEGER, inclHeight REAL, inclMeasureQnt INTEGER, " +
+                    "inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL, inclAngle4 REAL, stepHeight REAL, slopeMeasureQnt INTEGER, slopeAngle1 REAL," +
+                    "slopeAngle2 REAL, slopeAngle3 REAL, slopeAngle4 REAL, slopeWidth REAL, slopeHeight REAL, sillObs TEXT, " +
+                    "accessibleFloor INTEGER, accessFloorObs TEXT, accessibleEquip INTEGER, accessEquipObs TEXT, playgroundObs TEXT, playPhotoNumber TEXT,"+
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO PlaygroundEntry2 (playLocation, playHasGate, playGateWidth, gateHasFloorTrack, floorTrackHeight, floorTrackHasRamp, " +
+                    "rampMeasureQnt, rampMeasure1, rampMeasure2, rampMeasure3, rampMeasure4, hasFloorGap, floorGapQnt, floorGap1, floorGap2, floorGap3, floorGap4, " +
+                    "gateSillType, inclSillHeight, stepSillHeight, slopeMeasureQnt, slopeSillAngle1, slopeSillAngle2, slopeSillAngle3, slopeSillAngle4, slopeSillWidth, " +
+                    "slopeSillHeight, sillObs, accessibleFloor, accessibleFloorObs, accessibleEquip, accessibleEquipObs, playgroundObs) " +
+                    "SELECT playLocation, playHasGate, playGateWidth, playGateHasFloorTrack, playFloorTrackHeight, playFloorTrackHasRamp, rampMeasureQnt, rampMeasure1, " +
+                    "rampMeasure2, rampMeasure3, rampMeasure4, hasFloorGap, floorGapQnt, floorGap1, floorGap2, floorGap3, floorGap4, playGateSillType, " +
+                    "inclinationSillHeight, stepSillHeight, slopeMeasureQnt, slopeSillAngle1, slopeSillAngle2, slopeSillAngle3, slopeSillAngle4, slopeSillWidth, " +
+                    "slopeSillHeight, sillObs, accessibleFloor, accessibleFloorObs, accessibleEquip, accessibleEquipObs, playgroundObs FROM RampStairsHandrailEntry");
+            database.execSQL("DROP TABLE PlaygroundEntry");
+            database.execSQL("ALTER TABLE PlaygroundEntry2 RENAME TO PlaygroundEntry");
+
         }
     };
+
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
