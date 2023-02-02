@@ -267,7 +267,7 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
         Double sideWidth = null, sideFSpaceWidth = null, sideSlope1 = null, sideSlope2 = null, sideSlope3 = null, sideSlope4 = null, sideSlope5 = null,
                 sideSlope6 = null, tacTileDirWidth = null, tacTileAlertWidth = null;
 
-        SideMeasureParcel parcel = Parcels.unwrap(bundle.getParcelable("PARCEL"));
+        SideMeasureParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
         if (!TextUtils.isEmpty(sideLocationValue.getText()))
             sideLocale = String.valueOf(sideLocationValue.getText());

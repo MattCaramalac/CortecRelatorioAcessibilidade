@@ -20,10 +20,14 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.InclinationParcel;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.StepParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -663,8 +667,10 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         String slopeLocation, tactFloorObs = null, accessSlopeFloorObs = null, slopeObs = null, junctionObs = null;
         double slopeWidth;
         Double long1 = null, long2 = null, long3 = null, long4 = null, left1 = null, left2 = null, left3 = null, left4 = null,
-                right1 = null, right2 = null, right3 = null, right4 = null, junInclHeight = null, junStepHeight = null;
+                right1 = null, right2 = null, right3 = null, right4 = null, junInclHeight = null, junStepHeight = null, inclAngle1 = null, inclAngle2 = null,
+                inclAngle3 = null, inclAngle4 = null;
         int hasLeft, hasRight, hasTactile, hasAccess, streetJunction;
+        Integer inclQnt = null;
 
         slopeLocation = String.valueOf(slopeLocaleValue.getText());
         slopeWidth = Double.parseDouble(String.valueOf(slopeWidthValue.getText()));
@@ -713,10 +719,23 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         if (!TextUtils.isEmpty(accessFloorObsValue.getText()))
             accessSlopeFloorObs = String.valueOf(accessFloorObsValue.getText());
         streetJunction = slopeStreetJunction.getCheckedRadioButtonIndex();
-        if (streetJunction == 1)
-            junInclHeight = bundle.getDouble(HEIGHT_INCLINED_SILL);
-        else if (streetJunction == 2)
-            junStepHeight = bundle.getDouble(STEP_HEIGHT);
+        if (streetJunction == 1) {
+            InclinationParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+            junInclHeight = parcel.getInclHeight();
+            inclQnt = parcel.getInclQnt();
+            if (parcel.getInclMeasure4() != null)
+                inclAngle4 = parcel.getInclMeasure4();
+            if (parcel.getInclMeasure3() != null)
+                inclAngle3 = parcel.getInclMeasure3();
+            if (parcel.getInclMeasure2() != null)
+                inclAngle2 = parcel.getInclMeasure2();
+            if (parcel.getInclMeasure1() != null)
+                inclAngle1 = parcel.getInclMeasure1();
+        }
+        else if (streetJunction == 2) {
+            StepParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+            junStepHeight = parcel.getStepHeight();
+        }
         if (!TextUtils.isEmpty(slopeStreetObsValue.getText()))
             junctionObs = String.valueOf(slopeStreetObsValue.getText());
         if (!TextUtils.isEmpty(slopeObsValue.getText()))
@@ -724,7 +743,7 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
 
         return new SidewalkSlopeEntry(bundle.getInt(AMBIENT_ID), slopeLocation, slopeWidth, longCounter, long1, long2, long3, long4,
                 hasLeft, leftCounter, left1, left2, left3, left4, hasRight, rightCounter, right1, right2, right3, right4, hasTactile, tactFloorObs,
-                hasAccess, accessSlopeFloorObs, streetJunction, junInclHeight, junStepHeight, junctionObs, slopeObs);
+                hasAccess, accessSlopeFloorObs, streetJunction, junInclHeight, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, junStepHeight, junctionObs, slopeObs);
     }
 
 }

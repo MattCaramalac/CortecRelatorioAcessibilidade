@@ -20,6 +20,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.InclinationParcel;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.SlopeParcel;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.StepParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.GateObsListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.PayPhoneListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
@@ -27,6 +30,8 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -68,8 +73,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
 
             childFragBundle.putInt(BLOCK_ID, this.getArguments().getInt(BLOCK_ID));
             childFragBundle.putInt(AMBIENT_ID, this.getArguments().getInt(AMBIENT_ID));
-        }
-        else
+        } else
             socialTwoBundle = new Bundle();
     }
 
@@ -86,15 +90,15 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
 
         instantiateSocialAccess2(view);
 
-        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key,bundle) -> {
+        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (buttonPressed > 0) {
                 ExtAccessSocialThree socialThree = socialDataThree(bundle);
                 ViewModelEntry.updateExtAccessRegThree(socialThree);
                 Fragment fragment;
                 bundle.putBoolean(FROM_EXT_ACCESS, true);
-                if (buttonPressed == 1){
+                if (buttonPressed == 1) {
                     fragment = new GateObsListFragment();
-                } else if  (buttonPressed == 2) {
+                } else if (buttonPressed == 2) {
                     fragment = new PayPhoneListFragment();
                 } else {
                     if (buttonPressed == 3)
@@ -107,7 +111,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
                 fragment.setArguments(bundle);
                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
             } else {
-                if (checkSocialThreeNoEmptyField() && bundle.getBoolean(CHILD_DATA_COMPLETE)){
+                if (checkSocialThreeNoEmptyField() && bundle.getBoolean(CHILD_DATA_COMPLETE)) {
                     ExtAccessSocialThree socialThree = socialDataThree(bundle);
                     ViewModelEntry.updateExtAccessRegThree(socialThree);
                     if (bundle.getBoolean(RECENT_ENTRY))
@@ -267,9 +271,9 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
                 ViewModelEntry.updateExtAccessRegThree(socialThree);
                 Fragment fragment;
                 childFragBundle.putBoolean(FROM_EXT_ACCESS, true);
-                if (buttonPressed == 1){
+                if (buttonPressed == 1) {
                     fragment = new GateObsListFragment();
-                } else  if (buttonPressed == 2) {
+                } else if (buttonPressed == 2) {
                     fragment = new PayPhoneListFragment();
                 } else {
                     if (buttonPressed == 3)
@@ -282,7 +286,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
                 fragment.setArguments(childFragBundle);
                 requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
             } else {
-                if (checkSocialThreeNoEmptyField()){
+                if (checkSocialThreeNoEmptyField()) {
                     ExtAccessSocialThree socialThree = socialDataThree(childFragBundle);
                     ViewModelEntry.updateExtAccessRegThree(socialThree);
                     if (childFragBundle.getBoolean(RECENT_ENTRY))
@@ -344,7 +348,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
             i++;
             intercomError.setVisibility(View.VISIBLE);
         } else if (getCheckedRadioIndex(hasIntercomRadio) == 1) {
-            if (TextUtils.isEmpty(intercomHeightValue.getText())){
+            if (TextUtils.isEmpty(intercomHeightValue.getText())) {
                 i++;
                 intercomHeightField.setError(getString(R.string.req_field_error));
             }
@@ -361,43 +365,42 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
     }
 
     private ExtAccessSocialThree socialDataThree(Bundle bundle) {
-        Integer gateSill = null, slopeQnt = null, hasObstacles = null, hasPayphones = null, hasIntercom = null, hasRamp = null, hasStairs = null;
+        Integer gateSill = null, slopeQnt = null, hasObstacles = null, hasPayphones = null, hasIntercom = null, hasRamp = null, hasStairs = null, inclQnt = null;
         String sillObs = null, extAccess = null;
-        Double inclHeight = null, stepHeight = null, angle1 = null, angle2 = null, angle3 = null, angle4= null, slopeWidth = null, intercomHeight = null;
+        Double inclHeight = null, stepHeight = null, angle1 = null, angle2 = null, angle3 = null, angle4 = null, slopeWidth = null, slopeHeight = null, intercomHeight = null, inclAngle1 = null,
+                inclAngle2 = null, inclAngle3 = null, inclAngle4 = null;
 
         if (sillTypeRadio.getCheckedRadioButtonIndex() > -1) {
             gateSill = sillTypeRadio.getCheckedRadioButtonIndex();
-            switch (gateSill) {
-                case 3:
-                    slopeQnt = bundle.getInt(SLOPE_QNT);
-                    if (bundle.getDouble(SLOPE_WIDTH) != 0)
-                        slopeWidth = bundle.getDouble(SLOPE_WIDTH);
-                    switch (slopeQnt) {
-                        case 4:
-                            if (bundle.getDouble(SLOPE_ANGLE_4) != 0)
-                                angle4 = bundle.getDouble(SLOPE_ANGLE_4);
-                        case 3:
-                            if (bundle.getDouble(SLOPE_ANGLE_3) != 0)
-                                angle3 = bundle.getDouble(SLOPE_ANGLE_3);
-                        case 2:
-                            if (bundle.getDouble(SLOPE_ANGLE_2) != 0)
-                                angle2 = bundle.getDouble(SLOPE_ANGLE_2);
-                        case 1:
-                            if (bundle.getDouble(SLOPE_ANGLE_1) != 0)
-                                angle1 = bundle.getDouble(SLOPE_ANGLE_1);
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case 2:
-                    if (bundle.getDouble(STEP_HEIGHT) != 0)
-                        stepHeight = bundle.getDouble(STEP_HEIGHT);
-                case 1:
-                    if (bundle.getDouble(HEIGHT_INCLINED_SILL) != 0)
-                        inclHeight = bundle.getDouble(HEIGHT_INCLINED_SILL);
-                default:
-                    break;
+            if (gateSill == 3) {
+                SlopeParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+                slopeHeight = parcel.getSillSlopeHeight();
+                slopeWidth = parcel.getSillSlopeWidth();
+                slopeQnt = parcel.getSillSlopeQnt();
+                if (parcel.getSillSlopeAngle4() != null)
+                    angle4 = parcel.getSillSlopeAngle4();
+                if (parcel.getSillSlopeAngle3() != null)
+                    angle3 = parcel.getSillSlopeAngle3();
+                if (parcel.getSillSlopeAngle2() != null)
+                    angle2 = parcel.getSillSlopeAngle2();
+                if (parcel.getSillSlopeAngle1() != null)
+                    angle1 = parcel.getSillSlopeAngle1();
+            } else if (gateSill == 2) {
+                StepParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+                stepHeight = parcel.getStepHeight();
+            } else if (gateSill == 1) {
+                InclinationParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+
+                inclHeight = parcel.getInclHeight();
+                inclQnt = parcel.getInclQnt();
+                if (parcel.getInclMeasure4() != null)
+                    inclAngle4 = parcel.getInclMeasure4();
+                if (parcel.getInclMeasure3() != null)
+                    inclAngle3 = parcel.getInclMeasure3();
+                if (parcel.getInclMeasure2() != null)
+                    inclAngle2 = parcel.getInclMeasure2();
+                if (parcel.getInclMeasure1() != null)
+                    inclAngle1 = parcel.getInclMeasure1();
             }
         }
         if (!TextUtils.isEmpty(sillObsValue.getText()))
@@ -412,16 +415,16 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
                 if (!TextUtils.isEmpty(intercomHeightValue.getText()))
                     intercomHeight = Double.parseDouble(String.valueOf(intercomHeightValue.getText()));
             }
+            if (!TextUtils.isEmpty(accessObsValue.getText()))
+                extAccess = String.valueOf(accessObsValue.getText());
+            if (getCheckedRadioIndex(hasStairsRadio) > -1)
+                hasStairs = getCheckedRadioIndex(hasStairsRadio);
+            if (getCheckedRadioIndex(hasRampsRadio) > -1)
+                hasRamp = getCheckedRadioIndex(hasRampsRadio);
         }
-        if (!TextUtils.isEmpty(accessObsValue.getText()))
-            extAccess = String.valueOf(accessObsValue.getText());
-        if (getCheckedRadioIndex(hasStairsRadio) > -1)
-            hasStairs = getCheckedRadioIndex(hasStairsRadio);
-        if (getCheckedRadioIndex(hasRampsRadio) > -1)
-            hasRamp = getCheckedRadioIndex(hasRampsRadio);
 
-        return new ExtAccessSocialThree(bundle.getInt(AMBIENT_ID), gateSill, inclHeight, stepHeight, slopeQnt, angle1, angle2, angle3, angle4, slopeWidth,
-                sillObs, hasObstacles, hasPayphones, hasIntercom, intercomHeight, extAccess, hasStairs, hasRamp);
+        return new ExtAccessSocialThree(bundle.getInt(AMBIENT_ID), gateSill, inclHeight, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight, slopeQnt,
+                angle1, angle2, angle3, angle4, slopeWidth, slopeHeight, sillObs, hasObstacles, hasPayphones, hasIntercom, intercomHeight, extAccess, hasStairs, hasRamp);
     }
 
     private Bundle clearBundle(Bundle bundle) {

@@ -45,6 +45,11 @@ public class ExternalAccess {
 
     private Integer gateSillType;
     private Double sillInclinationHeight;
+    private Integer inclQnt;
+    private Double inclAngle1;
+    private Double inclAngle2;
+    private Double inclAngle3;
+    private Double inclAngle4;
     private Double sillStepHeight;
     private Double sillSlopeWidth;
     private Double sillSlopeHeight;
@@ -69,12 +74,14 @@ public class ExternalAccess {
 
 
     public ExternalAccess(int blockID, String accessLocation, Integer entranceType, Integer floorIsAccessible, String accessibleFloorObs, Integer hasSIA, String obsSIA,
-                          Integer entranceGateType, String entranceGateDesc, Double freeSpaceWidth1, Double freeSpaceWidth2, Integer gateHandleType, Double gateHandleHeight, String gateObs,
-                          Integer gateHasTracks, Double gateTrackHeight, Integer gateHasTrackRamp, Integer trackRampQuantity, Double trackRampMeasure1, Double trackRampMeasure2,
-                          Double trackRampMeasure3, Double trackRampMeasure4, Integer hasFloorGap, Integer gapCounter, Double gapMeasure1, Double gapMeasure2, Double gapMeasure3,
-                          Double gapMeasure4, Integer gateSillType, Double sillInclinationHeight, Double sillStepHeight, Double sillSlopeWidth, Double sillSlopeHeight, Integer slopeMeasureQnt,
-                          Double sillSlopeAngle, Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4, String gateSillObs, Integer gateHasObstacles, Integer gateHasPayphones,
-                          Integer gateHasIntercom, Double intercomHeight, Integer gateHasStairs, Integer gateHasRamps, Integer gateHasSoundSign, String extAccessObs) {
+                          Integer entranceGateType, String entranceGateDesc, Double freeSpaceWidth1, Double freeSpaceWidth2, Integer gateHandleType, Double gateHandleHeight,
+                          String gateObs, Integer gateHasTracks, Double gateTrackHeight, Integer gateHasTrackRamp, Integer trackRampQuantity, Double trackRampMeasure1,
+                          Double trackRampMeasure2, Double trackRampMeasure3, Double trackRampMeasure4, Integer hasFloorGap, Integer gapCounter, Double gapMeasure1,
+                          Double gapMeasure2, Double gapMeasure3, Double gapMeasure4, Integer gateSillType, Double sillInclinationHeight, Integer inclQnt, Double inclAngle1,
+                          Double inclAngle2, Double inclAngle3, Double inclAngle4, Double sillStepHeight, Double sillSlopeWidth, Double sillSlopeHeight, Integer slopeMeasureQnt,
+                          Double sillSlopeAngle, Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4, String gateSillObs, Integer gateHasObstacles,
+                          Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, Integer gateHasStairs, Integer gateHasRamps, Integer gateHasSoundSign,
+                          String extAccessObs) {
         this.blockID = blockID;
         this.accessLocation = accessLocation;
         this.entranceType = entranceType;
@@ -99,6 +106,11 @@ public class ExternalAccess {
         this.trackRampMeasure4 = trackRampMeasure4;
         this.gateSillType = gateSillType;
         this.sillInclinationHeight = sillInclinationHeight;
+        this.inclQnt = inclQnt;
+        this.inclAngle1 = inclAngle1;
+        this.inclAngle2 = inclAngle2;
+        this.inclAngle3 = inclAngle3;
+        this.inclAngle4 = inclAngle4;
         this.sillStepHeight = sillStepHeight;
         this.slopeMeasureQnt = slopeMeasureQnt;
         this.sillSlopeAngle = sillSlopeAngle;
@@ -322,6 +334,46 @@ public class ExternalAccess {
 
     public void setSillInclinationHeight(Double sillInclinationHeight) {
         this.sillInclinationHeight = sillInclinationHeight;
+    }
+
+    public Integer getInclQnt() {
+        return inclQnt;
+    }
+
+    public void setInclQnt(Integer inclQnt) {
+        this.inclQnt = inclQnt;
+    }
+
+    public Double getInclAngle1() {
+        return inclAngle1;
+    }
+
+    public void setInclAngle1(Double inclAngle1) {
+        this.inclAngle1 = inclAngle1;
+    }
+
+    public Double getInclAngle2() {
+        return inclAngle2;
+    }
+
+    public void setInclAngle2(Double inclAngle2) {
+        this.inclAngle2 = inclAngle2;
+    }
+
+    public Double getInclAngle3() {
+        return inclAngle3;
+    }
+
+    public void setInclAngle3(Double inclAngle3) {
+        this.inclAngle3 = inclAngle3;
+    }
+
+    public Double getInclAngle4() {
+        return inclAngle4;
+    }
+
+    public void setInclAngle4(Double inclAngle4) {
+        this.inclAngle4 = inclAngle4;
     }
 
     public Double getSillStepHeight() {

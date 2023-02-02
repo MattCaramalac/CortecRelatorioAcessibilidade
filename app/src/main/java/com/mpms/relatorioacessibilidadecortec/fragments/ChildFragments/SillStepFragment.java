@@ -18,9 +18,11 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.StepParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
+
+import org.parceler.Parcels;
 
 
 public class SillStepFragment extends Fragment implements TagInterface {
@@ -57,8 +59,8 @@ public class SillStepFragment extends Fragment implements TagInterface {
         instantiateSillStepViews(view);
 
         getParentFragmentManager().setFragmentResultListener(LOAD_CHILD_DATA, this, (key, bundle) -> {
-            if (bundle.getInt(DoorFragment.DOOR_ID) > 0) {
-                modelEntry.getSpecificDoor(bundle.getInt(DoorFragment.DOOR_ID)).observe(getViewLifecycleOwner(), this::loadStepDoorData);
+            if (bundle.getInt(DOOR_ID) > 0) {
+                modelEntry.getSpecificDoor(bundle.getInt(DOOR_ID)).observe(getViewLifecycleOwner(), this::loadStepDoorData);
             } else if (bundle.getBoolean(FROM_EXT_ACCESS)) {
                 modelEntry.getOneExternalAccess(bundle.getInt(AMBIENT_ID))
                         .observe(getViewLifecycleOwner(), this::loadStepExtAccData);
@@ -75,7 +77,8 @@ public class SillStepFragment extends Fragment implements TagInterface {
         });
 
         getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
-            checkStepNoEmptyFields(bundle);
+            if (checkStepNoEmptyFields(bundle))
+                createStepParcel(bundle);
             getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
         });
     }
@@ -95,14 +98,21 @@ public class SillStepFragment extends Fragment implements TagInterface {
         if (TextUtils.isEmpty(stepHeightValue.getText())) {
             stepHeightField.setError(getString(R.string.req_field_error));
             i++;
-        } else {
-            bundle.putDouble(STEP_HEIGHT, Double.parseDouble(String.valueOf(stepHeightValue.getText())));
         }
-
         if (!bundle.getBoolean(ADD_ITEM_REQUEST)) {
             bundle.putBoolean(CHILD_DATA_COMPLETE, i == 0);
         }
         return i == 0;
+    }
+
+    private void createStepParcel(Bundle bundle) {
+        Double stepHeight = null;
+
+        if (!TextUtils.isEmpty(stepHeightValue.getText()))
+            stepHeight = Double.parseDouble(String.valueOf(stepHeightValue.getText()));
+
+        StepParcel parcel = new StepParcel(stepHeight);
+        bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
     }
 
     private void clearEmptyErrorStepField() {
@@ -115,8 +125,8 @@ public class SillStepFragment extends Fragment implements TagInterface {
     }
 
     private void loadStepPlayData(PlaygroundEntry playEntry) {
-        if (playEntry.getStepSillHeight() != null)
-            stepHeightValue.setText(String.valueOf(playEntry.getStepSillHeight()));
+        if (playEntry.getStepHeight() != null)
+            stepHeightValue.setText(String.valueOf(playEntry.getStepHeight()));
     }
 
     private void loadStepDoorData(DoorEntry doorEntry) {

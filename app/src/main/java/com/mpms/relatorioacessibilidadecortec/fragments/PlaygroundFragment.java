@@ -23,6 +23,8 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.InclinationParcel;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.SlopeParcel;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.StepParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillInclinationFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
@@ -602,45 +604,42 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
                 }
 
                 sillType = gateSillRadio.getCheckedRadioButtonIndex();
-                switch (sillType) {
-                    case 1:
-                        InclinationParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+                if (sillType == 1) {
+                    InclinationParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
-                        inclHeight = parcel.getInclHeight();
-                        inclQnt = parcel.getInclQnt();
-                        if (parcel.getInclMeasure4() != null)
-                            inclAngle4 = parcel.getInclMeasure4();
-                        if (parcel.getInclMeasure3() != null)
-                            inclAngle3 = parcel.getInclMeasure3();
-                        if (parcel.getInclMeasure2() != null)
-                            inclAngle2 = parcel.getInclMeasure2();
-                        if (parcel.getInclMeasure1() != null)
-                            inclAngle1 = parcel.getInclMeasure1();
-                        break;
-                    case 2:
-                        stepHeight = bundle.getDouble(STEP_HEIGHT);
-                        break;
-                    case 3:
-                        slopeQnt = bundle.getInt(SLOPE_QNT);
-                        switch (slopeQnt) {
-                            case 4:
-                                slopeAngle4 = bundle.getDouble(SLOPE_ANGLE_4);
-                            case 3:
-                                slopeAngle3 = bundle.getDouble(SLOPE_ANGLE_3);
-                            case 2:
-                                slopeAngle2 = bundle.getDouble(SLOPE_ANGLE_2);
-                            case 1:
-                                sillSlopeAngle = bundle.getDouble(SLOPE_ANGLE_1);
-                                sillSlopeWidth = bundle.getDouble(SLOPE_WIDTH);
-                                slopeHeight = bundle.getDouble(SLOPE_HEIGHT);
-                                break;
-                        }
-                        break;
+                    inclHeight = parcel.getInclHeight();
+                    inclQnt = parcel.getInclQnt();
+                    if (parcel.getInclMeasure4() != null)
+                        inclAngle4 = parcel.getInclMeasure4();
+                    if (parcel.getInclMeasure3() != null)
+                        inclAngle3 = parcel.getInclMeasure3();
+                    if (parcel.getInclMeasure2() != null)
+                        inclAngle2 = parcel.getInclMeasure2();
+                    if (parcel.getInclMeasure1() != null)
+                        inclAngle1 = parcel.getInclMeasure1();
+                } else if (sillType == 2) {
+                    StepParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+                    stepHeight = parcel.getStepHeight();
                 }
-                sillObs = String.valueOf(playGateSillObsValue.getText());
-            }
+                else if (sillType == 3) {
+                    SlopeParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+                    slopeHeight = parcel.getSillSlopeHeight();
+                    sillSlopeWidth = parcel.getSillSlopeWidth();
+                    slopeQnt = parcel.getSillSlopeQnt();
+                    if (parcel.getSillSlopeAngle4() != null)
+                        inclAngle4 = parcel.getSillSlopeAngle4();
+                    if (parcel.getSillSlopeAngle3() != null)
+                        inclAngle3 = parcel.getSillSlopeAngle3();
+                    if (parcel.getSillSlopeAngle2() != null)
+                        inclAngle2 = parcel.getSillSlopeAngle2();
+                    if (parcel.getSillSlopeAngle1() != null)
+                        inclAngle1 = parcel.getSillSlopeAngle1();
+                }
 
+            }
         }
+        if (!TextUtils.isEmpty(playGateSillObsValue.getText()))
+            sillObs = String.valueOf(playGateSillObsValue.getText());
 
         accessibleFloor = getPlayCheckRadio(accessibleFloorRadio);
         if (!TextUtils.isEmpty(floorObsValue.getText()))

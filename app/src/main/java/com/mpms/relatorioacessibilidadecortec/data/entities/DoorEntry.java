@@ -24,6 +24,11 @@ public class DoorEntry {
     private String doorTactileSignObs;
     private Integer doorSillType;
     private Double sillInclinationHeight;
+    private Integer inclQnt;
+    private Double inclAngle1;
+    private Double inclAngle2;
+    private Double inclAngle3;
+    private Double inclAngle4;
     private Double sillStepHeight;
     private Integer sillSlopeQnt;
     private Double sillSlopeAngle1;
@@ -36,8 +41,9 @@ public class DoorEntry {
     private String doorObs;
 
     public DoorEntry(int roomID, String doorLocation, Double doorWidth, Integer doorHandleType, Double doorHandleHeight, String doorHandleObs, Integer doorHasLocks,
-                     Integer doorHasTactileSign, String doorTactileSignObs, Integer doorSillType, Double sillInclinationHeight, Double sillStepHeight, Integer sillSlopeQnt,
-                     Double sillSlopeAngle1, Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth,  Double sillSlopeHeight,
+                     Integer doorHasTactileSign, String doorTactileSignObs, Integer doorSillType, Double sillInclinationHeight, Integer inclQnt, Double inclAngle1,
+                     Double inclAngle2, Double inclAngle3, Double inclAngle4, Double sillStepHeight, Integer sillSlopeQnt, Double sillSlopeAngle1, Double sillSlopeAngle2,
+                     Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth,  Double sillSlopeHeight,
                      String doorSillObs, String doorObs) {
         this.roomID = roomID;
         this.doorLocation = doorLocation;
@@ -50,6 +56,11 @@ public class DoorEntry {
         this.doorTactileSignObs = doorTactileSignObs;
         this.doorSillType = doorSillType;
         this.sillInclinationHeight = sillInclinationHeight;
+        this.inclQnt = inclQnt;
+        this.inclAngle1 = inclAngle1;
+        this.inclAngle2 = inclAngle2;
+        this.inclAngle3 = inclAngle3;
+        this.inclAngle4 = inclAngle4;
         this.sillStepHeight = sillStepHeight;
         this.sillSlopeQnt = sillSlopeQnt;
         this.sillSlopeAngle1 = sillSlopeAngle1;
@@ -108,6 +119,46 @@ public class DoorEntry {
 
     public void setSillInclinationHeight(Double sillInclinationHeight) {
         this.sillInclinationHeight = sillInclinationHeight;
+    }
+
+    public Integer getInclQnt() {
+        return inclQnt;
+    }
+
+    public void setInclQnt(Integer inclQnt) {
+        this.inclQnt = inclQnt;
+    }
+
+    public Double getInclAngle1() {
+        return inclAngle1;
+    }
+
+    public void setInclAngle1(Double inclAngle1) {
+        this.inclAngle1 = inclAngle1;
+    }
+
+    public Double getInclAngle2() {
+        return inclAngle2;
+    }
+
+    public void setInclAngle2(Double inclAngle2) {
+        this.inclAngle2 = inclAngle2;
+    }
+
+    public Double getInclAngle3() {
+        return inclAngle3;
+    }
+
+    public void setInclAngle3(Double inclAngle3) {
+        this.inclAngle3 = inclAngle3;
+    }
+
+    public Double getInclAngle4() {
+        return inclAngle4;
+    }
+
+    public void setInclAngle4(Double inclAngle4) {
+        this.inclAngle4 = inclAngle4;
     }
 
     public Double getSillStepHeight() {

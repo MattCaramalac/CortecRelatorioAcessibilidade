@@ -1407,6 +1407,24 @@ public abstract class ReportDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE PlaygroundEntry");
             database.execSQL("ALTER TABLE PlaygroundEntry2 RENAME TO PlaygroundEntry");
 
+            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN inclQnt INTEGER");
+            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN inclAngle1 REAL");
+            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN inclAngle2 REAL");
+            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN inclAngle3 REAL");
+            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN inclAngle4 REAL");
+
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN inclQnt INTEGER");
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN inclAngle1 REAL");
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN inclAngle2 REAL");
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN inclAngle3 REAL");
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN inclAngle4 REAL");
+
+            database.execSQL("ALTER TABLE SidewalkSlopeEntry ADD COLUMN inclQnt INTEGER");
+            database.execSQL("ALTER TABLE SidewalkSlopeEntry ADD COLUMN inclAngle1 REAL");
+            database.execSQL("ALTER TABLE SidewalkSlopeEntry ADD COLUMN inclAngle2 REAL");
+            database.execSQL("ALTER TABLE SidewalkSlopeEntry ADD COLUMN inclAngle3 REAL");
+            database.execSQL("ALTER TABLE SidewalkSlopeEntry ADD COLUMN inclAngle4 REAL");
+
         }
     };
 

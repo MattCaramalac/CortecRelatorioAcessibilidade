@@ -309,7 +309,7 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
-                null, null, null, hasSound, accessObs);
+                null, null, null, null, null, null, null, null, hasSound, accessObs);
     }
 
     private ExtAccessSocialOne upExtAccessOne(Bundle bundle) {

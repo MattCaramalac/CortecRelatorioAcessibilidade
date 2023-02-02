@@ -22,9 +22,11 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.SlopeParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -94,8 +96,8 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
         });
 
         getParentFragmentManager().setFragmentResultListener(LOAD_CHILD_DATA, this, (key, bundle) -> {
-            if (bundle.getInt(DoorFragment.DOOR_ID) > 0) {
-                modelEntry.getSpecificDoor(bundle.getInt(DoorFragment.DOOR_ID)).observe(getViewLifecycleOwner(), this::loadSlopeDoorData);
+            if (bundle.getInt(DOOR_ID) > 0) {
+                modelEntry.getSpecificDoor(bundle.getInt(DOOR_ID)).observe(getViewLifecycleOwner(), this::loadSlopeDoorData);
             } else if (bundle.getBoolean(FROM_EXT_ACCESS)) {
                 modelEntry.getOneExternalAccess(bundle.getInt(AMBIENT_ID))
                         .observe(getViewLifecycleOwner(), this::loadSlopeExtAccData);
@@ -109,7 +111,8 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
         });
 
         getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
-            checkSlopeNoEmptyFields(bundle);
+            if(checkSlopeNoEmptyFields(bundle))
+                createSlopeParcel(bundle);
             getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
         });
     }
@@ -146,6 +149,35 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
         slopeAngleArray.add(slopeAngleField2);
         slopeAngleArray.add(slopeAngleField3);
         slopeAngleArray.add(slopeAngleField4);
+    }
+
+    private void createSlopeParcel(Bundle bundle) {
+        Double slopeAngle1 = null, slopeAngle2 = null, slopeAngle3 = null, slopeAngle4 = null, slopeHeight = null, slopeWidth = null;
+
+        if (!TextUtils.isEmpty(sillSlopeHeightValue.getText()))
+            slopeHeight = Double.parseDouble(String.valueOf(sillSlopeHeightValue.getText()));
+        if (!TextUtils.isEmpty(sillSlopeWidthValue.getText()))
+            slopeWidth = Double.parseDouble(String.valueOf(sillSlopeWidthValue.getText()));
+
+        switch (measureQnt) {
+            case 4:
+                if (!TextUtils.isEmpty(slopeAngleValue4.getText()))
+                    slopeAngle4 = Double.parseDouble(String.valueOf(slopeAngleValue4.getText()));
+            case 3:
+                if (!TextUtils.isEmpty(slopeAngleValue3.getText()))
+                    slopeAngle3 = Double.parseDouble(String.valueOf(slopeAngleValue3.getText()));
+            case 2:
+                if (!TextUtils.isEmpty(slopeAngleValue2.getText()))
+                    slopeAngle2 = Double.parseDouble(String.valueOf(slopeAngleValue2.getText()));
+            default:
+                if (!TextUtils.isEmpty(slopeAngleValue1.getText()))
+                    slopeAngle1 = Double.parseDouble(String.valueOf(slopeAngleValue1.getText()));
+                break;
+        }
+
+        SlopeParcel parcel = new SlopeParcel(measureQnt, slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4, slopeWidth, slopeHeight);
+        bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
+
     }
 
     private boolean checkSlopeNoEmptyFields(Bundle bundle) {
@@ -235,29 +267,29 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
     }
 
     private void loadSlopePlayData(PlaygroundEntry playEntry) {
-        if (playEntry.getSlopeSillWidth() != null)
-            sillSlopeWidthValue.setText(String.valueOf(playEntry.getSlopeSillWidth()));
-        if (playEntry.getSlopeSillHeight() != null)
-            sillSlopeHeightValue.setText(String.valueOf(playEntry.getSlopeSillHeight()));
+        if (playEntry.getSlopeWidth() != null)
+            sillSlopeWidthValue.setText(String.valueOf(playEntry.getSlopeWidth()));
+        if (playEntry.getSlopeHeight() != null)
+            sillSlopeHeightValue.setText(String.valueOf(playEntry.getSlopeHeight()));
         measureQnt = playEntry.getSlopeMeasureQnt();
         switch (measureQnt) {
             case 4:
                 slopeAngleField4.setVisibility(View.VISIBLE);
-                if (playEntry.getSlopeSillAngle4() != null)
-                    slopeAngleValue4.setText(String.valueOf(playEntry.getSlopeSillAngle4()));
+                if (playEntry.getSlopeAngle4() != null)
+                    slopeAngleValue4.setText(String.valueOf(playEntry.getSlopeAngle4()));
             case 3:
                 slopeAngleField3.setVisibility(View.VISIBLE);
-                if (playEntry.getSlopeSillAngle3() != null)
-                    slopeAngleValue3.setText(String.valueOf(playEntry.getSlopeSillAngle3()));
+                if (playEntry.getSlopeAngle3() != null)
+                    slopeAngleValue3.setText(String.valueOf(playEntry.getSlopeAngle3()));
             case 2:
                 slopeAngleField2.setVisibility(View.VISIBLE);
                 delAngle.setVisibility(View.VISIBLE);
-                if (playEntry.getSlopeSillAngle2() != null)
-                    slopeAngleValue2.setText(String.valueOf(playEntry.getSlopeSillAngle2()));
+                if (playEntry.getSlopeAngle2() != null)
+                    slopeAngleValue2.setText(String.valueOf(playEntry.getSlopeAngle2()));
             case 1:
                 slopeAngleField1.setVisibility(View.VISIBLE);
-                if (playEntry.getSlopeSillAngle1() != null)
-                    slopeAngleValue1.setText(String.valueOf(playEntry.getSlopeSillAngle1()));
+                if (playEntry.getSlopeAngle1() != null)
+                    slopeAngleValue1.setText(String.valueOf(playEntry.getSlopeAngle1()));
                 break;
             default:
                 break;

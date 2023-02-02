@@ -21,6 +21,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.InclinationParcel;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.SlopeParcel;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.StepParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillInclinationFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
@@ -29,6 +32,8 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -63,8 +68,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         if (this.getArguments() != null) {
             doorBundle = new Bundle(this.getArguments());
             doorBundle.putBoolean(RECENT_ENTRY, false);
-        }
-        else
+        } else
             doorBundle = new Bundle();
 
         requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
@@ -391,9 +395,9 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
 
     private DoorEntry newDoorEntry(Bundle bundle) {
         String doorLocale = null, handleObs = null, tactileSignObs = null, doorSillObs = null, doorObs = null;
-        Integer handleType = null, doorHasLocks = null, hasTactileSign = null, doorSillType = null, sillSlopeQnt = null;
+        Integer handleType = null, doorHasLocks = null, hasTactileSign = null, doorSillType = null, inclQnt = null, sillSlopeQnt = null;
         Double doorWidth = null, handleHeight = null, sillInclinationHeight = null, sillStepHeight = null, slopeAngle1 = null, slopeAngle2 = null, slopeAngle3 = null,
-                slopeAngle4 = null, sillSlopeWidth = null, sillSlopeHeight = null;
+                slopeAngle4 = null, sillSlopeWidth = null, sillSlopeHeight = null, inclAngle4 = null, inclAngle3 = null, inclAngle2 = null, inclAngle1 = null;
 
         if (!TextUtils.isEmpty(doorLocaleValue.getText()))
             doorLocale = String.valueOf(doorLocaleValue.getText());
@@ -414,26 +418,33 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         if (doorSillRadio.getCheckedRadioButtonIndex() > -1) {
             doorSillType = doorSillRadio.getCheckedRadioButtonIndex();
             if (doorSillType == 1) {
-                sillInclinationHeight = bundle.getDouble(HEIGHT_INCLINED_SILL);
+                InclinationParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+                sillInclinationHeight = parcel.getInclHeight();
+                inclQnt = parcel.getInclQnt();
+                if (parcel.getInclMeasure4() != null)
+                    inclAngle4 = parcel.getInclMeasure4();
+                if (parcel.getInclMeasure3() != null)
+                    inclAngle3 = parcel.getInclMeasure3();
+                if (parcel.getInclMeasure2() != null)
+                    inclAngle2 = parcel.getInclMeasure2();
+                if (parcel.getInclMeasure1() != null)
+                    inclAngle1 = parcel.getInclMeasure1();
             } else if (doorSillType == 2) {
-                sillStepHeight = bundle.getDouble(STEP_HEIGHT);
+                StepParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+                sillStepHeight = parcel.getStepHeight();
             } else if (doorSillType == 3) {
-                sillSlopeWidth = bundle.getDouble(SLOPE_WIDTH);
-                sillSlopeHeight = bundle.getDouble(SLOPE_HEIGHT);
-                sillSlopeQnt = bundle.getInt(SLOPE_QNT);
-                switch (sillSlopeQnt) {
-                    case 4:
-                        slopeAngle4 = bundle.getDouble(SLOPE_ANGLE_4);
-                    case 3:
-                        slopeAngle3 = bundle.getDouble(SLOPE_ANGLE_3);
-                    case 2:
-                        slopeAngle2 = bundle.getDouble(SLOPE_ANGLE_2);
-                    case 1:
-                        slopeAngle1 = bundle.getDouble(SLOPE_ANGLE_1);
-                        break;
-                    default:
-                        break;
-                }
+                SlopeParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+                sillSlopeHeight = parcel.getSillSlopeHeight();
+                sillSlopeWidth = parcel.getSillSlopeWidth();
+                sillSlopeQnt = parcel.getSillSlopeQnt();
+                if (parcel.getSillSlopeAngle4() != null)
+                    inclAngle4 = parcel.getSillSlopeAngle4();
+                if (parcel.getSillSlopeAngle3() != null)
+                    inclAngle3 = parcel.getSillSlopeAngle3();
+                if (parcel.getSillSlopeAngle2() != null)
+                    inclAngle2 = parcel.getSillSlopeAngle2();
+                if (parcel.getSillSlopeAngle1() != null)
+                    inclAngle1 = parcel.getSillSlopeAngle1();
             }
         }
 
@@ -443,7 +454,8 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             doorObs = String.valueOf(doorObsValue.getText());
 
         return new DoorEntry(bundle.getInt(AMBIENT_ID), doorLocale, doorWidth, handleType, handleHeight, handleObs, doorHasLocks, hasTactileSign, tactileSignObs, doorSillType,
-                sillInclinationHeight, sillStepHeight, sillSlopeQnt, slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4, sillSlopeWidth, sillSlopeHeight, doorSillObs, doorObs);
+                sillInclinationHeight, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, sillStepHeight, sillSlopeQnt, slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4,
+                sillSlopeWidth, sillSlopeHeight, doorSillObs, doorObs);
 
     }
 

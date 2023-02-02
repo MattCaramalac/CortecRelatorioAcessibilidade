@@ -40,6 +40,11 @@ public class SidewalkSlopeEntry {
     private Integer streetSlopeJunction;
     private Double inclinationJunctionHeight;
     private Double stepJunctionHeight;
+    private Integer inclQnt;
+    private Double inclAngle1;
+    private Double inclAngle2;
+    private Double inclAngle3;
+    private Double inclAngle4;
     private String streetSlopeObs;
     private String slopeObs;
 
@@ -47,7 +52,8 @@ public class SidewalkSlopeEntry {
                               Double longMeasure3, Double longMeasure4, int hasLeftWingSlope, Integer leftWingMeasureQnt, Double leftMeasure1, Double leftMeasure2,
                               Double leftMeasure3, Double leftMeasure4, int hasRightWingSlope, Integer rightWingMeasureQnt, Double rightMeasure1, Double rightMeasure2,
                               Double rightMeasure3, Double rightMeasure4, int hasTactileFloor, String tactileFloorObs, int accessibleSlopeFloor, String accessibleSlopeFloorObs,
-                              Integer streetSlopeJunction, Double inclinationJunctionHeight, Double stepJunctionHeight, String streetSlopeObs, String slopeObs) {
+                              Integer streetSlopeJunction, Double inclinationJunctionHeight, Integer inclQnt, Double inclAngle1, Double inclAngle2, Double inclAngle3,
+                              Double inclAngle4,Double stepJunctionHeight, String streetSlopeObs, String slopeObs) {
         this.sidewalkID = sidewalkID;
         this.slopeLocation = slopeLocation;
         this.slopeWidth = slopeWidth;
@@ -74,6 +80,11 @@ public class SidewalkSlopeEntry {
         this.accessibleSlopeFloorObs = accessibleSlopeFloorObs;
         this.streetSlopeJunction = streetSlopeJunction;
         this.inclinationJunctionHeight = inclinationJunctionHeight;
+        this.inclQnt = inclQnt;
+        this.inclAngle1 = inclAngle1;
+        this.inclAngle2 = inclAngle2;
+        this.inclAngle3 = inclAngle3;
+        this.inclAngle4 = inclAngle4;
         this.stepJunctionHeight = stepJunctionHeight;
         this.streetSlopeObs = streetSlopeObs;
         this.slopeObs = slopeObs;
@@ -293,6 +304,46 @@ public class SidewalkSlopeEntry {
 
     public void setInclinationJunctionHeight(Double inclinationJunctionHeight) {
         this.inclinationJunctionHeight = inclinationJunctionHeight;
+    }
+
+    public Integer getInclQnt() {
+        return inclQnt;
+    }
+
+    public void setInclQnt(Integer inclQnt) {
+        this.inclQnt = inclQnt;
+    }
+
+    public Double getInclAngle1() {
+        return inclAngle1;
+    }
+
+    public void setInclAngle1(Double inclAngle1) {
+        this.inclAngle1 = inclAngle1;
+    }
+
+    public Double getInclAngle2() {
+        return inclAngle2;
+    }
+
+    public void setInclAngle2(Double inclAngle2) {
+        this.inclAngle2 = inclAngle2;
+    }
+
+    public Double getInclAngle3() {
+        return inclAngle3;
+    }
+
+    public void setInclAngle3(Double inclAngle3) {
+        this.inclAngle3 = inclAngle3;
+    }
+
+    public Double getInclAngle4() {
+        return inclAngle4;
+    }
+
+    public void setInclAngle4(Double inclAngle4) {
+        this.inclAngle4 = inclAngle4;
     }
 
     public Double getStepJunctionHeight() {

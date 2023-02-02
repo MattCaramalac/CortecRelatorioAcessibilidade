@@ -132,7 +132,7 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
         SideMeasureParcel parcel = new SideMeasureParcel(sidewalkWidth, sideFreeSpaceWidth, sideMeasureObs, slopeMeasureQnt, sideTransSlope1,
                 sideTransSlope2, sideTransSlope3, sideTransSlope4, sideTransSlope5, sideTransSlope6, hasSpecialFloor, specialFloorRightColor,
                 specialTileDirectionWidth, specialTileAlertWidth, specialFloorObs);
-        bundle.putParcelable("PARCEL", Parcels.wrap(parcel));
+        bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
 
     }
 

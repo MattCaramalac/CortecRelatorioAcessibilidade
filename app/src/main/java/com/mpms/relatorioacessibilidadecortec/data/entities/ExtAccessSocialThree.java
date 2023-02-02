@@ -11,6 +11,11 @@ public class ExtAccessSocialThree {
 
     private Integer gateSillType;
     private Double sillInclinationHeight;
+    private Integer inclQnt;
+    private Double inclAngle1;
+    private Double inclAngle2;
+    private Double inclAngle3;
+    private Double inclAngle4;
     private Double sillStepHeight;
     private Integer slopeMeasureQnt;
     private Double sillSlopeAngle;
@@ -18,6 +23,7 @@ public class ExtAccessSocialThree {
     private Double sillSlopeAngle3;
     private Double sillSlopeAngle4;
     private Double sillSlopeWidth;
+    private Double sillSlopeHeight;
     private String gateSillObs;
     private Integer gateHasObstacles;
     private Integer gateHasPayphones;
@@ -27,12 +33,18 @@ public class ExtAccessSocialThree {
     private Integer gateHasRamps;
     private String extAccessObs;
 
-    public ExtAccessSocialThree(int externalAccessID, Integer gateSillType, Double sillInclinationHeight, Double sillStepHeight, Integer slopeMeasureQnt, Double sillSlopeAngle,
-                                Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth, String gateSillObs, Integer gateHasObstacles,
+    public ExtAccessSocialThree(int externalAccessID, Integer gateSillType, Double sillInclinationHeight, Integer inclQnt, Double inclAngle1, Double inclAngle2,
+                                Double inclAngle3, Double inclAngle4,Double sillStepHeight, Integer slopeMeasureQnt, Double sillSlopeAngle, Double sillSlopeAngle2,
+                                Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth, Double sillSlopeHeight, String gateSillObs, Integer gateHasObstacles,
                                 Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, String extAccessObs, Integer gateHasStairs, Integer gateHasRamps) {
         this.externalAccessID = externalAccessID;
         this.gateSillType = gateSillType;
         this.sillInclinationHeight = sillInclinationHeight;
+        this.inclQnt = inclQnt;
+        this.inclAngle1 = inclAngle1;
+        this.inclAngle2 = inclAngle2;
+        this.inclAngle3 = inclAngle3;
+        this.inclAngle4 = inclAngle4;
         this.sillStepHeight = sillStepHeight;
         this.slopeMeasureQnt = slopeMeasureQnt;
         this.sillSlopeAngle = sillSlopeAngle;
@@ -40,6 +52,7 @@ public class ExtAccessSocialThree {
         this.sillSlopeAngle3 = sillSlopeAngle3;
         this.sillSlopeAngle4 = sillSlopeAngle4;
         this.sillSlopeWidth = sillSlopeWidth;
+        this.sillSlopeHeight = sillSlopeHeight;
         this.gateSillObs = gateSillObs;
         this.gateHasObstacles = gateHasObstacles;
         this.gateHasPayphones = gateHasPayphones;
@@ -72,6 +85,46 @@ public class ExtAccessSocialThree {
 
     public void setSillInclinationHeight(Double sillInclinationHeight) {
         this.sillInclinationHeight = sillInclinationHeight;
+    }
+
+    public Integer getInclQnt() {
+        return inclQnt;
+    }
+
+    public void setInclQnt(Integer inclQnt) {
+        this.inclQnt = inclQnt;
+    }
+
+    public Double getInclAngle1() {
+        return inclAngle1;
+    }
+
+    public void setInclAngle1(Double inclAngle1) {
+        this.inclAngle1 = inclAngle1;
+    }
+
+    public Double getInclAngle2() {
+        return inclAngle2;
+    }
+
+    public void setInclAngle2(Double inclAngle2) {
+        this.inclAngle2 = inclAngle2;
+    }
+
+    public Double getInclAngle3() {
+        return inclAngle3;
+    }
+
+    public void setInclAngle3(Double inclAngle3) {
+        this.inclAngle3 = inclAngle3;
+    }
+
+    public Double getInclAngle4() {
+        return inclAngle4;
+    }
+
+    public void setInclAngle4(Double inclAngle4) {
+        this.inclAngle4 = inclAngle4;
     }
 
     public Double getSillStepHeight() {
