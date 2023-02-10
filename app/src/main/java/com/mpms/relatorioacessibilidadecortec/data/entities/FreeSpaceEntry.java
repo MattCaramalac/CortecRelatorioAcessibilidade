@@ -6,63 +6,58 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE)})
+@Entity(foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = RestroomEntry.class, parentColumns = "restroomID", childColumns = "restID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class FreeSpaceEntry {
 
     @PrimaryKey(autoGenerate = true)
-    private int freeSpaceID;
-    private int roomID;
-    private String freeSpaceLocation;
-    private Double freeSpaceWidth;
-    private  String freeSpaceObs;
+    private int frSpaceID;
+    private Integer roomID;
+    private Integer restID;
+    private String frSpaceLocation;
     private Double obstacleWidth;
+    private Double frSpaceWidth;
+    private String frSpaceObs;
 
-    public FreeSpaceEntry(int roomID, String freeSpaceLocation, Double freeSpaceWidth, String freeSpaceObs, Double obstacleWidth) {
+    public FreeSpaceEntry(Integer roomID, Integer restID, String frSpaceLocation, Double obstacleWidth, Double frSpaceWidth, String frSpaceObs) {
         this.roomID = roomID;
-        this.freeSpaceLocation = freeSpaceLocation;
-        this.freeSpaceWidth = freeSpaceWidth;
-        this.freeSpaceObs = freeSpaceObs;
+        this.restID = restID;
+        this.frSpaceLocation = frSpaceLocation;
         this.obstacleWidth = obstacleWidth;
+        this.frSpaceWidth = frSpaceWidth;
+        this.frSpaceObs = frSpaceObs;
     }
 
-    public int getFreeSpaceID() {
-        return freeSpaceID;
+    public int getFrSpaceID() {
+        return frSpaceID;
     }
 
-    public void setFreeSpaceID(int freeSpaceID) {
-        this.freeSpaceID = freeSpaceID;
+    public void setFrSpaceID(int fSpaceID) {
+        this.frSpaceID = fSpaceID;
     }
 
-    public int getRoomID() {
+    public Integer getRoomID() {
         return roomID;
     }
 
-    public void setRoomID(int roomID) {
+    public void setRoomID(Integer roomID) {
         this.roomID = roomID;
     }
 
-    public String getFreeSpaceLocation() {
-        return freeSpaceLocation;
+    public Integer getRestID() {
+        return restID;
     }
 
-    public void setFreeSpaceLocation(String freeSpaceLocation) {
-        this.freeSpaceLocation = freeSpaceLocation;
+    public void setRestID(Integer restID) {
+        this.restID = restID;
     }
 
-    public Double getFreeSpaceWidth() {
-        return freeSpaceWidth;
+    public String getFrSpaceLocation() {
+        return frSpaceLocation;
     }
 
-    public void setFreeSpaceWidth(Double freeSpaceWidth) {
-        this.freeSpaceWidth = freeSpaceWidth;
-    }
-
-    public String getFreeSpaceObs() {
-        return freeSpaceObs;
-    }
-
-    public void setFreeSpaceObs(String freeSpaceObs) {
-        this.freeSpaceObs = freeSpaceObs;
+    public void setFrSpaceLocation(String fSpaceLocation) {
+        this.frSpaceLocation = fSpaceLocation;
     }
 
     public Double getObstacleWidth() {
@@ -71,5 +66,21 @@ public class FreeSpaceEntry {
 
     public void setObstacleWidth(Double obstacleWidth) {
         this.obstacleWidth = obstacleWidth;
+    }
+
+    public Double getFrSpaceWidth() {
+        return frSpaceWidth;
+    }
+
+    public void setFrSpaceWidth(Double fSpaceWidth) {
+        this.frSpaceWidth = fSpaceWidth;
+    }
+
+    public String getFrSpaceObs() {
+        return frSpaceObs;
+    }
+
+    public void setFrSpaceObs(String fSpaceObs) {
+        this.frSpaceObs = fSpaceObs;
     }
 }

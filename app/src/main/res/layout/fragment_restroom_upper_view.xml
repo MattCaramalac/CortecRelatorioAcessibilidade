@@ -103,13 +103,32 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/upper_view_B_measurement_field"
+            android:id="@+id/upper_view_A_measurement_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/rest_upper_view_image"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_measurement_B">
+            android:hint="@string/hint_measurement_A">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/upper_view_A_measurement_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/upper_view_B_measurement_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/upper_view_A_measurement_field"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_measurement_B"
+            app:helperText="Esta medição é facultativa">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/upper_view_B_measurement_value"
@@ -127,8 +146,7 @@
             app:layout_constraintTop_toBottomOf="@id/upper_view_B_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_measurement_C"
-            app:helperText="Esta medição é facultativa">
+            android:hint="@string/hint_measurement_C">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/upper_view_C_measurement_value"
@@ -146,29 +164,11 @@
             app:layout_constraintTop_toBottomOf="@id/upper_view_C_measurement_field"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_measurement_D">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/upper_view_D_measurement_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/upper_view_E_measurement_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/upper_view_D_measurement_field"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_measurement_E"
+            android:hint="@string/hint_measurement_D"
             app:helperText="Esta medição é facultativa">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/upper_view_E_measurement_value"
+                android:id="@+id/upper_view_D_measurement_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="numberDecimal"/>
@@ -182,7 +182,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/upper_view_E_measurement_field"
+            app:layout_constraintTop_toBottomOf="@id/upper_view_D_measurement_field"
             android:hint="@string/hint_obs">
 
             <com.google.android.material.textfield.TextInputEditText

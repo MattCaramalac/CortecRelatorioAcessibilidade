@@ -19,7 +19,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.InclinationParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -105,9 +104,6 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
             } else if (bundle.getInt(SIDEWALK_SLOPE_ID) > 0) {
                 modelEntry.getSidewalkSlopeEntry(bundle.getInt(SIDEWALK_SLOPE_ID))
                         .observe(getViewLifecycleOwner(), this::loadInclinationSlopeStreetData);
-            } else if (bundle.getInt(REST_ID) > 0) {
-                modelEntry.getOneRestroomEntry(bundle.getInt(REST_ID))
-                        .observe(getViewLifecycleOwner(), this::loadRestIncSlope);
             }
         });
 
@@ -272,8 +268,8 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
     }
 
     private void loadInclinationDoorData(DoorEntry doorEntry) {
-        if (doorEntry.getSillInclinationHeight() != null)
-            inclHeightValue.setText(String.valueOf(doorEntry.getSillInclinationHeight()));
+        if (doorEntry.getInclHeight() != null)
+            inclHeightValue.setText(String.valueOf(doorEntry.getInclHeight()));
         if (doorEntry.getInclQnt() != null)
             measureQnt = doorEntry.getInclQnt();
         switch (measureQnt) {
@@ -325,11 +321,5 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
                     inclValue1.setText(String.valueOf(slopeEntry.getInclAngle1()));
                 break;
         }
-    }
-
-//    TODO - Atualizar o carregamento de dados assim que for alterada a tabela de sanitários
-    private void loadRestIncSlope(RestroomEntry entry) {
-        if (entry.getSillIncHeight() != null)
-            inclHeightValue.setText(String.valueOf(entry.getSillIncHeight()));
     }
 }

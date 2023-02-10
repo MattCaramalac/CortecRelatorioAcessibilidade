@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ChildFragments.SinkLeftVertBarFragment">
+    tools:context=".fragments.ChildFragments.SinkVertBarFragment">
 
     <ImageButton
         android:id="@+id/vert_bar_img"
@@ -25,7 +25,8 @@
         app:layout_constraintBottom_toBottomOf="@id/vert_bar_img"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/vert_bar_img"
-        app:layout_constraintTop_toTopOf="@id/vert_bar_img">
+        app:layout_constraintTop_toTopOf="@id/vert_bar_img"
+        android:layout_marginStart="@dimen/usual_padding">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sink_vert_measureA_value"
@@ -41,7 +42,6 @@
         android:layout_height="@dimen/square_image_100"
         android:layout_marginTop="@dimen/top_margins"
         android:contentDescription="Barras Horizontais"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/sink_vert_measureB_field"
         app:layout_constraintTop_toBottomOf="@id/vert_bar_img" />
@@ -52,11 +52,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/hint_measurement_B"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/vert_bar_img2"
         app:layout_constraintEnd_toStartOf="@id/vert_bar_img2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/vert_bar_img2">
+        app:layout_constraintTop_toTopOf="@id/vert_bar_img2"
+        android:layout_marginEnd="@dimen/usual_padding">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sink_vert_measureB_value"
@@ -73,9 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/usual_padding"
         android:hint="@string/hint_measurement_C"
-        android:paddingEnd="@dimen/usual_padding"
         android:weightSum="@integer/weight_one"
-        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/sink_vert_measureD_field"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/vert_bar_img2">
@@ -95,9 +93,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/usual_padding"
         android:hint="@string/hint_measurement_D"
-        android:paddingStart="@dimen/usual_padding"
         android:weightSum="@integer/weight_one"
         android:visibility="gone"
+        android:layout_marginStart="@dimen/usual_padding"
         app:layout_constraintBaseline_toBaselineOf="@id/sink_vert_measureC_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/sink_vert_measureC_field">
@@ -117,10 +115,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/usual_padding"
         android:hint="@string/hint_measurement_E"
-        android:weightSum="@integer/weight_one"
         android:visibility="gone"
+        app:helperText="Esta medição é facultativa"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sink_vert_measureD_field">
+        app:layout_constraintTop_toBottomOf="@id/sink_vert_measureC_field">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sink_vert_measureE_value"
@@ -144,9 +142,7 @@
             android:id="@+id/sink_vert_diam_value"
             android:inputType="numberDecimal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.google.android.material.textfield.TextInputEditText>
+            android:layout_height="match_parent"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -164,9 +160,31 @@
             android:id="@+id/dist_vert_bar_value"
             android:inputType="numberDecimal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"/>
 
-        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/vert_bar_obs_field"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/usual_padding"
+        android:hint="@string/hint_obs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dist_vert_bar_field">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/vert_bar_obs_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start"
+            android:inputType="textMultiLine"
+            android:lines="@integer/multiline_obs_field"
+            android:overScrollMode="always"
+            android:scrollbarStyle="outsideInset"
+            android:scrollbars="vertical"
+            android:scrollHorizontally="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

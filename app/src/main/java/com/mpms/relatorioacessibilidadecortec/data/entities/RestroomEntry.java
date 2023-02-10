@@ -1,28 +1,30 @@
 package com.mpms.relatorioacessibilidadecortec.data.entities;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
-                onDelete = CASCADE, onUpdate = CASCADE))
+@Entity (foreignKeys = @ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID", onDelete = CASCADE, onUpdate = CASCADE))
 public class RestroomEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int restroomID;
     private int blockID;
+    @ColumnInfo(defaultValue = "0")
+    private int isCollective;
     private Integer restType;
     private String restLocation;
+    private Integer collectiveHasDoor;
+    private Double entranceWidth;
+    private Integer entranceDoorSill;
+    private String entranceDoorSillObs;
     private Integer accessRoute;
     private String accessRouteObs;
     private Integer intRestroom;
     private String intRestObs;
-    private Integer restDistance;
-    private String restDistObs;
-    private Integer exEntrance;
-    private String exEntObs;
     private Integer antiDriftFloor;
     private String antiDriftFloorObs;
     private Integer restDrain;
@@ -30,41 +32,12 @@ public class RestroomEntry {
     private Integer restSwitch;
     private Double switchHeight;
     private String switchObs;
-    private Double doorWidth;
-    private Integer hasPict;
-    private String pictObs;
-    private Integer opDir;
-    private String opDirObs;
-    private Integer hasCoat;
-    private Double coatHeight;
-    private String coatObs;
-    private Integer hasVertSign;
-    private String vertSignObs;
-    private Integer sillType;
-    private Double sillIncHeight;
-    private Double sillStepHeight;
-    private Integer sillSlopeQnt;
-    private Double sillSlopeAngle1;
-    private Double sillSlopeAngle2;
-    private Double sillSlopeAngle3;
-    private Double sillSlopeAngle4;
-    private Double sillSlopeWidth;
-    private Double sillSlopeHeight;
-    private String sillTypeObs;
-    private Integer hasTactSign;
-    private String tactSignObs;
-    private Integer hasHorHandle;
-    private Double handleHeight;
-    private Double handleLength;
-    private Double handleDiam;
-    private String handleObs;
     private Double upViewLength;
     private Double upViewWidth;
     private Double upViewMeasureA;
     private Double upViewMeasureB;
     private Double upViewMeasureC;
     private Double upViewMeasureD;
-    private Double upViewMeasureE;
     private String upViewObs;
     private Integer toType;
     private Double toHeightNoSeat;
@@ -94,6 +67,11 @@ public class RestroomEntry {
     private Double vertBarJ;
     private Double vertBarSect;
     private Double vertBarDist;
+    private Integer hasSideBar;
+    private Double sideBarD;
+    private Double sideBarE;
+    private Double sideBarDistG;
+    private Double sideBarSect;
     private Integer hasArtBar;
     private Double artBarH;
     private Double artBarI;
@@ -110,7 +88,8 @@ public class RestroomEntry {
     private Double papSupHeight;
     private String papHoldObs;
     private Integer hasDouche;
-    private Double doucheHeight;
+    private Double douchePressHeight;
+    private Double doucheActHeight;
     private String doucheObs;
     private String toiletObs;
     private Integer hasHanger;
@@ -126,40 +105,54 @@ public class RestroomEntry {
     private Integer hasTowelHold;
     private Double towelHoldHeight;
     private String towelHoldObs;
+    private Integer hasEmergencyButton;
+    private Double emergencyHeight;
+    private String emergencyObs;
+    private Integer hasWaterValve;
+    private Integer waterValveType;
+    private Double waterValveHeight;
+    private String waterValveObs;
+    private Integer hasWindow;
+    private Integer winQnt;
+    private String winComType1;
+    private Double winComHeight1;
+    private String winComType2;
+    private Double winComHeight2;
+    private String winComType3;
+    private Double winComHeight3;
+    private String winObs;
     private Integer hasWallMirror;
     private Double wallMirrorLow;
     private Double wallMirrorHigh;
     private String wallMirrorObs;
     private Integer sinkType;
+    private Integer hasLowerColSink;
     private Double approxMeasureA;
     private Double approxMeasureB;
     private Double approxMeasureC;
     private Double approxMeasureD;
     private Double approxMeasureE;
     private Integer hasSinkBar;
-    private Integer hasLeftBar;
-    private Double leftHorMeasureA;
-    private Double leftHorMeasureB;
-    private Double leftHorMeasureC;
-    private Double leftHorMeasureD;
-    private Double leftVertMeasureA;
-    private Double leftVertMeasureB;
-    private Double leftVertMeasureC;
-    private Double leftVertMeasureD;
-    private Double leftVertMeasureE;
-    private Double leftBarDiam;
-    private Double leftBarDist;
-    private Integer hasRightBar;
-    private Double rightHorMeasureA;
-    private Double rightHorMeasureB;
-    private Double rightHorMeasureC;
-    private Double rightHorMeasureD;
-    private Double rightVertMeasureA;
-    private Double rightBarDiam;
-    private Double rightBarDist;
+    private Integer hasLeftFrontHorBar;
+    private Double leftFrontHorMeasureA;
+    private Double leftFrontHorMeasureB;
+    private Double leftFrontHorMeasureC;
+    private Double leftFrontHorMeasureD;
+    private Double leftFrontHorDiam;
+    private Double leftFrontHorDist;
+    private String leftFrontHorObs;
+    private Integer hasRightSideVertBar;
+    private Double rightSideVertMeasureA;
+    private Double rightSideVertMeasureB;
+    private Double rightSideVertMeasureC;
+    private Double rightSideVertMeasureD;
+    private Double rightSideVertMeasureE;
+    private Double rightSideVertDiam;
+    private Double rightSideVertDist;
+    private String rightSideVertObs;
     private Integer sinkHasMirror;
-    private Double siMirrorLow;
-    private Double siMirrorHigh;
+    private Double sinkMirrorLow;
+    private Double sinkMirrorHigh;
     private String sinkObs;
     private Integer hasUrinal;
     private Integer hasAccessUrinal;
@@ -179,36 +172,43 @@ public class RestroomEntry {
     private Double urMeasureM;
     private String urObs;
 
-    public RestroomEntry(int blockID, Integer restType, String restLocation, Integer accessRoute, String accessRouteObs, Integer intRestroom, String intRestObs, Integer restDistance,
-                         String restDistObs, Integer exEntrance, String exEntObs, Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Integer restSwitch,
-                         Double switchHeight, String switchObs, Double doorWidth, Integer hasPict, String pictObs, Integer opDir, String opDirObs, Integer hasCoat, Double coatHeight, String coatObs,
-                         Integer hasVertSign, String vertSignObs, Integer sillType, Double sillIncHeight, Double sillStepHeight, Integer sillSlopeQnt, Double sillSlopeAngle1, Double sillSlopeAngle2,
-                         Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth, Double sillSlopeHeight, String sillTypeObs, Integer hasTactSign, String tactSignObs, Integer hasHorHandle, Double handleHeight,
-                         Double handleLength, Double handleDiam, String handleObs, Double upViewLength, Double upViewWidth, Double upViewMeasureA, Double upViewMeasureB, Double upViewMeasureC,
-                         Double upViewMeasureD, Double upViewMeasureE, String upViewObs, Integer toType, Double toHeightNoSeat, Integer toHasSeat, Double toHeightSeat, Integer toHasSoculo, Double frSoculo,
-                         Double latSoculo, Integer socCorners, Integer toHasFrontBar, Double frBarA, Double frBarB, Double frBarC, Double frBarSect, Double frBarDist, Integer toHasWall, Integer hasHorBar,
-                         Double horBarD, Double horBarE, Double horBarF, Double horBarDistG, Double horBarSect, Double horBarDist, Integer hasVertBar, Double vertBarH, Double vertBarI, Double vertBarJ,
-                         Double vertBarSect, Double vertBarDist, Integer hasArtBar, Double artBarH, Double artBarI, Double artBarJ, Double artBarSect, String toActDesc, Double toActHeight, String toActObs,
-                         Integer hasPapHolder, Integer papHolderType, Double papEmbDist, Double papEmbHeight, Integer papSupAlign, Double papSupHeight, String papHoldObs, Integer hasDouche, Double doucheHeight,
-                         String doucheObs, String toiletObs, Integer hasHanger, Double hangerHeight, String hangerObs, Integer hasObjHold, Integer objHoldCorrect, Double objHoldHeight, String objHoldObs,
-                         Integer hasSoapHold, Double soapHoldHeight, String soapHoldObs, Integer hasTowelHold, Double towelHoldHeight, String towelHoldObs, Integer hasWallMirror, Double wallMirrorLow,
-                         Double wallMirrorHigh, String wallMirrorObs, Integer sinkType, Double approxMeasureA, Double approxMeasureB, Double approxMeasureC, Double approxMeasureD, Double approxMeasureE,
-                         Integer hasSinkBar, Integer hasLeftBar, Double leftHorMeasureA, Double leftHorMeasureB, Double leftHorMeasureC, Double leftHorMeasureD, Double leftVertMeasureA, Double leftVertMeasureB,
-                         Double leftVertMeasureC, Double leftVertMeasureD, Double leftVertMeasureE, Double leftBarDiam, Double leftBarDist, Integer hasRightBar, Double rightHorMeasureA, Double rightHorMeasureB,
-                         Double rightHorMeasureC, Double rightHorMeasureD, Double rightVertMeasureA, Double rightBarDiam, Double rightBarDist, Integer sinkHasMirror, Double siMirrorLow, Double siMirrorHigh,
-                         String sinkObs, Integer hasUrinal, Integer hasAccessUrinal, Integer urinalType, Double urMeasureA, Double urMeasureB, Double urMeasureC, Double urMeasureD, Double urMeasureE,
-                         Double urMeasureF, Double urMeasureG, Double urMeasureH, Double urMeasureI, Double urMeasureJ, Double urMeasureK, Double urMeasureL, Double urMeasureM, String urObs) {
+    public RestroomEntry(int blockID, int isCollective, Integer restType, String restLocation, Integer collectiveHasDoor, Double entranceWidth, Integer entranceDoorSill,
+                         String entranceDoorSillObs, Integer accessRoute,
+                         String accessRouteObs, Integer intRestroom, String intRestObs, Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain,
+                         String restDrainObs, Integer restSwitch, Double switchHeight, String switchObs, Double upViewLength, Double upViewWidth, Double upViewMeasureA,
+                         Double upViewMeasureB, Double upViewMeasureC, Double upViewMeasureD, String upViewObs, Integer toType, Double toHeightNoSeat, Integer toHasSeat,
+                         Double toHeightSeat, Integer toHasSoculo, Double frSoculo, Double latSoculo, Integer socCorners, Integer toHasFrontBar, Double frBarA, Double frBarB,
+                         Double frBarC, Double frBarSect, Double frBarDist, Integer toHasWall, Integer hasHorBar, Double horBarD, Double horBarE, Double horBarF,
+                         Double horBarDistG, Double horBarSect, Double horBarDist, Integer hasVertBar, Double vertBarH, Double vertBarI, Double vertBarJ, Double vertBarSect,
+                         Double vertBarDist,  Integer hasSideBar, Double sideBarD, Double sideBarE, Double sideBarDistG, Double sideBarSect,
+                         Integer hasArtBar, Double artBarH, Double artBarI, Double artBarJ, Double artBarSect, String toActDesc, Double toActHeight,
+                         String toActObs, Integer hasPapHolder, Integer papHolderType, Double papEmbDist, Double papEmbHeight, Integer papSupAlign, Double papSupHeight,
+                         String papHoldObs, Integer hasDouche, Double douchePressHeight, Double doucheActHeight, String doucheObs, String toiletObs, Integer hasHanger,
+                         Double hangerHeight, String hangerObs, Integer hasObjHold, Integer objHoldCorrect, Double objHoldHeight, String objHoldObs, Integer hasSoapHold,
+                         Double soapHoldHeight, String soapHoldObs, Integer hasTowelHold, Double towelHoldHeight, String towelHoldObs, Integer hasEmergencyButton,
+                         Double emergencyHeight, String emergencyObs, Integer hasWaterValve, Integer waterValveType, Double waterValveHeight, String waterValveObs,
+                         Integer hasWindow, Integer winQnt, String winComType1, Double winComHeight1, String winComType2, Double winComHeight2, String winComType3, Double winComHeight3,
+                         String winObs, Integer hasWallMirror, Double wallMirrorLow, Double wallMirrorHigh, String wallMirrorObs, Integer sinkType, Integer hasLowerColSink,Double approxMeasureA,
+                         Double approxMeasureB, Double approxMeasureC, Double approxMeasureD, Double approxMeasureE, Integer hasSinkBar, Integer hasLeftFrontHorBar,
+                         Double leftFrontHorMeasureA, Double leftFrontHorMeasureB, Double leftFrontHorMeasureC, Double leftFrontHorMeasureD,
+                         Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs, Integer hasRightSideVertBar, Double rightSideVertMeasureA,
+                         Double rightSideVertMeasureB, Double rightSideVertMeasureC, Double rightSideVertMeasureD, Double rightSideVertMeasureE, Double rightSideVertDiam,
+                         Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh, String sinkObs, Integer hasUrinal,
+                         Integer hasAccessUrinal, Integer urinalType, Double urMeasureA, Double urMeasureB, Double urMeasureC, Double urMeasureD, Double urMeasureE,
+                         Double urMeasureF, Double urMeasureG, Double urMeasureH, Double urMeasureI, Double urMeasureJ, Double urMeasureK, Double urMeasureL, Double urMeasureM,
+                         String urObs) {
         this.blockID = blockID;
+        this.isCollective = isCollective;
         this.restType = restType;
         this.restLocation = restLocation;
+        this.collectiveHasDoor = collectiveHasDoor;
+        this.entranceWidth = entranceWidth;
+        this.entranceDoorSill = entranceDoorSill;
+        this.entranceDoorSillObs = entranceDoorSillObs;
         this.accessRoute = accessRoute;
         this.accessRouteObs = accessRouteObs;
         this.intRestroom = intRestroom;
         this.intRestObs = intRestObs;
-        this.restDistance = restDistance;
-        this.restDistObs = restDistObs;
-        this.exEntrance = exEntrance;
-        this.exEntObs = exEntObs;
         this.antiDriftFloor = antiDriftFloor;
         this.antiDriftFloorObs = antiDriftFloorObs;
         this.restDrain = restDrain;
@@ -216,41 +216,12 @@ public class RestroomEntry {
         this.restSwitch = restSwitch;
         this.switchHeight = switchHeight;
         this.switchObs = switchObs;
-        this.doorWidth = doorWidth;
-        this.hasPict = hasPict;
-        this.pictObs = pictObs;
-        this.opDir = opDir;
-        this.opDirObs = opDirObs;
-        this.hasCoat = hasCoat;
-        this.coatHeight = coatHeight;
-        this.coatObs = coatObs;
-        this.hasVertSign = hasVertSign;
-        this.vertSignObs = vertSignObs;
-        this.sillType = sillType;
-        this.sillIncHeight = sillIncHeight;
-        this.sillStepHeight = sillStepHeight;
-        this.sillSlopeQnt = sillSlopeQnt;
-        this.sillSlopeAngle1 = sillSlopeAngle1;
-        this.sillSlopeAngle2 = sillSlopeAngle2;
-        this.sillSlopeAngle3 = sillSlopeAngle3;
-        this.sillSlopeAngle4 = sillSlopeAngle4;
-        this.sillSlopeWidth = sillSlopeWidth;
-        this.sillSlopeHeight = sillSlopeHeight;
-        this.sillTypeObs = sillTypeObs;
-        this.hasTactSign = hasTactSign;
-        this.tactSignObs = tactSignObs;
-        this.hasHorHandle = hasHorHandle;
-        this.handleHeight = handleHeight;
-        this.handleLength = handleLength;
-        this.handleDiam = handleDiam;
-        this.handleObs = handleObs;
         this.upViewLength = upViewLength;
         this.upViewWidth = upViewWidth;
         this.upViewMeasureA = upViewMeasureA;
         this.upViewMeasureB = upViewMeasureB;
         this.upViewMeasureC = upViewMeasureC;
         this.upViewMeasureD = upViewMeasureD;
-        this.upViewMeasureE = upViewMeasureE;
         this.upViewObs = upViewObs;
         this.toType = toType;
         this.toHeightNoSeat = toHeightNoSeat;
@@ -280,6 +251,11 @@ public class RestroomEntry {
         this.vertBarJ = vertBarJ;
         this.vertBarSect = vertBarSect;
         this.vertBarDist = vertBarDist;
+        this.hasSideBar =  hasSideBar;
+        this.sideBarD = sideBarD;
+        this.sideBarE = sideBarE;
+        this.sideBarDistG = sideBarDistG;
+        this.sideBarSect = sideBarSect;
         this.hasArtBar = hasArtBar;
         this.artBarH = artBarH;
         this.artBarI = artBarI;
@@ -296,7 +272,8 @@ public class RestroomEntry {
         this.papSupHeight = papSupHeight;
         this.papHoldObs = papHoldObs;
         this.hasDouche = hasDouche;
-        this.doucheHeight = doucheHeight;
+        this.douchePressHeight = douchePressHeight;
+        this.doucheActHeight = doucheActHeight;
         this.doucheObs = doucheObs;
         this.toiletObs = toiletObs;
         this.hasHanger = hasHanger;
@@ -312,40 +289,54 @@ public class RestroomEntry {
         this.hasTowelHold = hasTowelHold;
         this.towelHoldHeight = towelHoldHeight;
         this.towelHoldObs = towelHoldObs;
+        this.hasEmergencyButton = hasEmergencyButton;
+        this.emergencyHeight = emergencyHeight;
+        this.emergencyObs = emergencyObs;
+        this.hasWaterValve = hasWaterValve;
+        this.waterValveType = waterValveType;
+        this.waterValveHeight = waterValveHeight;
+        this.waterValveObs = waterValveObs;
+        this.hasWindow = hasWindow;
+        this.winQnt = winQnt;
+        this.winComType1 = winComType1;
+        this.winComHeight1 = winComHeight1;
+        this.winComType2 = winComType2;
+        this.winComHeight2 = winComHeight2;
+        this.winComType3 = winComType3;
+        this.winComHeight3 = winComHeight3;
+        this.winObs = winObs;
         this.hasWallMirror = hasWallMirror;
         this.wallMirrorLow = wallMirrorLow;
         this.wallMirrorHigh = wallMirrorHigh;
         this.wallMirrorObs = wallMirrorObs;
         this.sinkType = sinkType;
+        this.hasLowerColSink = hasLowerColSink;
         this.approxMeasureA = approxMeasureA;
         this.approxMeasureB = approxMeasureB;
         this.approxMeasureC = approxMeasureC;
         this.approxMeasureD = approxMeasureD;
         this.approxMeasureE = approxMeasureE;
         this.hasSinkBar = hasSinkBar;
-        this.hasLeftBar = hasLeftBar;
-        this.leftHorMeasureA = leftHorMeasureA;
-        this.leftHorMeasureB = leftHorMeasureB;
-        this.leftHorMeasureC = leftHorMeasureC;
-        this.leftHorMeasureD = leftHorMeasureD;
-        this.leftVertMeasureA = leftVertMeasureA;
-        this.leftVertMeasureB = leftVertMeasureB;
-        this.leftVertMeasureC = leftVertMeasureC;
-        this.leftVertMeasureD = leftVertMeasureD;
-        this.leftVertMeasureE = leftVertMeasureE;
-        this.leftBarDiam = leftBarDiam;
-        this.leftBarDist = leftBarDist;
-        this.hasRightBar = hasRightBar;
-        this.rightHorMeasureA = rightHorMeasureA;
-        this.rightHorMeasureB = rightHorMeasureB;
-        this.rightHorMeasureC = rightHorMeasureC;
-        this.rightHorMeasureD = rightHorMeasureD;
-        this.rightVertMeasureA = rightVertMeasureA;
-        this.rightBarDiam = rightBarDiam;
-        this.rightBarDist = rightBarDist;
+        this.hasLeftFrontHorBar = hasLeftFrontHorBar;
+        this.leftFrontHorMeasureA = leftFrontHorMeasureA;
+        this.leftFrontHorMeasureB = leftFrontHorMeasureB;
+        this.leftFrontHorMeasureC = leftFrontHorMeasureC;
+        this.leftFrontHorMeasureD = leftFrontHorMeasureD;
+        this.leftFrontHorDiam = leftFrontHorDiam;
+        this.leftFrontHorDist = leftFrontHorDist;
+        this.leftFrontHorObs = leftFrontHorObs;
+        this.hasRightSideVertBar = hasRightSideVertBar;
+        this.rightSideVertMeasureA = rightSideVertMeasureA;
+        this.rightSideVertMeasureB = rightSideVertMeasureB;
+        this.rightSideVertMeasureC = rightSideVertMeasureC;
+        this.rightSideVertMeasureD = rightSideVertMeasureD;
+        this.rightSideVertMeasureE = rightSideVertMeasureE;
+        this.rightSideVertDiam = rightSideVertDiam;
+        this.rightSideVertDist = rightSideVertDist;
+        this.rightSideVertObs = rightSideVertObs;
         this.sinkHasMirror = sinkHasMirror;
-        this.siMirrorLow = siMirrorLow;
-        this.siMirrorHigh = siMirrorHigh;
+        this.sinkMirrorLow = sinkMirrorLow;
+        this.sinkMirrorHigh = sinkMirrorHigh;
         this.sinkObs = sinkObs;
         this.hasUrinal = hasUrinal;
         this.hasAccessUrinal = hasAccessUrinal;
@@ -366,6 +357,14 @@ public class RestroomEntry {
         this.urObs = urObs;
     }
 
+    public String getWinObs() {
+        return winObs;
+    }
+
+    public void setWinObs(String winObs) {
+        this.winObs = winObs;
+    }
+
     public int getRestroomID() {
         return restroomID;
     }
@@ -378,8 +377,16 @@ public class RestroomEntry {
         return blockID;
     }
 
-    public void setBlockID(int schoolID) {
-        this.blockID = schoolID;
+    public void setBlockID(int blockID) {
+        this.blockID = blockID;
+    }
+
+    public int getIsCollective() {
+        return isCollective;
+    }
+
+    public void setIsCollective(int isCollective) {
+        this.isCollective = isCollective;
     }
 
     public Integer getRestType() {
@@ -396,6 +403,22 @@ public class RestroomEntry {
 
     public void setRestLocation(String restLocation) {
         this.restLocation = restLocation;
+    }
+
+    public Integer getCollectiveHasDoor() {
+        return collectiveHasDoor;
+    }
+
+    public void setCollectiveHasDoor(Integer collectiveHasDoor) {
+        this.collectiveHasDoor = collectiveHasDoor;
+    }
+
+    public Double getEntranceWidth() {
+        return entranceWidth;
+    }
+
+    public void setEntranceWidth(Double entranceWidth) {
+        this.entranceWidth = entranceWidth;
     }
 
     public Integer getAccessRoute() {
@@ -428,38 +451,6 @@ public class RestroomEntry {
 
     public void setIntRestObs(String intRestObs) {
         this.intRestObs = intRestObs;
-    }
-
-    public Integer getRestDistance() {
-        return restDistance;
-    }
-
-    public void setRestDistance(Integer restDistance) {
-        this.restDistance = restDistance;
-    }
-
-    public String getRestDistObs() {
-        return restDistObs;
-    }
-
-    public void setRestDistObs(String restDistObs) {
-        this.restDistObs = restDistObs;
-    }
-
-    public Integer getExEntrance() {
-        return exEntrance;
-    }
-
-    public void setExEntrance(Integer exEntrance) {
-        this.exEntrance = exEntrance;
-    }
-
-    public String getExEntObs() {
-        return exEntObs;
-    }
-
-    public void setExEntObs(String exEntObs) {
-        this.exEntObs = exEntObs;
     }
 
     public Integer getAntiDriftFloor() {
@@ -518,222 +509,6 @@ public class RestroomEntry {
         this.switchObs = switchObs;
     }
 
-    public Double getDoorWidth() {
-        return doorWidth;
-    }
-
-    public void setDoorWidth(Double doorWidth) {
-        this.doorWidth = doorWidth;
-    }
-
-    public Integer getHasPict() {
-        return hasPict;
-    }
-
-    public void setHasPict(Integer hasPict) {
-        this.hasPict = hasPict;
-    }
-
-    public String getPictObs() {
-        return pictObs;
-    }
-
-    public void setPictObs(String pictObs) {
-        this.pictObs = pictObs;
-    }
-
-    public Integer getOpDir() {
-        return opDir;
-    }
-
-    public void setOpDir(Integer opDir) {
-        this.opDir = opDir;
-    }
-
-    public String getOpDirObs() {
-        return opDirObs;
-    }
-
-    public void setOpDirObs(String opDirObs) {
-        this.opDirObs = opDirObs;
-    }
-
-    public Integer getHasCoat() {
-        return hasCoat;
-    }
-
-    public void setHasCoat(Integer hasCoat) {
-        this.hasCoat = hasCoat;
-    }
-
-    public Double getCoatHeight() {
-        return coatHeight;
-    }
-
-    public void setCoatHeight(Double coatHeight) {
-        this.coatHeight = coatHeight;
-    }
-
-    public String getCoatObs() {
-        return coatObs;
-    }
-
-    public void setCoatObs(String coatObs) {
-        this.coatObs = coatObs;
-    }
-
-    public Integer getHasVertSign() {
-        return hasVertSign;
-    }
-
-    public void setHasVertSign(Integer hasVertSign) {
-        this.hasVertSign = hasVertSign;
-    }
-
-    public String getVertSignObs() {
-        return vertSignObs;
-    }
-
-    public void setVertSignObs(String vertSignObs) {
-        this.vertSignObs = vertSignObs;
-    }
-
-    public Integer getSillType() {
-        return sillType;
-    }
-
-    public void setSillType(Integer sillType) {
-        this.sillType = sillType;
-    }
-
-    public Double getSillIncHeight() {
-        return sillIncHeight;
-    }
-
-    public void setSillIncHeight(Double sillIncHeight) {
-        this.sillIncHeight = sillIncHeight;
-    }
-
-    public Double getSillStepHeight() {
-        return sillStepHeight;
-    }
-
-    public void setSillStepHeight(Double sillStepHeight) {
-        this.sillStepHeight = sillStepHeight;
-    }
-
-    public Integer getSillSlopeQnt() {
-        return sillSlopeQnt;
-    }
-
-    public void setSillSlopeQnt(Integer sillSlopeQnt) {
-        this.sillSlopeQnt = sillSlopeQnt;
-    }
-
-    public Double getSillSlopeAngle1() {
-        return sillSlopeAngle1;
-    }
-
-    public void setSillSlopeAngle1(Double sillSlopeAngle1) {
-        this.sillSlopeAngle1 = sillSlopeAngle1;
-    }
-
-    public Double getSillSlopeAngle2() {
-        return sillSlopeAngle2;
-    }
-
-    public void setSillSlopeAngle2(Double sillSlopeAngle2) {
-        this.sillSlopeAngle2 = sillSlopeAngle2;
-    }
-
-    public Double getSillSlopeAngle3() {
-        return sillSlopeAngle3;
-    }
-
-    public void setSillSlopeAngle3(Double sillSlopeAngle3) {
-        this.sillSlopeAngle3 = sillSlopeAngle3;
-    }
-
-    public Double getSillSlopeAngle4() {
-        return sillSlopeAngle4;
-    }
-
-    public void setSillSlopeAngle4(Double sillSlopeAngle4) {
-        this.sillSlopeAngle4 = sillSlopeAngle4;
-    }
-
-    public Double getSillSlopeWidth() {
-        return sillSlopeWidth;
-    }
-
-    public void setSillSlopeWidth(Double sillSlopeWidth) {
-        this.sillSlopeWidth = sillSlopeWidth;
-    }
-
-    public String getSillTypeObs() {
-        return sillTypeObs;
-    }
-
-    public void setSillTypeObs(String sillTypeObs) {
-        this.sillTypeObs = sillTypeObs;
-    }
-
-    public Integer getHasTactSign() {
-        return hasTactSign;
-    }
-
-    public void setHasTactSign(Integer hasTactSign) {
-        this.hasTactSign = hasTactSign;
-    }
-
-    public String getTactSignObs() {
-        return tactSignObs;
-    }
-
-    public void setTactSignObs(String tactSignObs) {
-        this.tactSignObs = tactSignObs;
-    }
-
-    public Integer getHasHorHandle() {
-        return hasHorHandle;
-    }
-
-    public void setHasHorHandle(Integer hasHorHandle) {
-        this.hasHorHandle = hasHorHandle;
-    }
-
-    public Double getHandleHeight() {
-        return handleHeight;
-    }
-
-    public void setHandleHeight(Double handleHeight) {
-        this.handleHeight = handleHeight;
-    }
-
-    public Double getHandleLength() {
-        return handleLength;
-    }
-
-    public void setHandleLength(Double handleLength) {
-        this.handleLength = handleLength;
-    }
-
-    public Double getHandleDiam() {
-        return handleDiam;
-    }
-
-    public void setHandleDiam(Double handleDiam) {
-        this.handleDiam = handleDiam;
-    }
-
-    public String getHandleObs() {
-        return handleObs;
-    }
-
-    public void setHandleObs(String handleObs) {
-        this.handleObs = handleObs;
-    }
-
     public Double getUpViewLength() {
         return upViewLength;
     }
@@ -782,20 +557,20 @@ public class RestroomEntry {
         this.upViewMeasureD = upViewMeasureD;
     }
 
-    public Double getUpViewMeasureE() {
-        return upViewMeasureE;
-    }
-
-    public void setUpViewMeasureE(Double upViewMeasureE) {
-        this.upViewMeasureE = upViewMeasureE;
-    }
-
     public String getUpViewObs() {
         return upViewObs;
     }
 
     public void setUpViewObs(String upViewObs) {
         this.upViewObs = upViewObs;
+    }
+
+    public Integer getToType() {
+        return toType;
+    }
+
+    public void setToType(Integer toType) {
+        this.toType = toType;
     }
 
     public Double getToHeightNoSeat() {
@@ -942,6 +717,14 @@ public class RestroomEntry {
         this.horBarF = horBarF;
     }
 
+    public Double getHorBarDistG() {
+        return horBarDistG;
+    }
+
+    public void setHorBarDistG(Double horBarDistG) {
+        this.horBarDistG = horBarDistG;
+    }
+
     public Double getHorBarSect() {
         return horBarSect;
     }
@@ -982,6 +765,14 @@ public class RestroomEntry {
         this.vertBarI = vertBarI;
     }
 
+    public Double getVertBarJ() {
+        return vertBarJ;
+    }
+
+    public void setVertBarJ(Double vertBarJ) {
+        this.vertBarJ = vertBarJ;
+    }
+
     public Double getVertBarSect() {
         return vertBarSect;
     }
@@ -996,22 +787,6 @@ public class RestroomEntry {
 
     public void setVertBarDist(Double vertBarDist) {
         this.vertBarDist = vertBarDist;
-    }
-
-    public Double getHorBarDistG() {
-        return horBarDistG;
-    }
-
-    public void setHorBarDistG(Double horBarDistG) {
-        this.horBarDistG = horBarDistG;
-    }
-
-    public Double getVertBarJ() {
-        return vertBarJ;
-    }
-
-    public void setVertBarJ(Double vertBarJ) {
-        this.vertBarJ = vertBarJ;
     }
 
     public Integer getHasArtBar() {
@@ -1044,14 +819,6 @@ public class RestroomEntry {
 
     public void setArtBarJ(Double artBarJ) {
         this.artBarJ = artBarJ;
-    }
-
-    public String getToiletObs() {
-        return toiletObs;
-    }
-
-    public void setToiletObs(String toiletObs) {
-        this.toiletObs = toiletObs;
     }
 
     public Double getArtBarSect() {
@@ -1142,6 +909,46 @@ public class RestroomEntry {
         this.papHoldObs = papHoldObs;
     }
 
+    public Integer getHasDouche() {
+        return hasDouche;
+    }
+
+    public void setHasDouche(Integer hasDouche) {
+        this.hasDouche = hasDouche;
+    }
+
+    public Double getDouchePressHeight() {
+        return douchePressHeight;
+    }
+
+    public void setDouchePressHeight(Double douchePressHeight) {
+        this.douchePressHeight = douchePressHeight;
+    }
+
+    public Double getDoucheActHeight() {
+        return doucheActHeight;
+    }
+
+    public void setDoucheActHeight(Double doucheActHeight) {
+        this.doucheActHeight = doucheActHeight;
+    }
+
+    public String getDoucheObs() {
+        return doucheObs;
+    }
+
+    public void setDoucheObs(String doucheObs) {
+        this.doucheObs = doucheObs;
+    }
+
+    public String getToiletObs() {
+        return toiletObs;
+    }
+
+    public void setToiletObs(String toiletObs) {
+        this.toiletObs = toiletObs;
+    }
+
     public Integer getHasHanger() {
         return hasHanger;
     }
@@ -1198,30 +1005,6 @@ public class RestroomEntry {
         this.objHoldObs = objHoldObs;
     }
 
-    public Integer getHasDouche() {
-        return hasDouche;
-    }
-
-    public void setHasDouche(Integer hasDouche) {
-        this.hasDouche = hasDouche;
-    }
-
-    public Double getDoucheHeight() {
-        return doucheHeight;
-    }
-
-    public void setDoucheHeight(Double doucheHeight) {
-        this.doucheHeight = doucheHeight;
-    }
-
-    public String getDoucheObs() {
-        return doucheObs;
-    }
-
-    public void setDoucheObs(String doucheObs) {
-        this.doucheObs = doucheObs;
-    }
-
     public Integer getHasSoapHold() {
         return hasSoapHold;
     }
@@ -1268,6 +1051,70 @@ public class RestroomEntry {
 
     public void setTowelHoldObs(String towelHoldObs) {
         this.towelHoldObs = towelHoldObs;
+    }
+
+    public Integer getHasEmergencyButton() {
+        return hasEmergencyButton;
+    }
+
+    public void setHasEmergencyButton(Integer hasEmergencyButton) {
+        this.hasEmergencyButton = hasEmergencyButton;
+    }
+
+    public Double getEmergencyHeight() {
+        return emergencyHeight;
+    }
+
+    public void setEmergencyHeight(Double emergencyHeight) {
+        this.emergencyHeight = emergencyHeight;
+    }
+
+    public String getEmergencyObs() {
+        return emergencyObs;
+    }
+
+    public void setEmergencyObs(String emergencyObs) {
+        this.emergencyObs = emergencyObs;
+    }
+
+    public Integer getHasWaterValve() {
+        return hasWaterValve;
+    }
+
+    public void setHasWaterValve(Integer hasWaterValve) {
+        this.hasWaterValve = hasWaterValve;
+    }
+
+    public Integer getWaterValveType() {
+        return waterValveType;
+    }
+
+    public void setWaterValveType(Integer waterValveType) {
+        this.waterValveType = waterValveType;
+    }
+
+    public Double getWaterValveHeight() {
+        return waterValveHeight;
+    }
+
+    public void setWaterValveHeight(Double waterValveHeight) {
+        this.waterValveHeight = waterValveHeight;
+    }
+
+    public String getWaterValveObs() {
+        return waterValveObs;
+    }
+
+    public void setWaterValveObs(String waterValveObs) {
+        this.waterValveObs = waterValveObs;
+    }
+
+    public Integer getHasWindow() {
+        return hasWindow;
+    }
+
+    public void setHasWindow(Integer hasWindow) {
+        this.hasWindow = hasWindow;
     }
 
     public Integer getHasWallMirror() {
@@ -1350,164 +1197,148 @@ public class RestroomEntry {
         this.approxMeasureE = approxMeasureE;
     }
 
-    public Integer getHasLeftBar() {
-        return hasLeftBar;
+    public Integer getHasSinkBar() {
+        return hasSinkBar;
     }
 
-    public void setHasLeftBar(Integer hasLeftBar) {
-        this.hasLeftBar = hasLeftBar;
+    public void setHasSinkBar(Integer hasSinkBar) {
+        this.hasSinkBar = hasSinkBar;
     }
 
-    public Double getLeftHorMeasureA() {
-        return leftHorMeasureA;
+    public Integer getHasLeftFrontHorBar() {
+        return hasLeftFrontHorBar;
     }
 
-    public void setLeftHorMeasureA(Double leftHorMeasureA) {
-        this.leftHorMeasureA = leftHorMeasureA;
+    public void setHasLeftFrontHorBar(Integer hasLeftFrontHorBar) {
+        this.hasLeftFrontHorBar = hasLeftFrontHorBar;
     }
 
-    public Double getLeftHorMeasureB() {
-        return leftHorMeasureB;
+    public Double getLeftFrontHorMeasureA() {
+        return leftFrontHorMeasureA;
     }
 
-    public void setLeftHorMeasureB(Double leftHorMeasureB) {
-        this.leftHorMeasureB = leftHorMeasureB;
+    public void setLeftFrontHorMeasureA(Double leftFrontHorMeasureA) {
+        this.leftFrontHorMeasureA = leftFrontHorMeasureA;
     }
 
-    public Double getLeftHorMeasureC() {
-        return leftHorMeasureC;
+    public Double getLeftFrontHorMeasureB() {
+        return leftFrontHorMeasureB;
     }
 
-    public void setLeftHorMeasureC(Double leftHorMeasureC) {
-        this.leftHorMeasureC = leftHorMeasureC;
+    public void setLeftFrontHorMeasureB(Double leftFrontHorMeasureB) {
+        this.leftFrontHorMeasureB = leftFrontHorMeasureB;
     }
 
-    public Double getLeftHorMeasureD() {
-        return leftHorMeasureD;
+    public Double getLeftFrontHorMeasureC() {
+        return leftFrontHorMeasureC;
     }
 
-    public void setLeftHorMeasureD(Double leftHorMeasureD) {
-        this.leftHorMeasureD = leftHorMeasureD;
+    public void setLeftFrontHorMeasureC(Double leftFrontHorMeasureC) {
+        this.leftFrontHorMeasureC = leftFrontHorMeasureC;
     }
 
-    public Double getLeftVertMeasureA() {
-        return leftVertMeasureA;
+    public Double getLeftFrontHorMeasureD() {
+        return leftFrontHorMeasureD;
     }
 
-    public void setLeftVertMeasureA(Double leftVertMeasureA) {
-        this.leftVertMeasureA = leftVertMeasureA;
+    public void setLeftFrontHorMeasureD(Double leftFrontHorMeasureD) {
+        this.leftFrontHorMeasureD = leftFrontHorMeasureD;
     }
 
-    public Double getLeftVertMeasureB() {
-        return leftVertMeasureB;
+    public Double getLeftFrontHorDiam() {
+        return leftFrontHorDiam;
     }
 
-    public void setLeftVertMeasureB(Double leftVertMeasureB) {
-        this.leftVertMeasureB = leftVertMeasureB;
+    public void setLeftFrontHorDiam(Double leftFrontHorDiam) {
+        this.leftFrontHorDiam = leftFrontHorDiam;
     }
 
-    public Double getLeftVertMeasureC() {
-        return leftVertMeasureC;
+    public Double getLeftFrontHorDist() {
+        return leftFrontHorDist;
     }
 
-    public void setLeftVertMeasureC(Double leftVertMeasureC) {
-        this.leftVertMeasureC = leftVertMeasureC;
+    public void setLeftFrontHorDist(Double leftFrontHorDist) {
+        this.leftFrontHorDist = leftFrontHorDist;
     }
 
-    public Double getLeftVertMeasureD() {
-        return leftVertMeasureD;
+    public String getLeftFrontHorObs() {
+        return leftFrontHorObs;
     }
 
-    public void setLeftVertMeasureD(Double leftVertMeasureD) {
-        this.leftVertMeasureD = leftVertMeasureD;
+    public void setLeftFrontHorObs(String leftFrontHorObs) {
+        this.leftFrontHorObs = leftFrontHorObs;
     }
 
-    public Double getLeftVertMeasureE() {
-        return leftVertMeasureE;
+    public Integer getHasRightSideVertBar() {
+        return hasRightSideVertBar;
     }
 
-    public void setLeftVertMeasureE(Double leftVertMeasureE) {
-        this.leftVertMeasureE = leftVertMeasureE;
+    public void setHasRightSideVertBar(Integer hasRightSideVertBar) {
+        this.hasRightSideVertBar = hasRightSideVertBar;
     }
 
-    public Double getLeftBarDiam() {
-        return leftBarDiam;
+    public Double getRightSideVertMeasureA() {
+        return rightSideVertMeasureA;
     }
 
-    public void setLeftBarDiam(Double leftBarDiam) {
-        this.leftBarDiam = leftBarDiam;
+    public void setRightSideVertMeasureA(Double rightSideVertMeasureA) {
+        this.rightSideVertMeasureA = rightSideVertMeasureA;
     }
 
-    public Double getLeftBarDist() {
-        return leftBarDist;
+    public Double getRightSideVertMeasureB() {
+        return rightSideVertMeasureB;
     }
 
-    public void setLeftBarDist(Double leftBarDist) {
-        this.leftBarDist = leftBarDist;
+    public void setRightSideVertMeasureB(Double rightSideVertMeasureB) {
+        this.rightSideVertMeasureB = rightSideVertMeasureB;
     }
 
-    public Integer getHasRightBar() {
-        return hasRightBar;
+    public Double getRightSideVertMeasureC() {
+        return rightSideVertMeasureC;
     }
 
-    public void setHasRightBar(Integer hasRightBar) {
-        this.hasRightBar = hasRightBar;
+    public void setRightSideVertMeasureC(Double rightSideVertMeasureC) {
+        this.rightSideVertMeasureC = rightSideVertMeasureC;
     }
 
-    public Double getRightHorMeasureA() {
-        return rightHorMeasureA;
+    public Double getRightSideVertMeasureD() {
+        return rightSideVertMeasureD;
     }
 
-    public void setRightHorMeasureA(Double rightHorMeasureA) {
-        this.rightHorMeasureA = rightHorMeasureA;
+    public void setRightSideVertMeasureD(Double rightSideVertMeasureD) {
+        this.rightSideVertMeasureD = rightSideVertMeasureD;
     }
 
-    public Double getRightHorMeasureB() {
-        return rightHorMeasureB;
+    public Double getRightSideVertMeasureE() {
+        return rightSideVertMeasureE;
     }
 
-    public void setRightHorMeasureB(Double rightHorMeasureB) {
-        this.rightHorMeasureB = rightHorMeasureB;
+    public void setRightSideVertMeasureE(Double rightSideVertMeasureE) {
+        this.rightSideVertMeasureE = rightSideVertMeasureE;
     }
 
-    public Double getRightHorMeasureC() {
-        return rightHorMeasureC;
+    public Double getRightSideVertDiam() {
+        return rightSideVertDiam;
     }
 
-    public void setRightHorMeasureC(Double rightHorMeasureC) {
-        this.rightHorMeasureC = rightHorMeasureC;
+    public void setRightSideVertDiam(Double rightSideVertDiam) {
+        this.rightSideVertDiam = rightSideVertDiam;
     }
 
-    public Double getRightHorMeasureD() {
-        return rightHorMeasureD;
+    public Double getRightSideVertDist() {
+        return rightSideVertDist;
     }
 
-    public void setRightHorMeasureD(Double rightHorMeasureD) {
-        this.rightHorMeasureD = rightHorMeasureD;
+    public void setRightSideVertDist(Double rightSideVertDist) {
+        this.rightSideVertDist = rightSideVertDist;
     }
 
-    public Double getRightVertMeasureA() {
-        return rightVertMeasureA;
+    public String getRightSideVertObs() {
+        return rightSideVertObs;
     }
 
-    public void setRightVertMeasureA(Double rightVertMeasureA) {
-        this.rightVertMeasureA = rightVertMeasureA;
-    }
-
-    public Double getRightBarDiam() {
-        return rightBarDiam;
-    }
-
-    public void setRightBarDiam(Double rightBarDiam) {
-        this.rightBarDiam = rightBarDiam;
-    }
-
-    public Double getRightBarDist() {
-        return rightBarDist;
-    }
-
-    public void setRightBarDist(Double rightBarDist) {
-        this.rightBarDist = rightBarDist;
+    public void setRightSideVertObs(String rightSideVertObs) {
+        this.rightSideVertObs = rightSideVertObs;
     }
 
     public Integer getSinkHasMirror() {
@@ -1518,20 +1349,20 @@ public class RestroomEntry {
         this.sinkHasMirror = sinkHasMirror;
     }
 
-    public Double getSiMirrorLow() {
-        return siMirrorLow;
+    public Double getSinkMirrorLow() {
+        return sinkMirrorLow;
     }
 
-    public void setSiMirrorLow(Double siMirrorLow) {
-        this.siMirrorLow = siMirrorLow;
+    public void setSinkMirrorLow(Double sinkMirrorLow) {
+        this.sinkMirrorLow = sinkMirrorLow;
     }
 
-    public Double getSiMirrorHigh() {
-        return siMirrorHigh;
+    public Double getSinkMirrorHigh() {
+        return sinkMirrorHigh;
     }
 
-    public void setSiMirrorHigh(Double siMirrorHigh) {
-        this.siMirrorHigh = siMirrorHigh;
+    public void setSinkMirrorHigh(Double sinkMirrorHigh) {
+        this.sinkMirrorHigh = sinkMirrorHigh;
     }
 
     public String getSinkObs() {
@@ -1540,14 +1371,6 @@ public class RestroomEntry {
 
     public void setSinkObs(String sinkObs) {
         this.sinkObs = sinkObs;
-    }
-
-    public Integer getHasSinkBar() {
-        return hasSinkBar;
-    }
-
-    public void setHasSinkBar(Integer hasSinkBar) {
-        this.hasSinkBar = hasSinkBar;
     }
 
     public Integer getHasUrinal() {
@@ -1686,19 +1509,123 @@ public class RestroomEntry {
         this.urObs = urObs;
     }
 
-    public Integer getToType() {
-        return toType;
+    public Integer getEntranceDoorSill() {
+        return entranceDoorSill;
     }
 
-    public void setToType(Integer toType) {
-        this.toType = toType;
+    public void setEntranceDoorSill(Integer entranceDoorSill) {
+        this.entranceDoorSill = entranceDoorSill;
     }
 
-    public Double getSillSlopeHeight() {
-        return sillSlopeHeight;
+    public String getEntranceDoorSillObs() {
+        return entranceDoorSillObs;
     }
 
-    public void setSillSlopeHeight(Double sillSlopeHeight) {
-        this.sillSlopeHeight = sillSlopeHeight;
+    public void setEntranceDoorSillObs(String entranceDoorSillObs) {
+        this.entranceDoorSillObs = entranceDoorSillObs;
+    }
+
+    public Integer getHasLowerColSink() {
+        return hasLowerColSink;
+    }
+
+    public void setHasLowerColSink(Integer hasLowerColSink) {
+        this.hasLowerColSink = hasLowerColSink;
+    }
+
+    public Integer getHasSideBar() {
+        return hasSideBar;
+    }
+
+    public void setHasSideBar(Integer hasSideBar) {
+        this.hasSideBar = hasSideBar;
+    }
+
+    public Double getSideBarD() {
+        return sideBarD;
+    }
+
+    public void setSideBarD(Double sideBarD) {
+        this.sideBarD = sideBarD;
+    }
+
+    public Double getSideBarE() {
+        return sideBarE;
+    }
+
+    public void setSideBarE(Double sideBarE) {
+        this.sideBarE = sideBarE;
+    }
+
+    public Double getSideBarDistG() {
+        return sideBarDistG;
+    }
+
+    public void setSideBarDistG(Double sideBarDistG) {
+        this.sideBarDistG = sideBarDistG;
+    }
+
+    public Double getSideBarSect() {
+        return sideBarSect;
+    }
+
+    public void setSideBarSect(Double sideBarSect) {
+        this.sideBarSect = sideBarSect;
+    }
+
+    public Integer getWinQnt() {
+        return winQnt;
+    }
+
+    public void setWinQnt(Integer winQnt) {
+        this.winQnt = winQnt;
+    }
+
+    public String getWinComType1() {
+        return winComType1;
+    }
+
+    public void setWinComType1(String winComType1) {
+        this.winComType1 = winComType1;
+    }
+
+    public Double getWinComHeight1() {
+        return winComHeight1;
+    }
+
+    public void setWinComHeight1(Double winComHeight1) {
+        this.winComHeight1 = winComHeight1;
+    }
+
+    public String getWinComType2() {
+        return winComType2;
+    }
+
+    public void setWinComType2(String winComType2) {
+        this.winComType2 = winComType2;
+    }
+
+    public Double getWinComHeight2() {
+        return winComHeight2;
+    }
+
+    public void setWinComHeight2(Double winComHeight2) {
+        this.winComHeight2 = winComHeight2;
+    }
+
+    public String getWinComType3() {
+        return winComType3;
+    }
+
+    public void setWinComType3(String winComType3) {
+        this.winComType3 = winComType3;
+    }
+
+    public Double getWinComHeight3() {
+        return winComHeight3;
+    }
+
+    public void setWinComHeight3(Double winComHeight3) {
+        this.winComHeight3 = winComHeight3;
     }
 }

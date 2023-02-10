@@ -1,139 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ChildFragments.RestSideWallFragment">
 
-    <TextView
-        android:id="@+id/side_hor_bar_header"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:text="O sanitário possui barra de apoio horizontal?"
-        android:textSize="@dimen/section_header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content">
 
-    <RadioGroup
-        android:id="@+id/side_hor_bar_radio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/side_hor_bar_header">
 
-        <RadioButton
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/side_hor_bar_header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="@integer/weight_one"
-            android:text="@string/radio_button_no"
-            android:textSize="@dimen/radio_button_text" />
+            android:text="@string/hint_has_hor_wall_bar_toilet"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/side_hor_bar_radio"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="@integer/weight_one"
-            android:text="@string/radio_button_yes"
-            android:textSize="@dimen/radio_button_text" />
-    </RadioGroup>
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/side_hor_bar_header">
 
-    <TextView
-        android:id="@+id/side_hor_bar_error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/empty_fields"
-        android:textColor="@color/error_message"
-        android:textSize="14sp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/side_hor_bar_radio" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
 
-    <ImageButton
-        android:id="@+id/hor_side_bar_img"
-        android:layout_width="@dimen/square_image_100"
-        android:layout_height="@dimen/square_image_100"
-        android:layout_marginTop="@dimen/top_margins"
-        android:contentDescription="Barra Lateral de Apoio Horizontal"
-        app:layout_constraintTop_toBottomOf="@id/side_hor_bar_error"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/bar_measureD_field"
-        android:visibility="gone"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
+        </RadioGroup>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/bar_measureD_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_measurement_D"
-        app:layout_constraintBottom_toBottomOf="@id/hor_side_bar_img"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/hor_side_bar_img"
-        app:layout_constraintTop_toTopOf="@id/hor_side_bar_img"
-        android:visibility="gone">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/bar_measureD_value"
+        <TextView
+            android:id="@+id/side_hor_bar_error"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal" />
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/side_hor_bar_radio" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <ImageButton
+            android:id="@+id/hor_side_bar_img"
+            android:layout_width="@dimen/square_image_100"
+            android:layout_height="@dimen/square_image_100"
+            android:layout_marginTop="@dimen/top_margins"
+            android:contentDescription="Barra Lateral de Apoio Horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/bar_measureD_field"
+            app:layout_constraintTop_toBottomOf="@id/side_hor_bar_error"
+            android:layout_marginEnd="@dimen/usual_padding"
+            android:visibility="gone"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/bar_measureE_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:hint="@string/hint_measurement_E"
-        android:weightSum="@integer/weight_one"
-        app:layout_constraintEnd_toStartOf="@id/bar_measureF_field"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/hor_side_bar_img"
-        android:visibility="gone">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bar_measureD_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_measurement_D"
+            app:layout_constraintBottom_toBottomOf="@id/hor_side_bar_img"
+            app:layout_constraintStart_toEndOf="@id/hor_side_bar_img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/hor_side_bar_img"
+            android:visibility="gone">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/bar_measureE_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bar_measureD_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/bar_measureF_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/usual_padding"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:hint="@string/hint_measurement_F"
-        android:weightSum="@integer/weight_one"
-        app:layout_constraintBaseline_toBaselineOf="@id/bar_measureE_field"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/bar_measureE_field"
-        android:visibility="gone">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bar_measureE_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_measurement_E"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintEnd_toStartOf="@id/bar_measureF_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hor_side_bar_img"
+            android:visibility="gone">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/bar_measureF_value"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bar_measureE_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-     <ImageButton
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bar_measureF_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_measurement_F"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintBaseline_toBaselineOf="@id/bar_measureE_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/bar_measureE_field"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bar_measureF_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
             android:id="@+id/side_wall_bar_dist_img"
             android:layout_width="@dimen/square_image_100"
             android:layout_height="@dimen/square_image_100"
             android:layout_marginTop="@dimen/top_margins"
             android:contentDescription="Barra Reta Lateral Fixa"
-            app:layout_constraintTop_toBottomOf="@id/bar_measureE_field"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/bar_measureG_field"
+            app:layout_constraintTop_toBottomOf="@id/bar_measureE_field"
+            android:layout_marginStart="@dimen/usual_padding"
             android:visibility="gone"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -143,8 +145,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_measurement_G"
             app:layout_constraintBottom_toBottomOf="@id/side_wall_bar_dist_img"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/side_wall_bar_dist_img"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/side_wall_bar_dist_img"
             android:visibility="gone">
 
@@ -154,210 +156,221 @@
                 android:layout_height="match_parent"
                 android:inputType="numberDecimal" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/side_hor_bar_section_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:hint="@string/hint_trans_section_bar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/side_wall_bar_dist_img"
-        android:visibility="gone">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/side_hor_bar_section_value"
-            android:inputType="numberDecimal"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/side_hor_bar_section_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.google.android.material.textfield.TextInputEditText>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/ext_face_side_bar_dist_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:hint="@string/hint_wall_bar_distance"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/side_hor_bar_section_field"
-        android:visibility="gone">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ext_face_side_bar_dist_value"
-            android:inputType="numberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.google.android.material.textfield.TextInputEditText>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/vert_bar_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:text="O sanitário possui barra de apoio vertical?"
-        android:textSize="@dimen/section_header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ext_face_side_bar_dist_field" />
-
-    <RadioGroup
-        android:id="@+id/vert_bar_radio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vert_bar_header">
-
-        <RadioButton
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="@integer/weight_one"
-            android:text="@string/radio_button_no"
-            android:textSize="@dimen/radio_button_text" />
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_trans_section_bar"
+            app:layout_constraintTop_toBottomOf="@id/side_wall_bar_dist_img"
+            android:visibility="gone">
 
-        <RadioButton
-            android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/side_hor_bar_section_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ext_face_side_bar_dist_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="@integer/weight_one"
-            android:text="@string/radio_button_yes"
-            android:textSize="@dimen/radio_button_text" />
-    </RadioGroup>
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_wall_bar_distance"
+            app:layout_constraintTop_toBottomOf="@id/side_hor_bar_section_field"
+            android:visibility="gone">
 
-    <TextView
-        android:id="@+id/vert_bar_error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/empty_fields"
-        android:textColor="@color/error_message"
-        android:textSize="14sp"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vert_bar_radio" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ext_face_side_bar_dist_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal">
 
-    <ImageButton
-        android:id="@+id/rest_vert_bar_img"
-        android:layout_width="@dimen/square_image_100"
-        android:layout_height="@dimen/square_image_100"
-        android:layout_marginTop="@dimen/top_margins"
-        android:contentDescription="Barra de Apoio Vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vert_bar_error"
-        app:layout_constraintEnd_toStartOf="@id/bar_measureH_field"
-        android:visibility="gone"/>
+            </com.google.android.material.textfield.TextInputEditText>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/bar_measureH_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_measurement_H"
-        app:layout_constraintBottom_toBottomOf="@id/rest_vert_bar_img"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/rest_vert_bar_img"
-        app:layout_constraintTop_toTopOf="@id/rest_vert_bar_img"
-        android:visibility="gone">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/bar_measureH_value"
+        <TextView
+            android:id="@+id/vert_art_bar_header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="@string/hint_has_vert_wall_bar_toilet"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintTop_toBottomOf="@id/ext_face_side_bar_dist_field" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/bar_measureI_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:hint="@string/hint_measurement_I"
-        android:weightSum="@integer/weight_one"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/bar_measureJ_field"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rest_vert_bar_img">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/bar_measureI_value"
+        <RadioGroup
+            android:id="@+id/vert_bar_radio"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/vert_art_bar_header">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/bar_measureJ_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/usual_padding"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:hint="@string/hint_measurement_J"
-        android:weightSum="@integer/weight_one"
-        android:visibility="gone"
-        app:layout_constraintBaseline_toBaselineOf="@id/bar_measureI_field"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/bar_measureI_field">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
+        </RadioGroup>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/bar_measureJ_value"
+        <TextView
+            android:id="@+id/vert_bar_error"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:inputType="numberDecimal" />
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/vert_bar_radio" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <ImageButton
+            android:id="@+id/vert_art_bar_img_1"
+            android:layout_width="@dimen/square_image_100"
+            android:layout_height="@dimen/square_image_100"
+            android:layout_marginTop="@dimen/top_margins"
+            android:contentDescription="Barra de Apoio Vertical"
+            app:layout_constraintEnd_toStartOf="@id/bar_measureH_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vert_bar_error"
+            android:layout_marginEnd="@dimen/usual_padding"
+            android:visibility="gone"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/vert_bar_section_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:hint="@string/hint_trans_section_bar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bar_measureJ_field"
-        android:visibility="gone">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bar_measureH_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_measurement_H"
+            app:layout_constraintBottom_toBottomOf="@id/vert_art_bar_img_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/vert_art_bar_img_1"
+            app:layout_constraintTop_toTopOf="@id/vert_art_bar_img_1"
+            android:visibility="gone">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/vert_bar_section_value"
-            android:inputType="numberDecimal"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bar_measureH_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bar_measureI_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_measurement_I"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintEnd_toStartOf="@id/bar_measureJ_field"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vert_art_bar_img_1"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bar_measureI_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bar_measureJ_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_measurement_J"
+            android:weightSum="@integer/weight_one"
+            app:layout_constraintBaseline_toBaselineOf="@id/bar_measureI_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/bar_measureI_field"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/bar_measureJ_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageButton
+            android:id="@+id/vert_art_bar_img_2"
+            android:layout_width="@dimen/square_image_100"
+            android:layout_height="@dimen/square_image_100"
+            android:layout_marginTop="@dimen/top_margins"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/vert_bar_section_field"
+            app:layout_constraintTop_toBottomOf="@id/bar_measureJ_field"
+            app:layout_constraintBottom_toTopOf="@id/ext_face_vert_bar_dist_field"
+            android:layout_marginStart="@dimen/usual_padding"
+            android:visibility="gone"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/vert_bar_section_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_trans_section_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bar_measureJ_field"
+            app:layout_constraintBottom_toTopOf="@id/ext_face_vert_bar_dist_field"
+            app:layout_constraintEnd_toStartOf="@id/vert_art_bar_img_2"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/vert_bar_section_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ext_face_vert_bar_dist_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_wall_bar_distance"
+            app:layout_constraintTop_toBottomOf="@id/vert_art_bar_img_2"
+            android:paddingTop="@dimen/usual_padding"
+            android:visibility="gone">
 
-        </com.google.android.material.textfield.TextInputEditText>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ext_face_vert_bar_dist_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputEditText>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/ext_face_vert_bar_dist_field"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:hint="@string/hint_wall_bar_distance"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vert_bar_section_field"
-        android:visibility="gone">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ext_face_vert_bar_dist_value"
-            android:inputType="numberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.google.android.material.textfield.TextInputEditText>
-
-    </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

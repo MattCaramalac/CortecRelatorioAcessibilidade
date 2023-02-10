@@ -36,6 +36,11 @@ public class RestToiletUpdate {
     private Double vertBarJ;
     private Double vertBarSect;
     private Double vertBarDist;
+    private Integer hasSideBar;
+    private Double sideBarD;
+    private Double sideBarE;
+    private Double sideBarDistG;
+    private Double sideBarSect;
     private Integer hasArtBar;
     private Double artBarH;
     private Double artBarI;
@@ -52,17 +57,19 @@ public class RestToiletUpdate {
     private Double papSupHeight;
     private String papHoldObs;
     private Integer hasDouche;
-    private Double doucheHeight;
+    private Double douchePressHeight;
+    private Double doucheActHeight;
     private String doucheObs;
     private String toiletObs;
 
     public RestToiletUpdate(int restroomID, Integer toType, Double toHeightNoSeat, Integer toHasSeat, Double toHeightSeat, Integer toHasSoculo, Double frSoculo,
                             Double latSoculo, Integer socCorners, Integer toHasFrontBar, Double frBarA, Double frBarB, Double frBarC, Double frBarSect, Double frBarDist,
                             Integer toHasWall, Integer hasHorBar, Double horBarD, Double horBarE, Double horBarF, Double horBarDistG, Double horBarSect, Double horBarDist,
-                            Integer hasVertBar, Double vertBarH, Double vertBarI, Double vertBarJ, Double vertBarSect, Double vertBarDist, Integer hasArtBar,
-                            Double artBarH, Double artBarI, Double artBarJ, Double artBarSect, String toActDesc, Double toActHeight, String toActObs, Integer hasPapHolder,
-                            Integer papHolderType, Double papEmbDist, Double papEmbHeight, Integer papSupAlign, Double papSupHeight, String papHoldObs, Integer hasDouche,
-                            Double doucheHeight, String doucheObs, String toiletObs) {
+                            Integer hasVertBar, Double vertBarH, Double vertBarI, Double vertBarJ, Double vertBarSect, Double vertBarDist, Integer hasSideBar,
+                            Double sideBarD, Double sideBarE, Double sideBarDistG, Double sideBarSect, Integer hasArtBar, Double artBarH, Double artBarI, Double artBarJ,
+                            Double artBarSect, String toActDesc, Double toActHeight, String toActObs, Integer hasPapHolder, Integer papHolderType, Double papEmbDist,
+                            Double papEmbHeight, Integer papSupAlign, Double papSupHeight, String papHoldObs, Integer hasDouche, Double douchePressHeight, Double doucheActHeight,
+                            String doucheObs, String toiletObs) {
         this.restroomID = restroomID;
         this.toType = toType;
         this.toHeightNoSeat = toHeightNoSeat;
@@ -92,6 +99,11 @@ public class RestToiletUpdate {
         this.vertBarJ = vertBarJ;
         this.vertBarSect = vertBarSect;
         this.vertBarDist = vertBarDist;
+        this.hasSideBar = hasSideBar;
+        this.sideBarD = sideBarD;
+        this.sideBarE = sideBarE;
+        this.sideBarDistG = sideBarDistG;
+        this.sideBarSect = sideBarSect;
         this.hasArtBar = hasArtBar;
         this.artBarH = artBarH;
         this.artBarI = artBarI;
@@ -108,7 +120,8 @@ public class RestToiletUpdate {
         this.papSupHeight = papSupHeight;
         this.papHoldObs = papHoldObs;
         this.hasDouche = hasDouche;
-        this.doucheHeight = doucheHeight;
+        this.douchePressHeight = douchePressHeight;
+        this.doucheActHeight = doucheActHeight;
         this.doucheObs = doucheObs;
         this.toiletObs = toiletObs;
     }
@@ -473,14 +486,6 @@ public class RestToiletUpdate {
         this.hasDouche = hasDouche;
     }
 
-    public Double getDoucheHeight() {
-        return doucheHeight;
-    }
-
-    public void setDoucheHeight(Double doucheHeight) {
-        this.doucheHeight = doucheHeight;
-    }
-
     public String getDoucheObs() {
         return doucheObs;
     }
@@ -495,5 +500,61 @@ public class RestToiletUpdate {
 
     public void setToiletObs(String toiletObs) {
         this.toiletObs = toiletObs;
+    }
+
+    public Integer getHasSideBar() {
+        return hasSideBar;
+    }
+
+    public void setHasSideBar(Integer hasSideBar) {
+        this.hasSideBar = hasSideBar;
+    }
+
+    public Double getSideBarD() {
+        return sideBarD;
+    }
+
+    public void setSideBarD(Double sideBarD) {
+        this.sideBarD = sideBarD;
+    }
+
+    public Double getSideBarE() {
+        return sideBarE;
+    }
+
+    public void setSideBarE(Double sideBarE) {
+        this.sideBarE = sideBarE;
+    }
+
+    public Double getSideBarDistG() {
+        return sideBarDistG;
+    }
+
+    public void setSideBarDistG(Double sideBarDistG) {
+        this.sideBarDistG = sideBarDistG;
+    }
+
+    public Double getSideBarSect() {
+        return sideBarSect;
+    }
+
+    public void setSideBarSect(Double sideBarSect) {
+        this.sideBarSect = sideBarSect;
+    }
+
+    public Double getDouchePressHeight() {
+        return douchePressHeight;
+    }
+
+    public void setDouchePressHeight(Double douchePressHeight) {
+        this.douchePressHeight = douchePressHeight;
+    }
+
+    public Double getDoucheActHeight() {
+        return doucheActHeight;
+    }
+
+    public void setDoucheActHeight(Double doucheActHeight) {
+        this.doucheActHeight = doucheActHeight;
     }
 }

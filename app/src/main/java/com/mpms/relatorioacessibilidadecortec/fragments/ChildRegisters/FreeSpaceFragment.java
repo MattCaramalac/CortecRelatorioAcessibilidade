@@ -67,7 +67,7 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
             if (fSpaceNoEmptyFields()) {
                 FreeSpaceEntry newFreeSp = newFreeSpEntry(fSpaceBundle);
                 if (fSpaceBundle.getInt(FREE_SPACE_ID) > 0) {
-                    newFreeSp.setFreeSpaceID(fSpaceBundle.getInt(FREE_SPACE_ID));
+                    newFreeSp.setFrSpaceID(fSpaceBundle.getInt(FREE_SPACE_ID));
                     ViewModelEntry.updateFreeSpace(newFreeSp);
                     Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                     requireActivity().getSupportFragmentManager().popBackStackImmediate();
@@ -107,14 +107,14 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
     }
 
     private void loadFreeSpData(FreeSpaceEntry fSpace) {
-        if (fSpace.getFreeSpaceLocation() != null)
-            fSpaceLocaleValue.setText(fSpace.getFreeSpaceLocation());
+        if (fSpace.getFrSpaceLocation() != null)
+            fSpaceLocaleValue.setText(fSpace.getFrSpaceLocation());
         if (fSpace.getObstacleWidth() != null)
             obsWidthValue.setText(String.valueOf(fSpace.getObstacleWidth()));
-        if (fSpace.getFreeSpaceWidth() != null)
-            fSpaceWidthValue.setText(String.valueOf(fSpace.getFreeSpaceWidth()));
-        if (fSpace.getFreeSpaceObs() != null)
-            fSpaceObsValue.setText(fSpace.getFreeSpaceObs());
+        if (fSpace.getFrSpaceWidth() != null)
+            fSpaceWidthValue.setText(String.valueOf(fSpace.getFrSpaceWidth()));
+        if (fSpace.getFrSpaceObs() != null)
+            fSpaceObsValue.setText(fSpace.getFrSpaceObs());
     }
 
     private void clearFreeSpEmptyFieldErrors() {
@@ -133,6 +133,12 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
     private FreeSpaceEntry newFreeSpEntry(Bundle bundle) {
         String fSpLocale, fSpObs = null;
         double fSpWidth, obsWidth;
+        Integer roomID = null, restID = null;
+
+        if (bundle.getInt(AMBIENT_ID) != 0)
+            roomID = bundle.getInt(AMBIENT_ID);
+        else if (bundle.getInt(REST_ID) != 0)
+            restID = bundle.getInt(REST_ID);
 
         fSpLocale = String.valueOf(fSpaceLocaleValue.getText());
         fSpWidth = Double.parseDouble(String.valueOf(fSpaceWidthValue.getText()));
@@ -140,7 +146,7 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
         if (!TextUtils.isEmpty(fSpaceObsValue.getText()))
             fSpObs = String.valueOf(fSpaceObsValue.getText());
 
-        return new FreeSpaceEntry(bundle.getInt(AMBIENT_ID), fSpLocale, fSpWidth, fSpObs, obsWidth);
+        return new FreeSpaceEntry(roomID, restID, fSpLocale, obsWidth, fSpWidth, fSpObs);
     }
 
     private boolean fSpaceNoEmptyFields() {

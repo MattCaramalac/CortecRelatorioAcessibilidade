@@ -2,7 +2,6 @@ package com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,31 +19,35 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.RestToiletSideBarsParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
+
+import org.parceler.Parcels;
 
 
 public class RestSideWallFragment extends Fragment implements TagInterface {
 
-    ImageButton horBar, horDistBar, vertBar;
-    TextInputLayout measureFieldD, measureFieldE, measureFieldF, measureFieldG, measureFieldH, measureFieldI, measureFieldJ, horSectionField,
-            vertSectionField, horBarDistField, vertBarDistField;
-    TextInputEditText measureValueD, measureValueE, measureValueF, measureValueG, measureValueH, measureValueI, measureValueJ, horSectionValue,
-            vertSectionValue, horBarDistValue, vertBarDistValue;
-    RadioGroup hasHorBar, hasVertBar;
-    TextView hBarError, vBarError;
+    ImageButton horSideBar, horSideDistBar, vertArtBar1, artBar2;
+    TextInputLayout measureFieldD, measureFieldE, measureFieldF, measureFieldG, measureFieldH, measureFieldI, measureFieldJ, horSideDiamField,
+            vertArtDiamField, horBarDistField, vertBarDistField;
+    TextInputEditText measureValueD, measureValueE, measureValueF, measureValueG, measureValueH, measureValueI, measureValueJ, horSideDiamValue,
+            vertArtDiamValue, horBarDistValue, vertBarDistValue;
+    RadioGroup hasHorSideBar, hasVertArtBar;
+    TextView question1, question2, hBarError, vBarError;
 
     Bundle imgData;
     ViewModelEntry modelEntry;
 
-    static int restID;
+    static int layout, restID;
 
     public RestSideWallFragment() {
         // Required empty public constructor
     }
 
-    public static RestSideWallFragment newInstance(int i) {
-        restID = i;
+    public static RestSideWallFragment newInstance(int visual, int restroom) {
+        layout = visual;
+        restID = restroom;
         return new RestSideWallFragment();
     }
 
@@ -67,7 +70,8 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
 
         instantiateSideWallViews(view);
 
-        modelEntry.getOneRestroomEntry(restID).observe(getViewLifecycleOwner(), this::loadSideWallData);
+        if (restID > 0)
+            modelEntry.getRestToiletData(restID).observe(getViewLifecycleOwner(), this::loadSideWallData);
 
         getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
             if (checkSideWallFields()) {
@@ -82,9 +86,10 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
 
     public void instantiateSideWallViews(View view) {
 //        ImageButton
-        horBar = view.findViewById(R.id.hor_side_bar_img);
-        horDistBar = view.findViewById(R.id.side_wall_bar_dist_img);
-        vertBar = view.findViewById(R.id.rest_vert_bar_img);
+        horSideBar = view.findViewById(R.id.hor_side_bar_img);
+        horSideDistBar = view.findViewById(R.id.side_wall_bar_dist_img);
+        vertArtBar1 = view.findViewById(R.id.vert_art_bar_img_1);
+        artBar2 = view.findViewById(R.id.vert_art_bar_img_2);
 //        TextInputLayout
         measureFieldD = view.findViewById(R.id.bar_measureD_field);
         measureFieldE = view.findViewById(R.id.bar_measureE_field);
@@ -93,8 +98,8 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
         measureFieldH = view.findViewById(R.id.bar_measureH_field);
         measureFieldI = view.findViewById(R.id.bar_measureI_field);
         measureFieldJ = view.findViewById(R.id.bar_measureJ_field);
-        horSectionField = view.findViewById(R.id.side_hor_bar_section_field);
-        vertSectionField = view.findViewById(R.id.vert_bar_section_field);
+        horSideDiamField = view.findViewById(R.id.side_hor_bar_section_field);
+        vertArtDiamField = view.findViewById(R.id.vert_bar_section_field);
         horBarDistField = view.findViewById(R.id.ext_face_side_bar_dist_field);
         vertBarDistField = view.findViewById(R.id.ext_face_vert_bar_dist_field);
 //        TextInputEditText
@@ -105,122 +110,201 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
         measureValueH = view.findViewById(R.id.bar_measureH_value);
         measureValueI = view.findViewById(R.id.bar_measureI_value);
         measureValueJ = view.findViewById(R.id.bar_measureJ_value);
-        horSectionValue = view.findViewById(R.id.side_hor_bar_section_value);
-        vertSectionValue = view.findViewById(R.id.vert_bar_section_value);
+        horSideDiamValue = view.findViewById(R.id.side_hor_bar_section_value);
+        vertArtDiamValue = view.findViewById(R.id.vert_bar_section_value);
         horBarDistValue = view.findViewById(R.id.ext_face_side_bar_dist_value);
         vertBarDistValue = view.findViewById(R.id.ext_face_vert_bar_dist_value);
 //        RadioGroup
-        hasHorBar = view.findViewById(R.id.side_hor_bar_radio);
-        hasVertBar = view.findViewById(R.id.vert_bar_radio);
+        hasHorSideBar = view.findViewById(R.id.side_hor_bar_radio);
+        hasVertArtBar = view.findViewById(R.id.vert_bar_radio);
 //        TextView
         hBarError = view.findViewById(R.id.side_hor_bar_error);
         vBarError = view.findViewById(R.id.vert_bar_error);
+        question1 = view.findViewById(R.id.side_hor_bar_header);
+        question2 = view.findViewById(R.id.vert_art_bar_header);
 //        Images
-        Glide.with(this).load(R.drawable.wallbar).centerCrop().into(horBar);
-        Glide.with(this).load(R.drawable.disthorwall).centerCrop().into(horDistBar);
-        Glide.with(this).load(R.drawable.vertbar).centerCrop().into(vertBar);
+        if (layout == 0) {
+            Glide.with(this).load(R.drawable.sidebar).centerCrop().into(horSideBar);
+            Glide.with(this).load(R.drawable.disthorbar).centerCrop().into(horSideDistBar);
+            Glide.with(this).load(R.drawable.artbar).centerCrop().into(vertArtBar1);
+            Glide.with(this).load(R.drawable.artbar2).centerCrop().into(artBar2);
+
+            measureFieldF.setVisibility(View.GONE);
+            vertBarDistField.setVisibility(View.GONE);
+            horBarDistField.setVisibility(View.GONE);
+            question1.setText(getString(R.string.hint_has_side_bar_toilet));
+            question2.setText(getString(R.string.hint_has_side_art_bar_toilet));
+        } else if (layout == 1) {
+            artBar2.setVisibility(View.GONE);
+            Glide.with(this).load(R.drawable.wallbar).centerCrop().into(horSideBar);
+            Glide.with(this).load(R.drawable.disthorwall).centerCrop().into(horSideDistBar);
+            Glide.with(this).load(R.drawable.vertbar).centerCrop().into(vertArtBar1);
+
+            artBar2.setVisibility(View.GONE);
+            question1.setText(getString(R.string.hint_has_hor_wall_bar_toilet));
+            question2.setText(getString(R.string.hint_has_vert_wall_bar_toilet));
+        }
+
 //        Listener
-        hasHorBar.setOnCheckedChangeListener(this::barRadioListener);
-        hasVertBar.setOnCheckedChangeListener(this::barRadioListener);
-        horBar.setOnClickListener(this::imgButtonView);
-        horDistBar.setOnClickListener(this::imgButtonView);
-        vertBar.setOnClickListener(this::imgButtonView);
+        hasHorSideBar.setOnCheckedChangeListener(this::barRadioListener);
+        hasVertArtBar.setOnCheckedChangeListener(this::barRadioListener);
+        horSideBar.setOnClickListener(this::imgButtonView);
+        horSideDistBar.setOnClickListener(this::imgButtonView);
+        vertArtBar1.setOnClickListener(this::imgButtonView);
 //        ModelEntry
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
-        Log.i("DATA_LISTENER", "onViewCreatedChild: modelEntry =" + modelEntry);
     }
 
     public void imgButtonView(View view) {
-        if (view == horBar)
-            imgData.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.wallbar);
-        else if (view == horDistBar)
-            imgData.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.disthorwall);
-        else if (view == vertBar)
-            imgData.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.vertbar);
+        if (layout == 0) {
+            if (view == horSideBar)
+                imgData.putInt(IMAGE_ID, R.drawable.sidebar);
+            else if (view == horSideDistBar)
+                imgData.putInt(IMAGE_ID, R.drawable.disthorwall);
+            else if (view == vertArtBar1)
+                imgData.putInt(IMAGE_ID, R.drawable.artbar);
+            else if (view == artBar2)
+                imgData.putInt(IMAGE_ID, R.drawable.artbar2);
+        } else {
+            if (view == horSideBar)
+                imgData.putInt(IMAGE_ID, R.drawable.wallbar);
+            else if (view == horSideDistBar)
+                imgData.putInt(IMAGE_ID, R.drawable.disthorwall);
+            else if (view == vertArtBar1)
+                imgData.putInt(IMAGE_ID, R.drawable.vertbar);
+        }
         ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgData);
     }
 
     private void barRadioListener(RadioGroup radio, int check) {
         int index = getCheckedRadioIndex(radio);
 
-        if (radio == hasHorBar) {
+        if (radio == hasHorSideBar) {
             if (index == 1) {
-                horBar.setVisibility(View.VISIBLE);
-                horDistBar.setVisibility(View.VISIBLE);
+                horSideBar.setVisibility(View.VISIBLE);
+                horSideDistBar.setVisibility(View.VISIBLE);
                 measureFieldD.setVisibility(View.VISIBLE);
                 measureFieldE.setVisibility(View.VISIBLE);
-                measureFieldF.setVisibility(View.VISIBLE);
                 measureFieldG.setVisibility(View.VISIBLE);
-                horSectionField.setVisibility(View.VISIBLE);
-                horBarDistField.setVisibility(View.VISIBLE);
+                horSideDiamField.setVisibility(View.VISIBLE);
+                if (layout == 1) {
+                    measureFieldF.setVisibility(View.VISIBLE);
+                    horBarDistField.setVisibility(View.VISIBLE);
+                }
             } else {
                 measureValueD.setText(null);
                 measureValueE.setText(null);
-                measureValueF.setText(null);
                 measureValueG.setText(null);
-                horSectionValue.setText(null);
-                horBarDistValue.setText(null);
-                horBar.setVisibility(View.GONE);
-                horDistBar.setVisibility(View.GONE);
+                horSideDiamValue.setText(null);
+                horSideBar.setVisibility(View.GONE);
+                horSideDistBar.setVisibility(View.GONE);
                 measureFieldD.setVisibility(View.GONE);
                 measureFieldE.setVisibility(View.GONE);
-                measureFieldF.setVisibility(View.GONE);
                 measureFieldG.setVisibility(View.GONE);
-                horSectionField.setVisibility(View.GONE);
-                horBarDistField.setVisibility(View.GONE);
+                horSideDiamField.setVisibility(View.GONE);
+                if (layout == 1) {
+                    measureValueF.setText(null);
+                    measureFieldF.setVisibility(View.GONE);
+                    horBarDistValue.setText(null);
+                    horBarDistField.setVisibility(View.GONE);
+                }
             }
-        } else if (radio == hasVertBar) {
+        } else if (radio == hasVertArtBar) {
             if (index == 1) {
-                vertBar.setVisibility(View.VISIBLE);
+                vertArtBar1.setVisibility(View.VISIBLE);
                 measureFieldJ.setVisibility(View.VISIBLE);
                 measureFieldH.setVisibility(View.VISIBLE);
                 measureFieldI.setVisibility(View.VISIBLE);
-                vertSectionField.setVisibility(View.VISIBLE);
-                vertBarDistField.setVisibility(View.VISIBLE);
+                vertArtDiamField.setVisibility(View.VISIBLE);
+                if (layout == 0) {
+                    artBar2.setVisibility(View.VISIBLE);
+                    vertBarDistField.setVisibility(View.GONE);
+                } else {
+                    artBar2.setVisibility(View.GONE);
+                    vertBarDistField.setVisibility(View.VISIBLE);
+                }
             } else {
                 measureValueJ.setText(null);
                 measureValueH.setText(null);
                 measureValueI.setText(null);
-                vertSectionValue.setText(null);
-                vertBarDistValue.setText(null);
-                vertBar.setVisibility(View.GONE);
+                vertArtDiamValue.setText(null);
+                vertArtBar1.setVisibility(View.GONE);
                 measureFieldJ.setVisibility(View.GONE);
                 measureFieldH.setVisibility(View.GONE);
                 measureFieldI.setVisibility(View.GONE);
-                vertSectionField.setVisibility(View.GONE);
-                vertBarDistField.setVisibility(View.GONE);
+                vertArtDiamField.setVisibility(View.GONE);
+                if (layout == 0) {
+                    artBar2.setVisibility(View.GONE);
+                } else {
+                    vertBarDistValue.setText(null);
+                    vertBarDistField.setVisibility(View.GONE);
+                }
             }
         }
     }
 
     private void loadSideWallData(RestroomEntry rest) {
-        if (rest.getHasHorBar() != null)
-            hasHorBar.check(hasHorBar.getChildAt(rest.getHasHorBar()).getId());
-        if (rest.getHorBarD() != null)
-            measureValueD.setText(String.valueOf(rest.getHorBarD()));
-        if (rest.getHorBarE() != null)
-            measureValueE.setText(String.valueOf(rest.getHorBarE()));
-        if (rest.getHorBarF() != null)
-            measureValueF.setText(String.valueOf(rest.getHorBarF()));
-        if (rest.getHorBarDistG() != null)
-            measureValueG.setText(String.valueOf(rest.getHorBarDistG()));
-        if (rest.getHasVertBar() != null)
-            hasVertBar.check(hasVertBar.getChildAt(rest.getHasVertBar()).getId());
-        if (rest.getVertBarJ() != null)
-            measureValueJ.setText(String.valueOf(rest.getVertBarJ()));
-        if (rest.getVertBarH() != null)
-            measureValueH.setText(String.valueOf(rest.getVertBarH()));
-        if (rest.getVertBarI() != null)
-            measureValueI.setText(String.valueOf(rest.getVertBarI()));
-
-        if (rest.getVertBarDist() != null)
-            vertBarDistValue.setText(String.valueOf(rest.getVertBarDist()));
-        if (rest.getHorBarDist() != null)
-            horBarDistValue.setText(String.valueOf(rest.getHorBarDist()));
-        if (rest.getVertBarSect() != null)
-            vertSectionValue.setText(String.valueOf(rest.getVertBarSect()));
-        if (rest.getHorBarSect() != null)
-            horSectionValue.setText(String.valueOf(rest.getHorBarSect()));
+        if (layout == 0) {
+            if (rest.getHasSideBar() != null && rest.getHasSideBar() > -1) {
+                hasHorSideBar.check(hasHorSideBar.getChildAt(rest.getHasSideBar()).getId());
+                if (rest.getHasSideBar() == 1) {
+                    if (rest.getSideBarD() != null)
+                        measureValueD.setText(String.valueOf(rest.getSideBarD()));
+                    if (rest.getSideBarE() != null)
+                        measureValueE.setText(String.valueOf(rest.getSideBarE()));
+                    if (rest.getSideBarDistG() != null)
+                        measureValueG.setText(String.valueOf(rest.getSideBarDistG()));
+                    if (rest.getSideBarSect() != null)
+                        horSideDiamValue.setText(String.valueOf(rest.getSideBarSect()));
+                }
+            }
+            if (rest.getHasArtBar() != null && rest.getHasArtBar() > -1) {
+                hasVertArtBar.check(hasVertArtBar.getChildAt(rest.getHasArtBar()).getId());
+                if (rest.getHasArtBar() == 1) {
+                    if (rest.getArtBarH() != null)
+                        measureValueH.setText(String.valueOf(rest.getArtBarH()));
+                    if (rest.getArtBarI() != null)
+                        measureValueI.setText(String.valueOf(rest.getArtBarI()));
+                    if (rest.getArtBarJ() != null)
+                        measureValueJ.setText(String.valueOf(rest.getArtBarJ()));
+                    if (rest.getArtBarSect() != null)
+                        vertArtDiamValue.setText(String.valueOf(rest.getArtBarSect()));
+                }
+            }
+        } else if (layout == 1) {
+            if (rest.getHasHorBar() != null && rest.getHasHorBar() > -1) {
+                hasHorSideBar.check(hasHorSideBar.getChildAt(rest.getHasHorBar()).getId());
+                if (rest.getHasHorBar() == 1) {
+                    if (rest.getHorBarD() != null)
+                        measureValueD.setText(String.valueOf(rest.getHorBarD()));
+                    if (rest.getHorBarE() != null)
+                        measureValueE.setText(String.valueOf(rest.getHorBarE()));
+                    if (rest.getHorBarF() != null)
+                        measureValueF.setText(String.valueOf(rest.getHorBarF()));
+                    if (rest.getHorBarDistG() != null)
+                        measureValueG.setText(String.valueOf(rest.getHorBarDistG()));
+                    if (rest.getHorBarSect() != null)
+                        horSideDiamValue.setText(String.valueOf(rest.getHorBarSect()));
+                    if (rest.getHorBarDist() != null)
+                        horBarDistValue.setText(String.valueOf(rest.getHorBarDist()));
+                }
+            }
+            if (rest.getHasVertBar() != null && rest.getHasVertBar() > -1) {
+                hasVertArtBar.check(hasVertArtBar.getChildAt(rest.getHasVertBar()).getId());
+                if (rest.getHasVertBar() == 1) {
+                    if (rest.getVertBarH() != null)
+                        measureValueH.setText(String.valueOf(rest.getVertBarH()));
+                    if (rest.getVertBarI() != null)
+                        measureValueI.setText(String.valueOf(rest.getVertBarI()));
+                    if (rest.getVertBarJ() != null)
+                        measureValueJ.setText(String.valueOf(rest.getVertBarJ()));
+                    if (rest.getVertBarSect() != null)
+                        vertArtDiamValue.setText(String.valueOf(rest.getVertBarSect()));
+                    if (rest.getVertBarDist() != null)
+                        vertBarDistValue.setText(String.valueOf(rest.getVertBarDist()));
+                }
+            }
+        }
     }
 
 
@@ -231,10 +315,10 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
     private boolean checkSideWallFields() {
         clearSideWallErrors();
         int i = 0;
-        if (getCheckedRadioIndex(hasHorBar) == -1) {
+        if (getCheckedRadioIndex(hasHorSideBar) == -1) {
             i++;
             hBarError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadioIndex(hasHorBar) == 1) {
+        } else if (getCheckedRadioIndex(hasHorSideBar) == 1) {
             if (TextUtils.isEmpty(measureValueD.getText())) {
                 i++;
                 measureFieldD.setError(getText(R.string.req_field_error));
@@ -243,27 +327,30 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
                 i++;
                 measureFieldE.setError(getText(R.string.req_field_error));
             }
-            if (TextUtils.isEmpty(measureValueF.getText())) {
-                i++;
-                measureFieldF.setError(getText(R.string.req_field_error));
-            }
+
             if (TextUtils.isEmpty(measureValueG.getText())) {
                 i++;
                 measureFieldG.setError(getText(R.string.req_field_error));
             }
-            if (TextUtils.isEmpty(horSectionValue.getText())) {
+            if (TextUtils.isEmpty(horSideDiamValue.getText())) {
                 i++;
-                horSectionField.setError(getText(R.string.req_field_error));
+                horSideDiamField.setError(getText(R.string.req_field_error));
             }
-            if (TextUtils.isEmpty(horBarDistValue.getText())) {
-                i++;
-                horBarDistField.setError(getText(R.string.req_field_error));
+            if (layout == 1) {
+                if (TextUtils.isEmpty(measureValueF.getText())) {
+                    i++;
+                    measureFieldF.setError(getText(R.string.req_field_error));
+                }
+                if (TextUtils.isEmpty(horBarDistValue.getText())) {
+                    i++;
+                    horBarDistField.setError(getText(R.string.req_field_error));
+                }
             }
         }
-        if (getCheckedRadioIndex(hasVertBar) == -1) {
+        if (getCheckedRadioIndex(hasVertArtBar) == -1) {
             i++;
             vBarError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadioIndex(hasVertBar) == 1) {
+        } else if (getCheckedRadioIndex(hasVertArtBar) == 1) {
             if (TextUtils.isEmpty(measureValueJ.getText())) {
                 i++;
                 measureFieldJ.setError(getText(R.string.req_field_error));
@@ -276,11 +363,11 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
                 i++;
                 measureFieldI.setError(getText(R.string.req_field_error));
             }
-            if (TextUtils.isEmpty(vertSectionValue.getText())) {
+            if (TextUtils.isEmpty(vertArtDiamValue.getText())) {
                 i++;
-                vertSectionField.setError(getText(R.string.req_field_error));
+                vertArtDiamField.setError(getText(R.string.req_field_error));
             }
-            if (TextUtils.isEmpty(vertBarDistValue.getText())) {
+            if (layout == 1 && TextUtils.isEmpty(vertBarDistValue.getText())) {
                 i++;
                 vertBarDistField.setError(getText(R.string.req_field_error));
             }
@@ -299,29 +386,49 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
         measureFieldH.setErrorEnabled(false);
         measureFieldI.setErrorEnabled(false);
         measureFieldJ.setErrorEnabled(false);
-        vertSectionField.setErrorEnabled(false);
+        vertArtDiamField.setErrorEnabled(false);
         vertBarDistField.setErrorEnabled(false);
-        horSectionField.setErrorEnabled(false);
+        horSideDiamField.setErrorEnabled(false);
         horBarDistField.setErrorEnabled(false);
     }
 
     private void gatherData(Bundle bundle) {
-        bundle.putInt(HAS_HOR, getCheckedRadioIndex(hasHorBar));
-        if (getCheckedRadioIndex(hasHorBar) == 1) {
-            bundle.putDouble(SIZE_D, Double.parseDouble(String.valueOf(measureValueD.getText())));
-            bundle.putDouble(SIZE_E, Double.parseDouble(String.valueOf(measureValueE.getText())));
-            bundle.putDouble(SIZE_F, Double.parseDouble(String.valueOf(measureValueF.getText())));
-            bundle.putDouble(SIZE_G, Double.parseDouble(String.valueOf(measureValueG.getText())));
-            bundle.putDouble(DIAM_A, Double.parseDouble(String.valueOf(horSectionValue.getText())));
-            bundle.putDouble(DIST_A, Double.parseDouble(String.valueOf(horBarDistValue.getText())));
+
+        int horBar, vertBar;
+        Double horD = null, horE = null, horF = null, horG = null, horDiam = null, horDist = null, vertH = null, vertI = null, vertJ = null, vertDiam = null, vertDist = null;
+
+        horBar = getCheckedRadioIndex(hasHorSideBar);
+        if (horBar == 1) {
+            if (!TextUtils.isEmpty(measureValueD.getText()))
+                horD = Double.parseDouble(String.valueOf(measureValueD.getText()));
+            if (!TextUtils.isEmpty(measureValueE.getText()))
+                horE = Double.parseDouble(String.valueOf(measureValueE.getText()));
+            if (!TextUtils.isEmpty(measureValueF.getText()))
+                horF = Double.parseDouble(String.valueOf(measureValueF.getText()));
+            if (!TextUtils.isEmpty(measureValueG.getText()))
+                horG = Double.parseDouble(String.valueOf(measureValueG.getText()));
+            if (!TextUtils.isEmpty(horSideDiamValue.getText()))
+                horDiam = Double.parseDouble(String.valueOf(horSideDiamValue.getText()));
+            if (!TextUtils.isEmpty(horBarDistValue.getText()))
+                horDist = Double.parseDouble(String.valueOf(horBarDistValue.getText()));
         }
-        bundle.putInt(HAS_VERT, getCheckedRadioIndex(hasVertBar));
-        if (getCheckedRadioIndex(hasVertBar) == 1) {
-            bundle.putDouble(SIZE_H, Double.parseDouble(String.valueOf(measureValueH.getText())));
-            bundle.putDouble(SIZE_I, Double.parseDouble(String.valueOf(measureValueI.getText())));
-            bundle.putDouble(SIZE_J, Double.parseDouble(String.valueOf(measureValueJ.getText())));
-            bundle.putDouble(DIAM_B, Double.parseDouble(String.valueOf(vertSectionValue.getText())));
-            bundle.putDouble(DIST_B, Double.parseDouble(String.valueOf(vertBarDistValue.getText())));
+
+        vertBar = getCheckedRadioIndex(hasVertArtBar);
+        if (vertBar == 1) {
+            if (!TextUtils.isEmpty(measureValueH.getText()))
+                vertH = Double.parseDouble(String.valueOf(measureValueH.getText()));
+            if (!TextUtils.isEmpty(measureValueI.getText()))
+                vertI = Double.parseDouble(String.valueOf(measureValueI.getText()));
+            if (!TextUtils.isEmpty(measureValueJ.getText()))
+                vertJ = Double.parseDouble(String.valueOf(measureValueJ.getText()));
+            if (!TextUtils.isEmpty(vertArtDiamValue.getText()))
+                vertDiam = Double.parseDouble(String.valueOf(vertArtDiamValue.getText()));
+            if (!TextUtils.isEmpty(vertBarDistValue.getText()))
+                vertDist = Double.parseDouble(String.valueOf(vertBarDistValue.getText()));
         }
+
+        RestToiletSideBarsParcel parcel = new RestToiletSideBarsParcel(horBar, horD, horE, horF, horG, horDiam, horDist, vertBar, vertH, vertI, vertJ, vertDiam, vertDist);
+        bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
+
     }
 }

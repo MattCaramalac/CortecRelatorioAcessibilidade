@@ -25,6 +25,9 @@ public interface DoorEntryDao {
     @Query("SELECT * FROM DoorEntry WHERE doorID == :doorID")
     LiveData<DoorEntry> getSpecificDoor(int doorID);
 
+    @Query("SELECT * FROM DoorEntry WHERE restID == :restID")
+    LiveData<DoorEntry> getRestDoor(int restID);
+
     @Query("SELECT * FROM DoorEntry WHERE doorID == (SELECT MAX(doorID) from DoorEntry)")
     LiveData<DoorEntry> getLastDoorEntry();
 

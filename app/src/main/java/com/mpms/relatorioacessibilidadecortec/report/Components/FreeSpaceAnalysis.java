@@ -29,21 +29,21 @@ public class FreeSpaceAnalysis implements StandardMeasurements {
 
     private static String spaceText(FreeSpaceEntry space) {
         StringBuilder builder = new StringBuilder();
-        if (space.getObstacleWidth() <= limitWidthObstacle && space.getFreeSpaceWidth() < lowerFreeWidth) {
+        if (space.getObstacleWidth() <= limitWidthObstacle && space.getFrSpaceWidth() < lowerFreeWidth) {
             spaceIrregular(builder);
             builder.append("a largura da faixa livre é inferior a " + lowerFreeWidth + " m na presença de obstáculos de até " + limitWidthObstacle + "m de largura");
-        } else if (space.getObstacleWidth() > limitWidthObstacle && space.getFreeSpaceWidth() < higherFreeWidth) {
+        } else if (space.getObstacleWidth() > limitWidthObstacle && space.getFrSpaceWidth() < higherFreeWidth) {
             spaceIrregular(builder);
             builder.append("a largura da faixa livre é inferior a " + higherFreeWidth + " m na presença de obstáculos acima de " + limitWidthObstacle + "m de largura");
         }
 
-        if (space.getFreeSpaceObs() != null) {
+        if (space.getFrSpaceObs() != null) {
             spaceIrregular(builder);
-            builder.append("as seguintes observações devem ser apontadas sobre a faixa livre em questão: ").append(space.getFreeSpaceObs());
+            builder.append("as seguintes observações devem ser apontadas sobre a faixa livre em questão: ").append(space.getFrSpaceObs());
         }
 
         if (builder.length() > 0)
-            builder.replace(39, 40, space.getFreeSpaceLocation());
+            builder.replace(39, 40, space.getFrSpaceLocation());
 
         return builder.toString();
     }

@@ -31,10 +31,8 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
     Button saveUpMeasures, returnRestDoorData;
     Bundle restUpBundle, imgData;
 
-    TextInputLayout  measureFieldB, measureFieldC, measureFieldD, measureFieldE, restLengthField, restWidthField, upViewObsField;
-//    measureFieldA,
-    TextInputEditText  measureValueB, measureValueC, measureValueD, measureValueE, restLengthValue, restWidthValue, upViewObsValue;
-//    measureValueA,
+    TextInputLayout measureFieldA, measureFieldB, measureFieldC, measureFieldD, restLengthField, restWidthField, upViewObsField;
+    TextInputEditText measureValueA, measureValueB, measureValueC, measureValueD, restLengthValue, restWidthValue, upViewObsValue;
 
     ViewModelEntry modelEntry;
 
@@ -101,20 +99,18 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
 //        ImageButton
         upperViewImgButton = view.findViewById(R.id.rest_upper_view_image);
 //        TextInputLayout
-//        measureFieldA = view.findViewById(R.id.upper_view_A_measurement_field);
+        measureFieldA = view.findViewById(R.id.upper_view_A_measurement_field);
         measureFieldB = view.findViewById(R.id.upper_view_B_measurement_field);
         measureFieldC = view.findViewById(R.id.upper_view_C_measurement_field);
         measureFieldD = view.findViewById(R.id.upper_view_D_measurement_field);
-        measureFieldE = view.findViewById(R.id.upper_view_E_measurement_field);
         restLengthField = view.findViewById(R.id.upper_view_length_field);
         restWidthField = view.findViewById(R.id.upper_view_width_field);
         upViewObsField = view.findViewById(R.id.upper_view_obs_field);
 //        TextInputEditText
-//        measureValueA = view.findViewById(R.id.upper_view_A_measurement_value);
+        measureValueA = view.findViewById(R.id.upper_view_A_measurement_value);
         measureValueB = view.findViewById(R.id.upper_view_B_measurement_value);
         measureValueC = view.findViewById(R.id.upper_view_C_measurement_value);
         measureValueD = view.findViewById(R.id.upper_view_D_measurement_value);
-        measureValueE = view.findViewById(R.id.upper_view_E_measurement_value);
         restLengthValue = view.findViewById(R.id.upper_view_length_value);
         restWidthValue = view.findViewById(R.id.upper_view_width_value);
         upViewObsValue = view.findViewById(R.id.upper_view_obs_value);
@@ -138,21 +134,13 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
     public boolean checkEmptyMeasurementsFields() {
         clearEmptyMeasurementsErrors();
         int i = 0;
-//        if (TextUtils.isEmpty(measureValueA.getText())) {
-//            i++;
-//            measureFieldA.setError(getText(R.string.req_field_error));
-//        }
-        if (TextUtils.isEmpty(measureValueB.getText())) {
+        if (TextUtils.isEmpty(measureValueA.getText())) {
             i++;
-            measureFieldB.setError(getText(R.string.req_field_error));
+            measureFieldA.setError(getText(R.string.req_field_error));
         }
-//        if (TextUtils.isEmpty(measureValueC.getText())) {
-//            i++;
-//            measureFieldC.setError(getText(R.string.req_field_error));
-//        }
-        if (TextUtils.isEmpty(measureValueD.getText())) {
+        if (TextUtils.isEmpty(measureValueC.getText())) {
             i++;
-            measureFieldD.setError(getText(R.string.req_field_error));
+            measureFieldC.setError(getText(R.string.req_field_error));
         }
         if (TextUtils.isEmpty(restLengthValue.getText())) {
             i++;
@@ -166,33 +154,31 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
     }
 
     public void clearEmptyMeasurementsErrors() {
-//        measureFieldA.setErrorEnabled(false);
+        measureFieldA.setErrorEnabled(false);
         measureFieldB.setErrorEnabled(false);
         measureFieldC.setErrorEnabled(false);
-        measureFieldD.setErrorEnabled(false);
         restLengthField.setErrorEnabled(false);
         restWidthField.setErrorEnabled(false);
     }
 
     public RestUpViewUpdate newRestUpView(Bundle bundle) {
-        Double measureA = null,  measureC = null, measureE = null;
-        double measureB, measureD, upLength, upWidth;
+        Double measureB = null,  measureD = null;
+        double measureA, measureC, upLength, upWidth;
         String upViewObs;
 
         upLength = Double.parseDouble(String.valueOf(restLengthValue.getText()));
         upWidth = Double.parseDouble(String.valueOf(restWidthValue.getText()));
-//        measureA = Double.parseDouble(String.valueOf(measureValueA.getText()));
-        measureB = Double.parseDouble(String.valueOf(measureValueB.getText()));
-        if (!TextUtils.isEmpty(measureValueC.getText()))
-            measureC = Double.parseDouble(String.valueOf(measureValueC.getText()));
-        measureD = Double.parseDouble(String.valueOf(measureValueD.getText()));
-        if (!TextUtils.isEmpty(measureValueE.getText()))
-            measureE = Double.valueOf(String.valueOf(measureValueE.getText()));
+        measureA = Double.parseDouble(String.valueOf(measureValueA.getText()));
+        if (!TextUtils.isEmpty(measureValueB.getText()))
+            measureB = Double.parseDouble(String.valueOf(measureValueB.getText()));
+        measureC = Double.parseDouble(String.valueOf(measureValueC.getText()));
+        if (!TextUtils.isEmpty(measureValueD.getText()))
+            measureD = Double.valueOf(String.valueOf(measureValueD.getText()));
 
         upViewObs = String.valueOf(upViewObsValue.getText());
 
         return new RestUpViewUpdate(bundle.getInt(REST_ID), upLength, upWidth, measureA, measureB, measureC,
-                measureD, measureE, upViewObs);
+                measureD, upViewObs);
     }
 
     public void loadUpViewData(RestroomEntry upViewEntry) {
@@ -200,16 +186,14 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
             restLengthValue.setText(String.valueOf(upViewEntry.getUpViewLength()));
         if (upViewEntry.getUpViewWidth() != null)
             restWidthValue.setText(String.valueOf(upViewEntry.getUpViewWidth()));
-//        if (upViewEntry.getUpViewMeasureA() != null)
-//            measureValueA.setText(String.valueOf(upViewEntry.getUpViewMeasureA()));
+        if (upViewEntry.getUpViewMeasureA() != null)
+            measureValueA.setText(String.valueOf(upViewEntry.getUpViewMeasureA()));
         if (upViewEntry.getUpViewMeasureB() != null)
             measureValueB.setText(String.valueOf(upViewEntry.getUpViewMeasureB()));
         if (upViewEntry.getUpViewMeasureC() != null)
             measureValueC.setText(String.valueOf(upViewEntry.getUpViewMeasureC()));
         if (upViewEntry.getUpViewMeasureD() != null)
             measureValueD.setText(String.valueOf(upViewEntry.getUpViewMeasureD()));
-        if (upViewEntry.getUpViewMeasureE() != null)
-            measureValueE.setText(String.valueOf(upViewEntry.getUpViewMeasureE()));
         if (upViewEntry.getUpViewObs() != null)
             upViewObsValue.setText(upViewEntry.getUpViewObs());
     }

@@ -23,29 +23,32 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDia
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestSinkUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SinkLeftHorBarFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SinkLeftVertBarFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SinkRightHorBarFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SinkRightVertBarFragment;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.HorSinkBarParcel;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.VertSinkBarParcel;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SinkHorBarFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SinkVertBarFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import org.parceler.Parcels;
+
 public class RestSinkFragment extends Fragment implements TagInterface, ScrollEditText {
 
     ImageButton sink1, sink2, sink3, sink4, sink5, sinkApprox, sinkMirror;
-    RadioGroup sinkRadio1, sinkRadio2, hasBarRadio, leftSinkRadio, rightSinkRadio, mirrorRadio;
+    RadioGroup sinkRadio1, sinkRadio2, hasBarRadio, frontLeftHorSinkRadio, sideRightVertSinkRadio, mirrorRadio;
     TextInputLayout measureFieldA, measureFieldB, measureFieldC, measureFieldD, measureFieldE, mirrorFieldA, mirrorFieldB, sinkObsField;
     TextInputEditText measureValueA, measureValueB, measureValueC, measureValueD, measureValueE, mirrorValueA, mirrorValueB, sinkObsValue;
-    TextView sinkError, barError, leftHeader, rightHeader, leftError, rightError, mirrorError, sinkTypeWarning;
+    TextView sinkError, barError, frontLeftHorHeader, sideRightVertHeader, frontLeftHorError, sideRightVertError, mirrorError, sinkTypeWarning;
     FrameLayout leftFrag, rightFrag;
     MaterialButton returnAccess, saveSink;
-    Fragment lFrag, rFrag;
+    Fragment frontLeftHorFrag, sideRightVertFrag;
 
     Bundle sinkBundle, imgBundle, childBundle;
     ViewModelEntry modelEntry;
 
     boolean leftData = true, rightData = true, check1 = true, check2 = true;
+    int sinkType;
 
     public RestSinkFragment() {
         // Required empty public constructor
@@ -81,7 +84,7 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
 
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
             leftData = bundle.getBoolean(CHILD_DATA_COMPLETE);
-            if (getCheckRadio(rightSinkRadio) > 0)
+            if (getCheckRadio(sideRightVertSinkRadio) > 0)
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA_2, bundle);
             else {
                 if (checkEmptyFields())
@@ -128,8 +131,8 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
         sinkRadio1 = view.findViewById(R.id.sink_type_radio1);
         sinkRadio2 = view.findViewById(R.id.sink_type_radio2);
         hasBarRadio = view.findViewById(R.id.sink_has_bar_radio);
-        leftSinkRadio = view.findViewById(R.id.left_bar_radio);
-        rightSinkRadio = view.findViewById(R.id.right_bar_radio);
+        frontLeftHorSinkRadio = view.findViewById(R.id.front_left_bar_radio);
+        sideRightVertSinkRadio = view.findViewById(R.id.side_right_bar_radio);
         mirrorRadio = view.findViewById(R.id.sink_mirror_radio);
 //        TextInputLayout
         measureFieldA = view.findViewById(R.id.sink_approx_measureA_field);
@@ -152,15 +155,15 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
 //        TextView
         sinkError = view.findViewById(R.id.sink_type_error);
         barError = view.findViewById(R.id.sink_has_bar_error);
-        leftHeader = view.findViewById(R.id.sink_left_bar_header);
-        rightHeader = view.findViewById(R.id.sink_right_bar_header);
-        leftError = view.findViewById(R.id.left_bar_error);
-        rightError = view.findViewById(R.id.right_bar_error);
+        frontLeftHorHeader = view.findViewById(R.id.sink_front_left_bar_header);
+        sideRightVertHeader = view.findViewById(R.id.sink_side_right_bar_header);
+        frontLeftHorError = view.findViewById(R.id.front_left_bar_error);
+        sideRightVertError = view.findViewById(R.id.side_right_bar_error);
         mirrorError = view.findViewById(R.id.sink_mirror_error);
         sinkTypeWarning = view.findViewById(R.id.select_sink_type_warning);
 //        FrameLayout
-        leftFrag = view.findViewById(R.id.left_bar_fragment);
-        rightFrag = view.findViewById(R.id.right_bar_fragment);
+        leftFrag = view.findViewById(R.id.front_left_bar_fragment);
+        rightFrag = view.findViewById(R.id.side_right_bar_fragment);
 //        MaterialButton
         returnAccess = view.findViewById(R.id.return_t_access);
         saveSink = view.findViewById(R.id.save_sink);
@@ -177,8 +180,8 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
         sinkRadio1.setOnCheckedChangeListener(this::radioListener);
         sinkRadio2.setOnCheckedChangeListener(this::radioListener);
         hasBarRadio.setOnCheckedChangeListener(this::radioListener);
-        leftSinkRadio.setOnCheckedChangeListener(this::radioListener);
-        rightSinkRadio.setOnCheckedChangeListener(this::radioListener);
+        frontLeftHorSinkRadio.setOnCheckedChangeListener(this::radioListener);
+        sideRightVertSinkRadio.setOnCheckedChangeListener(this::radioListener);
         mirrorRadio.setOnCheckedChangeListener(this::radioListener);
 
 
@@ -211,81 +214,108 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
+    private String[] setSinkBarRadioText(int sinkType) {
+        String[] headers = new String[2];
+        switch (sinkType) {
+            case 0:
+                headers[0] = "O lavatório possui barra de apoio à esquerda?";
+                headers[1] = "O lavatório possui barra de apoio à direita?";
+                break;
+            case 2:
+                headers[0] = "O lavatório possui barra de apoio horizontal?";
+                headers[1] = "O lavatório possui barra de apoio vertical?";
+                break;
+            default:
+                headers[0] = "O lavatório possui barra de apoio frontal?";
+                headers[1] = "O lavatório possui barra de apoio lateral?";
+                break;
+        }
+        return headers;
+    }
+
     private void radioListener(RadioGroup radio, int check) {
         int radioIndex = getCheckRadio(radio);
 
         if (radio == sinkRadio1 && check1) {
             check2 = false;
             sinkRadio2.clearCheck();
-            childBundle.putInt(SINK_TYPE, radioIndex);
-            childBundle.putInt(REST_ID, sinkBundle.getInt(REST_ID));
-            leftSinkRadio.clearCheck();
-            rightSinkRadio.clearCheck();
+            sinkType = radioIndex;
+            frontLeftHorSinkRadio.clearCheck();
+            sideRightVertSinkRadio.clearCheck();
             hasBarRadio.clearCheck();
             check2 = true;
             if (getCheckRadio(hasBarRadio) == 1) {
                 sinkTypeWarning.setVisibility(View.GONE);
-                leftHeader.setVisibility(View.VISIBLE);
-                rightHeader.setVisibility(View.VISIBLE);
-                leftSinkRadio.setVisibility(View.VISIBLE);
-                rightSinkRadio.setVisibility(View.VISIBLE);
+                String[] headerText = setSinkBarRadioText(sinkType);
+                frontLeftHorHeader.setVisibility(View.VISIBLE);
+                frontLeftHorHeader.setText(headerText[0]);
+                sideRightVertHeader.setVisibility(View.VISIBLE);
+                sideRightVertHeader.setText(headerText[1]);
+                frontLeftHorSinkRadio.setVisibility(View.VISIBLE);
+                sideRightVertSinkRadio.setVisibility(View.VISIBLE);
             }
         } else if (radio == sinkRadio2 && check2) {
             check1 = false;
             sinkRadio1.clearCheck();
-            childBundle.putInt(SINK_TYPE, (radioIndex == 0) ? 3 : 4);
-            childBundle.putInt(REST_ID, sinkBundle.getInt(REST_ID));
-            leftSinkRadio.clearCheck();
-            rightSinkRadio.clearCheck();
+            sinkType = (radioIndex == 0) ? 3 : 4;
+            frontLeftHorSinkRadio.clearCheck();
+            sideRightVertSinkRadio.clearCheck();
             hasBarRadio.clearCheck();
             check1 = true;
             if (getCheckRadio(hasBarRadio) == 1) {
                 sinkTypeWarning.setVisibility(View.GONE);
-                leftHeader.setVisibility(View.VISIBLE);
-                rightHeader.setVisibility(View.VISIBLE);
-                leftSinkRadio.setVisibility(View.VISIBLE);
-                rightSinkRadio.setVisibility(View.VISIBLE);
+                String[] headerText = setSinkBarRadioText(sinkType);
+                frontLeftHorHeader.setVisibility(View.VISIBLE);
+                frontLeftHorHeader.setText(headerText[0]);
+                sideRightVertHeader.setVisibility(View.VISIBLE);
+                sideRightVertHeader.setText(headerText[1]);
+                frontLeftHorSinkRadio.setVisibility(View.VISIBLE);
+                sideRightVertSinkRadio.setVisibility(View.VISIBLE);
             }
         } else if (radio == hasBarRadio) {
             if (radioIndex == 1 && (getCheckRadio(sinkRadio1) != -1 || getCheckRadio(sinkRadio2) != -1)) {
                 sinkTypeWarning.setVisibility(View.GONE);
-                leftHeader.setVisibility(View.VISIBLE);
-                rightHeader.setVisibility(View.VISIBLE);
-                leftSinkRadio.setVisibility(View.VISIBLE);
-                rightSinkRadio.setVisibility(View.VISIBLE);
+                String[] headerText = setSinkBarRadioText(sinkType);
+                frontLeftHorHeader.setVisibility(View.VISIBLE);
+                frontLeftHorHeader.setText(headerText[0]);
+                sideRightVertHeader.setVisibility(View.VISIBLE);
+                sideRightVertHeader.setText(headerText[1]);
+                frontLeftHorSinkRadio.setVisibility(View.VISIBLE);
+                sideRightVertSinkRadio.setVisibility(View.VISIBLE);
             } else if (radioIndex == 1 && getCheckRadio(sinkRadio1) == -1 && getCheckRadio(sinkRadio2) == -1) {
                 sinkTypeWarning.setVisibility(View.VISIBLE);
             } else {
                 sinkTypeWarning.setVisibility(View.GONE);
-                leftSinkRadio.clearCheck();
-                rightSinkRadio.clearCheck();
-                leftHeader.setVisibility(View.GONE);
-                rightHeader.setVisibility(View.GONE);
-                leftSinkRadio.setVisibility(View.GONE);
-                rightSinkRadio.setVisibility(View.GONE);
+                frontLeftHorSinkRadio.clearCheck();
+                sideRightVertSinkRadio.clearCheck();
+                frontLeftHorHeader.setVisibility(View.GONE);
+                sideRightVertHeader.setVisibility(View.GONE);
+                frontLeftHorSinkRadio.setVisibility(View.GONE);
+                sideRightVertSinkRadio.setVisibility(View.GONE);
                 removeChildFragments();
             }
-        } else if (radio == leftSinkRadio) {
+        } else if (radio == frontLeftHorSinkRadio) {
             if (radioIndex == 1) {
-                if (getCheckRadio(sinkRadio1) == 0)
-                    lFrag = SinkLeftHorBarFragment.newInstance(childBundle);
+                if (sinkType == 0 || sinkType == 2) {
+                    frontLeftHorFrag = SinkHorBarFragment.newInstance(sinkBundle.getInt(REST_ID), true);
+                }
                 else
-                    lFrag = SinkLeftVertBarFragment.newInstance(childBundle);
-                getChildFragmentManager().beginTransaction().replace(R.id.left_bar_fragment, lFrag).commit();
+                    frontLeftHorFrag = SinkVertBarFragment.newInstance(sinkBundle.getInt(REST_ID), sinkType,true);
+                getChildFragmentManager().beginTransaction().replace(R.id.front_left_bar_fragment, frontLeftHorFrag).commit();
             } else {
-                if (lFrag != null)
-                    getChildFragmentManager().beginTransaction().remove(lFrag).commit();
+                if (frontLeftHorFrag != null)
+                    getChildFragmentManager().beginTransaction().remove(frontLeftHorFrag).commit();
             }
-        } else if (radio == rightSinkRadio) {
+        } else if (radio == sideRightVertSinkRadio) {
             if (radioIndex == 1) {
-                if (getCheckRadio(sinkRadio1) == 0 || getCheckRadio(sinkRadio1) == 2)
-                    rFrag = SinkRightHorBarFragment.newInstance(childBundle);
+                if (sinkType == 0)
+                    sideRightVertFrag = SinkHorBarFragment.newInstance(sinkBundle.getInt(REST_ID), false);
                 else
-                    rFrag = SinkRightVertBarFragment.newInstance(childBundle);
-                getChildFragmentManager().beginTransaction().replace(R.id.right_bar_fragment, rFrag).commit();
+                    sideRightVertFrag = SinkVertBarFragment.newInstance(sinkBundle.getInt(REST_ID), sinkType,false);
+                getChildFragmentManager().beginTransaction().replace(R.id.side_right_bar_fragment, sideRightVertFrag).commit();
             } else {
-                if (rFrag != null)
-                    getChildFragmentManager().beginTransaction().remove(rFrag).commit();
+                if (sideRightVertFrag != null)
+                    getChildFragmentManager().beginTransaction().remove(sideRightVertFrag).commit();
             }
         } else if (radio == mirrorRadio) {
             if (radioIndex == 1) {
@@ -303,10 +333,10 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
     }
 
     private void removeChildFragments() {
-        if (lFrag != null)
-            getChildFragmentManager().beginTransaction().remove(lFrag).commit();
-        if (rFrag != null)
-            getChildFragmentManager().beginTransaction().remove(rFrag).commit();
+        if (frontLeftHorFrag != null)
+            getChildFragmentManager().beginTransaction().remove(frontLeftHorFrag).commit();
+        if (sideRightVertFrag != null)
+            getChildFragmentManager().beginTransaction().remove(sideRightVertFrag).commit();
     }
 
     private boolean checkEmptyFields() {
@@ -340,13 +370,13 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
             i++;
             barError.setVisibility(View.VISIBLE);
         } else if (getCheckRadio(hasBarRadio) == 1) {
-            if (getCheckRadio(leftSinkRadio) == -1) {
+            if (getCheckRadio(frontLeftHorSinkRadio) == -1) {
                 i++;
-                leftError.setVisibility(View.VISIBLE);
+                frontLeftHorError.setVisibility(View.VISIBLE);
             }
-            if (getCheckRadio(rightSinkRadio) == -1) {
+            if (getCheckRadio(sideRightVertSinkRadio) == -1) {
                 i++;
-                rightError.setVisibility(View.VISIBLE);
+                sideRightVertError.setVisibility(View.VISIBLE);
             }
         }
         if (getCheckRadio(mirrorRadio) == -1) {
@@ -370,8 +400,8 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
 
     private void clearFieldErrors() {
         sinkError.setVisibility(View.GONE);
-        leftError.setVisibility(View.GONE);
-        rightError.setVisibility(View.GONE);
+        frontLeftHorError.setVisibility(View.GONE);
+        sideRightVertError.setVisibility(View.GONE);
         mirrorError.setVisibility(View.GONE);
         measureFieldA.setErrorEnabled(false);
         measureFieldB.setErrorEnabled(false);
@@ -384,12 +414,12 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
 
     private RestSinkUpdate sinkUpdate(Bundle bundle) {
         int sinkType = 0, hasSinkBar, hasMirror;
-        Integer hasLeft = null, hasRight = null;
+        Integer hasLeftFrontHor = null, hasSideRightVert = null;
         double approxA, approxB, approxC, approxD, approxE;
-        Double leftHorA = null, leftHorB = null, leftHorC = null, leftHorD = null, leftVertA = null, leftVertB = null, leftVertC = null,
-                leftVertD = null, leftVertE = null, leftBarDiam = null, leftBarDist = null, rightHorA = null, rightHorB = null, rightHorC = null,
-                rightHorD = null, rightVertA = null, rightBarDiam = null, rightBarDist = null, mirrorLow = null, mirrorHigh = null;
-        String sinkObs;
+        Double leftFrontHorA = null, leftFrontHorB = null, leftFrontHorC = null, leftFrontHorD = null, leftFrontHorDiam = null,
+                leftFrontHorDist = null, rightSideVertA = null, rightSideVertB = null, rightSideVertC = null, rightSideVertD = null, rightSideVertE = null,
+                rightSideVertDiam = null, rightSideVertDist = null, mirrorLow = null, mirrorHigh = null;
+        String leftFrontHorObs = null, rightSideVertObs = null, sinkObs = null;
 
         if (getCheckRadio(sinkRadio1) > -1)
             sinkType = getCheckRadio(sinkRadio1);
@@ -407,34 +437,53 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
 
         hasSinkBar = getCheckRadio(hasBarRadio);
         if (hasSinkBar == 1) {
-            hasLeft = getCheckRadio(leftSinkRadio);
-            if (hasLeft == 1) {
-                if (sinkType == 0) {
-                    leftHorA = bundle.getDouble(LEFT_A);
-                    leftHorB = bundle.getDouble(LEFT_B);
-                    leftHorC = bundle.getDouble(LEFT_C);
-                    leftHorD = bundle.getDouble(LEFT_D);
-                } else {
-                    leftVertA = bundle.getDouble(LEFT_A);
-                    leftVertB = bundle.getDouble(LEFT_B);
-                    leftVertC = bundle.getDouble(LEFT_C);
-                    leftVertD = bundle.getDouble(LEFT_D);
-                    leftVertE = bundle.getDouble(LEFT_E);
-                }
-                leftBarDiam = bundle.getDouble(DIAM_A);
-                leftBarDist = bundle.getDouble(DIST_A);
-            }
-            hasRight = getCheckRadio(rightSinkRadio);
-            if (hasRight == 1) {
+            hasLeftFrontHor = getCheckRadio(frontLeftHorSinkRadio);
+            if (hasLeftFrontHor == 1) {
                 if (sinkType == 0 || sinkType == 2) {
-                    rightHorA = bundle.getDouble(RIGHT_A);
-                    rightHorB = bundle.getDouble(RIGHT_B);
-                    rightHorC = bundle.getDouble(RIGHT_C);
-                    rightHorD = bundle.getDouble(RIGHT_D);
-                } else
-                    rightVertA = bundle.getDouble(RIGHT_A);
-                rightBarDiam = bundle.getDouble(DIAM_B);
-                rightBarDist = bundle.getDouble(DIST_B);
+                    HorSinkBarParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+
+                    leftFrontHorA = parcel.getHorMeasureA();
+                    leftFrontHorB = parcel.getHorMeasureB();
+                    leftFrontHorC = parcel.getHorMeasureC();
+                    leftFrontHorD = parcel.getHorMeasureD();
+                    leftFrontHorDiam = parcel.getHorDiam();
+                    leftFrontHorObs = parcel.getHorObs();
+
+                } else {
+                    VertSinkBarParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+
+                    leftFrontHorA = parcel.getMeasureA();
+                    leftFrontHorB = parcel.getMeasureB();
+                    leftFrontHorC = parcel.getMeasureC();
+                    leftFrontHorDiam = parcel.getDiam();
+                    leftFrontHorDist = parcel.getDiam();
+                    leftFrontHorObs = parcel.getObs();
+                }
+            }
+            hasSideRightVert = getCheckRadio(sideRightVertSinkRadio);
+            if (hasSideRightVert == 1) {
+                if (sinkType == 0) {
+                    HorSinkBarParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL_2));
+
+                    rightSideVertA = parcel.getHorMeasureA();
+                    rightSideVertB = parcel.getHorMeasureB();
+                    rightSideVertC = parcel.getHorMeasureC();
+                    rightSideVertD = parcel.getHorMeasureD();
+                    rightSideVertDiam = parcel.getHorDiam();
+                    rightSideVertObs = parcel.getHorObs();
+
+                } else {
+                    VertSinkBarParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL_2));
+
+                    rightSideVertA = parcel.getMeasureA();
+                    rightSideVertB = parcel.getMeasureB();
+                    rightSideVertC = parcel.getMeasureC();
+                    rightSideVertD = parcel.getMeasureD();
+                    rightSideVertE = parcel.getMeasureE();
+                    rightSideVertDiam = parcel.getDiam();
+                    rightSideVertDist = parcel.getDist();
+                    rightSideVertObs = parcel.getObs();
+                }
             }
         }
 
@@ -444,31 +493,36 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
             mirrorLow = Double.parseDouble(String.valueOf(mirrorValueA.getText()));
             mirrorHigh = Double.parseDouble(String.valueOf(mirrorValueB.getText()));
         }
-        sinkObs = String.valueOf(sinkObsValue.getText());
+        if (!TextUtils.isEmpty(sinkObsValue.getText()))
+            sinkObs = String.valueOf(sinkObsValue.getText());
 
-        return new RestSinkUpdate(sinkBundle.getInt(REST_ID), sinkType, approxA, approxB, approxC, approxD, approxE, hasSinkBar, hasLeft, leftHorA,
-                leftHorB, leftHorC, leftHorD, leftVertA, leftVertB, leftVertC, leftVertD, leftVertE, leftBarDiam, leftBarDist, hasRight,
-                rightHorA, rightHorB, rightHorC, rightHorD, rightVertA, rightBarDiam, rightBarDist, hasMirror, mirrorLow, mirrorHigh, sinkObs);
+        return new RestSinkUpdate(sinkBundle.getInt(REST_ID), sinkType, approxA, approxB, approxC, approxD, approxE, hasSinkBar, hasLeftFrontHor, leftFrontHorA,
+                leftFrontHorB, leftFrontHorC, leftFrontHorD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasSideRightVert, rightSideVertA, rightSideVertB,
+                rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs);
     }
 
     private void saveSinkData(Bundle bundle) {
         RestSinkUpdate sinkData = sinkUpdate(bundle);
         ViewModelEntry.updateRestSinkData(sinkData);
-        callUrinalFragment(sinkBundle);
+        requireActivity().getSupportFragmentManager().popBackStack(REST_LIST, 0);
     }
 
-    private void callUrinalFragment(Bundle bundle) {
-        RestUrinalFragment uFrag = RestUrinalFragment.newInstance();
-        uFrag.setArguments(bundle);
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.show_fragment_selected, uFrag).addToBackStack(null).commit();
-    }
+// // // // // // // // ----------> Colocar no banheiro coletivo, não no acessível
+
+    //        callUrinalFragment(sinkBundle);
+
+//    private void callUrinalFragment(Bundle bundle) {
+//        RestUrinalFragment uFrag = RestUrinalFragment.newInstance();
+//        uFrag.setArguments(bundle);
+//        requireActivity().getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.show_fragment_selected, uFrag).addToBackStack(null).commit();
+//    }
 
     private void saveClick(View view) {
         if (getCheckRadio(hasBarRadio) == 1) {
-            if (getCheckRadio(leftSinkRadio) > 0) {
+            if (getCheckRadio(frontLeftHorSinkRadio) > 0) {
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, childBundle);
-            } else if (getCheckRadio(rightSinkRadio) > 0) {
+            } else if (getCheckRadio(sideRightVertSinkRadio) > 0) {
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA_2, childBundle);
             } else {
                 checkEmptyFields();
@@ -515,23 +569,18 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
         if (rest.getHasSinkBar() != null)
             hasBarRadio.check(hasBarRadio.getChildAt(rest.getHasSinkBar()).getId());
 
-        if (rest.getHasLeftBar() != null) {
-            leftSinkRadio.check(leftSinkRadio.getChildAt(rest.getHasLeftBar()).getId());
-            if (rest.getHasLeftBar() == 1)
-                getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, sinkBundle);
-        }
-        if (rest.getHasRightBar() != null) {
-            rightSinkRadio.check(rightSinkRadio.getChildAt(rest.getHasRightBar()).getId());
-            if (rest.getHasRightBar() == 1)
-                getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA_2, sinkBundle);
-        }
+        if (rest.getHasLeftFrontHorBar() != null)
+            frontLeftHorSinkRadio.check(frontLeftHorSinkRadio.getChildAt(rest.getHasLeftFrontHorBar()).getId());
+
+        if (rest.getHasRightSideVertBar() != null)
+            sideRightVertSinkRadio.check(sideRightVertSinkRadio.getChildAt(rest.getHasRightSideVertBar()).getId());
 
         if (rest.getSinkHasMirror() != null)
             mirrorRadio.check(mirrorRadio.getChildAt(rest.getSinkHasMirror()).getId());
-        if (rest.getSiMirrorLow() != null)
-            mirrorValueA.setText(String.valueOf(rest.getSiMirrorLow()));
-        if (rest.getSiMirrorHigh() != null)
-            mirrorValueB.setText(String.valueOf(rest.getSiMirrorHigh()));
+        if (rest.getSinkMirrorLow() != null)
+            mirrorValueA.setText(String.valueOf(rest.getSinkMirrorLow()));
+        if (rest.getSinkMirrorHigh() != null)
+            mirrorValueB.setText(String.valueOf(rest.getSinkMirrorHigh()));
         if (rest.getSinkObs() != null)
             sinkObsValue.setText(rest.getSinkObs());
 

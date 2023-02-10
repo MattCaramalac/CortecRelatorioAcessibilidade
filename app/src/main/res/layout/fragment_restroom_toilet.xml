@@ -886,7 +886,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
                     android:text="@string/radio_button_no"
-                    android:textSize="@dimen/radio_button_text"/>
+                    android:textSize="@dimen/radio_button_text" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -911,13 +911,32 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/douche_pressure_height_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/douche_error"
+                android:hint="Altura válvula pressão ducha higiênica (m)"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/douche_pressure_height_value"
+                    android:inputType="numberDecimal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/douche_height_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/douche_error"
-                android:hint="Altura ducha higiênica (m)"
+                android:hint="Altura acionamento ducha higiênica (m)"
                 android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText

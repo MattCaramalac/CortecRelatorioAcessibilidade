@@ -51,8 +51,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntr
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdate;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestDoorUpdate;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntryUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdateTwo;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntranceUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestSinkUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestToiletUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestUpViewUpdate;
@@ -426,6 +426,10 @@ public class ReportRepository {
         return doorEntryDao.getSpecificDoor(doorId);
     }
 
+    public LiveData<DoorEntry> getRestDoor(int restID) {
+        return doorEntryDao.getRestDoor(restID);
+    }
+
     public LiveData<DoorEntry> getLastDoorEntry() {
         return doorEntryDao.getLastDoorEntry();
     }
@@ -755,10 +759,6 @@ public class ReportRepository {
         return restroomEntryDao.getRestFirstData(restID);
     }
 
-    public LiveData<RestroomEntry> getRestDoorData(int restID) {
-        return restroomEntryDao.getRestDoorData(restID);
-    }
-
     public LiveData<RestroomEntry> getRestUpViewData(int restID) {
         return restroomEntryDao.getRestUpViewData(restID);
     }
@@ -769,6 +769,10 @@ public class ReportRepository {
 
     public LiveData<RestroomEntry> getRestAccessData(int restID) {
         return restroomEntryDao.getRestAccessData(restID);
+    }
+
+    public LiveData<RestroomEntry> getRestAccessDataTwo(int restID) {
+        return restroomEntryDao.getRestAccessDataTwo(restID);
     }
 
     public LiveData<RestroomEntry> getRestSinkData(int restID) {
@@ -787,12 +791,8 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomEntry(restroom));
     }
 
-    public void updateRestroomData(RestEntryUpdate... restEntryUpdates) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomData(restEntryUpdates));
-    }
-
-    public void updateRestDoorData(RestDoorUpdate... doorUpdates) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestDoorData(doorUpdates));
+    public void updateRestroomData(RestEntranceUpdate... restEntranceUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomData(restEntranceUpdates));
     }
 
     public void updateRestUpViewData(RestUpViewUpdate... upViewUpdates) {
@@ -805,6 +805,10 @@ public class ReportRepository {
 
     public void updateRestAccessData(RestAccessUpdate... accUpdates) {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestAccessData(accUpdates));
+    }
+
+    public void updateRestAccessDataTwo(RestAccessUpdateTwo... accUpdatesTwo) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestAccessDataTwo(accUpdatesTwo));
     }
 
    public void updateRestSinkData(RestSinkUpdate... sinkUpdates) {

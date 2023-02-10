@@ -1389,29 +1389,97 @@ public abstract class ReportDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN hasSidewalk INTEGER");
 
             database.execSQL("CREATE TABLE PlaygroundEntry2 (playID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, " +
-                    "playLocation TEXT, playHasGate INTEGER, playGateWidth REAL, gateHasFloorTrack INTEGER, floorTrackHeight REAL, floorTrackHasRamp INTEGER," +
+                    "playLocation TEXT, playHasGate INTEGER DEFAULT 0, playGateWidth REAL, gateHasFloorTrack INTEGER, floorTrackHeight REAL, floorTrackHasRamp INTEGER," +
                     "rampMeasureQnt INTEGER, rampMeasure1 REAL, rampMeasure2 REAL, rampMeasure3 REAL, rampMeasure4 REAL, hasFloorGap INTEGER, floorGapQnt INTEGER," +
                     "floorGap1 REAL, floorGap2 REAL, floorGap3 REAL, floorGap4 REAL, gateSillType INTEGER, inclHeight REAL, inclMeasureQnt INTEGER, " +
                     "inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL, inclAngle4 REAL, stepHeight REAL, slopeMeasureQnt INTEGER, slopeAngle1 REAL," +
                     "slopeAngle2 REAL, slopeAngle3 REAL, slopeAngle4 REAL, slopeWidth REAL, slopeHeight REAL, sillObs TEXT, " +
                     "accessibleFloor INTEGER, accessFloorObs TEXT, accessibleEquip INTEGER, accessEquipObs TEXT, playgroundObs TEXT, playPhotoNumber TEXT,"+
                     "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
-            database.execSQL("INSERT INTO PlaygroundEntry2 (playLocation, playHasGate, playGateWidth, gateHasFloorTrack, floorTrackHeight, floorTrackHasRamp, " +
+            database.execSQL("INSERT INTO PlaygroundEntry2 (playLocation, blockID, playGateWidth, gateHasFloorTrack, floorTrackHeight, floorTrackHasRamp, " +
                     "rampMeasureQnt, rampMeasure1, rampMeasure2, rampMeasure3, rampMeasure4, hasFloorGap, floorGapQnt, floorGap1, floorGap2, floorGap3, floorGap4, " +
-                    "gateSillType, inclSillHeight, stepSillHeight, slopeMeasureQnt, slopeSillAngle1, slopeSillAngle2, slopeSillAngle3, slopeSillAngle4, slopeSillWidth, " +
-                    "slopeSillHeight, sillObs, accessibleFloor, accessibleFloorObs, accessibleEquip, accessibleEquipObs, playgroundObs) " +
-                    "SELECT playLocation, playHasGate, playGateWidth, playGateHasFloorTrack, playFloorTrackHeight, playFloorTrackHasRamp, rampMeasureQnt, rampMeasure1, " +
+                    "gateSillType, inclHeight, stepHeight, slopeMeasureQnt, slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4, slopeWidth, " +
+                    "slopeHeight, sillObs, accessibleFloor, accessFloorObs, accessibleEquip, accessEquipObs, playgroundObs) " +
+                    "SELECT playLocation, blockID, playGateWidth, playGateHasFloorTrack, playFloorTrackHeight, playFloorTrackHasRamp, rampMeasureQnt, rampMeasure1, " +
                     "rampMeasure2, rampMeasure3, rampMeasure4, hasFloorGap, floorGapQnt, floorGap1, floorGap2, floorGap3, floorGap4, playGateSillType, " +
                     "inclinationSillHeight, stepSillHeight, slopeMeasureQnt, slopeSillAngle1, slopeSillAngle2, slopeSillAngle3, slopeSillAngle4, slopeSillWidth, " +
-                    "slopeSillHeight, sillObs, accessibleFloor, accessibleFloorObs, accessibleEquip, accessibleEquipObs, playgroundObs FROM RampStairsHandrailEntry");
+                    "slopeSillHeight, sillObs, accessibleFloor, accessibleFloorObs, accessibleEquip, accessibleEquipObs, playgroundObs FROM PlaygroundEntry");
             database.execSQL("DROP TABLE PlaygroundEntry");
             database.execSQL("ALTER TABLE PlaygroundEntry2 RENAME TO PlaygroundEntry");
 
-            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN inclQnt INTEGER");
-            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN inclAngle1 REAL");
-            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN inclAngle2 REAL");
-            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN inclAngle3 REAL");
-            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN inclAngle4 REAL");
+            database.execSQL("CREATE TABLE DoorEntry_2(doorID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, restID INTEGER, doorLocation TEXT, doorType INTEGER," +
+                    "doorWidth1 REAL, doorWidth2 REAL, doorHasPict INTEGER, doorPictObs TEXT, opDirection INTEGER, opDirectionObs TEXT, doorHandleType INTEGER, doorHandleHeight REAL, doorHandleObs TEXT, " +
+                    "doorHasLocks INTEGER, doorHasHorBar INTEGER, horBarHeight REAL, horBarLength REAL, horBarFrameDist REAL, horBarDiam REAL, horBarDoorDist REAL," +
+                    "horBarObs TEXT, doorHasWindow INTEGER, doorWinInfHeight REAL, doorWinSupHeight REAL, doorWinWidth REAL, doorWinObs TEXT, " +
+                    "doorHasTactSign INTEGER, tactSignHeight REAL, tactSignIncl REAL, tactSignObs TEXT, doorSillType INTEGER, inclHeight REAL, " +
+                    "inclQnt INTEGER, inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL, inclAngle4 REAL, stepHeight REAL, slopeWidth REAL, slopeHeight REAL," +
+                    "slopeQnt INTEGER, slopeAngle1 REAL, slopeAngle2 REAL, slopeAngle3 REAL, slopeAngle4 REAL,  doorSillObs TEXT, doorObs TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO DoorEntry_2 (doorID, roomID, doorLocation, doorWidth1, doorhandleType, doorHandleHeight, doorHandleObs, doorHasLocks, doorHasTactSign," +
+                    "doorSillType, inclHeight, stepHeight, slopeQnt, slopeAngle1, slopeAngle2,slopeAngle3, slopeAngle4, slopeWidth, slopeHeight, doorSillObs, doorObs) " +
+                    "SELECT doorID, roomID, doorLocation, doorWidth, doorHandleType, doorHandleHeight, doorHandleObs, doorHasLocks, doorHasTactileSign, doorSillType, " +
+                    "sillInclinationHeight, sillStepHeight, sillSlopeQnt, sillSlopeAngle1, sillSlopeAngle2, sillSlopeAngle3, sillSlopeAngle4, sillSlopeWidth, sillSlopeHeight, " +
+                    "doorSillObs, doorObs FROM DoorEntry");
+            database.execSQL("DROP TABLE DoorEntry");
+            database.execSQL("ALTER TABLE DoorEntry_2 RENAME TO DoorEntry");
+
+            database.execSQL("CREATE TABLE FreeSpaceEntry2(frSpaceID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, restID INTEGER, frSpaceLocation TEXT," +
+                    "obstacleWidth REAL, frSpaceWidth REAL, frSpaceObs TEXT," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO FreeSpaceEntry2 (frSpaceID, roomID, frSpaceLocation, obstacleWidth, frSpaceWidth, frSpaceObs) " +
+                    "SELECT freeSpaceID, roomID, freeSpaceLocation, obstacleWidth, freeSpaceWidth, freeSpaceObs FROM FreeSpaceEntry");
+            database.execSQL("DROP TABLE FreeSpaceEntry");
+            database.execSQL("ALTER TABLE FreeSpaceEntry2 RENAME TO FreeSpaceEntry");
+
+            database.execSQL("CREATE TABLE RestEntry (restroomID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, isCollective INTEGER NOT NULL DEFAULT 0," +
+                    "restType INTEGER, restLocation TEXT, collectiveHasDoor INTEGER, entranceWidth REAL, entranceDoorSill INTEGER, entranceDoorSillObs TEXT, " +
+                    "accessRoute INTEGER, accessRouteObs TEXT, intRestroom INTEGER," +
+                    "intRestObs TEXT, antiDriftFloor INTEGER, antiDriftFloorObs TEXT, restDrain INTEGER, restDrainObs TEXT, restSwitch INTEGER, switchHeight REAL, switchObs TEXT," +
+                    "upViewLength REAL, upViewWidth REAL, upViewMeasureA REAL, upViewMeasureB REAL, upViewMeasureC REAL, upViewMeasureD REAL, upViewObs TEXT, toType INTEGER," +
+                    "toHeightNoSeat REAL, toHasSeat INTEGER, toHeightSeat REAL, toHasSoculo INTEGER, frSoculo REAL, latSoculo REAL, socCorners INTEGER, toHasFrontBar INTEGER," +
+                    "frBarA REAL, frBarB REAL, frBarC REAL, frBarSect REAL, frBarDist REAL, toHasWall INTEGER, hasHorBar INTEGER, horBarD REAL, horBarE REAL, horBarF REAL," +
+                    "horBarDistG REAL, horBarSect REAL, horBarDist REAL, hasVertBar INTEGER, vertBarH REAL, vertBarI REAL, vertBarJ REAL, vertBarSect REAL, vertBarDist REAL," +
+                    "hasSideBar INTEGER, sideBarD REAL, sideBarE REAL, sideBarDistG REAL, sideBarSect REAL," +
+                    "hasArtBar INTEGER, artBarH REAL, artBarI REAL, artBarJ REAL, artBarSect REAL, toActDesc TEXT, toActHeight REAL, toActObs TEXT, hasPapHolder INTEGER," +
+                    "papHolderType INTEGER, papEmbDist REAL, papEmbHeight REAL, papSupAlign INTEGER, papSupHeight REAL, papHoldObs TEXT, hasDouche INTEGER, douchePressHeight REAL," +
+                    "doucheActHeight REAL, doucheObs TEXT, toiletObs TEXT, hasHanger INTEGER, hangerHeight REAL, hangerObs TEXT, hasObjHold INTEGER, objHoldCorrect INTEGER," +
+                    "objHoldHeight REAL, objHoldObs TEXT, hasSoapHold INTEGER, soapHoldHeight REAL, soapHoldObs TEXT, hasTowelHold INTEGER, towelHoldHeight REAL, towelHoldObs TEXT," +
+                    "hasEmergencyButton INTEGER, emergencyHeight REAL, emergencyObs TEXT, hasWaterValve INTEGER, waterValveType INTEGER, waterValveHeight REAL, waterValveObs TEXT," +
+                    "hasWindow INTEGER, winQnt INTEGER, winComType1 TEXT, winComHeight1 REAL, winComType2 TEXT, winComHeight2 REAL, winComType3 TEXT, winComHeight3 REAL, winObs TEXT," +
+                    "hasWallMirror INTEGER, wallMirrorLow REAL, wallMirrorHigh REAL, wallMirrorObs TEXT, sinkType INTEGER, hasLowerColSink INTEGER, " +
+                    "approxMeasureA REAL, approxMeasureB REAL, approxMeasureC REAL, approxMeasureD REAL, approxMeasureE REAL, hasSinkBar INTEGER, hasLeftFrontHorBar INTEGER, " +
+                    "leftFrontHorMeasureA REAL, leftFrontHorMeasureB REAL, leftFrontHorMeasureC REAL, leftFrontHorMeasureD REAL, leftFrontHorDiam REAL, " +
+                    "leftFrontHorDist REAL, leftFrontHorObs TEXT," +
+                    "hasRightSideVertBar INTEGER, rightSideVertMeasureA REAL, rightSideVertMeasureB REAL, rightSideVertMeasureC REAL, rightSideVertMeasureD REAL, " +
+                    "rightSideVertMeasureE REAL, rightSideVertDiam REAL, rightSideVertDist REAL, rightSideVertObs TEXT, sinkHasMirror INTEGER, sinkMirrorLow REAL, " +
+                    "sinkMirrorHigh REAL, sinkObs TEXT, hasUrinal INTEGER, hasAccessUrinal INTEGER, urinalType INTEGER, urMeasureA REAL, urMeasureB REAL, urMeasureC REAL," +
+                    "urMeasureD REAL, urMeasureE REAL, urMeasureF REAL, urMeasureG REAL, urMeasureH REAL, urMeasureI REAL, urMeasureJ REAL, urMeasureK REAL," +
+                    "urMeasureL REAL, urMeasureM REAL, urObs TEXT, " +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO RestEntry (restroomID, blockID, restType, restLocation, accessRoute, accessRouteObs, intRestroom, intRestObs, antiDriftFloor, " +
+                    "antiDriftFloorObs, restDrain, restDrainObs, restSwitch, switchHeight, switchObs,upViewLength, upViewWidth, upViewMeasureA, upViewMeasureB, upViewMeasureC, " +
+                    "upViewMeasureD, upViewObs, toType, toHeightNoSeat, toHasSeat, toHeightSeat, toHasSoculo, frSoculo, latSoculo, socCorners, toHasFrontBar, frBarA, frBarB, " +
+                    "frBarC, frBarSect, frBarDist, toHasWall, hasHorBar, horBarD, horBarE, horBarF,horBarDistG, horBarSect, horBarDist, hasVertBar, vertBarH, vertBarI, vertBarJ, " +
+                    "vertBarSect, vertBarDist, hasArtBar, artBarH, artBarI, artBarJ, artBarSect, toActDesc, toActHeight, toActObs, hasPapHolder, papHolderType, papEmbDist, " +
+                    "papEmbHeight, papSupAlign, papSupHeight, papHoldObs, hasDouche, doucheActHeight, doucheObs, toiletObs, hasHanger, hangerHeight, hangerObs, " +
+                    "hasObjHold, objHoldCorrect, objHoldHeight, objHoldObs, hasSoapHold, soapHoldHeight, soapHoldObs, hasTowelHold, towelHoldHeight, towelHoldObs," +
+                    "hasWallMirror, wallMirrorLow, wallMirrorHigh, wallMirrorObs, sinkType, approxMeasureA, approxMeasureB, approxMeasureC, approxMeasureD, approxMeasureE," +
+                    "sinkHasMirror, sinkMirrorLow, sinkMirrorHigh, sinkObs) " +
+                    "SELECT restroomID, blockID, restType, restLocation, accessRoute, accessRouteObs, intRestroom, intRestObs, antiDriftFloor, " +
+                    "antiDriftFloorObs, restDrain, restDrainObs, restSwitch, switchHeight, switchObs,upViewLength, upViewWidth, upViewMeasureA, upViewMeasureB, upViewMeasureC, " +
+                    "upViewMeasureD, upViewObs, toType, toHeightNoSeat, toHasSeat, toHeightSeat, toHasSoculo, frSoculo, latSoculo, socCorners, toHasFrontBar, frBarA, frBarB, " +
+                    "frBarC, frBarSect, frBarDist, toHasWall, hasHorBar, horBarD, horBarE, horBarF,horBarDistG, horBarSect, horBarDist, hasVertBar, vertBarH, vertBarI, vertBarJ, " +
+                    "vertBarSect, vertBarDist, hasArtBar, artBarH, artBarI, artBarJ, artBarSect, toActDesc, toActHeight, toActObs, hasPapHolder, papHolderType, papEmbDist, " +
+                    "papEmbHeight, papSupAlign, papSupHeight, papHoldObs, hasDouche, doucheHeight, doucheObs, toiletObs, hasHanger, hangerHeight, hangerObs, " +
+                    "hasObjHold, objHoldCorrect, objHoldHeight, objHoldObs, hasSoapHold, soapHoldHeight, soapHoldObs, hasTowelHold, towelHoldHeight, towelHoldObs," +
+                    "hasWallMirror, wallMirrorLow, wallMirrorHigh, wallMirrorObs, sinkType, approxMeasureA, approxMeasureB, approxMeasureC, approxMeasureD, approxMeasureE, " +
+                    "sinkHasMirror, siMirrorLow, siMirrorHigh, sinkObs FROM RestroomEntry");
+            database.execSQL("DROP TABLE RestroomEntry");
+            database.execSQL("ALTER TABLE RestEntry RENAME TO RestroomEntry");
+
+
 
             database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN inclQnt INTEGER");
             database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN inclAngle1 REAL");

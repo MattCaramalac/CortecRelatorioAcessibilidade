@@ -1,5 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.data.entities;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -15,6 +16,7 @@ public class PlaygroundEntry {
     private int blockID;
 
     private String playLocation;
+    @ColumnInfo(defaultValue = "0")
     private Integer playHasGate;
     private Double playGateWidth;
     private Integer gateHasFloorTrack;

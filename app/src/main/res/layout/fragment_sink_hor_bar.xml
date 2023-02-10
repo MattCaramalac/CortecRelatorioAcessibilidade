@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.ChildFragments.SinkLeftHorBarFragment">
+    android:layout_height="match_parent">
 
     <ImageButton
         android:id="@+id/hor_bar_img"
@@ -116,29 +116,31 @@
             android:id="@+id/sink_hor_diam_value"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="numberDecimal">
-
-        </com.google.android.material.textfield.TextInputEditText>
+            android:inputType="numberDecimal"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dist_hor_bar_field"
+        android:id="@+id/hor_bar_obs_field"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/usual_padding"
-        android:hint="@string/hint_wall_bar_distance"
+        android:hint="@string/hint_obs"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sink_hor_diam_field">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/dist_hor_bar_value"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:inputType="numberDecimal">
-
-    </com.google.android.material.textfield.TextInputEditText>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/hor_bar_obs_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start"
+            android:inputType="textMultiLine"
+            android:lines="@integer/multiline_obs_field"
+            android:overScrollMode="always"
+            android:scrollbarStyle="outsideInset"
+            android:scrollbars="vertical"
+            android:scrollHorizontally="false" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

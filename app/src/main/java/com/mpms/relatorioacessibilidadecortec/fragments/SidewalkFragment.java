@@ -141,12 +141,12 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
     @Override
     public void onResume() {
         super.onResume();
-//        if (!sideBundle.getBoolean(RECENT_ENTRY)) {
-//            modelEntry.getLastSidewalkEntry().observe(getViewLifecycleOwner(), side -> {
-//                if (sideBundle.getBoolean(RECENT_ENTRY))
-//                    callNextSidewalkFrag(side);
-//            });
-//        }
+        if (!sideBundle.getBoolean(RECENT_ENTRY)) {
+            modelEntry.getLastSidewalkEntry().observe(getViewLifecycleOwner(), side -> {
+                if (sideBundle.getBoolean(RECENT_ENTRY))
+                    callNextSidewalkFrag(side);
+            });
+        }
     }
 
     private void cancelClick() {

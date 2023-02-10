@@ -15,36 +15,34 @@ public class RestSinkUpdate {
     private Double approxMeasureD;
     private Double approxMeasureE;
     private Integer hasSinkBar;
-    private Integer hasLeftBar;
-    private Double leftHorMeasureA;
-    private Double leftHorMeasureB;
-    private Double leftHorMeasureC;
-    private Double leftHorMeasureD;
-    private Double leftVertMeasureA;
-    private Double leftVertMeasureB;
-    private Double leftVertMeasureC;
-    private Double leftVertMeasureD;
-    private Double leftVertMeasureE;
-    private Double leftBarDiam;
-    private Double leftBarDist;
-    private Integer hasRightBar;
-    private Double rightHorMeasureA;
-    private Double rightHorMeasureB;
-    private Double rightHorMeasureC;
-    private Double rightHorMeasureD;
-    private Double rightVertMeasureA;
-    private Double rightBarDiam;
-    private Double rightBarDist;
+    private Integer hasLeftFrontHorBar;
+    private Double leftFrontHorMeasureA;
+    private Double leftFrontHorMeasureB;
+    private Double leftFrontHorMeasureC;
+    private Double leftFrontHorMeasureD;
+    private Double leftFrontHorDiam;
+    private Double leftFrontHorDist;
+    private String leftFrontHorObs;
+    private Integer hasRightSideVertBar;
+    private Double rightSideVertMeasureA;
+    private Double rightSideVertMeasureB;
+    private Double rightSideVertMeasureC;
+    private Double rightSideVertMeasureD;
+    private Double rightSideVertMeasureE;
+    private Double rightSideVertDiam;
+    private Double rightSideVertDist;
+    private String rightSideVertObs;
     private Integer sinkHasMirror;
-    private Double siMirrorLow;
-    private Double siMirrorHigh;
+    private Double sinkMirrorLow;
+    private Double sinkMirrorHigh;
     private String sinkObs;
 
     public RestSinkUpdate(int restroomID, Integer sinkType, Double approxMeasureA, Double approxMeasureB, Double approxMeasureC, Double approxMeasureD, Double approxMeasureE,
-                          Integer hasSinkBar, Integer hasLeftBar, Double leftHorMeasureA, Double leftHorMeasureB, Double leftHorMeasureC, Double leftHorMeasureD, Double leftVertMeasureA,
-                          Double leftVertMeasureB, Double leftVertMeasureC, Double leftVertMeasureD, Double leftVertMeasureE, Double leftBarDiam, Double leftBarDist,
-                          Integer hasRightBar, Double rightHorMeasureA, Double rightHorMeasureB, Double rightHorMeasureC, Double rightHorMeasureD, Double rightVertMeasureA
-                          , Double rightBarDiam, Double rightBarDist, Integer sinkHasMirror, Double siMirrorLow, Double siMirrorHigh, String sinkObs) {
+                          Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA, Double leftFrontHorMeasureB, Double leftFrontHorMeasureC,
+                          Double leftFrontHorMeasureD, Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs,
+                          Integer hasRightSideVertBar, Double rightSideVertMeasureA, Double rightSideVertMeasureB, Double rightSideVertMeasureC, Double rightSideVertMeasureD,
+                          Double rightSideVertMeasureE, Double rightSideVertDiam, Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow,
+                          Double sinkMirrorHigh, String sinkObs) {
         this.restroomID = restroomID;
         this.sinkType = sinkType;
         this.approxMeasureA = approxMeasureA;
@@ -53,29 +51,26 @@ public class RestSinkUpdate {
         this.approxMeasureD = approxMeasureD;
         this.approxMeasureE = approxMeasureE;
         this.hasSinkBar = hasSinkBar;
-        this.hasLeftBar = hasLeftBar;
-        this.leftHorMeasureA = leftHorMeasureA;
-        this.leftHorMeasureB = leftHorMeasureB;
-        this.leftHorMeasureC = leftHorMeasureC;
-        this.leftHorMeasureD = leftHorMeasureD;
-        this.leftVertMeasureA = leftVertMeasureA;
-        this.leftVertMeasureB = leftVertMeasureB;
-        this.leftVertMeasureC = leftVertMeasureC;
-        this.leftVertMeasureD = leftVertMeasureD;
-        this.leftVertMeasureE = leftVertMeasureE;
-        this.leftBarDiam = leftBarDiam;
-        this.leftBarDist = leftBarDist;
-        this.hasRightBar = hasRightBar;
-        this.rightHorMeasureA = rightHorMeasureA;
-        this.rightHorMeasureB = rightHorMeasureB;
-        this.rightHorMeasureC = rightHorMeasureC;
-        this.rightHorMeasureD = rightHorMeasureD;
-        this.rightVertMeasureA = rightVertMeasureA;
-        this.rightBarDiam = rightBarDiam;
-        this.rightBarDist = rightBarDist;
+        this.hasLeftFrontHorBar = hasLeftFrontHorBar;
+        this.leftFrontHorMeasureA = leftFrontHorMeasureA;
+        this.leftFrontHorMeasureB = leftFrontHorMeasureB;
+        this.leftFrontHorMeasureC = leftFrontHorMeasureC;
+        this.leftFrontHorMeasureD = leftFrontHorMeasureD;
+        this.leftFrontHorDiam = leftFrontHorDiam;
+        this.leftFrontHorDist = leftFrontHorDist;
+        this.leftFrontHorObs = leftFrontHorObs;
+        this.hasRightSideVertBar = hasRightSideVertBar;
+        this.rightSideVertMeasureA = rightSideVertMeasureA;
+        this.rightSideVertMeasureB = rightSideVertMeasureB;
+        this.rightSideVertMeasureC = rightSideVertMeasureC;
+        this.rightSideVertMeasureD = rightSideVertMeasureD;
+        this.rightSideVertMeasureE = rightSideVertMeasureE;
+        this.rightSideVertDiam = rightSideVertDiam;
+        this.rightSideVertDist = rightSideVertDist;
+        this.rightSideVertObs = rightSideVertObs;
         this.sinkHasMirror = sinkHasMirror;
-        this.siMirrorLow = siMirrorLow;
-        this.siMirrorHigh = siMirrorHigh;
+        this.sinkMirrorLow = sinkMirrorLow;
+        this.sinkMirrorHigh = sinkMirrorHigh;
         this.sinkObs = sinkObs;
     }
 
@@ -135,168 +130,148 @@ public class RestSinkUpdate {
         this.approxMeasureE = approxMeasureE;
     }
 
-    public Integer getHasLeftBar() {
-        return hasLeftBar;
+    public Integer getHasSinkBar() {
+        return hasSinkBar;
     }
 
-    public void setHasLeftBar(Integer hasLeftBar) {
-        this.hasLeftBar = hasLeftBar;
+    public void setHasSinkBar(Integer hasSinkBar) {
+        this.hasSinkBar = hasSinkBar;
     }
 
-    public Double getLeftHorMeasureA() {
-        return leftHorMeasureA;
+    public Integer getHasLeftFrontHorBar() {
+        return hasLeftFrontHorBar;
     }
 
-    public void setLeftHorMeasureA(Double leftHorMeasureA) {
-        this.leftHorMeasureA = leftHorMeasureA;
+    public void setHasLeftFrontHorBar(Integer hasLeftFrontHorBar) {
+        this.hasLeftFrontHorBar = hasLeftFrontHorBar;
     }
 
-    public Double getLeftHorMeasureB() {
-        return leftHorMeasureB;
+    public Double getLeftFrontHorMeasureA() {
+        return leftFrontHorMeasureA;
     }
 
-    public void setLeftHorMeasureB(Double leftHorMeasureB) {
-        this.leftHorMeasureB = leftHorMeasureB;
+    public void setLeftFrontHorMeasureA(Double leftFrontHorMeasureA) {
+        this.leftFrontHorMeasureA = leftFrontHorMeasureA;
     }
 
-    public Double getLeftHorMeasureC() {
-        return leftHorMeasureC;
+    public Double getLeftFrontHorMeasureB() {
+        return leftFrontHorMeasureB;
     }
 
-    public void setLeftHorMeasureC(Double leftHorMeasureC) {
-        this.leftHorMeasureC = leftHorMeasureC;
+    public void setLeftFrontHorMeasureB(Double leftFrontHorMeasureB) {
+        this.leftFrontHorMeasureB = leftFrontHorMeasureB;
     }
 
-    public Double getLeftHorMeasureD() {
-        return leftHorMeasureD;
+    public Double getLeftFrontHorMeasureC() {
+        return leftFrontHorMeasureC;
     }
 
-    public void setLeftHorMeasureD(Double leftHorMeasureD) {
-        this.leftHorMeasureD = leftHorMeasureD;
+    public void setLeftFrontHorMeasureC(Double leftFrontHorMeasureC) {
+        this.leftFrontHorMeasureC = leftFrontHorMeasureC;
     }
 
-    public Double getLeftVertMeasureA() {
-        return leftVertMeasureA;
+    public Double getLeftFrontHorMeasureD() {
+        return leftFrontHorMeasureD;
     }
 
-    public void setLeftVertMeasureA(Double leftVertMeasureA) {
-        this.leftVertMeasureA = leftVertMeasureA;
+    public void setLeftFrontHorMeasureD(Double leftFrontHorMeasureD) {
+        this.leftFrontHorMeasureD = leftFrontHorMeasureD;
     }
 
-    public Double getLeftVertMeasureB() {
-        return leftVertMeasureB;
+    public Double getLeftFrontHorDiam() {
+        return leftFrontHorDiam;
     }
 
-    public void setLeftVertMeasureB(Double leftVertMeasureB) {
-        this.leftVertMeasureB = leftVertMeasureB;
+    public void setLeftFrontHorDiam(Double leftFrontHorDiam) {
+        this.leftFrontHorDiam = leftFrontHorDiam;
     }
 
-    public Double getLeftVertMeasureC() {
-        return leftVertMeasureC;
+    public Double getLeftFrontHorDist() {
+        return leftFrontHorDist;
     }
 
-    public void setLeftVertMeasureC(Double leftVertMeasureC) {
-        this.leftVertMeasureC = leftVertMeasureC;
+    public void setLeftFrontHorDist(Double leftFrontHorDist) {
+        this.leftFrontHorDist = leftFrontHorDist;
     }
 
-    public Double getLeftVertMeasureD() {
-        return leftVertMeasureD;
+    public String getLeftFrontHorObs() {
+        return leftFrontHorObs;
     }
 
-    public void setLeftVertMeasureD(Double leftVertMeasureD) {
-        this.leftVertMeasureD = leftVertMeasureD;
+    public void setLeftFrontHorObs(String leftFrontHorObs) {
+        this.leftFrontHorObs = leftFrontHorObs;
     }
 
-    public Double getLeftVertMeasureE() {
-        return leftVertMeasureE;
+    public Integer getHasRightSideVertBar() {
+        return hasRightSideVertBar;
     }
 
-    public void setLeftVertMeasureE(Double leftVertMeasureE) {
-        this.leftVertMeasureE = leftVertMeasureE;
+    public void setHasRightSideVertBar(Integer hasRightSideVertBar) {
+        this.hasRightSideVertBar = hasRightSideVertBar;
     }
 
-    public Double getLeftBarDiam() {
-        return leftBarDiam;
+    public Double getRightSideVertMeasureA() {
+        return rightSideVertMeasureA;
     }
 
-    public void setLeftBarDiam(Double leftBarDiam) {
-        this.leftBarDiam = leftBarDiam;
+    public void setRightSideVertMeasureA(Double rightSideVertMeasureA) {
+        this.rightSideVertMeasureA = rightSideVertMeasureA;
     }
 
-    public Double getLeftBarDist() {
-        return leftBarDist;
+    public Double getRightSideVertMeasureB() {
+        return rightSideVertMeasureB;
     }
 
-    public void setLeftBarDist(Double leftBarDist) {
-        this.leftBarDist = leftBarDist;
+    public void setRightSideVertMeasureB(Double rightSideVertMeasureB) {
+        this.rightSideVertMeasureB = rightSideVertMeasureB;
     }
 
-    public Integer getHasRightBar() {
-        return hasRightBar;
+    public Double getRightSideVertMeasureC() {
+        return rightSideVertMeasureC;
     }
 
-    public void setHasRightBar(Integer hasRightBar) {
-        this.hasRightBar = hasRightBar;
+    public void setRightSideVertMeasureC(Double rightSideVertMeasureC) {
+        this.rightSideVertMeasureC = rightSideVertMeasureC;
     }
 
-    public Double getRightHorMeasureA() {
-        return rightHorMeasureA;
+    public Double getRightSideVertMeasureD() {
+        return rightSideVertMeasureD;
     }
 
-    public void setRightHorMeasureA(Double rightHorMeasureA) {
-        this.rightHorMeasureA = rightHorMeasureA;
+    public void setRightSideVertMeasureD(Double rightSideVertMeasureD) {
+        this.rightSideVertMeasureD = rightSideVertMeasureD;
     }
 
-    public Double getRightHorMeasureB() {
-        return rightHorMeasureB;
+    public Double getRightSideVertMeasureE() {
+        return rightSideVertMeasureE;
     }
 
-    public void setRightHorMeasureB(Double rightHorMeasureB) {
-        this.rightHorMeasureB = rightHorMeasureB;
+    public void setRightSideVertMeasureE(Double rightSideVertMeasureE) {
+        this.rightSideVertMeasureE = rightSideVertMeasureE;
     }
 
-    public Double getRightHorMeasureC() {
-        return rightHorMeasureC;
+    public Double getRightSideVertDiam() {
+        return rightSideVertDiam;
     }
 
-    public void setRightHorMeasureC(Double rightHorMeasureC) {
-        this.rightHorMeasureC = rightHorMeasureC;
+    public void setRightSideVertDiam(Double rightSideVertDiam) {
+        this.rightSideVertDiam = rightSideVertDiam;
     }
 
-    public Double getRightHorMeasureD() {
-        return rightHorMeasureD;
+    public Double getRightSideVertDist() {
+        return rightSideVertDist;
     }
 
-    public void setRightHorMeasureD(Double rightHorMeasureD) {
-        this.rightHorMeasureD = rightHorMeasureD;
+    public void setRightSideVertDist(Double rightSideVertDist) {
+        this.rightSideVertDist = rightSideVertDist;
     }
 
-    public Double getRightVertMeasureA() {
-        return rightVertMeasureA;
+    public String getRightSideVertObs() {
+        return rightSideVertObs;
     }
 
-    public void setRightVertMeasureA(Double rightVertMeasureA) {
-        this.rightVertMeasureA = rightVertMeasureA;
-    }
-
-    public Double getRightBarDiam() {
-        return rightBarDiam;
-    }
-
-    public void setRightBarDiam(Double rightBarDiam) {
-        this.rightBarDiam = rightBarDiam;
-    }
-
-    public Double getRightBarDist() {
-        return rightBarDist;
-    }
-
-    public void setRightBarDist(Double rightBarDist) {
-        this.rightBarDist = rightBarDist;
-    }
-
-    public String getSinkObs() {
-        return sinkObs;
+    public void setRightSideVertObs(String rightSideVertObs) {
+        this.rightSideVertObs = rightSideVertObs;
     }
 
     public Integer getSinkHasMirror() {
@@ -307,31 +282,27 @@ public class RestSinkUpdate {
         this.sinkHasMirror = sinkHasMirror;
     }
 
-    public Double getSiMirrorLow() {
-        return siMirrorLow;
+    public Double getSinkMirrorLow() {
+        return sinkMirrorLow;
     }
 
-    public void setSiMirrorLow(Double siMirrorLow) {
-        this.siMirrorLow = siMirrorLow;
+    public void setSinkMirrorLow(Double sinkMirrorLow) {
+        this.sinkMirrorLow = sinkMirrorLow;
     }
 
-    public Double getSiMirrorHigh() {
-        return siMirrorHigh;
+    public Double getSinkMirrorHigh() {
+        return sinkMirrorHigh;
     }
 
-    public void setSiMirrorHigh(Double siMirrorHigh) {
-        this.siMirrorHigh = siMirrorHigh;
+    public void setSinkMirrorHigh(Double sinkMirrorHigh) {
+        this.sinkMirrorHigh = sinkMirrorHigh;
+    }
+
+    public String getSinkObs() {
+        return sinkObs;
     }
 
     public void setSinkObs(String sinkObs) {
         this.sinkObs = sinkObs;
-    }
-
-    public Integer getHasSinkBar() {
-        return hasSinkBar;
-    }
-
-    public void setHasSinkBar(Integer hasSinkBar) {
-        this.hasSinkBar = hasSinkBar;
     }
 }

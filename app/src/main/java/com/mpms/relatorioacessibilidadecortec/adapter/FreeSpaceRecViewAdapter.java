@@ -72,7 +72,7 @@ public class FreeSpaceRecViewAdapter extends RecyclerView.Adapter<ViewHolderInte
     }
 
     private String fSpaceLocale(FreeSpaceEntry entry) {
-        return entry.getFreeSpaceLocation();
+        return entry.getFrSpaceLocation();
     }
 
     private String fSpaceNumber(int i) {
@@ -83,7 +83,7 @@ public class FreeSpaceRecViewAdapter extends RecyclerView.Adapter<ViewHolderInte
     public void deleteItemList() {
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
-            ViewModelEntry.deleteFreeSpace(freeList.get(selectedItems.keyAt(i)).getFreeSpaceID());
+            ViewModelEntry.deleteFreeSpace(freeList.get(selectedItems.keyAt(i)).getFrSpaceID());
         }
     }
 

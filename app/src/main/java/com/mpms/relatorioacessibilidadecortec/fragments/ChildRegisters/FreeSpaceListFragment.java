@@ -182,7 +182,7 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
     @Override
     public void OnEntryClick(int position) {
         FreeSpaceEntry fSpace = modelEntry.allFreeSpaces.getValue().get(position);
-        fSpaceListBundle.putInt(FREE_SPACE_ID, fSpace.getFreeSpaceID());
+        fSpaceListBundle.putInt(FREE_SPACE_ID, fSpace.getFrSpaceID());
         openFreeSpaceFragment();
     }
 

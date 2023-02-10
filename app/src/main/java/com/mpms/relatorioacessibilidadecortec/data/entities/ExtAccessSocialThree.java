@@ -246,6 +246,14 @@ public class ExtAccessSocialThree {
     public void setGateHasRamps(Integer gateHasRamps) {
         this.gateHasRamps = gateHasRamps;
     }
+
+    public Double getSillSlopeHeight() {
+        return sillSlopeHeight;
+    }
+
+    public void setSillSlopeHeight(Double sillSlopeHeight) {
+        this.sillSlopeHeight = sillSlopeHeight;
+    }
 }
 
 

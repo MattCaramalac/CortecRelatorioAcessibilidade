@@ -23,11 +23,13 @@ import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDia
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestToiletUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestSideBarFragment;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.RestToiletSideBarsParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestSideWallFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -39,10 +41,10 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
     RadioGroup papHoldRadio, papHoldTypeRadio, pHoldAlignRadio, tTypeRadio, tSeatRadio, tSocRadio, socCornerRadio, tWallRadio, tFrontBarRadio, doucheRadio;
     TextInputLayout tActDescField, tActHeightField, tActObsField, papEmbAField, papEmbBField, papSupAField, papObsField, tNoSeatHeightField,
             tSeatHeightField, fSocField, lSocField, fBarFieldMeasureA, fBarFieldMeasureB, fBarFieldMeasureC, fBarSectField, fBarDistField,
-            tObsField, doucheHeightField, doucheObsField;
+            tObsField, doucheActHeightField, douchePressHeightField, doucheObsField;
     TextInputEditText tActDescValue, tActHeightValue, tActObsValue, papEmbAValue, papEmbBValue, papSupAValue, papObsValue, tNoSeatHeightValue,
             tSeatHeightValue, fSocValue, lSocValue, fBarValueMeasureA, fBarValueMeasureB, fBarValueMeasureC, fBarSectValue, fBarDistValue,
-            tObsValue, doucheHeightValue, doucheObsValue;
+            tObsValue, doucheActHeightValue, douchePressHeightValue, doucheObsValue;
     FrameLayout barFrag;
 
     ViewModelEntry modelEntry;
@@ -145,7 +147,8 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         papEmbBField = view.findViewById(R.id.pap_measureB_field);
         papSupAField = view.findViewById(R.id.pap_super_measureA_field);
         papObsField = view.findViewById(R.id.pap_holder_obs_field);
-        doucheHeightField = view.findViewById(R.id.douche_height_field);
+        doucheActHeightField = view.findViewById(R.id.douche_height_field);
+        douchePressHeightField = view.findViewById(R.id.douche_pressure_height_field);
         doucheObsField = view.findViewById(R.id.douche_obs_field);
 //        TextInputEditText
         tNoSeatHeightValue = view.findViewById(R.id.toilet_no_seat_height_value);
@@ -165,7 +168,8 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         papEmbBValue = view.findViewById(R.id.pap_measureB_value);
         papSupAValue = view.findViewById(R.id.pap_super_measureA_value);
         papObsValue = view.findViewById(R.id.pap_holder_obs_value);
-        doucheHeightValue = view.findViewById(R.id.douche_height_value);
+        doucheActHeightValue = view.findViewById(R.id.douche_height_value);
+        douchePressHeightValue = view.findViewById(R.id.douche_pressure_height_value);
         doucheObsValue = view.findViewById(R.id.douche_obs_value);
 //        TextView
         tTypeError = view.findViewById(R.id.toilet_type_error);
@@ -240,19 +244,19 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
 
     private void imgExpandClickListener(View view) {
         if (view == toilet1)
-            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.convtoilet);
+            imgBundle.putInt(IMAGE_ID, R.drawable.convtoilet);
         else if (view == toilet2)
-            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.susptoilet);
+            imgBundle.putInt(IMAGE_ID, R.drawable.susptoilet);
         else if (view == toilet3)
-            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.boxtoilet);
+            imgBundle.putInt(IMAGE_ID, R.drawable.boxtoilet);
         else if (view == frontBar)
-            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.frontbar);
+            imgBundle.putInt(IMAGE_ID, R.drawable.frontbar);
         else if (view == pHolder1)
-            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.papholder);
+            imgBundle.putInt(IMAGE_ID, R.drawable.papholder);
         else if (view == pHolder2)
-            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.papholder2);
+            imgBundle.putInt(IMAGE_ID, R.drawable.papholder2);
         else if (view == pHolder3)
-            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.papholder3);
+            imgBundle.putInt(IMAGE_ID, R.drawable.papholder3);
         ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
     }
 
@@ -298,10 +302,8 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
                 socCornerRadio.setVisibility(View.GONE);
             }
         } else if (radio == tWallRadio) {
-            if (index == 1)
-                getChildFragmentManager().beginTransaction().replace(R.id.toilet_wall_fragment, RestSideWallFragment.newInstance(resToilBundle.getInt(REST_ID))).commit();
-            else
-                getChildFragmentManager().beginTransaction().replace(R.id.toilet_wall_fragment, RestSideBarFragment.newInstance(resToilBundle.getInt(REST_ID))).commit();
+                getChildFragmentManager().beginTransaction()
+                        .replace(R.id.toilet_wall_fragment, RestSideWallFragment.newInstance(index, resToilBundle.getInt(REST_ID))).commit();
         } else if (radio == papHoldRadio) {
             if (index == 0) {
                 papEmbAValue.setText(null);
@@ -354,10 +356,14 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             }
         } else if (radio == doucheRadio) {
             if (index == 0) {
-                doucheHeightValue.setText(null);
-                doucheHeightField.setVisibility(View.GONE);
-            } else
-                doucheHeightField.setVisibility(View.VISIBLE);
+                doucheActHeightValue.setText(null);
+                doucheActHeightField.setVisibility(View.GONE);
+                douchePressHeightValue.setText(null);
+                douchePressHeightField.setVisibility(View.GONE);
+            } else {
+                doucheActHeightField.setVisibility(View.VISIBLE);
+                douchePressHeightField.setVisibility(View.VISIBLE);
+            }
         } else if (radio == tFrontBarRadio) {
             if (index == 1) {
                 fBarFieldMeasureA.setVisibility(View.VISIBLE);
@@ -499,9 +505,9 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             doucheError.setVisibility(View.VISIBLE);
             i++;
         } else if (getCheckedRadioIndex(doucheRadio) == 1) {
-            if (TextUtils.isEmpty(doucheHeightValue.getText())) {
+            if (TextUtils.isEmpty(doucheActHeightValue.getText())) {
                 i++;
-                doucheHeightField.setError(getText(R.string.req_field_error));
+                doucheActHeightField.setError(getText(R.string.req_field_error));
             }
         }
 
@@ -582,8 +588,10 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             papObsValue.setText(rest.getPapHoldObs());
         if (rest.getHasDouche() != null)
             doucheRadio.check(doucheRadio.getChildAt(rest.getHasDouche()).getId());
-        if (rest.getDoucheHeight() != null)
-            doucheHeightValue.setText(String.valueOf(rest.getDoucheHeight()));
+        if (rest.getDoucheActHeight() != null)
+            doucheActHeightValue.setText(String.valueOf(rest.getDoucheActHeight()));
+        if (rest.getDouchePressHeight() != null)
+            douchePressHeightValue.setText(String.valueOf(rest.getDouchePressHeight()));
         if (rest.getDoucheObs() != null)
             doucheObsValue.setText(rest.getDoucheObs());
         if (rest.getToiletObs() != null)
@@ -594,13 +602,14 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
 
     public RestToiletUpdate barUpdate(Bundle bundle) {
 
-        int tType, tHasSeat, tHasFrontBar, tHasWall, hasHorBar, tHasPapHolder, hasDouche;
-        Integer tHasSoculo = null, socCorners = null, hasVertBar = null, hasArtBar = null, pHolderType = null, pSupAligned = null;
+        int tType, tHasSeat, tHasFrontBar, tHasWall, tHasPapHolder, hasDouche;
+        Integer tHasSoculo = null, socCorners = null, hasHorBar = null, hasVertBar = null, hasSideBar = null, hasArtBar = null, pHolderType = null, pSupAligned = null;
         double tHeightNoSeat, tActHeight;
         Double tHeightSeat = null, fSoculo = null, lSoculo = null, fBarA = null, fBarB = null, fBarC = null, fBarSect = null,
                 fBarDist = null, horBarD = null, horBarE = null, horBarF = null, horBarDist = null, horBarDistG = null, horBarSect = null, vertBarH = null,
-                vertBarI = null, vertBarJ = null, vertBarSect = null, vertBarDist = null, artBarH = null, artBarI = null, artBarJ = null, artBarSect = null,
-                pEmbDist = null, pEmbHeight = null, pSupHeight = null, doucheHeight = null;
+                vertBarI = null, vertBarJ = null, vertBarSect = null, vertBarDist = null, sideBarD = null, sideBarE = null, sideBarDistG = null, sideBarSect = null,
+                artBarH = null, artBarI = null, artBarJ = null, artBarSect = null,
+                pEmbDist = null, pEmbHeight = null, pSupHeight = null, doucheActHeight = null, douchePressHeight = null;
         String tActDesc, tActObs, pHolderObs, doucheObs, tObs;
 
         tType = getCheckedRadioIndex(tTypeRadio);
@@ -625,37 +634,42 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             fBarDist = Double.parseDouble(String.valueOf(fBarDistValue.getText()));
         }
         tHasWall = getCheckedRadioIndex(tWallRadio);
-        hasHorBar = bundle.getInt(HAS_HOR);
+
+        RestToiletSideBarsParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+
         if (tHasWall == 0) {
-            if (hasHorBar == 1) {
-                horBarD = bundle.getDouble(SIZE_D);
-                horBarE = bundle.getDouble(SIZE_E);
-                horBarDistG = bundle.getDouble(SIZE_G);
-                horBarSect = bundle.getDouble(DIAM_A);
+            hasSideBar = parcel.getHasHorSideBar();
+            if (hasSideBar == 1) {
+                sideBarD = parcel.getHorSideMeasureD();
+                sideBarE = parcel.getHorSideMeasureE();
+                sideBarDistG = parcel.getHorSideMeasureG();
+                sideBarSect = parcel.getHorSideDiam();
             }
-            hasArtBar = bundle.getInt(HAS_VERT);
+            hasArtBar = parcel.getHasVertArtBar();
             if (hasArtBar == 1) {
-                artBarH = bundle.getDouble(SIZE_H);
-                artBarI = bundle.getDouble(SIZE_I);
-                artBarJ = bundle.getDouble(SIZE_J);
-                artBarSect = bundle.getDouble(DIAM_B);
+                artBarH = parcel.getVertArtMeasureH();
+                artBarI = parcel.getVertArtMeasureI();
+                artBarJ = parcel.getVertArtMeasureJ();
+                artBarSect = parcel.getVertArtDiam();
             }
         } else {
+
+            hasHorBar = parcel.getHasHorSideBar();
             if (hasHorBar == 1) {
-                horBarD = bundle.getDouble(SIZE_D);
-                horBarE = bundle.getDouble(SIZE_E);
-                horBarF = bundle.getDouble(SIZE_F);
-                horBarDistG = bundle.getDouble(SIZE_G);
-                horBarSect = bundle.getDouble(DIAM_A);
-                horBarDist = bundle.getDouble(DIST_A);
+                horBarD = parcel.getHorSideMeasureD();
+                horBarE = parcel.getHorSideMeasureE();
+                horBarF = parcel.getHorMeasureF();
+                horBarDistG = parcel.getHorSideMeasureG();
+                horBarSect = parcel.getHorSideDiam();
+                horBarDist = parcel.getHorDist();
             }
-            hasVertBar = bundle.getInt(HAS_VERT);
+            hasVertBar = parcel.getHasVertArtBar();
             if (hasVertBar == 1) {
-                vertBarH = bundle.getDouble(SIZE_H);
-                vertBarI = bundle.getDouble(SIZE_I);
-                vertBarJ = bundle.getDouble(SIZE_J);
-                vertBarSect = bundle.getDouble(DIAM_B);
-                vertBarDist = bundle.getDouble(DIST_B);
+                vertBarH = parcel.getVertArtMeasureH();
+                vertBarI = parcel.getVertArtMeasureI();
+                vertBarJ = parcel.getVertArtMeasureJ();
+                vertBarSect = parcel.getVertArtDiam();
+                vertBarDist = parcel.getVertDist();
             }
         }
         tActDesc = String.valueOf(tActDescValue.getText());
@@ -676,16 +690,20 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         pHolderObs = String.valueOf(papObsValue.getText());
 
         hasDouche = getCheckedRadioIndex(doucheRadio);
-        if (hasDouche == 1)
-            doucheHeight = Double.parseDouble(String.valueOf(doucheHeightValue.getText()));
+        if (hasDouche == 1) {
+            doucheActHeight = Double.parseDouble(String.valueOf(doucheActHeightValue.getText()));
+            douchePressHeight = Double.parseDouble(String.valueOf(douchePressHeightValue.getText()));
+        }
+
         doucheObs = String.valueOf(doucheObsValue.getText());
 
         tObs = String.valueOf(tObsValue.getText());
 
         return new RestToiletUpdate(resToilBundle.getInt(REST_ID), tType, tHeightNoSeat, tHasSeat, tHeightSeat, tHasSoculo, fSoculo, lSoculo, socCorners,
                 tHasFrontBar, fBarA, fBarB, fBarC, fBarSect, fBarDist, tHasWall, hasHorBar, horBarD, horBarE, horBarF, horBarDistG, horBarSect, horBarDist,
-                hasVertBar, vertBarH, vertBarI, vertBarJ, vertBarSect, vertBarDist, hasArtBar, artBarH, artBarI, artBarJ, artBarSect, tActDesc, tActHeight,
-                tActObs, tHasPapHolder, pHolderType, pEmbDist, pEmbHeight, pSupAligned, pSupHeight, pHolderObs, hasDouche, doucheHeight, doucheObs, tObs);
+                hasVertBar, vertBarH, vertBarI, vertBarJ, vertBarSect, vertBarDist, hasSideBar, sideBarD, sideBarE, sideBarDistG, sideBarSect, hasArtBar,
+                artBarH, artBarI, artBarJ, artBarSect, tActDesc, tActHeight, tActObs, tHasPapHolder, pHolderType, pEmbDist, pEmbHeight, pSupAligned, pSupHeight,
+                pHolderObs, hasDouche, douchePressHeight, doucheActHeight, doucheObs, tObs);
     }
 
 }

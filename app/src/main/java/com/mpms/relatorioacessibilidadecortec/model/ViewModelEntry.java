@@ -29,8 +29,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntr
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdate;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestDoorUpdate;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntryUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdateTwo;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntranceUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestSinkUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestToiletUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestUpViewUpdate;
@@ -349,6 +349,10 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public LiveData<DoorEntry> getSpecificDoor(int doorId) {
         return repository.getSpecificDoor(doorId);
+    }
+
+    public LiveData<DoorEntry> getRestDoor(int restID) {
+        return repository.getRestDoor(restID);
     }
 
     public LiveData<DoorEntry> getLastDoorEntry() {
@@ -694,10 +698,6 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getRestFirstData(restID);
     }
 
-    public LiveData<RestroomEntry> getRestDoorData(int restID) {
-        return repository.getRestDoorData(restID);
-    }
-
     public LiveData<RestroomEntry> getRestUpViewData(int restID) {
         return repository.getRestUpViewData(restID);
     }
@@ -708,6 +708,10 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public LiveData<RestroomEntry> getRestAccessData(int restID) {
         return repository.getRestAccessData(restID);
+    }
+
+    public LiveData<RestroomEntry> getRestAccessDataTwo(int restID) {
+        return repository.getRestAccessDataTwo(restID);
     }
 
     public LiveData<RestroomEntry> getRestSinkData(int restID) {
@@ -722,16 +726,8 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastRestroomEntry();
     }
 
-    public static void updateRestroomEntry(RestroomEntry restroom) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomEntry(restroom));
-    }
-
-    public static void updateRestroomData(RestEntryUpdate... restEntryUpdates) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomData(restEntryUpdates));
-    }
-
-    public static void updateRestDoorData(RestDoorUpdate... doorUpdates) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestDoorData(doorUpdates));
+    public static void updateRestroomData(RestEntranceUpdate... restEntranceUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomData(restEntranceUpdates));
     }
 
     public static void updateRestUpViewData(RestUpViewUpdate... upViewUpdates) {
@@ -744,6 +740,10 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void updateRestAccessData(RestAccessUpdate... accUpdates) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestAccessData(accUpdates));
+    }
+
+    public static void updateRestAccessDataTwo(RestAccessUpdateTwo... accUpdatesTwo) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestAccessDataTwo(accUpdatesTwo));
     }
 
     public static void updateRestSinkData(RestSinkUpdate... sinkUpdates) {

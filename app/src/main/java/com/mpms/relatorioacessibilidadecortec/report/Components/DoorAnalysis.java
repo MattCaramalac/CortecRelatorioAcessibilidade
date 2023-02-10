@@ -31,7 +31,7 @@ public class DoorAnalysis implements StandardMeasurements {
 
     public static String doorTexts(DoorEntry door, List<DoorLockEntry> dLockList) {
         StringBuilder doors = new StringBuilder();
-        if (door.getDoorWidth() < freeSpaceGeneral) {
+        if (door.getDoorWidth1() < freeSpaceGeneral) {
             doorIrregular(doors);
             doors.append("largura do vão livre da porta inferior à " + freeSpaceGeneral + " m");
         }
@@ -61,17 +61,17 @@ public class DoorAnalysis implements StandardMeasurements {
                         .append(door.getDoorHandleObs());
         }
 
-        if (door.getDoorHasTactileSign() == 0) {
+        if (door.getDoorHasTactSign() == 0) {
             doorIrregular(doors);
-            if (door.getDoorTactileSignObs() != null && door.getDoorTactileSignObs().length() > 0) {
-                doors.append("a porta não possui sinalização tátil e as seguintes observações devem ser feitas: ").append(door.getDoorTactileSignObs());
+            if (door.getTactSignObs() != null && door.getTactSignObs().length() > 0) {
+                doors.append("a porta não possui sinalização tátil e as seguintes observações devem ser feitas: ").append(door.getTactSignObs());
             }
             else
                 doors.append("a porta não possui sinalização tátil");
         }
-        else if (door.getDoorHasTactileSign() == 1) {
-            if (door.getDoorTactileSignObs() != null && door.getDoorTactileSignObs().length() > 0) {
-                doors.append("a porta possui sinalização tátil, porém as seguintes observações devem ser feitas: ").append(door.getDoorTactileSignObs());
+        else if (door.getDoorHasTactSign() == 1) {
+            if (door.getTactSignObs() != null && door.getTactSignObs().length() > 0) {
+                doors.append("a porta possui sinalização tátil, porém as seguintes observações devem ser feitas: ").append(door.getTactSignObs());
             }
         }
 

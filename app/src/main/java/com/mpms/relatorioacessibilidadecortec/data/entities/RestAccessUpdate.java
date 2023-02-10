@@ -21,14 +21,11 @@ public class RestAccessUpdate {
     private Integer hasTowelHold;
     private Double towelHoldHeight;
     private String towelHoldObs;
-    private Integer hasWallMirror;
-    private Double wallMirrorLow;
-    private Double wallMirrorHigh;
-    private String wallMirrorObs;
+
 
     public RestAccessUpdate(int restroomID, Integer hasHanger, Double hangerHeight, String hangerObs, Integer hasObjHold, Integer objHoldCorrect,
                             Double objHoldHeight, String objHoldObs, Integer hasSoapHold, Double soapHoldHeight, String soapHoldObs, Integer hasTowelHold,
-                            Double towelHoldHeight, String towelHoldObs, Integer hasWallMirror, Double wallMirrorLow, Double wallMirrorHigh, String wallMirrorObs) {
+                            Double towelHoldHeight, String towelHoldObs) {
         this.restroomID = restroomID;
         this.hasHanger = hasHanger;
         this.hangerHeight = hangerHeight;
@@ -43,10 +40,6 @@ public class RestAccessUpdate {
         this.hasTowelHold = hasTowelHold;
         this.towelHoldHeight = towelHoldHeight;
         this.towelHoldObs = towelHoldObs;
-        this.hasWallMirror = hasWallMirror;
-        this.wallMirrorLow = wallMirrorLow;
-        this.wallMirrorHigh = wallMirrorHigh;
-        this.wallMirrorObs = wallMirrorObs;
     }
 
     public int getRestroomID() {
@@ -159,37 +152,5 @@ public class RestAccessUpdate {
 
     public void setTowelHoldObs(String towelHoldObs) {
         this.towelHoldObs = towelHoldObs;
-    }
-
-    public Integer getHasWallMirror() {
-        return hasWallMirror;
-    }
-
-    public void setHasWallMirror(Integer hasWallMirror) {
-        this.hasWallMirror = hasWallMirror;
-    }
-
-    public Double getWallMirrorLow() {
-        return wallMirrorLow;
-    }
-
-    public void setWallMirrorLow(Double wallMirrorLow) {
-        this.wallMirrorLow = wallMirrorLow;
-    }
-
-    public Double getWallMirrorHigh() {
-        return wallMirrorHigh;
-    }
-
-    public void setWallMirrorHigh(Double wallMirrorHigh) {
-        this.wallMirrorHigh = wallMirrorHigh;
-    }
-
-    public String getWallMirrorObs() {
-        return wallMirrorObs;
-    }
-
-    public void setWallMirrorObs(String wallMirrorObs) {
-        this.wallMirrorObs = wallMirrorObs;
     }
 }

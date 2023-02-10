@@ -222,6 +222,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/second_telephone_number_field"
             app:layout_constraintStart_toEndOf="@id/second_telephone_number_field"
             app:layout_constraintHorizontal_weight="@integer/weight_one"
+            app:layout_constraintTop_toBottomOf="@id/first_telephone_name_field"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="@dimen/usual_padding">
 

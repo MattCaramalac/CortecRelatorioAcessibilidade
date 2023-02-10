@@ -4,19 +4,20 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class RestEntryUpdate {
+public class RestEntranceUpdate {
     @PrimaryKey
     private int restroomID;
+    private int isCollective;
     private Integer restType;
     private String restLocation;
+    private Integer collectiveHasDoor;
+    private Double entranceWidth;
+    private Integer entranceDoorSill;
+    private String entranceDoorSillObs;
     private Integer accessRoute;
     private String accessRouteObs;
     private Integer intRestroom;
     private String intRestObs;
-    private Integer restDistance;
-    private String restDistObs;
-    private Integer exEntrance;
-    private String exEntObs;
     private Integer antiDriftFloor;
     private String antiDriftFloorObs;
     private Integer restDrain;
@@ -25,21 +26,22 @@ public class RestEntryUpdate {
     private Double switchHeight;
     private String switchObs;
 
-    public RestEntryUpdate(int restroomID, Integer restType, String restLocation, Integer accessRoute, String accessRouteObs, Integer intRestroom,
-                           String intRestObs, Integer restDistance, String restDistObs, Integer exEntrance, String exEntObs,
-                           Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Integer restSwitch,
-                           Double switchHeight, String switchObs) {
+    public RestEntranceUpdate(int restroomID, int isCollective, Integer restType, String restLocation, Integer collectiveHasDoor, Double entranceWidth,
+                              Integer entranceDoorSill, String entranceDoorSillObs, Integer accessRoute, String accessRouteObs, Integer intRestroom,
+                              String intRestObs, Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Integer restSwitch,
+                              Double switchHeight, String switchObs) {
         this.restroomID = restroomID;
+        this.isCollective = isCollective;
         this.restType = restType;
         this.restLocation = restLocation;
+        this.collectiveHasDoor = collectiveHasDoor;
+        this.entranceWidth = entranceWidth;
+        this.entranceDoorSill = entranceDoorSill;
+        this.entranceDoorSillObs = entranceDoorSillObs;
         this.accessRoute = accessRoute;
         this.accessRouteObs = accessRouteObs;
         this.intRestroom = intRestroom;
         this.intRestObs = intRestObs;
-        this.restDistance = restDistance;
-        this.restDistObs = restDistObs;
-        this.exEntrance = exEntrance;
-        this.exEntObs = exEntObs;
         this.antiDriftFloor = antiDriftFloor;
         this.antiDriftFloorObs = antiDriftFloorObs;
         this.restDrain = restDrain;
@@ -105,38 +107,6 @@ public class RestEntryUpdate {
         this.intRestObs = intRestroomObs;
     }
 
-    public Integer getRestDistance() {
-        return restDistance;
-    }
-
-    public void setRestDistance(Integer restDistance) {
-        this.restDistance = restDistance;
-    }
-
-    public String getRestDistObs() {
-        return restDistObs;
-    }
-
-    public void setRestDistObs(String restDistObs) {
-        this.restDistObs = restDistObs;
-    }
-
-    public Integer getExEntrance() {
-        return exEntrance;
-    }
-
-    public void setExEntrance(Integer exEntrance) {
-        this.exEntrance = exEntrance;
-    }
-
-    public String getExEntObs() {
-        return exEntObs;
-    }
-
-    public void setExEntObs(String exEntObs) {
-        this.exEntObs = exEntObs;
-    }
-
     public Integer getAntiDriftFloor() {
         return antiDriftFloor;
     }
@@ -191,5 +161,45 @@ public class RestEntryUpdate {
 
     public void setSwitchObs(String switchObs) {
         this.switchObs = switchObs;
+    }
+
+    public int getIsCollective() {
+        return isCollective;
+    }
+
+    public void setIsCollective(int isCollective) {
+        this.isCollective = isCollective;
+    }
+
+    public Integer getCollectiveHasDoor() {
+        return collectiveHasDoor;
+    }
+
+    public void setCollectiveHasDoor(Integer collectiveHasDoor) {
+        this.collectiveHasDoor = collectiveHasDoor;
+    }
+
+    public Double getEntranceWidth() {
+        return entranceWidth;
+    }
+
+    public void setEntranceWidth(Double entranceWidth) {
+        this.entranceWidth = entranceWidth;
+    }
+
+    public Integer getEntranceDoorSill() {
+        return entranceDoorSill;
+    }
+
+    public void setEntranceDoorSill(Integer entranceDoorSill) {
+        this.entranceDoorSill = entranceDoorSill;
+    }
+
+    public String getEntranceDoorSillObs() {
+        return entranceDoorSillObs;
+    }
+
+    public void setEntranceDoorSillObs(String entranceDoorSillObs) {
+        this.entranceDoorSillObs = entranceDoorSillObs;
     }
 }

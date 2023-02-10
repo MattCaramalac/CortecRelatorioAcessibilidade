@@ -172,6 +172,8 @@ public class SchoolRegisterFragmentOne extends Fragment implements ScrollEditTex
         schoolDistrictValue.setText(school.getNameDistrict());
         contactPhoneOneValue.setText(school.getContactPhone1());
         contactPhoneTwoValue.setText(school.getContactPhone2());
+        contactNameOneValue.setText(school.getContactName1());
+        contactNameTwoValue.setText(school.getContactName2());
         responsibleValue.setText(school.getNameResponsibleVisit());
         inspectionTeamValue.setText(school.getNameInspectionTeam());
         emailValue.setText(school.getEmailAddress());

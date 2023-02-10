@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,11 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
@@ -32,17 +29,14 @@ import java.util.ArrayList;
 
 public class RestAccessFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout hangerHeightField, hangerObsField, objHoldHeightField, objHoldObsField, soapHoldHeightField, soapHoldObsField, towelHoldHeightField, towelHoldObsField,
-            mirrorFieldA, mirrorFieldB, mirrorObsField;
-    TextInputEditText hangerHeightValue, hangerObsValue, objHoldHeightValue, objHoldObsValue, soapHoldHeightValue, soapHoldObsValue, towelHoldHeightValue, towelHoldObsValue,
-            mirrorValueA, mirrorValueB, mirrorObsValue;
-    RadioGroup hangRadio, objHoldRadio, objHoldStatRadio, soapRadio, towelRadio, mirrorRadio;
-    TextView hangError, objHoldError, objHoldStatHeader, objHoldStatError, soapError, towelError, mirrorError;
-    ImageButton mirrorImage;
+    TextInputLayout hangerHeightField, hangerObsField, objHoldHeightField, objHoldObsField, soapHoldHeightField, soapHoldObsField, towelHoldHeightField, towelHoldObsField;
+    TextInputEditText hangerHeightValue, hangerObsValue, objHoldHeightValue, objHoldObsValue, soapHoldHeightValue, soapHoldObsValue, towelHoldHeightValue, towelHoldObsValue;
+    RadioGroup hangRadio, objHoldRadio, objHoldStatRadio, soapRadio, towelRadio;
+    TextView hangError, objHoldError, objHoldStatHeader, objHoldStatError, soapError, towelError;
     MaterialButton returnToilView, saveToilAccess;
 
     ViewModelEntry modelEntry;
-    Bundle rAccessBundle, imgBundle;
+    Bundle rAccessBundle;
     ArrayList<TextInputEditText> accessObsArray = new ArrayList<>();
 
 
@@ -67,7 +61,6 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
             rAccessBundle = new Bundle(this.getArguments());
         else
             rAccessBundle = new Bundle();
-        imgBundle = new Bundle();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_rest_acessories, container, false);
     }
@@ -84,7 +77,7 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
             if (checkEmptyFields()) {
                 RestAccessUpdate access = accUpdate(rAccessBundle);
                 ViewModelEntry.updateRestAccessData(access);
-                callSinkFragment(rAccessBundle);
+                callAccessTwoFragment(rAccessBundle);
             } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
@@ -123,22 +116,13 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
             towelHoldHeightValue.setText(String.valueOf(rest.getTowelHoldHeight()));
         if (rest.getTowelHoldObs() != null)
             towelHoldObsValue.setText(rest.getTowelHoldObs());
-
-        if (rest.getHasWallMirror() != null)
-            mirrorRadio.check(mirrorRadio.getChildAt(rest.getHasWallMirror()).getId());
-        if (rest.getWallMirrorLow() != null)
-            mirrorValueA.setText(String.valueOf(rest.getWallMirrorLow()));
-        if (rest.getWallMirrorHigh() != null)
-            mirrorValueB.setText(String.valueOf(rest.getWallMirrorHigh()));
-        if (rest.getWallMirrorObs() != null)
-            mirrorObsValue.setText(rest.getWallMirrorObs());
     }
 
-    private void callSinkFragment(Bundle bundle) {
-        RestSinkFragment sinkFragment = RestSinkFragment.newInstance();
-        sinkFragment.setArguments(bundle);
+    private void callAccessTwoFragment(Bundle bundle) {
+        RestAccessTwoFragment accessTwo = RestAccessTwoFragment.newInstance();
+        accessTwo.setArguments(bundle);
         requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.show_fragment_selected, sinkFragment).addToBackStack(null).commit();
+                .replace(R.id.show_fragment_selected, accessTwo).addToBackStack(null).commit();
     }
 
     private void instRestAccessViews(View view) {
@@ -151,9 +135,7 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         soapHoldObsField = view.findViewById(R.id.soap_obs_field);
         towelHoldHeightField = view.findViewById(R.id.towel_height_field);
         towelHoldObsField = view.findViewById(R.id.towel_obs_field);
-        mirrorFieldA = view.findViewById(R.id.wall_mirror_measureA_field);
-        mirrorFieldB = view.findViewById(R.id.wall_mirror_measureB_field);
-        mirrorObsField = view.findViewById(R.id.wall_mirror_obs_field);
+
 //        TextInputEditText
         hangerHeightValue = view.findViewById(R.id.hanger_height_value);
         hangerObsValue = view.findViewById(R.id.hanger_obs_value);
@@ -163,16 +145,13 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         soapHoldObsValue = view.findViewById(R.id.soap_obs_value);
         towelHoldHeightValue = view.findViewById(R.id.towel_height_value);
         towelHoldObsValue = view.findViewById(R.id.towel_obs_value);
-        mirrorValueA = view.findViewById(R.id.wall_mirror_measureA_value);
-        mirrorValueB = view.findViewById(R.id.wall_mirror_measureB_value);
-        mirrorObsValue = view.findViewById(R.id.wall_mirror_obs_value);
+
 //        RadioGroup
         hangRadio = view.findViewById(R.id.hanger_radio);
         objHoldRadio = view.findViewById(R.id.obj_holder_radio);
         objHoldStatRadio = view.findViewById(R.id.obj_hold_status_radio);
         soapRadio = view.findViewById(R.id.soap_radio);
         towelRadio = view.findViewById(R.id.towel_radio);
-        mirrorRadio = view.findViewById(R.id.wall_mirror_radio);
 //        TextView
         hangError = view.findViewById(R.id.hanger_error);
         objHoldError = view.findViewById(R.id.obj_holder_error);
@@ -180,12 +159,9 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         objHoldStatError = view.findViewById(R.id.obj_hold_status_error);
         soapError = view.findViewById(R.id.soap_error);
         towelError = view.findViewById(R.id.towel_error);
-        mirrorError = view.findViewById(R.id.wall_mirror_error);
-//        ImageButton
-        mirrorImage = view.findViewById(R.id.wall_mirror_img);
-        Glide.with(this).load(R.drawable.wallmirror).centerCrop().into(mirrorImage);
+
 //        MaterialButton
-        returnToilView = view.findViewById(R.id.return_toilet);
+        returnToilView = view.findViewById(R.id.return_access_one);
         saveToilAccess = view.findViewById(R.id.save_t_access);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
@@ -194,8 +170,7 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         objHoldRadio.setOnCheckedChangeListener(this::radioListener);
         soapRadio.setOnCheckedChangeListener(this::radioListener);
         towelRadio.setOnCheckedChangeListener(this::radioListener);
-        mirrorRadio.setOnCheckedChangeListener(this::radioListener);
-        mirrorImage.setOnClickListener(this::imgExpandClick);
+
         addEditTextFields();
         allowObsScroll(accessObsArray);
 
@@ -240,26 +215,10 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
                 soapHoldHeightValue.setText(null);
                 soapHoldHeightField.setVisibility(View.GONE);
             }
-        } else if (radio == mirrorRadio) {
-            if (index == 1) {
-                mirrorFieldA.setVisibility(View.VISIBLE);
-                mirrorFieldB.setVisibility(View.VISIBLE);
-                mirrorImage.setVisibility(View.VISIBLE);
-            } else {
-                mirrorValueA.setText(null);
-                mirrorValueB.setText(null);
-                mirrorFieldA.setVisibility(View.GONE);
-                mirrorFieldB.setVisibility(View.GONE);
-                mirrorImage.setVisibility(View.GONE);
-            }
         }
     }
 
-    private void imgExpandClick(View view) {
-        if (view == mirrorImage)
-            imgBundle.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.wallmirror);
-        ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
-    }
+
 
     private boolean checkEmptyFields() {
         clearEmptyFieldErrors();
@@ -304,19 +263,7 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
                 towelHoldHeightField.setError(getText(R.string.req_field_error));
             }
         }
-        if (getCheckedRadio(mirrorRadio) == -1) {
-            i++;
-            mirrorError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(mirrorRadio) == 1) {
-            if (TextUtils.isEmpty(mirrorValueA.getText())) {
-                i++;
-                mirrorFieldA.setError(getText(R.string.req_field_error));
-            }
-            if (TextUtils.isEmpty(mirrorValueB.getText())) {
-                i++;
-                mirrorFieldB.setError(getText(R.string.req_field_error));
-            }
-        }
+
 
         return i == 0;
     }
@@ -326,14 +273,11 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         objHoldError.setVisibility(View.GONE);
         objHoldStatError.setVisibility(View.GONE);
         soapError.setVisibility(View.GONE);
-        towelError.setVisibility(View.GONE);
-        mirrorError.setVisibility(View.GONE);
+        towelError.setVisibility(View.GONE);;
         hangerHeightField.setErrorEnabled(false);
         objHoldHeightField.setErrorEnabled(false);
         soapHoldHeightField.setErrorEnabled(false);
         towelHoldHeightField.setErrorEnabled(false);
-        mirrorFieldA.setErrorEnabled(false);
-        mirrorFieldB.setErrorEnabled(false);
 
     }
 
@@ -365,15 +309,8 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
             towelHoldHeight = Double.parseDouble(String.valueOf(towelHoldHeightValue.getText()));
         towelObs = String.valueOf(towelHoldObsValue.getText());
 
-        hasWallMirror = getCheckedRadio(mirrorRadio);
-        if (hasWallMirror == 1) {
-            mirrorA = Double.parseDouble(String.valueOf(mirrorValueA.getText()));
-            mirrorB = Double.parseDouble(String.valueOf(mirrorValueB.getText()));
-        }
-        mirrorObs = String.valueOf(mirrorObsValue.getText());
-
         return new RestAccessUpdate(bundle.getInt(REST_ID),hasHanger, hangerHeight, hangerObs, hasObjHold, objHoldOK, objHoldHeight, objHoldObs, hasSoapHold, soapHoldHeight,
-                soapObs, hasTowelHold, towelHoldHeight, towelObs, hasWallMirror, mirrorA, mirrorB, mirrorObs);
+                soapObs, hasTowelHold, towelHoldHeight, towelObs);
     }
 
     private void addEditTextFields() {
@@ -381,7 +318,6 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         accessObsArray.add(objHoldObsValue);
         accessObsArray.add(soapHoldObsValue);
         accessObsArray.add(towelHoldObsValue);
-        accessObsArray.add(mirrorObsValue);
     }
 
 }

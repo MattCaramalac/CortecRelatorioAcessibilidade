@@ -21,7 +21,6 @@ import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.SlopeParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -82,7 +81,7 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
                 slopeAngleArray.get(measureQnt).setVisibility(View.VISIBLE);
                 measureQnt++;
             } else
-                Toast.makeText(getContext(), "O limite de medições foi atingido!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.toast_max_measurements), Toast.LENGTH_SHORT).show();
         });
 
         delAngle.setOnClickListener(v -> {
@@ -104,9 +103,6 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
             } else if (bundle.getInt(PLAY_ID) > 0) {
                 modelEntry.getOnePlayground(bundle.getInt(PLAY_ID))
                         .observe(getViewLifecycleOwner(), this::loadSlopePlayData);
-            } else if (bundle.getInt(REST_ID) > 0) {
-                modelEntry.getOneRestroomEntry(bundle.getInt(REST_ID))
-                        .observe(getViewLifecycleOwner(), this::loadSlopeRestData);
             }
         });
 
@@ -297,57 +293,28 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
     }
 
     private void loadSlopeDoorData(DoorEntry doorEntry) {
-        if (doorEntry.getSillSlopeWidth() != null)
-            sillSlopeWidthValue.setText(String.valueOf(doorEntry.getSillSlopeWidth()));
-        if (doorEntry.getSillSlopeHeight() != null)
-            sillSlopeHeightValue.setText(String.valueOf(doorEntry.getSillSlopeHeight()));
-        measureQnt = doorEntry.getSillSlopeQnt();
+        if (doorEntry.getSlopeWidth() != null)
+            sillSlopeWidthValue.setText(String.valueOf(doorEntry.getSlopeWidth()));
+        if (doorEntry.getSlopeHeight() != null)
+            sillSlopeHeightValue.setText(String.valueOf(doorEntry.getSlopeHeight()));
+        measureQnt = doorEntry.getSlopeQnt();
         switch (measureQnt) {
             case 4:
                 slopeAngleField4.setVisibility(View.VISIBLE);
-                if (doorEntry.getSillSlopeAngle4() != null)
-                    slopeAngleValue4.setText(String.valueOf(doorEntry.getSillSlopeAngle4()));
+                if (doorEntry.getSlopeAngle4() != null)
+                    slopeAngleValue4.setText(String.valueOf(doorEntry.getSlopeAngle4()));
             case 3:
                 slopeAngleField3.setVisibility(View.VISIBLE);
-                if (doorEntry.getSillSlopeAngle3() != null)
-                    slopeAngleValue3.setText(String.valueOf(doorEntry.getSillSlopeAngle3()));
+                if (doorEntry.getSlopeAngle3() != null)
+                    slopeAngleValue3.setText(String.valueOf(doorEntry.getSlopeAngle3()));
             case 2:
                 slopeAngleField2.setVisibility(View.VISIBLE);
-                if (doorEntry.getSillSlopeAngle2() != null)
-                    slopeAngleValue2.setText(String.valueOf(doorEntry.getSillSlopeAngle2()));
+                if (doorEntry.getSlopeAngle2() != null)
+                    slopeAngleValue2.setText(String.valueOf(doorEntry.getSlopeAngle2()));
             case 1:
                 slopeAngleField1.setVisibility(View.VISIBLE);
-                if (doorEntry.getSillSlopeAngle1() != null)
-                    slopeAngleValue1.setText(String.valueOf(doorEntry.getSillSlopeAngle1()));
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void loadSlopeRestData(RestroomEntry entry) {
-        if (entry.getSillSlopeWidth() != null)
-            sillSlopeWidthValue.setText(String.valueOf(entry.getSillSlopeWidth()));
-        if (entry.getSillSlopeHeight() != null)
-            sillSlopeHeightValue.setText(String.valueOf(entry.getSillSlopeHeight()));
-        measureQnt = entry.getSillSlopeQnt();
-        switch (measureQnt) {
-            case 4:
-                slopeAngleField4.setVisibility(View.VISIBLE);
-                if (entry.getSillSlopeAngle4() != null)
-                    slopeAngleValue4.setText(String.valueOf(entry.getSillSlopeAngle4()));
-            case 3:
-                slopeAngleField3.setVisibility(View.VISIBLE);
-                if (entry.getSillSlopeAngle3() != null)
-                    slopeAngleValue3.setText(String.valueOf(entry.getSillSlopeAngle3()));
-            case 2:
-                slopeAngleField2.setVisibility(View.VISIBLE);
-                if (entry.getSillSlopeAngle2() != null)
-                    slopeAngleValue2.setText(String.valueOf(entry.getSillSlopeAngle2()));
-            case 1:
-                slopeAngleField1.setVisibility(View.VISIBLE);
-                if (entry.getSillSlopeAngle1() != null)
-                    slopeAngleValue1.setText(String.valueOf(entry.getSillSlopeAngle1()));
+                if (doorEntry.getSlopeAngle1() != null)
+                    slopeAngleValue1.setText(String.valueOf(doorEntry.getSlopeAngle1()));
                 break;
             default:
                 break;

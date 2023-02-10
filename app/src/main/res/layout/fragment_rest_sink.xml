@@ -10,7 +10,7 @@
         android:id="@+id/sink_info_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cadastro de Sanitário - Lavatório"
+        android:text="@string/header_rest_sink_register"
         android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,9 +31,9 @@
                 android:id="@+id/sink_choice_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Selecione o tipo de lavatório presente na instalação (clique na imagem para ampliar)"
+                android:text="@string/header_sink_type"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/sink_type_1"
@@ -78,28 +78,28 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
                     android:layout_weight="@integer/weight_one"
                     android:gravity="center"
-                    android:textSize="@dimen/radio_button_text"
-                    android:layout_marginStart="40dp"/>
+                    android:textSize="@dimen/radio_button_text" />
 
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
                     android:layout_weight="@integer/weight_one"
                     android:gravity="center"
-                    android:textSize="@dimen/radio_button_text"
-                    android:layout_marginStart="40dp"/>
+                    android:textSize="@dimen/radio_button_text" />
 
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
                     android:layout_weight="@integer/weight_one"
                     android:gravity="center"
-                    android:textSize="@dimen/radio_button_text"
-                    android:layout_marginStart="40dp"/>
+                    android:textSize="@dimen/radio_button_text" />
 
             </RadioGroup>
 
@@ -136,10 +136,10 @@
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="80dp"
                     android:layout_weight="@integer/weight_one"
                     android:gravity="center"
-                    android:textSize="@dimen/radio_button_text"
-                    android:layout_marginStart="80dp"/>
+                    android:textSize="@dimen/radio_button_text" />
 
 
                 <RadioButton
@@ -167,7 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="Medidas de Aproximação do Lavatório"
+                android:text="@string/header_aprox_sink_measures"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sink_type_error" />
@@ -191,7 +191,8 @@
                 app:layout_constraintBottom_toBottomOf="@id/sink_approx_img"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/sink_approx_img"
-                app:layout_constraintTop_toTopOf="@id/sink_approx_img">
+                app:layout_constraintTop_toTopOf="@id/sink_approx_img"
+                android:layout_marginStart="@dimen/top_margins">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sink_approx_measureA_value"
@@ -207,8 +208,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
+                android:layout_marginEnd="@dimen/top_margins"
                 android:hint="@string/hint_measurement_B"
-                android:paddingEnd="@dimen/usual_padding"
                 android:weightSum="@integer/weight_one"
                 app:layout_constraintEnd_toStartOf="@id/sink_approx_measureC_field"
                 app:layout_constraintStart_toStartOf="parent"
@@ -229,7 +230,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_measurement_C"
-                android:paddingStart="@dimen/usual_padding"
                 android:weightSum="@integer/weight_one"
                 app:layout_constraintBaseline_toBaselineOf="@id/sink_approx_measureB_field"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -250,7 +250,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_measurement_D"
-                android:paddingEnd="@dimen/usual_padding"
+                android:layout_marginEnd="@dimen/top_margins"
                 android:weightSum="@integer/weight_one"
                 app:layout_constraintEnd_toStartOf="@id/sink_approx_measureE_field"
                 app:layout_constraintStart_toStartOf="parent"
@@ -271,7 +271,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_measurement_E"
-                android:paddingStart="@dimen/usual_padding"
                 android:weightSum="@integer/weight_one"
                 app:layout_constraintBaseline_toBaselineOf="@id/sink_approx_measureD_field"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -290,7 +289,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O lavatório possui barra de apoio?"
+                android:text="@string/header_sink_support_bar"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sink_approx_measureE_field" />
@@ -343,7 +342,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="Por favor, selecione o tipo de lavatório para prosseguir com o cadastro"
+                android:text="@string/sink_type_warning"
                 android:textColor="@color/error_message"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"
@@ -351,25 +350,24 @@
                 app:layout_constraintTop_toBottomOf="@id/sink_has_bar_error" />
 
             <TextView
-                android:id="@+id/sink_left_bar_header"
+                android:id="@+id/sink_front_left_bar_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O lavatório possui barra de apoio à esquerda?"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/select_sink_type_warning" />
 
             <RadioGroup
-                android:id="@+id/left_bar_radio"
+                android:id="@+id/front_left_bar_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sink_left_bar_header">
+                app:layout_constraintTop_toBottomOf="@id/sink_front_left_bar_header">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -387,7 +385,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/left_bar_error"
+                android:id="@+id/front_left_bar_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/empty_fields"
@@ -395,36 +393,35 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/left_bar_radio" />
+                app:layout_constraintTop_toBottomOf="@id/front_left_bar_radio" />
 
             <FrameLayout
-                android:id="@+id/left_bar_fragment"
+                android:id="@+id/front_left_bar_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/left_bar_error" />
+                app:layout_constraintTop_toBottomOf="@id/front_left_bar_error" />
 
             <TextView
-                android:id="@+id/sink_right_bar_header"
+                android:id="@+id/sink_side_right_bar_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O lavatório possui barra de apoio à direita?"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/left_bar_fragment" />
+                app:layout_constraintTop_toBottomOf="@id/front_left_bar_fragment" />
 
             <RadioGroup
-                android:id="@+id/right_bar_radio"
+                android:id="@+id/side_right_bar_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sink_right_bar_header">
+                app:layout_constraintTop_toBottomOf="@id/sink_side_right_bar_header">
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -442,7 +439,7 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/right_bar_error"
+                android:id="@+id/side_right_bar_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/empty_fields"
@@ -450,25 +447,25 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/right_bar_radio" />
+                app:layout_constraintTop_toBottomOf="@id/side_right_bar_radio" />
 
             <FrameLayout
-                android:id="@+id/right_bar_fragment"
+                android:id="@+id/side_right_bar_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/right_bar_error" />
+                app:layout_constraintTop_toBottomOf="@id/side_right_bar_error" />
 
             <TextView
                 android:id="@+id/sink_mirror_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O lavatório possui espelho?"
+                android:text="@string/sink_has_mirror_header"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/right_bar_fragment" />
+                app:layout_constraintTop_toBottomOf="@id/side_right_bar_fragment" />
 
             <RadioGroup
                 android:id="@+id/sink_mirror_radio"
@@ -589,7 +586,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/top_margins"
-        android:text="@string/label_button_proceed_register"
+        android:text="@string/label_button_save"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sink_scrollview" />

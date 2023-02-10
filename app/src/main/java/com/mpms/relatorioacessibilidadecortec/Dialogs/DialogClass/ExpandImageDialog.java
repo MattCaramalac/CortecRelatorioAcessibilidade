@@ -16,11 +16,10 @@ import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 
-public class ExpandImageDialog extends DialogFragment {
-
-    public static final String IMAGE_ID = "IMAGE_ID";
+public class ExpandImageDialog extends DialogFragment implements TagInterface {
 
 //    public static final int support = R.drawable.supporthandle2;
 //    public static final int upper = R.drawable.upperview;

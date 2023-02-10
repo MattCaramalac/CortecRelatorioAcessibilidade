@@ -14,11 +14,10 @@ public class RestUpViewUpdate {
     private Double upViewMeasureB;
     private Double upViewMeasureC;
     private Double upViewMeasureD;
-    private Double upViewMeasureE;
     private String upViewObs;
 
-    public RestUpViewUpdate(int restroomID, double upViewLength, double upViewWidth, Double upViewMeasureA, double upViewMeasureB,
-                            Double upViewMeasureC, double upViewMeasureD, Double upViewMeasureE, String upViewObs) {
+    public RestUpViewUpdate(int restroomID, double upViewLength, double upViewWidth, Double upViewMeasureA, Double upViewMeasureB,
+                            Double upViewMeasureC, Double upViewMeasureD, String upViewObs) {
         this.restroomID = restroomID;
         this.upViewLength = upViewLength;
         this.upViewWidth = upViewWidth;
@@ -26,7 +25,6 @@ public class RestUpViewUpdate {
         this.upViewMeasureB = upViewMeasureB;
         this.upViewMeasureC = upViewMeasureC;
         this.upViewMeasureD = upViewMeasureD;
-        this.upViewMeasureE = upViewMeasureE;
         this.upViewObs = upViewObs;
     }
 
@@ -38,19 +36,19 @@ public class RestUpViewUpdate {
         this.restroomID = restroomID;
     }
 
-    public double getUpViewLength() {
+    public Double getUpViewLength() {
         return upViewLength;
     }
 
-    public void setUpViewLength(double upViewLength) {
+    public void setUpViewLength(Double upViewLength) {
         this.upViewLength = upViewLength;
     }
 
-    public double getUpViewWidth() {
+    public Double getUpViewWidth() {
         return upViewWidth;
     }
 
-    public void setUpViewWidth(double upViewWidth) {
+    public void setUpViewWidth(Double upViewWidth) {
         this.upViewWidth = upViewWidth;
     }
 
@@ -62,11 +60,11 @@ public class RestUpViewUpdate {
         this.upViewMeasureA = upViewMeasureA;
     }
 
-    public double getUpViewMeasureB() {
+    public Double getUpViewMeasureB() {
         return upViewMeasureB;
     }
 
-    public void setUpViewMeasureB(double upViewMeasureB) {
+    public void setUpViewMeasureB(Double upViewMeasureB) {
         this.upViewMeasureB = upViewMeasureB;
     }
 
@@ -78,20 +76,12 @@ public class RestUpViewUpdate {
         this.upViewMeasureC = upViewMeasureC;
     }
 
-    public double getUpViewMeasureD() {
+    public Double getUpViewMeasureD() {
         return upViewMeasureD;
     }
 
-    public void setUpViewMeasureD(double upViewMeasureD) {
+    public void setUpViewMeasureD(Double upViewMeasureD) {
         this.upViewMeasureD = upViewMeasureD;
-    }
-
-    public Double getUpViewMeasureE() {
-        return upViewMeasureE;
-    }
-
-    public void setUpViewMeasureE(Double upViewMeasureE) {
-        this.upViewMeasureE = upViewMeasureE;
     }
 
     public String getUpViewObs() {
