@@ -41,11 +41,9 @@ public class BlockRegisterActivity extends AppCompatActivity implements OnEntryC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block_register);
-        blockRegister = getIntent().getBundleExtra(SchoolAreasRegisterActivity.AREAS_REG_BUNDLE);
+        blockRegister = getIntent().getBundleExtra(AREAS_REG_BUNDLE);
 
         instantiateViews();
-
-        modelFragments.setDataFromActivityToFrag(blockRegister);
     }
 
 
@@ -59,6 +57,10 @@ public class BlockRegisterActivity extends AppCompatActivity implements OnEntryC
         modelFragments = new ViewModelProvider(this).get(ViewModelFragments.class);
 //        RecyclerView Setting
         modelEntry.getBlockSpaceFromSchool(blockRegister.getInt(SCHOOL_ID)).observe(this, blockSpace -> {
+            int size = blockSpace.size();
+            blockRegister.putInt(BLOCK_NUMBER, size);
+            modelFragments.setDataFromActivityToFrag(blockRegister);
+
             blockSpaceAdapter = new BlockSpaceRecViewAdapter(blockSpace, BlockRegisterActivity.this, this);
             recyclerView.setAdapter(blockSpaceAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);

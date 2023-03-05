@@ -28,8 +28,6 @@ public class BlockRegisterFragment extends Fragment implements TagInterface {
 
     Bundle blockBundle = new Bundle();
 
-    int blockClick = 0;
-
     int blockNumber = 0;
 
     public BlockRegisterFragment() {
@@ -58,31 +56,28 @@ public class BlockRegisterFragment extends Fragment implements TagInterface {
 
         instantiateBlockRegisterViews(view);
 
-        modelFragments.getDataFromActivityToFrag().observe(getViewLifecycleOwner(), bundle -> blockBundle.putInt(SCHOOL_ID, bundle.getInt(SCHOOL_ID)));
+        if (blockBundle.isEmpty()) {
+            modelFragments.getDataFromActivityToFrag().observe(getViewLifecycleOwner(), bundle -> {
+                blockBundle = new Bundle(bundle);
+                blockNumber = bundle.getInt(BLOCK_NUMBER);
+                modelFragments.getDataFromActivityToFrag().removeObservers(getViewLifecycleOwner());
+            });
+        }
 
-        modelEntry.getLastBlockSpace(blockBundle.getInt(SCHOOL_ID), 0).observe(getViewLifecycleOwner(), block -> {
-            if (block != null)
-                blockNumber = block.getBlockSpaceNumber();
-            else
-                blockNumber = 0;
-        });
+
 
         newBlock.setOnClickListener(v -> {
-//            blockClick++;
             blockBundle.putInt(BLOCK_OR_SPACE, 0);
-//            modelEntry.getLastBlockSpace(blockBundle.getInt(SCHOOL_ID), 0).observe(getViewLifecycleOwner(), block -> {
-                if (blockNumber == 0) {
-                    blockBundle.putInt(NEXT_ENTRY, 1);
-                    BlockSpaceEntry newEntry = newBlock(blockBundle);
-                    ViewModelEntry.insertBlockSpace(newEntry);
-//                    blockClick--;
-                } else {
-                    blockBundle.putInt(NEXT_ENTRY, blockNumber + 1);
-                    BlockSpaceEntry newEntry = newBlock(blockBundle);
-                    ViewModelEntry.insertBlockSpace(newEntry);
-//                    blockClick--;
-                }
-//            });
+            if (blockNumber == 0) {
+                blockBundle.putInt(NEXT_ENTRY, 1);
+                BlockSpaceEntry newEntry = newBlock(blockBundle);
+                ViewModelEntry.insertBlockSpace(newEntry);
+            } else {
+                blockBundle.putInt(NEXT_ENTRY, blockNumber + 1);
+                BlockSpaceEntry newEntry = newBlock(blockBundle);
+                ViewModelEntry.insertBlockSpace(newEntry);
+            }
+            blockNumber++;
         });
 
         saveQuit.setOnClickListener(v -> {

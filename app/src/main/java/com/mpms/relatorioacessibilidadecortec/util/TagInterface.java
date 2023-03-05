@@ -12,6 +12,7 @@ public interface TagInterface {
 
     //    Tags defining block info
     String BLOCK_ID = "BLOCK_ID";
+    String BLOCK_NUMBER = "BLOCK_NUMBER";
     String BLOCK_OR_SPACE = "BLOCK_OR_SPACE";
     String NEXT_ENTRY = "NEXT_ENTRY";
 
