@@ -5,34 +5,50 @@ import org.parceler.Parcel;
 @Parcel
 public class RestAccessColParcel {
 
-    int restType;
+    Integer restType;
     String restLocation;
+    Double notAccessLength;
+    Double notAccessWidth;
+    Integer collectiveHasDoor;
     Integer accessRoute;
     String accessRouteObs;
     Integer intRestroom;
     String intRestObs;
-    int antiDriftFloor;
+    Integer antiDriftFloor;
     String antiDriftFloorObs;
-    int restDrain;
+    Integer restDrain;
     String restDrainObs;
-    int restSwitch;
+    Double notAccEntranceWidth;
+    Integer notAccEntranceSill;
+    String notAccEntranceObs;
+    Integer restSwitch;
     Double switchHeight;
     String switchObs;
-    Integer hasEntranceDoor;
-    Double doorWidth;
-    Integer doorSillType;
-    String doorSillObs;
+    Integer hasWindow;
+    Integer winQnt;
+    String winComType1;
+    Double winComHeight1;
+    String winComType2;
+    Double winComHeight2;
+    String winComType3;
+    Double winComHeight3;
+    String winObs;
 
 
     public RestAccessColParcel() {
 //        Empty Constructor
     }
 
-    public RestAccessColParcel(int restType, String restLocation, Integer accessRoute, String accessRouteObs, Integer intRestroom, String intRestObs, int antiDriftFloor,
-                               String antiDriftFloorObs, int restDrain, String restDrainObs, int restSwitch, Double switchHeight, String switchObs, Integer hasEntranceDoor,
-                               Double doorWidth, Integer doorSillType, String doorSillObs) {
+    public RestAccessColParcel(Integer restType, String restLocation, Double notAccessLength, Double notAccessWidth, Integer collectiveHasDoor, Integer accessRoute, String accessRouteObs,
+                               Integer intRestroom, String intRestObs,
+                               Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Double notAccEntranceWidth, Integer notAccEntranceSill,
+                               String notAccEntranceObs, Integer restSwitch, Double switchHeight, String switchObs, Integer hasWindow, Integer winQnt, String winComType1,
+                               Double winComHeight1, String winComType2, Double winComHeight2, String winComType3, Double winComHeight3, String winObs) {
         this.restType = restType;
         this.restLocation = restLocation;
+        this.notAccessLength = notAccessLength;
+        this.notAccessWidth = notAccessWidth;
+        this.collectiveHasDoor = collectiveHasDoor;
         this.accessRoute = accessRoute;
         this.accessRouteObs = accessRouteObs;
         this.intRestroom = intRestroom;
@@ -41,20 +57,28 @@ public class RestAccessColParcel {
         this.antiDriftFloorObs = antiDriftFloorObs;
         this.restDrain = restDrain;
         this.restDrainObs = restDrainObs;
+        this.notAccEntranceWidth = notAccEntranceWidth;
+        this.notAccEntranceSill = notAccEntranceSill;
+        this.notAccEntranceObs = notAccEntranceObs;
         this.restSwitch = restSwitch;
         this.switchHeight = switchHeight;
         this.switchObs = switchObs;
-        this.hasEntranceDoor = hasEntranceDoor;
-        this.doorWidth = doorWidth;
-        this.doorSillType = doorSillType;
-        this.doorSillObs = doorSillObs;
+        this.hasWindow = hasWindow;
+        this.winQnt = winQnt;
+        this.winComType1 = winComType1;
+        this.winComHeight1 = winComHeight1;
+        this.winComType2 = winComType2;
+        this.winComHeight2 = winComHeight2;
+        this.winComType3 = winComType3;
+        this.winComHeight3 = winComHeight3;
+        this.winObs = winObs;
     }
 
-    public int getRestType() {
+    public Integer getRestType() {
         return restType;
     }
 
-    public void setRestType(int restType) {
+    public void setRestType(Integer restType) {
         this.restType = restType;
     }
 
@@ -64,6 +88,22 @@ public class RestAccessColParcel {
 
     public void setRestLocation(String restLocation) {
         this.restLocation = restLocation;
+    }
+
+    public Double getNotAccessLength() {
+        return notAccessLength;
+    }
+
+    public void setNotAccessLength(Double notAccessLength) {
+        this.notAccessLength = notAccessLength;
+    }
+
+    public Double getNotAccessWidth() {
+        return notAccessWidth;
+    }
+
+    public void setNotAccessWidth(Double notAccessWidth) {
+        this.notAccessWidth = notAccessWidth;
     }
 
     public Integer getAccessRoute() {
@@ -98,11 +138,11 @@ public class RestAccessColParcel {
         this.intRestObs = intRestObs;
     }
 
-    public int getAntiDriftFloor() {
+    public Integer getAntiDriftFloor() {
         return antiDriftFloor;
     }
 
-    public void setAntiDriftFloor(int antiDriftFloor) {
+    public void setAntiDriftFloor(Integer antiDriftFloor) {
         this.antiDriftFloor = antiDriftFloor;
     }
 
@@ -114,11 +154,11 @@ public class RestAccessColParcel {
         this.antiDriftFloorObs = antiDriftFloorObs;
     }
 
-    public int getRestDrain() {
+    public Integer getRestDrain() {
         return restDrain;
     }
 
-    public void setRestDrain(int restDrain) {
+    public void setRestDrain(Integer restDrain) {
         this.restDrain = restDrain;
     }
 
@@ -130,11 +170,35 @@ public class RestAccessColParcel {
         this.restDrainObs = restDrainObs;
     }
 
-    public int getRestSwitch() {
+    public Double getNotAccEntranceWidth() {
+        return notAccEntranceWidth;
+    }
+
+    public void setNotAccEntranceWidth(Double notAccEntranceWidth) {
+        this.notAccEntranceWidth = notAccEntranceWidth;
+    }
+
+    public Integer getNotAccEntranceSill() {
+        return notAccEntranceSill;
+    }
+
+    public void setNotAccEntranceSill(Integer notAccEntranceSill) {
+        this.notAccEntranceSill = notAccEntranceSill;
+    }
+
+    public String getNotAccEntranceObs() {
+        return notAccEntranceObs;
+    }
+
+    public void setNotAccEntranceObs(String notAccEntranceObs) {
+        this.notAccEntranceObs = notAccEntranceObs;
+    }
+
+    public Integer getRestSwitch() {
         return restSwitch;
     }
 
-    public void setRestSwitch(int restSwitch) {
+    public void setRestSwitch(Integer restSwitch) {
         this.restSwitch = restSwitch;
     }
 
@@ -154,35 +218,83 @@ public class RestAccessColParcel {
         this.switchObs = switchObs;
     }
 
-    public Integer getHasEntranceDoor() {
-        return hasEntranceDoor;
+    public Integer getHasWindow() {
+        return hasWindow;
     }
 
-    public void setHasEntranceDoor(Integer hasEntranceDoor) {
-        this.hasEntranceDoor = hasEntranceDoor;
+    public void setHasWindow(Integer hasWindow) {
+        this.hasWindow = hasWindow;
     }
 
-    public Double getDoorWidth() {
-        return doorWidth;
+    public Integer getWinQnt() {
+        return winQnt;
     }
 
-    public void setDoorWidth(Double doorWidth) {
-        this.doorWidth = doorWidth;
+    public void setWinQnt(Integer winQnt) {
+        this.winQnt = winQnt;
     }
 
-    public Integer getDoorSillType() {
-        return doorSillType;
+    public String getWinComType1() {
+        return winComType1;
     }
 
-    public void setDoorSillType(Integer doorSillType) {
-        this.doorSillType = doorSillType;
+    public void setWinComType1(String winComType1) {
+        this.winComType1 = winComType1;
     }
 
-    public String getDoorSillObs() {
-        return doorSillObs;
+    public Double getWinComHeight1() {
+        return winComHeight1;
     }
 
-    public void setDoorSillObs(String doorSillObs) {
-        this.doorSillObs = doorSillObs;
+    public void setWinComHeight1(Double winComHeight1) {
+        this.winComHeight1 = winComHeight1;
+    }
+
+    public String getWinComType2() {
+        return winComType2;
+    }
+
+    public void setWinComType2(String winComType2) {
+        this.winComType2 = winComType2;
+    }
+
+    public Double getWinComHeight2() {
+        return winComHeight2;
+    }
+
+    public void setWinComHeight2(Double winComHeight2) {
+        this.winComHeight2 = winComHeight2;
+    }
+
+    public String getWinComType3() {
+        return winComType3;
+    }
+
+    public void setWinComType3(String winComType3) {
+        this.winComType3 = winComType3;
+    }
+
+    public Double getWinComHeight3() {
+        return winComHeight3;
+    }
+
+    public void setWinComHeight3(Double winComHeight3) {
+        this.winComHeight3 = winComHeight3;
+    }
+
+    public String getWinObs() {
+        return winObs;
+    }
+
+    public void setWinObs(String winObs) {
+        this.winObs = winObs;
+    }
+
+    public Integer getCollectiveHasDoor() {
+        return collectiveHasDoor;
+    }
+
+    public void setCollectiveHasDoor(Integer collectiveHasDoor) {
+        this.collectiveHasDoor = collectiveHasDoor;
     }
 }

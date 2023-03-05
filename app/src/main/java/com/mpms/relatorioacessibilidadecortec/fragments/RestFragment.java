@@ -17,12 +17,15 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntranceUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessEntranceUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestColFirstUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.RestAccessColParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestAccessibleFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestCollectiveFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.FreeSpaceListFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.RestBoxListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -39,6 +42,8 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
     Bundle restBundle;
 
     ViewModelEntry modelEntry;
+
+    int hasDoor = -1;
 
     public RestFragment() {
         // Required empty public constructor
@@ -77,6 +82,8 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
         return inflater.inflate(R.layout.fragment_restroom, container, false);
     }
 
+    //    todo - quando trocar a opção do tipo de sanitário, "limpar" o resto do cadastro
+//    todo 2 - o cadastro está carregando 2 vezes
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -88,14 +95,34 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             modelEntry.getOneRestroomEntry(restBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadRestData);
         }
 
-//        TODO - continuar com a lógica de recebimento de dados para criar/dar update quando necessário
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (bundle.getBoolean(ADD_ITEM_REQUEST)) {
-
+                if (bundle.getInt(REST_ID) > 0) {
+                    if (getRadioCheckIndex(isCollectiveRadio) > 0) {
+                        RestColFirstUpdate rEntUpdate = restColEntUpdate(bundle);
+                        ViewModelEntry.updateRestroomData(rEntUpdate);
+                    } else {
+                        RestAccessEntranceUpdate accUpdate = restAccessEntUpdate(bundle);
+                        ViewModelEntry.updateAccessRestData(accUpdate);
+                    }
+                    callNextChildFragment(bundle);
+                } else if (bundle.getInt(REST_ID) == 0) {
+                    RestroomEntry rest = createRestEntry(bundle);
+                    ViewModelEntry.insertRestroomEntry(rest);
+                    restBundle.putBoolean(RECENT_ENTRY, true);
+                } else {
+                    restBundle.putInt(REST_ID, 0);
+                    Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+                }
             } else if (bundle.getBoolean(CHILD_DATA_COMPLETE)) {
                 if (bundle.getInt(REST_ID) > 0) {
-                    RestEntranceUpdate rEntUpdate = restEntUpdate(bundle);
-                    ViewModelEntry.updateRestroomData(rEntUpdate);
+                    if (getRadioCheckIndex(isCollectiveRadio) > 0) {
+                        RestColFirstUpdate rEntUpdate = restColEntUpdate(bundle);
+                        ViewModelEntry.updateRestroomData(rEntUpdate);
+                    } else {
+                        RestAccessEntranceUpdate accUpdate = restAccessEntUpdate(bundle);
+                        ViewModelEntry.updateAccessRestData(accUpdate);
+                    }
                     callNextRestFragment(bundle);
                 } else if (bundle.getInt(REST_ID) == 0) {
                     RestroomEntry rest = createRestEntry(bundle);
@@ -123,10 +150,16 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             modelEntry.getLastRestroomEntry().observe(getViewLifecycleOwner(), rest -> {
                 if (restBundle.getBoolean(RECENT_ENTRY)) {
                     restBundle.putInt(REST_ID, rest.getRestroomID());
-                    callNextRestFragment(restBundle);
+                    if (restBundle.getBoolean(ADD_ITEM_REQUEST))
+                        callNextChildFragment(restBundle);
+                    else
+                        callNextRestFragment(restBundle);
                 }
             });
         }
+        restBundle.putBoolean(ADD_ITEM_REQUEST, false);
+        restBundle.putBoolean(CHILD_DATA_COMPLETE, false);
+        restBundle.putBoolean(BOX_ENTRY, false);
     }
 
     private void instantiateRestViews(View view) {
@@ -173,9 +206,8 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
         if (index == 0) {
             getChildFragmentManager().beginTransaction().replace(R.id.rest_type_frame, RestAccessibleFragment.newInstance(restBundle)).commit();
             continueRest.setText(getString(R.string.label_button_proceed_register));
-        }
-        else
-            getChildFragmentManager().beginTransaction().replace(R.id.rest_type_frame, new RestCollectiveFragment()).commit();
+        } else
+            getChildFragmentManager().beginTransaction().replace(R.id.rest_type_frame, RestCollectiveFragment.newInstance(restBundle, index)).commit();
     }
 
     private boolean checkRestEmptyFields() {
@@ -197,7 +229,11 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
         if (getRadioCheckIndex(isCollectiveRadio) == 0) {
             bundle.putBoolean(FROM_REST, true);
             fragment = DoorFragment.newInstance();
-        } else
+        } else if (getRadioCheckIndex(isCollectiveRadio) == 1 && hasDoor == 1) {
+            bundle.putBoolean(FROM_COLLECTIVE, true);
+            fragment = DoorFragment.newInstance();
+        }
+        else
             fragment = RestUrinalFragment.newInstance();
         fragment.setArguments(bundle);
         requireActivity().getSupportFragmentManager().beginTransaction().
@@ -205,17 +241,36 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
 
     }
 
+    private void callNextChildFragment(Bundle bundle) {
+        Fragment fragment;
+        if (bundle.getBoolean(BOX_ENTRY)) {
+            fragment = new RestBoxListFragment();
+            fragment.setArguments(bundle);
+            requireActivity().getSupportFragmentManager().beginTransaction().
+                    replace(R.id.show_fragment_selected, fragment).addToBackStack(BOX_LIST).commit();
+        } else {
+            bundle.putBoolean(FROM_REST, true);
+            fragment = new FreeSpaceListFragment();
+            fragment.setArguments(bundle);
+            requireActivity().getSupportFragmentManager().beginTransaction().
+                    replace(R.id.show_fragment_selected, fragment).addToBackStack(FREE_LIST).commit();
+        }
+
+    }
+
     private RestroomEntry createRestEntry(Bundle bundle) {
-        int isCollective, restType, restAntiDrift, restDrain, restSwitch;
-        Integer accessRoute = null, intRest = null, hasEntranceDoor = null, doorSill = null;
-        Double hSwitch = null, doorWidth = null;
-        String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null, doorSillObs = null;
+        int isCollective;
+        Integer restType = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null, winQnt = null, doorSill = null;
+        Double hSwitch = null, winHeight1 = null, winHeight2 = null, winHeight3 = null, notAccLength = null, notAccWidth = null, notAccEntWidth = null;
+        String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null, winType1 = null, winType2 = null,
+                winType3 = null, winObs = null, nAccEntObs = null;
 
         isCollective = getRadioCheckIndex(isCollectiveRadio);
 
         RestAccessColParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
-        restType = parcel.getRestType();
+        if (parcel.getRestType() != null)
+            restType = parcel.getRestType();
         if (parcel.getRestLocation() != null)
             rLocation = parcel.getRestLocation();
         if (parcel.getAccessRoute() != null)
@@ -226,32 +281,70 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             intRest = parcel.getIntRestroom();
         if (parcel.getIntRestObs() != null)
             intObs = parcel.getIntRestObs();
-        restAntiDrift = parcel.getAntiDriftFloor();
+        if (parcel.getAntiDriftFloor() != null)
+            restAntiDrift = parcel.getAntiDriftFloor();
         if (parcel.getAntiDriftFloorObs() != null)
             driftObs = parcel.getAntiDriftFloorObs();
-        restDrain = parcel.getRestDrain();
+        if (parcel.getRestDrain() != null)
+            restDrain = parcel.getRestDrain();
         if (parcel.getRestDrainObs() != null)
             drainObs = parcel.getRestDrainObs();
-        restSwitch = parcel.getRestSwitch();
+        if (parcel.getRestSwitch() != null)
+            restSwitch = parcel.getRestSwitch();
         if (parcel.getSwitchHeight() != null)
             hSwitch = parcel.getSwitchHeight();
         if (parcel.getSwitchObs() != null)
             switchObs = parcel.getSwitchObs();
 
-        if (parcel.getHasEntranceDoor() != null)
-            hasEntranceDoor = parcel.getHasEntranceDoor();
-        if (parcel.getDoorWidth() != null)
-            doorWidth = parcel.getDoorWidth();
-        if (parcel.getDoorSillType() != null)
-            doorSill = parcel.getDoorSillType();
-        if (parcel.getDoorSillObs() != null)
-            doorSillObs = parcel.getDoorSillObs();
+        if (parcel.getHasWindow() != null) {
+            hasWindow = parcel.getHasWindow();
+            if (hasWindow == 1) {
+                if (parcel.getWinQnt() != null) {
+                    winQnt = parcel.getWinQnt();
+                    switch (winQnt) {
+                        case 3:
+                            if (parcel.getWinComType3() != null && parcel.getWinComType3().length() > 0)
+                                winType3 = parcel.getWinComType3();
+                            if (parcel.getWinComHeight3() != null)
+                                winHeight3 = parcel.getWinComHeight3();
+                        case 2:
+                            if (parcel.getWinComType2() != null && parcel.getWinComType2().length() > 0)
+                                winType2 = parcel.getWinComType2();
+                            if (parcel.getWinComHeight2() != null)
+                                winHeight2 = parcel.getWinComHeight2();
+                        case 1:
+                            if (parcel.getWinComType1() != null && parcel.getWinComType1().length() > 0)
+                                winType1 = parcel.getWinComType1();
+                            if (parcel.getWinComHeight1() != null)
+                                winHeight1 = parcel.getWinComHeight1();
+                            break;
+                    }
+                }
+            }
+        }
+        if (parcel.getWinObs() != null)
+            winObs = parcel.getWinObs();
+
+        if (parcel.getCollectiveHasDoor() != null) {
+            hasDoor = parcel.getCollectiveHasDoor();
+
+        }
+        if (parcel.getNotAccessLength() != null)
+            notAccLength = parcel.getNotAccessLength();
+        if (parcel.getNotAccessWidth() != null)
+            notAccWidth = parcel.getNotAccessWidth();
+        if (parcel.getNotAccEntranceWidth() != null)
+            notAccEntWidth = parcel.getNotAccEntranceWidth();
+        if (parcel.getNotAccEntranceSill() != null)
+            doorSill = parcel.getNotAccEntranceSill();
+        if (parcel.getNotAccEntranceObs() != null)
+            nAccEntObs = parcel.getNotAccEntranceObs();
 
 
-        return new RestroomEntry(restBundle.getInt(BLOCK_ID), isCollective, restType, rLocation, hasEntranceDoor, doorWidth, doorSill, doorSillObs, accessRoute, routeObs, intRest, intObs,
-                restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs, null, null, null,
-                null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null, null, null,
+        return new RestroomEntry(restBundle.getInt(BLOCK_ID), isCollective, restType, rLocation, hasDoor, notAccEntWidth, doorSill,
+                nAccEntObs, accessRoute, routeObs, intRest, intObs, restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs,
+                notAccLength, notAccWidth, null, null, null, null, null, null, null,
+                null, null,null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
@@ -260,27 +353,29 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null,
-                null, null, null, null, null, null, null,
+                hasWindow, winQnt, winType1, winHeight1, winType2, winHeight2, winType3, winHeight3, winObs,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null);
     }
 
-    private RestEntranceUpdate restEntUpdate(Bundle bundle) {
-        int isCollective, restType, restAntiDrift, restDrain, restSwitch;
-        Integer accessRoute = null, intRest = null, hasEntranceDoor = null, doorSill = null;
-        Double hSwitch = null, doorWidth = null;
-        String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null, doorSillObs = null;
+    private RestColFirstUpdate restColEntUpdate(Bundle bundle) {
+        int isCollective;
+        Integer hasDoor = null, restType = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null, winQnt = null, doorSill = null;
+        Double hSwitch = null, winHeight1 = null, winHeight2 = null, winHeight3 = null, notAccLength = null, notAccWidth = null, notAccEntWidth = null;
+        String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null, winType1 = null, winType2 = null,
+                winType3 = null, winObs = null, nAccEntObs = null;
 
         isCollective = getRadioCheckIndex(isCollectiveRadio);
 
         RestAccessColParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
-        restType = parcel.getRestType();
+        if (parcel.getRestType() != null)
+            restType = parcel.getRestType();
         if (parcel.getRestLocation() != null)
             rLocation = parcel.getRestLocation();
         if (parcel.getAccessRoute() != null)
@@ -291,29 +386,108 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             intRest = parcel.getIntRestroom();
         if (parcel.getIntRestObs() != null)
             intObs = parcel.getIntRestObs();
-        restAntiDrift = parcel.getAntiDriftFloor();
+        if (parcel.getAntiDriftFloor() != null)
+            restAntiDrift = parcel.getAntiDriftFloor();
         if (parcel.getAntiDriftFloorObs() != null)
             driftObs = parcel.getAntiDriftFloorObs();
-        restDrain = parcel.getRestDrain();
+        if (parcel.getRestDrain() != null)
+            restDrain = parcel.getRestDrain();
         if (parcel.getRestDrainObs() != null)
             drainObs = parcel.getRestDrainObs();
-        restSwitch = parcel.getRestSwitch();
+        if (parcel.getRestSwitch() != null)
+            restSwitch = parcel.getRestSwitch();
         if (parcel.getSwitchHeight() != null)
             hSwitch = parcel.getSwitchHeight();
         if (parcel.getSwitchObs() != null)
             switchObs = parcel.getSwitchObs();
 
-        if (parcel.getHasEntranceDoor() != null)
-            hasEntranceDoor = parcel.getHasEntranceDoor();
-        if (parcel.getDoorWidth() != null)
-            doorWidth = parcel.getDoorWidth();
-        if (parcel.getDoorSillType() != null)
-            doorSill = parcel.getDoorSillType();
-        if (parcel.getDoorSillObs() != null)
-            doorSillObs = parcel.getDoorSillObs();
+        if (parcel.getHasWindow() != null) {
+            hasWindow = parcel.getHasWindow();
+            if (hasWindow == 1) {
+                if (parcel.getWinQnt() != null) {
+                    winQnt = parcel.getWinQnt();
+                    switch (winQnt) {
+                        case 3:
+                            if (parcel.getWinComType3() != null && parcel.getWinComType3().length() > 0)
+                                winType3 = parcel.getWinComType3();
+                            if (parcel.getWinComHeight3() != null)
+                                winHeight3 = parcel.getWinComHeight3();
+                        case 2:
+                            if (parcel.getWinComType2() != null && parcel.getWinComType2().length() > 0)
+                                winType2 = parcel.getWinComType3();
+                            if (parcel.getWinComHeight2() != null)
+                                winHeight2 = parcel.getWinComHeight3();
+                        case 1:
+                            if (parcel.getWinComType1() != null && parcel.getWinComType1().length() > 0)
+                                winType1 = parcel.getWinComType1();
+                            if (parcel.getWinComHeight1() != null)
+                                winHeight1 = parcel.getWinComHeight1();
+                            break;
+                    }
+                }
+            }
+        }
+        if (parcel.getWinObs() != null)
+            winObs = parcel.getWinObs();
+
+        if (parcel.getCollectiveHasDoor() != null)
+            hasDoor = parcel.getCollectiveHasDoor();
+        if (parcel.getNotAccessLength() != null)
+            notAccLength = parcel.getNotAccessLength();
+        if (parcel.getNotAccessWidth() != null)
+            notAccWidth = parcel.getNotAccessWidth();
+        if (parcel.getNotAccEntranceWidth() != null)
+            notAccEntWidth = parcel.getNotAccEntranceWidth();
+        if (parcel.getNotAccEntranceSill() != null)
+            doorSill = parcel.getNotAccEntranceSill();
+        if (parcel.getNotAccEntranceObs() != null)
+            nAccEntObs = parcel.getNotAccEntranceObs();
 
 
-        return new RestEntranceUpdate(restBundle.getInt(REST_ID), isCollective, restType, rLocation, hasEntranceDoor, doorWidth, doorSill, doorSillObs, accessRoute, routeObs, intRest, intObs,
+        return new RestColFirstUpdate(restBundle.getInt(REST_ID), isCollective, restType, rLocation, hasDoor, notAccEntWidth, doorSill, nAccEntObs, accessRoute, routeObs, intRest,
+                intObs, restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs, notAccLength, notAccWidth, hasWindow, winQnt, winType1, winHeight1,
+                winType2, winHeight2, winType3, winHeight3, winObs);
+    }
+
+    private RestAccessEntranceUpdate restAccessEntUpdate(Bundle bundle) {
+        int isCollective;
+        Integer restType = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null;
+        Double hSwitch = null;
+        String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null;
+
+        isCollective = getRadioCheckIndex(isCollectiveRadio);
+
+        RestAccessColParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+
+        if (parcel.getRestType() != null)
+            restType = parcel.getRestType();
+        if (parcel.getRestLocation() != null)
+            rLocation = parcel.getRestLocation();
+        if (parcel.getAccessRoute() != null)
+            accessRoute = parcel.getAccessRoute();
+        if (parcel.getAccessRouteObs() != null)
+            routeObs = parcel.getAccessRouteObs();
+        if (parcel.getIntRestroom() != null)
+            intRest = parcel.getIntRestroom();
+        if (parcel.getIntRestObs() != null)
+            intObs = parcel.getIntRestObs();
+        if (parcel.getAntiDriftFloor() != null)
+            restAntiDrift = parcel.getAntiDriftFloor();
+        if (parcel.getAntiDriftFloorObs() != null)
+            driftObs = parcel.getAntiDriftFloorObs();
+        if (parcel.getRestDrain() != null)
+            restDrain = parcel.getRestDrain();
+        if (parcel.getRestDrainObs() != null)
+            drainObs = parcel.getRestDrainObs();
+        if (parcel.getRestSwitch() != null)
+            restSwitch = parcel.getRestSwitch();
+        if (parcel.getSwitchHeight() != null)
+            hSwitch = parcel.getSwitchHeight();
+        if (parcel.getSwitchObs() != null)
+            switchObs = parcel.getSwitchObs();
+
+
+        return new RestAccessEntranceUpdate(restBundle.getInt(REST_ID), isCollective, restType, rLocation, accessRoute, routeObs, intRest, intObs,
                 restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs);
     }
 }

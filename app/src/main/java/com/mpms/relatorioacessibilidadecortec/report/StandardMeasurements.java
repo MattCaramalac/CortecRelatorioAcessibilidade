@@ -53,12 +53,25 @@ public interface StandardMeasurements {
     double maxWidthAlertTactSuspObj = 0.60;
 
     //    Door
-    double freeSpaceGeneral = 0.8;
-    double freeSpaceSports = 1.0;
-    double antiImpactCoatHeight = 0.4;
-    double minHorHandleLength = 0.4;
+    double freeSpaceGeneral = 0.80;
+    double freeSpaceSports = 1.00;
+    double antiImpactCoatHeight = 0.40;
+    double minHorBarLength = 0.40;
+    double horBarFrameDist = 0.10;
     double minHandleGrip = 25; //in mm
     double maxHandleGrip = 35; // in mm
+    double doorHorBarMinHeight = 0.80;
+    double doorHorBarMaxHeight = 1.10;
+    double doorWinMinWidth = 0.20;
+    double doorWinMinLowerHeight = 0.40;
+    double doorWinMaxLowerHeight = 0.90;
+    double doorWinMinUpperHeight = 1.50;
+    double doorTactSignMinHeight = 0.90;
+    double doorTactSignMedHeight = 1.20;
+    double doorTactSignMaxHeight = 1.60;
+    double doorTactSignMinAngle = 15;
+    double doorTactSignMaxAngle = 30;
+
 
     //    Gate Track Height
     double maxHeightTrack = 20; //in mm
@@ -178,6 +191,7 @@ public interface StandardMeasurements {
     double sinkVertBarMinLength = 0.40;
     double sinkVertBarHeight = 0.90;
     double sinkMirrorMaxLowerHeight = 0.90;
+    double emergencyButtonHeight = 0.40;
 
     double urinalDistancePartitions = 0.80;
     double urinalDistanceBars = 0.60;
@@ -192,6 +206,14 @@ public interface StandardMeasurements {
     double urinalMinLowerOpenHeight = 0.60;
     double urinalMaxLowerOpenHeight = 0.65;
 
+//    RestroomBox
+    double minFreeDiamComBox = 0.60;
+    double minComBoxWidth = 0.90;
+    double minComBoxDoorToiletDist = 0.90;
+    double minComBoxBarLength = 0.70;
+    double comBoxToiletBarDist = 0.30;
+    double comBoxBarHeight = 0.75;
+
 //    WaterFountain
     double lowestSpout = 0.90;
     double minHighestSpout = 1.00;
@@ -199,4 +221,8 @@ public interface StandardMeasurements {
     double lowestSpoutFreeHeight = 0.73;
     double oFountMinActionHeight = 0.80;
     double oFountMaxActionHeight = 1.20;
+
+//    Height
+    double lowerReach = 0.40;
+    double upperReach = 1.20;
 }

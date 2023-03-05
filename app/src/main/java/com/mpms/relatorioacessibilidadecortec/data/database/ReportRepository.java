@@ -21,6 +21,7 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.PlaygroundEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsHandrailDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsRailingDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.RestBoxDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RoomEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SchoolEntryDao;
@@ -50,9 +51,17 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessEntranceUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdateTwo;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntranceUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxAccOneUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxAccTwoUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxFirstUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxSinkUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxToilUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxUpViewUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestColFirstUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestSinkUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestToiletUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestUpViewUpdate;
@@ -104,6 +113,7 @@ public class ReportRepository {
     private final PlaygroundEntryDao playgroundEntryDao;
     private final BlackboardEntryDao blackboardEntryDao;
     private final DoorLockDao doorLockDao;
+    private final RestBoxDao restBoxDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -133,6 +143,7 @@ public class ReportRepository {
         playgroundEntryDao = db.playgroundEntryDao();
         blackboardEntryDao = db.blackboardEntryDao();
         doorLockDao = db.doorLockDao();
+        restBoxDao = db.restBoxDao();
 
     }
 
@@ -422,12 +433,24 @@ public class ReportRepository {
         return doorEntryDao.getAllDoors(roomID);
     }
 
+    public LiveData<List<DoorEntry>> getAllRestDoors(List<Integer> restID) {
+        return doorEntryDao.getAllRestDoors(restID);
+    }
+
+    public LiveData<List<DoorEntry>> getAllBoxDoors(List<Integer> boxID) {
+        return doorEntryDao.getAllBoxDoors(boxID);
+    }
+
     public LiveData<DoorEntry> getSpecificDoor(int doorId) {
         return doorEntryDao.getSpecificDoor(doorId);
     }
 
     public LiveData<DoorEntry> getRestDoor(int restID) {
         return doorEntryDao.getRestDoor(restID);
+    }
+
+    public LiveData<DoorEntry> getAccBoxDoor(int boxID) {
+        return doorEntryDao.getAccBoxDoor(boxID);
     }
 
     public LiveData<DoorEntry> getLastDoorEntry() {
@@ -442,6 +465,10 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.deleteDoor(doorID));
     }
 
+    public void deleteRestDoor(int restID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.deleteRestDoor(restID));
+    }
+
     public void deleteAllDoorsFromRoom(int roomID) {
         ReportDatabase.dbWriteExecutor.execute(() -> doorEntryDao.deleteAllDoorsFromRoom(roomID));
     }
@@ -454,8 +481,16 @@ public class ReportRepository {
         return freeSpaceEntryDao.selectFreeSpaceFromRoom(roomID);
     }
 
+    public LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRest(int restID) {
+        return freeSpaceEntryDao.selectFreeSpaceFromRest(restID);
+    }
+
     public LiveData<List<FreeSpaceEntry>> getAllFreeSpaces(List<Integer> roomID) {
         return freeSpaceEntryDao.getAllFreeSpaces(roomID);
+    }
+
+    public LiveData<List<FreeSpaceEntry>> getAllRestFreeSpaces(List<Integer> restID) {
+        return freeSpaceEntryDao.getAllRestFreeSpaces(restID);
     }
 
     public LiveData<FreeSpaceEntry> selectSpecificFreeSpace(int freeSpaceID) {
@@ -759,6 +794,10 @@ public class ReportRepository {
         return restroomEntryDao.getRestFirstData(restID);
     }
 
+    public LiveData<RestroomEntry> getRestColDoorData(int restID) {
+        return restroomEntryDao.getRestColDoorData(restID);
+    }
+
     public LiveData<RestroomEntry> getRestUpViewData(int restID) {
         return restroomEntryDao.getRestUpViewData(restID);
     }
@@ -791,8 +830,12 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomEntry(restroom));
     }
 
-    public void updateRestroomData(RestEntranceUpdate... restEntranceUpdates) {
-        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomData(restEntranceUpdates));
+    public void updateRestroomData(RestColFirstUpdate... restColFirstUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateRestroomData(restColFirstUpdates));
+    }
+
+    public void updateAccessRestData(RestAccessEntranceUpdate... restAccessUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restroomEntryDao.updateAccessRestData(restAccessUpdates));
     }
 
     public void updateRestUpViewData(RestUpViewUpdate... upViewUpdates) {
@@ -1053,5 +1096,77 @@ public class ReportRepository {
 
     public void deleteAllDoorLocksFromDoor(int doorID) {
         ReportDatabase.dbWriteExecutor.execute(() -> doorLockDao.deleteAllDoorLocksFromDoor(doorID));
+    }
+
+    public void insertRestBox(RestBoxEntry restBox) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restBoxDao.insertRestBox(restBox));
+    }
+
+    public LiveData<List<RestBoxEntry>> getBoxesInRestroom(int restID) {
+        return restBoxDao.getBoxesInRestroom(restID);
+    }
+
+    public LiveData<List<RestBoxEntry>> getAllBoxesInRestroom(List<Integer> restID) {
+        return restBoxDao.getAllBoxesInRestroom(restID);
+    }
+
+    public LiveData<RestBoxEntry> getCommonBoxData(int boxID) {
+        return restBoxDao.getCommonBoxData(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getBoxUpViewData(int boxID) {
+        return restBoxDao.getBoxUpViewData(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getBoxToiletData(int boxID) {
+        return restBoxDao.getBoxToiletData(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getBoxAccessData(int boxID) {
+        return restBoxDao.getBoxAccessData(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getBoxAccessDataTwo(int boxID) {
+        return restBoxDao.getBoxAccessDataTwo(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getBoxSinkData(int boxID) {
+        return restBoxDao.getBoxSinkData(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getOneBoxEntry(int boxID) {
+        return restBoxDao.getOneBoxEntry(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getLastBoxEntry() {
+        return restBoxDao.getLastBoxEntry();
+    }
+
+    public void deleteOneBox(int boxID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restBoxDao.deleteOneBox(boxID));
+    }
+
+    public void updateBoxFirstData(RestBoxFirstUpdate... comBoxUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restBoxDao.updateBoxFirstData(comBoxUpdate));
+    }
+
+    public void updateBoxUpView(RestBoxUpViewUpdate... upViewUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restBoxDao.updateBoxUpView(upViewUpdate));
+    }
+
+    public void updateBoxToilet(RestBoxToilUpdate... toilUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restBoxDao.updateBoxToilet(toilUpdate));
+    }
+
+    public void updateBoxAccOne(RestBoxAccOneUpdate... accOneUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restBoxDao.updateBoxAccOne(accOneUpdate));
+    }
+
+    public void updateBoxAccTwo(RestBoxAccTwoUpdate... accTwoUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restBoxDao.updateBoxAccTwo(accTwoUpdate));
+    }
+
+    public void updateBoxSink(RestBoxSinkUpdate... sinkUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> restBoxDao.updateBoxSink(sinkUpdate));
     }
 }

@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,10 +35,12 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
 
     TextInputLayout inclHeightField, inclField1, inclField2, inclField3, inclField4;
     TextInputEditText inclHeightValue, inclValue1, inclValue2, inclValue3, inclValue4;
+    TextView sillError, sillInclHeader;
+    RadioGroup sillRadio;
     MaterialButton addMeasure;
     ImageButton delMeasure;
 
-    int measureQnt = 1;
+    int measureQnt = 0;
 
     ArrayList<TextInputLayout> inclArray = new ArrayList<>();
 
@@ -128,6 +132,12 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
         inclValue2 = view.findViewById(R.id.incl_measure_2_value);
         inclValue3 = view.findViewById(R.id.incl_measure_3_value);
         inclValue4 = view.findViewById(R.id.incl_measure_4_value);
+//        TextView
+        sillError = view.findViewById(R.id.sill_has_inclination_error);
+        sillInclHeader = view.findViewById(R.id.label_add_incl_measure);
+//        RadioGroup
+        sillRadio = view.findViewById(R.id.sill_has_inclination_radio);
+        sillRadio.setOnCheckedChangeListener(this::radioListener);
 //        MaterialButton
         addMeasure = view.findViewById(R.id.add_incl_measure_button);
 //        ImageButton
@@ -136,6 +146,30 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 
         addFieldsToArray();
+    }
+
+    private void radioListener(RadioGroup radio, int checkedID) {
+        int index = radio.indexOfChild(radio.findViewById(checkedID));
+
+        if (index == 1) {
+            measureQnt = 1;
+            sillInclHeader.setVisibility(View.VISIBLE);
+            addMeasure.setVisibility(View.VISIBLE);
+            inclField1.setVisibility(View.VISIBLE);
+        } else {
+            measureQnt = 0;
+            inclValue1.setText(null);
+            inclValue2.setText(null);
+            inclValue3.setText(null);
+            inclValue4.setText(null);
+            inclField1.setVisibility(View.GONE);
+            inclField2.setVisibility(View.GONE);
+            inclField3.setVisibility(View.GONE);
+            inclField4.setVisibility(View.GONE);
+            sillInclHeader.setVisibility(View.GONE);
+            addMeasure.setVisibility(View.GONE);
+            delMeasure.setVisibility(View.GONE);
+        }
     }
 
     private void addFieldsToArray() {
@@ -182,28 +216,37 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
         return i == 0;
     }
 
+    private int getCheckRadio(RadioGroup radio) {
+        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
+    }
+
     private void createInclParcel(Bundle bundle) {
         Double inclHeight = null, measure1 = null, measure2 = null, measure3 = null, measure4 = null;
+        int hasSlope;
 
         if (!TextUtils.isEmpty(inclHeightValue.getText()))
             inclHeight = Double.parseDouble(String.valueOf(inclHeightValue.getText()));
 
-        switch (measureQnt) {
-            case 4:
-                if (!TextUtils.isEmpty(inclValue4.getText()))
-                    measure4 = Double.parseDouble(String.valueOf(inclValue4.getText()));
-            case 3:
-                if (!TextUtils.isEmpty(inclValue3.getText()))
-                    measure3 = Double.parseDouble(String.valueOf(inclValue3.getText()));
-            case 2:
-                if (!TextUtils.isEmpty(inclValue2.getText()))
-                    measure2 = Double.parseDouble(String.valueOf(inclValue2.getText()));
-            case 1:
-                if (!TextUtils.isEmpty(inclValue1.getText()))
-                    measure1 = Double.parseDouble(String.valueOf(inclValue1.getText()));
-                break;
+        hasSlope = getCheckRadio(sillRadio);
+
+        if (hasSlope == 1) {
+            switch (measureQnt) {
+                case 4:
+                    if (!TextUtils.isEmpty(inclValue4.getText()))
+                        measure4 = Double.parseDouble(String.valueOf(inclValue4.getText()));
+                case 3:
+                    if (!TextUtils.isEmpty(inclValue3.getText()))
+                        measure3 = Double.parseDouble(String.valueOf(inclValue3.getText()));
+                case 2:
+                    if (!TextUtils.isEmpty(inclValue2.getText()))
+                        measure2 = Double.parseDouble(String.valueOf(inclValue2.getText()));
+                case 1:
+                    if (!TextUtils.isEmpty(inclValue1.getText()))
+                        measure1 = Double.parseDouble(String.valueOf(inclValue1.getText()));
+                    break;
+            }
         }
-        InclinationParcel parcel = new InclinationParcel(inclHeight, measureQnt, measure1, measure2, measure3, measure4);
+        InclinationParcel parcel = new InclinationParcel(inclHeight, hasSlope, measureQnt, measure1, measure2, measure3, measure4);
         bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
     }
 
@@ -214,112 +257,144 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
     private void loadInclinationExtAccData(ExternalAccess access) {
         if (access.getSillInclinationHeight() != null)
             inclHeightValue.setText(String.valueOf(access.getSillInclinationHeight()));
-        if (access.getInclQnt() != null)
-            measureQnt = access.getInclQnt();
-        switch (measureQnt) {
-            case 4:
-                if (access.getInclAngle4() != null) {
-                    inclField4.setVisibility(View.VISIBLE);
-                    inclValue4.setText(String.valueOf(access.getInclAngle4()));
+        if (access.getHasSillIncl() != null) {
+            sillRadio.check(sillRadio.getChildAt(access.getHasSillIncl()).getId());
+            if (access.getHasSillIncl() == 1) {
+                if (access.getInclQnt() != null)
+                    measureQnt = access.getInclQnt();
+                switch (measureQnt) {
+                    case 4:
+                        if (access.getInclAngle4() != null) {
+                            inclField4.setVisibility(View.VISIBLE);
+                            inclValue4.setText(String.valueOf(access.getInclAngle4()));
+                        }
+                    case 3:
+                        if (access.getInclAngle3() != null) {
+                            inclField3.setVisibility(View.VISIBLE);
+                            inclValue3.setText(String.valueOf(access.getInclAngle3()));
+                        }
+                    case 2:
+                        if (access.getInclAngle2() != null) {
+                            delMeasure.setVisibility(View.VISIBLE);
+                            inclField2.setVisibility(View.VISIBLE);
+                            inclValue2.setText(String.valueOf(access.getInclAngle2()));
+                        }
+                    default:
+                        if (access.getInclAngle1() != null) {
+                            inclField1.setVisibility(View.VISIBLE);
+                            inclValue1.setText(String.valueOf(access.getInclAngle1()));
+                        }
+                        break;
                 }
-            case 3:
-                if (access.getInclAngle3() != null) {
-                    inclField3.setVisibility(View.VISIBLE);
-                    inclValue3.setText(String.valueOf(access.getInclAngle3()));
-                }
-            case 2:
-                if (access.getInclAngle2() != null) {
-                    inclField2.setVisibility(View.VISIBLE);
-                    inclValue2.setText(String.valueOf(access.getInclAngle2()));
-                }
-            default:
-                if (access.getInclAngle1() != null)
-                    inclValue1.setText(String.valueOf(access.getInclAngle1()));
-                break;
+            }
         }
     }
 
     private void loadInclinationPlayData(PlaygroundEntry playEntry) {
         if (playEntry.getInclHeight() != null)
             inclHeightValue.setText(String.valueOf(playEntry.getInclHeight()));
-        if (playEntry.getInclMeasureQnt() != null)
-            measureQnt = playEntry.getInclMeasureQnt();
-        switch (measureQnt) {
-            case 4:
-                if (playEntry.getInclAngle4() != null) {
-                    inclField4.setVisibility(View.VISIBLE);
-                    inclValue4.setText(String.valueOf(playEntry.getInclAngle4()));
+        if (playEntry.getHasSillIncl() != null) {
+            sillRadio.check(sillRadio.getChildAt(playEntry.getHasSillIncl()).getId());
+            if (playEntry.getHasSillIncl() == 1) {
+                if (playEntry.getInclMeasureQnt() != null)
+                    measureQnt = playEntry.getInclMeasureQnt();
+                switch (measureQnt) {
+                    case 4:
+                        if (playEntry.getInclAngle4() != null) {
+                            inclField4.setVisibility(View.VISIBLE);
+                            inclValue4.setText(String.valueOf(playEntry.getInclAngle4()));
+                        }
+                    case 3:
+                        if (playEntry.getInclAngle3() != null) {
+                            inclField3.setVisibility(View.VISIBLE);
+                            inclValue3.setText(String.valueOf(playEntry.getInclAngle3()));
+                        }
+                    case 2:
+                        if (playEntry.getInclAngle2() != null) {
+                            delMeasure.setVisibility(View.VISIBLE);
+                            inclField2.setVisibility(View.VISIBLE);
+                            inclValue2.setText(String.valueOf(playEntry.getInclAngle2()));
+                        }
+                    default:
+                        if (playEntry.getInclAngle1() != null) {
+                            inclField1.setVisibility(View.VISIBLE);
+                            inclValue1.setText(String.valueOf(playEntry.getInclAngle1()));
+                        }
+                        break;
                 }
-            case 3:
-                if (playEntry.getInclAngle3() != null) {
-                    inclField3.setVisibility(View.VISIBLE);
-                    inclValue3.setText(String.valueOf(playEntry.getInclAngle3()));
-                }
-            case 2:
-                if (playEntry.getInclAngle2() != null) {
-                    inclField2.setVisibility(View.VISIBLE);
-                    inclValue2.setText(String.valueOf(playEntry.getInclAngle2()));
-                }
-            default:
-                if (playEntry.getInclAngle1() != null)
-                    inclValue1.setText(String.valueOf(playEntry.getInclAngle1()));
-                break;
+            }
         }
     }
 
     private void loadInclinationDoorData(DoorEntry doorEntry) {
         if (doorEntry.getInclHeight() != null)
             inclHeightValue.setText(String.valueOf(doorEntry.getInclHeight()));
-        if (doorEntry.getInclQnt() != null)
-            measureQnt = doorEntry.getInclQnt();
-        switch (measureQnt) {
-            case 4:
-                if (doorEntry.getInclAngle4() != null) {
-                    inclField4.setVisibility(View.VISIBLE);
-                    inclValue4.setText(String.valueOf(doorEntry.getInclAngle4()));
+        if (doorEntry.getHasSillIncl() != null) {
+            sillRadio.check(sillRadio.getChildAt(doorEntry.getHasSillIncl()).getId());
+            if (doorEntry.getHasSillIncl() == 1) {
+                if (doorEntry.getInclQnt() != null)
+                    measureQnt = doorEntry.getInclQnt();
+                switch (measureQnt) {
+                    case 4:
+                        if (doorEntry.getInclAngle4() != null) {
+                            inclField4.setVisibility(View.VISIBLE);
+                            inclValue4.setText(String.valueOf(doorEntry.getInclAngle4()));
+                        }
+                    case 3:
+                        if (doorEntry.getInclAngle3() != null) {
+                            inclField3.setVisibility(View.VISIBLE);
+                            inclValue3.setText(String.valueOf(doorEntry.getInclAngle3()));
+                        }
+                    case 2:
+                        if (doorEntry.getInclAngle2() != null) {
+                            delMeasure.setVisibility(View.VISIBLE);
+                            inclField2.setVisibility(View.VISIBLE);
+                            inclValue2.setText(String.valueOf(doorEntry.getInclAngle2()));
+                        }
+                    default:
+                        if (doorEntry.getInclAngle1() != null) {
+                            inclField1.setVisibility(View.VISIBLE);
+                            inclValue1.setText(String.valueOf(doorEntry.getInclAngle1()));
+                        }
+                        break;
                 }
-            case 3:
-                if (doorEntry.getInclAngle3() != null) {
-                    inclField3.setVisibility(View.VISIBLE);
-                    inclValue3.setText(String.valueOf(doorEntry.getInclAngle3()));
-                }
-            case 2:
-                if (doorEntry.getInclAngle2() != null) {
-                    inclField2.setVisibility(View.VISIBLE);
-                    inclValue2.setText(String.valueOf(doorEntry.getInclAngle2()));
-                }
-            default:
-                if (doorEntry.getInclAngle1() != null)
-                    inclValue1.setText(String.valueOf(doorEntry.getInclAngle1()));
-                break;
+            }
         }
     }
 
     private void loadInclinationSlopeStreetData(SidewalkSlopeEntry slopeEntry) {
         if (slopeEntry.getInclinationJunctionHeight() != null)
             inclHeightValue.setText(String.valueOf(slopeEntry.getInclinationJunctionHeight()));
-        if (slopeEntry.getInclQnt() != null)
-            measureQnt = slopeEntry.getInclQnt();
-        switch (measureQnt) {
-            case 4:
-                if (slopeEntry.getInclAngle4() != null) {
-                    inclField4.setVisibility(View.VISIBLE);
-                    inclValue4.setText(String.valueOf(slopeEntry.getInclAngle4()));
+        if (slopeEntry.getHasSillIncl() != null) {
+            sillRadio.check(sillRadio.getChildAt(slopeEntry.getHasSillIncl()).getId());
+            if (slopeEntry.getHasSillIncl() == 1) {
+                if (slopeEntry.getInclQnt() != null)
+                    measureQnt = slopeEntry.getInclQnt();
+                switch (measureQnt) {
+                    case 4:
+                        if (slopeEntry.getInclAngle4() != null) {
+                            inclField4.setVisibility(View.VISIBLE);
+                            inclValue4.setText(String.valueOf(slopeEntry.getInclAngle4()));
+                        }
+                    case 3:
+                        if (slopeEntry.getInclAngle3() != null) {
+                            inclField3.setVisibility(View.VISIBLE);
+                            inclValue3.setText(String.valueOf(slopeEntry.getInclAngle3()));
+                        }
+                    case 2:
+                        if (slopeEntry.getInclAngle2() != null) {
+                            delMeasure.setVisibility(View.VISIBLE);
+                            inclField2.setVisibility(View.VISIBLE);
+                            inclValue2.setText(String.valueOf(slopeEntry.getInclAngle2()));
+                        }
+                    default:
+                        if (slopeEntry.getInclAngle1() != null) {
+                            inclField1.setVisibility(View.VISIBLE);
+                            inclValue1.setText(String.valueOf(slopeEntry.getInclAngle1()));
+                        }
+                        break;
                 }
-            case 3:
-                if (slopeEntry.getInclAngle3() != null) {
-                    inclField3.setVisibility(View.VISIBLE);
-                    inclValue3.setText(String.valueOf(slopeEntry.getInclAngle3()));
-                }
-            case 2:
-                if (slopeEntry.getInclAngle2() != null) {
-                    inclField2.setVisibility(View.VISIBLE);
-                    inclValue2.setText(String.valueOf(slopeEntry.getInclAngle2()));
-                }
-            default:
-                if (slopeEntry.getInclAngle1() != null)
-                    inclValue1.setText(String.valueOf(slopeEntry.getInclAngle1()));
-                break;
+            }
         }
     }
 }

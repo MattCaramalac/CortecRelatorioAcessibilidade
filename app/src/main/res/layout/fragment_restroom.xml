@@ -10,8 +10,7 @@
         android:id="@+id/collective_restroom_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:text="Selecione o sanitário a ser cadastrado"
+        android:text="@string/header_restroom_type"
         android:textSize="@dimen/section_header"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,14 +26,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="@integer/weight_one"
-            android:text="ACESSÍVEL INDEPENDENTE"
+            android:text="@string/radio_single_accessible"
             android:textSize="@dimen/radio_button_text" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="@integer/weight_one"
-            android:text="COLETIVO"
+            android:text="@string/radio_collective_accessible"
+            android:textSize="@dimen/radio_button_text" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/weight_one"
+            android:text="@string/radio_collective_not_accessible"
             android:textSize="@dimen/radio_button_text" />
 
     </RadioGroup>
@@ -63,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/usual_padding"
-        android:text="@string/label_button_save"
+        android:text="@string/label_button_proceed_register"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rest_type_frame" />

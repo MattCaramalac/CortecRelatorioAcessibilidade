@@ -563,7 +563,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
                 inclAngle2 = null, inclAngle3 = null, inclAngle4 = null, slopeHeight = null,
                 gap1 = null, gap2 = null, gap3 = null, gap4 = null;
         int hasGate, accessibleFloor, accessibleToy;
-        Integer hasTrack = null, sillType = null, hasTrackRamp = null, hasFloorGap = null, slopeQnt = null, inclQnt = null;
+        Integer hasTrack = null, sillType = null, hasTrackRamp = null, hasFloorGap = null, slopeQnt = null, hasIncl = null, inclQnt = null;
 
         playLocale = String.valueOf(playLocaleValue.getText());
         hasGate = getPlayCheckRadio(playHasGateRadio);
@@ -608,15 +608,18 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
                     InclinationParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
                     inclHeight = parcel.getInclHeight();
-                    inclQnt = parcel.getInclQnt();
-                    if (parcel.getInclMeasure4() != null)
-                        inclAngle4 = parcel.getInclMeasure4();
-                    if (parcel.getInclMeasure3() != null)
-                        inclAngle3 = parcel.getInclMeasure3();
-                    if (parcel.getInclMeasure2() != null)
-                        inclAngle2 = parcel.getInclMeasure2();
-                    if (parcel.getInclMeasure1() != null)
-                        inclAngle1 = parcel.getInclMeasure1();
+                    hasIncl = parcel.getHasInclSlope();
+                    if (hasIncl == 1) {
+                        inclQnt = parcel.getInclQnt();
+                        if (parcel.getInclMeasure4() != null)
+                            inclAngle4 = parcel.getInclMeasure4();
+                        if (parcel.getInclMeasure3() != null)
+                            inclAngle3 = parcel.getInclMeasure3();
+                        if (parcel.getInclMeasure2() != null)
+                            inclAngle2 = parcel.getInclMeasure2();
+                        if (parcel.getInclMeasure1() != null)
+                            inclAngle1 = parcel.getInclMeasure1();
+                    }
                 } else if (sillType == 2) {
                     StepParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
                     stepHeight = parcel.getStepHeight();
@@ -655,7 +658,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
         return new PlaygroundEntry(bundle.getInt(BLOCK_ID), playLocale, hasGate, playGateWidth, hasTrack, playTrackHeight, hasTrackRamp, rampCounter, measure1, measure2,
                 measure3, measure4, hasFloorGap, gapCounter, gap1, gap2, gap3, gap4, sillType, inclHeight, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight,
                 slopeQnt, sillSlopeAngle, slopeAngle2, slopeAngle3, slopeAngle4, sillSlopeWidth, slopeHeight, sillObs, accessibleFloor, floorObs, accessibleToy, toyObs, playObs,
-                playPhoto);
+                playPhoto, hasIncl);
     }
 
     private void clearPlayFields() {

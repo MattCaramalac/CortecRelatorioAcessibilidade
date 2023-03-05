@@ -26,12 +26,14 @@ public class SidewalkEntryOne {
     private Double specialTileDirectionWidth;
     private Double specialTileAlertWidth;
     private String specialFloorObs;
+    private String sidewalkObs;
     private Integer hasSidewalk;
+    private String sidePhotos;
 
     public SidewalkEntryOne(int sidewalkID, String sidewalkLocation, Integer streetPavement, Double sidewalkWidth, Double sideFreeSpaceWidth,
                             String sideMeasureObs, Integer slopeMeasureQnt, Double sideTransSlope1, Double sideTransSlope2, Double sideTransSlope3,
                             Double sideTransSlope4, Double sideTransSlope5, Double sideTransSlope6, Integer hasSpecialFloor, Integer specialFloorRightColor,
-                            Double specialTileDirectionWidth, Double specialTileAlertWidth, String specialFloorObs, Integer hasSidewalk) {
+                            Double specialTileDirectionWidth, Double specialTileAlertWidth, String specialFloorObs, Integer hasSidewalk, String sidewalkObs, String sidePhotos) {
         this.sidewalkID = sidewalkID;
         this.sidewalkLocation = sidewalkLocation;
         this.streetPavement = streetPavement;
@@ -51,6 +53,8 @@ public class SidewalkEntryOne {
         this.specialTileAlertWidth = specialTileAlertWidth;
         this.specialFloorObs = specialFloorObs;
         this.hasSidewalk = hasSidewalk;
+        this.sidewalkObs = sidewalkObs;
+        this.sidePhotos = sidePhotos;
     }
 
     public int getSidewalkID() {
@@ -203,5 +207,21 @@ public class SidewalkEntryOne {
 
     public void setHasSidewalk(Integer hasSidewalk) {
         this.hasSidewalk = hasSidewalk;
+    }
+
+    public String getSidewalkObs() {
+        return sidewalkObs;
+    }
+
+    public void setSidewalkObs(String sidewalkObs) {
+        this.sidewalkObs = sidewalkObs;
+    }
+
+    public String getSidePhotos() {
+        return sidePhotos;
+    }
+
+    public void setSidePhotos(String sidePhotos) {
+        this.sidePhotos = sidePhotos;
     }
 }

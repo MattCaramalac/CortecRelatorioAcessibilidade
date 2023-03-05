@@ -14,41 +14,19 @@
                 android:id="@+id/restroom_type_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Qual é o tipo de sanitário a ser cadastrado?"
+                android:text="@string/header_rest_gender"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RadioGroup
-                android:id="@+id/restroom_type_radio"
+            <com.whygraphics.multilineradiogroup.MultiLineRadioGroup
+                android:id="@+id/restroom_type_multiradio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/restroom_type_header">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="FAMILIAR"
-                    android:textSize="@dimen/radio_button_text" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="INFANTIL"
-                    android:textSize="@dimen/radio_button_text" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="OUTROS"
-                    android:textSize="@dimen/radio_button_text" />
-
-            </RadioGroup>
+                app:layout_constraintTop_toBottomOf="@id/restroom_type_header"
+                app:max_in_row="2"
+                app:radio_buttons="@array/multi_radio_restroom" />
 
             <TextView
                 android:id="@+id/restroom_type_error"
@@ -59,7 +37,7 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/restroom_type_radio" />
+                app:layout_constraintTop_toBottomOf="@id/restroom_type_multiradio" />
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -84,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O sanitário possui uma rota accessível?"
+                android:text="@string/header_has_access"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_location_field" />
@@ -222,7 +200,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O sanitário possui piso antiderrapante?"
+                android:text="@string/header_anti_drift_floor"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/integrated_restroom_obs_field" />
@@ -291,7 +269,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O sanitário possui grelhas e/ou ralos na área de manobra?"
+                android:text="@string/header_drain_route"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_drifting_obs_field" />

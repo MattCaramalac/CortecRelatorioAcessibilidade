@@ -19,6 +19,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
@@ -46,17 +47,17 @@ public class JsonCreation {
     private final int intPark;
     private final List<BlockSpaceEntry> blockList;
     private final List<RoomEntry> roomList;
-    private final List<ExternalAccess> extList; //*
+    private final List<ExternalAccess> extList;
     private final List<PlaygroundEntry> playList;
     private final List<ParkingLotEntry> parkList;
     private final List<ParkingLotElderlyEntry> elderList;
     private final List<ParkingLotPCDEntry> pcdList;
     private final List<RestroomEntry> restList;
-    private final List<SidewalkEntry> sideList; //*
+    private final List<SidewalkEntry> sideList;
     private final List<WaterFountainEntry> fountList;
     private final List<RampStairsEntry> roomStRaList;
-    private final List<RampStairsEntry> sideStRaList; //*
-    private final List<RampStairsEntry> extStRaList; //*
+    private final List<RampStairsEntry> sideStRaList;
+    private final List<RampStairsEntry> extStRaList;
     private final List<RampStairsEntry> parkStRaList;
     private final List<BlackboardEntry> boardList;
     private final List<CounterEntry> counterList;
@@ -66,24 +67,29 @@ public class JsonCreation {
     private final List<TableEntry> tableList;
     private final List<WindowEntry> windowList;
     private final List<DoorLockEntry> doorLockList;
-    private final List<DoorLockEntry> gateLockList; //*
-    private final List<GateObsEntry> gateObsList; //*
-    private final List<PayPhoneEntry> extPhoneList; //*
-    private final List<PayPhoneEntry> sidePhoneList; //*
-    private final List<SidewalkSlopeEntry> slopeList;//*
+    private final List<DoorLockEntry> gateLockList;
+    private final List<GateObsEntry> gateObsList;
+    private final List<PayPhoneEntry> extPhoneList;
+    private final List<PayPhoneEntry> sidePhoneList;
+    private final List<SidewalkSlopeEntry> slopeList;
     private final List<RampStairsFlightEntry> roomFlightList;
-    private final List<RampStairsFlightEntry> sideFlightList; //*
-    private final List<RampStairsFlightEntry> extFlightList; //*
+    private final List<RampStairsFlightEntry> sideFlightList;
+    private final List<RampStairsFlightEntry> extFlightList;
     private final List<RampStairsFlightEntry> parkFlightList;
     private final List<RampStairsRailingEntry> roomRailList;
-    private final List<RampStairsRailingEntry> sideRailList; //*
-    private final List<RampStairsRailingEntry> extRailList; //*
+    private final List<RampStairsRailingEntry> sideRailList;
+    private final List<RampStairsRailingEntry> extRailList;
     private final List<RampStairsRailingEntry> parkRailList;
     private final List<RampStairsHandrailEntry> roomHandList;
-    private final List<RampStairsHandrailEntry> sideHandList; //*
-    private final List<RampStairsHandrailEntry> extHandList; //*
+    private final List<RampStairsHandrailEntry> sideHandList;
+    private final List<RampStairsHandrailEntry> extHandList;
     private final List<RampStairsHandrailEntry> parkHandList;
     private final List<WaterFountainEntry> roomWater;
+
+    private final List<DoorEntry> restDoorList;
+    private final List<FreeSpaceEntry> restFrSpaceList;
+    private final List<RestBoxEntry> boxList;
+    private final List<DoorEntry> boxDoorList;
 
     public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blockList, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList,
                         List<PlaygroundEntry> playList, List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList,
@@ -95,7 +101,8 @@ public class JsonCreation {
                         List<RampStairsRailingEntry> roomRailList, List<RampStairsRailingEntry> sideRailList, List<RampStairsRailingEntry> extRailList,
                         List<RampStairsRailingEntry> parkRailList, List<RampStairsHandrailEntry> roomHandList, List<RampStairsHandrailEntry> sideHandList,
                         List<RampStairsHandrailEntry> extHandList, List<RampStairsHandrailEntry> parkHandList, int qntBlocks, boolean hasHelpSpace, int extPark, int intPark,
-                        List<ParkingLotElderlyEntry> elderList, List<ParkingLotPCDEntry> pcdList, List<WaterFountainEntry> roomWater) {
+                        List<ParkingLotElderlyEntry> elderList, List<ParkingLotPCDEntry> pcdList, List<WaterFountainEntry> roomWater, List<DoorEntry> restDoorList,
+                        List<FreeSpaceEntry> restFrSpaceList, List<RestBoxEntry> boxList, List<DoorEntry> boxDoorList) {
         this.school = school;
         this.blockList = blockList;
         this.roomList = roomList;
@@ -141,6 +148,10 @@ public class JsonCreation {
         this.elderList = elderList;
         this.pcdList = pcdList;
         this.roomWater = roomWater;
+        this.restDoorList = restDoorList;
+        this.restFrSpaceList = restFrSpaceList;
+        this.boxList = boxList;
+        this.boxDoorList = boxDoorList;
     }
 
     public List<String> ambListCreator() {
@@ -796,5 +807,21 @@ public class JsonCreation {
 
     public List<WaterFountainEntry> getRoomWater() {
         return roomWater;
+    }
+
+    public List<DoorEntry> getRestDoorList() {
+        return restDoorList;
+    }
+
+    public List<FreeSpaceEntry> getRestFrSpaceList() {
+        return restFrSpaceList;
+    }
+
+    public List<RestBoxEntry> getBoxList() {
+        return boxList;
+    }
+
+    public List<DoorEntry> getBoxDoorList() {
+        return boxDoorList;
     }
 }

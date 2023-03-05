@@ -23,8 +23,8 @@
 
     <string-array name="multi_radio_sidewalk_slope">
         <item>NIVELADA</item>
-        <item>COM DESNÍVEL</item>
-        <item>COM DEGRAU</item>
+<!--        <item>COM DESNÍVEL</item>-->
+<!--        <item>COM DEGRAU</item>-->
         <item>OUTRA SITUAÇÃO</item>
     </string-array>
 
@@ -43,7 +43,7 @@
     <string-array name="multi_radio_restroom">
         <item>MASCULINO</item>
         <item>FEMININO</item>
-        <item>FAMILIAR</item>
+        <item>UNISSEX</item>
         <item>INFANTIL</item>
     </string-array>
 
@@ -245,9 +245,9 @@
     <string name="hint_height_frontal_approx_low_spout">Altura Aprox. Frontal Bica mais Baixa (m)</string>
     <string name="label_water_fountain_header">Bebedouros</string>
     <string name="label_allow_lateral_approx">Bebedouro permite aproximação lateral?</string>
-    <string name="hint_faucet_height">Altura do acionamento do bebedouro</string>
+    <string name="hint_faucet_height">Altura do acionamento do bebedouro (m)</string>
     <string name="label_fountain_has_cup_holder">Bebedouro possui porta-copos?</string>
-    <string name="hint_cup_holder_height">Altura do porta-copos</string>
+    <string name="hint_cup_holder_height">Altura do porta-copos (m)</string>
     <string name="label_external_access_header">Cadastro de Acesso Externo</string>
     <string name="label_external_access_type">Tipo de Acesso Externo</string>
     <string name="label_social_entrance_radio">ENTRADA SOCIAL</string>
@@ -703,6 +703,7 @@
     <string name="hint_door_win_inf">Altura Piso até Face Inferior do Visor (m)</string>
     <string name="hint_dist_bar_door">Distância entre o puxador e a superfície da porta (mm)</string>
     <string name="hint_dist_bar_frame">Distância entre o puxador e o batente da porta (m)</string>
+    <string name="hint_dist_bar_wall">Distância entre o puxador e a parede (mm)</string>
     <string name="header_door_type">Qual é o tipo de porta?</string>
     <string name="hint_tact_sign_height">Altura da Sinalização Tátil (m)</string>
     <string name="hint_tact_sign_incl">Inclinação da Sinalização Tátil (%)</string>
@@ -714,4 +715,53 @@
     <string name="hint_has_hor_wall_bar_toilet">O sanitário possui barra de apoio horizontal?</string>
     <string name="hint_has_side_bar_toilet">O sanitário possui barra de apoio lateral fixa?</string>
     <string name="hint_has_side_art_bar_toilet">O sanitário possui barra de apoio lateral articulada?</string>
+    <string name="header_rest_box_hor_bar">Medidas da Barra Horizontal</string>
+    <string name="header_rest_box_vert_bar">Medidas da Barra Vertical</string>
+    <string name="header_restroom_type">Selecione o tipo de sanitário a ser cadastrado</string>
+    <string name="radio_single_accessible">ACESSÍVEL INDEPENDENTE</string>
+    <string name="radio_collective_accessible">COLETIVO ACESSÍVEL</string>
+    <string name="radio_collective_not_accessible">COLETIVO NÃO ACESSÍVEL</string>
+    <string name="header_rest_box_register">Cadastro de Box Sanitário</string>
+    <string name="header_rest_box_type">Qual o tipo de box a ser cadastrado?</string>
+    <string name="radio_common">COMUM</string>
+    <string name="radio_accessible">ACESSÍVEL</string>
+    <string name="header_rest_gender">Qual é o gênero sanitário a ser cadastrado?</string>
+    <string name="header_has_access">O sanitário possui uma rota accessível?</string>
+    <string name="header_anti_drift_floor">O sanitário possui piso antiderrapante?</string>
+    <string name="header_drain_route">O sanitário possui grelhas e/ou ralos na área de manobra?</string>
+    <string name="header_access_sinks">Cadastro de Lavatórios Acessíveis</string>
+    <string name="header_has_access_sink">Há presença de lavatório acessível?</string>
+    <string name="radio_masculine">MASCULINO</string>
+    <string name="radio_feminine">FEMININO</string>
+    <string name="radio_unissex">UNISSEX</string>
+    <string name="radio_rest_has_door">O sanitário possui porta de entrada?</string>
+    <string name="hint_entrance_width">Largura do Vão Livre de Entrada (m)</string>
+    <string name="header_entrance_sill">Tipo de Soleira da Entrada</string>
+    <string name="radio_leveled">NIVELADA</string>
+    <string name="radio_other_type">OUTROS TIPOS</string>
+    <string name="hint_floor_obs">Observações Piso</string>
+    <string name="hint_window_command_2">Tipo de Comando Janela 2</string>
+    <string name="hint_window_height_2">Altura do Comando 2 (m)</string>
+    <string name="hint_window_command_3">Tipo do Comando Janela 3</string>
+    <string name="hint_window_height_3">Altura do Comando 3 (m)</string>
+    <string name="radio_wrong_style">FORA DO PADRÃO</string>
+    <string name="hint_parking_location">Localização do Estacionamento</string>
+    <string name="header_incl_uses_slope">O desnível é vencido por rampa?</string>
+    <string name="header_box_has_bars">Box possui barras de apoio?</string>
+    <string name="hint_toilet_bar_distance">Distância da Bacia até a Porta (m)</string>
+    <string name="hint_box_width">Largura do Box (m)</string>
+    <string name="header_left_bar_register">Cadastro Barra Esquerda (Referencial: De frente para a bacia)</string>
+    <string name="header_bar_type">Qual o tipo de barra de apoio utilizado?</string>
+    <string name="radio_L_bar">BARRA EM \'\'L\'\'</string>
+    <string name="radio_two_bars">DUAS BARRAS</string>
+    <string name="radio_other_type_bar">OUTRO TIPO</string>
+    <string name="radio_dont_have">NÃO POSSUI</string>
+    <string name="header_right_bar_register">Cadastro Barra Direita (Referencial: De frente para a bacia)</string>
+    <string name="radio_one_door">FOLHA ÚNICA</string>
+    <string name="radio_two_doors">FOLHA DUPLA</string>
+    <string name="radio_other_door">OUTRO TIPO</string>
+    <string name="header_park_position">Qual a posição da vaga em relação ao meio-fio?</string>
+    <string name="header_register_rest_box">Cadastro de Box Sanitário</string>
+    <string name="button_conclusion">CONCLUIR</string>
+
 </resources>

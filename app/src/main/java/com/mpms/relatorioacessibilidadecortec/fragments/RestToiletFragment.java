@@ -21,6 +21,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxToilUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestToiletUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.RestToiletSideBarsParcel;
@@ -90,13 +92,20 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
 
         instantiateSupportView(view);
 
-        if (resToilBundle.getInt(REST_ID) > 0)
+        if (resToilBundle.getInt(BOX_ID) > 0)
+            modelEntry.getBoxToiletData(resToilBundle.getInt(BOX_ID)).observe(getViewLifecycleOwner(), this::loadBoxToiletData);
+        else if (resToilBundle.getInt(REST_ID) > 0)
             modelEntry.getRestToiletData(resToilBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadToiletData);
 
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
-            if (checkEmptySupBarField()) {
-                RestToiletUpdate tUpdate = barUpdate(bundle);
-                ViewModelEntry.updateRestToiletData(tUpdate);
+            if (checkEmptySupBarField() && bundle.getBoolean(CHILD_DATA_COMPLETE)) {
+                if (resToilBundle.getBoolean(FROM_BOX)) {
+                    RestBoxToilUpdate tUpdate = boxToilUpdate(bundle);
+                    ViewModelEntry.updateBoxToilet(tUpdate);
+                } else {
+                    RestToiletUpdate tUpdate = barUpdate(bundle);
+                    ViewModelEntry.updateRestToiletData(tUpdate);
+                }
                 callRestAccessFragment(resToilBundle);
             } else
                 toastMessage();
@@ -302,8 +311,10 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
                 socCornerRadio.setVisibility(View.GONE);
             }
         } else if (radio == tWallRadio) {
+            RestSideWallFragment fragment = new RestSideWallFragment();
+            fragment.setArguments(resToilBundle);
                 getChildFragmentManager().beginTransaction()
-                        .replace(R.id.toilet_wall_fragment, RestSideWallFragment.newInstance(index, resToilBundle.getInt(REST_ID))).commit();
+                        .replace(R.id.toilet_wall_fragment, RestSideWallFragment.newInstance(index, resToilBundle)).commit();
         } else if (radio == papHoldRadio) {
             if (index == 0) {
                 papEmbAValue.setText(null);
@@ -600,6 +611,73 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
 
     }
 
+    public void loadBoxToiletData(RestBoxEntry rest) {
+        if (rest.getToType() != null)
+            tTypeRadio.check(tTypeRadio.getChildAt(rest.getToType()).getId());
+        if (rest.getToHasSoculo() != null)
+            tSocRadio.check(tSocRadio.getChildAt(rest.getToHasSoculo()).getId());
+        if (rest.getFrSoculo() != null)
+            fSocValue.setText(String.valueOf(rest.getFrSoculo()));
+        if (rest.getLatSoculo() != null)
+            lSocValue.setText(String.valueOf(rest.getLatSoculo()));
+        if (rest.getSocCorners() != null)
+            socCornerRadio.check(socCornerRadio.getChildAt(rest.getSocCorners()).getId());
+        if (rest.getToHeightNoSeat() != null)
+            tNoSeatHeightValue.setText(String.valueOf(rest.getToHeightNoSeat()));
+        if (rest.getToHasSeat() != null)
+            tSeatRadio.check(tSeatRadio.getChildAt(rest.getToHasSeat()).getId());
+        if (rest.getToHeightSeat() != null)
+            tSeatHeightValue.setText(String.valueOf(rest.getToHeightSeat()));
+        if (rest.getToHasFrontBar() != null)
+            tFrontBarRadio.check(tFrontBarRadio.getChildAt(rest.getToHasFrontBar()).getId());
+        if (rest.getFrBarA() != null)
+            fBarValueMeasureA.setText(String.valueOf(rest.getFrBarA()));
+        if (rest.getFrBarB() != null)
+            fBarValueMeasureB.setText(String.valueOf(rest.getFrBarB()));
+        if (rest.getFrBarC() != null)
+            fBarValueMeasureC.setText(String.valueOf(rest.getFrBarC()));
+        if (rest.getFrBarSect() != null)
+            fBarSectValue.setText(String.valueOf(rest.getFrBarSect()));
+        if (rest.getFrBarDist() != null)
+            fBarDistValue.setText(String.valueOf(rest.getFrBarDist()));
+        if (rest.getToHasWall() != null) {
+            tWallRadio.check(tWallRadio.getChildAt(rest.getToHasWall()).getId());
+            getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, resToilBundle);
+        }
+        if (rest.getToActDesc() != null)
+            tActDescValue.setText(rest.getToActDesc());
+        if (rest.getToActHeight() != null)
+            tActHeightValue.setText(String.valueOf(rest.getToActHeight()));
+        if (rest.getToActObs() != null)
+            tActObsValue.setText(rest.getToActObs());
+        if (rest.getHasPapHolder() != null)
+            papHoldRadio.check(papHoldRadio.getChildAt(rest.getHasPapHolder()).getId());
+        if (rest.getPapHolderType() != null)
+            papHoldTypeRadio.check(papHoldTypeRadio.getChildAt(rest.getPapHolderType()).getId());
+        if (rest.getPapEmbDist() != null)
+            papEmbAValue.setText(String.valueOf(rest.getPapEmbDist()));
+        if (rest.getPapEmbHeight() != null)
+            papEmbBValue.setText(String.valueOf(rest.getPapEmbHeight()));
+        if (rest.getPapSupAlign() != null)
+            pHoldAlignRadio.check(pHoldAlignRadio.getChildAt(rest.getPapSupAlign()).getId());
+        if (rest.getPapSupHeight() != null)
+            papSupAValue.setText(String.valueOf(rest.getPapSupHeight()));
+        if (rest.getPapHoldObs() != null)
+            papObsValue.setText(rest.getPapHoldObs());
+        if (rest.getHasDouche() != null)
+            doucheRadio.check(doucheRadio.getChildAt(rest.getHasDouche()).getId());
+        if (rest.getDoucheActHeight() != null)
+            doucheActHeightValue.setText(String.valueOf(rest.getDoucheActHeight()));
+        if (rest.getDouchePressHeight() != null)
+            douchePressHeightValue.setText(String.valueOf(rest.getDouchePressHeight()));
+        if (rest.getDoucheObs() != null)
+            doucheObsValue.setText(rest.getDoucheObs());
+        if (rest.getToiletObs() != null)
+            tObsValue.setText(rest.getToiletObs());
+
+
+    }
+
     public RestToiletUpdate barUpdate(Bundle bundle) {
 
         int tType, tHasSeat, tHasFrontBar, tHasWall, tHasPapHolder, hasDouche;
@@ -700,6 +778,112 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         tObs = String.valueOf(tObsValue.getText());
 
         return new RestToiletUpdate(resToilBundle.getInt(REST_ID), tType, tHeightNoSeat, tHasSeat, tHeightSeat, tHasSoculo, fSoculo, lSoculo, socCorners,
+                tHasFrontBar, fBarA, fBarB, fBarC, fBarSect, fBarDist, tHasWall, hasHorBar, horBarD, horBarE, horBarF, horBarDistG, horBarSect, horBarDist,
+                hasVertBar, vertBarH, vertBarI, vertBarJ, vertBarSect, vertBarDist, hasSideBar, sideBarD, sideBarE, sideBarDistG, sideBarSect, hasArtBar,
+                artBarH, artBarI, artBarJ, artBarSect, tActDesc, tActHeight, tActObs, tHasPapHolder, pHolderType, pEmbDist, pEmbHeight, pSupAligned, pSupHeight,
+                pHolderObs, hasDouche, douchePressHeight, doucheActHeight, doucheObs, tObs);
+    }
+
+    public RestBoxToilUpdate boxToilUpdate(Bundle bundle) {
+
+        int tType, tHasSeat, tHasFrontBar, tHasWall, tHasPapHolder, hasDouche;
+        Integer tHasSoculo = null, socCorners = null, hasHorBar = null, hasVertBar = null, hasSideBar = null, hasArtBar = null, pHolderType = null, pSupAligned = null;
+        double tHeightNoSeat, tActHeight;
+        Double tHeightSeat = null, fSoculo = null, lSoculo = null, fBarA = null, fBarB = null, fBarC = null, fBarSect = null,
+                fBarDist = null, horBarD = null, horBarE = null, horBarF = null, horBarDist = null, horBarDistG = null, horBarSect = null, vertBarH = null,
+                vertBarI = null, vertBarJ = null, vertBarSect = null, vertBarDist = null, sideBarD = null, sideBarE = null, sideBarDistG = null, sideBarSect = null,
+                artBarH = null, artBarI = null, artBarJ = null, artBarSect = null,
+                pEmbDist = null, pEmbHeight = null, pSupHeight = null, doucheActHeight = null, douchePressHeight = null;
+        String tActDesc, tActObs, pHolderObs, doucheObs, tObs;
+
+        tType = getCheckedRadioIndex(tTypeRadio);
+        if (tType != 1) {
+            tHasSoculo = getCheckedRadioIndex(tSocRadio);
+            if (tHasSoculo == 1) {
+                fSoculo = Double.parseDouble(String.valueOf(fSocValue.getText()));
+                lSoculo = Double.parseDouble(String.valueOf(lSocValue.getText()));
+                socCorners = getCheckedRadioIndex(socCornerRadio);
+            }
+        }
+        tHeightNoSeat = Double.parseDouble(String.valueOf(tNoSeatHeightValue.getText()));
+        tHasSeat = getCheckedRadioIndex(tSeatRadio);
+        if (tHasSeat == 1)
+            tHeightSeat = Double.parseDouble(String.valueOf(tSeatHeightValue.getText()));
+        tHasFrontBar = getCheckedRadioIndex(tFrontBarRadio);
+        if (tHasFrontBar == 1) {
+            fBarA = Double.parseDouble(String.valueOf(fBarValueMeasureA.getText()));
+            fBarB = Double.parseDouble(String.valueOf(fBarValueMeasureB.getText()));
+            fBarC = Double.parseDouble(String.valueOf(fBarValueMeasureC.getText()));
+            fBarSect = Double.parseDouble(String.valueOf(fBarSectValue.getText()));
+            fBarDist = Double.parseDouble(String.valueOf(fBarDistValue.getText()));
+        }
+        tHasWall = getCheckedRadioIndex(tWallRadio);
+
+        RestToiletSideBarsParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+
+        if (tHasWall == 0) {
+            hasSideBar = parcel.getHasHorSideBar();
+            if (hasSideBar == 1) {
+                sideBarD = parcel.getHorSideMeasureD();
+                sideBarE = parcel.getHorSideMeasureE();
+                sideBarDistG = parcel.getHorSideMeasureG();
+                sideBarSect = parcel.getHorSideDiam();
+            }
+            hasArtBar = parcel.getHasVertArtBar();
+            if (hasArtBar == 1) {
+                artBarH = parcel.getVertArtMeasureH();
+                artBarI = parcel.getVertArtMeasureI();
+                artBarJ = parcel.getVertArtMeasureJ();
+                artBarSect = parcel.getVertArtDiam();
+            }
+        } else {
+
+            hasHorBar = parcel.getHasHorSideBar();
+            if (hasHorBar == 1) {
+                horBarD = parcel.getHorSideMeasureD();
+                horBarE = parcel.getHorSideMeasureE();
+                horBarF = parcel.getHorMeasureF();
+                horBarDistG = parcel.getHorSideMeasureG();
+                horBarSect = parcel.getHorSideDiam();
+                horBarDist = parcel.getHorDist();
+            }
+            hasVertBar = parcel.getHasVertArtBar();
+            if (hasVertBar == 1) {
+                vertBarH = parcel.getVertArtMeasureH();
+                vertBarI = parcel.getVertArtMeasureI();
+                vertBarJ = parcel.getVertArtMeasureJ();
+                vertBarSect = parcel.getVertArtDiam();
+                vertBarDist = parcel.getVertDist();
+            }
+        }
+        tActDesc = String.valueOf(tActDescValue.getText());
+        tActHeight = Double.parseDouble(String.valueOf(tActHeightValue.getText()));
+        tActObs = String.valueOf(tActObsValue.getText());
+
+        tHasPapHolder = getCheckedRadioIndex(papHoldRadio);
+        if (tHasPapHolder == 1) {
+            pHolderType = getCheckedRadioIndex(papHoldTypeRadio);
+            if (pHolderType == 0) {
+                pEmbDist = Double.parseDouble(String.valueOf(papEmbAValue.getText()));
+                pEmbHeight = Double.parseDouble(String.valueOf(papEmbBValue.getText()));
+            } else if (pHolderType == 1) {
+                pSupAligned = getCheckedRadioIndex(pHoldAlignRadio);
+                pSupHeight = Double.parseDouble(String.valueOf(papSupAValue.getText()));
+            }
+        }
+        pHolderObs = String.valueOf(papObsValue.getText());
+
+        hasDouche = getCheckedRadioIndex(doucheRadio);
+        if (hasDouche == 1) {
+            doucheActHeight = Double.parseDouble(String.valueOf(doucheActHeightValue.getText()));
+            douchePressHeight = Double.parseDouble(String.valueOf(douchePressHeightValue.getText()));
+        }
+
+        doucheObs = String.valueOf(doucheObsValue.getText());
+
+        tObs = String.valueOf(tObsValue.getText());
+
+        return new RestBoxToilUpdate(resToilBundle.getInt(BOX_ID), tType, tHeightNoSeat, tHasSeat, tHeightSeat, tHasSoculo, fSoculo, lSoculo, socCorners,
                 tHasFrontBar, fBarA, fBarB, fBarC, fBarSect, fBarDist, tHasWall, hasHorBar, horBarD, horBarE, horBarF, horBarDistG, horBarSect, horBarDist,
                 hasVertBar, vertBarH, vertBarI, vertBarJ, vertBarSect, vertBarDist, hasSideBar, sideBarD, sideBarE, sideBarDistG, sideBarSect, hasArtBar,
                 artBarH, artBarI, artBarJ, artBarSect, tActDesc, tActHeight, tActObs, tHasPapHolder, pHolderType, pEmbDist, pEmbHeight, pSupAligned, pSupHeight,

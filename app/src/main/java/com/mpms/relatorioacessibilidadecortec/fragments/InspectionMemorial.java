@@ -38,6 +38,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
@@ -86,6 +87,8 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     IdListObservable flSideID = new IdListObservable();
     IdListObservable flExtID = new IdListObservable();
     IdListObservable flParkID = new IdListObservable();
+    IdListObservable restID = new IdListObservable();
+    IdListObservable boxID = new IdListObservable();
 
     List<RoomEntry> roomList = new ArrayList<>();
     List<BlockSpaceEntry> blockList = new ArrayList<>();
@@ -135,6 +138,11 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     List<RampStairsHandrailEntry> sideHandList = new ArrayList<>();
     List<RampStairsHandrailEntry> extHandList = new ArrayList<>();
     List<RampStairsHandrailEntry> parkHandList = new ArrayList<>();
+    //    Restrooom Data
+    List<DoorEntry> restDoorList = new ArrayList<>();
+    List<FreeSpaceEntry> restFrSpaceList = new ArrayList<>();
+    List<RestBoxEntry> boxList = new ArrayList<>();
+    List<DoorEntry> boxDoorList = new ArrayList<>();
 
     Observer blockIdList = (o, arg) -> {
         IdListObservable idBlockList = (IdListObservable) o;
@@ -162,7 +170,13 @@ public class InspectionMemorial extends Fragment implements TagInterface {
             parkID.setIdList(pIdList);
         });
         ViewModelEntry.getAllPlaygrounds(idList).observe(getViewLifecycleOwner(), pgList -> playList = pgList);
-        ViewModelEntry.getAllRestEntries(idList).observe(getViewLifecycleOwner(), reList -> restList = reList);
+        ViewModelEntry.getAllRestEntries(idList).observe(getViewLifecycleOwner(), reList -> {
+            restList = reList;
+            List<Integer> restIdList = new ArrayList<>();
+            for (RestroomEntry r : reList)
+                restIdList.add(r.getRestroomID());
+            restID.setIdList(restIdList);
+        });
         ViewModelEntry.getAllSidewalks(idList).observe(getViewLifecycleOwner(), sList -> {
             sideList = sList;
             List<Integer> sIDList = new ArrayList<>();
@@ -314,6 +328,28 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         });
     };
 
+    Observer restroomIdList = (o, arg) -> {
+        IdListObservable idBlockList = (IdListObservable) o;
+        List<Integer> idList = idBlockList.getIdList();
+
+        ViewModelEntry.getAllRestDoors(idList).observe(getViewLifecycleOwner(), rDoorList -> restDoorList = rDoorList);
+        ViewModelEntry.getAllRestFreeSpaces(idList).observe(getViewLifecycleOwner(), rFree -> restFrSpaceList = rFree);
+        ViewModelEntry.getAllBoxesAllRestrooms(idList).observe(getViewLifecycleOwner(), bList -> {
+            boxList = bList;
+            List<Integer> boxIDList = new ArrayList<>();
+            for (RestBoxEntry box : bList)
+                boxIDList.add(box.getBoxID());
+            boxID.setIdList(boxIDList);
+        });
+    };
+
+    Observer boxIdList = (o, arg) -> {
+        IdListObservable idBlockList = (IdListObservable) o;
+        List<Integer> idList = idBlockList.getIdList();
+
+        ViewModelEntry.getAllBoxDoors(idList).observe(getViewLifecycleOwner(), bDoorList -> boxDoorList = bDoorList);
+    };
+
     MaterialButton saveAndClose;
 
     ViewModelEntry modelEntry;
@@ -391,7 +427,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
                     extStRaList, parkStRaList, boardList, counterList, doorList, freeList, switchList, tableList, windowList, doorLockList,
                     gateLockList, gateObsList, extPhoneList, sidePhoneList, slopeList, roomFlightList, sideFlightList, extFlightList, parkFlightList,
                     roomRailList, sideRailList, extRailList, parkRailList, roomHandList, sideHandList, extHandList, parkHandList, blockQnt, hasHelpSpace, extParkQnt, intParkQnt,
-                    elderList, pcdList, roomFountList);
+                    elderList, pcdList, roomFountList, restDoorList, restFrSpaceList, boxList, boxDoorList);
 
             tData = jCreate.createJson();
 
@@ -469,30 +505,30 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     }
 
     private String roomHeader(int choice) {
-            switch (choice) {
-                case 2:
-                    return getString(R.string.header_library_register);
-                case 3:
-                    return getString(R.string.header_coordination_register);
-                case 4:
-                    return getString(R.string.header_directory_register);
-                case 5:
-                    return getString(R.string.header_cafeteria_register);
-                case 6:
-                    return getString(R.string.header_classroom_register);
-                case 7:
-                    return getString(R.string.header_tech_room_register);
-                case 8:
-                    return getString(R.string.header_resource_room_register);
-                case 9:
-                    return getString(R.string.header_teacher_room_register);
-                case 11:
-                    return getString(R.string.header_secretary_register);
-                case 12:
-                    return getString(R.string.header_other_spaces);
-                default:
-                    return "";
-            }
+        switch (choice) {
+            case 2:
+                return getString(R.string.header_library_register);
+            case 3:
+                return getString(R.string.header_coordination_register);
+            case 4:
+                return getString(R.string.header_directory_register);
+            case 5:
+                return getString(R.string.header_cafeteria_register);
+            case 6:
+                return getString(R.string.header_classroom_register);
+            case 7:
+                return getString(R.string.header_tech_room_register);
+            case 8:
+                return getString(R.string.header_resource_room_register);
+            case 9:
+                return getString(R.string.header_teacher_room_register);
+            case 11:
+                return getString(R.string.header_secretary_register);
+            case 12:
+                return getString(R.string.header_other_spaces);
+            default:
+                return "";
+        }
     }
 
     private void instanceMemorial(View view) {
@@ -511,6 +547,8 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         flSideID.addObserver(flSideIdList);
         flExtID.addObserver(flExtIdList);
         flParkID.addObserver(flParkIdList);
+        restID.addObserver(restroomIdList);
+        boxID.addObserver(boxIdList);
     }
 
     public interface OnFragmentInteractionListener {

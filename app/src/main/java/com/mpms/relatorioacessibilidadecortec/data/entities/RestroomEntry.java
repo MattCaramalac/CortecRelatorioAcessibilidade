@@ -171,6 +171,7 @@ public class RestroomEntry {
     private Double urMeasureL;
     private Double urMeasureM;
     private String urObs;
+    private Integer hasSink;
 
     public RestroomEntry(int blockID, int isCollective, Integer restType, String restLocation, Integer collectiveHasDoor, Double entranceWidth, Integer entranceDoorSill,
                          String entranceDoorSillObs, Integer accessRoute,
@@ -196,7 +197,7 @@ public class RestroomEntry {
                          Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh, String sinkObs, Integer hasUrinal,
                          Integer hasAccessUrinal, Integer urinalType, Double urMeasureA, Double urMeasureB, Double urMeasureC, Double urMeasureD, Double urMeasureE,
                          Double urMeasureF, Double urMeasureG, Double urMeasureH, Double urMeasureI, Double urMeasureJ, Double urMeasureK, Double urMeasureL, Double urMeasureM,
-                         String urObs) {
+                         String urObs, Integer hasSink) {
         this.blockID = blockID;
         this.isCollective = isCollective;
         this.restType = restType;
@@ -355,6 +356,7 @@ public class RestroomEntry {
         this.urMeasureL = urMeasureL;
         this.urMeasureM = urMeasureM;
         this.urObs = urObs;
+        this.hasSink = hasSink;
     }
 
     public String getWinObs() {
@@ -1627,5 +1629,13 @@ public class RestroomEntry {
 
     public void setWinComHeight3(Double winComHeight3) {
         this.winComHeight3 = winComHeight3;
+    }
+
+    public Integer getHasSink() {
+        return hasSink;
+    }
+
+    public void setHasSink(Integer hasSink) {
+        this.hasSink = hasSink;
     }
 }

@@ -72,24 +72,38 @@ public class RestroomRecViewAdapter extends RecyclerView.Adapter<ViewHolderInter
     }
 
     public String restLocationType(RestroomEntry restroom) {
+        StringBuilder restTyping = new StringBuilder();
         String restType = "";
-        switch (restroom.getRestType()) {
+        switch (restroom.getIsCollective()) {
             case 0:
-                restType = "- Masculino";
+                restTyping.append("Acessível Independente ");
                 break;
             case 1:
-                restType = "- Feminino";
+                restTyping.append("Coletivo Acessível ");
                 break;
             case 2:
-                restType = "- Familiar";
-                break;
-            case 4:
-                restType = "- Infantil";
-                break;
-            default:
+                restTyping.append("Coletivo Não Acessível ");
                 break;
         }
-        return restroom.getRestLocation()+ " " + restType;
+        if (restroom.getRestType() != null) {
+            switch (restroom.getRestType()) {
+                case 0:
+                    restTyping.append("Masculino");
+                    break;
+                case 1:
+                    restTyping.append("Feminino");
+                    break;
+                case 2:
+                    restTyping.append("Unissex");
+                    break;
+                case 4:
+                    restTyping.append("Infantil");
+                    break;
+                default:
+                    break;
+            }
+        }
+        return restTyping.toString() + " - " + restroom.getRestLocation() ;
     }
 
     public String restNumber(int i) {

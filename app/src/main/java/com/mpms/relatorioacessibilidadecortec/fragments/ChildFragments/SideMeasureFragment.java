@@ -46,11 +46,14 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
 
     ViewModelEntry modelEntry;
 
+    static Bundle measureBundle;
+
     public SideMeasureFragment() {
         // Required empty public constructor
     }
 
-    public static SideMeasureFragment newInstance() {
+    public static SideMeasureFragment newInstance(Bundle bundle) {
+        measureBundle = bundle;
         return new SideMeasureFragment();
     }
 
@@ -73,8 +76,8 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
 
         instantiateSideMeasures(view);
 
-        getParentFragmentManager().setFragmentResultListener(LOAD_CHILD_DATA, this, (key, bundle) ->
-                modelEntry.getSidewalkEntry(bundle.getInt(SIDEWALK_ID)).observe(getViewLifecycleOwner(), this::loadSideMeasureData));
+        if (measureBundle.getInt(AMBIENT_ID) > 0)
+                modelEntry.getSidewalkEntry(measureBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSideMeasureData);
 
         getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
             checkEmptySideMeasureFields(bundle);
@@ -100,31 +103,31 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
         switch (slopeMeasureQnt) {
             case 6:
                 if (!TextUtils.isEmpty(sideTransSlopeValue6.getText()))
-                    sideTransSlope6 = Double.parseDouble(String.valueOf(sideTransSlopeValue6));
+                    sideTransSlope6 = Double.parseDouble(String.valueOf(sideTransSlopeValue6.getText()));
             case 5:
                 if (!TextUtils.isEmpty(sideTransSlopeValue5.getText()))
-                    sideTransSlope5 = Double.parseDouble(String.valueOf(sideTransSlopeValue5));
+                    sideTransSlope5 = Double.parseDouble(String.valueOf(sideTransSlopeValue5.getText()));
             case 4:
                 if (!TextUtils.isEmpty(sideTransSlopeValue4.getText()))
-                    sideTransSlope4 = Double.parseDouble(String.valueOf(sideTransSlopeValue4));
+                    sideTransSlope4 = Double.parseDouble(String.valueOf(sideTransSlopeValue4.getText()));
             case 3:
                 if (!TextUtils.isEmpty(sideTransSlopeValue3.getText()))
-                    sideTransSlope3 = Double.parseDouble(String.valueOf(sideTransSlopeValue3));
+                    sideTransSlope3 = Double.parseDouble(String.valueOf(sideTransSlopeValue3.getText()));
             case 2:
                 if (!TextUtils.isEmpty(sideTransSlopeValue2.getText()))
-                    sideTransSlope2 = Double.parseDouble(String.valueOf(sideTransSlopeValue2));
+                    sideTransSlope2 = Double.parseDouble(String.valueOf(sideTransSlopeValue2.getText()));
             case 1:
                 if (!TextUtils.isEmpty(sideTransSlopeValue1.getText()))
-                    sideTransSlope1 = Double.parseDouble(String.valueOf(sideTransSlopeValue1));
+                    sideTransSlope1 = Double.parseDouble(String.valueOf(sideTransSlopeValue1.getText()));
                 break;
         }
         hasSpecialFloor = getCheckSideMeasureRadio(hasTactileFloorRadio);
         if (hasSpecialFloor == 1) {
             specialFloorRightColor = getCheckSideMeasureRadio(tactileFloorColorRadio);
             if (!TextUtils.isEmpty(directionTileWidthValue.getText()))
-            specialTileDirectionWidth = Double.parseDouble(String.valueOf(directionTileWidthValue));
+            specialTileDirectionWidth = Double.parseDouble(String.valueOf(directionTileWidthValue.getText()));
             if (!TextUtils.isEmpty(alertTileWidthValue.getText()))
-                specialTileAlertWidth = Double.parseDouble(String.valueOf(alertTileWidthValue));
+                specialTileAlertWidth = Double.parseDouble(String.valueOf(alertTileWidthValue.getText()));
             if (!TextUtils.isEmpty(tactileFloorObsValue.getText()))
                 specialFloorObs = String.valueOf(directionTileWidthValue);
         }

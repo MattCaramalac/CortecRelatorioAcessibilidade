@@ -16,6 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.HorSinkBarParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -23,32 +24,33 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.parceler.Parcels;
 
-public class SinkHorBarFragment extends Fragment implements TagInterface {
+public class SinkHorLeftBarFragment extends Fragment implements TagInterface {
 
     TextInputLayout measureFieldA, measureFieldB, measureFieldC, measureFieldD, diamField, obsField;
     TextInputEditText measureValueA, measureValueB, measureValueC, measureValueD, diamValue, obsValue;
     ImageButton horImage, horImage2;
 
     Bundle imgBundle = new Bundle();
+    Bundle horBarBundle = new Bundle();
 
     ViewModelEntry modelEntry;
 
-    static int restID;
-    static boolean frontLeftHor;
 
-    public SinkHorBarFragment() {
+    public SinkHorLeftBarFragment() {
         // Required empty public constructor
     }
 
-    public static SinkHorBarFragment newInstance(int restroomID, boolean isFrontLeftHor) {
-        restID = restroomID;
-        frontLeftHor = isFrontLeftHor;
-        return new SinkHorBarFragment();
+    public static SinkHorLeftBarFragment newInstance() {
+        return new SinkHorLeftBarFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (this.getArguments() != null)
+            horBarBundle = new Bundle(this.getArguments());
+        else
+            horBarBundle = new Bundle();
     }
 
     @Override
@@ -64,59 +66,50 @@ public class SinkHorBarFragment extends Fragment implements TagInterface {
 
         instantiateViews(view);
 
-//        Fragmento barra horizontal à esquerda OU Barra Horizontal (opção 2)
-        if (frontLeftHor) {
-            getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
-                if(checkEmptyField(bundle)) {
-                    createHorBarParcel(bundle);
-                }
-                getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
-            });
-        }
-//        Fragmento barra horizontal à direita
-       else {
-            getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA_2, this, (key, bundle) -> {
-                if(checkEmptyField(bundle)) {
-                    createHorBarParcel(bundle);
-                }
-                getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER_2, bundle);
-            });
-        }
 
-        modelEntry.getRestSinkData(restID).observe(getViewLifecycleOwner(), this::loadLeftHorBarData);
+        getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA_2, this, (key, bundle) -> {
+            if (checkEmptyField(bundle)) {
+                createHorBarParcel(bundle);
+            }
+            getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER_2, bundle);
+        });
+
+        if(horBarBundle.getBoolean(FROM_BOX))
+            modelEntry.getBoxSinkData(horBarBundle.getInt(BOX_ID)).observe(getViewLifecycleOwner(), this::loadBoxLeftHorBarData);
+        else
+            modelEntry.getRestSinkData(horBarBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadLeftHorBarData);
 
     }
 
     private void loadLeftHorBarData(RestroomEntry entry) {
-        if (frontLeftHor) {
-            if (entry.getLeftFrontHorMeasureA() != null)
-                measureValueA.setText(String.valueOf(entry.getLeftFrontHorMeasureA()));
-            if (entry.getLeftFrontHorMeasureB() != null)
-                measureValueB.setText(String.valueOf(entry.getLeftFrontHorMeasureB()));
-            if (entry.getLeftFrontHorMeasureC() != null)
-                measureValueC.setText(String.valueOf(entry.getLeftFrontHorMeasureC()));
-            if (entry.getLeftFrontHorMeasureD() != null)
-                measureValueD.setText(String.valueOf(entry.getLeftFrontHorMeasureD()));
-            if (entry.getLeftFrontHorDiam() != null)
-                diamValue.setText(String.valueOf(entry.getLeftFrontHorDiam()));
-            if (entry.getLeftFrontHorObs() != null)
-                obsValue.setText(String.valueOf(entry.getLeftFrontHorObs()));
-        }
-        else {
-            if (entry.getRightSideVertMeasureA() != null)
-                measureValueA.setText(String.valueOf(entry.getRightSideVertMeasureA()));
-            if (entry.getRightSideVertMeasureB() != null)
-                measureValueB.setText(String.valueOf(entry.getRightSideVertMeasureB()));
-            if (entry.getRightSideVertMeasureC() != null)
-                measureValueC.setText(String.valueOf(entry.getRightSideVertMeasureC()));
-            if (entry.getRightSideVertMeasureD() != null)
-                measureValueD.setText(String.valueOf(entry.getRightSideVertMeasureD()));
-            if (entry.getRightSideVertDiam() != null)
-                diamValue.setText(String.valueOf(entry.getRightSideVertDiam()));
-            if (entry.getRightSideVertObs() != null)
-                obsValue.setText(String.valueOf(entry.getRightSideVertObs()));
-        }
+        if (entry.getLeftFrontHorMeasureA() != null)
+            measureValueA.setText(String.valueOf(entry.getLeftFrontHorMeasureA()));
+        if (entry.getLeftFrontHorMeasureB() != null)
+            measureValueB.setText(String.valueOf(entry.getLeftFrontHorMeasureB()));
+        if (entry.getLeftFrontHorMeasureC() != null)
+            measureValueC.setText(String.valueOf(entry.getLeftFrontHorMeasureC()));
+        if (entry.getLeftFrontHorMeasureD() != null)
+            measureValueD.setText(String.valueOf(entry.getLeftFrontHorMeasureD()));
+        if (entry.getLeftFrontHorDiam() != null)
+            diamValue.setText(String.valueOf(entry.getLeftFrontHorDiam()));
+        if (entry.getLeftFrontHorObs() != null)
+            obsValue.setText(String.valueOf(entry.getLeftFrontHorObs()));
+    }
 
+
+    private void loadBoxLeftHorBarData(RestBoxEntry entry) {
+        if (entry.getLeftFrontHorMeasureA() != null)
+            measureValueA.setText(String.valueOf(entry.getLeftFrontHorMeasureA()));
+        if (entry.getLeftFrontHorMeasureB() != null)
+            measureValueB.setText(String.valueOf(entry.getLeftFrontHorMeasureB()));
+        if (entry.getLeftFrontHorMeasureC() != null)
+            measureValueC.setText(String.valueOf(entry.getLeftFrontHorMeasureC()));
+        if (entry.getLeftFrontHorMeasureD() != null)
+            measureValueD.setText(String.valueOf(entry.getLeftFrontHorMeasureD()));
+        if (entry.getLeftFrontHorDiam() != null)
+            diamValue.setText(String.valueOf(entry.getLeftFrontHorDiam()));
+        if (entry.getLeftFrontHorObs() != null)
+            obsValue.setText(String.valueOf(entry.getLeftFrontHorObs()));
     }
 
     private void createHorBarParcel(Bundle bundle) {
@@ -131,11 +124,10 @@ public class SinkHorBarFragment extends Fragment implements TagInterface {
         if (!TextUtils.isEmpty(obsValue.getText()))
             obs = String.valueOf(obsValue.getText());
 
-        HorSinkBarParcel parcel = new HorSinkBarParcel(frontLeftHor, measureA, measureB, measureC, measureD, diam, obs);
-        if (frontLeftHor)
-            bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
-        else
-            bundle.putParcelable(CHILD_PARCEL_2, Parcels.wrap(parcel));
+        HorSinkBarParcel parcel = new HorSinkBarParcel(true, measureA, measureB, measureC, measureD, diam, obs);
+
+        bundle.putParcelable(CHILD_PARCEL_2, Parcels.wrap(parcel));
+
     }
 
     private void instantiateViews(View view) {
@@ -197,10 +189,8 @@ public class SinkHorBarFragment extends Fragment implements TagInterface {
             diamField.setError(getText(R.string.req_field_error));
         }
 
-        if (frontLeftHor)
-            bundle.putBoolean(CHILD_DATA_COMPLETE, i == 0);
-        else
-            bundle.putBoolean(CHILD_DATA_COMPLETE_2, i == 0);
+        bundle.putBoolean(CHILD_DATA_COMPLETE_2, i == 0);
+
         return i == 0;
     }
 

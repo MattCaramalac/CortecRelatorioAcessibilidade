@@ -6,6 +6,7 @@ import org.parceler.Parcel;
 public class InclinationParcel {
 
     Double inclHeight;
+    Integer hasInclSlope;
     Integer inclQnt;
     Double inclMeasure1;
     Double inclMeasure2;
@@ -16,8 +17,9 @@ public class InclinationParcel {
 //        Empty Constructor
     }
 
-    public InclinationParcel(Double inclHeight, Integer inclQnt, Double inclMeasure1, Double inclMeasure2, Double inclMeasure3, Double inclMeasure4) {
+    public InclinationParcel(Double inclHeight, Integer hasInclSlope, Integer inclQnt, Double inclMeasure1, Double inclMeasure2, Double inclMeasure3, Double inclMeasure4) {
         this.inclHeight = inclHeight;
+        this.hasInclSlope = hasInclSlope;
         this.inclQnt = inclQnt;
         this.inclMeasure1 = inclMeasure1;
         this.inclMeasure2 = inclMeasure2;
@@ -31,6 +33,14 @@ public class InclinationParcel {
 
     public void setInclHeight(Double inclHeight) {
         this.inclHeight = inclHeight;
+    }
+
+    public Integer getHasInclSlope() {
+        return hasInclSlope;
+    }
+
+    public void setHasInclSlope(Integer hasInclSlope) {
+        this.hasInclSlope = hasInclSlope;
     }
 
     public Integer getInclQnt() {

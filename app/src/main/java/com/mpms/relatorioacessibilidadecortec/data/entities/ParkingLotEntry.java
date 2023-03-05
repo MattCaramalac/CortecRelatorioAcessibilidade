@@ -25,10 +25,11 @@ public class ParkingLotEntry {
     private Integer parkingHasStairs;
     private Integer parkingHasRamps;
     private String extParkLocation;
+    private String parkingObs;
 
     public ParkingLotEntry(int blockID, Integer sidewalkID, int typeParkingLot, Integer parkAccessFloor, String parkFloorObs, Integer hasPCDVacancy,
                            Integer hasElderVacancy, Integer parkAccessRoute, String parkAccessRouteObs, Integer parkingHasStairs, Integer parkingHasRamps,
-                           String extParkLocation) {
+                           String extParkLocation, String parkingObs) {
         this.blockID = blockID;
         this.sidewalkID = sidewalkID;
         this.typeParkingLot = typeParkingLot;
@@ -41,6 +42,7 @@ public class ParkingLotEntry {
         this.parkingHasStairs = parkingHasStairs;
         this.parkingHasRamps = parkingHasRamps;
         this.extParkLocation = extParkLocation;
+        this.parkingObs = parkingObs;
     }
 
     public int getParkingID() {
@@ -145,5 +147,13 @@ public class ParkingLotEntry {
 
     public void setExtParkLocation(String extParkLocation) {
         this.extParkLocation = extParkLocation;
+    }
+
+    public String getParkingObs() {
+        return parkingObs;
+    }
+
+    public void setParkingObs(String parkingObs) {
+        this.parkingObs = parkingObs;
     }
 }

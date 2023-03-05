@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,11 +33,12 @@ import org.parceler.Parcels;
 
 public class SidewalkFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout sideLocationField;
-    TextInputEditText sideLocationValue;
+    TextInputLayout sideLocationField, sideObsField, sidePhotoField;
+    TextInputEditText sideLocationValue, sideObsValue, sidePhotoValue;
     RadioGroup streetPavementRadio, hasSidewalkRadio;
     TextView streetPavementError, hasSidewalkError;
     MaterialButton saveProceedSidewalk, cancelSidewalk;
+    FrameLayout sideFrag;
 
     int slopeMeasureQnt = 1;
 
@@ -103,14 +105,12 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
                     ViewModelEntry.updateSidewalkOne(updateSidewalkOne(sideBundle));
                     Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                     requireActivity().getSupportFragmentManager().popBackStackImmediate();
-                }
-                else {
+                } else {
                     ViewModelEntry.insertSidewalkEntry(newSidewalk(sideBundle));
                     Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                     clearSidewalkFields();
                 }
-            }
-            else
+            } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
@@ -132,8 +132,7 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
                     sideBundle.putInt(AMBIENT_ID, 0);
                     Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
                 }
-            }
-            else
+            } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
     }
@@ -182,8 +181,12 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
     private void instantiateSidewalkFragmentViews(View view) {
 //        TextInputLayout
         sideLocationField = view.findViewById(R.id.sidewalk_location_field);
+        sideObsField = view.findViewById(R.id.sidewalk_obs_field);
+        sidePhotoField = view.findViewById(R.id.sidewalk_photo_field);
 //        TextInputEditText
         sideLocationValue = view.findViewById(R.id.sidewalk_location_value);
+        sideObsValue = view.findViewById(R.id.sidewalk_obs_value);
+        sidePhotoValue = view.findViewById(R.id.sidewalk_photo_value);
 //        RadioGroup
         streetPavementRadio = view.findViewById(R.id.street_pavement_radio);
         hasSidewalkRadio = view.findViewById(R.id.has_sidewalk_radio);
@@ -195,6 +198,8 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
         cancelSidewalk = view.findViewById(R.id.cancel_sidewalk);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+//        FrameLayout
+        sideFrag = view.findViewById(R.id.has_sidewalk_fragment);
 //        Listeners
         hasSidewalkRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
         cancelSidewalk.setOnClickListener(v -> cancelClick());
@@ -208,19 +213,27 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
             streetPavementRadio.check(streetPavementRadio.getChildAt(sidewalk.getStreetPavement()).getId());
         if (sidewalk.getHasSidewalk() != null && sidewalk.getHasSidewalk() > -1) {
             hasSidewalkRadio.check(hasSidewalkRadio.getChildAt(sidewalk.getHasSidewalk()).getId());
-            if (sidewalk.getHasSidewalk() == 1)
-                getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, sideBundle);
+//            if (sidewalk.getHasSidewalk() == 1)
+//                getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, sideBundle);
         }
+        if (sidewalk.getSidewalkObs() != null)
+            sideObsValue.setText(sidewalk.getSidewalkObs());
+        if (sidewalk.getSidePhotos() != null)
+            sidePhotoValue.setText(sidewalk.getSidePhotos());
 
     }
 
     private void sidewalkRadioListener(RadioGroup radio, int checkedID) {
         int index = radio.indexOfChild(radio.findViewById(checkedID));
         if (radio == hasSidewalkRadio) {
-            if (index == 1)
-                getChildFragmentManager().beginTransaction().replace(R.id.has_sidewalk_fragment, new SideMeasureFragment()).commit();
-            else
+            if (index == 1) {
+                sideFrag.setVisibility(View.VISIBLE);
+                getChildFragmentManager().beginTransaction().replace(R.id.has_sidewalk_fragment, SideMeasureFragment.newInstance(sideBundle)).commit();
+            }
+            else {
                 removeSideMeasureFrag();
+                sideFrag.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -262,138 +275,155 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
     }
 
     private SidewalkEntry newSidewalk(Bundle bundle) {
-        String sideLocale = null, sideMeasureObs = null, tactFloorObs = null;
+        String sideLocale = null, sideMeasureObs = null, tactFloorObs = null, sideObs = null, sidePhoto = null;
         Integer streetPavement = null, hasSide = null, hasTactFloor = null, tactFloorColor = null;
         Double sideWidth = null, sideFSpaceWidth = null, sideSlope1 = null, sideSlope2 = null, sideSlope3 = null, sideSlope4 = null, sideSlope5 = null,
                 sideSlope6 = null, tacTileDirWidth = null, tacTileAlertWidth = null;
 
-        SideMeasureParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
         if (!TextUtils.isEmpty(sideLocationValue.getText()))
             sideLocale = String.valueOf(sideLocationValue.getText());
         if (getCheckedSidewalkRadioButton(streetPavementRadio) != -1)
             streetPavement = getCheckedSidewalkRadioButton(streetPavementRadio);
-        if (getCheckedSidewalkRadioButton(hasSidewalkRadio) != -1)
-           hasSide = getCheckedSidewalkRadioButton(streetPavementRadio);
+        if (getCheckedSidewalkRadioButton(hasSidewalkRadio) != -1) {
+            hasSide = getCheckedSidewalkRadioButton(streetPavementRadio);
 
-        if (parcel.getSidewalkWidth() != null)
-            sideWidth = parcel.getSidewalkWidth();
-        if (parcel.getSideFreeSpaceWidth() != null)
-            sideFSpaceWidth = parcel.getSideFreeSpaceWidth();
-        if (parcel.getSideMeasureObs() != null)
-            sideMeasureObs = parcel.getSideMeasureObs();
+            if (hasSide == 1) {
+                SideMeasureParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
-        slopeMeasureQnt = parcel.getSlopeMeasureQnt();
-        switch (slopeMeasureQnt) {
-            case 6:
-                if (parcel.getSideTransSlope6() != null)
-                    sideSlope6 = parcel.getSideTransSlope6();
-            case 5:
-                if (parcel.getSideTransSlope5() != null)
-                    sideSlope5 = parcel.getSideTransSlope5();
-            case 4:
-                if (parcel.getSideTransSlope6() != null)
-                    sideSlope4 = parcel.getSideTransSlope4();
-            case 3:
-                if (parcel.getSideTransSlope6() != null)
-                    sideSlope3 = parcel.getSideTransSlope3();
-            case 2:
-                if (parcel.getSideTransSlope6() != null)
-                    sideSlope2 = parcel.getSideTransSlope2();
-            case 1:
-                if (parcel.getSideTransSlope6() != null)
-                    sideSlope1 = parcel.getSideTransSlope1();
-                break;
-            default:
-                break;
-        }
+                if (parcel.getSidewalkWidth() != null)
+                    sideWidth = parcel.getSidewalkWidth();
+                if (parcel.getSideFreeSpaceWidth() != null)
+                    sideFSpaceWidth = parcel.getSideFreeSpaceWidth();
+                if (parcel.getSideMeasureObs() != null)
+                    sideMeasureObs = parcel.getSideMeasureObs();
 
-        if (parcel.getHasSpecialFloor() != null) {
-            hasTactFloor = parcel.getHasSpecialFloor();
-            if (hasTactFloor == 1) {
-                if (parcel.getSpecialFloorRightColor() != null)
-                    tactFloorColor = parcel.getSpecialFloorRightColor();
-                if (parcel.getSpecialTileDirectionWidth() != null)
-                    tacTileDirWidth = parcel.getSpecialTileDirectionWidth();
-                if (parcel.getSpecialTileAlertWidth() != null)
-                    tacTileAlertWidth = parcel.getSpecialTileAlertWidth();
+                slopeMeasureQnt = parcel.getSlopeMeasureQnt();
+                switch (slopeMeasureQnt) {
+                    case 6:
+                        if (parcel.getSideTransSlope6() != null)
+                            sideSlope6 = parcel.getSideTransSlope6();
+                    case 5:
+                        if (parcel.getSideTransSlope5() != null)
+                            sideSlope5 = parcel.getSideTransSlope5();
+                    case 4:
+                        if (parcel.getSideTransSlope4() != null)
+                            sideSlope4 = parcel.getSideTransSlope4();
+                    case 3:
+                        if (parcel.getSideTransSlope3() != null)
+                            sideSlope3 = parcel.getSideTransSlope3();
+                    case 2:
+                        if (parcel.getSideTransSlope2() != null)
+                            sideSlope2 = parcel.getSideTransSlope2();
+                    case 1:
+                        if (parcel.getSideTransSlope1() != null)
+                            sideSlope1 = parcel.getSideTransSlope1();
+                        break;
+                    default:
+                        break;
+                }
+
+                if (parcel.getHasSpecialFloor() != null) {
+                    hasTactFloor = parcel.getHasSpecialFloor();
+                    if (hasTactFloor == 1) {
+                        if (parcel.getSpecialFloorRightColor() != null)
+                            tactFloorColor = parcel.getSpecialFloorRightColor();
+                        if (parcel.getSpecialTileDirectionWidth() != null)
+                            tacTileDirWidth = parcel.getSpecialTileDirectionWidth();
+                        if (parcel.getSpecialTileAlertWidth() != null)
+                            tacTileAlertWidth = parcel.getSpecialTileAlertWidth();
+                    }
+                }
+
+                if (parcel.getSpecialFloorObs() != null)
+                    tactFloorObs = parcel.getSpecialFloorObs();
             }
         }
 
-        if (parcel.getSpecialFloorObs() != null)
-            tactFloorObs = parcel.getSpecialFloorObs();
+        if (!TextUtils.isEmpty(sideObsValue.getText()))
+            sideObs = String.valueOf(sideObsValue.getText());
+        if (!TextUtils.isEmpty(sidePhotoValue.getText()))
+            sidePhoto = String.valueOf(sidePhotoValue.getText());
 
         return new SidewalkEntry(bundle.getInt(BLOCK_ID), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
                 sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirWidth,
-                tacTileAlertWidth, tactFloorObs, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null, hasSide);
+                tacTileAlertWidth, tactFloorObs, null, null, null, sideObs, null, null, null,
+                null, null, null, null, null, null, null, hasSide, null, sidePhoto);
     }
 
     private SidewalkEntryOne updateSidewalkOne(Bundle bundle) {
-        String sideLocale = null, sideMeasureObs = null, tactFloorObs = null;
+        String sideLocale = null, sideMeasureObs = null, tactFloorObs = null, sideObs = null, sidePhoto = null;
         Integer streetPavement = null, hasSide = null, hasTactFloor = null, tactFloorColor = null;
         Double sideWidth = null, sideFSpaceWidth = null, sideSlope1 = null, sideSlope2 = null, sideSlope3 = null, sideSlope4 = null, sideSlope5 = null,
                 sideSlope6 = null, tacTileDirWidth = null, tacTileAlertWidth = null;
-
-        SideMeasureParcel parcel = Parcels.unwrap(bundle.getParcelable("PARCEL"));
 
         if (!TextUtils.isEmpty(sideLocationValue.getText()))
             sideLocale = String.valueOf(sideLocationValue.getText());
         if (getCheckedSidewalkRadioButton(streetPavementRadio) != -1)
             streetPavement = getCheckedSidewalkRadioButton(streetPavementRadio);
-        if (getCheckedSidewalkRadioButton(hasSidewalkRadio) != -1)
+        if (getCheckedSidewalkRadioButton(hasSidewalkRadio) != -1) {
             hasSide = getCheckedSidewalkRadioButton(streetPavementRadio);
+            if (hasSide == 1) {
+                SideMeasureParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
-        if (parcel.getSidewalkWidth() != null)
-            sideWidth = parcel.getSidewalkWidth();
-        if (parcel.getSideFreeSpaceWidth() != null)
-            sideFSpaceWidth = parcel.getSideFreeSpaceWidth();
-        if (parcel.getSideMeasureObs() != null)
-            sideMeasureObs = parcel.getSideMeasureObs();
+                if (parcel.getSidewalkWidth() != null)
+                    sideWidth = parcel.getSidewalkWidth();
+                if (parcel.getSideFreeSpaceWidth() != null)
+                    sideFSpaceWidth = parcel.getSideFreeSpaceWidth();
+                if (parcel.getSideMeasureObs() != null)
+                    sideMeasureObs = parcel.getSideMeasureObs();
 
-        slopeMeasureQnt = parcel.getSlopeMeasureQnt();
-        switch (slopeMeasureQnt) {
-            case 6:
-                if (parcel.getSideTransSlope6() != null)
-                    sideSlope6 = parcel.getSideTransSlope6();
-            case 5:
-                if (parcel.getSideTransSlope5() != null)
-                    sideSlope5 = parcel.getSideTransSlope5();
-            case 4:
-                if (parcel.getSideTransSlope6() != null)
-                    sideSlope4 = parcel.getSideTransSlope4();
-            case 3:
-                if (parcel.getSideTransSlope6() != null)
-                    sideSlope3 = parcel.getSideTransSlope3();
-            case 2:
-                if (parcel.getSideTransSlope6() != null)
-                    sideSlope2 = parcel.getSideTransSlope2();
-            case 1:
-                if (parcel.getSideTransSlope6() != null)
-                    sideSlope1 = parcel.getSideTransSlope1();
-                break;
-            default:
-                break;
-        }
+                slopeMeasureQnt = parcel.getSlopeMeasureQnt();
+                switch (slopeMeasureQnt) {
+                    case 6:
+                        if (parcel.getSideTransSlope6() != null)
+                            sideSlope6 = parcel.getSideTransSlope6();
+                    case 5:
+                        if (parcel.getSideTransSlope5() != null)
+                            sideSlope5 = parcel.getSideTransSlope5();
+                    case 4:
+                        if (parcel.getSideTransSlope4() != null)
+                            sideSlope4 = parcel.getSideTransSlope4();
+                    case 3:
+                        if (parcel.getSideTransSlope3() != null)
+                            sideSlope3 = parcel.getSideTransSlope3();
+                    case 2:
+                        if (parcel.getSideTransSlope2() != null)
+                            sideSlope2 = parcel.getSideTransSlope2();
+                    case 1:
+                        if (parcel.getSideTransSlope1() != null)
+                            sideSlope1 = parcel.getSideTransSlope1();
+                        break;
+                    default:
+                        break;
+                }
 
-        if (parcel.getHasSpecialFloor() != null) {
-            hasTactFloor = parcel.getHasSpecialFloor();
-            if (hasTactFloor == 1) {
-                if (parcel.getSpecialFloorRightColor() != null)
-                    tactFloorColor = parcel.getSpecialFloorRightColor();
-                if (parcel.getSpecialTileDirectionWidth() != null)
-                    tacTileDirWidth = parcel.getSpecialTileDirectionWidth();
-                if (parcel.getSpecialTileAlertWidth() != null)
-                    tacTileAlertWidth = parcel.getSpecialTileAlertWidth();
+                if (parcel.getHasSpecialFloor() != null) {
+                    hasTactFloor = parcel.getHasSpecialFloor();
+                    if (hasTactFloor == 1) {
+                        if (parcel.getSpecialFloorRightColor() != null)
+                            tactFloorColor = parcel.getSpecialFloorRightColor();
+                        if (parcel.getSpecialTileDirectionWidth() != null)
+                            tacTileDirWidth = parcel.getSpecialTileDirectionWidth();
+                        if (parcel.getSpecialTileAlertWidth() != null)
+                            tacTileAlertWidth = parcel.getSpecialTileAlertWidth();
+                    }
+                }
+
+                if (parcel.getSpecialFloorObs() != null)
+                    tactFloorObs = parcel.getSpecialFloorObs();
             }
-        }
 
-        if (parcel.getSpecialFloorObs() != null)
-            tactFloorObs = parcel.getSpecialFloorObs();
+            if (!TextUtils.isEmpty(sideObsValue.getText()))
+                sideObs = String.valueOf(sideObsValue.getText());
+            if (!TextUtils.isEmpty(sidePhotoValue.getText()))
+                sidePhoto = String.valueOf(sidePhotoValue.getText());
+
+        }
 
         return new SidewalkEntryOne(bundle.getInt(AMBIENT_ID), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
                 sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirWidth,
-                tacTileAlertWidth, tactFloorObs, hasSide);
+                tacTileAlertWidth, tactFloorObs, hasSide, sideObs, sidePhoto);
 
     }
 

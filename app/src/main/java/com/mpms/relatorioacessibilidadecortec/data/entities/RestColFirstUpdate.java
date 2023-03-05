@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class RestEntranceUpdate {
+public class RestColFirstUpdate {
     @PrimaryKey
     private int restroomID;
     private int isCollective;
@@ -25,11 +25,23 @@ public class RestEntranceUpdate {
     private Integer restSwitch;
     private Double switchHeight;
     private String switchObs;
+    private Double upViewLength;
+    private Double upViewWidth;
+    private Integer hasWindow;
+    private Integer winQnt;
+    private String winComType1;
+    private Double winComHeight1;
+    private String winComType2;
+    private Double winComHeight2;
+    private String winComType3;
+    private Double winComHeight3;
+    private String winObs;
 
-    public RestEntranceUpdate(int restroomID, int isCollective, Integer restType, String restLocation, Integer collectiveHasDoor, Double entranceWidth,
-                              Integer entranceDoorSill, String entranceDoorSillObs, Integer accessRoute, String accessRouteObs, Integer intRestroom,
-                              String intRestObs, Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Integer restSwitch,
-                              Double switchHeight, String switchObs) {
+    public RestColFirstUpdate(int restroomID, int isCollective, Integer restType, String restLocation, Integer collectiveHasDoor, Double entranceWidth, Integer entranceDoorSill,
+                              String entranceDoorSillObs, Integer accessRoute, String accessRouteObs, Integer intRestroom, String intRestObs,
+                              Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Integer restSwitch, Double switchHeight,
+                              String switchObs, Double upViewLength, Double upViewWidth, Integer hasWindow, Integer winQnt, String winComType1, Double winComHeight1,
+                              String winComType2, Double winComHeight2, String winComType3, Double winComHeight3, String winObs) {
         this.restroomID = restroomID;
         this.isCollective = isCollective;
         this.restType = restType;
@@ -49,6 +61,17 @@ public class RestEntranceUpdate {
         this.restSwitch = restSwitch;
         this.switchHeight = switchHeight;
         this.switchObs = switchObs;
+        this.upViewLength = upViewLength;
+        this.upViewWidth = upViewWidth;
+        this.hasWindow = hasWindow;
+        this.winQnt = winQnt;
+        this.winComType1 = winComType1;
+        this.winComHeight1 = winComHeight1;
+        this.winComType2 = winComType2;
+        this.winComHeight2 = winComHeight2;
+        this.winComType3 = winComType3;
+        this.winComHeight3 = winComHeight3;
+        this.winObs = winObs;
     }
 
     public int getRestroomID() {
@@ -73,6 +96,14 @@ public class RestEntranceUpdate {
 
     public void setRestLocation(String restLocation) {
         this.restLocation = restLocation;
+    }
+
+    public Integer getCollectiveHasDoor() {
+        return collectiveHasDoor;
+    }
+
+    public void setCollectiveHasDoor(Integer collectiveHasDoor) {
+        this.collectiveHasDoor = collectiveHasDoor;
     }
 
     public Integer getAccessRoute() {
@@ -171,12 +202,76 @@ public class RestEntranceUpdate {
         this.isCollective = isCollective;
     }
 
-    public Integer getCollectiveHasDoor() {
-        return collectiveHasDoor;
+    public String getWinComType1() {
+        return winComType1;
     }
 
-    public void setCollectiveHasDoor(Integer collectiveHasDoor) {
-        this.collectiveHasDoor = collectiveHasDoor;
+    public void setWinComType1(String winComType1) {
+        this.winComType1 = winComType1;
+    }
+
+    public Double getWinComHeight1() {
+        return winComHeight1;
+    }
+
+    public void setWinComHeight1(Double winComHeight1) {
+        this.winComHeight1 = winComHeight1;
+    }
+
+    public String getWinComType2() {
+        return winComType2;
+    }
+
+    public void setWinComType2(String winComType2) {
+        this.winComType2 = winComType2;
+    }
+
+    public Double getWinComHeight2() {
+        return winComHeight2;
+    }
+
+    public void setWinComHeight2(Double winComHeight2) {
+        this.winComHeight2 = winComHeight2;
+    }
+
+    public String getWinComType3() {
+        return winComType3;
+    }
+
+    public void setWinComType3(String winComType3) {
+        this.winComType3 = winComType3;
+    }
+
+    public Double getWinComHeight3() {
+        return winComHeight3;
+    }
+
+    public void setWinComHeight3(Double winComHeight3) {
+        this.winComHeight3 = winComHeight3;
+    }
+
+    public String getWinObs() {
+        return winObs;
+    }
+
+    public void setWinObs(String winObs) {
+        this.winObs = winObs;
+    }
+
+    public Integer getWinQnt() {
+        return winQnt;
+    }
+
+    public void setWinQnt(Integer winQnt) {
+        this.winQnt = winQnt;
+    }
+
+    public Integer getHasWindow() {
+        return hasWindow;
+    }
+
+    public void setHasWindow(Integer hasWindow) {
+        this.hasWindow = hasWindow;
     }
 
     public Double getEntranceWidth() {
@@ -201,5 +296,21 @@ public class RestEntranceUpdate {
 
     public void setEntranceDoorSillObs(String entranceDoorSillObs) {
         this.entranceDoorSillObs = entranceDoorSillObs;
+    }
+
+    public Double getUpViewLength() {
+        return upViewLength;
+    }
+
+    public void setUpViewLength(Double upViewLength) {
+        this.upViewLength = upViewLength;
+    }
+
+    public Double getUpViewWidth() {
+        return upViewWidth;
+    }
+
+    public void setUpViewWidth(Double upViewWidth) {
+        this.upViewWidth = upViewWidth;
     }
 }

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,22 +19,27 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestUpViewUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.BoxUpViewParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 public class RestUpViewFragment extends Fragment implements TagInterface, ScrollEditText {
 
     ImageButton upperViewImgButton;
+    RadioGroup hasDrainRadio;
+    TextView drainHeader, drainError;
     Button saveUpMeasures, returnRestDoorData;
     Bundle restUpBundle, imgData;
 
-    TextInputLayout measureFieldA, measureFieldB, measureFieldC, measureFieldD, restLengthField, restWidthField, upViewObsField;
-    TextInputEditText measureValueA, measureValueB, measureValueC, measureValueD, restLengthValue, restWidthValue, upViewObsValue;
+    TextInputLayout measureFieldA, measureFieldB, measureFieldC, measureFieldD, restLengthField, restWidthField, upViewObsField, drainObsField;
+    TextInputEditText measureValueA, measureValueB, measureValueC, measureValueD, restLengthValue, restWidthValue, upViewObsValue, drainObsValue;
 
     ViewModelEntry modelEntry;
 
@@ -70,18 +77,22 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
 
         instantiateUpperViews(view);
 
-        Glide.with(this).load(R.drawable.upperview).centerCrop().into(upperViewImgButton);
-
         upperViewImgButton.setOnClickListener(v -> {
-            imgData.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.upperview);
+            imgData.putInt(ExpandImageDialog.IMAGE_ID, R.drawable.upperview2);
             ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgData);
         });
 
-        modelEntry.getRestUpViewData(restUpBundle.getInt(REST_ID))
-                .observe(getViewLifecycleOwner(), upView -> {
-                    if (upView != null)
-                        loadUpViewData(upView);
-                });
+        if (restUpBundle.getBoolean(FROM_BOX)) {
+            modelEntry.getBoxUpViewData(restUpBundle.getInt(BOX_ID)).observe(getViewLifecycleOwner(), upView -> {
+                if (upView != null)
+                    loadBoxUpViewData(upView);
+            });
+        } else {
+            modelEntry.getRestUpViewData(restUpBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), upView -> {
+                if (upView != null)
+                    loadUpViewData(upView);
+            });
+        }
 
         returnRestDoorData.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
@@ -93,11 +104,22 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
             } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
+
+        getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
+            if (checkEmptyMeasurementsFields()) {
+                createUpViewParcel(bundle);
+                bundle.putBoolean(CHILD_DATA_COMPLETE, true);
+            } else
+                bundle.putBoolean(CHILD_DATA_COMPLETE, false);
+
+            getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
+        });
     }
 
     private void instantiateUpperViews(View view) {
 //        ImageButton
         upperViewImgButton = view.findViewById(R.id.rest_upper_view_image);
+        Glide.with(this).load(R.drawable.upperview2).centerCrop().into(upperViewImgButton);
 //        TextInputLayout
         measureFieldA = view.findViewById(R.id.upper_view_A_measurement_field);
         measureFieldB = view.findViewById(R.id.upper_view_B_measurement_field);
@@ -106,6 +128,7 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
         restLengthField = view.findViewById(R.id.upper_view_length_field);
         restWidthField = view.findViewById(R.id.upper_view_width_field);
         upViewObsField = view.findViewById(R.id.upper_view_obs_field);
+        drainObsField = view.findViewById(R.id.rest_box_drain_obs_field);
 //        TextInputEditText
         measureValueA = view.findViewById(R.id.upper_view_A_measurement_value);
         measureValueB = view.findViewById(R.id.upper_view_B_measurement_value);
@@ -114,24 +137,42 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
         restLengthValue = view.findViewById(R.id.upper_view_length_value);
         restWidthValue = view.findViewById(R.id.upper_view_width_value);
         upViewObsValue = view.findViewById(R.id.upper_view_obs_value);
+        drainObsValue = view.findViewById(R.id.rest_box_drain_obs_value);
 //        MaterialButton
         saveUpMeasures = view.findViewById(R.id.save_up_measurements);
         returnRestDoorData = view.findViewById(R.id.return_button);
+//        RadioGroup
+        hasDrainRadio = view.findViewById(R.id.rest_box_drain_radio);
+//        TextView
+        drainHeader = view.findViewById(R.id.rest_box_drain_header);
+        drainError = view.findViewById(R.id.rest_box_drain_error);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+
+        if (restUpBundle.getBoolean(FROM_BOX)) {
+            drainHeader.setVisibility(View.VISIBLE);
+            hasDrainRadio.setVisibility(View.VISIBLE);
+            drainObsField.setVisibility(View.VISIBLE);
+            saveUpMeasures.setVisibility(View.GONE);
+            returnRestDoorData.setVisibility(View.GONE);
+        }
 
         allowObsScroll(upViewObsValue);
 
     }
 
-    public void callToiletFragment(Bundle bundle) {
+    private int getRadioCheck(RadioGroup radio) {
+        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
+    }
+
+    private void callToiletFragment(Bundle bundle) {
         RestToiletFragment barFragment = RestToiletFragment.newInstance();
         barFragment.setArguments(bundle);
         requireActivity().getSupportFragmentManager().beginTransaction().
                 replace(R.id.show_fragment_selected, barFragment).addToBackStack(null).commit();
     }
 
-    public boolean checkEmptyMeasurementsFields() {
+    private boolean checkEmptyMeasurementsFields() {
         clearEmptyMeasurementsErrors();
         int i = 0;
         if (TextUtils.isEmpty(measureValueA.getText())) {
@@ -150,19 +191,24 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
             i++;
             restWidthField.setError(getText(R.string.req_field_error));
         }
+        if (restUpBundle.getBoolean(FROM_BOX) && getRadioCheck(hasDrainRadio) == -1) {
+            i++;
+            drainError.setVisibility(View.VISIBLE);
+        }
         return i == 0;
     }
 
-    public void clearEmptyMeasurementsErrors() {
+    private void clearEmptyMeasurementsErrors() {
         measureFieldA.setErrorEnabled(false);
         measureFieldB.setErrorEnabled(false);
         measureFieldC.setErrorEnabled(false);
         restLengthField.setErrorEnabled(false);
         restWidthField.setErrorEnabled(false);
+        drainError.setVisibility(View.GONE);
     }
 
-    public RestUpViewUpdate newRestUpView(Bundle bundle) {
-        Double measureB = null,  measureD = null;
+    private RestUpViewUpdate newRestUpView(Bundle bundle) {
+        Double measureB = null, measureD = null;
         double measureA, measureC, upLength, upWidth;
         String upViewObs;
 
@@ -181,7 +227,33 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
                 measureD, upViewObs);
     }
 
-    public void loadUpViewData(RestroomEntry upViewEntry) {
+    private void createUpViewParcel(Bundle bundle) {
+        Double measureB = null, measureD = null;
+        double measureA, measureC, upLength, upWidth;
+        int restDrain;
+        String upViewObs = null, drainObs = null;
+
+        upLength = Double.parseDouble(String.valueOf(restLengthValue.getText()));
+        upWidth = Double.parseDouble(String.valueOf(restWidthValue.getText()));
+        measureA = Double.parseDouble(String.valueOf(measureValueA.getText()));
+        if (!TextUtils.isEmpty(measureValueB.getText()))
+            measureB = Double.parseDouble(String.valueOf(measureValueB.getText()));
+        measureC = Double.parseDouble(String.valueOf(measureValueC.getText()));
+        if (!TextUtils.isEmpty(measureValueD.getText()))
+            measureD = Double.valueOf(String.valueOf(measureValueD.getText()));
+
+        if (!TextUtils.isEmpty(upViewObsValue.getText()))
+            upViewObs = String.valueOf(upViewObsValue.getText());
+
+        restDrain = getRadioCheck(hasDrainRadio);
+        if (!TextUtils.isEmpty(drainObsValue.getText()))
+            drainObs = String.valueOf(drainObsValue.getText());
+
+        BoxUpViewParcel parcel = new BoxUpViewParcel(upLength, upWidth, measureA, measureB, measureC, measureD, upViewObs, restDrain, drainObs);
+        bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
+    }
+
+    private void loadUpViewData(RestroomEntry upViewEntry) {
         if (upViewEntry.getUpViewLength() != null)
             restLengthValue.setText(String.valueOf(upViewEntry.getUpViewLength()));
         if (upViewEntry.getUpViewWidth() != null)
@@ -196,5 +268,26 @@ public class RestUpViewFragment extends Fragment implements TagInterface, Scroll
             measureValueD.setText(String.valueOf(upViewEntry.getUpViewMeasureD()));
         if (upViewEntry.getUpViewObs() != null)
             upViewObsValue.setText(upViewEntry.getUpViewObs());
+    }
+
+    private void loadBoxUpViewData(RestBoxEntry upViewEntry) {
+        if (upViewEntry.getUpViewLength() != null)
+            restLengthValue.setText(String.valueOf(upViewEntry.getUpViewLength()));
+        if (upViewEntry.getUpViewWidth() != null)
+            restWidthValue.setText(String.valueOf(upViewEntry.getUpViewWidth()));
+        if (upViewEntry.getUpViewMeasureA() != null)
+            measureValueA.setText(String.valueOf(upViewEntry.getUpViewMeasureA()));
+        if (upViewEntry.getUpViewMeasureB() != null)
+            measureValueB.setText(String.valueOf(upViewEntry.getUpViewMeasureB()));
+        if (upViewEntry.getUpViewMeasureC() != null)
+            measureValueC.setText(String.valueOf(upViewEntry.getUpViewMeasureC()));
+        if (upViewEntry.getUpViewMeasureD() != null)
+            measureValueD.setText(String.valueOf(upViewEntry.getUpViewMeasureD()));
+        if (upViewEntry.getUpViewObs() != null)
+            upViewObsValue.setText(upViewEntry.getUpViewObs());
+        if (upViewEntry.getRestDrain() != null)
+            hasDrainRadio.check(hasDrainRadio.getChildAt(upViewEntry.getRestDrain()).getId());
+        if (upViewEntry.getRestDrainObs() != null)
+            drainObsValue.setText(upViewEntry.getRestDrainObs());
     }
 }

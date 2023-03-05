@@ -103,7 +103,11 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
         finishFlights.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().popBackStack(ROOM_OBJ_LIST, 0);
+
+            if (flightBundle.getBoolean(FROM_ROOMS))
+                requireActivity().getSupportFragmentManager().popBackStack(ROOM_OBJ_LIST, 0);
+            else
+                requireActivity().getSupportFragmentManager().popBackStack(OTHER_OBJ_LIST, 0);
         });
 
     }
@@ -119,7 +123,7 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
         closeFlights = v.findViewById(R.id.cancel_child_items_entries);
         addFlights = v.findViewById(R.id.add_child_items_entries);
         finishFlights = v.findViewById(R.id.continue_child_items_entries);
-        finishFlights.setText("CONCLUIR");
+        finishFlights.setText(R.string.button_conclusion);
 //        TextView
         flightsHeader = v.findViewById(R.id.identifier_header);
         flightsHeader.setVisibility(View.VISIBLE);

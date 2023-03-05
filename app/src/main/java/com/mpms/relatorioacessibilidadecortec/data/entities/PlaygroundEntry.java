@@ -55,12 +55,13 @@ public class PlaygroundEntry {
     private String accessEquipObs;
     private String playgroundObs;
     private String playPhotoNumber;
+    private Integer hasSillIncl;
 
     public PlaygroundEntry(int blockID, String playLocation, Integer playHasGate, Double playGateWidth, Integer gateHasFloorTrack, Double floorTrackHeight, Integer floorTrackHasRamp, Integer rampMeasureQnt,
                            Double rampMeasure1, Double rampMeasure2, Double rampMeasure3, Double rampMeasure4, Integer hasFloorGap, Integer floorGapQnt, Double floorGap1, Double floorGap2, Double floorGap3,
                            Double floorGap4, Integer gateSillType, Double inclHeight, Integer inclMeasureQnt, Double inclAngle1, Double inclAngle2, Double inclAngle3, Double inclAngle4, Double stepHeight,
                            Integer slopeMeasureQnt, Double slopeAngle1, Double slopeAngle2, Double slopeAngle3, Double slopeAngle4, Double slopeWidth, Double slopeHeight, String sillObs, Integer accessibleFloor,
-                           String accessFloorObs, Integer accessibleEquip, String accessEquipObs, String playgroundObs, String playPhotoNumber) {
+                           String accessFloorObs, Integer accessibleEquip, String accessEquipObs, String playgroundObs, String playPhotoNumber, Integer hasSillIncl) {
         this.blockID = blockID;
         this.playLocation = playLocation;
         this.playHasGate = playHasGate;
@@ -101,6 +102,7 @@ public class PlaygroundEntry {
         this.accessEquipObs = accessEquipObs;
         this.playgroundObs = playgroundObs;
         this.playPhotoNumber = playPhotoNumber;
+        this.hasSillIncl = hasSillIncl;
     }
 
     public int getPlayID() {
@@ -429,5 +431,13 @@ public class PlaygroundEntry {
 
     public void setPlayPhotoNumber(String playPhotoNumber) {
         this.playPhotoNumber = playPhotoNumber;
+    }
+
+    public Integer getHasSillIncl() {
+        return hasSillIncl;
+    }
+
+    public void setHasSillIncl(Integer hasSillIncl) {
+        this.hasSillIncl = hasSillIncl;
     }
 }

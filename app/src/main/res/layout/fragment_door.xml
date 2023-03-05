@@ -61,21 +61,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="FOLHA ÚNICA"
+                    android:text="@string/radio_one_door"
                     android:textSize="@dimen/radio_button_text"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="FOLHA DUPLA"
+                    android:text="@string/radio_two_doors"
                     android:textSize="@dimen/radio_button_text"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="OUTRO TIPO"
+                    android:text="@string/radio_other_door"
                     android:textSize="@dimen/radio_button_text"/>
 
             </RadioGroup>
@@ -830,14 +830,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="NIVELADA"
+                    android:text="@string/radio_leveled"
                     android:textSize="@dimen/radio_button_text" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="OUTROS TIPOS"
+                    android:text="@string/radio_other_type"
                     android:textSize="@dimen/radio_button_text" />
 
             </RadioGroup>
@@ -906,6 +906,22 @@
                     android:scrollbarStyle="outsideInset"
                     android:scrollbars="vertical"
                     android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/door_photos_field"
+                app:layout_constraintTop_toBottomOf="@id/door_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_photo_field"
+                android:layout_marginTop="@dimen/usual_padding">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/door_photos_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

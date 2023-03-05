@@ -22,7 +22,7 @@ public interface ParkingLotElderlyDao {
     @Query("SELECT * FROM ParkingLotElderlyEntry WHERE parkID IN (:parkingLotID)")
     LiveData<List<ParkingLotElderlyEntry>> getAllElderVacancies(List<Integer> parkingLotID);
 
-    @Query("SELECT * FROM ParkingLotElderlyEntry WHERE parkID == :parkingElderlyID")
+    @Query("SELECT * FROM ParkingLotElderlyEntry WHERE parkElderID == :parkingElderlyID")
     LiveData<ParkingLotElderlyEntry> getOneElderVacancy(int parkingElderlyID);
 
     @Update

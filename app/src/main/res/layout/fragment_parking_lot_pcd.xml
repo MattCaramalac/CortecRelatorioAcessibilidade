@@ -17,6 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/pcd_park_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
@@ -51,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins"
-                android:text="Qual a posição da vaga em relação ao meio-fio?"
+                android:text="@string/header_park_position"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/PCD_vacancy_locale_field" />
@@ -358,7 +359,7 @@
                     android:id="@+id/safety_zone_PCD_width_value"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="textAutoCorrect" />
+                    android:inputType="numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -508,7 +509,7 @@
         android:text="@string/label_button_save"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/pcd_park_scroll" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_parking_lot_pcd"

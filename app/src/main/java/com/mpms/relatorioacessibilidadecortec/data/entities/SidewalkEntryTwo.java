@@ -12,7 +12,6 @@ public class SidewalkEntryTwo {
     private Integer sideFloorIsAccessible;
     private String accessFloorObs;
     private Integer sideHasSlope;
-    private String sidewalkObs;
     private Integer hasAerialObstacle;
     private String aerialObstacleDesc;
     private Integer sidewalkHasLids;
@@ -23,15 +22,15 @@ public class SidewalkEntryTwo {
     private Integer sideHasStairs;
     private Integer sideHasRamps;
     private Integer sideReqSlopes;
+    private String sidewalkObs2;
 
-    public SidewalkEntryTwo(int sidewalkID, Integer sideFloorIsAccessible, String accessFloorObs, Integer sideHasSlope, String sidewalkObs,
+    public SidewalkEntryTwo(int sidewalkID, Integer sideFloorIsAccessible, String accessFloorObs, Integer sideHasSlope,
                             Integer hasAerialObstacle, String aerialObstacleDesc, Integer sidewalkHasLids, String sidewalkLidDesc, Integer sideConStatus,
-                            String sideConsObs, Integer sideHasPayphones, Integer sideHasStairs, Integer sideHasRamps, Integer sideReqSlopes) {
+                            String sideConsObs, Integer sideHasPayphones, Integer sideHasStairs, Integer sideHasRamps, Integer sideReqSlopes, String sidewalkObs2) {
         this.sidewalkID = sidewalkID;
         this.sideFloorIsAccessible = sideFloorIsAccessible;
         this.accessFloorObs = accessFloorObs;
         this.sideHasSlope = sideHasSlope;
-        this.sidewalkObs = sidewalkObs;
         this.hasAerialObstacle = hasAerialObstacle;
         this.aerialObstacleDesc = aerialObstacleDesc;
         this.sidewalkHasLids = sidewalkHasLids;
@@ -42,6 +41,8 @@ public class SidewalkEntryTwo {
         this.sideHasStairs = sideHasStairs;
         this.sideHasRamps = sideHasRamps;
         this.sideReqSlopes = sideReqSlopes;
+        this.sidewalkObs2 = sidewalkObs2;
+
     }
 
     public int getSidewalkID() {
@@ -76,12 +77,12 @@ public class SidewalkEntryTwo {
         this.sideHasSlope = sideHasSlope;
     }
 
-    public String getSidewalkObs() {
-        return sidewalkObs;
+    public String getSidewalkObs2() {
+        return sidewalkObs2;
     }
 
-    public void setSidewalkObs(String sidewalkObs) {
-        this.sidewalkObs = sidewalkObs;
+    public void setSidewalkObs2(String sidewalkObs) {
+        this.sidewalkObs2 = sidewalkObs;
     }
 
     public Integer getHasAerialObstacle() {

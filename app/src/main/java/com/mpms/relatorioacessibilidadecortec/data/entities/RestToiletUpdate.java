@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class RestToiletUpdate {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private int restroomID;
     private Integer toType;
     private Double toHeightNoSeat;

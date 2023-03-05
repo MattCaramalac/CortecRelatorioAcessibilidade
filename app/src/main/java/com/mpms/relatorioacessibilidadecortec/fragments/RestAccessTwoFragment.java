@@ -21,6 +21,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdateTwo;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxAccTwoUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
@@ -37,7 +39,7 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
     TextInputEditText emergencyHeightValue, emergencyObsValue, valveHeightValue, valveObsValue, winTypeValue1, winTypeValue2, winTypeValue3, winHeightValue1,
             winHeightValue2, winHeightValue3, mirrorValueA, mirrorValueB, mirrorObsValue, winObsValue;
     RadioGroup hasEmergencyRadio, hasValveRadio, valveTypeRadio, hasWindowRadio, mirrorRadio;
-    TextView emergencyError, valveError, valveTypeHeader, valveTypeError, winError, mirrorError;
+    TextView emergencyError, valveError, valveTypeHeader, valveTypeError, winHeader, winError, mirrorError;
     ImageButton delWindow, mirrorImage;
     MaterialButton addWindow, returnAccessOne, continueSink;
 
@@ -82,7 +84,10 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
 
         instRestAccessTwoView(view);
 
-        modelEntry.getRestAccessDataTwo(rAccBundle2.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadAccessData2);
+        if (rAccBundle2.getInt(BOX_ID) > 0)
+            modelEntry.getBoxAccessDataTwo(rAccBundle2.getInt(BOX_ID)).observe(getViewLifecycleOwner(), this::loadBoxAccessData2);
+        else if (rAccBundle2.getInt(REST_ID) > 0)
+            modelEntry.getRestAccessDataTwo(rAccBundle2.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadAccessData2);
     }
 
 
@@ -128,6 +133,7 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         valveError = view.findViewById(R.id.water_valve_error);
         valveTypeHeader = view.findViewById(R.id.water_valve_type_header);
         valveTypeError = view.findViewById(R.id.water_valve_type_error);
+        winHeader = view.findViewById(R.id.rest_window_header);
         winError = view.findViewById(R.id.rest_window_error);
         mirrorError = view.findViewById(R.id.wall_mirror_error);
 //      Material Button
@@ -151,6 +157,11 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         returnAccessOne.setOnClickListener(this::buttonClickListener);
         viewsToArrays();
         allowObsScroll(accessObsArray);
+        if (rAccBundle2.getBoolean(FROM_BOX)) {
+            winHeader.setVisibility(View.GONE);
+            hasWindowRadio.setVisibility(View.GONE);
+            winObsField.setVisibility(View.GONE);
+        }
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
     }
@@ -227,8 +238,80 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
 
     }
 
+    private void loadBoxAccessData2(RestBoxEntry rest) {
+        if (rest.getHasEmergencyButton() != null && rest.getHasEmergencyButton() > -1) {
+            hasEmergencyRadio.check(hasEmergencyRadio.getChildAt(rest.getHasEmergencyButton()).getId());
+            if (rest.getHasEmergencyButton() == 1) {
+                if (rest.getEmergencyHeight() != null)
+                    emergencyHeightValue.setText(String.valueOf(rest.getEmergencyHeight()));
+            }
+        }
+        if (rest.getEmergencyObs() != null)
+            emergencyObsValue.setText(rest.getEmergencyObs());
+
+        if (rest.getHasWaterValve() != null && rest.getHasWaterValve() > -1) {
+            hasValveRadio.check(hasValveRadio.getChildAt(rest.getHasWaterValve()).getId());
+            if (rest.getHasWaterValve() == 1) {
+                if (rest.getWaterValveType() != null && rest.getWaterValveType() > -1)
+                    valveTypeRadio.check(valveTypeRadio.getChildAt(rest.getWaterValveType()).getId());
+                if (rest.getWaterValveHeight() != null)
+                    valveHeightValue.setText(String.valueOf(rest.getWaterValveHeight()));
+            }
+        }
+        if (rest.getWaterValveObs() != null)
+            valveObsValue.setText(rest.getWaterValveObs());
+
+        if (rest.getHasWindow() != null && rest.getHasWindow() > -1) {
+            hasWindowRadio.check(hasWindowRadio.getChildAt(rest.getHasWindow()).getId());
+            if (rest.getHasWindow() == 1) {
+                winQnt = rest.getWinQnt();
+                switch (winQnt) {
+                    case 3:
+                        winTypeField3.setVisibility(View.VISIBLE);
+                        if (rest.getWinComType3() != null)
+                            winTypeValue3.setText(rest.getWinComType3());
+                        winHeightField3.setVisibility(View.VISIBLE);
+                        if (rest.getWinComHeight3() != null)
+                            winHeightValue3.setText(String.valueOf(rest.getWinComHeight3()));
+                    case 2:
+                        delWindow.setVisibility(View.VISIBLE);
+                        winTypeField2.setVisibility(View.VISIBLE);
+                        if (rest.getWinComType2() != null)
+                            winTypeValue2.setText(rest.getWinComType2());
+                        winHeightField2.setVisibility(View.VISIBLE);
+                        if (rest.getWinComHeight2() != null)
+                            winHeightValue2.setText(String.valueOf(rest.getWinComHeight2()));
+                    case 1:
+                        addWindow.setVisibility(View.VISIBLE);
+                        winTypeField1.setVisibility(View.VISIBLE);
+                        if (rest.getWinComType1() != null)
+                            winTypeValue1.setText(rest.getWinComType1());
+                        winHeightField1.setVisibility(View.VISIBLE);
+                        if (rest.getWinComHeight1() != null)
+                            winHeightValue1.setText(String.valueOf(rest.getWinComHeight1()));
+                        break;
+                }
+            }
+        }
+        if (rest.getWinObs() != null)
+            winObsValue.setText(rest.getWinObs());
+
+        if (rest.getHasWallMirror() != null) {
+            mirrorRadio.check(mirrorRadio.getChildAt(rest.getHasWallMirror()).getId());
+            if (rest.getHasWallMirror() == 1) {
+                if (rest.getWallMirrorLow() != null)
+                    mirrorValueA.setText(String.valueOf(rest.getWallMirrorLow()));
+                if (rest.getWallMirrorHigh() != null)
+                    mirrorValueB.setText(String.valueOf(rest.getWallMirrorHigh()));
+            }
+        }
+        if (rest.getWallMirrorObs() != null)
+            mirrorObsValue.setText(rest.getWallMirrorObs());
+
+    }
+
     private void callSinkFragment(Bundle bundle) {
-        RestSinkFragment sinkFragment = RestSinkFragment.newInstance();
+        RestSinkAccessFragment sinkFragment = RestSinkAccessFragment.newInstance();
         sinkFragment.setArguments(bundle);
         requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.show_fragment_selected, sinkFragment).addToBackStack(null).commit();
@@ -252,20 +335,16 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
             i++;
             valveError.setVisibility(View.VISIBLE);
         } else if (getCheckedRadio(hasValveRadio) == 1) {
-            if (getCheckedRadio(valveTypeRadio) == 1) {
-                i++;
-                valveTypeError.setVisibility(View.VISIBLE);
-            }
             if (TextUtils.isEmpty(valveHeightValue.getText())) {
                 i++;
                 valveHeightField.setError(getString(R.string.req_field_error));
             }
         }
 
-        if (getCheckedRadio(hasWindowRadio) == -1) {
+        if (!rAccBundle2.getBoolean(FROM_BOX) && getCheckedRadio(hasWindowRadio) == -1) {
             i++;
             winError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(hasWindowRadio) == 1) {
+        } else if (!rAccBundle2.getBoolean(FROM_BOX) && getCheckedRadio(hasWindowRadio) == 1) {
             switch (winQnt) {
                 case 3:
                     if (TextUtils.isEmpty(winHeightValue3.getText())) {
@@ -419,11 +498,15 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
             }
         } else if (v == continueSink) {
             if (checkEmptyFields()) {
-                RestAccessUpdateTwo upTwo = updateTwo(rAccBundle2);
-                ViewModelEntry.updateRestAccessDataTwo(upTwo);
+                if (rAccBundle2.getBoolean(FROM_BOX)) {
+                    RestBoxAccTwoUpdate upTwo = upAccTwo(rAccBundle2);
+                    ViewModelEntry.updateBoxAccTwo(upTwo);
+                } else {
+                    RestAccessUpdateTwo upTwo = updateTwo(rAccBundle2);
+                    ViewModelEntry.updateRestAccessDataTwo(upTwo);
+                }
                 callSinkFragment(rAccBundle2);
-            }
-            else
+            } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         } else {
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
@@ -431,6 +514,70 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
     }
 
     private RestAccessUpdateTwo updateTwo(Bundle bundle) {
+        int hasEmer, hasValve, hasMirror;
+        Integer hasWindow = null, valveType = null;
+        Double emerHeight = null, valveHeight = null,  height1 = null, height2 = null, height3 = null, mirA = null, mirB = null;
+        String emerObs = null, valveObs = null, type1 = null, type2 = null, type3 = null, winObs = null, mirObs = null;
+
+        hasEmer = getCheckedRadio(hasEmergencyRadio);
+        if (hasEmer == 1) {
+            if (!TextUtils.isEmpty(emergencyHeightValue.getText()))
+                emerHeight = Double.parseDouble(String.valueOf(emergencyHeightValue.getText()));
+        }
+        if (!TextUtils.isEmpty(emergencyObsValue.getText()))
+            emerObs = String.valueOf(emergencyObsValue.getText());
+
+        hasValve = getCheckedRadio(hasValveRadio);
+        if (hasValve == 1) {
+            if (getCheckedRadio(valveTypeRadio) != -1)
+                valveType = getCheckedRadio(valveTypeRadio);
+            if (!TextUtils.isEmpty(valveHeightValue.getText()))
+                valveHeight = Double.parseDouble(String.valueOf(valveHeightValue.getText()));
+        }
+        if (!TextUtils.isEmpty(valveObsValue.getText()))
+            valveObs = String.valueOf(valveObsValue.getText());
+
+        if (!rAccBundle2.getBoolean(FROM_BOX)) {
+            hasWindow = getCheckedRadio(hasWindowRadio);
+            if (hasWindow == 1) {
+                switch (winQnt) {
+                    case 3:
+                        if (!TextUtils.isEmpty(winHeightValue3.getText()))
+                            height3 = Double.parseDouble(String.valueOf(winHeightValue3.getText()));
+                        if (!TextUtils.isEmpty(winTypeValue3.getText()))
+                            type3 = String.valueOf(winTypeValue3.getText());
+                    case 2:
+                        if (!TextUtils.isEmpty(winHeightValue2.getText()))
+                            height2 = Double.parseDouble(String.valueOf(winHeightValue2.getText()));
+                        if (!TextUtils.isEmpty(winTypeValue2.getText()))
+                            type2 = String.valueOf(winTypeValue2.getText());
+                    case 1:
+                        if (!TextUtils.isEmpty(winHeightValue1.getText()))
+                            height1 = Double.parseDouble(String.valueOf(winHeightValue1.getText()));
+                        if (!TextUtils.isEmpty(winTypeValue1.getText()))
+                            type1 = String.valueOf(winTypeValue1.getText());
+                        break;
+                }
+            }
+            if (!TextUtils.isEmpty(winObsValue.getText()))
+                winObs = String.valueOf(winObsValue.getText());
+        }
+
+        hasMirror = getCheckedRadio(mirrorRadio);
+        if (hasMirror == 1) {
+            if (!TextUtils.isEmpty(mirrorValueA.getText()))
+                mirA = Double.parseDouble(String.valueOf(mirrorValueA.getText()));
+            if (!TextUtils.isEmpty(mirrorValueB.getText()))
+                mirB = Double.parseDouble(String.valueOf(mirrorValueB.getText()));
+        }
+        if (!TextUtils.isEmpty(mirrorObsValue.getText()))
+            mirObs = String.valueOf(mirrorObsValue.getText());
+
+        return new RestAccessUpdateTwo(bundle.getInt(REST_ID), hasEmer, emerHeight, emerObs, hasValve, valveType, valveHeight, valveObs, hasWindow, winQnt, type1, height1,
+                type2, height2, type3, height3, winObs, hasMirror, mirA, mirB, mirObs);
+    }
+
+    private RestBoxAccTwoUpdate upAccTwo(Bundle bundle) {
         int hasEmer, hasValve, hasWindow, hasMirror;
         Integer valveType = null;
         Double emerHeight = null, valveHeight = null, height1 = null, height2 = null, height3 = null, mirA = null, mirB = null;
@@ -488,7 +635,7 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         if (!TextUtils.isEmpty(mirrorObsValue.getText()))
             mirObs = String.valueOf(mirrorObsValue.getText());
 
-        return new RestAccessUpdateTwo(bundle.getInt(REST_ID), hasEmer, emerHeight, emerObs, hasValve, valveType, valveHeight, valveObs, hasWindow, winQnt, type1, height1,
+        return new RestBoxAccTwoUpdate(bundle.getInt(BOX_ID), hasEmer, emerHeight, emerObs, hasValve, valveType, valveHeight, valveObs, hasWindow, winQnt, type1, height1,
                 type2, height2, type3, height3, winObs, hasMirror, mirA, mirB, mirObs);
     }
 

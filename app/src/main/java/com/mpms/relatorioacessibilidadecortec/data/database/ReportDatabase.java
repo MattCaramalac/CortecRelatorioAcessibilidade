@@ -26,6 +26,7 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.PlaygroundEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsHandrailDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsRailingDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.RestBoxDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RestroomEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RoomEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SchoolEntryDao;
@@ -52,6 +53,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
@@ -62,6 +64,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -70,7 +74,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class}, version = 61)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class}, version = 65)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -164,6 +168,9 @@ public abstract class ReportDatabase extends RoomDatabase {
 
                     dbWriteExecutor.execute(() -> {
                         DoorLockDao doorLockDao = INSTANCE.doorLockDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        RestBoxDao restBoxDao = INSTANCE.restBoxDao();
                     });
 
                 }
@@ -1496,6 +1503,141 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_61_62 = new Migration(61, 62) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE DoorEntry_2(doorID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, restID INTEGER, boxID INTEGER, doorLocation TEXT, " +
+                    "doorType INTEGER, doorWidth1 REAL, doorWidth2 REAL, doorHasPict INTEGER, doorPictObs TEXT, opDirection INTEGER, opDirectionObs TEXT, doorHandleType INTEGER, " +
+                    "doorHandleHeight REAL, doorHandleObs TEXT, doorHasLocks INTEGER, doorHasHorBar INTEGER, horBarHeight REAL, horBarLength REAL, horBarFrameDist REAL, " +
+                    "horBarDiam REAL, horBarDoorDist REAL, horBarObs TEXT, doorHasWindow INTEGER, doorWinInfHeight REAL, doorWinSupHeight REAL, doorWinWidth REAL, doorWinObs TEXT, " +
+                    "doorHasTactSign INTEGER, tactSignHeight REAL, tactSignIncl REAL, tactSignObs TEXT, doorSillType INTEGER, inclHeight REAL, " +
+                    "inclQnt INTEGER, inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL, inclAngle4 REAL, stepHeight REAL, slopeWidth REAL, slopeHeight REAL," +
+                    "slopeQnt INTEGER, slopeAngle1 REAL, slopeAngle2 REAL, slopeAngle3 REAL, slopeAngle4 REAL,  doorSillObs TEXT, doorObs TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (BOXID) REFERENCES RestBoxEntry (boxID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO DoorEntry_2 (doorID, roomID, restID, doorLocation, doorType, doorWidth1, doorWidth2, doorHasPict, doorPictObs, opDirection, " +
+                    "opDirectionObs, doorHandleType, doorHandleHeight, doorHandleObs, doorHasLocks, doorHasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, " +
+                    "horBarDoorDist, horBarObs, doorHasWindow, doorWinInfHeight, doorWinSupHeight, doorWinWidth, doorWinObs, doorHasTactSign, tactSignHeight, tactSignIncl, " +
+                    "tactSignObs, doorSillType, inclHeight, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight, slopeWidth, slopeHeight, slopeQnt, " +
+                    "slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4,  doorSillObs, doorObs) " +
+                    "SELECT doorID, roomID, restID, doorLocation, doorType, doorWidth1, doorWidth2, doorHasPict, doorPictObs, opDirection, opDirectionObs, doorHandleType, " +
+                    "doorHandleHeight, doorHandleObs, doorHasLocks, doorHasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, horBarDoorDist, horBarObs, " +
+                    "doorHasWindow, doorWinInfHeight, doorWinSupHeight, doorWinWidth, doorWinObs, doorHasTactSign, tactSignHeight, tactSignIncl, tactSignObs, doorSillType, " +
+                    "inclHeight, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight, slopeWidth, slopeHeight, slopeQnt, slopeAngle1, slopeAngle2, slopeAngle3, " +
+                    "slopeAngle4,  doorSillObs, doorObs FROM DoorEntry");
+            database.execSQL("DROP TABLE DoorEntry");
+            database.execSQL("ALTER TABLE DoorEntry_2 RENAME TO DoorEntry");
+
+            database.execSQL("CREATE TABLE RestBoxEntry(boxID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restID INTEGER NOT NULL, typeBox INTEGER NOT NULL," +
+                    "comBoxDoorWidth REAL, comBoxFreeDiam REAL, comBoxHasBars INTEGER, comBoxToiletDoorDist REAL, comBoxWidth REAL, comBoxHasLeftBar INTEGER," +
+                    "comBoxLeftShapeBarA REAL, comBoxLeftShapeBarB REAL, comBoxLeftShapeBarC REAL, comBoxLeftShapeBarD REAL, comBoxLeftShapeBarDiam REAL," +
+                    "comBoxLeftShapeBarDist REAL, comBoxLeftHorObs TEXT, comBoxLeftVertBarA REAL, comBoxLeftVertBarB REAL, comBoxLeftVertBarC REAL, comBoxLeftVertBarDiam REAL, " +
+                    "comBoxLeftVertBarDist REAL, comBoxLeftVertObs TEXT, comBoxHasRightBar INTEGER, comBoxRightShapeBarA REAL, comBoxRightShapeBarB REAL, " +
+                    "comBoxRightShapeBarC REAL, comBoxRightShapeBarD REAL, comBoxRightShapeBarDiam REAL, comBoxRightShapeBarDist REAL, comBoxRightHorObs TEXT, " +
+                    "comBoxRightVertBarA REAL, comBoxRightVertBarB REAL, comBoxRightVertBarC REAL, comBoxRightVertBarDiam REAL, comBoxRightVertBarDist REAL, " +
+                    "comBoxRightVertObs TEXT, comBoxObs TEXT, upViewLength REAL, upViewWidth REAL, upViewMeasureA REAL, upViewMeasureB REAL, upViewMeasureC REAL, " +
+                    "upViewMeasureD REAL, upViewObs TEXT, restDrain INTEGER, restDrainObs TEXT, toType INTEGER, toHeightNoSeat REAL, toHasSeat INTEGER, toHeightSeat REAL, " +
+                    "toHasSoculo INTEGER, frSoculo REAL, latSoculo REAL, socCorners INTEGER, toHasFrontBar INTEGER, frBarA REAL, frBarB REAL, frBarC REAL, frBarSect REAL, " +
+                    "frBarDist REAL, toHasWall INTEGER, hasHorBar INTEGER, horBarD REAL, horBarE REAL, horBarF REAL, horBarDistG REAL, horBarSect REAL, horBarDist REAL, " +
+                    "hasVertBar INTEGER, vertBarH REAL, vertBarI REAL, vertBarJ REAL, vertBarSect REAL, vertBarDist REAL, hasSideBar INTEGER, sideBarD REAL, sideBarE REAL, " +
+                    "sideBarDistG REAL, sideBarSect REAL, hasArtBar INTEGER, artBarH REAL, artBarI REAL, artBarJ REAL, artBarSect REAL, toActDesc TEXT, toActHeight REAL, " +
+                    "toActObs TEXT, hasPapHolder INTEGER, papHolderType INTEGER, papEmbDist REAL, papEmbHeight REAL, papSupAlign INTEGER, papSupHeight REAL, papHoldObs TEXT, " +
+                    "hasDouche INTEGER, douchePressHeight REAL, doucheActHeight REAL, doucheObs TEXT, toiletObs TEXT, hasHanger INTEGER, hangerHeight REAL, hangerObs TEXT, " +
+                    "hasObjHold INTEGER, objHoldCorrect INTEGER, objHoldHeight REAL, objHoldObs TEXT, hasSoapHold INTEGER, soapHoldHeight REAL, soapHoldObs TEXT, " +
+                    "hasTowelHold INTEGER, towelHoldHeight REAL, towelHoldObs TEXT, hasEmergencyButton INTEGER, emergencyHeight REAL, emergencyObs TEXT, hasWaterValve INTEGER, " +
+                    "waterValveType INTEGER, waterValveHeight REAL, waterValveObs TEXT, hasWindow INTEGER, winQnt INTEGER, winComType1 TEXT, winComHeight1 REAL, winComType2 TEXT, " +
+                    "winComHeight2 REAL, winComType3 TEXT, winComHeight3 REAL, winObs TEXT, hasWallMirror INTEGER, wallMirrorLow REAL, wallMirrorHigh REAL, wallMirrorObs TEXT, " +
+                    "sinkType INTEGER, hasLowerColSink INTEGER, approxMeasureA REAL, approxMeasureB REAL, approxMeasureC REAL, approxMeasureD REAL, approxMeasureE REAL, " +
+                    "hasSinkBar INTEGER, hasLeftFrontHorBar INTEGER, leftFrontHorMeasureA REAL, leftFrontHorMeasureB REAL, leftFrontHorMeasureC REAL, leftFrontHorMeasureD REAL, " +
+                    "leftFrontHorDiam REAL, leftFrontHorDist REAL, leftFrontHorObs TEXT, hasRightSideVertBar INTEGER, rightSideVertMeasureA REAL, rightSideVertMeasureB REAL, " +
+                    "rightSideVertMeasureC REAL, rightSideVertMeasureD REAL, rightSideVertMeasureE REAL, rightSideVertDiam REAL, rightSideVertDist REAL, rightSideVertObs TEXT, " +
+                    "sinkHasMirror INTEGER, sinkMirrorLow REAL, sinkMirrorHigh REAL, sinkObs TEXT," +
+                    "FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE )");
+
+            database.execSQL("CREATE TABLE WinEntry(windowID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL, windowLocation TEXT," +
+                    "winQnt INTEGER NOT NULL DEFAULT 1, comType1 TEXT DEFAULT 'Único', comHeight1 REAL, comType2 TEXT, comHeight2 REAL, comType3 TEXT, " +
+                    "comHeight3 REAL, windowObs TEXT," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO WinEntry(windowID, roomID, windowLocation, comHeight1, windowObs) SELECT windowID, roomID, windowLocation," +
+                    "windowCommandHeight, windowObs FROM WindowEntry");
+            database.execSQL("DROP TABLE WindowEntry");
+            database.execSQL("ALTER TABLE WinEntry RENAME TO WindowEntry");
+        }
+    };
+
+    static final Migration MIGRATION_62_63 = new Migration(62, 63) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE WinEntry(windowID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL, windowLocation TEXT DEFAULT 'Única'," +
+                    "winQnt INTEGER NOT NULL DEFAULT 1, comType1 TEXT, comHeight1 REAL, comType2 TEXT, comHeight2 REAL, comType3 TEXT, " +
+                    "comHeight3 REAL, windowObs TEXT," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO WinEntry(windowID, roomID, windowLocation, winQnt, comType1, comHeight1, comType2, comHeight2, comType3," +
+                    "comHeight3, windowObs) SELECT windowID, roomID, windowLocation, winQnt, comType1, comHeight1, comType2, comHeight2, comType3," +
+                    "comHeight3, windowObs FROM WindowEntry");
+            database.execSQL("DROP TABLE WindowEntry");
+            database.execSQL("ALTER TABLE WinEntry RENAME TO WindowEntry");
+
+            database.execSQL("CREATE TABLE DoorEntry_2(doorID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, restID INTEGER, boxID INTEGER, doorLocation TEXT, " +
+                    "doorType INTEGER, doorWidth1 REAL, doorWidth2 REAL, doorHasPict INTEGER, doorPictObs TEXT, opDirection INTEGER, opDirectionObs TEXT, doorHandleType INTEGER, " +
+                    "doorHandleHeight REAL, doorHandleObs TEXT, doorHasLocks INTEGER, doorHasHorBar INTEGER, horBarHeight REAL, horBarLength REAL, horBarFrameDist REAL, " +
+                    "horBarDiam REAL, horBarDoorDist REAL, horBarObs TEXT, doorHasWindow INTEGER, doorWinInfHeight REAL, doorWinSupHeight REAL, doorWinWidth REAL, doorWinObs TEXT, " +
+                    "doorHasTactSign INTEGER, tactSignHeight REAL, tactSignIncl REAL, tactSignObs TEXT, doorSillType INTEGER, inclHeight REAL, " +
+                    "inclQnt INTEGER, inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL, inclAngle4 REAL, stepHeight REAL, slopeWidth REAL, slopeHeight REAL," +
+                    "slopeQnt INTEGER, slopeAngle1 REAL, slopeAngle2 REAL, slopeAngle3 REAL, slopeAngle4 REAL,  doorSillObs TEXT, doorObs TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (BOXID) REFERENCES RestBoxEntry (boxID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO DoorEntry_2 (doorID, roomID, restID, doorLocation, doorType, doorWidth1, doorWidth2, doorHasPict, doorPictObs, opDirection, " +
+                    "opDirectionObs, doorHandleType, doorHandleHeight, doorHandleObs, doorHasLocks, doorHasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, " +
+                    "horBarDoorDist, horBarObs, doorHasWindow, doorWinInfHeight, doorWinSupHeight, doorWinWidth, doorWinObs, doorHasTactSign, tactSignHeight, tactSignIncl, " +
+                    "tactSignObs, doorSillType, inclHeight, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight, slopeWidth, slopeHeight, slopeQnt, " +
+                    "slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4,  doorSillObs, doorObs) " +
+                    "SELECT doorID, roomID, restID, doorLocation, doorType, doorWidth1, doorWidth2, doorHasPict, doorPictObs, opDirection, opDirectionObs, doorHandleType, " +
+                    "doorHandleHeight, doorHandleObs, doorHasLocks, doorHasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, horBarDoorDist, horBarObs, " +
+                    "doorHasWindow, doorWinInfHeight, doorWinSupHeight, doorWinWidth, doorWinObs, doorHasTactSign, tactSignHeight, tactSignIncl, tactSignObs, doorSillType, " +
+                    "inclHeight, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight, slopeWidth, slopeHeight, slopeQnt, slopeAngle1, slopeAngle2, slopeAngle3, " +
+                    "slopeAngle4,  doorSillObs, doorObs FROM DoorEntry");
+            database.execSQL("DROP TABLE DoorEntry");
+            database.execSQL("ALTER TABLE DoorEntry_2 RENAME TO DoorEntry");
+        }
+    };
+
+    static final Migration MIGRATION_63_64 = new Migration(63, 64) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN sidewalkObs2 TEXT");
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN sidePhotos TEXT");
+        }
+    };
+
+    static final Migration MIGRATION_64_65 = new Migration(64, 65) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+
+            database.execSQL("ALTER TABLE ParkingLotEntry ADD COLUMN parkingObs TEXT");
+
+            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN hasSillIncl INTEGER");
+            database.execSQL("ALTER TABLE DoorEntry ADD COLUMN doorPhotos TEXT");
+
+            database.execSQL("ALTER TABLE SidewalkSlopeEntry ADD COLUMN hasSillIncl INTEGER");
+            database.execSQL("ALTER TABLE SidewalkSlopeEntry ADD COLUMN sideSlopePhotos TEXT");
+
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN hasSillIncl INTEGER");
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN extAccPhotos TEXT");
+
+            database.execSQL("ALTER TABLE PlaygroundEntry ADD COLUMN hasSillIncl INTEGER");
+
+            database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN hasSink INTEGER");
+            database.execSQL("UPDATE RestroomEntry SET hasSink = 1");
+
+            database.execSQL("ALTER TABLE RestBoxEntry ADD COLUMN hasSink INTEGER");
+            database.execSQL("UPDATE RestBoxEntry SET hasSink = 1");
+        }
+    };
+
 
 
     public static ReportDatabase getDatabase(final Context context) {
@@ -1513,7 +1655,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
                                     MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
                                     MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58, MIGRATION_58_59, MIGRATION_59_60,
-                                    MIGRATION_60_61).build();
+                                    MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65).build();
                 }
             }
         }
@@ -1572,5 +1714,7 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract BlackboardEntryDao blackboardEntryDao();
 
     public abstract DoorLockDao doorLockDao();
+
+    public abstract RestBoxDao restBoxDao();
 
 }

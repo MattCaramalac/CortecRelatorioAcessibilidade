@@ -28,9 +28,17 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessEntranceUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdateTwo;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntranceUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxAccOneUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxAccTwoUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxFirstUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxSinkUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxToilUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxUpViewUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestColFirstUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestSinkUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestToiletUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestUpViewUpdate;
@@ -79,10 +87,12 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<WindowEntry>> allWindows;
     public LiveData<List<TableEntry>> allTables;
     public LiveData<List<FreeSpaceEntry>> allFreeSpaces;
+    public LiveData<List<FreeSpaceEntry>> allRestFreeSpaces;
     public LiveData<List<BlackboardEntry>> allBlackboards;
     public LiveData<List<CounterEntry>> allCounters;
     public LiveData<List<DoorLockEntry>> allDoorLocks;
     public LiveData<List<DoorLockEntry>> allDoorLocksGates;
+    public LiveData<List<RestBoxEntry>> allBoxes;
     public final LiveData<List<SchoolEntry>> allEntries;
 
     public LiveData<ExternalAccess> oneAccess;
@@ -347,12 +357,24 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getAllDoors(roomID);
     }
 
+    public static LiveData<List<DoorEntry>> getAllRestDoors(List<Integer> restID) {
+        return repository.getAllRestDoors(restID);
+    }
+
+    public static LiveData<List<DoorEntry>> getAllBoxDoors(List<Integer> boxID) {
+        return repository.getAllBoxDoors(boxID);
+    }
+
     public LiveData<DoorEntry> getSpecificDoor(int doorId) {
         return repository.getSpecificDoor(doorId);
     }
 
     public LiveData<DoorEntry> getRestDoor(int restID) {
         return repository.getRestDoor(restID);
+    }
+
+    public LiveData<DoorEntry> getAccBoxDoor(int boxID) {
+        return repository.getAccBoxDoor(boxID);
     }
 
     public LiveData<DoorEntry> getLastDoorEntry() {
@@ -365,6 +387,10 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteDoor(int doorID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteDoor(doorID));
+    }
+
+    public void deleteRestDoor(int restID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteRestDoor(restID));
     }
 
     public static void deleteAllDoorsFromRoom(int schoolID, int roomID) {
@@ -380,8 +406,17 @@ public class ViewModelEntry extends AndroidViewModel {
         return allFreeSpaces;
     }
 
+    public LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRest(int restID) {
+        allRestFreeSpaces = repository.selectFreeSpaceFromRest(restID);
+        return allRestFreeSpaces;
+    }
+
     public static LiveData<List<FreeSpaceEntry>> getAllFreeSpaces(List<Integer> roomID) {
         return repository.getAllFreeSpaces(roomID);
+    }
+
+    public static LiveData<List<FreeSpaceEntry>> getAllRestFreeSpaces(List<Integer> restID) {
+        return repository.getAllRestFreeSpaces(restID);
     }
 
     public LiveData<FreeSpaceEntry> selectSpecificFreeSpace(int freeSpaceID) {
@@ -702,6 +737,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getRestUpViewData(restID);
     }
 
+    public LiveData<RestroomEntry> getRestColDoorData(int restID) {
+        return repository.getRestColDoorData(restID);
+    }
+
     public LiveData<RestroomEntry> getRestToiletData(int restID) {
         return repository.getRestToiletData(restID);
     }
@@ -726,8 +765,12 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getLastRestroomEntry();
     }
 
-    public static void updateRestroomData(RestEntranceUpdate... restEntranceUpdates) {
-        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomData(restEntranceUpdates));
+    public static void updateRestroomData(RestColFirstUpdate... restColFirstUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateRestroomData(restColFirstUpdates));
+    }
+
+    public static void updateAccessRestData(RestAccessEntranceUpdate... restAccessUpdates) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateAccessRestData(restAccessUpdates));
     }
 
     public static void updateRestUpViewData(RestUpViewUpdate... upViewUpdates) {
@@ -1036,4 +1079,76 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllDoorLocksFromDoor(doorID));
     }
 
+    public static void insertRestBox(RestBoxEntry restBox) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertRestBox(restBox));
+    }
+
+    public LiveData<List<RestBoxEntry>> getBoxesInRestroom(int restID) {
+        allBoxes = repository.getBoxesInRestroom(restID);
+        return allBoxes;
+    }
+
+    public static LiveData<List<RestBoxEntry>> getAllBoxesAllRestrooms(List<Integer> restID) {
+        return repository.getAllBoxesInRestroom(restID);
+    }
+
+    public LiveData<RestBoxEntry> getCommonBoxData(int boxID) {
+        return repository.getCommonBoxData(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getBoxUpViewData(int boxID) {
+        return repository.getBoxUpViewData(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getBoxToiletData(int boxID) {
+        return repository.getBoxToiletData(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getBoxAccessData(int boxID) {
+        return repository.getBoxAccessData(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getBoxAccessDataTwo(int boxID) {
+        return repository.getBoxAccessDataTwo(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getBoxSinkData(int boxID) {
+        return repository.getBoxSinkData(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getOneBoxEntry(int boxID) {
+        return repository.getOneBoxEntry(boxID);
+    }
+
+    public LiveData<RestBoxEntry> getLastBoxEntry() {
+        return repository.getLastBoxEntry();
+    }
+
+    public static void deleteOneBox(int boxID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteOneBox(boxID));
+    }
+
+    public static void updateBoxFirstData(RestBoxFirstUpdate... comBoxUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateBoxFirstData(comBoxUpdate));
+    }
+
+    public void updateBoxUpView(RestBoxUpViewUpdate... upViewUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateBoxUpView(upViewUpdate));
+    }
+
+    public static void updateBoxToilet(RestBoxToilUpdate... toilUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateBoxToilet(toilUpdate));
+    }
+
+    public void updateBoxAccOne(RestBoxAccOneUpdate... accOneUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateBoxAccOne(accOneUpdate));
+    }
+
+    public static void updateBoxAccTwo(RestBoxAccTwoUpdate... accTwoUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateBoxAccTwo(accTwoUpdate));
+    }
+
+    public static void updateBoxSink(RestBoxSinkUpdate... sinkUpdate) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateBoxSink(sinkUpdate));
+    }
 }

@@ -2,61 +2,206 @@ package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
+import com.mpms.relatorioacessibilidadecortec.adapter.RestBoxRecAdapter;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RestBoxListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class RestBoxListFragment extends Fragment {
+import org.jetbrains.annotations.NotNull;
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.List;
+import java.util.Objects;
 
-    private String mParam1;
-    private String mParam2;
+
+public class RestBoxListFragment extends Fragment implements OnEntryClickListener, TagInterface {
+
+    MaterialButton closeBoxList, addBox, invisible;
+    TextView boxHeader;
+
+    private ViewModelEntry modelEntry;
+    private RecyclerView recyclerView;
+    private RestBoxRecAdapter boxRecAdapter;
+    private ActionMode actionMode;
+
+    int delClick = 0;
+
+    Bundle boxBundle;
 
     public RestBoxListFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RestBoxListFragment.
-     */
-    public static RestBoxListFragment newInstance(String param1, String param2) {
-        RestBoxListFragment fragment = new RestBoxListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static RestBoxListFragment newInstance() {
+        return new RestBoxListFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        if (this.getArguments() != null)
+            boxBundle = new Bundle(this.getArguments());
+        else
+            boxBundle = new Bundle();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rest_box_list, container, false);
+        return inflater.inflate(R.layout.fragment_child_items_entries, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        instantiateBoxListViews(view);
+
+        if (boxBundle.getInt(REST_ID) > 0)
+            modelEntry.getBoxesInRestroom(boxBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
+
+        closeBoxList.setOnClickListener(v -> {
+            if (actionMode != null)
+                actionMode.finish();
+            requireActivity().getSupportFragmentManager().popBackStackImmediate();
+        });
+
+        addBox.setOnClickListener(v -> openBoxFragment());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        boxBundle.putInt(BOX_ID, 0);
+    }
+
+    private void instantiateBoxListViews(View v) {
+//        MaterialButton
+        closeBoxList = v.findViewById(R.id.cancel_child_items_entries);
+        addBox = v.findViewById(R.id.add_child_items_entries);
+        invisible = v.findViewById(R.id.continue_child_items_entries);
+        invisible.setVisibility(View.GONE);
+//        TextView
+        boxHeader = v.findViewById(R.id.identifier_header);
+        boxHeader.setVisibility(View.VISIBLE);
+        boxHeader.setText(R.string.header_register_rest_box);
+//        RecyclerView
+        recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+//        ViewModel
+        modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+    }
+
+    private void listLayoutCreator(List<RestBoxEntry> list, OnEntryClickListener listener) {
+        boxRecAdapter = new RestBoxRecAdapter(list, requireActivity(), listener);
+        recyclerView.setAdapter(boxRecAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        boxRecAdapter.setListener(listener());
+    }
+
+    private ListClickListener listener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
+    }
+
+    private void enableActionMode() {
+        if (actionMode == null) {
+            AppCompatActivity activity = (AppCompatActivity) requireActivity();
+            actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    mode.getMenuInflater().inflate(R.menu.menu_delete, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return true;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    if (item.getItemId() == R.id.delete_button) {
+                        delClick = 1;
+                        boxRecAdapter.deleteItemList();
+                        mode.finish();
+                        return true;
+                    }
+                    return false;
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+                    if (delClick == 0)
+                        boxRecAdapter.cancelSelection(recyclerView);
+                    boxRecAdapter.selectedItems.clear();
+                    boxRecAdapter.notifyDataSetChanged();
+                    delClick = 0;
+                    actionMode = null;
+                }
+            });
+        }
+
+        final int size = boxRecAdapter.selectedItems.size();
+        if (size == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(size + "");
+            actionMode.invalidate();
+        }
+    }
+
+    private void openBoxFragment() {
+        RestBoxFragment boxFragment = RestBoxFragment.newInstance();
+        boxFragment.setArguments(boxBundle);
+        if (actionMode != null)
+            actionMode.finish();
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, boxFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void OnEntryClick(int position) {
+        RestBoxEntry box = modelEntry.allBoxes.getValue().get(position);
+        boxBundle.putInt(BOX_ID, box.getBoxID());
+        boxBundle.putBoolean(FROM_BOX, true);
+        openBoxFragment();
     }
 }

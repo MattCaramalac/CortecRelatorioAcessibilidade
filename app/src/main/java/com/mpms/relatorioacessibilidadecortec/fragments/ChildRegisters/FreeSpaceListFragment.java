@@ -28,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class FreeSpaceListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -74,33 +75,20 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
 
         instantiateFreeSpaceViews(view);
 
-        if (fSpaceListBundle.getInt(AMBIENT_ID) == 0) {
-            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    fSpaceListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+
+        if (!fSpaceListBundle.getBoolean(FROM_REST) && fSpaceListBundle.getInt(AMBIENT_ID) == 0) {
+                modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
+                        fSpaceListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
         }
 
-        modelEntry.selectFreeSpaceFromRoom(fSpaceListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), fSpaceList -> {
-            fSpaceAdapter = new FreeSpaceRecViewAdapter(fSpaceList, requireActivity(), this);
-            recyclerView.setAdapter(fSpaceAdapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-            recyclerView.addItemDecoration(dividerItemDecoration);
 
-            fSpaceAdapter.setListener(new ListClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    if (actionMode == null)
-                        OnEntryClick(position);
-                    else
-                        enableActionMode();
-                }
-
-                @Override
-                public void onItemLongClick(int position) {
-                    enableActionMode();
-                }
-            });
-        });
+        if (fSpaceListBundle.getBoolean(FROM_REST)) {
+            modelEntry.selectFreeSpaceFromRest(fSpaceListBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), fSpaceList ->
+                    listLayoutCreator(fSpaceList, this));
+        } else {
+            modelEntry.selectFreeSpaceFromRoom(fSpaceListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), fSpaceList ->
+                    listLayoutCreator(fSpaceList, this));
+        }
 
         closeFreeList.setOnClickListener(v -> {
             if (actionMode != null)
@@ -120,7 +108,34 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(fSpaceListBundle.getInt(AMBIENT_ID));
+        if (!fSpaceListBundle.getBoolean(FROM_REST))
+            RoomsRegisterFragment.roomModelFragments.setNewRoomID(fSpaceListBundle.getInt(AMBIENT_ID));
+    }
+
+    private void listLayoutCreator(List<FreeSpaceEntry> list, OnEntryClickListener listener) {
+        fSpaceAdapter = new FreeSpaceRecViewAdapter(list, requireActivity(), listener);
+        recyclerView.setAdapter(fSpaceAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        fSpaceAdapter.setListener(listener());
+    }
+
+    private ListClickListener listener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
     }
 
     private void enableActionMode() {
@@ -181,7 +196,11 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
 
     @Override
     public void OnEntryClick(int position) {
-        FreeSpaceEntry fSpace = modelEntry.allFreeSpaces.getValue().get(position);
+        FreeSpaceEntry fSpace;
+        if (fSpaceListBundle.getBoolean(FROM_REST))
+            fSpace = modelEntry.allRestFreeSpaces.getValue().get(position);
+        else
+            fSpace = modelEntry.allFreeSpaces.getValue().get(position);
         fSpaceListBundle.putInt(FREE_SPACE_ID, fSpace.getFrSpaceID());
         openFreeSpaceFragment();
     }

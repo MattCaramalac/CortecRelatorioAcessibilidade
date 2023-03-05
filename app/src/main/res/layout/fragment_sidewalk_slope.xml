@@ -107,7 +107,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/first_measurement_perc"
-                android:visibility="gone"
                 android:weightSum="@integer/weight_one"
                 app:layout_constraintEnd_toStartOf="@id/slope_longitudinal_2_field"
                 app:layout_constraintStart_toStartOf="parent"
@@ -745,14 +744,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/street_slope_radio" />
 
-            <FrameLayout
-                android:id="@+id/street_slope_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/slope_street_junction_error"
-                android:layout_marginTop="@dimen/usual_padding"/>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/street_slope_obs_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -760,7 +751,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_obs_slope_street"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/street_slope_fragment">
+                app:layout_constraintTop_toBottomOf="@id/slope_street_junction_error">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/street_slope_obs_value"
@@ -797,6 +788,22 @@
                     android:scrollbarStyle="outsideInset"
                     android:scrollbars="vertical"
                     android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/side_slope_photos_field"
+                app:layout_constraintTop_toBottomOf="@id/slope_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_photo_field"
+                android:layout_marginTop="@dimen/usual_padding">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/side_slope_photos_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

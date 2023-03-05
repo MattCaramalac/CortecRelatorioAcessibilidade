@@ -38,7 +38,7 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
             pcdVacancyWidthValue, pcdVacLimiterWidthValue, safetyZoneWidthValue,
             safetyZoneObsValue, siaLengthValue, siaWidthValue, siaObsValue, pcdVacancyObsValue, vacancyLocalValue;
     ArrayList<TextInputLayout> verticalFields, safetyFields, siaFields;
-    ArrayList<TextInputEditText> eText;
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     public Bundle pcdBundle = new Bundle();
 

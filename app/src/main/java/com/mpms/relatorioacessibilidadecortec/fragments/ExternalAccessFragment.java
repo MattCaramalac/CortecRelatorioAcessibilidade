@@ -23,11 +23,14 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.VehicleExtAccParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessVehicleFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
+
+import org.parceler.Parcels;
 
 public class ExternalAccessFragment extends Fragment implements TagInterface, ScrollEditText {
 
@@ -290,26 +293,29 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
     }
 
     private ExternalAccess newExtAccess(Bundle bundle) {
-        String location, accessFloorObs = null, accessObs = null;
+        String location, accessFloorObs = null, accessObs = null, photos = null;
         int accessType, accessFloor;
         Integer hasSound = null;
 
         location = String.valueOf(entranceLocationValue.getText());
         accessType = getRadioCheckIndex(entranceTypeRadio);
         if (accessType == 1) {
-            hasSound = bundle.getInt(ExtAccessVehicleFragment.HAS_SOUND);
-            accessObs = bundle.getString(ExtAccessVehicleFragment.ACCESS_OBS);
+            VehicleExtAccParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+            hasSound = parcel.getHasSoundSignal();
+            accessObs = parcel.getSoundObs();
+            photos = parcel.getPhotos();
         }
         accessFloor = getRadioCheckIndex(accessFloorRadio);
         if (accessFloor == 0)
             accessFloorObs = String.valueOf(accessFloorObsValue.getText());
 
         return new ExternalAccess(bundle.getInt(BLOCK_ID), location, accessType, accessFloor, accessFloorObs, null, null,
+                null, null, null, null, null, null, null, null,
+                null,null, null, null, null, null, null,
+                null, null,null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null, null, hasSound, accessObs);
+                null, null, hasSound, accessObs, null, photos);
     }
 
     private ExtAccessSocialOne upExtAccessOne(Bundle bundle) {

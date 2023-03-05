@@ -20,6 +20,7 @@ import com.mpms.relatorioacessibilidadecortec.data.parcels.RestAccessColParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
+import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import org.parceler.Parcels;
 
@@ -34,13 +35,13 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
             driftFloorObsValue, restDrainObsValue, restSwitchObsValue,
             restSwitchHeightValue;
     TextView restroomTypeError, accessibleRouteError, integratedRestError, driftingFloorError, restroomDrainError, restroomSwitchError;
-    RadioGroup restTypeRadio, accessibleRouteRadio, integratedRestRadio, driftFloorRadio, restDrainRadio, restSwitchRadio;
+    RadioGroup accessibleRouteRadio, integratedRestRadio, driftFloorRadio, restDrainRadio, restSwitchRadio;
+    MultiLineRadioGroup restTypeMulti;
 
     ArrayList<TextInputEditText> obsValues = new ArrayList<>();
     static Bundle restBundle = new Bundle();
 
     ViewModelEntry modelEntry;
-    int id;
 
     int recentEntry = 0, updateEntry = 0, registeredEntry = 0;
 
@@ -103,12 +104,13 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
         restSwitchObsValue = view.findViewById(R.id.restroom_switch_obs_value);
         restSwitchHeightValue = view.findViewById(R.id.restroom_switch_height_value);
 //        RadioGroup
-        restTypeRadio = view.findViewById(R.id.restroom_type_radio);
         accessibleRouteRadio = view.findViewById(R.id.accessible_route_radio);
         integratedRestRadio = view.findViewById(R.id.integrated_restroom_radio);
         driftFloorRadio = view.findViewById(R.id.restroom_drifting_radio);
         restDrainRadio = view.findViewById(R.id.restroom_drain_radio);
         restSwitchRadio = view.findViewById(R.id.restroom_switch_radio);
+//        MultilineRadioGroup
+        restTypeMulti = view.findViewById(R.id.restroom_type_multiradio);
 //        TextView
         restroomTypeError = view.findViewById(R.id.restroom_type_error);
         accessibleRouteError = view.findViewById(R.id.accessible_route_error);
@@ -152,7 +154,7 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
     private void loadAccessRestData(RestroomEntry rest) {
         if (rest.getIsCollective() == 0) {
             if (rest.getRestType() != null)
-                restTypeRadio.check(restTypeRadio.getChildAt(rest.getRestType()).getId());
+                restTypeMulti.checkAt(rest.getRestType());
             if (rest.getRestLocation() != null)
                 restLocationValue.setText(rest.getRestLocation());
             if (rest.getAccessRoute() != null)
@@ -167,10 +169,6 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
                 driftFloorRadio.check(driftFloorRadio.getChildAt(rest.getAntiDriftFloor()).getId());
             if (rest.getAntiDriftFloorObs() != null && rest.getAntiDriftFloorObs().length() > 0)
                 driftFloorObsValue.setText(rest.getAntiDriftFloorObs());
-            if (rest.getRestDrain() != null)
-                restDrainRadio.check(restDrainRadio.getChildAt(rest.getRestDrain()).getId());
-            if (rest.getRestDrainObs() != null && rest.getRestDrainObs().length() > 0)
-                restDrainObsValue.setText(rest.getRestDrainObs());
             if (rest.getRestDrain() != null)
                 restDrainRadio.check(restDrainRadio.getChildAt(rest.getRestDrain()).getId());
             if (rest.getRestDrainObs() != null && rest.getRestDrainObs().length() > 0)
@@ -192,7 +190,7 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
             error++;
             restLocationField.setError(getString(R.string.req_field_error));
         }
-        if (restTypeRadio.getCheckedRadioButtonId() == -1) {
+        if (restTypeMulti.getCheckedRadioButtonId() == -1) {
             restroomTypeError.setVisibility(View.VISIBLE);
             error++;
         }
@@ -240,7 +238,7 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
         Double switchHeight = null;
         String restLocation, accessRouteObs = null, intRestObs = null, antiDriftFloorObs = null, restDrainObs = null, switchObs = null;
 
-        restType = getRestroomCheckedRadio(restTypeRadio);
+        restType = restTypeMulti.getCheckedRadioButtonIndex();
         restLocation = String.valueOf(restLocationValue.getText());
         accessRoute = getRestroomCheckedRadio(accessibleRouteRadio);
         if (!TextUtils.isEmpty(accessibleRouteObsValue.getText()))
@@ -262,8 +260,10 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
         if (!TextUtils.isEmpty(restSwitchObsValue.getText()))
             switchObs = String.valueOf(restSwitchObsValue.getText());
 
-        RestAccessColParcel parcel = new RestAccessColParcel(restType, restLocation, accessRoute, accessRouteObs, intRest, intRestObs, antiDriftFloor,
-                antiDriftFloorObs, restDrain, restDrainObs, restSwitch, switchHeight, switchObs, null, null, null, null);
+        RestAccessColParcel parcel = new RestAccessColParcel(restType, restLocation, null, null, null,accessRoute, accessRouteObs, intRest,
+                intRestObs, antiDriftFloor, antiDriftFloorObs, restDrain, restDrainObs, null, null, null, restSwitch,
+                switchHeight, switchObs, null, null,null, null, null, null, null,
+                null, null);
         bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
         bundle.putBoolean(CHILD_DATA_COMPLETE, true);
     }

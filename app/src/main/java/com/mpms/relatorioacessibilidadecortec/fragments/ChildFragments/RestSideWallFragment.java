@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.RestToiletSideBarsParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -37,17 +38,18 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
     TextView question1, question2, hBarError, vBarError;
 
     Bundle imgData;
+    static Bundle dataBundle;
     ViewModelEntry modelEntry;
 
-    static int layout, restID;
+    static int layout;
 
     public RestSideWallFragment() {
         // Required empty public constructor
     }
 
-    public static RestSideWallFragment newInstance(int visual, int restroom) {
+    public static RestSideWallFragment newInstance(int visual, Bundle bundle) {
         layout = visual;
-        restID = restroom;
+        dataBundle = bundle;
         return new RestSideWallFragment();
     }
 
@@ -70,8 +72,10 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
 
         instantiateSideWallViews(view);
 
-        if (restID > 0)
-            modelEntry.getRestToiletData(restID).observe(getViewLifecycleOwner(), this::loadSideWallData);
+        if (dataBundle.getInt(BOX_ID) > 0)
+            modelEntry.getBoxToiletData(dataBundle.getInt(BOX_ID)).observe(getViewLifecycleOwner(), this::loadSideWallBoxData);
+        else if (dataBundle.getInt(REST_ID) > 0)
+            modelEntry.getRestToiletData(dataBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadSideWallData);
 
         getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
             if (checkSideWallFields()) {
@@ -302,6 +306,70 @@ public class RestSideWallFragment extends Fragment implements TagInterface {
                         vertArtDiamValue.setText(String.valueOf(rest.getVertBarSect()));
                     if (rest.getVertBarDist() != null)
                         vertBarDistValue.setText(String.valueOf(rest.getVertBarDist()));
+                }
+            }
+        }
+    }
+
+    private void loadSideWallBoxData(RestBoxEntry box) {
+        if (layout == 0) {
+            if (box.getHasSideBar() != null && box.getHasSideBar() > -1) {
+                hasHorSideBar.check(hasHorSideBar.getChildAt(box.getHasSideBar()).getId());
+                if (box.getHasSideBar() == 1) {
+                    if (box.getSideBarD() != null)
+                        measureValueD.setText(String.valueOf(box.getSideBarD()));
+                    if (box.getSideBarE() != null)
+                        measureValueE.setText(String.valueOf(box.getSideBarE()));
+                    if (box.getSideBarDistG() != null)
+                        measureValueG.setText(String.valueOf(box.getSideBarDistG()));
+                    if (box.getSideBarSect() != null)
+                        horSideDiamValue.setText(String.valueOf(box.getSideBarSect()));
+                }
+            }
+            if (box.getHasArtBar() != null && box.getHasArtBar() > -1) {
+                hasVertArtBar.check(hasVertArtBar.getChildAt(box.getHasArtBar()).getId());
+                if (box.getHasArtBar() == 1) {
+                    if (box.getArtBarH() != null)
+                        measureValueH.setText(String.valueOf(box.getArtBarH()));
+                    if (box.getArtBarI() != null)
+                        measureValueI.setText(String.valueOf(box.getArtBarI()));
+                    if (box.getArtBarJ() != null)
+                        measureValueJ.setText(String.valueOf(box.getArtBarJ()));
+                    if (box.getArtBarSect() != null)
+                        vertArtDiamValue.setText(String.valueOf(box.getArtBarSect()));
+                }
+            }
+        } else if (layout == 1) {
+            if (box.getHasHorBar() != null && box.getHasHorBar() > -1) {
+                hasHorSideBar.check(hasHorSideBar.getChildAt(box.getHasHorBar()).getId());
+                if (box.getHasHorBar() == 1) {
+                    if (box.getHorBarD() != null)
+                        measureValueD.setText(String.valueOf(box.getHorBarD()));
+                    if (box.getHorBarE() != null)
+                        measureValueE.setText(String.valueOf(box.getHorBarE()));
+                    if (box.getHorBarF() != null)
+                        measureValueF.setText(String.valueOf(box.getHorBarF()));
+                    if (box.getHorBarDistG() != null)
+                        measureValueG.setText(String.valueOf(box.getHorBarDistG()));
+                    if (box.getHorBarSect() != null)
+                        horSideDiamValue.setText(String.valueOf(box.getHorBarSect()));
+                    if (box.getHorBarDist() != null)
+                        horBarDistValue.setText(String.valueOf(box.getHorBarDist()));
+                }
+            }
+            if (box.getHasVertBar() != null && box.getHasVertBar() > -1) {
+                hasVertArtBar.check(hasVertArtBar.getChildAt(box.getHasVertBar()).getId());
+                if (box.getHasVertBar() == 1) {
+                    if (box.getVertBarH() != null)
+                        measureValueH.setText(String.valueOf(box.getVertBarH()));
+                    if (box.getVertBarI() != null)
+                        measureValueI.setText(String.valueOf(box.getVertBarI()));
+                    if (box.getVertBarJ() != null)
+                        measureValueJ.setText(String.valueOf(box.getVertBarJ()));
+                    if (box.getVertBarSect() != null)
+                        vertArtDiamValue.setText(String.valueOf(box.getVertBarSect()));
+                    if (box.getVertBarDist() != null)
+                        vertBarDistValue.setText(String.valueOf(box.getVertBarDist()));
                 }
             }
         }

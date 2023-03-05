@@ -373,11 +373,13 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
     private void saveUpdateRoomEntry(Bundle bundle) {
         RoomEntry newRoom = newRoomEntry(bundle);
         if (newEntry == 1) {
+            recentEntry = 1;
             ViewModelEntry.insertRoomEntry(newRoom);
         } else if (newEntry == 0) {
             newRoom.setRoomID(bundle.getInt(AMBIENT_ID));
             ViewModelEntry.updateRoom(newRoom);
         }
+        newEntry = 0;
     }
 
     private void buttonClickedListener(Bundle bundle, View view) {

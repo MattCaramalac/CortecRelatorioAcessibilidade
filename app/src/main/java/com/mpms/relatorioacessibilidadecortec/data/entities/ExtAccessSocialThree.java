@@ -32,11 +32,14 @@ public class ExtAccessSocialThree {
     private Integer gateHasStairs;
     private Integer gateHasRamps;
     private String extAccessObs;
+    private Integer hasSillIncl;
+    private String extAccPhotos;
 
     public ExtAccessSocialThree(int externalAccessID, Integer gateSillType, Double sillInclinationHeight, Integer inclQnt, Double inclAngle1, Double inclAngle2,
                                 Double inclAngle3, Double inclAngle4,Double sillStepHeight, Integer slopeMeasureQnt, Double sillSlopeAngle, Double sillSlopeAngle2,
                                 Double sillSlopeAngle3, Double sillSlopeAngle4, Double sillSlopeWidth, Double sillSlopeHeight, String gateSillObs, Integer gateHasObstacles,
-                                Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, String extAccessObs, Integer gateHasStairs, Integer gateHasRamps) {
+                                Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, String extAccessObs, Integer gateHasStairs, Integer gateHasRamps,
+                                Integer hasSillIncl, String extAccPhotos) {
         this.externalAccessID = externalAccessID;
         this.gateSillType = gateSillType;
         this.sillInclinationHeight = sillInclinationHeight;
@@ -61,6 +64,8 @@ public class ExtAccessSocialThree {
         this.extAccessObs = extAccessObs;
         this.gateHasStairs = gateHasStairs;
         this.gateHasRamps = gateHasRamps;
+        this.hasSillIncl = hasSillIncl;
+        this.extAccPhotos = extAccPhotos;
     }
 
     public int getExternalAccessID() {
@@ -253,6 +258,22 @@ public class ExtAccessSocialThree {
 
     public void setSillSlopeHeight(Double sillSlopeHeight) {
         this.sillSlopeHeight = sillSlopeHeight;
+    }
+
+    public Integer getHasSillIncl() {
+        return hasSillIncl;
+    }
+
+    public void setHasSillIncl(Integer hasSillIncl) {
+        this.hasSillIncl = hasSillIncl;
+    }
+
+    public String getExtAccPhotos() {
+        return extAccPhotos;
+    }
+
+    public void setExtAccPhotos(String extAccPhotos) {
+        this.extAccPhotos = extAccPhotos;
     }
 }
 

@@ -35,10 +35,12 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
 
     TextInputLayout slopeLocaleField, slopeWidthField, longMeasureField1, longMeasureField2, longMeasureField3, longMeasureField4,
             leftMeasureField1, leftMeasureField2, leftMeasureField3, leftMeasureField4, rightMeasureField1, rightMeasureField2,
-            rightMeasureField3, rightMeasureField4, tactileFloorObsField, accessFloorObsField, slopeObsField, slopeStreetObsField;
+            rightMeasureField3, rightMeasureField4, tactileFloorObsField, accessFloorObsField, slopeObsField, slopeStreetObsField,
+            photosField;
     TextInputEditText slopeLocaleValue, slopeWidthValue, longMeasureValue1, longMeasureValue2, longMeasureValue3, longMeasureValue4,
             leftMeasureValue1, leftMeasureValue2, leftMeasureValue3, leftMeasureValue4, rightMeasureValue1, rightMeasureValue2,
-            rightMeasureValue3, rightMeasureValue4, tactileFloorObsValue, accessFloorObsValue, slopeObsValue, slopeStreetObsValue;
+            rightMeasureValue3, rightMeasureValue4, tactileFloorObsValue, accessFloorObsValue, slopeObsValue, slopeStreetObsValue,
+            photosValue;
     MaterialButton longButton, leftButton, rightButton, cancelSlope, saveSlope;
     ImageButton deleteLong, deleteLeft, deleteRight;
     RadioGroup hasTactileFloor, hasLeftWing, hasRightWing, slopeIsAccessible, slopeNearPCD;
@@ -52,7 +54,7 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
 
     ViewModelEntry modelEntry;
 
-    int longCounter = 0;
+    int longCounter = 1;
     int leftCounter = 0;
     int rightCounter = 0;
 
@@ -100,12 +102,8 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         cancelSlope.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
         saveSlope.setOnClickListener(v -> {
-            if (slopeStreetJunction.getCheckedRadioButtonIndex() == 1 || slopeStreetJunction.getCheckedRadioButtonIndex() == 2) {
-                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, slopeBundle);
-            } else {
-                if (checkSideSlopeEmptyFields()) {
-                    saveSideSlopeEntry(slopeBundle);
-                }
+            if (checkSideSlopeEmptyFields()) {
+                saveSideSlopeEntry(slopeBundle);
             }
         });
     }
@@ -147,6 +145,7 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         accessFloorObsField = view.findViewById(R.id.slope_accessible_floor_obs_field);
         slopeObsField = view.findViewById(R.id.slope_obs_field);
         slopeStreetObsField = view.findViewById(R.id.street_slope_obs_field);
+        photosField = view.findViewById(R.id.side_slope_photos_field);
 //        TextInputEditText
         slopeLocaleValue = view.findViewById(R.id.slope_locale_value);
         slopeWidthValue = view.findViewById(R.id.slope_width_value);
@@ -166,6 +165,7 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         accessFloorObsValue = view.findViewById(R.id.slope_accessible_floor_obs_value);
         slopeObsValue = view.findViewById(R.id.slope_obs_value);
         slopeStreetObsValue = view.findViewById(R.id.street_slope_obs_value);
+        photosValue = view.findViewById(R.id.side_slope_photos_value);
 //        MaterialButtons
         longButton = view.findViewById(R.id.add_longitudinal_measurement);
         leftButton = view.findViewById(R.id.add_left_wing_measurement);
@@ -201,11 +201,12 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         hasRightWing.setOnCheckedChangeListener(this::slopeWingRadioListener);
         hasLeftWing.setOnCheckedChangeListener(this::slopeWingRadioListener);
         slopeIsAccessible.setOnCheckedChangeListener(this::slopeWingRadioListener);
-        slopeStreetJunction.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
-                (v, r) -> slopeMultiRadioListener(slopeStreetJunction));
         longButton.setOnClickListener(this::addFieldClickListener);
         leftButton.setOnClickListener(this::addFieldClickListener);
         rightButton.setOnClickListener(this::addFieldClickListener);
+        deleteLeft.setOnClickListener(this::addFieldClickListener);
+        deleteLong.setOnClickListener(this::addFieldClickListener);
+        deleteRight.setOnClickListener(this::addFieldClickListener);
         editTextFields();
         allowObsScroll(eText);
     }
@@ -368,28 +369,6 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         }
     }
 
-    private void slopeMultiRadioListener(MultiLineRadioGroup multi) {
-        int index = multi.getCheckedRadioButtonIndex();
-        switch (index) {
-            case 1:
-                getChildFragmentManager().beginTransaction().replace(R.id.street_slope_fragment, new SillInclinationFragment()).commit();
-                break;
-            case 2:
-                getChildFragmentManager().beginTransaction().replace(R.id.street_slope_fragment, new SillStepFragment()).commit();
-                break;
-            default:
-                removeStreetSlopeFragments();
-                break;
-        }
-    }
-
-    private void removeStreetSlopeFragments() {
-        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.street_slope_fragment);
-        if (fragment != null)
-            getChildFragmentManager().beginTransaction().remove(fragment).commit();
-
-    }
-
     private void closeSlopeWingFields(RadioGroup radio) {
         if (radio == hasLeftWing) {
             leftMeasureValue1.setText(null);
@@ -500,6 +479,8 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         }
         if (sideSlope.getSlopeObs() != null)
             slopeObsValue.setText(sideSlope.getSlopeObs());
+        if (sideSlope.getSideSlopePhotos() != null)
+            photosValue.setText(sideSlope.getSideSlopePhotos());
     }
 
     private boolean checkSideSlopeEmptyFields() {
@@ -664,13 +645,13 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
     }
 
     private SidewalkSlopeEntry newSlope(Bundle bundle) {
-        String slopeLocation, tactFloorObs = null, accessSlopeFloorObs = null, slopeObs = null, junctionObs = null;
+        String slopeLocation, tactFloorObs = null, accessSlopeFloorObs = null, slopeObs = null, junctionObs = null, photos = null;
         double slopeWidth;
         Double long1 = null, long2 = null, long3 = null, long4 = null, left1 = null, left2 = null, left3 = null, left4 = null,
                 right1 = null, right2 = null, right3 = null, right4 = null, junInclHeight = null, junStepHeight = null, inclAngle1 = null, inclAngle2 = null,
                 inclAngle3 = null, inclAngle4 = null;
         int hasLeft, hasRight, hasTactile, hasAccess, streetJunction;
-        Integer inclQnt = null;
+        Integer hasIncl = null, inclQnt = null;
 
         slopeLocation = String.valueOf(slopeLocaleValue.getText());
         slopeWidth = Double.parseDouble(String.valueOf(slopeWidthValue.getText()));
@@ -722,17 +703,19 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         if (streetJunction == 1) {
             InclinationParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
             junInclHeight = parcel.getInclHeight();
-            inclQnt = parcel.getInclQnt();
-            if (parcel.getInclMeasure4() != null)
-                inclAngle4 = parcel.getInclMeasure4();
-            if (parcel.getInclMeasure3() != null)
-                inclAngle3 = parcel.getInclMeasure3();
-            if (parcel.getInclMeasure2() != null)
-                inclAngle2 = parcel.getInclMeasure2();
-            if (parcel.getInclMeasure1() != null)
-                inclAngle1 = parcel.getInclMeasure1();
-        }
-        else if (streetJunction == 2) {
+            hasIncl = parcel.getHasInclSlope();
+            if (hasIncl == 1) {
+                inclQnt = parcel.getInclQnt();
+                if (parcel.getInclMeasure4() != null)
+                    inclAngle4 = parcel.getInclMeasure4();
+                if (parcel.getInclMeasure3() != null)
+                    inclAngle3 = parcel.getInclMeasure3();
+                if (parcel.getInclMeasure2() != null)
+                    inclAngle2 = parcel.getInclMeasure2();
+                if (parcel.getInclMeasure1() != null)
+                    inclAngle1 = parcel.getInclMeasure1();
+            }
+        } else if (streetJunction == 2) {
             StepParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
             junStepHeight = parcel.getStepHeight();
         }
@@ -741,9 +724,13 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         if (!TextUtils.isEmpty(slopeObsValue.getText()))
             slopeObs = String.valueOf(slopeObsValue.getText());
 
+        if (!TextUtils.isEmpty(photosValue.getText()))
+            photos = String.valueOf(photosValue.getText());
+
         return new SidewalkSlopeEntry(bundle.getInt(AMBIENT_ID), slopeLocation, slopeWidth, longCounter, long1, long2, long3, long4,
                 hasLeft, leftCounter, left1, left2, left3, left4, hasRight, rightCounter, right1, right2, right3, right4, hasTactile, tactFloorObs,
-                hasAccess, accessSlopeFloorObs, streetJunction, junInclHeight, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, junStepHeight, junctionObs, slopeObs);
+                hasAccess, accessSlopeFloorObs, streetJunction, junInclHeight, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, junStepHeight, junctionObs,
+                slopeObs, hasIncl, photos);
     }
 
 }

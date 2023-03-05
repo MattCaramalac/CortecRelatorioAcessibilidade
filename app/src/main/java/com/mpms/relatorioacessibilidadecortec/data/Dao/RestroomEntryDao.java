@@ -6,9 +6,10 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessEntranceUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdateTwo;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestEntranceUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestColFirstUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestSinkUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestToiletUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestUpViewUpdate;
@@ -29,11 +30,17 @@ public interface RestroomEntryDao {
     @Query("SELECT * FROM RestroomEntry WHERE blockID IN (:blockID)")
     LiveData<List<RestroomEntry>> getAllRestEntries(List<Integer> blockID);
 
-    @Query("SELECT restroomID, blockID, isCollective, restType, restLocation, accessRoute, accessRouteObs, intRestroom, intRestObs, antiDriftFloor, antiDriftFloorObs, " +
-            "restDrain, restDrainObs, restSwitch, switchHeight, switchObs FROM RestroomEntry WHERE restroomID = :restID")
+    @Query("SELECT restroomID, blockID, isCollective, restType, restLocation, collectiveHasDoor, entranceWidth, entranceDoorSill, entranceDoorSillObs, " +
+            "accessRoute, accessRouteObs, intRestroom, intRestObs, antiDriftFloor, antiDriftFloorObs, upViewLength, upViewWidth," +
+            "restDrain, restDrainObs, restSwitch, switchHeight, hasWindow, winQnt, switchObs, winComType1, winComHeight1, winComType2, winComHeight2, winComType3, " +
+            "winComHeight3 FROM RestroomEntry WHERE restroomID = :restID")
     LiveData<RestroomEntry> getRestFirstData(int restID);
 
-    @Query("SELECT restroomID, blockID, isCollective, upViewLength, upViewWidth, upViewMeasureA, upViewMeasureB, upViewMeasureC, upViewMeasureD, upViewMeasureD FROM RestroomEntry WHERE restroomID = :restID")
+    @Query("SELECT restroomID, blockID, isCollective, collectiveHasDoor, entranceWidth, entranceDoorSill, entranceDoorSillObs FROM RestroomEntry WHERE restroomID = :restID")
+    LiveData<RestroomEntry> getRestColDoorData(int restID);
+
+    @Query("SELECT restroomID, blockID, isCollective, upViewLength, upViewWidth, upViewMeasureA, upViewMeasureB, upViewMeasureC, upViewMeasureD, upViewMeasureD, upViewObs" +
+            " FROM RestroomEntry WHERE restroomID = :restID")
     LiveData<RestroomEntry> getRestUpViewData(int restID);
 
     @Query("SELECT restroomID, blockID, isCollective, toType, toHeightNoSeat, toHasSeat, toHeightSeat, toHasSoculo, frSoculo, latSoculo, socCorners, toHasFrontBar, frBarA, frBarB, frBarC, frBarSect, " +
@@ -50,7 +57,7 @@ public interface RestroomEntryDao {
             "winComHeight1, winComType2,winComHeight2, winComType3, winComHeight3, hasWallMirror, wallMirrorLow, wallMirrorHigh, wallMirrorObs FROM RestroomEntry WHERE restroomID = :restID")
     LiveData<RestroomEntry> getRestAccessDataTwo(int restID);
 
-    @Query("SELECT restroomID,  blockID, isCollective, sinkType, approxMeasureA, approxMeasureB, approxMeasureC, approxMeasureD, approxMeasureE, hasSinkBar, hasLeftFrontHorBar, leftFrontHorMeasureA, leftFrontHorMeasureB, " +
+    @Query("SELECT restroomID,  blockID, isCollective, hasSink, sinkType, approxMeasureA, approxMeasureB, approxMeasureC, approxMeasureD, approxMeasureE, hasSinkBar, hasLeftFrontHorBar, leftFrontHorMeasureA, leftFrontHorMeasureB, " +
             "leftFrontHorMeasureC, leftFrontHorMeasureD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasRightSideVertBar, rightSideVertMeasureA, rightSideVertMeasureB, rightSideVertMeasureC, " +
             "rightSideVertMeasureD, rightSideVertMeasureE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, sinkHasMirror, sinkMirrorLow, sinkMirrorHigh, sinkObs " +
             "FROM RestroomEntry WHERE restroomID = :restID")
@@ -71,7 +78,10 @@ public interface RestroomEntryDao {
     void updateRestroomEntry(RestroomEntry RestroomEntry);
 
     @Update(entity = RestroomEntry.class)
-    void updateRestroomData(RestEntranceUpdate... restEntranceUpdates);
+    void updateRestroomData(RestColFirstUpdate... restColFirstUpdates);
+
+    @Update(entity = RestroomEntry.class)
+    void updateAccessRestData(RestAccessEntranceUpdate... restAccessUpdates);
 
     @Update(entity = RestroomEntry.class)
     void updateRestUpViewData(RestUpViewUpdate... upViewUpdates);

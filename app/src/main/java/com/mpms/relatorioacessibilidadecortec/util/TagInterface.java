@@ -24,6 +24,7 @@ public interface TagInterface {
     String ROOM_TYPE = "ROOM_TYPE";
     String CHOICE = "CHOICE";
     String HEADER_TEXT = "HEADER_TEXT";
+    String BOX_ID = "BOX_ID";
 
     //    Tags defining ramps and stairs info
     String RAMP_OR_STAIRS = "RAMP_OR_STAIRS";
@@ -47,17 +48,23 @@ public interface TagInterface {
     String FROM_PARKING = "FROM_PARKING";
     String FROM_ROOMS = "FROM_ROOMS";
     String FROM_REST = "FROM_REST";
+    String FROM_BOX = "FROM_BOX";
+    String FROM_COLLECTIVE = "FROM_COLLECTIVE";
 
     //    Tags used in Inspection Activity
     String LOAD_CHILD_DATA = "LOAD_CHILD_DATA";
     String LOAD_CHILD_DATA_2 = "LOAD_CHILD_DATA_2";
+    String LOAD_CHILD_DATA_3 = "LOAD_CHILD_DATA_3";
     String GATHER_CHILD_DATA = "GATHER_CHILD_DATA";
     String GATHER_CHILD_DATA_2 = "GATHER_CHILD_DATA_2";
+    String GATHER_CHILD_DATA_3 = "GATHER_CHILD_DATA_3";
     String ADD_ITEM_REQUEST = "ADD_ITEM_REQUEST";
     String CHILD_DATA_LISTENER = "CHILD_DATA_LISTENER";
     String CHILD_DATA_LISTENER_2 = "CHILD_DATA_LISTENER_2";
+    String CHILD_DATA_LISTENER_3 = "CHILD_DATA_LISTENER_3";
     String CHILD_DATA_COMPLETE = "CHILD_DATA_COMPLETE";
     String CHILD_DATA_COMPLETE_2 = "CHILD_DATA_COMPLETE_2";
+    String CHILD_DATA_COMPLETE_3 = "CHILD_DATA_COMPLETE_3";
     String CLEAR_CHILD_DATA = "CLEAR_CHILD_DATA";
     String PARENT_SAVE_ATTEMPT = "PARENT_SAVE_ATTEMPT";
 
@@ -70,8 +77,10 @@ public interface TagInterface {
     String ALLOW_UPDATE = "ALLOW_UPDATE";
     String ROOM_LIST = "ROOM_LIST";
     String ROOM_OBJ_LIST = "ROOM_OBJ_LIST";
-    String ADM_EQUIP_LIST = "ADM_EQUIP_LIST";
+    String OTHER_OBJ_LIST = "OTHER_OBJ_LIST";
+    String FREE_LIST = "FREE_LIST";
     String PLAYGROUND_LIST = "PLAYGROUND_LIST";
+    String BOX_LIST = "BOX_LIST";
 
     //    Tags defining register's IDs
     String SIDEWALK_ID = "SIDEWALK_ID";
@@ -100,17 +109,9 @@ public interface TagInterface {
     String SLOPE_WIDTH = "SLOPE_WIDTH";
     String SLOPE_HEIGHT = "SLOPE_HEIGHT";
 
-    //    Measures
-    String FRONT_LEFT_HOR = "FROM_LEFT";
-    String SINK_TYPE = "SINK_TYPE";
+//    Restroom Button Pressed
 
-    String HAS_VERT = "HAS VERT";
-    String SIZE_J = "SIZE_J";
-
-    String LEFT_D = "LEFT_D";
-
-    String RIGHT_C = "RIGHT_C";
-    String RIGHT_D = "RIGHT_D";
+    String BOX_ENTRY = "BOX_ENTRY";
 
     //    WaterFountain Measurements
 
@@ -156,4 +157,5 @@ public interface TagInterface {
     //    Parcel Indicator
     String CHILD_PARCEL = "CHILD_PARCEL";
     String CHILD_PARCEL_2 = "CHILD_PARCEL_2";
+    String CHILD_PARCEL_3 = "CHILD_PARCEL_3";
 }

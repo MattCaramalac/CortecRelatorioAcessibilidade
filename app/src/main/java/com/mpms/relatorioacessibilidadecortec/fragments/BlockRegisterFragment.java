@@ -30,6 +30,8 @@ public class BlockRegisterFragment extends Fragment implements TagInterface {
 
     int blockClick = 0;
 
+    int blockNumber = 0;
+
     public BlockRegisterFragment() {
         // Required empty public constructor
     }
@@ -58,22 +60,29 @@ public class BlockRegisterFragment extends Fragment implements TagInterface {
 
         modelFragments.getDataFromActivityToFrag().observe(getViewLifecycleOwner(), bundle -> blockBundle.putInt(SCHOOL_ID, bundle.getInt(SCHOOL_ID)));
 
+        modelEntry.getLastBlockSpace(blockBundle.getInt(SCHOOL_ID), 0).observe(getViewLifecycleOwner(), block -> {
+            if (block != null)
+                blockNumber = block.getBlockSpaceNumber();
+            else
+                blockNumber = 0;
+        });
+
         newBlock.setOnClickListener(v -> {
-            blockClick++;
+//            blockClick++;
             blockBundle.putInt(BLOCK_OR_SPACE, 0);
-            modelEntry.getLastBlockSpace(blockBundle.getInt(SCHOOL_ID), 0).observe(getViewLifecycleOwner(), block -> {
-                if (block == null && blockClick > 0) {
+//            modelEntry.getLastBlockSpace(blockBundle.getInt(SCHOOL_ID), 0).observe(getViewLifecycleOwner(), block -> {
+                if (blockNumber == 0) {
                     blockBundle.putInt(NEXT_ENTRY, 1);
                     BlockSpaceEntry newEntry = newBlock(blockBundle);
                     ViewModelEntry.insertBlockSpace(newEntry);
-                    blockClick--;
-                } else if (block != null && blockClick > 0) {
-                    blockBundle.putInt(NEXT_ENTRY, block.getBlockSpaceNumber() + 1);
+//                    blockClick--;
+                } else {
+                    blockBundle.putInt(NEXT_ENTRY, blockNumber + 1);
                     BlockSpaceEntry newEntry = newBlock(blockBundle);
                     ViewModelEntry.insertBlockSpace(newEntry);
-                    blockClick--;
+//                    blockClick--;
                 }
-            });
+//            });
         });
 
         saveQuit.setOnClickListener(v -> {

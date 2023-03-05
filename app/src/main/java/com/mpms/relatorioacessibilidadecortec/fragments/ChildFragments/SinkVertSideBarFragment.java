@@ -16,6 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.VertSinkBarParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -23,7 +24,7 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.parceler.Parcels;
 
-public class SinkVertBarFragment extends Fragment implements TagInterface {
+public class SinkVertSideBarFragment extends Fragment implements TagInterface {
 
     ImageButton vert1, vert2;
     TextInputLayout measureFieldA, measureFieldB, measureFieldC, measureFieldD, measureFieldE, diamField, distField, obsField;
@@ -32,23 +33,21 @@ public class SinkVertBarFragment extends Fragment implements TagInterface {
     ViewModelEntry modelEntry;
     Bundle imgBundle;
 
-    static int sinkType, restID;
-    static boolean frontLeftHor;
+    static int sinkType;
+    static Bundle vertBundle;
     int firstImg, secondImg;
 
-    public SinkVertBarFragment() {
-        // Required empty public constructor
+    public SinkVertSideBarFragment() {
+
     }
 
-    public static SinkVertBarFragment newInstance(int restroomID, int type, boolean isFrontLeftHor) {
-        SinkVertBarFragment fragment = new SinkVertBarFragment();
+    public static SinkVertSideBarFragment newInstance(Bundle bundle, int type) {
+        SinkVertSideBarFragment fragment = new SinkVertSideBarFragment();
+        vertBundle = bundle;
         sinkType = type;
-        restID = restroomID;
-        frontLeftHor = isFrontLeftHor;
         return fragment;
     }
 
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         imgBundle = new Bundle();
@@ -57,10 +56,7 @@ public class SinkVertBarFragment extends Fragment implements TagInterface {
         else
             firstImg = R.drawable.sinkvertbar;
 
-        if (frontLeftHor)
-            secondImg = R.drawable.sinkvertbar2simp;
-        else
-            secondImg = R.drawable.sinkvertbar2;
+        secondImg = R.drawable.sinkvertbar2;
 
     }
 
@@ -77,37 +73,28 @@ public class SinkVertBarFragment extends Fragment implements TagInterface {
 
         instantiateVertViews(view);
 
-//        Barra Vertical Frontal OU Barra Vertical - Opção 2
-        if (frontLeftHor) {
-            getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
-                if(checkEmptyFields(bundle))
-                    createVertBarParcel(bundle);
-                getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
-            });
-        }
-//        Barra Lateral
-        else {
-            getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA_2, this, (key, bundle) -> {
-                if(checkEmptyFields(bundle))
-                    createVertBarParcel(bundle);
-                getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER_2, bundle);
-            });
-        }
+        getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA_3, this, (key, bundle) -> {
+            if (checkEmptyFields(bundle))
+                createVertBarParcel(bundle);
+            getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER_3, bundle);
+        });
 
-        modelEntry.getRestSinkData(restID).observe(getViewLifecycleOwner(), this::loadLeftVertBarData);
+        if (vertBundle.getBoolean(FROM_BOX))
+            modelEntry.getBoxSinkData(vertBundle.getInt(BOX_ID)).observe(getViewLifecycleOwner(), this::loadBoxLeftVertBarData);
+        else
+            modelEntry.getRestSinkData(vertBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadLeftVertBarData);
 
     }
 
     private void createVertBarParcel(Bundle bundle) {
-        double measureA, measureB, measureC, diam, dist;
-        Double measureD = null, measureE = null;
+        double measureA, measureB, measureC, measureD, diam, dist;
+        Double measureE = null;
         String obs = null;
 
         measureA = Double.parseDouble(String.valueOf(measureValueA.getText()));
         measureB = Double.parseDouble(String.valueOf(measureValueB.getText()));
         measureC = Double.parseDouble(String.valueOf(measureValueC.getText()));
-        if (!TextUtils.isEmpty(measureValueD.getText()))
-            measureD = Double.parseDouble(String.valueOf(measureValueD.getText()));
+        measureD = Double.parseDouble(String.valueOf(measureValueD.getText()));
         if (!TextUtils.isEmpty(measureValueE.getText()))
             measureE = Double.parseDouble(String.valueOf(measureValueE.getText()));
         diam = Double.parseDouble(String.valueOf(diamValue.getText()));
@@ -115,46 +102,46 @@ public class SinkVertBarFragment extends Fragment implements TagInterface {
         if (!TextUtils.isEmpty(obsValue.getText()))
             obs = String.valueOf(obsValue.getText());
 
-        VertSinkBarParcel parcel = new VertSinkBarParcel(frontLeftHor, measureA, measureB, measureC, measureD, measureE, diam, dist, obs);
-        if (frontLeftHor)
-            bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
-        else
-            bundle.putParcelable(CHILD_PARCEL_2, Parcels.wrap(parcel));
+        VertSinkBarParcel parcel = new VertSinkBarParcel(false, measureA, measureB, measureC, measureD, measureE, diam, dist, obs);
+        bundle.putParcelable(CHILD_PARCEL_3, Parcels.wrap(parcel));
     }
 
     private void loadLeftVertBarData(RestroomEntry entry) {
-        if (frontLeftHor) {
-            if (entry.getLeftFrontHorMeasureA() != null)
-                measureValueA.setText(String.valueOf(entry.getLeftFrontHorMeasureA()));
-            if (entry.getLeftFrontHorMeasureB() != null)
-                measureValueB.setText(String.valueOf(entry.getLeftFrontHorMeasureB()));
-            if (entry.getLeftFrontHorMeasureC() != null)
-                measureValueC.setText(String.valueOf(entry.getLeftFrontHorMeasureC()));
-            if (entry.getLeftFrontHorDiam() != null)
-                diamValue.setText(String.valueOf(entry.getLeftFrontHorDiam()));
-            if (entry.getLeftFrontHorDist() != null)
-                distValue.setText(String.valueOf(entry.getLeftFrontHorDist()));
-            if (entry.getLeftFrontHorObs() != null)
-                obsValue.setText(entry.getLeftFrontHorObs());
-        } else {
-            if (entry.getRightSideVertMeasureA() != null)
-                measureValueA.setText(String.valueOf(entry.getRightSideVertMeasureA()));
-            if (entry.getRightSideVertMeasureB() != null)
-                measureValueB.setText(String.valueOf(entry.getRightSideVertMeasureB()));
-            if (entry.getRightSideVertMeasureC() != null)
-                measureValueC.setText(String.valueOf(entry.getRightSideVertMeasureC()));
-            if (entry.getRightSideVertMeasureD() != null)
-                measureValueD.setText(String.valueOf(entry.getRightSideVertMeasureD()));
-            if (entry.getRightSideVertMeasureE() != null)
-                measureValueE.setText(String.valueOf(entry.getRightSideVertMeasureE()));
-            if (entry.getRightSideVertDiam() != null)
-                diamValue.setText(String.valueOf(entry.getRightSideVertDiam()));
-            if (entry.getRightSideVertDist() != null)
-                distValue.setText(String.valueOf(entry.getRightSideVertDist()));
-            if (entry.getRightSideVertObs() != null)
-                obsValue.setText(entry.getRightSideVertObs());
-        }
+        if (entry.getRightSideVertMeasureA() != null)
+            measureValueA.setText(String.valueOf(entry.getRightSideVertMeasureA()));
+        if (entry.getRightSideVertMeasureB() != null)
+            measureValueB.setText(String.valueOf(entry.getRightSideVertMeasureB()));
+        if (entry.getRightSideVertMeasureC() != null)
+            measureValueC.setText(String.valueOf(entry.getRightSideVertMeasureC()));
+        if (entry.getRightSideVertMeasureD() != null)
+            measureValueD.setText(String.valueOf(entry.getRightSideVertMeasureD()));
+        if (entry.getRightSideVertMeasureE() != null)
+            measureValueE.setText(String.valueOf(entry.getRightSideVertMeasureE()));
+        if (entry.getRightSideVertDiam() != null)
+            diamValue.setText(String.valueOf(entry.getRightSideVertDiam()));
+        if (entry.getRightSideVertDist() != null)
+            distValue.setText(String.valueOf(entry.getRightSideVertDist()));
+        if (entry.getRightSideVertObs() != null)
+            obsValue.setText(entry.getRightSideVertObs());
+    }
 
+    private void loadBoxLeftVertBarData(RestBoxEntry entry) {
+        if (entry.getRightSideVertMeasureA() != null)
+            measureValueA.setText(String.valueOf(entry.getRightSideVertMeasureA()));
+        if (entry.getRightSideVertMeasureB() != null)
+            measureValueB.setText(String.valueOf(entry.getRightSideVertMeasureB()));
+        if (entry.getRightSideVertMeasureC() != null)
+            measureValueC.setText(String.valueOf(entry.getRightSideVertMeasureC()));
+        if (entry.getRightSideVertMeasureD() != null)
+            measureValueD.setText(String.valueOf(entry.getRightSideVertMeasureD()));
+        if (entry.getRightSideVertMeasureE() != null)
+            measureValueE.setText(String.valueOf(entry.getRightSideVertMeasureE()));
+        if (entry.getRightSideVertDiam() != null)
+            diamValue.setText(String.valueOf(entry.getRightSideVertDiam()));
+        if (entry.getRightSideVertDist() != null)
+            distValue.setText(String.valueOf(entry.getRightSideVertDist()));
+        if (entry.getRightSideVertObs() != null)
+            obsValue.setText(entry.getRightSideVertObs());
     }
 
     private void instantiateVertViews(View view) {
@@ -187,10 +174,8 @@ public class SinkVertBarFragment extends Fragment implements TagInterface {
         vert1.setOnClickListener(this::imgExpandClick);
         vert2.setOnClickListener(this::imgExpandClick);
 //        Show Views
-        if (!frontLeftHor) {
-            measureFieldD.setVisibility(View.VISIBLE);
-            measureFieldE.setVisibility(View.VISIBLE);
-        }
+        measureFieldD.setVisibility(View.VISIBLE);
+        measureFieldE.setVisibility(View.VISIBLE);
 
     }
 
@@ -217,7 +202,7 @@ public class SinkVertBarFragment extends Fragment implements TagInterface {
             i++;
             measureFieldC.setError(getText(R.string.req_field_error));
         }
-        if (!frontLeftHor && TextUtils.isEmpty(measureValueD.getText())) {
+        if (TextUtils.isEmpty(measureValueD.getText())) {
             i++;
             measureFieldD.setError(getText(R.string.req_field_error));
         }
@@ -229,10 +214,8 @@ public class SinkVertBarFragment extends Fragment implements TagInterface {
             i++;
             distField.setError(getText(R.string.req_field_error));
         }
-        if (frontLeftHor)
-            bundle.putBoolean(CHILD_DATA_COMPLETE, i == 0);
-        else
-            bundle.putBoolean(CHILD_DATA_COMPLETE_2, i == 0);
+
+        bundle.putBoolean(CHILD_DATA_COMPLETE_3, i == 0);
         return i == 0;
     }
 
@@ -244,6 +227,4 @@ public class SinkVertBarFragment extends Fragment implements TagInterface {
         diamField.setErrorEnabled(false);
         distField.setErrorEnabled(false);
     }
-
-
 }

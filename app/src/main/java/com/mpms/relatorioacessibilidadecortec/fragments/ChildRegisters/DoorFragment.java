@@ -27,7 +27,9 @@ import com.mpms.relatorioacessibilidadecortec.data.parcels.StepParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillInclinationFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.RestToiletFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestUpViewFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.RestUrinalFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
@@ -42,10 +44,10 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
 
     TextInputLayout doorLocaleField, doorWidthField1, doorWidthField2, pictObsField, doorOpObsField, handleHeightField, handleObsField, horHandleHeightField,
             horHandleLengthField, horHandleFrameDistField, horHandleDiamField, horHandleDoorDistField, horHandleObsField, winInfHeightField, winSupHeightField,
-            winWidthField, winObsField, tactSignHeightField, tactSignInclField, tactSignObsField, doorSillObsField, doorObsField;
+            winWidthField, winObsField, tactSignHeightField, tactSignInclField, tactSignObsField, doorSillObsField, doorObsField, photoField;
     TextInputEditText doorLocaleValue, doorWidthValue1, doorWidthValue2, pictObsValue, doorOpObsValue, handleHeightValue, handleObsValue, horHandleHeightValue,
             horHandleLengthValue, horHandleFrameDistValue, horHandleDiamValue, horHandleDoorDistValue, horHandleObsValue, winInfHeightValue, winSupHeightValue,
-            winWidthValue, winObsValue, tactSignHeightValue, tactSignInclValue, tactSignObsValue, doorSillObsValue, doorObsValue;
+            winWidthValue, winObsValue, tactSignHeightValue, tactSignInclValue, tactSignObsValue, doorSillObsValue, doorObsValue, photoValue;
     TextView doorTypeHeader, doorTypeError, hasPictHeader, hasPictError, opDirHeader, opDirError, handleTypeError, doorLockError, horHandleError, doorWinHeader, doorWinError,
             tacSignError, addDoorLockHeader, doorSillError, labelDoorLock;
     RadioGroup doorTypeRadio, hasPictRadio, doorOpRadio, doorHandleTypeRadio, hasDoorLockRadio, hasHorHandleRadio, hasWindowRadio, tactSignRadio, doorSillRadio;
@@ -108,6 +110,14 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         if (doorBundle.getInt(DOOR_ID) > 0) {
             newEntry = 0;
             modelEntry.getSpecificDoor(doorBundle.getInt(DOOR_ID)).observe(getViewLifecycleOwner(), this::loadDoorData);
+        } else if (doorBundle.getInt(BOX_ID) > 0) {
+            modelEntry.getAccBoxDoor(doorBundle.getInt(BOX_ID)).observe(getViewLifecycleOwner(), door -> {
+                if (door != null) {
+                    newEntry = 0;
+                    doorID = door.getDoorID();
+                    loadDoorData(door);
+                }
+            });
         } else if (doorBundle.getInt(REST_ID) > 0) {
             modelEntry.getRestDoor(doorBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), door -> {
                 if (door != null) {
@@ -123,7 +133,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
     public void onStart() {
         super.onStart();
 
-        if (!doorBundle.getBoolean(FROM_REST)) {
+        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX)) {
             getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
                 if (bundle.getBoolean(ADD_ITEM_REQUEST)) {
                     saveUpdateDoorEntry(bundle);
@@ -149,7 +159,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
     @Override
     public void onResume() {
         super.onResume();
-        if (!doorBundle.getBoolean(FROM_REST)) {
+        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX)) {
             RoomsRegisterFragment.roomModelFragments.getNewChildRegID().observe(getViewLifecycleOwner(), newDoorID -> {
                 if (newDoorID != null && newDoorID > 0) {
                     if (newEntry == 1)
@@ -166,7 +176,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (!doorBundle.getBoolean(FROM_REST))
+        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX))
             RoomsRegisterFragment.roomModelFragments.setNewChildRegID(null);
     }
 
@@ -194,6 +204,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         tactSignObsField = view.findViewById(R.id.tactile_sign_obs_field);
         doorSillObsField = view.findViewById(R.id.door_sill_obs_field);
         doorObsField = view.findViewById(R.id.door_obs_field);
+        photoField = view.findViewById(R.id.door_photos_field);
 //        TextInputEditText
         doorLocaleValue = view.findViewById(R.id.door_placement_value);
         doorWidthValue1 = view.findViewById(R.id.door_width_value_1);
@@ -217,6 +228,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         tactSignObsValue = view.findViewById(R.id.tactile_sign_obs_value);
         doorSillObsValue = view.findViewById(R.id.door_sill_obs_value);
         doorObsValue = view.findViewById(R.id.door_obs_value);
+        photoValue = view.findViewById(R.id.door_photos_value);
 //        TextView
         doorTypeHeader = view.findViewById(R.id.header_door_type);
         doorTypeError = view.findViewById(R.id.door_type_error);
@@ -265,7 +277,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
 
         editTextFields();
         allowObsScroll(eText);
-        if (doorBundle.getBoolean(FROM_REST)) {
+        if (doorBundle.getBoolean(FROM_REST) || doorBundle.getBoolean(FROM_BOX)) {
             doorLocaleField.setVisibility(View.GONE);
             doorTypeHeader.setVisibility(View.GONE);
             doorTypeRadio.setVisibility(View.GONE);
@@ -279,8 +291,8 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             winWidthField.setVisibility(View.GONE);
             winObsField.setVisibility(View.GONE);
             doorSillMultiRadio.setVisibility(View.GONE);
-            saveDoorButton.setText("CONTINUAR");
-            cancelDoorButton.setText("RETORNAR");
+            saveDoorButton.setText(R.string.label_button_proceed_register);
+            cancelDoorButton.setText(R.string.label_back_button);
         } else {
             hasPictHeader.setVisibility(View.GONE);
             hasPictRadio.setVisibility(View.GONE);
@@ -410,7 +422,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
                 openDoorLockListFragment(bundle);
             }
         } else {
-            if (!doorBundle.getBoolean(FROM_REST)) {
+            if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX)) {
                 bundle.putBoolean(ADD_ITEM_REQUEST, false);
                 if (doorSillMultiRadio.getCheckedRadioButtonIndex() > 0) {
                     getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);
@@ -424,14 +436,21 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
                             Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                             requireActivity().getSupportFragmentManager().popBackStack(ROOM_OBJ_LIST, 0);
                         }
-                    }
+                    } else
+                        Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 if (checkDoorNoEmptyFields()) {
                     saveUpdateDoorEntry(doorBundle);
-                    RestUpViewFragment upView = RestUpViewFragment.newInstance();
-                    upView.setArguments(doorBundle);
-                    requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, upView).addToBackStack(null).commit();
+                    Fragment fragment;
+                    if (doorBundle.getBoolean(FROM_COLLECTIVE))
+                        fragment = RestUrinalFragment.newInstance();
+                    else if (doorBundle.getBoolean(FROM_BOX)) {
+                        fragment = RestToiletFragment.newInstance();
+                    } else
+                        fragment = RestUpViewFragment.newInstance();
+                    fragment.setArguments(doorBundle);
+                    requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
                 }
             }
         }
@@ -476,6 +495,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         doorSillObsValue.setText(null);
         doorObsValue.setText(null);
         doorSillMultiRadio.clearCheck();
+        photoValue.setText(null);
         removeSillFragments();
         resetDoorVariables(bundle);
     }
@@ -493,7 +513,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         if (newEntry == 1) {
             ViewModelEntry.insertDoorEntry(newDoor);
         } else {
-            if (!doorBundle.getBoolean(FROM_REST))
+            if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX))
                 newDoor.setDoorID(bundle.getInt(DOOR_ID));
             else
                 newDoor.setDoorID(doorID);
@@ -564,7 +584,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             }
         }
 
-        if (doorBundle.getBoolean(FROM_REST)) {
+        if (doorBundle.getBoolean(FROM_REST) || doorBundle.getBoolean(FROM_BOX)) {
             if (getDoorRadioCheck(hasPictRadio) == -1) {
                 i++;
                 hasPictError.setVisibility(View.VISIBLE);
@@ -585,7 +605,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             if (getDoorRadioCheck(doorTypeRadio) == -1) {
                 i++;
                 doorTypeError.setVisibility(View.VISIBLE);
-            } else if (getDoorRadioCheck(doorTypeRadio) == 1 && !TextUtils.isEmpty(doorWidthValue2.getText())) {
+            } else if (getDoorRadioCheck(doorTypeRadio) == 1 && TextUtils.isEmpty(doorWidthValue2.getText())) {
                 i++;
                 doorWidthField2.setError(getString(R.string.req_field_error));
             }
@@ -633,9 +653,9 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         winSupHeightField.setErrorEnabled(false);
         winWidthField.setErrorEnabled(false);
         tactSignHeightField.setErrorEnabled(false);
-        doorTypeRadio.setVisibility(View.GONE);
-        hasPictRadio.setVisibility(View.GONE);
-        doorOpRadio.setVisibility(View.GONE);
+        doorTypeError.setVisibility(View.GONE);
+        hasPictError.setVisibility(View.GONE);
+        opDirError.setVisibility(View.GONE);
         horHandleError.setVisibility(View.GONE);
         doorWinError.setVisibility(View.GONE);
         handleTypeError.setVisibility(View.GONE);
@@ -713,7 +733,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         if (door.getTactSignObs() != null)
             tactSignObsValue.setText(door.getTactSignObs());
 
-        if (doorBundle.getBoolean(FROM_REST) && door.getDoorSillType() != null && door.getDoorSillType() > -1) {
+        if ((doorBundle.getBoolean(FROM_REST) || doorBundle.getBoolean(FROM_BOX)) && door.getDoorSillType() != null && door.getDoorSillType() > -1) {
             doorSillRadio.check(doorSillRadio.getChildAt(door.getDoorSillType()).getId());
         } else if (door.getDoorSillType() != null && door.getDoorSillType() > -1) {
             doorSillMultiRadio.checkAt(door.getDoorSillType());
@@ -724,13 +744,17 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             doorSillObsValue.setText(door.getDoorSillObs());
         if (door.getDoorObs() != null)
             doorObsValue.setText(door.getDoorObs());
+        if(door.getDoorPhotos() != null)
+            photoValue.setText(door.getDoorPhotos());
 
     }
 
     private DoorEntry newDoorEntry(Bundle bundle) {
-        String doorLocale = null, handleObs = null, pictObs = null, opDirObs = null, horBarObs = null, winObs = null, tactileSignObs = null, doorSillObs = null, doorObs = null;
-        Integer doorType = null, handleType = null, hasPict = null, opDir = null, doorHasLocks = null, hasHorBar = null, hasWindow = null, hasTactileSign = null,
-                doorSillType = null, inclQnt = null, sillSlopeQnt = null, ambientID = null, restID = null;
+        int doorType = 0;
+        String doorLocale = null, handleObs = null, pictObs = null, opDirObs = null, horBarObs = null, winObs = null, tactileSignObs = null, doorSillObs = null,
+                doorObs = null, photos = null;
+        Integer handleType = null, hasPict = null, opDir = null, doorHasLocks = null, hasHorBar = null, hasWindow = null, hasTactileSign = null,
+                doorSillType = null, inclQnt = null, sillSlopeQnt = null, ambientID = null, restID = null, boxID = null, hasSillIncl = null;
         Double doorWidth1 = null, doorWidth2 = null, handleHeight = null, horBarHeight = null, horBarLength = null, horBarDiam = null, horBarFrameDist = null,
                 horBarDoorDist = null, winInfHeight = null, winSupHeight = null, winWidth = null, tactHeight = null, tactIncl = null, inclHeight = null,
                 stepHeight = null, slopeAngle1 = null, slopeAngle2 = null, slopeAngle3 = null, slopeAngle4 = null, slopeWidth = null, slopeHeight = null,
@@ -738,9 +762,10 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
 
         if (bundle.getInt(AMBIENT_ID) != 0)
             ambientID = bundle.getInt(AMBIENT_ID);
-        if (bundle.getInt(REST_ID) != 0)
+        else if ((bundle.getInt(BOX_ID) != 0))
+            boxID = bundle.getInt(BOX_ID);
+        else if (bundle.getInt(REST_ID) != 0)
             restID = bundle.getInt(REST_ID);
-//        TODO - ADICIONAR CAMPO PARA BOX
 
         if (!TextUtils.isEmpty(doorWidthValue1.getText()))
             doorWidth1 = Double.parseDouble(String.valueOf(doorWidthValue1.getText()));
@@ -785,8 +810,10 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             doorSillObs = String.valueOf(doorSillObsValue.getText());
         if (!TextUtils.isEmpty(doorObsValue.getText()))
             doorObs = String.valueOf(doorObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photos = String.valueOf(photoValue.getText());
 
-        if (doorBundle.getBoolean(FROM_REST)) {
+        if (doorBundle.getBoolean(FROM_REST) || doorBundle.getBoolean(FROM_BOX)) {
             if (getDoorRadioCheck(hasPictRadio) != -1)
                 hasPict = getDoorRadioCheck(hasPictRadio);
             if (!TextUtils.isEmpty(pictObsValue.getText()))
@@ -811,7 +838,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             }
             if (getDoorRadioCheck(hasDoorLockRadio) > -1)
                 doorHasLocks = getDoorRadioCheck(hasDoorLockRadio);
-            if (getDoorRadioCheck(hasWindowRadio) == -1) {
+            if (getDoorRadioCheck(hasWindowRadio) != -1) {
                 hasWindow = getDoorRadioCheck(hasWindowRadio);
                 if (hasWindow == 1) {
                     if (!TextUtils.isEmpty(winInfHeightValue.getText()))
@@ -830,15 +857,18 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
                 if (doorSillType == 1) {
                     InclinationParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
                     inclHeight = parcel.getInclHeight();
-                    inclQnt = parcel.getInclQnt();
-                    if (parcel.getInclMeasure4() != null)
-                        inclAngle4 = parcel.getInclMeasure4();
-                    if (parcel.getInclMeasure3() != null)
-                        inclAngle3 = parcel.getInclMeasure3();
-                    if (parcel.getInclMeasure2() != null)
-                        inclAngle2 = parcel.getInclMeasure2();
-                    if (parcel.getInclMeasure1() != null)
-                        inclAngle1 = parcel.getInclMeasure1();
+                    hasSillIncl = parcel.getHasInclSlope();
+                    if (hasSillIncl == 1) {
+                        inclQnt = parcel.getInclQnt();
+                        if (parcel.getInclMeasure4() != null)
+                            inclAngle4 = parcel.getInclMeasure4();
+                        if (parcel.getInclMeasure3() != null)
+                            inclAngle3 = parcel.getInclMeasure3();
+                        if (parcel.getInclMeasure2() != null)
+                            inclAngle2 = parcel.getInclMeasure2();
+                        if (parcel.getInclMeasure1() != null)
+                            inclAngle1 = parcel.getInclMeasure1();
+                    }
                 } else if (doorSillType == 2) {
                     StepParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
                     stepHeight = parcel.getStepHeight();
@@ -859,11 +889,11 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             }
         }
 
-        return new DoorEntry(ambientID, restID, doorLocale, doorType, doorWidth1, doorWidth2, hasPict, pictObs, opDir, opDirObs, handleType, handleHeight,
+        return new DoorEntry(ambientID, restID, boxID, doorLocale, doorType, doorWidth1, doorWidth2, hasPict, pictObs, opDir, opDirObs, handleType, handleHeight,
                 handleObs, doorHasLocks, hasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, horBarDoorDist, horBarObs, hasWindow, winInfHeight,
                 winSupHeight, winWidth, winObs, hasTactileSign, tactHeight, tactIncl, tactileSignObs, doorSillType, inclHeight, inclQnt, inclAngle1,
                 inclAngle2, inclAngle3, inclAngle4, stepHeight, sillSlopeQnt, slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4, slopeWidth, slopeHeight,
-                doorSillObs, doorObs);
+                doorSillObs, doorObs, hasSillIncl, photos);
 
     }
 

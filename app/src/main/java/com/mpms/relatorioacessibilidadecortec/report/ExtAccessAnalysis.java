@@ -128,8 +128,20 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                     }
                 }
 
-                if (access.getGateSillType() > 1 && access.getGateSillType() < 4) {
-                    if (access.getGateSillType() == 2) {
+                if (access.getGateSillType() > 0 && access.getGateSillType() < 4) {
+                    if (access.getGateSillType() == 1) {
+                        if (access.getHasSillIncl() == 0) {
+                            extIrregular.add("o desnível da soleira não é vencido por rampa");
+                        } else {
+                            if (access.getInclAngle1() != null && access.getInclAngle1() > maxSlopePerc ||
+                                    access.getInclAngle2() != null && access.getInclAngle2() > maxSlopePerc ||
+                                    access.getInclAngle3() != null && access.getInclAngle3() > maxSlopePerc ||
+                                    access.getInclAngle4() != null && access.getInclAngle4() > maxSlopePerc) {
+                                extIrregular.add("inclinação da rampa para vencer o desnível da soleira acima do máximo permitido de " + maxSlopePerc + "%");
+                            }
+                        }
+                    }
+                    else if (access.getGateSillType() == 2) {
                         check++;
                         extIrregular.add("A soleira do portão é composta somente por degrau");
                     } else if (access.getGateSillType() == 3) {

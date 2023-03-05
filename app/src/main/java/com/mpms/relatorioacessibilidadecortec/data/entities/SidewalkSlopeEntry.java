@@ -47,13 +47,15 @@ public class SidewalkSlopeEntry {
     private Double inclAngle4;
     private String streetSlopeObs;
     private String slopeObs;
+    private Integer hasSillIncl;
+    private String sideSlopePhotos;
 
     public SidewalkSlopeEntry(int sidewalkID, String slopeLocation, double slopeWidth, int longMeasureQnt, Double longMeasure1, Double longMeasure2,
                               Double longMeasure3, Double longMeasure4, int hasLeftWingSlope, Integer leftWingMeasureQnt, Double leftMeasure1, Double leftMeasure2,
                               Double leftMeasure3, Double leftMeasure4, int hasRightWingSlope, Integer rightWingMeasureQnt, Double rightMeasure1, Double rightMeasure2,
                               Double rightMeasure3, Double rightMeasure4, int hasTactileFloor, String tactileFloorObs, int accessibleSlopeFloor, String accessibleSlopeFloorObs,
                               Integer streetSlopeJunction, Double inclinationJunctionHeight, Integer inclQnt, Double inclAngle1, Double inclAngle2, Double inclAngle3,
-                              Double inclAngle4,Double stepJunctionHeight, String streetSlopeObs, String slopeObs) {
+                              Double inclAngle4,Double stepJunctionHeight, String streetSlopeObs, String slopeObs, Integer hasSillIncl, String sideSlopePhotos) {
         this.sidewalkID = sidewalkID;
         this.slopeLocation = slopeLocation;
         this.slopeWidth = slopeWidth;
@@ -88,6 +90,8 @@ public class SidewalkSlopeEntry {
         this.stepJunctionHeight = stepJunctionHeight;
         this.streetSlopeObs = streetSlopeObs;
         this.slopeObs = slopeObs;
+        this.hasSillIncl = hasSillIncl;
+        this.sideSlopePhotos = sideSlopePhotos;
     }
 
     public int getSidewalkSlopeID() {
@@ -368,5 +372,21 @@ public class SidewalkSlopeEntry {
 
     public void setSlopeObs(String slopeObs) {
         this.slopeObs = slopeObs;
+    }
+
+    public Integer getHasSillIncl() {
+        return hasSillIncl;
+    }
+
+    public void setHasSillIncl(Integer hasSillIncl) {
+        this.hasSillIncl = hasSillIncl;
+    }
+
+    public String getSideSlopePhotos() {
+        return sideSlopePhotos;
+    }
+
+    public void setSideSlopePhotos(String sideSlopePhotos) {
+        this.sideSlopePhotos = sideSlopePhotos;
     }
 }

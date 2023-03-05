@@ -7,13 +7,15 @@ import androidx.room.PrimaryKey;
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE),
-        @ForeignKey(entity = RestroomEntry.class, parentColumns = "restroomID", childColumns = "restID", onDelete = CASCADE, onUpdate = CASCADE)})
+        @ForeignKey(entity = RestroomEntry.class, parentColumns = "restroomID", childColumns = "restID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = RestBoxEntry.class, parentColumns = "boxID", childColumns = "boxID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class DoorEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int doorID;
     private Integer roomID;
     private Integer restID;
+    private Integer boxID;
 
     private String doorLocation;
     private Integer doorType;
@@ -60,16 +62,19 @@ public class DoorEntry {
     private Double slopeHeight;
     private String doorSillObs;
     private String doorObs;
+    private Integer hasSillIncl;
+    private String doorPhotos;
 
-    public DoorEntry(Integer roomID, Integer restID, String doorLocation, Integer doorType, Double doorWidth1, Double doorWidth2, Integer doorHasPict, String doorPictObs,
+    public DoorEntry(Integer roomID, Integer restID, Integer boxID, String doorLocation, Integer doorType, Double doorWidth1, Double doorWidth2, Integer doorHasPict, String doorPictObs,
                      Integer opDirection, String opDirectionObs, Integer doorHandleType, Double doorHandleHeight, String doorHandleObs, Integer doorHasLocks,
                      Integer doorHasHorBar, Double horBarHeight, Double horBarLength, Double horBarFrameDist, Double horBarDiam, Double horBarDoorDist, String horBarObs,
                      Integer doorHasWindow, Double doorWinInfHeight, Double doorWinSupHeight, Double doorWinWidth, String doorWinObs, Integer doorHasTactSign,
                      Double tactSignHeight, Double tactSignIncl, String tactSignObs, Integer doorSillType, Double inclHeight, Integer inclQnt, Double inclAngle1,
                      Double inclAngle2, Double inclAngle3, Double inclAngle4, Double stepHeight, Integer slopeQnt, Double slopeAngle1, Double slopeAngle2, Double slopeAngle3,
-                     Double slopeAngle4, Double slopeWidth, Double slopeHeight, String doorSillObs, String doorObs) {
+                     Double slopeAngle4, Double slopeWidth, Double slopeHeight, String doorSillObs, String doorObs, Integer hasSillIncl, String doorPhotos) {
         this.roomID = roomID;
         this.restID = restID;
+        this.boxID = boxID;
         this.doorLocation = doorLocation;
         this.doorType = doorType;
         this.doorWidth1 = doorWidth1;
@@ -115,6 +120,8 @@ public class DoorEntry {
         this.slopeHeight = slopeHeight;
         this.doorSillObs = doorSillObs;
         this.doorObs = doorObs;
+        this.hasSillIncl = hasSillIncl;
+        this.doorPhotos = doorPhotos;
     }
 
     public int getDoorID() {
@@ -139,6 +146,14 @@ public class DoorEntry {
 
     public void setRestID(Integer restID) {
         this.restID = restID;
+    }
+
+    public Integer getBoxID() {
+        return boxID;
+    }
+
+    public void setBoxID(Integer boxID) {
+        this.boxID = boxID;
     }
 
     public String getDoorLocation() {
@@ -501,5 +516,19 @@ public class DoorEntry {
         this.doorWinObs = doorWinObs;
     }
 
+    public Integer getHasSillIncl() {
+        return hasSillIncl;
+    }
 
+    public void setHasSillIncl(Integer hasSillIncl) {
+        this.hasSillIncl = hasSillIncl;
+    }
+
+    public String getDoorPhotos() {
+        return doorPhotos;
+    }
+
+    public void setDoorPhotos(String doorPhotos) {
+        this.doorPhotos = doorPhotos;
+    }
 }

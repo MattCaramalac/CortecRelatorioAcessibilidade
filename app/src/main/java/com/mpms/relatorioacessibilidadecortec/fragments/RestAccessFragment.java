@@ -18,6 +18,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxAccOneUpdate;
+import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
@@ -71,12 +73,20 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
 
         instRestAccessViews(view);
 
-        modelEntry.getRestAccessData(rAccessBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadAccessData);
+        if (rAccessBundle.getInt(BOX_ID) > 0)
+            modelEntry.getBoxAccessData(rAccessBundle.getInt(BOX_ID)).observe(getViewLifecycleOwner(), this::loadRestBoxAccOne);
+        else if (rAccessBundle.getInt(REST_ID) > 0)
+            modelEntry.getRestAccessData(rAccessBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadAccessData);
 
         saveToilAccess.setOnClickListener(v -> {
             if (checkEmptyFields()) {
-                RestAccessUpdate access = accUpdate(rAccessBundle);
-                ViewModelEntry.updateRestAccessData(access);
+                if (rAccessBundle.getBoolean(FROM_BOX)) {
+                    RestBoxAccOneUpdate access = boxAccOneUpdate(rAccessBundle);
+                    modelEntry.updateBoxAccOne(access);
+                } else if (rAccessBundle.getInt(REST_ID) > 0) {
+                    RestAccessUpdate access = accUpdate(rAccessBundle);
+                    ViewModelEntry.updateRestAccessData(access);
+                }
                 callAccessTwoFragment(rAccessBundle);
             } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
@@ -86,7 +96,39 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         returnToilView.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
     }
 
-    private void loadAccessData (RestroomEntry rest) {
+    private void loadAccessData(RestroomEntry rest) {
+        if (rest.getHasHanger() != null)
+            hangRadio.check(hangRadio.getChildAt(rest.getHasHanger()).getId());
+        if (rest.getHangerHeight() != null)
+            hangerHeightValue.setText(String.valueOf(rest.getHangerHeight()));
+        if (rest.getHangerObs() != null)
+            hangerObsValue.setText(rest.getHangerObs());
+
+        if (rest.getHasObjHold() != null)
+            objHoldRadio.check(objHoldRadio.getChildAt(rest.getHasObjHold()).getId());
+        if (rest.getObjHoldCorrect() != null)
+            objHoldStatRadio.check(objHoldStatRadio.getChildAt(rest.getObjHoldCorrect()).getId());
+        if (rest.getObjHoldHeight() != null)
+            objHoldHeightValue.setText(String.valueOf(rest.getObjHoldHeight()));
+        if (rest.getObjHoldObs() != null)
+            objHoldObsValue.setText(rest.getObjHoldObs());
+
+        if (rest.getHasSoapHold() != null)
+            soapRadio.check(soapRadio.getChildAt(rest.getHasSoapHold()).getId());
+        if (rest.getSoapHoldHeight() != null)
+            soapHoldHeightValue.setText(String.valueOf(rest.getSoapHoldHeight()));
+        if (rest.getSoapHoldObs() != null)
+            soapHoldObsValue.setText(rest.getSoapHoldObs());
+
+        if (rest.getHasTowelHold() != null)
+            towelRadio.check(towelRadio.getChildAt(rest.getHasSoapHold()).getId());
+        if (rest.getTowelHoldHeight() != null)
+            towelHoldHeightValue.setText(String.valueOf(rest.getTowelHoldHeight()));
+        if (rest.getTowelHoldObs() != null)
+            towelHoldObsValue.setText(rest.getTowelHoldObs());
+    }
+
+    private void loadRestBoxAccOne(RestBoxEntry rest) {
         if (rest.getHasHanger() != null)
             hangRadio.check(hangRadio.getChildAt(rest.getHasHanger()).getId());
         if (rest.getHangerHeight() != null)
@@ -218,8 +260,6 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         }
     }
 
-
-
     private boolean checkEmptyFields() {
         clearEmptyFieldErrors();
         int i = 0;
@@ -263,8 +303,6 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
                 towelHoldHeightField.setError(getText(R.string.req_field_error));
             }
         }
-
-
         return i == 0;
     }
 
@@ -273,7 +311,7 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         objHoldError.setVisibility(View.GONE);
         objHoldStatError.setVisibility(View.GONE);
         soapError.setVisibility(View.GONE);
-        towelError.setVisibility(View.GONE);;
+        towelError.setVisibility(View.GONE);
         hangerHeightField.setErrorEnabled(false);
         objHoldHeightField.setErrorEnabled(false);
         soapHoldHeightField.setErrorEnabled(false);
@@ -282,10 +320,10 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
     }
 
     private RestAccessUpdate accUpdate(Bundle bundle) {
-        int hasHanger, hasObjHold, hasSoapHold, hasTowelHold, hasWallMirror;
+        int hasHanger, hasObjHold, hasSoapHold, hasTowelHold;
         Integer objHoldOK = null;
         Double hangerHeight = null, objHoldHeight = null, soapHoldHeight = null, towelHoldHeight = null, mirrorA = null, mirrorB = null;
-        String hangerObs, objHoldObs, soapObs, towelObs, mirrorObs;
+        String hangerObs, objHoldObs, soapObs, towelObs;
 
         hasHanger = getCheckedRadio(hangRadio);
         if (hasHanger == 1)
@@ -309,7 +347,39 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
             towelHoldHeight = Double.parseDouble(String.valueOf(towelHoldHeightValue.getText()));
         towelObs = String.valueOf(towelHoldObsValue.getText());
 
-        return new RestAccessUpdate(bundle.getInt(REST_ID),hasHanger, hangerHeight, hangerObs, hasObjHold, objHoldOK, objHoldHeight, objHoldObs, hasSoapHold, soapHoldHeight,
+        return new RestAccessUpdate(bundle.getInt(REST_ID), hasHanger, hangerHeight, hangerObs, hasObjHold, objHoldOK, objHoldHeight, objHoldObs, hasSoapHold, soapHoldHeight,
+                soapObs, hasTowelHold, towelHoldHeight, towelObs);
+    }
+
+    private RestBoxAccOneUpdate boxAccOneUpdate(Bundle bundle) {
+        int hasHanger, hasObjHold, hasSoapHold, hasTowelHold;
+        Integer objHoldOK = null;
+        Double hangerHeight = null, objHoldHeight = null, soapHoldHeight = null, towelHoldHeight = null, mirrorA = null, mirrorB = null;
+        String hangerObs, objHoldObs, soapObs, towelObs;
+
+        hasHanger = getCheckedRadio(hangRadio);
+        if (hasHanger == 1)
+            hangerHeight = Double.parseDouble(String.valueOf(hangerHeightValue.getText()));
+        hangerObs = String.valueOf(hangerObsValue.getText());
+
+        hasObjHold = getCheckedRadio(objHoldRadio);
+        if (hasObjHold == 1) {
+            objHoldOK = getCheckedRadio(objHoldStatRadio);
+            objHoldHeight = Double.parseDouble(String.valueOf(objHoldHeightValue.getText()));
+        }
+        objHoldObs = String.valueOf(objHoldObsValue.getText());
+
+        hasSoapHold = getCheckedRadio(soapRadio);
+        if (hasSoapHold == 1)
+            soapHoldHeight = Double.parseDouble(String.valueOf(soapHoldHeightValue.getText()));
+        soapObs = String.valueOf(soapHoldObsValue.getText());
+
+        hasTowelHold = getCheckedRadio(towelRadio);
+        if (hasTowelHold == 1)
+            towelHoldHeight = Double.parseDouble(String.valueOf(towelHoldHeightValue.getText()));
+        towelObs = String.valueOf(towelHoldObsValue.getText());
+
+        return new RestBoxAccOneUpdate(bundle.getInt(BOX_ID), hasHanger, hangerHeight, hangerObs, hasObjHold, objHoldOK, objHoldHeight, objHoldObs, hasSoapHold, soapHoldHeight,
                 soapObs, hasTowelHold, towelHoldHeight, towelObs);
     }
 

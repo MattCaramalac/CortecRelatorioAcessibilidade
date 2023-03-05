@@ -6,8 +6,9 @@ import androidx.room.PrimaryKey;
 @Entity
 public class RestSinkUpdate {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private int restroomID;
+    private Integer hasSink;
     private Integer sinkType;
     private Double approxMeasureA;
     private Double approxMeasureB;
@@ -37,13 +38,14 @@ public class RestSinkUpdate {
     private Double sinkMirrorHigh;
     private String sinkObs;
 
-    public RestSinkUpdate(int restroomID, Integer sinkType, Double approxMeasureA, Double approxMeasureB, Double approxMeasureC, Double approxMeasureD, Double approxMeasureE,
-                          Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA, Double leftFrontHorMeasureB, Double leftFrontHorMeasureC,
-                          Double leftFrontHorMeasureD, Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs,
+    public RestSinkUpdate(int restroomID, Integer hasSink, Integer sinkType, Double approxMeasureA, Double approxMeasureB, Double approxMeasureC, Double approxMeasureD,
+                          Double approxMeasureE, Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA, Double leftFrontHorMeasureB,
+                          Double leftFrontHorMeasureC, Double leftFrontHorMeasureD, Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs,
                           Integer hasRightSideVertBar, Double rightSideVertMeasureA, Double rightSideVertMeasureB, Double rightSideVertMeasureC, Double rightSideVertMeasureD,
                           Double rightSideVertMeasureE, Double rightSideVertDiam, Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow,
                           Double sinkMirrorHigh, String sinkObs) {
         this.restroomID = restroomID;
+        this.hasSink = hasSink;
         this.sinkType = sinkType;
         this.approxMeasureA = approxMeasureA;
         this.approxMeasureB = approxMeasureB;
@@ -304,5 +306,13 @@ public class RestSinkUpdate {
 
     public void setSinkObs(String sinkObs) {
         this.sinkObs = sinkObs;
+    }
+
+    public Integer getHasSink() {
+        return hasSink;
+    }
+
+    public void setHasSink(Integer hasSink) {
+        this.hasSink = hasSink;
     }
 }

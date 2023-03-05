@@ -1,7 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.report.Components;
 
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.report.StandardMeasurements;
 
 public class DoorSillAnalysis implements StandardMeasurements {
@@ -10,9 +9,18 @@ public class DoorSillAnalysis implements StandardMeasurements {
         String irrDoorSill = null;
         if (door.getDoorSillType() > 0 && door.getDoorSillType() < 4) {
             if (door.getDoorSillType() == 1) {
-
+                if (door.getHasSillIncl() == 0) {
+                    irrDoorSill = "o desnível da soleira não é vencido por rampa";
+                } else {
+                    if (door.getInclAngle1() != null && door.getInclAngle1() > maxSlopePerc ||
+                            door.getInclAngle2() != null && door.getInclAngle2() > maxSlopePerc ||
+                            door.getInclAngle3() != null && door.getInclAngle3() > maxSlopePerc ||
+                            door.getInclAngle4() != null && door.getInclAngle4() > maxSlopePerc) {
+                        irrDoorSill = "inclinação da rampa para vencer o desnível da soleira acima do máximo permitido de" + maxSlopePerc + "%";
+                    }
+                }
             }
-            if (door.getDoorSillType() == 2) {
+            else if (door.getDoorSillType() == 2) {
                 if (door.getDoorSillObs() == null)
                     irrDoorSill = "a soleira é composta por um degrau de " + door.getStepHeight() + " cm;";
                 else if (door.getDoorSillObs() != null && door.getDoorSillObs().length() > 0)
@@ -61,64 +69,5 @@ public class DoorSillAnalysis implements StandardMeasurements {
         }
         return irrDoorSill;
     }
-
-//    TODO - Trocar a análise para refletir as soleiras do banheiro
-    public static String restSillVerification(RestroomEntry rest) {
-        String irrRestSill = null;
-//        if (rest.getEntranceDoorSill() > 0 && rest.getEntranceDoorSill() < 4) {
-////            if (rest.getSillType() == 1) {
-//
-////            }
-//            if (rest.getSillType() == 2) {
-//                if (rest.getSillTypeObs() == null)
-//                    irrRestSill = "a soleira é composta por um degrau de " + rest.getSillStepHeight() + " cm;";
-//                else if (rest.getSillTypeObs() != null && rest.getSillTypeObs().length() > 0)
-//                    irrRestSill = "a soleira é composta por um degrau de " + rest.getSillStepHeight() + " cm e possui as seguintes observações: "
-//                            + rest.getSillTypeObs() + ";";
-//            } else if (rest.getSillType() == 3) {
-//                StringBuilder irregular = new StringBuilder();
-//                if (rest.getSillSlopeWidth() < minSillSlopeWidth) {
-//                    irregular.append("a largura da rampa na soleira do portão é inferior a " + minSillSlopeWidth + " m; ");
-//                }
-
-//                if (rest.getSillSlopeHeight() > highestRampHeight) {
-//                    irregular.append("altura da rampa da soleira acima de " + highestRampHeight + " m;");
-//                } else if (rest.getSillSlopeHeight() <= highestRampHeight && rest.getSillSlopeHeight() > medRampHeight) {
-//                    if (rest.getSillSlopeAngle1() != null && rest.getSillSlopeAngle1() > minAngleRamp ||
-//                            rest.getSillSlopeAngle2() != null && rest.getSillSlopeAngle2() > minAngleRamp ||
-//                            rest.getSillSlopeAngle3() != null && rest.getSillSlopeAngle3() > minAngleRamp ||
-//                            rest.getSillSlopeAngle4() != null && rest.getSillSlopeAngle4() > minAngleRamp) {
-//                        irregular.append("inclinação da rampa da soleira acima do máximo permitido de " + minAngleRamp + "%");
-//                    }
-//                } else if (rest.getSillSlopeHeight() <= medRampHeight && rest.getSillSlopeHeight() > lowestRampHeight) {
-//                    if (rest.getSillSlopeAngle1() != null && rest.getSillSlopeAngle1() > medAngleRamp ||
-//                            rest.getSillSlopeAngle2() != null && rest.getSillSlopeAngle2() > medAngleRamp ||
-//                            rest.getSillSlopeAngle3() != null && rest.getSillSlopeAngle3() > medAngleRamp ||
-//                            rest.getSillSlopeAngle4() != null && rest.getSillSlopeAngle4() > medAngleRamp) {
-//                        irregular.append("inclinação da rampa da soleira acima do máximo permitido de " + medAngleRamp + "%");
-//                    }
-//                } else if (rest.getSillSlopeHeight() <= lowestRampHeight) {
-//                    if (rest.getSillSlopeAngle1() != null && rest.getSillSlopeAngle1() < medAngleRamp ||
-//                            rest.getSillSlopeAngle2() != null && rest.getSillSlopeAngle2() < medAngleRamp ||
-//                            rest.getSillSlopeAngle3() != null && rest.getSillSlopeAngle3() < medAngleRamp ||
-//                            rest.getSillSlopeAngle4() != null && rest.getSillSlopeAngle4() < medAngleRamp) {
-//                        irregular.append("inclinação da rampa da soleira acima do máximo permitido de " + medAngleRamp + "%");
-//                    } else if (rest.getSillSlopeAngle1() != null && rest.getSillSlopeAngle1() > maxAngleRamp ||
-//                            rest.getSillSlopeAngle2() != null && rest.getSillSlopeAngle2() > maxAngleRamp ||
-//                            rest.getSillSlopeAngle3() != null && rest.getSillSlopeAngle3() > maxAngleRamp ||
-//                            rest.getSillSlopeAngle4() != null && rest.getSillSlopeAngle4() > maxAngleRamp) {
-//                        irregular.append("inclinação da rampa da soleira acima do máximo permitido de " + maxAngleRamp + "%");
-//                    }
-//                }
-//                if (rest.getSillTypeObs() != null && rest.getSillTypeObs().length() > 0)
-//                    irregular.append("observações sobre a soleira da porta: ").append(rest.getSillTypeObs());
-
-//                irrRestSill = irregular.toString();
-//            }
-//        }
-        return irrRestSill;
-    }
-
-
 
 }
