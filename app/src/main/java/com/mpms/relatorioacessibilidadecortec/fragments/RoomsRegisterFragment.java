@@ -41,14 +41,14 @@ import java.util.ArrayList;
 
 public class RoomsRegisterFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextView roomIdentifier, vertSignError, looseCarpetError, accessFloorError, blackboardHeader, counterHeader, soundError, phoneError, biometryError,
-            soundHeader, phoneHeader, biometryHeader;
+    TextView roomIdentifier, vertSignError, looseCarpetError, accessFloorError, counterHeader, phoneError, biometryError,
+            phoneHeader, biometryHeader;
     TextInputLayout roomLocaleField, roomDescField, vertSignObsField, looseCarpetObsField, accessFloorObsField, roomObsField,
-            soundSignalHeightField, soundSignalObsField, phoneHeightField, phoneObsField, biometryHeightField, biometryObsField;
+            phoneHeightField, phoneObsField, biometryHeightField, biometryObsField;
     TextInputEditText roomLocaleValue, roomDescValue, vertSignObsValue, looseCarpetObsValue, accessFloorObsValue, roomObsValue,
-            soundSignalHeightValue, soundSignalObsValue, phoneHeightValue, phoneObsValue, biometryHeightValue, biometryObsValue;
+            phoneHeightValue, phoneObsValue, biometryHeightValue, biometryObsValue;
     MaterialButton addDoor, addSwitch, addWindow, addTable, addFreeSpace, addBlackboard, addCounter, addRamp, addStairs, addFountain, cancelRegister, saveRegister;
-    RadioGroup hasVertSingRadio, hasLooseCarpetRadio, hasAccessFloorRadio, soundSignalRadio, phoneRadio, biometryRadio;
+    RadioGroup hasVertSingRadio, hasLooseCarpetRadio, hasAccessFloorRadio, phoneRadio, biometryRadio;
     FrameLayout childFrag;
 
     ArrayList<TextInputEditText> roomScrollArray = new ArrayList<>();
@@ -158,12 +158,9 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         vertSignError = view.findViewById(R.id.visual_sign_error);
         looseCarpetError = view.findViewById(R.id.carpet_error);
         accessFloorError = view.findViewById(R.id.room_accessible_floor_error);
-        blackboardHeader = view.findViewById(R.id.label_blackboard_register);
         counterHeader = view.findViewById(R.id.label_counter_register);
-        soundHeader = view.findViewById(R.id.has_bell_activation_header);
         phoneHeader = view.findViewById(R.id.locale_has_intercom_header);
         biometryHeader = view.findViewById(R.id.locale_has_biometry_header);
-        soundError = view.findViewById(R.id.has_bell_activation_error);
         phoneError = view.findViewById(R.id.locale_has_intercom_error);
         biometryError = view.findViewById(R.id.locale_has_biometry_error);
 //        TextInputLayout
@@ -175,8 +172,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         looseCarpetObsField = view.findViewById(R.id.carpet_obs_field);
         accessFloorObsField = view.findViewById(R.id.room_access_floor_obs_field);
         roomObsField = view.findViewById(R.id.room_obs_field);
-        soundSignalHeightField = view.findViewById(R.id.bell_activation_height_field);
-        soundSignalObsField = view.findViewById(R.id.bell_activation_obs_field);
         phoneHeightField = view.findViewById(R.id.intercom_height_field);
         phoneObsField = view.findViewById(R.id.locale_has_intercom_obs_field);
         biometryHeightField = view.findViewById(R.id.biometry_height_field);
@@ -188,8 +183,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         looseCarpetObsValue = view.findViewById(R.id.carpet_obs_value);
         accessFloorObsValue = view.findViewById(R.id.room_access_floor_obs_value);
         roomObsValue = view.findViewById(R.id.room_obs_value);
-        soundSignalHeightValue = view.findViewById(R.id.bell_activation_height_value);
-        soundSignalObsValue = view.findViewById(R.id.bell_activation_obs_value);
         phoneHeightValue = view.findViewById(R.id.intercom_height_value);
         phoneObsValue = view.findViewById(R.id.locale_has_intercom_obs_value);
         biometryHeightValue = view.findViewById(R.id.biometry_height_value);
@@ -211,7 +204,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         hasVertSingRadio = view.findViewById(R.id.room_has_visual_sign_radio);
         hasLooseCarpetRadio = view.findViewById(R.id.room_has_carpet_radio);
         hasAccessFloorRadio = view.findViewById(R.id.room_accessible_floor_radio);
-        soundSignalRadio = view.findViewById(R.id.has_bell_activation_radio);
         phoneRadio = view.findViewById(R.id.locale_has_intercom_radio);
         biometryRadio = view.findViewById(R.id.locale_has_biometry_radio);
 //        FrameLayout
@@ -225,7 +217,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         hasVertSingRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
         hasLooseCarpetRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
         hasAccessFloorRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
-        soundSignalRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
         phoneRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
         biometryRadio.setOnCheckedChangeListener(this::roomRadioGroupListener);
         addDoor.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
@@ -283,16 +274,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 accessFloorObsValue.setText(null);
                 accessFloorObsField.setVisibility(View.GONE);
             }
-        } else if (radio == soundSignalRadio) {
-            if (index == 1) {
-                soundSignalHeightField.setVisibility(View.VISIBLE);
-                soundSignalObsField.setVisibility(View.VISIBLE);
-            } else {
-                soundSignalHeightValue.setText(null);
-                soundSignalObsValue.setText(null);
-                soundSignalHeightField.setVisibility(View.GONE);
-                soundSignalObsField.setVisibility(View.GONE);
-            }
         } else if (radio == phoneRadio) {
             if (index == 1) {
                 phoneHeightField.setVisibility(View.VISIBLE);
@@ -325,10 +306,8 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             case 3:
             case 4:
             case 9:
-                soundHeader.setVisibility(View.VISIBLE);
                 phoneHeader.setVisibility(View.VISIBLE);
                 biometryHeader.setVisibility(View.VISIBLE);
-                soundSignalRadio.setVisibility(View.VISIBLE);
                 phoneRadio.setVisibility(View.VISIBLE);
                 biometryRadio.setVisibility(View.VISIBLE);
                 break;
@@ -336,21 +315,13 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 counterHeader.setVisibility(View.VISIBLE);
                 addCounter.setVisibility(View.VISIBLE);
                 break;
-            case 6:
-                blackboardHeader.setVisibility(View.VISIBLE);
-                addBlackboard.setVisibility(View.VISIBLE);
-                break;
             case 11:
                 getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new SecretariatFragment()).commit();
             case 12:
                 counterHeader.setVisibility(View.VISIBLE);
                 addCounter.setVisibility(View.VISIBLE);
-                blackboardHeader.setVisibility(View.VISIBLE);
-                addBlackboard.setVisibility(View.VISIBLE);
-                soundHeader.setVisibility(View.VISIBLE);
                 phoneHeader.setVisibility(View.VISIBLE);
                 biometryHeader.setVisibility(View.VISIBLE);
-                soundSignalRadio.setVisibility(View.VISIBLE);
                 phoneRadio.setVisibility(View.VISIBLE);
                 biometryRadio.setVisibility(View.VISIBLE);
             default:
@@ -373,13 +344,11 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
     private void saveUpdateRoomEntry(Bundle bundle) {
         RoomEntry newRoom = newRoomEntry(bundle);
         if (newEntry == 1) {
-            recentEntry = 1;
             ViewModelEntry.insertRoomEntry(newRoom);
         } else if (newEntry == 0) {
             newRoom.setRoomID(bundle.getInt(AMBIENT_ID));
             ViewModelEntry.updateRoom(newRoom);
         }
-        newEntry = 0;
     }
 
     private void buttonClickedListener(Bundle bundle, View view) {
@@ -464,7 +433,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         hasVertSingRadio.clearCheck();
         hasLooseCarpetRadio.clearCheck();
         hasAccessFloorRadio.clearCheck();
-        soundSignalRadio.clearCheck();
         phoneRadio.clearCheck();
         biometryRadio.clearCheck();
     }
@@ -472,13 +440,11 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
     private void clearRoomNoEmptyFieldsErrors() {
         roomLocaleField.setErrorEnabled(false);
         roomDescField.setErrorEnabled(false);
-        soundSignalHeightField.setErrorEnabled(false);
         phoneHeightField.setErrorEnabled(false);
         biometryHeightField.setErrorEnabled(false);
         vertSignError.setVisibility(View.GONE);
         looseCarpetError.setVisibility(View.GONE);
         accessFloorError.setVisibility(View.GONE);
-        soundError.setVisibility(View.GONE);
         phoneError.setVisibility(View.GONE);
         biometryError.setVisibility(View.GONE);
     }
@@ -511,15 +477,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
         if (bundle.getInt(ROOM_TYPE) == 3 || bundle.getInt(ROOM_TYPE) == 4 || bundle.getInt(ROOM_TYPE) == 9 ||
                 bundle.getInt(ROOM_TYPE) == 11 || bundle.getInt(ROOM_TYPE) == 12) {
-            if (getCheckedRoomRadioIndex(soundSignalRadio) == -1) {
-                i++;
-                soundError.setVisibility(View.VISIBLE);
-            } else if (getCheckedRoomRadioIndex(soundSignalRadio) == 1) {
-                if (TextUtils.isEmpty(soundSignalHeightValue.getText())) {
-                    i++;
-                    soundSignalHeightField.setError(getString(R.string.req_field_error));
-                }
-            }
             if (getCheckedRoomRadioIndex(phoneRadio) == -1) {
                 i++;
                 phoneError.setVisibility(View.VISIBLE);
@@ -630,13 +587,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
         if (bundle.getInt(ROOM_TYPE) == 3 || bundle.getInt(ROOM_TYPE) == 4 || bundle.getInt(ROOM_TYPE) == 9 ||
                 bundle.getInt(ROOM_TYPE) == 11 || bundle.getInt(ROOM_TYPE) == 12) {
-            hasBell = getCheckedRoomRadioIndex(soundSignalRadio);
-            if (hasBell == 1) {
-                if (!TextUtils.isEmpty(soundSignalHeightValue.getText()))
-                    soundHeight = Double.parseDouble(String.valueOf(soundSignalHeightValue.getText()));
-                if (!TextUtils.isEmpty(soundSignalObsValue.getText()))
-                    soundObs = String.valueOf(soundSignalObsValue.getText());
-            }
             hasIntPhone = getCheckedRoomRadioIndex(phoneRadio);
             if (hasIntPhone == 1) {
                 if (!TextUtils.isEmpty(phoneHeightValue.getText()))
@@ -686,15 +636,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
         if (roomEntry.getRoomObs() != null)
             roomObsValue.setText(roomEntry.getRoomObs());
-
-        if (roomEntry.getHasBellControl() != null && roomEntry.getHasBellControl() != -1) {
-            soundSignalRadio.check(soundSignalRadio.getChildAt(roomEntry.getHasBellControl()).getId());
-            if (roomEntry.getBellControlHeight() != null)
-                soundSignalHeightValue.setText(String.valueOf(roomEntry.getBellControlHeight()));
-            if (roomEntry.getBellControlObs() != null)
-                soundSignalObsValue.setText(roomEntry.getBellControlObs());
-        }
-
 
         if (roomEntry.getHasInternalPhone() != null && roomEntry.getHasInternalPhone() != -1) {
             phoneRadio.check(phoneRadio.getChildAt(roomEntry.getHasInternalPhone()).getId());
