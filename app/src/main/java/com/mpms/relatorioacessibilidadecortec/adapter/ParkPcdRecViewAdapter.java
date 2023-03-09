@@ -83,7 +83,7 @@ public class ParkPcdRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterf
     public void deleteItemList() {
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
-            ViewModelEntry.deletePdmrParkingLot(pcdList.get(selectedItems.keyAt(i)).getParkID());
+            ViewModelEntry.deletePdmrParkingLot(pcdList.get(selectedItems.keyAt(i)).getParkPcdID());
         }
     }
 

@@ -84,7 +84,7 @@ public class ParkElderRecViewAdapter extends RecyclerView.Adapter<ViewHolderInte
     public void deleteItemList() {
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
-            ViewModelEntry.deleteElderlyParkingLot(elderList.get(selectedItems.keyAt(i)).getParkID());
+            ViewModelEntry.deleteElderlyParkingLot(elderList.get(selectedItems.keyAt(i)).getParkElderID());
         }
     }
 
