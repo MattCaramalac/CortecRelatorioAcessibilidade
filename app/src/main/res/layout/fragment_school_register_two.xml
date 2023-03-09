@@ -44,13 +44,14 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/morning_hours_start_field"
-            android:layout_width="75dp"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/checkbox_morning_hours"
             app:layout_constraintBottom_toBottomOf="@id/checkbox_morning_hours"
             app:layout_constraintEnd_toStartOf="@id/morning_hours_text_to"
             android:layout_marginEnd="@dimen/top_margins"
-            android:enabled="false">
+            android:enabled="false"
+            app:placeholderText="@string/placeholder_time">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/morning_hours_start_value"
@@ -75,14 +76,15 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/morning_hours_end_field"
-            android:layout_width="75dp"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/checkbox_morning_hours"
             app:layout_constraintBottom_toBottomOf="@id/checkbox_morning_hours"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="@dimen/top_margins"
             android:layout_marginEnd="@dimen/top_margins"
-            android:enabled="false">
+            android:enabled="false"
+            app:placeholderText="@string/placeholder_time">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/morning_hours_end_value"
@@ -106,13 +108,14 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/afternoon_hours_start_field"
-            android:layout_width="75dp"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/checkbox_afternoon_hours"
             app:layout_constraintBottom_toBottomOf="@id/checkbox_afternoon_hours"
             app:layout_constraintEnd_toStartOf="@id/afternoon_hours_text_to"
             android:layout_marginEnd="@dimen/top_margins"
-            android:enabled="false">
+            android:enabled="false"
+            app:placeholderText="@string/placeholder_time">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/afternoon_hours_start_value"
@@ -137,13 +140,14 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/afternoon_hours_end_field"
-            android:layout_width="75dp"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/checkbox_afternoon_hours"
             app:layout_constraintBottom_toBottomOf="@id/checkbox_afternoon_hours"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/top_margins"
-            android:enabled="false">
+            android:enabled="false"
+            app:placeholderText="@string/placeholder_time">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/afternoon_hours_end_value"
@@ -167,13 +171,14 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/evening_hours_start_field"
-            android:layout_width="75dp"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/checkbox_evening_hours"
             app:layout_constraintBottom_toBottomOf="@id/checkbox_evening_hours"
             app:layout_constraintEnd_toStartOf="@id/evening_hours_text_to"
             android:layout_marginEnd="@dimen/top_margins"
-            android:enabled="false">
+            android:enabled="false"
+            app:placeholderText="@string/placeholder_time">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/evening_hours_start_value"
@@ -199,13 +204,14 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/evening_hours_end_field"
-            android:layout_width="75dp"
+            android:layout_width="85dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/checkbox_evening_hours"
             app:layout_constraintBottom_toBottomOf="@id/checkbox_evening_hours"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/top_margins"
-            android:enabled="false">
+            android:enabled="false"
+            app:placeholderText="@string/placeholder_time">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/evening_hours_end_value"

@@ -23,8 +23,8 @@
 
     <string-array name="multi_radio_sidewalk_slope">
         <item>NIVELADA</item>
-<!--        <item>COM DESNÍVEL</item>-->
-<!--        <item>COM DEGRAU</item>-->
+        <!--        <item>COM DESNÍVEL</item>-->
+        <!--        <item>COM DEGRAU</item>-->
         <item>OUTRA SITUAÇÃO</item>
     </string-array>
 
@@ -44,6 +44,12 @@
         <item>MASCULINO</item>
         <item>FEMININO</item>
         <item>UNISSEX</item>
+    </string-array>
+
+    <string-array name="multi_radio_ent_restroom">
+        <item>ACESSÍVEL INDEPENDENTE</item>
+        <item>COLETIVO ACESSÍVEL</item>
+        <item>COLETIVO NÃO ACESSÍVEL</item>
         <item>INFANTIL</item>
     </string-array>
 
@@ -179,7 +185,7 @@
     <string name="hint_frontal_approx">Aproximação Frontal</string>
     <string name="hint_PCR_spaces">Espaço PCR</string>
 
-    <string name="hint_blackboard_height">Altura da Borda Inferior da Lousa (m)</string>
+    <string name="hint_blackboard_height">Altura da Borda Inferior (m)</string>
     <string name="label_distance_shelves">Distância entre as estantes é igual ou maior que 90 centímetros?</string>
     <string name="label_PCR_maneuver">Existem bolsões para manobras de PCR nos corredores entre as estantes
         à cada 15 metros?</string>
@@ -270,8 +276,8 @@
     <string name="hint_sill_slope_height">Altura da rampa da soleira (m)</string>
     <string name="hint_sill_slope_width">Largura da rampa da soleira (m)</string>
     <string name="hint_switch_location">Localização do interruptor</string>
-    <string name="hint_switch_type">Tipo de interruptor</string>
-    <string name="hint_switch_height">Altura do Interruptor (m)</string>
+    <string name="hint_switch_type">Função de interruptor</string>
+    <string name="hint_switch_height">Altura Eixo do Interruptor (m)</string>
     <string name="hint_switch_obs">Observações sobre o interruptor</string>
     <string name="dialog_add_switch_header">Adicionar Interruptores</string>
     <string name="hint_window_location">Localização da janela</string>
@@ -499,7 +505,7 @@
     <string name="label_has_libras_workers_header">A instituição possui profissionais capacitados em Libras?</string>
     <string name="hint_room_location">Identificação/Localização do Ambiente</string>
     <string name="hint_carpet_obs">Observações Tapete ou Capacho</string>
-    <string name="label_blackboard_register">Cadastro de Lousas</string>
+    <string name="label_blackboard_register">Cadastro de Lousas e Murais</string>
     <string name="label_gate_has_floor_tracks">O portão possui trilho no piso?</string>
     <string name="label_gate_has_intercom">Entrada possui interfone?</string>
     <string name="hint_intercom_height">Altura do Interfone</string>
@@ -546,7 +552,7 @@
     <string name="header_table_register">Cadastro de Mesas</string>
 
     <string name="header_free_space_register">Cadastro de Faixas Livres</string>
-    <string name="hint_blackboard_location">Localização da lousa</string>
+    <string name="hint_blackboard_location">Localização</string>
     <string name="header_counter_register">Cadastro de Balcões</string>
     <string name="header_slope_measure_register">Medidas de inclinação da rampa</string>
     <string name="header_door_lock_register">Cadastro de Dispositivos de Travamento</string>
@@ -691,7 +697,7 @@
     <string name="header_rest_window">O sanitário possui janelas?</string>
     <string name="header_wall_mirror">O sanitário possui espelho fora do lavatório?</string>
     <string name="hint_wall_mirror_obs">Observações Espelho</string>
-    <string name="header_rest_sink_register">Cadastro de Sanitário - Lavatório</string>
+    <string name="header_rest_sink_register">Cadastro de Lavatório</string>
     <string name="header_sink_type">Selecione o tipo de lavatório presente na instalação (clique na imagem para ampliar)</string>
     <string name="header_aprox_sink_measures">Medidas de Aproximação do Lavatório</string>
     <string name="header_sink_support_bar">O lavatório possui barra de apoio?</string>
@@ -718,14 +724,12 @@
     <string name="header_rest_box_hor_bar">Medidas da Barra Horizontal</string>
     <string name="header_rest_box_vert_bar">Medidas da Barra Vertical</string>
     <string name="header_restroom_type">Selecione o tipo de sanitário a ser cadastrado</string>
-    <string name="radio_single_accessible">ACESSÍVEL INDEPENDENTE</string>
-    <string name="radio_collective_accessible">COLETIVO ACESSÍVEL</string>
-    <string name="radio_collective_not_accessible">COLETIVO NÃO ACESSÍVEL</string>
+
     <string name="header_rest_box_register">Cadastro de Box Sanitário</string>
     <string name="header_rest_box_type">Qual o tipo de box a ser cadastrado?</string>
     <string name="radio_common">COMUM</string>
     <string name="radio_accessible">ACESSÍVEL</string>
-    <string name="header_rest_gender">Qual é o gênero sanitário a ser cadastrado?</string>
+    <string name="header_rest_gender">Qual é o gênero indicado para uso do sanitário?</string>
     <string name="header_has_access">O sanitário possui uma rota accessível?</string>
     <string name="header_anti_drift_floor">O sanitário possui piso antiderrapante?</string>
     <string name="header_drain_route">O sanitário possui grelhas e/ou ralos na área de manobra?</string>
@@ -763,5 +767,6 @@
     <string name="header_park_position">Qual a posição da vaga em relação ao meio-fio?</string>
     <string name="header_register_rest_box">Cadastro de Box Sanitário</string>
     <string name="button_conclusion">CONCLUIR</string>
+    <string name="placeholder_time">HH:MM</string>
 
 </resources>

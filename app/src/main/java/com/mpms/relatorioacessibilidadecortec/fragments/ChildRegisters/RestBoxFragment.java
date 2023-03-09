@@ -96,18 +96,6 @@ public class RestBoxFragment extends Fragment implements TagInterface {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        if (!isRecent)
-//            modelEntry.getLastBoxEntry().observe(this, box -> {
-//                if (isRecent) {
-//                    boxBundle.putInt(BOX_ID, box.getBoxID());
-//                    callNextFrag(getCheckedBoxRadio(boxTypeRadio));
-//                }
-//            });
-    }
-
     private void callNextFrag(int type) {
         if (type == 1) {
             Fragment fragment = DoorFragment.newInstance();
@@ -145,7 +133,7 @@ public class RestBoxFragment extends Fragment implements TagInterface {
                 leftShapeDist = null, leftVertA = null, leftVertB = null, leftVertC = null, leftVertDiam = null, leftVertDist = null, rightShapeA = null, rightShapeB = null,
                 rightShapeC = null, rightShapeD = null, rightShapeDiam = null, rightShapeDist = null, rightVertA = null, rightVertB = null, rightVertC = null, rightVertDiam = null, rightVertDist = null,
                 upLength = null, upWidth = null, upA = null, upB = null, upC = null, upD = null;
-        String comBoxObs = null, leftBarHorObs = null, leftBarVertObs = null, rightBarHorObs = null, rightBarVertObs = null, upViewObs = null, accBoxDrainObs = null;
+        String comBoxObs = null, leftBarObs = null, leftBarVertObs = null, rightBarObs = null, rightBarVertObs = null, upViewObs = null, accBoxDrainObs = null;
 
         boxType = getCheckedBoxRadio(boxTypeRadio);
         if (boxType == 0) {
@@ -159,54 +147,30 @@ public class RestBoxFragment extends Fragment implements TagInterface {
                 comLeftBarType = parcel.getLeftHasBarType();
                 if (parcel.getLeftParcel() != null) {
                     BoxBarParcel barParcel = parcel.getLeftParcel();
-                    if (comLeftBarType == 0) {
+                    if (comLeftBarType == 0 || comLeftBarType == 1) {
                         leftShapeA = barParcel.getComBoxLeftShapeBarA();
                         leftShapeB = barParcel.getComBoxLeftShapeBarB();
                         leftShapeC = barParcel.getComBoxLeftShapeBarC();
                         leftShapeD = barParcel.getComBoxLeftShapeBarD();
                         leftShapeDiam = barParcel.getComBoxLeftShapeBarDiam();
                         leftShapeDist = barParcel.getComBoxLeftShapeBarDist();
-                        leftBarHorObs = barParcel.getComBoxLeftHorObs();
-                    } else if (comLeftBarType == 1) {
-                        leftShapeA = barParcel.getComBoxLeftShapeBarA();
-                        leftShapeB = barParcel.getComBoxLeftShapeBarB();
-                        leftShapeC = barParcel.getComBoxLeftShapeBarC();
-                        leftShapeDiam = barParcel.getComBoxLeftShapeBarDiam();
-                        leftShapeDist = barParcel.getComBoxLeftShapeBarDist();
-                        leftBarHorObs = barParcel.getComBoxLeftHorObs();
-                        leftVertA = barParcel.getComBoxLeftVertBarA();
-                        leftVertB = barParcel.getComBoxLeftVertBarB();
-                        leftVertC = barParcel.getComBoxLeftVertBarC();
-                        leftVertDiam = barParcel.getComBoxLeftVertBarDiam();
-                        leftVertDist = barParcel.getComBoxLeftVertBarDist();
-                        leftBarVertObs = barParcel.getComBoxLeftVertObs();
-                    }
+                        leftBarObs = barParcel.getComBoxLeftObs();
+                    } else if (comLeftBarType == 2)
+                        leftBarObs = barParcel.getComBoxLeftObs();
                 }
                 comRightBarType = parcel.getRightHasBarType();
                 if (parcel.getRightParcel() != null) {
                     BoxBarParcel barParcel = parcel.getRightParcel();
-                    if (comRightBarType == 0) {
+                    if (comRightBarType == 0 || comRightBarType == 1) {
                         rightShapeA = barParcel.getComBoxRightShapeBarA();
                         rightShapeB = barParcel.getComBoxRightShapeBarB();
                         rightShapeC = barParcel.getComBoxRightShapeBarC();
                         rightShapeD = barParcel.getComBoxRightShapeBarD();
                         rightShapeDiam = barParcel.getComBoxRightShapeBarDiam();
                         rightShapeDist = barParcel.getComBoxRightShapeBarDist();
-                        rightBarHorObs = barParcel.getComBoxRightHorObs();
-                    } else if (comRightBarType == 1) {
-                        rightShapeA = barParcel.getComBoxRightShapeBarA();
-                        rightShapeB = barParcel.getComBoxRightShapeBarB();
-                        rightShapeC = barParcel.getComBoxRightShapeBarC();
-                        rightShapeDiam = barParcel.getComBoxRightShapeBarDiam();
-                        rightShapeDist = barParcel.getComBoxRightShapeBarDist();
-                        rightBarHorObs = barParcel.getComBoxRightHorObs();
-                        rightVertA = barParcel.getComBoxRightVertBarA();
-                        rightVertB = barParcel.getComBoxRightVertBarB();
-                        rightVertC = barParcel.getComBoxRightVertBarC();
-                        rightVertDiam = barParcel.getComBoxRightVertBarDiam();
-                        rightVertDist = barParcel.getComBoxRightVertBarDist();
-                        rightBarVertObs = barParcel.getComBoxRightVertObs();
-                    }
+                        rightBarObs = barParcel.getComBoxRightObs();
+                    } else if (comRightBarType == 2)
+                        rightBarObs = barParcel.getComBoxRightObs();
                 }
             }
             comBoxObs = parcel.getBoxObs();
@@ -227,8 +191,8 @@ public class RestBoxFragment extends Fragment implements TagInterface {
                 accBoxDrainObs = parcel.getRestDrainObs();
         }
         return new RestBoxEntry(boxBundle.getInt(REST_ID), boxType, comDoorWidth, comBoxDiam, comHasBar, comDoorDist, comBoxWidth, comLeftBarType, leftShapeA,
-                leftShapeB, leftShapeC, leftShapeD, leftShapeDiam, leftShapeDist, leftBarHorObs, leftVertA, leftVertB, leftVertC, leftVertDiam, leftVertDist,
-                leftBarVertObs, comRightBarType, rightShapeA, rightShapeB, rightShapeC, rightShapeD, rightShapeDiam, rightShapeDist, rightBarHorObs,
+                leftShapeB, leftShapeC, leftShapeD, leftShapeDiam, leftShapeDist, leftBarObs, leftVertA, leftVertB, leftVertC, leftVertDiam, leftVertDist,
+                leftBarVertObs, comRightBarType, rightShapeA, rightShapeB, rightShapeC, rightShapeD, rightShapeDiam, rightShapeDist, rightBarObs,
                 rightVertA, rightVertB, rightVertC, rightVertDiam, rightVertDist, rightBarVertObs, comBoxObs,
                 upLength, upWidth, upA, upB, upC, upD, upViewObs, accBoxDrain, accBoxDrainObs, null, null, null, null,
                 null, null, null, null, null, null, null, null, null, null,
@@ -254,7 +218,7 @@ public class RestBoxFragment extends Fragment implements TagInterface {
                 leftShapeDist = null, leftVertA = null, leftVertB = null, leftVertC = null, leftVertDiam = null, leftVertDist = null, rightShapeA = null, rightShapeB = null,
                 rightShapeC = null, rightShapeD = null, rightShapeDiam = null, rightShapeDist = null, rightVertA = null, rightVertB = null, rightVertC = null,
                 rightVertDiam = null, rightVertDist = null, upLength = null, upWidth = null, upA = null, upB = null, upC = null, upD = null;
-        String comBoxObs = null, leftBarHorObs = null, leftBarVertObs = null, rightBarHorObs = null, rightBarVertObs = null, upViewObs = null, accBoxDrainObs = null;
+        String comBoxObs = null, leftBarObs = null, leftBarVertObs = null, rightBarObs = null, rightBarVertObs = null, upViewObs = null, accBoxDrainObs = null;
 
         boxType = getCheckedBoxRadio(boxTypeRadio);
         if (boxType == 0) {
@@ -268,54 +232,30 @@ public class RestBoxFragment extends Fragment implements TagInterface {
                 comLeftBarType = parcel.getLeftHasBarType();
                 if (parcel.getLeftParcel() != null) {
                     BoxBarParcel barParcel = parcel.getLeftParcel();
-                    if (comLeftBarType == 0) {
+                    if (comLeftBarType == 0 || comLeftBarType == 1) {
                         leftShapeA = barParcel.getComBoxLeftShapeBarA();
                         leftShapeB = barParcel.getComBoxLeftShapeBarB();
                         leftShapeC = barParcel.getComBoxLeftShapeBarC();
                         leftShapeD = barParcel.getComBoxLeftShapeBarD();
                         leftShapeDiam = barParcel.getComBoxLeftShapeBarDiam();
                         leftShapeDist = barParcel.getComBoxLeftShapeBarDist();
-                        leftBarHorObs = barParcel.getComBoxLeftHorObs();
-                    } else if (comLeftBarType == 1) {
-                        leftShapeA = barParcel.getComBoxLeftShapeBarA();
-                        leftShapeB = barParcel.getComBoxLeftShapeBarB();
-                        leftShapeC = barParcel.getComBoxLeftShapeBarC();
-                        leftShapeDiam = barParcel.getComBoxLeftShapeBarDiam();
-                        leftShapeDist = barParcel.getComBoxLeftShapeBarDist();
-                        leftBarHorObs = barParcel.getComBoxLeftHorObs();
-                        leftVertA = barParcel.getComBoxLeftVertBarA();
-                        leftVertB = barParcel.getComBoxLeftVertBarB();
-                        leftVertC = barParcel.getComBoxLeftVertBarC();
-                        leftVertDiam = barParcel.getComBoxLeftVertBarDiam();
-                        leftVertDist = barParcel.getComBoxLeftVertBarDist();
-                        leftBarVertObs = barParcel.getComBoxLeftVertObs();
-                    }
+                        leftBarObs = barParcel.getComBoxLeftObs();
+                    } else if (comLeftBarType == 2)
+                        leftBarObs = barParcel.getComBoxLeftObs();
                 }
                 comRightBarType = parcel.getRightHasBarType();
                 if (parcel.getRightParcel() != null) {
                     BoxBarParcel barParcel = parcel.getRightParcel();
-                    if (comRightBarType == 0) {
+                    if (comRightBarType == 0 || comRightBarType == 1) {
                         rightShapeA = barParcel.getComBoxRightShapeBarA();
                         rightShapeB = barParcel.getComBoxRightShapeBarB();
                         rightShapeC = barParcel.getComBoxRightShapeBarC();
                         rightShapeD = barParcel.getComBoxRightShapeBarD();
                         rightShapeDiam = barParcel.getComBoxRightShapeBarDiam();
                         rightShapeDist = barParcel.getComBoxRightShapeBarDist();
-                        rightBarHorObs = barParcel.getComBoxRightHorObs();
-                    } else if (comRightBarType == 1) {
-                        rightShapeA = barParcel.getComBoxRightShapeBarA();
-                        rightShapeB = barParcel.getComBoxRightShapeBarB();
-                        rightShapeC = barParcel.getComBoxRightShapeBarC();
-                        rightShapeDiam = barParcel.getComBoxRightShapeBarDiam();
-                        rightShapeDist = barParcel.getComBoxRightShapeBarDist();
-                        rightBarHorObs = barParcel.getComBoxRightHorObs();
-                        rightVertA = barParcel.getComBoxRightVertBarA();
-                        rightVertB = barParcel.getComBoxRightVertBarB();
-                        rightVertC = barParcel.getComBoxRightVertBarC();
-                        rightVertDiam = barParcel.getComBoxRightVertBarDiam();
-                        rightVertDist = barParcel.getComBoxRightVertBarDist();
-                        rightBarVertObs = barParcel.getComBoxRightVertObs();
-                    }
+                        rightBarObs = barParcel.getComBoxRightObs();
+                    } else if (comRightBarType == 2)
+                        rightBarObs = barParcel.getComBoxRightObs();
                 }
             }
             comBoxObs = parcel.getBoxObs();
@@ -337,8 +277,8 @@ public class RestBoxFragment extends Fragment implements TagInterface {
         }
 
         return new RestBoxFirstUpdate(boxBundle.getInt(BOX_ID), boxType, comDoorWidth, comBoxDiam, comHasBar, comDoorDist, comBoxWidth, comLeftBarType, leftShapeA,
-                leftShapeB, leftShapeC, leftShapeD, leftShapeDiam, leftShapeDist, leftBarHorObs, leftVertA, leftVertB, leftVertC, leftVertDiam, leftVertDist, leftBarVertObs,
-                comRightBarType, rightShapeA, rightShapeB, rightShapeC, rightShapeD, rightShapeDiam, rightShapeDist,  rightBarHorObs, rightVertA, rightVertB, rightVertC,
+                leftShapeB, leftShapeC, leftShapeD, leftShapeDiam, leftShapeDist, leftBarObs, leftVertA, leftVertB, leftVertC, leftVertDiam, leftVertDist, leftBarVertObs,
+                comRightBarType, rightShapeA, rightShapeB, rightShapeC, rightShapeD, rightShapeDiam, rightShapeDist,  rightBarObs, rightVertA, rightVertB, rightVertC,
                 rightVertDiam, rightVertDist, rightBarVertObs, comBoxObs, upLength, upWidth, upA, upB, upC, upD, upViewObs, accBoxDrain, accBoxDrainObs);
     }
 

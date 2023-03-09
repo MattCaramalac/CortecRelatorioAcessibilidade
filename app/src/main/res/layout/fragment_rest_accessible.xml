@@ -20,12 +20,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.whygraphics.multilineradiogroup.MultiLineRadioGroup
-                android:id="@+id/restroom_type_multiradio"
+                android:id="@+id/restroom_gender_multiradio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_type_header"
-                app:max_in_row="2"
+                app:max_in_row="3"
                 app:radio_buttons="@array/multi_radio_restroom" />
 
             <TextView
@@ -37,7 +37,7 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/restroom_type_multiradio" />
+                app:layout_constraintTop_toBottomOf="@id/restroom_gender_multiradio" />
 
 
             <com.google.android.material.textfield.TextInputLayout

@@ -5,7 +5,7 @@ import org.parceler.Parcel;
 @Parcel
 public class RestAccessColParcel {
 
-    Integer restType;
+    Integer restGender;
     String restLocation;
     Double notAccessLength;
     Double notAccessWidth;
@@ -39,12 +39,12 @@ public class RestAccessColParcel {
 //        Empty Constructor
     }
 
-    public RestAccessColParcel(Integer restType, String restLocation, Double notAccessLength, Double notAccessWidth, Integer collectiveHasDoor, Integer accessRoute, String accessRouteObs,
+    public RestAccessColParcel(Integer restGender, String restLocation, Double notAccessLength, Double notAccessWidth, Integer collectiveHasDoor, Integer accessRoute, String accessRouteObs,
                                Integer intRestroom, String intRestObs,
                                Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Double notAccEntranceWidth, Integer notAccEntranceSill,
                                String notAccEntranceObs, Integer restSwitch, Double switchHeight, String switchObs, Integer hasWindow, Integer winQnt, String winComType1,
                                Double winComHeight1, String winComType2, Double winComHeight2, String winComType3, Double winComHeight3, String winObs) {
-        this.restType = restType;
+        this.restGender = restGender;
         this.restLocation = restLocation;
         this.notAccessLength = notAccessLength;
         this.notAccessWidth = notAccessWidth;
@@ -74,12 +74,12 @@ public class RestAccessColParcel {
         this.winObs = winObs;
     }
 
-    public Integer getRestType() {
-        return restType;
+    public Integer getRestGender() {
+        return restGender;
     }
 
-    public void setRestType(Integer restType) {
-        this.restType = restType;
+    public void setRestGender(Integer restGender) {
+        this.restGender = restGender;
     }
 
     public String getRestLocation() {

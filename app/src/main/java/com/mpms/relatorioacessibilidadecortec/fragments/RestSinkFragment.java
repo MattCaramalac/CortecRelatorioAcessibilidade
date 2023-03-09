@@ -38,10 +38,10 @@ import org.parceler.Parcels;
 public class RestSinkFragment extends Fragment implements TagInterface, ScrollEditText {
 
     ImageButton sink1, sink2, sink3, sink4, sink5, sinkApprox, sinkMirror;
-    RadioGroup sinkRadio1, sinkRadio2, hasBarRadio, frontLeftHorSinkRadio, sideRightVertSinkRadio, mirrorRadio;
+    RadioGroup sinkRadio1, sinkRadio2, hasBarRadio, frontLeftHorSinkRadio, sideRightVertSinkRadio, mirrorRadio, columnRadio;
     TextInputLayout measureFieldA, measureFieldB, measureFieldC, measureFieldD, measureFieldE, mirrorFieldA, mirrorFieldB, sinkObsField;
     TextInputEditText measureValueA, measureValueB, measureValueC, measureValueD, measureValueE, mirrorValueA, mirrorValueB, sinkObsValue;
-    TextView sinkError, barError, frontLeftHorHeader, sideRightVertHeader, frontLeftHorError, sideRightVertError, mirrorError, sinkTypeWarning;
+    TextView sinkError, barError, frontLeftHorHeader, sideRightVertHeader, frontLeftHorError, sideRightVertError, mirrorError, sinkTypeWarning, columnError;
     FrameLayout leftFrag, rightFrag;
     Fragment frontLeftHorFrag, sideRightVertFrag;
 
@@ -167,6 +167,7 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
         frontLeftHorSinkRadio = view.findViewById(R.id.front_left_bar_radio);
         sideRightVertSinkRadio = view.findViewById(R.id.side_right_bar_radio);
         mirrorRadio = view.findViewById(R.id.sink_mirror_radio);
+        columnRadio = view.findViewById(R.id.sink_column_radio);
 //        TextInputLayout
         measureFieldA = view.findViewById(R.id.sink_approx_measureA_field);
         measureFieldB = view.findViewById(R.id.sink_approx_measureB_field);
@@ -194,6 +195,7 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
         sideRightVertError = view.findViewById(R.id.side_right_bar_error);
         mirrorError = view.findViewById(R.id.sink_mirror_error);
         sinkTypeWarning = view.findViewById(R.id.select_sink_type_warning);
+        columnError = view.findViewById(R.id.sink_column_error);
 //        FrameLayout
         leftFrag = view.findViewById(R.id.front_left_bar_fragment);
         rightFrag = view.findViewById(R.id.side_right_bar_fragment);
@@ -394,6 +396,10 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
             i++;
             measureFieldE.setError(getText(R.string.req_field_error));
         }
+        if (getCheckRadio(columnRadio) == -1) {
+            i++;
+            columnError.setVisibility(View.VISIBLE);
+        }
         if (getCheckRadio(hasBarRadio) == -1) {
             i++;
             barError.setVisibility(View.VISIBLE);
@@ -431,6 +437,7 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
         frontLeftHorError.setVisibility(View.GONE);
         sideRightVertError.setVisibility(View.GONE);
         mirrorError.setVisibility(View.GONE);
+        columnError.setVisibility(View.GONE);
         measureFieldA.setErrorEnabled(false);
         measureFieldB.setErrorEnabled(false);
         measureFieldC.setErrorEnabled(false);
@@ -441,7 +448,7 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
     }
 
     private SinkParcel sinkUpdate(Bundle bundle) {
-        int sinkType = 0, hasSinkBar, hasMirror;
+        int sinkType, hasColumn, hasSinkBar, hasMirror;
         Integer hasLeftFrontHor = null, hasSideRightVert = null;
         double approxA, approxB, approxC, approxD, approxE;
         Double leftFrontHorA = null, leftFrontHorB = null, leftFrontHorC = null, leftFrontHorD = null, leftFrontHorDiam = null,
@@ -452,10 +459,7 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
         if (getCheckRadio(sinkRadio1) > -1)
             sinkType = getCheckRadio(sinkRadio1);
         else {
-            if (getCheckRadio(sinkRadio2) == 0)
-                sinkType = 3;
-            else if (getCheckRadio(sinkRadio2) == 1)
-                sinkType = 4;
+            sinkType = (getCheckRadio(sinkRadio2) == 0 ? 3 : 4);
         }
         approxA = Double.parseDouble(String.valueOf(measureValueA.getText()));
         approxB = Double.parseDouble(String.valueOf(measureValueB.getText()));
@@ -463,6 +467,7 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
         approxD = Double.parseDouble(String.valueOf(measureValueD.getText()));
         approxE = Double.parseDouble(String.valueOf(measureValueE.getText()));
 
+        hasColumn = getCheckRadio(columnRadio);
         hasSinkBar = getCheckRadio(hasBarRadio);
         if (hasSinkBar == 1) {
             hasLeftFrontHor = getCheckRadio(frontLeftHorSinkRadio);
@@ -524,9 +529,10 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
         if (!TextUtils.isEmpty(sinkObsValue.getText()))
             sinkObs = String.valueOf(sinkObsValue.getText());
 
-        return new SinkParcel(sinkType, approxA, approxB, approxC, approxD, approxE, hasSinkBar, hasLeftFrontHor, leftFrontHorA,
+        return new SinkParcel(sinkType, approxA, approxB, approxC, approxD, approxE, hasColumn, hasSinkBar, hasLeftFrontHor, leftFrontHorA,
                 leftFrontHorB, leftFrontHorC, leftFrontHorD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasSideRightVert, rightSideVertA, rightSideVertB,
-                rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs);
+                rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs,
+                null);
     }
 
     private void sendSinkData(Bundle bundle) {
@@ -559,6 +565,9 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
             measureValueD.setText(String.valueOf(rest.getApproxMeasureD()));
         if (rest.getApproxMeasureE() != null)
             measureValueE.setText(String.valueOf(rest.getApproxMeasureE()));
+
+        if (rest.getHasLowerColSink() != null)
+            columnRadio.check(columnRadio.getChildAt(rest.getHasLowerColSink()).getId());
 
         if (rest.getHasSinkBar() != null)
             hasBarRadio.check(hasBarRadio.getChildAt(rest.getHasSinkBar()).getId());
@@ -604,6 +613,8 @@ public class RestSinkFragment extends Fragment implements TagInterface, ScrollEd
         if (rest.getApproxMeasureE() != null)
             measureValueE.setText(String.valueOf(rest.getApproxMeasureE()));
 
+        if (rest.getHasLowerColSink() != null)
+            columnRadio.check(columnRadio.getChildAt(rest.getHasLowerColSink()).getId());
         if (rest.getHasSinkBar() != null)
             hasBarRadio.check(hasBarRadio.getChildAt(rest.getHasSinkBar()).getId());
 

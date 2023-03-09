@@ -172,6 +172,7 @@ public class RestroomEntry {
     private Double urMeasureM;
     private String urObs;
     private Integer hasSink;
+    private Integer hasLowerSink;
 
     public RestroomEntry(int blockID, int isCollective, Integer restType, String restLocation, Integer collectiveHasDoor, Double entranceWidth, Integer entranceDoorSill,
                          String entranceDoorSillObs, Integer accessRoute,
@@ -181,7 +182,7 @@ public class RestroomEntry {
                          Double toHeightSeat, Integer toHasSoculo, Double frSoculo, Double latSoculo, Integer socCorners, Integer toHasFrontBar, Double frBarA, Double frBarB,
                          Double frBarC, Double frBarSect, Double frBarDist, Integer toHasWall, Integer hasHorBar, Double horBarD, Double horBarE, Double horBarF,
                          Double horBarDistG, Double horBarSect, Double horBarDist, Integer hasVertBar, Double vertBarH, Double vertBarI, Double vertBarJ, Double vertBarSect,
-                         Double vertBarDist,  Integer hasSideBar, Double sideBarD, Double sideBarE, Double sideBarDistG, Double sideBarSect,
+                         Double vertBarDist, Integer hasSideBar, Double sideBarD, Double sideBarE, Double sideBarDistG, Double sideBarSect,
                          Integer hasArtBar, Double artBarH, Double artBarI, Double artBarJ, Double artBarSect, String toActDesc, Double toActHeight,
                          String toActObs, Integer hasPapHolder, Integer papHolderType, Double papEmbDist, Double papEmbHeight, Integer papSupAlign, Double papSupHeight,
                          String papHoldObs, Integer hasDouche, Double douchePressHeight, Double doucheActHeight, String doucheObs, String toiletObs, Integer hasHanger,
@@ -189,7 +190,7 @@ public class RestroomEntry {
                          Double soapHoldHeight, String soapHoldObs, Integer hasTowelHold, Double towelHoldHeight, String towelHoldObs, Integer hasEmergencyButton,
                          Double emergencyHeight, String emergencyObs, Integer hasWaterValve, Integer waterValveType, Double waterValveHeight, String waterValveObs,
                          Integer hasWindow, Integer winQnt, String winComType1, Double winComHeight1, String winComType2, Double winComHeight2, String winComType3, Double winComHeight3,
-                         String winObs, Integer hasWallMirror, Double wallMirrorLow, Double wallMirrorHigh, String wallMirrorObs, Integer sinkType, Integer hasLowerColSink,Double approxMeasureA,
+                         String winObs, Integer hasWallMirror, Double wallMirrorLow, Double wallMirrorHigh, String wallMirrorObs, Integer sinkType, Integer hasLowerColSink, Double approxMeasureA,
                          Double approxMeasureB, Double approxMeasureC, Double approxMeasureD, Double approxMeasureE, Integer hasSinkBar, Integer hasLeftFrontHorBar,
                          Double leftFrontHorMeasureA, Double leftFrontHorMeasureB, Double leftFrontHorMeasureC, Double leftFrontHorMeasureD,
                          Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs, Integer hasRightSideVertBar, Double rightSideVertMeasureA,
@@ -197,7 +198,7 @@ public class RestroomEntry {
                          Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh, String sinkObs, Integer hasUrinal,
                          Integer hasAccessUrinal, Integer urinalType, Double urMeasureA, Double urMeasureB, Double urMeasureC, Double urMeasureD, Double urMeasureE,
                          Double urMeasureF, Double urMeasureG, Double urMeasureH, Double urMeasureI, Double urMeasureJ, Double urMeasureK, Double urMeasureL, Double urMeasureM,
-                         String urObs, Integer hasSink) {
+                         String urObs, Integer hasSink, Integer hasLowerSink) {
         this.blockID = blockID;
         this.isCollective = isCollective;
         this.restType = restType;
@@ -357,6 +358,7 @@ public class RestroomEntry {
         this.urMeasureM = urMeasureM;
         this.urObs = urObs;
         this.hasSink = hasSink;
+        this.hasLowerSink = hasLowerSink;
     }
 
     public String getWinObs() {
@@ -1637,5 +1639,13 @@ public class RestroomEntry {
 
     public void setHasSink(Integer hasSink) {
         this.hasSink = hasSink;
+    }
+
+    public Integer getHasLowerSink() {
+        return hasLowerSink;
+    }
+
+    public void setHasLowerSink(Integer hasLowerSink) {
+        this.hasLowerSink = hasLowerSink;
     }
 }

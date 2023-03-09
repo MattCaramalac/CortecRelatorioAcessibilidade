@@ -31,8 +31,8 @@ import org.parceler.Parcels;
 
 public class RestCommonBoxFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout boxDoorWidthField, boxDiamField, doorDistField, boxWidthField, boxObsField;
-    TextInputEditText boxDoorWidthValue, boxDiamValue, doorDistValue, boxWidthValue, boxObsValue;
+    TextInputLayout boxDoorWidthField, boxDiamField, doorDistField, boxWidthField, boxObsField, leftBarObsField, rightBarObsField;
+    TextInputEditText boxDoorWidthValue, boxDiamValue, doorDistValue, boxWidthValue, boxObsValue, leftBarObsValue, rightBarObsValue;
     RadioGroup hasBarRadio, leftBarRadio, rightBarRadio;
     TextView hasBarError, leftBarHeader, leftBarQuestion, leftBarError, rightBarHeader, rightBarQuestion, rightBarError;
     ImageButton imgButton;
@@ -90,7 +90,7 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
             }
         });
 
-        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER_2, this, (key,bundle) -> {
+        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER_2, this, (key, bundle) -> {
             if (bundle.getParcelable(CHILD_PARCEL) != null)
                 left = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
             if (getCheckRadio(rightBarRadio) == 0 || getCheckRadio(rightBarRadio) == 1)
@@ -107,25 +107,21 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
             }
         });
 
-        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER_3, this, (key,bundle) -> {
+        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER_3, this, (key, bundle) -> {
             if (bundle.getParcelable(CHILD_PARCEL) != null)
                 right = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
-            if (getCheckRadio(rightBarRadio) == 0 || getCheckRadio(rightBarRadio) == 1)
-                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA_3, bundle);
-            else {
-                if (checkEmptyComBoxField()) {
-                    createComBoxParcel(bundle, left, right);
-                    if (!checkEmptyComBoxField() || !bundle.getBoolean(CHILD_DATA_COMPLETE))
-                        bundle.putBoolean(CHILD_DATA_COMPLETE, false);
-                } else
+            if (checkEmptyComBoxField()) {
+                createComBoxParcel(bundle, left, right);
+                if (!checkEmptyComBoxField() || !bundle.getBoolean(CHILD_DATA_COMPLETE))
                     bundle.putBoolean(CHILD_DATA_COMPLETE, false);
+            } else
+                bundle.putBoolean(CHILD_DATA_COMPLETE, false);
 
-                getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
-            }
+            getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
         });
 
         if (comBundle.getInt(BOX_ID) > 0)
-        modelEntry.getOneBoxEntry(comBundle.getInt(BOX_ID)).observe(getViewLifecycleOwner(), this::loadComBoxData);
+            modelEntry.getOneBoxEntry(comBundle.getInt(BOX_ID)).observe(getViewLifecycleOwner(), this::loadComBoxData);
     }
 
     private void instComBoxViews(View view) {
@@ -135,12 +131,16 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
         doorDistField = view.findViewById(R.id.box_toilet_door_dist_field);
         boxWidthField = view.findViewById(R.id.box_width_field);
         boxObsField = view.findViewById(R.id.common_box_obs_field);
+        leftBarObsField = view.findViewById(R.id.left_box_bar_obs_field);
+        rightBarObsField = view.findViewById(R.id.right_box_bar_obs_field);
 //        TextInputEditText
         boxDoorWidthValue = view.findViewById(R.id.box_door_width_value);
         boxDiamValue = view.findViewById(R.id.free_space_diam_value);
         doorDistValue = view.findViewById(R.id.box_toilet_door_dist_value);
         boxWidthValue = view.findViewById(R.id.box_width_value);
         boxObsValue = view.findViewById(R.id.common_box_obs_value);
+        leftBarObsValue = view.findViewById(R.id.left_box_bar_obs_value);
+        rightBarObsValue = view.findViewById(R.id.right_box_bar_obs_value);
 //        RadioGroup
         hasBarRadio = view.findViewById(R.id.box_support_bar_radio);
         leftBarRadio = view.findViewById(R.id.box_left_bar_type_radio);
@@ -210,6 +210,10 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
             boxWidth = Double.parseDouble(String.valueOf(boxWidthValue.getText()));
             hasLeft = getCheckRadio(leftBarRadio);
             hasRight = getCheckRadio(rightBarRadio);
+            if (hasLeft == 2 && !TextUtils.isEmpty(leftBarObsValue.getText()))
+                left.setComBoxLeftObs(String.valueOf(leftBarObsValue.getText()));
+            if (hasRight == 2 && !TextUtils.isEmpty(rightBarObsValue.getText()))
+                right.setComBoxRightObs(String.valueOf(rightBarObsValue.getText()));
 
         }
         if (!TextUtils.isEmpty(boxObsValue.getText()))
@@ -298,24 +302,40 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
             }
         } else {
             int container;
-            boolean fromLeft;
             if (radio == leftBarRadio) {
                 container = R.id.left_bar_frame;
-                fromLeft = true;
+                switch (index) {
+                    case 0:
+                    case 1:
+                        getChildFragmentManager().beginTransaction().replace(container, RestBoxLeftBarFragment.newInstance(boxID)).commit();
+                        break;
+                    case 2:
+                        leftBarObsField.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        leftBarObsValue.setText(null);
+                        leftBarObsField.setVisibility(View.GONE);
+                        removeSillFragments(container);
+                        break;
+                }
             } else {
                 container = R.id.right_bar_frame;
-                fromLeft = false;
+                switch (index) {
+                    case 0:
+                    case 1:
+                        getChildFragmentManager().beginTransaction().replace(container, RestBoxRightBarFragment.newInstance(boxID)).commit();
+                        break;
+                    case 2:
+                        rightBarObsField.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        rightBarObsValue.setText(null);
+                        rightBarObsField.setVisibility(View.GONE);
+                        removeSillFragments(container);
+                        break;
+                }
             }
-            switch (index) {
-                case 0:
-                    getChildFragmentManager().beginTransaction().replace(container, RestBoxLShapeBarFragment.newInstance(boxID, fromLeft)).commit();
-                    break;
-                case 1:
-                    getChildFragmentManager().beginTransaction().replace(container,RestBoxTwoBarFragment.newInstance(boxID, fromLeft)).commit();
-                    break;
-                default:
-                    removeSillFragments(container);
-            }
+
         }
     }
 

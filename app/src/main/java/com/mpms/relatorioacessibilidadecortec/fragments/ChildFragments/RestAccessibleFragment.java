@@ -110,7 +110,7 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
         restDrainRadio = view.findViewById(R.id.restroom_drain_radio);
         restSwitchRadio = view.findViewById(R.id.restroom_switch_radio);
 //        MultilineRadioGroup
-        restTypeMulti = view.findViewById(R.id.restroom_type_multiradio);
+        restTypeMulti = view.findViewById(R.id.restroom_gender_multiradio);
 //        TextView
         restroomTypeError = view.findViewById(R.id.restroom_type_error);
         accessibleRouteError = view.findViewById(R.id.accessible_route_error);

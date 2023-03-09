@@ -200,12 +200,36 @@
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/box_left_bar_type_radio" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/left_box_bar_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="Observações Barra de Apoio à Esquerda"
+            app:layout_constraintTop_toBottomOf="@id/box_left_bar_type_error"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/left_box_bar_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:lines="@integer/multiline_obs_field"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <FrameLayout
             android:id="@+id/left_bar_frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            app:layout_constraintTop_toBottomOf="@id/box_left_bar_type_error"
+            app:layout_constraintTop_toBottomOf="@id/left_box_bar_obs_field"
             android:visibility="gone"/>
 
 
@@ -273,12 +297,37 @@
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/box_right_bar_type_radio" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/right_box_bar_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="Observações Barra de Apoio à Direita"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/box_right_bar_type_error"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/right_box_bar_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:lines="@integer/multiline_obs_field"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <FrameLayout
             android:id="@+id/right_bar_frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            app:layout_constraintTop_toBottomOf="@id/box_right_bar_type_error"
+            app:layout_constraintTop_toBottomOf="@id/right_box_bar_obs_field"
             tools:layout_editor_absoluteX="0dp"
             />
 

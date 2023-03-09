@@ -14,36 +14,14 @@
         android:textSize="@dimen/section_header"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RadioGroup
-        android:id="@+id/exclusive_entrance_radio"
+    <com.whygraphics.multilineradiogroup.MultiLineRadioGroup
+        android:id="@+id/rest_type_multiradio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/collective_restroom_header">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="@integer/weight_one"
-            android:text="@string/radio_single_accessible"
-            android:textSize="@dimen/radio_button_text" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="@integer/weight_one"
-            android:text="@string/radio_collective_accessible"
-            android:textSize="@dimen/radio_button_text" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="@integer/weight_one"
-            android:text="@string/radio_collective_not_accessible"
-            android:textSize="@dimen/radio_button_text" />
-
-    </RadioGroup>
+        app:layout_constraintTop_toBottomOf="@id/collective_restroom_header"
+        app:max_in_row="2"
+        app:radio_buttons="@array/multi_radio_ent_restroom" />
 
     <TextView
         android:id="@+id/exclusive_entrance_error"
@@ -54,14 +32,14 @@
         android:textSize="14sp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/exclusive_entrance_radio" />
+        app:layout_constraintTop_toBottomOf="@id/rest_type_multiradio" />
 
     <FrameLayout
         android:id="@+id/rest_type_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="0.77"
+        app:layout_constraintHeight_percent="0.70"
         app:layout_constraintTop_toBottomOf="@id/exclusive_entrance_error"/>
 
     <com.google.android.material.button.MaterialButton

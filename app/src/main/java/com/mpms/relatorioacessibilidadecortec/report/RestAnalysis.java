@@ -64,8 +64,11 @@ public class RestAnalysis implements StandardMeasurements {
                 restIrr = checkRestIrregularities(rest, doorList, frSpaceList, boxList, boxDoor);
 
             if (check > 0) {
-                String type = restroomTyping(rest.getIsCollective());
-                AmbientAnalysis.blockRestList.add("Sanitário " + type + " " + rest.getRestLocation() + ", com as seguintes irregularidades: ");
+                String type = restroomTyping(rest.getIsCollective()) + " " + restroomGender(rest.getRestType());
+                if (rest.getRestLocation() != null && rest.getRestLocation().length() > 0)
+                    AmbientAnalysis.blockRestList.add("Sanitário " + type + " " + rest.getRestLocation() + ", com as seguintes irregularidades: ");
+                else
+                    AmbientAnalysis.blockRestList.add("Sanitário " + type + ", com as seguintes irregularidades: ");
                 AmbientAnalysis.blockRestIrregular.put(blockRest, restIrr);
                 blockRest++;
             }
@@ -77,8 +80,7 @@ public class RestAnalysis implements StandardMeasurements {
     public static List<String> checkRestIrregularities(RestroomEntry rest, List<DoorEntry> doorList, List<FreeSpaceEntry> frSpaceList,
                                                        List<RestBoxEntry> boxList, List<DoorEntry> boxDoor) {
         List<String> restIrr = new ArrayList<>();
-        int isCollective = rest.getIsCollective();
-        int restType = rest.getRestType();
+        int restType = rest.getIsCollective();
 
         if (rest.getAntiDriftFloor() == 0) {
             check++;
@@ -108,6 +110,7 @@ public class RestAnalysis implements StandardMeasurements {
                 }
             }
         }
+
         if (rest.getSwitchObs() != null && rest.getSwitchObs().length() > 0) {
             check++;
             restIrr.add("observações a serem feitas sobre o interruptor de energia: " + rest.getSwitchObs() + ";");
@@ -140,7 +143,7 @@ public class RestAnalysis implements StandardMeasurements {
             restIrr.add("observações a ser apontadas sobre a janela: " + rest.getWinObs() + ";");
 
 
-        if (isCollective == 0) {
+        if (restType == 0) {
             hasAccess++;
             if (rest.getAccessRoute() == 0) {
                 check++;
@@ -227,13 +230,10 @@ public class RestAnalysis implements StandardMeasurements {
                 }
             }
 
-            if (restType == 3 && (rest.getToHeightNoSeat() < minToiletHeightChild || rest.getToHeightNoSeat() > maxToiletHeightChild)) {
-                check++;
-                restIrr.add("a altura da bacia sanitária está fora dos padrões estipulados;");
-            } else if (restType != 3 && rest.getToHeightNoSeat() < minToiletHeightAdult) {
+            if (rest.getToHeightNoSeat() < minToiletHeightAdult) {
                 check++;
                 restIrr.add("a altura da bacia sanitária é inferior à " + minToiletHeightAdult + " m;");
-            } else if (restType != 3 && rest.getToHeightNoSeat() > maxToiletHeightAdult) {
+            } else if (rest.getToHeightNoSeat() > maxToiletHeightAdult) {
                 check++;
                 restIrr.add("a altura da bacia sanitária é superior à " + maxToiletHeightAdult + " m;");
             }
@@ -242,54 +242,36 @@ public class RestAnalysis implements StandardMeasurements {
                 check++;
                 restIrr.add("a bacia sanitária não possui assento;");
             } else {
-                if (restType == 3 && rest.getToHeightSeat() > maxToiletHeightChildSeat) {
-                    check++;
-                    restIrr.add("a altura da bacia sanitária com assento é superior à " + maxToiletHeightChildSeat + " m;");
-                } else if (restType != 3 && rest.getToHeightSeat() > maxToiletHeightAdultSeat) {
+                if (rest.getToHeightSeat() > maxToiletHeightAdultSeat) {
                     check++;
                     restIrr.add("a altura da bacia sanitária com assento é superior à " + maxToiletHeightAdultSeat + " m;");
                 }
             }
 
-            if (rest.getToHasFrontBar() == 0) {
+            if (toiletType == 2 && rest.getToHasFrontBar() == 0 && rest.getToHasWall() == 1) {
                 check++;
-                restIrr.add("ausência da barra de apoio posterior");
+                restIrr.add("O sanitário não possui barra de apoio posterior;");
+            } else if (toiletType != 2 && rest.getToHasFrontBar() == 0) {
+                check++;
+                restIrr.add("O sanitário não possui barra de apoio posterior;");
             } else {
-                if (restType == 3) {
-                    if (toiletType == 2 && rest.getFrBarA() < frBarHeightChild) {
-                        check++;
-                        restIrr.add("a altura da barra de apoio posterior está abaixo de " + frBarHeightChild + " m;");
-                    } else if (toiletType == 2 && rest.getFrBarA() > frBarMaxHeightChild) {
-                        check++;
-                        restIrr.add("a altura da barra de apoio posterior está acima de " + frBarMaxHeightChild + " m;");
-                    } else if (toiletType != 2 && rest.getFrBarA() != frBarHeightChild) {
-                        check++;
-                        restIrr.add("a altura da barra de apoio posterior é diferente de " + frBarHeightChild + " m;");
-                    }
-
-                    if (rest.getFrBarC() != frBarToiletAxisChild) {
-                        check++;
-                        restIrr.add("a distância entre o eixo da bacia sanitária até a extremidade da barra de apoio posterior em direção à parede lateral " +
-                                "é diferente de " + frBarToiletAxisChild + " m;");
-                    }
-                } else {
-                    if (toiletType == 2 && rest.getFrBarA() < frBarHeightAdult) {
-                        check++;
-                        restIrr.add("a altura da barra de apoio posterior está abaixo de " + frBarHeightAdult + " m;");
-                    } else if (toiletType == 2 && rest.getFrBarA() > frBarMaxHeightAdult) {
-                        check++;
-                        restIrr.add("a altura da barra de apoio posterior está acima de " + frBarMaxHeightAdult + " m;");
-                    } else if (toiletType != 2 && rest.getFrBarA() != frBarHeightAdult) {
-                        check++;
-                        restIrr.add("a altura da barra de apoio posterior é diferente de " + frBarHeightAdult + " m;");
-                    }
-
-                    if (rest.getFrBarC() != frBarToiletAxisAdult) {
-                        check++;
-                        restIrr.add("a distância entre o eixo da bacia sanitária até a extremidade da barra de apoio posterior em direção à parede lateral " +
-                                "é diferente de " + frBarToiletAxisAdult + " m;");
-                    }
+                if (toiletType == 2 && rest.getFrBarA() < frBarHeightAdult) {
+                    check++;
+                    restIrr.add("a altura da barra de apoio posterior está abaixo de " + frBarHeightAdult + " m;");
+                } else if (toiletType == 2 && rest.getFrBarA() > frBarMaxHeightAdult) {
+                    check++;
+                    restIrr.add("a altura da barra de apoio posterior está acima de " + frBarMaxHeightAdult + " m;");
+                } else if (toiletType != 2 && rest.getFrBarA() != frBarHeightAdult) {
+                    check++;
+                    restIrr.add("a altura da barra de apoio posterior é diferente de " + frBarHeightAdult + " m;");
                 }
+
+                if (rest.getFrBarC() != frBarToiletAxisAdult) {
+                    check++;
+                    restIrr.add("a distância entre o eixo da bacia sanitária até a extremidade da barra de apoio posterior em direção à parede lateral " +
+                            "é diferente de " + frBarToiletAxisAdult + " m;");
+                }
+
 
                 if (rest.getFrBarB() < frBarMinLength) {
                     check++;
@@ -314,24 +296,18 @@ public class RestAnalysis implements StandardMeasurements {
                 if (rest.getHasSideBar() == 0) {
                     check++;
                     restIrr.add("o sanitário não possui barra reta lateral fixa;");
-                } else {
+                } else if (rest.getToHasWall() == 1) {
                     if (rest.getSideBarD() < fixSideBarMinLengthToilet) {
                         check++;
                         restIrr.add("o comprimento mínimo da barra lateral fixa à frente da bacia sanitária é inferior à " + fixSideBarMinLengthToilet + " m;");
                     }
 
-                    if (restType == 3 && rest.getSideBarE() != frBarHeightChild) {
-                        check++;
-                        restIrr.add("a altura da barra lateral fixa é diferente de " + frBarHeightChild + " m;");
-                    } else if (restType != 3 && rest.getHorBarE() != frBarHeightAdult) {
+                    if (rest.getHorBarE() != frBarHeightAdult) {
                         check++;
                         restIrr.add("a altura da barra lateral fixa é diferente de " + frBarHeightAdult + " m;");
                     }
 
-                    if (restType == 3 && rest.getSideBarDistG() != sideBarToiletAxisChild) {
-                        check++;
-                        restIrr.add("a distância do eixo da bacia sanitária até a barra lateral fixa é diferente de " + sideBarToiletAxisChild + " m;");
-                    } else if (restType != 3 && rest.getSideBarDistG() != sideBarToiletAxisAdult) {
+                    if (rest.getSideBarDistG() != sideBarToiletAxisAdult) {
                         check++;
                         restIrr.add("a distância do eixo da bacia sanitária até a barra lateral fixa é diferente de " + sideBarToiletAxisAdult + " m;");
                     }
@@ -349,10 +325,7 @@ public class RestAnalysis implements StandardMeasurements {
                     check++;
                     restIrr.add("a bacia sanitária não possui barra lateral articulada");
                 } else if (rest.getHasArtBar() == 1) {
-                    if (restType == 3 && rest.getArtBarH() != frBarHeightChild) {
-                        check++;
-                        restIrr.add("a altura da barra lateral articulada é diferente de " + frBarHeightChild + " m;");
-                    } else if (restType != 3 && rest.getArtBarH() != frBarHeightAdult) {
+                    if (rest.getArtBarH() != frBarHeightAdult) {
                         check++;
                         restIrr.add("a altura da barra lateral articulada é diferente de " + frBarHeightAdult + " m;");
                     }
@@ -362,10 +335,7 @@ public class RestAnalysis implements StandardMeasurements {
                         restIrr.add("o comprimento mínimo da barra lateral articulada à frente da bacia sanitária é inferior à " + artSideBarMinLengthToilet + " m;");
                     }
 
-                    if (restType == 3 && rest.getArtBarJ() != sideBarToiletAxisChild) {
-                        check++;
-                        restIrr.add("a distância do eixo da bacia sanitária até a barra lateral articulada é diferente de " + sideBarToiletAxisChild + " m;");
-                    } else if (restType != 3 && rest.getArtBarJ() != sideBarToiletAxisAdult) {
+                    if (rest.getArtBarJ() != sideBarToiletAxisAdult) {
                         check++;
                         restIrr.add("a distância do eixo da bacia sanitária até a barra lateral articulada é diferente de " + sideBarToiletAxisAdult + " m;");
                     }
@@ -378,15 +348,12 @@ public class RestAnalysis implements StandardMeasurements {
                         restIrr.add("a seção transversal da barra lateral articulada é superior à " + maxHandrailGrip + " mm;");
                     }
                 }
-            } else {
+            } else if (rest.getToHasWall() == 1) {
                 if (rest.getHasHorBar() == 0) {
                     check++;
                     restIrr.add("o sanitário não possui barra reta lateral horizontal;");
                 } else {
-                    if (restType == 3 && rest.getHorBarD() != frBarHeightChild) {
-                        check++;
-                        restIrr.add("a altura da barra lateral horizontal é diferente de " + frBarHeightChild + " m;");
-                    } else if (restType != 3 && rest.getHorBarD() != frBarHeightAdult) {
+                    if (rest.getHorBarD() != frBarHeightAdult) {
                         check++;
                         restIrr.add("a altura da barra lateral horizontal é diferente de " + frBarHeightAdult + " m;");
                     }
@@ -401,10 +368,7 @@ public class RestAnalysis implements StandardMeasurements {
                         restIrr.add("o comprimento da barra lateral horizontal à frente da bacia sanitária é diferente de " + wallFixBarDistToiletEndBar + " m;");
                     }
 
-                    if (restType == 3 && rest.getHorBarDistG() != sideBarToiletAxisChild) {
-                        check++;
-                        restIrr.add("a distância do eixo da bacia sanitária até a barra lateral horizontal é diferente de " + sideBarToiletAxisChild + " m;");
-                    } else if (restType != 3 && rest.getHorBarDistG() != sideBarToiletAxisAdult) {
+                    if (rest.getHorBarDistG() != sideBarToiletAxisAdult) {
                         check++;
                         restIrr.add("a distância do eixo da bacia sanitária até a barra lateral horizontal é diferente de " + sideBarToiletAxisAdult + " m;");
                     }
@@ -963,7 +927,7 @@ public class RestAnalysis implements StandardMeasurements {
             }
         } else {
 
-            if (isCollective == 1) {
+            if (restType == 1) {
                 if (rest.getCollectiveHasDoor() == 0) {
                     if (rest.getEntranceWidth() != null && rest.getEntranceWidth() < freeSpaceGeneral) {
                         check++;
@@ -998,9 +962,13 @@ public class RestAnalysis implements StandardMeasurements {
                     restIrr.add("ausência de grelhas e/ou ralos na área de manobra, porém as seguintes observações devem ser feitas: " + rest.getRestDrainObs() + ";");
                 }
             } else {
+                if (rest.getUpViewWidth() < restMinWidthRemodel || rest.getUpViewLength() < restMinDiamRemodel) {
+                    check++;
+                    restIrr.add("As dimensões do ambiente são inferiores ao mínimo permitido pela norma para um sanitário acessível após reforma");
+                }
                 if (rest.getEntranceWidth() != null && rest.getEntranceWidth() < freeSpaceGeneral) {
                     check++;
-                    restIrr.add("a largura da entrada do sanitário coletivo é inferior à " + freeSpaceGeneral + " m;");
+                    restIrr.add("a largura da entrada do sanitário é inferior à " + freeSpaceGeneral + " m;");
                 }
                 if (rest.getEntranceDoorSill() != null && rest.getEntranceDoorSill() != 0) {
                     check++;
@@ -1028,8 +996,7 @@ public class RestAnalysis implements StandardMeasurements {
                 }
             }
 
-
-            if (rest.getHasUrinal() == 1) {
+            if ((restType == 1 || restType == 2) && rest.getHasUrinal() == 1) {
                 if (rest.getHasAccessUrinal() == 0) {
                     check++;
                     restIrr.add("o sanitário possui mictórios porém nenhum deles é acessível;");
@@ -1079,48 +1046,252 @@ public class RestAnalysis implements StandardMeasurements {
                         restIrr.add("a altura do piso até a divisória do mictório acessível é diferente de " + urinalPartitionFloorHeight + " m;");
                     }
 
-                    if (rest.getUrinalType() == 0) {
-                        if (rest.getUrMeasureL() > urinalValveHeight) {
-                            check++;
-                            restIrr.add("a altura do piso até a válvula de acionamento do mictório acessível é superior a " + urinalValveHeight + " m;");
-                        }
-                        if (rest.getUrMeasureM() < urinalMinLowerOpenHeight) {
-                            check++;
-                            restIrr.add("a altura do piso até a abertura do mictório acessível é inferior a " + urinalMinLowerOpenHeight + " m;");
-                        } else if (rest.getUrMeasureM() > urinalMaxLowerOpenHeight) {
-                            check++;
-                            restIrr.add("a altura do piso até a abertura do mictório acessível é superior a " + urinalMaxLowerOpenHeight + " m;");
-                        }
+                    if (rest.getUrObs() != null && rest.getUrObs().length() > 0) {
+                        check++;
+                        restIrr.add("as seguintes observações podem ser feitas sobre os mictórios: " + rest.getUrObs() + " m;");
                     }
                 }
             }
 
-            if (rest.getUrObs() != null && rest.getUrObs().length() > 0) {
-                check++;
-                restIrr.add("as seguintes observações podem ser feitas sobre os mictórios: " + rest.getUrObs() + " m;");
+            if (restType == 3) {
+                int toiletType = rest.getToType();
+
+                if (toiletType != 1 && rest.getToHasSoculo() == 1) {
+                    StringBuilder builder = new StringBuilder();
+                    if (rest.getFrSoculo() > maxSoculo) {
+                        soculoIrregular(builder);
+                        builder.append("projeção frontal superior à " + maxSoculo + " m");
+                    }
+                    if (rest.getLatSoculo() > maxSoculo) {
+                        soculoIrregular(builder);
+                        builder.append("projeção lateral superior à " + maxSoculo + " m");
+                    }
+                    if (rest.getSocCorners() == 1) {
+                        soculoIrregular(builder);
+                        builder.append("presença de cantos vivos;");
+                    }
+
+                    if (builder.toString().length() > 0) {
+                        check++;
+                        restIrr.add(builder.toString());
+                    }
+                }
+
+                if (rest.getToHeightNoSeat() < minToiletHeightChild || rest.getToHeightNoSeat() > maxToiletHeightChild) {
+                    check++;
+                    restIrr.add("a altura da bacia sanitária está fora dos padrões estipulados;");
+                }
+                if (rest.getToHasSeat() == 0) {
+                    check++;
+                    restIrr.add("a bacia sanitária não possui assento;");
+                } else if (rest.getToHeightSeat() > maxToiletHeightChildSeat) {
+                    check++;
+                    restIrr.add("a altura da bacia sanitária com assento é superior à " + maxToiletHeightChildSeat + " m;");
+                }
+
+                if (toiletType == 2 && rest.getToHasFrontBar() == 0 && rest.getToHasWall() == 1) {
+                    check++;
+                    restIrr.add("O sanitário não possui barra de apoio posterior;");
+                } else if (rest.getToHasFrontBar() == 0) {
+                    check++;
+                    restIrr.add("O sanitário não possui barra de apoio posterior;");
+                } else {
+                    if (toiletType == 2 && rest.getFrBarA() < frBarHeightChild) {
+                        check++;
+                        restIrr.add("a altura da barra de apoio posterior está abaixo de " + frBarHeightChild + " m;");
+                    } else if (toiletType == 2 && rest.getFrBarA() > frBarMaxHeightChild) {
+                        check++;
+                        restIrr.add("a altura da barra de apoio posterior está acima de " + frBarMaxHeightChild + " m;");
+                    } else if (toiletType != 2 && rest.getFrBarA() != frBarHeightChild) {
+                        check++;
+                        restIrr.add("a altura da barra de apoio posterior é diferente de " + frBarHeightChild + " m;");
+                    }
+                }
+                if (rest.getFrBarC() != frBarToiletAxisChild) {
+                    check++;
+                    restIrr.add("a distância entre o eixo da bacia sanitária até a extremidade da barra de apoio posterior em direção à parede lateral " +
+                            "é diferente de " + frBarToiletAxisChild + " m;");
+                }
+
+                if (rest.getFrBarB() < frBarMinLength) {
+                    check++;
+                    restIrr.add("o comprimento da barra de apoio posterior é inferior à " + frBarMinLength + " m;");
+                }
+
+                if (rest.getFrBarSect() < minHandrailGrip) {
+                    check++;
+                    restIrr.add("a seção transversal da barra de apoio posterior é inferior à " + minHandrailGrip + " mm;");
+                } else if (rest.getFrBarSect() > maxHandrailGrip) {
+                    check++;
+                    restIrr.add("a seção transversal da barra de apoio posterior é superior à " + maxHandrailGrip + " mm;");
+                }
+
+                if (rest.getFrBarDist() < minDistHandrail) {
+                    check++;
+                    restIrr.add("a distância da parede até a barra de apoio posterior é inferior à " + minDistHandrail + " mm;");
+                }
+
+                if (rest.getToHasWall() == 0) {
+                    if (rest.getHasSideBar() == 0) {
+                        check++;
+                        restIrr.add("o sanitário não possui barra reta lateral fixa;");
+                    } else if (rest.getToHasWall() == 1) {
+                        if (rest.getSideBarD() < fixSideBarMinLengthToilet) {
+                            check++;
+                            restIrr.add("o comprimento mínimo da barra lateral fixa à frente da bacia sanitária é inferior à " + fixSideBarMinLengthToilet + " m;");
+                        }
+
+                        if (rest.getSideBarE() != frBarHeightChild) {
+                            check++;
+                            restIrr.add("a altura da barra lateral fixa é diferente de " + frBarHeightChild + " m;");
+                        }
+
+                        if (rest.getSideBarDistG() != sideBarToiletAxisChild) {
+                            check++;
+                            restIrr.add("a distância do eixo da bacia sanitária até a barra lateral fixa é diferente de " + sideBarToiletAxisChild + " m;");
+                        }
+
+                        if (rest.getSideBarSect() < minHandrailGrip) {
+                            check++;
+                            restIrr.add("a seção transversal da barra lateral fixa é inferior à " + minHandrailGrip + " mm;");
+                        } else if (rest.getSideBarSect() > maxHandrailGrip) {
+                            check++;
+                            restIrr.add("a seção transversal da barra lateral fixa é superior à " + maxHandrailGrip + " mm;");
+                        }
+                    }
+
+                    if (rest.getHasArtBar() == 0) {
+                        check++;
+                        restIrr.add("a bacia sanitária não possui barra lateral articulada");
+                    } else if (rest.getHasArtBar() == 1) {
+                        if (rest.getArtBarH() != frBarHeightChild) {
+                            check++;
+                            restIrr.add("a altura da barra lateral articulada é diferente de " + frBarHeightChild + " m;");
+                        }
+
+                        if (rest.getArtBarI() < artSideBarMinLengthToilet) {
+                            check++;
+                            restIrr.add("o comprimento mínimo da barra lateral articulada à frente da bacia sanitária é inferior à " + artSideBarMinLengthToilet + " m;");
+                        }
+
+                        if (rest.getArtBarJ() != sideBarToiletAxisChild) {
+                            check++;
+                            restIrr.add("a distância do eixo da bacia sanitária até a barra lateral articulada é diferente de " + sideBarToiletAxisChild + " m;");
+                        }
+
+                        if (rest.getArtBarSect() < minHandrailGrip) {
+                            check++;
+                            restIrr.add("a seção transversal da barra lateral articulada é inferior à " + minHandrailGrip + " mm;");
+                        } else if (rest.getArtBarSect() > maxHandrailGrip) {
+                            check++;
+                            restIrr.add("a seção transversal da barra lateral articulada é superior à " + maxHandrailGrip + " mm;");
+                        }
+                    }
+
+                } else if (rest.getToHasWall() == 1) {
+                    if (rest.getHasHorBar() == 0) {
+                        check++;
+                        restIrr.add("o sanitário não possui barra reta lateral horizontal;");
+                    } else if (rest.getHasHorBar() == 1) {
+                        if (rest.getHorBarD() != frBarHeightChild) {
+                            check++;
+                            restIrr.add("a altura da barra lateral horizontal é diferente de " + frBarHeightChild + " m;");
+                        }
+
+                        if (rest.getHorBarE() < frBarMinLength) {
+                            check++;
+                            restIrr.add("o comprimento da barra lateral horizontal é inferior à " + frBarMinLength + " m;");
+                        }
+
+                        if (rest.getHorBarF() != wallFixBarDistToiletEndBar) {
+                            check++;
+                            restIrr.add("o comprimento da barra lateral horizontal à frente da bacia sanitária é diferente de " + wallFixBarDistToiletEndBar + " m;");
+                        }
+
+                        if (rest.getHorBarDistG() != sideBarToiletAxisChild) {
+                            check++;
+                            restIrr.add("a distância do eixo da bacia sanitária até a barra lateral horizontal é diferente de " + sideBarToiletAxisChild + " m;");
+                        }
+
+                        if (rest.getHorBarSect() < minHandrailGrip) {
+                            check++;
+                            restIrr.add("a seção transversal da barra lateral horizontal é inferior à " + minHandrailGrip + " mm;");
+                        } else if (rest.getHorBarSect() > maxHandrailGrip) {
+                            check++;
+                            restIrr.add("a seção transversal da barra lateral horizontal é superior à " + maxHandrailGrip + " mm;");
+                        }
+
+                        if (rest.getHorBarDist() < minDistHandrail) {
+                            check++;
+                            restIrr.add("a distância da barra lateral horizontal até a parede é inferior à " + minDistHandrail + " mm;");
+                        }
+                    }
+
+                    if (rest.getHasVertBar() == 0) {
+                        check++;
+                        restIrr.add("o sanitário não possui barra reta lateral vertical;");
+                    } else if (rest.getHasVertBar() == 1) {
+                        if (rest.getVertBarH() != wallFixBarVertDistToilet) {
+                            check++;
+                            restIrr.add("a distância entre a bacia sanitária e a barra lateral de apoio vertical é diferente de " + wallFixBarVertDistToilet + " m;");
+                        }
+
+                        if (rest.getVertBarJ() < wallFixBarVertMinLength) {
+                            check++;
+                            restIrr.add("o comprimento da barra lateral de apoio vertical é inferior a " + wallFixBarVertMinLength + " m;");
+                        }
+
+                        if (rest.getVertBarI() != wallFixBarDistInterBar) {
+                            check++;
+                            restIrr.add("a distância entre as barras laterais de apoio vertical e horizontal é diferente de " + wallFixBarDistInterBar + " m;");
+                        }
+
+                        if (rest.getVertBarSect() < minHandrailGrip) {
+                            check++;
+                            restIrr.add("a seção transversal da barra lateral vertical é inferior à " + minHandrailGrip + " mm;");
+                        } else if (rest.getVertBarSect() > maxHandrailGrip) {
+                            check++;
+                            restIrr.add("a seção transversal da barra lateral vertical é superior à " + maxHandrailGrip + " mm;");
+                        }
+
+                        if (rest.getVertBarDist() < minDistHandrail) {
+                            check++;
+                            restIrr.add("a distância da barra lateral vertical até a parede é inferior à " + minDistHandrail + " mm;");
+                        }
+                    }
+                }
             }
-
         }
-
         return restIrr;
-
     }
 
 
     public static String restroomTyping(int i) {
-        if (i == 0)
-            return "Acessível Independente";
-        else
-            return "Coletivo";
+        switch (i) {
+            case 0:
+                return "Acessível Independente";
+            case 1:
+                return "Coletívo Acessível";
+            case 2:
+                return "Coletivo Não Acessível";
+            case 3:
+                return "Infantil";
+            default:
+                return "";
+        }
     }
 
     public static String restroomGender(int gender) {
-        if (gender == 0)
-            return "Masculino";
-        else if (gender == 1)
-            return "Feminino";
-        else
-            return "Familiar";
+        switch (gender) {
+            case 0:
+                return "Masculino";
+            case 1:
+                return "Feminino";
+            case 2:
+                return "Unissex";
+            default:
+                return "";
+        }
     }
 
     public static void soculoIrregular(StringBuilder builder) {

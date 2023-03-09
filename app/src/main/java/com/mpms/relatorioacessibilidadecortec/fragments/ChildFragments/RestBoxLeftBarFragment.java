@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 
-public class RestBoxLShapeBarFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RestBoxLeftBarFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout aField, bField, cField, dField, diamField, distField, obsField;
     TextInputEditText aValue, bValue, cValue, dValue, diamValue, distValue, obsValue;
@@ -36,16 +36,14 @@ public class RestBoxLShapeBarFragment extends Fragment implements TagInterface, 
     Bundle imgBundle = new Bundle();
 
     static int boxID;
-    static boolean isLeft;
 
-    public RestBoxLShapeBarFragment() {
+    public RestBoxLeftBarFragment() {
         // Required empty public constructor
     }
 
-    public static RestBoxLShapeBarFragment newInstance(int box, boolean isLeftBar) {
+    public static RestBoxLeftBarFragment newInstance(int box) {
         boxID = box;
-        isLeft = isLeftBar;
-        return new RestBoxLShapeBarFragment();
+        return new RestBoxLeftBarFragment();
     }
 
     @Override
@@ -66,29 +64,17 @@ public class RestBoxLShapeBarFragment extends Fragment implements TagInterface, 
 
         instLBarViews(view);
 
-        if (isLeft) {
-            getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA_2, this, (key, bundle) -> {
-                if (checkEmptyFields()) {
-                    bundle.putBoolean(CHILD_DATA_COMPLETE, true);
-                    createLShapeParcel(bundle);
-                } else {
-                    bundle.putBoolean(CHILD_DATA_COMPLETE, false);
-                    bundle.putParcelable(CHILD_PARCEL, null);
-                }
-                getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER_2, bundle);
-            });
-        } else {
-            getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA_3, this, (key, bundle) -> {
-                if (checkEmptyFields()) {
-                    bundle.putBoolean(CHILD_DATA_COMPLETE, true);
-                    createLShapeParcel(bundle);
-                } else {
-                    bundle.putBoolean(CHILD_DATA_COMPLETE, false);
-                    bundle.putParcelable(CHILD_PARCEL, null);
-                }
-                getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER_3, bundle);
-            });
-        }
+
+        getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA_2, this, (key, bundle) -> {
+            if (checkEmptyFields()) {
+                bundle.putBoolean(CHILD_DATA_COMPLETE, true);
+                createLShapeParcel(bundle);
+            } else {
+                bundle.putBoolean(CHILD_DATA_COMPLETE, false);
+                bundle.putParcelable(CHILD_PARCEL, null);
+            }
+            getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER_2, bundle);
+        });
 
         if (boxID > 0)
             modelEntry.getCommonBoxData(boxID).observe(getViewLifecycleOwner(), this::loadLBarData);
@@ -121,69 +107,39 @@ public class RestBoxLShapeBarFragment extends Fragment implements TagInterface, 
     }
 
     private void createLShapeParcel(Bundle bundle) {
-        Double leftA = null, leftB = null, leftC = null, leftD = null, leftDist = null, leftDiam = null, rightA = null, rightB = null, rightC = null,
-                rightD = null, rightDist = null, rightDiam = null;
-        String leftObs = null, rightObs = null;
+        double leftA, leftB, leftC, leftD, leftDist, leftDiam;
+        String leftObs = null;
 
-        if (isLeft) {
-            leftA = Double.parseDouble(String.valueOf(aValue.getText()));
-            leftB = Double.parseDouble(String.valueOf(bValue.getText()));
-            leftC = Double.parseDouble(String.valueOf(cValue.getText()));
-            leftD = Double.parseDouble(String.valueOf(dValue.getText()));
-            leftDist = Double.parseDouble(String.valueOf(distValue.getText()));
-            leftDiam = Double.parseDouble(String.valueOf(diamValue.getText()));
+        leftA = Double.parseDouble(String.valueOf(aValue.getText()));
+        leftB = Double.parseDouble(String.valueOf(bValue.getText()));
+        leftC = Double.parseDouble(String.valueOf(cValue.getText()));
+        leftD = Double.parseDouble(String.valueOf(dValue.getText()));
+        leftDist = Double.parseDouble(String.valueOf(distValue.getText()));
+        leftDiam = Double.parseDouble(String.valueOf(diamValue.getText()));
+        if (!TextUtils.isEmpty(obsValue.getText()))
             leftObs = String.valueOf(obsValue.getText());
-        } else {
-            rightA = Double.parseDouble(String.valueOf(aValue.getText()));
-            rightB = Double.parseDouble(String.valueOf(bValue.getText()));
-            rightC = Double.parseDouble(String.valueOf(cValue.getText()));
-            rightD = Double.parseDouble(String.valueOf(dValue.getText()));
-            rightDist = Double.parseDouble(String.valueOf(distValue.getText()));
-            rightDiam = Double.parseDouble(String.valueOf(diamValue.getText()));
-            rightObs = String.valueOf(obsValue.getText());
-        }
-
 
         BoxBarParcel parcel = new BoxBarParcel(leftA, leftB, leftC, leftD, leftDiam, leftDist, leftObs, null, null, null,
-                null, null, null, rightA, rightB, rightC, rightD, rightDiam, rightDist, rightObs,null,
-                null, null, null, null, null);
+                null, null, null, null);
         bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
     }
 
     private void loadLBarData(RestBoxEntry entry) {
-        if (entry.getComBoxHasLeftBar() == 0) {
-            if (isLeft) {
-                if (entry.getComBoxLeftShapeBarA() != null)
-                    aValue.setText(String.valueOf(entry.getComBoxLeftShapeBarA()));
-                if (entry.getComBoxLeftShapeBarB() != null)
-                    bValue.setText(String.valueOf(entry.getComBoxLeftShapeBarB()));
-                if (entry.getComBoxLeftShapeBarC() != null)
-                    cValue.setText(String.valueOf(entry.getComBoxLeftShapeBarC()));
-                if (entry.getComBoxLeftShapeBarD() != null)
-                    dValue.setText(String.valueOf(entry.getComBoxLeftShapeBarD()));
-                if (entry.getComBoxLeftShapeBarDiam() != null)
-                    diamValue.setText(String.valueOf(entry.getComBoxLeftShapeBarDiam()));
-                if (entry.getComBoxLeftShapeBarDist() != null)
-                    distValue.setText(String.valueOf(entry.getComBoxLeftShapeBarDist()));
-                if (entry.getComBoxLeftVertObs() != null)
-                    obsValue.setText(String.valueOf(entry.getComBoxLeftVertObs()));
-            } else {
-                if (entry.getComBoxRightShapeBarA() != null)
-                    aValue.setText(String.valueOf(entry.getComBoxRightShapeBarA()));
-                if (entry.getComBoxRightShapeBarB() != null)
-                    bValue.setText(String.valueOf(entry.getComBoxRightShapeBarB()));
-                if (entry.getComBoxRightShapeBarC() != null)
-                    cValue.setText(String.valueOf(entry.getComBoxRightShapeBarC()));
-                if (entry.getComBoxRightShapeBarD() != null)
-                    dValue.setText(String.valueOf(entry.getComBoxRightShapeBarD()));
-                if (entry.getComBoxRightShapeBarDiam() != null)
-                    diamValue.setText(String.valueOf(entry.getComBoxRightShapeBarDiam()));
-                if (entry.getComBoxRightShapeBarDist() != null)
-                    distValue.setText(String.valueOf(entry.getComBoxRightShapeBarDist()));
-                if (entry.getComBoxRightVertObs() != null)
-                    obsValue.setText(String.valueOf(entry.getComBoxRightVertObs()));
-            }
-        }
+
+        if (entry.getComBoxLeftShapeBarA() != null)
+            aValue.setText(String.valueOf(entry.getComBoxLeftShapeBarA()));
+        if (entry.getComBoxLeftShapeBarB() != null)
+            bValue.setText(String.valueOf(entry.getComBoxLeftShapeBarB()));
+        if (entry.getComBoxLeftShapeBarC() != null)
+            cValue.setText(String.valueOf(entry.getComBoxLeftShapeBarC()));
+        if (entry.getComBoxLeftShapeBarD() != null)
+            dValue.setText(String.valueOf(entry.getComBoxLeftShapeBarD()));
+        if (entry.getComBoxLeftShapeBarDiam() != null)
+            diamValue.setText(String.valueOf(entry.getComBoxLeftShapeBarDiam()));
+        if (entry.getComBoxLeftShapeBarDist() != null)
+            distValue.setText(String.valueOf(entry.getComBoxLeftShapeBarDist()));
+        if (entry.getComBoxLeftVertObs() != null)
+            obsValue.setText(String.valueOf(entry.getComBoxLeftVertObs()));
     }
 
     private void imgExpandClick(View view) {

@@ -15,6 +15,7 @@ public class RestSinkUpdate {
     private Double approxMeasureC;
     private Double approxMeasureD;
     private Double approxMeasureE;
+    private Integer hasLowerColSink;
     private Integer hasSinkBar;
     private Integer hasLeftFrontHorBar;
     private Double leftFrontHorMeasureA;
@@ -37,13 +38,14 @@ public class RestSinkUpdate {
     private Double sinkMirrorLow;
     private Double sinkMirrorHigh;
     private String sinkObs;
+    private Integer hasLowerSink;
 
     public RestSinkUpdate(int restroomID, Integer hasSink, Integer sinkType, Double approxMeasureA, Double approxMeasureB, Double approxMeasureC, Double approxMeasureD,
-                          Double approxMeasureE, Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA, Double leftFrontHorMeasureB,
+                          Double approxMeasureE, Integer hasLowerColSink, Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA, Double leftFrontHorMeasureB,
                           Double leftFrontHorMeasureC, Double leftFrontHorMeasureD, Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs,
                           Integer hasRightSideVertBar, Double rightSideVertMeasureA, Double rightSideVertMeasureB, Double rightSideVertMeasureC, Double rightSideVertMeasureD,
                           Double rightSideVertMeasureE, Double rightSideVertDiam, Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow,
-                          Double sinkMirrorHigh, String sinkObs) {
+                          Double sinkMirrorHigh, String sinkObs, Integer hasLowerSink) {
         this.restroomID = restroomID;
         this.hasSink = hasSink;
         this.sinkType = sinkType;
@@ -52,6 +54,7 @@ public class RestSinkUpdate {
         this.approxMeasureC = approxMeasureC;
         this.approxMeasureD = approxMeasureD;
         this.approxMeasureE = approxMeasureE;
+        this.hasLowerColSink = hasLowerColSink;
         this.hasSinkBar = hasSinkBar;
         this.hasLeftFrontHorBar = hasLeftFrontHorBar;
         this.leftFrontHorMeasureA = leftFrontHorMeasureA;
@@ -74,6 +77,7 @@ public class RestSinkUpdate {
         this.sinkMirrorLow = sinkMirrorLow;
         this.sinkMirrorHigh = sinkMirrorHigh;
         this.sinkObs = sinkObs;
+        this.hasLowerSink = hasLowerSink;
     }
 
     public int getRestroomID() {
@@ -130,6 +134,14 @@ public class RestSinkUpdate {
 
     public void setApproxMeasureE(Double approxMeasureE) {
         this.approxMeasureE = approxMeasureE;
+    }
+
+    public Integer getHasLowerColSink() {
+        return hasLowerColSink;
+    }
+
+    public void setHasLowerColSink(Integer hasLowerColSink) {
+        this.hasLowerColSink = hasLowerColSink;
     }
 
     public Integer getHasSinkBar() {
@@ -314,5 +326,13 @@ public class RestSinkUpdate {
 
     public void setHasSink(Integer hasSink) {
         this.hasSink = hasSink;
+    }
+
+    public Integer getHasLowerSink() {
+        return hasLowerSink;
+    }
+
+    public void setHasLowerSink(Integer hasLowerSink) {
+        this.hasLowerSink = hasLowerSink;
     }
 }

@@ -41,6 +41,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.EquipmentEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
@@ -74,7 +75,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class}, version = 65)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class}, version = 66)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1638,6 +1639,35 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_65_66 = new Migration(65, 66) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE Side2(sidewalkID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, sidewalkLocation TEXT,  streetPavement INTEGER, hasSidewalk INTEGER, " +
+                    "sidewalkWidth REAL, sideFreeSpaceWidth REAL, sideMeasureObs TEXT, slopeMeasureQnt INTEGER, sideTransSlope1 REAL, sideTransSlope2 REAL, sideTransSlope3 REAL, sideTransSlope4 REAL," +
+                    "sideTransSlope5 REAL, sideTransSlope6 REAL, hasSpecialFloor INTEGER, specialFloorRightColor INTEGER, specialTileDirectionWidth REAL, specialTileAlertWidth REAL, specialFloorObs TEXT," +
+                    "sidewalkObs TEXT, sideConStatus INTEGER, sideConsObs TEXT, sideFloorIsAccessible INTEGER, accessFloorObs TEXT, sidewalkHasLids INTEGER, sidewalkLidDesc TEXT, hasAerialObstacle INTEGER, " +
+                    "aerialObstacleDesc TEXT, sideHasSlope INTEGER, sideReqSlopes INTEGER, sideHasPayphones INTEGER, sidewalkObs2 TEXT, sidePhotos TEXT, " +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Side2 (sidewalkID, blockID, sidewalkLocation, streetPavement, hasSidewalk, sidewalkWidth, sideFreeSpaceWidth, sideMeasureObs, slopeMeasureQnt, " +
+                    "sideTransSlope1, sideTransSlope2, sideTransSlope3, sideTransSlope4, sideTransSlope5, sideTransSlope6, hasSpecialFloor, specialFloorRightColor, specialTileDirectionWidth, " +
+                    "specialTileAlertWidth, specialFloorObs, sidewalkObs, sideConStatus, sideConsObs, sideFloorIsAccessible, accessFloorObs, sidewalkHasLids, sidewalkLidDesc, hasAerialObstacle, " +
+                    "aerialObstacleDesc, sideHasSlope, sideReqSlopes, sideHasPayphones, sidewalkObs2, sidePhotos) SELECT sidewalkID, blockID, sidewalkLocation, streetPavement, hasSidewalk, " +
+                    "sidewalkWidth, sideFreeSpaceWidth, sideMeasureObs, slopeMeasureQnt,  sideTransSlope1, sideTransSlope2, sideTransSlope3, sideTransSlope4, sideTransSlope5, sideTransSlope6, " +
+                    "hasSpecialFloor, specialFloorRightColor, specialTileDirectionWidth, specialTileAlertWidth, specialFloorObs, sidewalkObs, sideConStatus, sideConsObs, sideFloorIsAccessible, " +
+                    "accessFloorObs, sidewalkHasLids, sidewalkLidDesc, hasAerialObstacle, aerialObstacleDesc, sideHasSlope, sideReqSlopes, sideHasPayphones, sidewalkObs2, sidePhotos FROM SidewalkEntry");
+            database.execSQL("DROP TABLE SidewalkEntry");
+            database.execSQL("ALTER TABLE Side2 RENAME TO SidewalkEntry");
+
+//            database.execSQL("ALTER TABLE RestroomEntry RENAME COLUMN ''isCollective'' TO restTyping");
+//            database.execSQL("ALTER TABLE RestroomEntry RENAME COLUMN ''restType'' TO restGender");
+
+            database.execSQL("CREATE TABLE EquipmentEntry (equipID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL, equipName TEXT, equipLocale TEXT, equipHeight REAL NOT NULL," +
+                    "equipObs TEXT, FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN hasLowerSink INTEGER");
+        }
+    };
+
 
 
     public static ReportDatabase getDatabase(final Context context) {
@@ -1655,7 +1685,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
                                     MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
                                     MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58, MIGRATION_58_59, MIGRATION_59_60,
-                                    MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65).build();
+                                    MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66).build();
                 }
             }
         }

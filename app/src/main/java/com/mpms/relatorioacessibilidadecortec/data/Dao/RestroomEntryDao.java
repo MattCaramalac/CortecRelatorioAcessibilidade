@@ -59,9 +59,14 @@ public interface RestroomEntryDao {
 
     @Query("SELECT restroomID,  blockID, isCollective, hasSink, sinkType, approxMeasureA, approxMeasureB, approxMeasureC, approxMeasureD, approxMeasureE, hasSinkBar, hasLeftFrontHorBar, leftFrontHorMeasureA, leftFrontHorMeasureB, " +
             "leftFrontHorMeasureC, leftFrontHorMeasureD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasRightSideVertBar, rightSideVertMeasureA, rightSideVertMeasureB, rightSideVertMeasureC, " +
-            "rightSideVertMeasureD, rightSideVertMeasureE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, sinkHasMirror, sinkMirrorLow, sinkMirrorHigh, sinkObs " +
+            "rightSideVertMeasureD, rightSideVertMeasureE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, sinkHasMirror, sinkMirrorLow, sinkMirrorHigh, sinkObs, hasLowerColSink " +
             "FROM RestroomEntry WHERE restroomID = :restID")
     LiveData<RestroomEntry> getRestSinkData(int restID);
+
+    @Query("SELECT restroomID,  blockID, isCollective, approxMeasureB, approxMeasureC, hasSinkBar, " +
+            "sinkObs, hasLowerSink " +
+            "FROM RestroomEntry WHERE restroomID = :restID")
+    LiveData<RestroomEntry> getRestCounterSinkData(int restID);
 
     @Query("SELECT restroomID, blockID, hasUrinal, isCollective, hasAccessUrinal, urinalType, urMeasureA, urMeasureB, urMeasureC, urMeasureD, urMeasureE, urMeasureF, urMeasureG, " +
             "urMeasureH, urMeasureI, urMeasureJ, urMeasureK, urMeasureL, urMeasureM, urObs FROM RestroomEntry WHERE restroomID = :restID")

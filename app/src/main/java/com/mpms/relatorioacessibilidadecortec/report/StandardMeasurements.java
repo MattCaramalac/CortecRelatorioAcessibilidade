@@ -192,6 +192,8 @@ public interface StandardMeasurements {
     double sinkVertBarHeight = 0.90;
     double sinkMirrorMaxLowerHeight = 0.90;
     double emergencyButtonHeight = 0.40;
+    double restMinWidthRemodel = 1.50;
+    double restMinDiamRemodel = 1.20;
 
     double urinalDistancePartitions = 0.80;
     double urinalDistanceBars = 0.60;

@@ -37,7 +37,7 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
     TextInputEditText restLocationValue, swHeightValue, swObsValue, floorObsValue, drainObsValue, winTypeValue1, winTypeValue2, winTypeValue3, winHeightValue1,
             winHeightValue2, winHeightValue3, winObsValue, notAccessLengthValue, notAccessWidthValue, notAccessEntranceValue, entranceSillObsValue;
     RadioGroup hasDoorRadio, restTypeRadio, hasSwitchRadio, floorRadio, drainRadio, hasWindowRadio, entranceSillRadio;
-    TextView hasDoorHeader, hasDoorError, restTypeError, restSwitchError, restFloorError, restDrainError, restWinError, restDrainHeader, entranceSillHeader, entranceSillError;
+    TextView hasDoorHeader, hasDoorError, restTypeError, restSwitchError, restFloorError, restDrainError, restWinError, restDrainHeader, entranceSillHeader, entranceSillError, boxHeader;
     ImageView frSpaceCheck, boxCheck;
     MaterialButton addWinButton, addFrSpaceButton, addBoxButton;
     ImageButton delWinButton;
@@ -147,6 +147,7 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
         entranceSillError = view.findViewById(R.id.not_access_door_sill_type_error);
         hasDoorHeader = view.findViewById(R.id.col_has_door_header);
         hasDoorError = view.findViewById(R.id.col_has_door_error);
+        boxHeader = view.findViewById(R.id.label_cRest_boxes);
 //        MaterialButton
         addWinButton = view.findViewById(R.id.add_cRest_window_command_button);
         addFrSpaceButton = view.findViewById(R.id.cRest_free_space_button);
@@ -171,7 +172,7 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
         if (layout == 1) {
             hasDoorHeader.setVisibility(View.VISIBLE);
             hasDoorRadio.setVisibility(View.VISIBLE);
-        } else if (layout == 2) {
+        } else  {
             notAccessWidthField.setVisibility(View.VISIBLE);
             notAccessLengthField.setVisibility(View.VISIBLE);
             notAccessEntranceField.setVisibility(View.VISIBLE);
@@ -181,6 +182,10 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
             restDrainHeader.setVisibility(View.GONE);
             drainRadio.setVisibility(View.GONE);
             drainObsField.setVisibility(View.GONE);
+            if (layout == 3) {
+                addBoxButton.setVisibility(View.GONE);
+                boxHeader.setVisibility(View.GONE);
+            }
         }
         viewsToArrays();
         allowObsScroll(obsArray);
@@ -242,18 +247,7 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
             winObs = String.valueOf(winObsValue.getText());
 
 
-        if (layout == 2) {
-            if (!TextUtils.isEmpty(notAccessLengthValue.getText()))
-                notAccLength = Double.parseDouble(String.valueOf(notAccessLengthValue.getText()));
-            if (!TextUtils.isEmpty(notAccessWidthValue.getText()))
-                notAccWidth = Double.parseDouble(String.valueOf(notAccessWidthValue.getText()));
-            if (!TextUtils.isEmpty(notAccessEntranceValue.getText()))
-                notAccEntWidth = Double.parseDouble(String.valueOf(notAccessEntranceValue.getText()));
-            if (getCheckedRadio(entranceSillRadio) != -1)
-                entSill = getCheckedRadio(entranceSillRadio);
-            if (!TextUtils.isEmpty(entranceSillObsValue.getText()))
-                entObs = String.valueOf(entranceSillObsValue.getText());
-        } else {
+        if (layout == 1) {
             if (getCheckedRadio(drainRadio) != -1)
                 restDrain = getCheckedRadio(drainRadio);
             if (!TextUtils.isEmpty(drainObsValue.getText()))
@@ -269,6 +263,17 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
                         entObs = String.valueOf(entranceSillObsValue.getText());
                 }
             }
+        } else {
+            if (!TextUtils.isEmpty(notAccessLengthValue.getText()))
+                notAccLength = Double.parseDouble(String.valueOf(notAccessLengthValue.getText()));
+            if (!TextUtils.isEmpty(notAccessWidthValue.getText()))
+                notAccWidth = Double.parseDouble(String.valueOf(notAccessWidthValue.getText()));
+            if (!TextUtils.isEmpty(notAccessEntranceValue.getText()))
+                notAccEntWidth = Double.parseDouble(String.valueOf(notAccessEntranceValue.getText()));
+            if (getCheckedRadio(entranceSillRadio) != -1)
+                entSill = getCheckedRadio(entranceSillRadio);
+            if (!TextUtils.isEmpty(entranceSillObsValue.getText()))
+                entObs = String.valueOf(entranceSillObsValue.getText());
         }
 
         RestAccessColParcel parcel = new RestAccessColParcel(restType, restLocation, notAccLength, notAccWidth, hasDoor, null, null,
@@ -392,18 +397,7 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
                 }
             }
 
-            if (layout == 2) {
-                if (rest.getUpViewLength() != null)
-                    notAccessLengthValue.setText(String.valueOf(rest.getUpViewLength()));
-                if (rest.getUpViewWidth() != null)
-                    notAccessWidthValue.setText(String.valueOf(rest.getUpViewWidth()));
-                if (rest.getEntranceWidth() != null)
-                    notAccessEntranceValue.setText(String.valueOf(rest.getEntranceWidth()));
-                if (rest.getEntranceDoorSill() != null)
-                    entranceSillRadio.check(entranceSillRadio.getChildAt(rest.getEntranceDoorSill()).getId());
-                if (rest.getEntranceDoorSillObs() != null)
-                    entranceSillObsValue.setText(rest.getEntranceDoorSillObs());
-            } else {
+            if (layout == 1) {
                 if (rest.getRestDrain() != null)
                     drainRadio.check(drainRadio.getChildAt(rest.getRestDrain()).getId());
                 if (rest.getRestDrainObs() != null && rest.getRestDrainObs().length() > 0)
@@ -419,6 +413,17 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
                             entranceSillObsValue.setText(rest.getEntranceDoorSillObs());
                     }
                 }
+            } else {
+                if (rest.getUpViewLength() != null)
+                    notAccessLengthValue.setText(String.valueOf(rest.getUpViewLength()));
+                if (rest.getUpViewWidth() != null)
+                    notAccessWidthValue.setText(String.valueOf(rest.getUpViewWidth()));
+                if (rest.getEntranceWidth() != null)
+                    notAccessEntranceValue.setText(String.valueOf(rest.getEntranceWidth()));
+                if (rest.getEntranceDoorSill() != null)
+                    entranceSillRadio.check(entranceSillRadio.getChildAt(rest.getEntranceDoorSill()).getId());
+                if (rest.getEntranceDoorSillObs() != null)
+                    entranceSillObsValue.setText(rest.getEntranceDoorSillObs());
             }
         }
     }

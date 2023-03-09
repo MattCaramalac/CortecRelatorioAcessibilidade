@@ -345,10 +345,10 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
         if (!TextUtils.isEmpty(sidePhotoValue.getText()))
             sidePhoto = String.valueOf(sidePhotoValue.getText());
 
-        return new SidewalkEntry(bundle.getInt(BLOCK_ID), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
+        return new SidewalkEntry(bundle.getInt(BLOCK_ID), sideLocale, streetPavement, hasSide, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
                 sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirWidth,
-                tacTileAlertWidth, tactFloorObs, null, null, null, sideObs, null, null, null,
-                null, null, null, null, null, null, null, hasSide, null, sidePhoto);
+                tacTileAlertWidth, tactFloorObs, sideObs, null, null,  null, null, null,
+                null, null, null, null, null, null, null, sidePhoto);
     }
 
     private SidewalkEntryOne updateSidewalkOne(Bundle bundle) {
@@ -421,9 +421,9 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
 
         }
 
-        return new SidewalkEntryOne(bundle.getInt(AMBIENT_ID), sideLocale, streetPavement, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
+        return new SidewalkEntryOne(bundle.getInt(AMBIENT_ID), sideLocale, streetPavement, hasSide, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
                 sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirWidth,
-                tacTileAlertWidth, tactFloorObs, hasSide, sideObs, sidePhoto);
+                tacTileAlertWidth, tactFloorObs,  sideObs, sidePhoto);
 
     }
 

@@ -818,6 +818,10 @@ public class ReportRepository {
         return restroomEntryDao.getRestSinkData(restID);
     }
 
+    public LiveData<RestroomEntry> getRestCounterSinkData(int restID) {
+        return restroomEntryDao.getRestCounterSinkData(restID);
+    }
+
     public LiveData<RestroomEntry> getRestUrinalData(int restID) {
         return restroomEntryDao.getRestUrinalData(restID);
     }

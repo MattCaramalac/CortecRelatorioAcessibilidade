@@ -151,7 +151,7 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
 
     private RestBoxSinkUpdate boxSinkUpdate(Bundle bundle) {
         int hasSink;
-        Integer sinkType = null, hasSinkBar = null, hasMirror = null, hasLeftFrontHor = null, hasSideRightVert = null;
+        Integer sinkType = null, hasColumns = null, hasSinkBar = null, hasMirror = null, hasLeftFrontHor = null, hasSideRightVert = null;
         Double leftFrontHorA = null, leftFrontHorB = null, leftFrontHorC = null, leftFrontHorD = null, leftFrontHorDiam = null,
                 leftFrontHorDist = null, rightSideVertA = null, rightSideVertB = null, rightSideVertC = null, rightSideVertD = null, rightSideVertE = null,
                 rightSideVertDiam = null, rightSideVertDist = null, mirrorLow = null, mirrorHigh = null,
@@ -172,6 +172,7 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
             approxD = parcel.getApproxMeasureD();
             approxE = parcel.getApproxMeasureE();
 
+            hasColumns = parcel.getHasColumn();
             hasSinkBar = parcel.getHasSinkBar();
             hasLeftFrontHor = parcel.getHasLeftFrontHorBar();
 
@@ -202,14 +203,14 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
             sinkObs = parcel.getSinkObs();
         }
 
-        return new RestBoxSinkUpdate(bundle.getInt(BOX_ID), hasSink, sinkType, approxA, approxB, approxC, approxD, approxE, hasSinkBar, hasLeftFrontHor, leftFrontHorA,
+        return new RestBoxSinkUpdate(bundle.getInt(BOX_ID), hasSink, sinkType, approxA, approxB, approxC, approxD, approxE, hasColumns, hasSinkBar, hasLeftFrontHor, leftFrontHorA,
                 leftFrontHorB, leftFrontHorC, leftFrontHorD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasSideRightVert, rightSideVertA, rightSideVertB,
                 rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs);
     }
 
     private RestSinkUpdate sinkUpdate(Bundle bundle) {
         int hasSink;
-        Integer sinkType = null, hasSinkBar = null, hasMirror = null, hasLeftFrontHor = null, hasSideRightVert = null;
+        Integer sinkType = null, hasColumn = null, hasSinkBar = null, hasMirror = null, hasLeftFrontHor = null, hasSideRightVert = null;
         Double leftFrontHorA = null, leftFrontHorB = null, leftFrontHorC = null, leftFrontHorD = null, leftFrontHorDiam = null,
                 leftFrontHorDist = null, rightSideVertA = null, rightSideVertB = null, rightSideVertC = null, rightSideVertD = null, rightSideVertE = null,
                 rightSideVertDiam = null, rightSideVertDist = null, mirrorLow = null, mirrorHigh = null,
@@ -230,6 +231,7 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
             approxD = parcel.getApproxMeasureD();
             approxE = parcel.getApproxMeasureE();
 
+            hasColumn = parcel.getHasColumn();
             hasSinkBar = parcel.getHasSinkBar();
             hasLeftFrontHor = parcel.getHasLeftFrontHorBar();
 
@@ -260,9 +262,9 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
             sinkObs = parcel.getSinkObs();
         }
 
-        return new RestSinkUpdate(accSinkBundle.getInt(REST_ID), hasSink, sinkType, approxA, approxB, approxC, approxD, approxE, hasSinkBar, hasLeftFrontHor, leftFrontHorA,
+        return new RestSinkUpdate(accSinkBundle.getInt(REST_ID), hasSink, sinkType, approxA, approxB, approxC, approxD, approxE, hasColumn, hasSinkBar, hasLeftFrontHor, leftFrontHorA,
                 leftFrontHorB, leftFrontHorC, leftFrontHorD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasSideRightVert, rightSideVertA, rightSideVertB,
-                rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs);
+                rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs, null);
     }
 
     private int getCheckRadio(RadioGroup radio) {

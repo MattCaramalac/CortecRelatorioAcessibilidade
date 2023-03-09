@@ -757,6 +757,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getRestSinkData(restID);
     }
 
+    public LiveData<RestroomEntry> getRestCounterSinkData(int restID) {
+        return repository.getRestCounterSinkData(restID);
+    }
+
     public LiveData<RestroomEntry> getRestUrinalData(int restID) {
         return repository.getRestUrinalData(restID);
     }

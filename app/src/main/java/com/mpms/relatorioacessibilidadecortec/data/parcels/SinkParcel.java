@@ -11,6 +11,7 @@ public class SinkParcel {
     Double approxMeasureC;
     Double approxMeasureD;
     Double approxMeasureE;
+    Integer hasColumn;
     Integer hasSinkBar;
     Integer hasLeftFrontHorBar;
     Double leftFrontHorMeasureA;
@@ -33,22 +34,25 @@ public class SinkParcel {
     Double sinkMirrorLow;
     Double sinkMirrorHigh;
     String sinkObs;
+    Integer hasLowerSink;
 
     public SinkParcel() {
 //        Empty Constructor
     }
 
     public SinkParcel(Integer sinkType, Double approxMeasureA, Double approxMeasureB, Double approxMeasureC, Double approxMeasureD, Double approxMeasureE,
-                      Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA, Double leftFrontHorMeasureB, Double leftFrontHorMeasureC, Double leftFrontHorMeasureD,
-                      Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs, Integer hasRightSideVertBar, Double rightSideVertMeasureA, Double rightSideVertMeasureB,
-                      Double rightSideVertMeasureC, Double rightSideVertMeasureD, Double rightSideVertMeasureE, Double rightSideVertDiam, Double rightSideVertDist, String rightSideVertObs,
-                      Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh, String sinkObs) {
+                      Integer hasColumn, Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA, Double leftFrontHorMeasureB, Double leftFrontHorMeasureC,
+                      Double leftFrontHorMeasureD, Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs, Integer hasRightSideVertBar,
+                      Double rightSideVertMeasureA, Double rightSideVertMeasureB, Double rightSideVertMeasureC, Double rightSideVertMeasureD, Double rightSideVertMeasureE,
+                      Double rightSideVertDiam, Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh,
+                      String sinkObs, Integer hasLowerSink) {
         this.sinkType = sinkType;
         this.approxMeasureA = approxMeasureA;
         this.approxMeasureB = approxMeasureB;
         this.approxMeasureC = approxMeasureC;
         this.approxMeasureD = approxMeasureD;
         this.approxMeasureE = approxMeasureE;
+        this.hasColumn = hasColumn;
         this.hasSinkBar = hasSinkBar;
         this.hasLeftFrontHorBar = hasLeftFrontHorBar;
         this.leftFrontHorMeasureA = leftFrontHorMeasureA;
@@ -71,6 +75,7 @@ public class SinkParcel {
         this.sinkMirrorLow = sinkMirrorLow;
         this.sinkMirrorHigh = sinkMirrorHigh;
         this.sinkObs = sinkObs;
+        this.hasLowerSink = hasLowerSink;
     }
 
     public Integer getSinkType() {
@@ -119,6 +124,14 @@ public class SinkParcel {
 
     public void setApproxMeasureE(Double approxMeasureE) {
         this.approxMeasureE = approxMeasureE;
+    }
+
+    public Integer getHasColumn() {
+        return hasColumn;
+    }
+
+    public void setHasColumn(Integer hasColumn) {
+        this.hasColumn = hasColumn;
     }
 
     public Integer getHasSinkBar() {
@@ -295,5 +308,13 @@ public class SinkParcel {
 
     public void setSinkObs(String sinkObs) {
         this.sinkObs = sinkObs;
+    }
+
+    public Integer getHasLowerSink() {
+        return hasLowerSink;
+    }
+
+    public void setHasLowerSink(Integer hasLowerSink) {
+        this.hasLowerSink = hasLowerSink;
     }
 }

@@ -15,6 +15,7 @@ public class RestBoxSinkUpdate {
     private Double approxMeasureC;
     private Double approxMeasureD;
     private Double approxMeasureE;
+    private Integer hasLowerColSink;
     private Integer hasSinkBar;
     private Integer hasLeftFrontHorBar;
     private Double leftFrontHorMeasureA;
@@ -39,7 +40,7 @@ public class RestBoxSinkUpdate {
     private String sinkObs;
 
     public RestBoxSinkUpdate(int boxID, Integer hasSink, Integer sinkType, Double approxMeasureA, Double approxMeasureB, Double approxMeasureC, Double approxMeasureD,
-                             Double approxMeasureE, Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA, Double leftFrontHorMeasureB,
+                             Double approxMeasureE, Integer hasLowerColSink, Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA, Double leftFrontHorMeasureB,
                              Double leftFrontHorMeasureC, Double leftFrontHorMeasureD, Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs,
                              Integer hasRightSideVertBar, Double rightSideVertMeasureA, Double rightSideVertMeasureB, Double rightSideVertMeasureC, Double rightSideVertMeasureD,
                              Double rightSideVertMeasureE, Double rightSideVertDiam, Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow,
@@ -52,6 +53,7 @@ public class RestBoxSinkUpdate {
         this.approxMeasureC = approxMeasureC;
         this.approxMeasureD = approxMeasureD;
         this.approxMeasureE = approxMeasureE;
+        this.hasLowerColSink = hasLowerColSink;
         this.hasSinkBar = hasSinkBar;
         this.hasLeftFrontHorBar = hasLeftFrontHorBar;
         this.leftFrontHorMeasureA = leftFrontHorMeasureA;
@@ -130,6 +132,14 @@ public class RestBoxSinkUpdate {
 
     public void setApproxMeasureE(Double approxMeasureE) {
         this.approxMeasureE = approxMeasureE;
+    }
+
+    public Integer getHasLowerColSink() {
+        return hasLowerColSink;
+    }
+
+    public void setHasLowerColSink(Integer hasLowerColSink) {
+        this.hasLowerColSink = hasLowerColSink;
     }
 
     public Integer getHasSinkBar() {

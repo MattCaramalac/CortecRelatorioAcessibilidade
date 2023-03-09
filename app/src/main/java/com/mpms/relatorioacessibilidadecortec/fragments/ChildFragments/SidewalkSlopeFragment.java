@@ -350,14 +350,18 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
         int index = radio.indexOfChild(radio.findViewById(checkedID));
         if (radio == hasLeftWing) {
             if (index == 1) {
+                leftCounter = 1;
                 leftWingHeader.setVisibility(View.VISIBLE);
                 leftButton.setVisibility(View.VISIBLE);
+                leftMeasureField1.setVisibility(View.VISIBLE);
             } else
                 closeSlopeWingFields(radio);
         } else if (radio == hasRightWing) {
             if (index == 1) {
+                rightCounter = 1;
                 rightWingHeader.setVisibility(View.VISIBLE);
                 rightButton.setVisibility(View.VISIBLE);
+                rightMeasureField1.setVisibility(View.VISIBLE);
             } else
                 closeSlopeWingFields(radio);
         } else if (radio == slopeIsAccessible) {

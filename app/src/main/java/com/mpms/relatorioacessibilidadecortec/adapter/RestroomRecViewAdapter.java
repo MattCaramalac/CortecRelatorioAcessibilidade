@@ -84,6 +84,9 @@ public class RestroomRecViewAdapter extends RecyclerView.Adapter<ViewHolderInter
             case 2:
                 restTyping.append("Coletivo Não Acessível ");
                 break;
+            case 3:
+                restTyping.append("Infantil ");
+                break;
         }
         if (restroom.getRestType() != null) {
             switch (restroom.getRestType()) {
@@ -95,9 +98,6 @@ public class RestroomRecViewAdapter extends RecyclerView.Adapter<ViewHolderInter
                     break;
                 case 2:
                     restTyping.append("Unissex");
-                    break;
-                case 4:
-                    restTyping.append("Infantil");
                     break;
                 default:
                     break;

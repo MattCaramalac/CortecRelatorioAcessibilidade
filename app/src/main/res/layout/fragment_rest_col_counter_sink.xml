@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.ChildRegisters.RestColCounterSinkFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/has_lower_sink_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="A bancada possui um lavatório rebaixado?"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <RadioGroup
+            android:id="@+id/has_lower_sink_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/has_lower_sink_header">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/has_lower_sink_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/has_lower_sink_radio" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lower_sink_upper_height_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Altura do tampo da bancada (m)"
+            app:layout_constraintTop_toBottomOf="@id/has_lower_sink_error"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lower_sink_upper_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lower_sink_lower_height_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Altura área livre sob a bancada (m)"
+            app:layout_constraintTop_toBottomOf="@id/lower_sink_upper_height_field"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:visibility="gone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lower_sink_lower_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/has_counter_bar_sink_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="A pia possui barras de apoio?"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintTop_toBottomOf="@id/lower_sink_lower_height_field"/>
+
+        <RadioGroup
+            android:id="@+id/has_counter_bar_sink_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/has_counter_bar_sink_header">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no"
+                android:textSize="@dimen/radio_button_text" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes"
+                android:textSize="@dimen/radio_button_text" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/has_counter_bar_sink_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/has_counter_bar_sink_radio" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sink_counter_obs_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:hint="@string/hint_obs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/has_counter_bar_sink_error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_counter_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start"
+                android:inputType="textMultiLine"
+                android:lines="@integer/multiline_obs_field"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

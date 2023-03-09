@@ -51,6 +51,7 @@ public interface TagInterface {
     String FROM_REST = "FROM_REST";
     String FROM_BOX = "FROM_BOX";
     String FROM_COLLECTIVE = "FROM_COLLECTIVE";
+    String REST_TYPE = "REST_TYPE";
 
     //    Tags used in Inspection Activity
     String LOAD_CHILD_DATA = "LOAD_CHILD_DATA";

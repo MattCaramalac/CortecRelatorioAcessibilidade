@@ -500,126 +500,6 @@
                 android:text="@string/label_add_frag_entry"
                 android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/label_sidewalk_has_stairs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/header_side_has_stairs"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_sidewalk_payphone" />
-
-            <RadioGroup
-                android:id="@+id/sidewalk_has_stairs_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_sidewalk_has_stairs">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no"
-                    android:textSize="@dimen/radio_button_text" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"
-                    android:textSize="@dimen/radio_button_text" />
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/sidewalk_has_stairs_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/empty_fields"
-                android:textColor="@color/error_message"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_stairs_radio" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/add_sidewalk_stairs_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                android:visibility="gone"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_stairs_error" />
-
-            <TextView
-                android:id="@+id/label_sidewalk_has_ramps"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/header_side_has_ramps"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_sidewalk_stairs_button" />
-
-            <RadioGroup
-                android:id="@+id/sidewalk_has_ramps_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_sidewalk_has_ramps">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no"
-                    android:textSize="@dimen/radio_button_text" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"
-                    android:textSize="@dimen/radio_button_text" />
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/sidewalk_has_ramps_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/empty_fields"
-                android:textColor="@color/error_message"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_ramps_radio" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/add_sidewalk_ramps_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                android:visibility="gone"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sidewalk_has_ramps_error" />
-
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/sidewalk_obs_field"
@@ -627,7 +507,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_sidewalk_ramps_button"
+                app:layout_constraintTop_toBottomOf="@id/add_sidewalk_payphone"
                 android:hint="@string/hint_obs">
 
                 <com.google.android.material.textfield.TextInputEditText

@@ -106,7 +106,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
                     RestToiletUpdate tUpdate = barUpdate(bundle);
                     ViewModelEntry.updateRestToiletData(tUpdate);
                 }
-                callRestAccessFragment(resToilBundle);
+                callNextFragment(resToilBundle);
             } else
                 toastMessage();
         });
@@ -399,11 +399,17 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         }
     }
 
-    public void callRestAccessFragment(Bundle bundle) {
-        RestAccessFragment toilAccess = RestAccessFragment.newInstance();
-        toilAccess.setArguments(bundle);
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.show_fragment_selected, toilAccess).addToBackStack(null).commit();
+    public void callNextFragment(Bundle bundle) {
+        if (bundle.getInt(REST_TYPE) != 3) {
+            RestAccessFragment toilAccess = RestAccessFragment.newInstance();
+            toilAccess.setArguments(bundle);
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.show_fragment_selected, toilAccess).addToBackStack(null).commit();
+        } else {
+            Toast.makeText(getContext(), getText(R.string.register_created_message), Toast.LENGTH_SHORT).show();
+            requireActivity().getSupportFragmentManager().popBackStack(REST_LIST, 0);
+        }
+
     }
 
     private int getCheckedRadioIndex(RadioGroup radio) {

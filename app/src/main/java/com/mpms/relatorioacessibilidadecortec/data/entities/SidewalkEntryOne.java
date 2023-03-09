@@ -11,6 +11,7 @@ public class SidewalkEntryOne {
 
     private String sidewalkLocation;
     private Integer streetPavement;
+    private Integer hasSidewalk;
     private Double sidewalkWidth;
     private Double sideFreeSpaceWidth;
     private String sideMeasureObs;
@@ -27,16 +28,15 @@ public class SidewalkEntryOne {
     private Double specialTileAlertWidth;
     private String specialFloorObs;
     private String sidewalkObs;
-    private Integer hasSidewalk;
     private String sidePhotos;
 
-    public SidewalkEntryOne(int sidewalkID, String sidewalkLocation, Integer streetPavement, Double sidewalkWidth, Double sideFreeSpaceWidth,
-                            String sideMeasureObs, Integer slopeMeasureQnt, Double sideTransSlope1, Double sideTransSlope2, Double sideTransSlope3,
-                            Double sideTransSlope4, Double sideTransSlope5, Double sideTransSlope6, Integer hasSpecialFloor, Integer specialFloorRightColor,
-                            Double specialTileDirectionWidth, Double specialTileAlertWidth, String specialFloorObs, Integer hasSidewalk, String sidewalkObs, String sidePhotos) {
+    public SidewalkEntryOne(int sidewalkID, String sidewalkLocation, Integer streetPavement, Integer hasSidewalk, Double sidewalkWidth, Double sideFreeSpaceWidth, String sideMeasureObs,
+                            Integer slopeMeasureQnt, Double sideTransSlope1, Double sideTransSlope2, Double sideTransSlope3, Double sideTransSlope4, Double sideTransSlope5, Double sideTransSlope6,
+                            Integer hasSpecialFloor, Integer specialFloorRightColor, Double specialTileDirectionWidth, Double specialTileAlertWidth, String specialFloorObs, String sidewalkObs, String sidePhotos) {
         this.sidewalkID = sidewalkID;
         this.sidewalkLocation = sidewalkLocation;
         this.streetPavement = streetPavement;
+        this.hasSidewalk = hasSidewalk;
         this.sidewalkWidth = sidewalkWidth;
         this.sideFreeSpaceWidth = sideFreeSpaceWidth;
         this.sideMeasureObs = sideMeasureObs;
@@ -52,7 +52,6 @@ public class SidewalkEntryOne {
         this.specialTileDirectionWidth = specialTileDirectionWidth;
         this.specialTileAlertWidth = specialTileAlertWidth;
         this.specialFloorObs = specialFloorObs;
-        this.hasSidewalk = hasSidewalk;
         this.sidewalkObs = sidewalkObs;
         this.sidePhotos = sidePhotos;
     }

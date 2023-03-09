@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,13 +28,14 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.RestBoxLi
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
+import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 public class RestFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    RadioGroup isCollectiveRadio;
+    MultiLineRadioGroup restTypeMultiRadio;
     TextView restEntranceTypeError;
     MaterialButton cancelRest, continueRest;
 
@@ -91,14 +91,14 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
         instantiateRestViews(view);
 
         if (restBundle.getInt(REST_ID) > 0) {
-            restBundle.putBoolean(RECENT_ENTRY, true);
             modelEntry.getOneRestroomEntry(restBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadRestData);
         }
 
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (bundle.getBoolean(ADD_ITEM_REQUEST)) {
                 if (bundle.getInt(REST_ID) > 0) {
-                    if (getRadioCheckIndex(isCollectiveRadio) > 0) {
+                    restBundle.putBoolean(RECENT_ENTRY, true);
+                    if (restTypeMultiRadio.getCheckedRadioButtonIndex() > 0) {
                         RestColFirstUpdate rEntUpdate = restColEntUpdate(bundle);
                         ViewModelEntry.updateRestroomData(rEntUpdate);
                     } else {
@@ -107,16 +107,17 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
                     }
                     callNextChildFragment(bundle);
                 } else if (bundle.getInt(REST_ID) == 0) {
+                    restBundle.putBoolean(RECENT_ENTRY, true);
                     RestroomEntry rest = createRestEntry(bundle);
                     ViewModelEntry.insertRestroomEntry(rest);
-                    restBundle.putBoolean(RECENT_ENTRY, true);
                 } else {
                     restBundle.putInt(REST_ID, 0);
                     Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
                 }
             } else if (bundle.getBoolean(CHILD_DATA_COMPLETE)) {
                 if (bundle.getInt(REST_ID) > 0) {
-                    if (getRadioCheckIndex(isCollectiveRadio) > 0) {
+                    restBundle.putBoolean(RECENT_ENTRY, true);
+                    if (restTypeMultiRadio.getCheckedRadioButtonIndex() > 0) {
                         RestColFirstUpdate rEntUpdate = restColEntUpdate(bundle);
                         ViewModelEntry.updateRestroomData(rEntUpdate);
                     } else {
@@ -125,9 +126,9 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
                     }
                     callNextRestFragment(bundle);
                 } else if (bundle.getInt(REST_ID) == 0) {
+                    restBundle.putBoolean(RECENT_ENTRY, true);
                     RestroomEntry rest = createRestEntry(bundle);
                     ViewModelEntry.insertRestroomEntry(rest);
-                    restBundle.putBoolean(RECENT_ENTRY, true);
                 } else {
                     restBundle.putInt(REST_ID, 0);
                     Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
@@ -166,7 +167,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
 //        TextView
         restEntranceTypeError = view.findViewById(R.id.exclusive_entrance_error);
 //        RadioGroup
-        isCollectiveRadio = view.findViewById(R.id.exclusive_entrance_radio);
+        restTypeMultiRadio = view.findViewById(R.id.rest_type_multiradio);
 //        MaterialButton
         cancelRest = view.findViewById(R.id.cancel_rest_register);
         continueRest = view.findViewById(R.id.continue_rest_register);
@@ -175,11 +176,12 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Listeners
         cancelRest.setOnClickListener(v -> cancelClick());
-        isCollectiveRadio.setOnCheckedChangeListener(this::restTypeListener);
+        restTypeMultiRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
+                (v, r) -> restTypeListener(restTypeMultiRadio));
     }
 
     private void loadRestData(RestroomEntry entry) {
-        isCollectiveRadio.check(isCollectiveRadio.getChildAt(entry.getIsCollective()).getId());
+        restTypeMultiRadio.checkAt(entry.getIsCollective());
     }
 
     private void cancelClick() {
@@ -196,12 +198,8 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             requireActivity().getSupportFragmentManager().popBackStack(REST_LIST, 0);
     }
 
-    private int getRadioCheckIndex(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
-    private void restTypeListener(RadioGroup radio, int checkID) {
-        int index = getRadioCheckIndex(radio);
+    private void restTypeListener(MultiLineRadioGroup multi) {
+        int index = multi.getCheckedRadioButtonIndex();
 
         if (index == 0) {
             getChildFragmentManager().beginTransaction().replace(R.id.rest_type_frame, RestAccessibleFragment.newInstance(restBundle)).commit();
@@ -213,7 +211,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
     private boolean checkRestEmptyFields() {
         clearErrors();
 
-        if (getRadioCheckIndex(isCollectiveRadio) == -1) {
+        if (restTypeMultiRadio.getCheckedRadioButtonIndex() == -1) {
             restEntranceTypeError.setVisibility(View.VISIBLE);
             return false;
         }
@@ -226,15 +224,18 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
 
     private void callNextRestFragment(Bundle bundle) {
         Fragment fragment;
-        if (getRadioCheckIndex(isCollectiveRadio) == 0) {
+        if (restTypeMultiRadio.getCheckedRadioButtonIndex() == 0) {
             bundle.putBoolean(FROM_REST, true);
             fragment = DoorFragment.newInstance();
-        } else if (getRadioCheckIndex(isCollectiveRadio) == 1 && hasDoor == 1) {
+        } else if (restTypeMultiRadio.getCheckedRadioButtonIndex() == 1 && hasDoor == 1) {
             bundle.putBoolean(FROM_COLLECTIVE, true);
             fragment = DoorFragment.newInstance();
-        }
-        else
+        } else if (restTypeMultiRadio.getCheckedRadioButtonIndex() == 1)
+            fragment = RestSinkColFragment.newInstance();
+        else if (restTypeMultiRadio.getCheckedRadioButtonIndex() == 2)
             fragment = RestUrinalFragment.newInstance();
+        else
+            fragment = RestToiletFragment.newInstance();
         fragment.setArguments(bundle);
         requireActivity().getSupportFragmentManager().beginTransaction().
                 replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
@@ -259,18 +260,19 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
     }
 
     private RestroomEntry createRestEntry(Bundle bundle) {
-        int isCollective;
-        Integer restType = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null, winQnt = null, doorSill = null;
+        int restType;
+        Integer restGender = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null, winQnt = null, doorSill = null;
         Double hSwitch = null, winHeight1 = null, winHeight2 = null, winHeight3 = null, notAccLength = null, notAccWidth = null, notAccEntWidth = null;
         String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null, winType1 = null, winType2 = null,
                 winType3 = null, winObs = null, nAccEntObs = null;
 
-        isCollective = getRadioCheckIndex(isCollectiveRadio);
+        restType = restTypeMultiRadio.getCheckedRadioButtonIndex();
+        restBundle.putInt(REST_TYPE, restType);
 
         RestAccessColParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
-        if (parcel.getRestType() != null)
-            restType = parcel.getRestType();
+        if (parcel.getRestGender() != null)
+            restGender = parcel.getRestGender();
         if (parcel.getRestLocation() != null)
             rLocation = parcel.getRestLocation();
         if (parcel.getAccessRoute() != null)
@@ -341,7 +343,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             nAccEntObs = parcel.getNotAccEntranceObs();
 
 
-        return new RestroomEntry(restBundle.getInt(BLOCK_ID), isCollective, restType, rLocation, hasDoor, notAccEntWidth, doorSill,
+        return new RestroomEntry(restBundle.getInt(BLOCK_ID), restType, restGender, rLocation, hasDoor, notAccEntWidth, doorSill,
                 nAccEntObs, accessRoute, routeObs, intRest, intObs, restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs,
                 notAccLength, notAccWidth, null, null, null, null, null, null, null,
                 null, null,null, null, null, null, null, null, null, null, null,
@@ -360,22 +362,24 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null);
     }
 
     private RestColFirstUpdate restColEntUpdate(Bundle bundle) {
-        int isCollective;
-        Integer hasDoor = null, restType = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null, winQnt = null, doorSill = null;
+        int restType;
+        Integer hasDoor = null, restGender = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null,
+                winQnt = null, doorSill = null;
         Double hSwitch = null, winHeight1 = null, winHeight2 = null, winHeight3 = null, notAccLength = null, notAccWidth = null, notAccEntWidth = null;
         String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null, winType1 = null, winType2 = null,
                 winType3 = null, winObs = null, nAccEntObs = null;
 
-        isCollective = getRadioCheckIndex(isCollectiveRadio);
+        restType = restTypeMultiRadio.getCheckedRadioButtonIndex();
+        restBundle.putInt(REST_TYPE, restType);
 
         RestAccessColParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
-        if (parcel.getRestType() != null)
-            restType = parcel.getRestType();
+        if (parcel.getRestGender() != null)
+            restGender = parcel.getRestGender();
         if (parcel.getRestLocation() != null)
             rLocation = parcel.getRestLocation();
         if (parcel.getAccessRoute() != null)
@@ -444,23 +448,24 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             nAccEntObs = parcel.getNotAccEntranceObs();
 
 
-        return new RestColFirstUpdate(restBundle.getInt(REST_ID), isCollective, restType, rLocation, hasDoor, notAccEntWidth, doorSill, nAccEntObs, accessRoute, routeObs, intRest,
+        return new RestColFirstUpdate(restBundle.getInt(REST_ID), restType, restGender, rLocation, hasDoor, notAccEntWidth, doorSill, nAccEntObs, accessRoute, routeObs, intRest,
                 intObs, restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs, notAccLength, notAccWidth, hasWindow, winQnt, winType1, winHeight1,
                 winType2, winHeight2, winType3, winHeight3, winObs);
     }
 
     private RestAccessEntranceUpdate restAccessEntUpdate(Bundle bundle) {
-        int isCollective;
-        Integer restType = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null;
+        int restType;
+        Integer restGender = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null;
         Double hSwitch = null;
         String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null;
 
-        isCollective = getRadioCheckIndex(isCollectiveRadio);
+        restType = restTypeMultiRadio.getCheckedRadioButtonIndex();
+        restBundle.putInt(REST_TYPE, restType);
 
         RestAccessColParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
-        if (parcel.getRestType() != null)
-            restType = parcel.getRestType();
+        if (parcel.getRestGender() != null)
+            restGender = parcel.getRestGender();
         if (parcel.getRestLocation() != null)
             rLocation = parcel.getRestLocation();
         if (parcel.getAccessRoute() != null)
@@ -487,7 +492,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             switchObs = parcel.getSwitchObs();
 
 
-        return new RestAccessEntranceUpdate(restBundle.getInt(REST_ID), isCollective, restType, rLocation, accessRoute, routeObs, intRest, intObs,
+        return new RestAccessEntranceUpdate(restBundle.getInt(REST_ID), restType, restGender, rLocation, accessRoute, routeObs, intRest, intObs,
                 restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs);
     }
 }

@@ -77,7 +77,7 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
         instantiateSideMeasures(view);
 
         if (measureBundle.getInt(AMBIENT_ID) > 0)
-                modelEntry.getSidewalkEntry(measureBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSideMeasureData);
+            modelEntry.getSidewalkEntry(measureBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSideMeasureData);
 
         getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
             checkEmptySideMeasureFields(bundle);
@@ -125,7 +125,7 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
         if (hasSpecialFloor == 1) {
             specialFloorRightColor = getCheckSideMeasureRadio(tactileFloorColorRadio);
             if (!TextUtils.isEmpty(directionTileWidthValue.getText()))
-            specialTileDirectionWidth = Double.parseDouble(String.valueOf(directionTileWidthValue.getText()));
+                specialTileDirectionWidth = Double.parseDouble(String.valueOf(directionTileWidthValue.getText()));
             if (!TextUtils.isEmpty(alertTileWidthValue.getText()))
                 specialTileAlertWidth = Double.parseDouble(String.valueOf(alertTileWidthValue.getText()));
             if (!TextUtils.isEmpty(tactileFloorObsValue.getText()))
@@ -404,10 +404,6 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
             if (getCheckSideMeasureRadio(tactileFloorColorRadio) == -1) {
                 i++;
                 tactileFloorColorError.setVisibility(View.VISIBLE);
-            }
-            if (TextUtils.isEmpty(directionTileWidthValue.getText())) {
-                i++;
-                directionTileWidthField.setError(getString(R.string.req_field_error));
             }
             if (TextUtils.isEmpty(alertTileWidthValue.getText())) {
                 i++;
