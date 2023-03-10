@@ -212,7 +212,8 @@ public class RestSinkColFragment extends Fragment implements TagInterface, Scrol
         hasSink = getCheckRadio(hasColSink);
         if (hasSink == 0) {
             sinkObs = String.valueOf(sinkObsValue.getText());
-        } else {
+        }
+        else {
             sinkType = getCheckRadio(sinkTypeRadio);
 
             if (sinkType == 0) {

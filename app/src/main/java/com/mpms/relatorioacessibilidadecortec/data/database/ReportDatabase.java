@@ -76,7 +76,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class}, version = 66)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class}, version = 68)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1662,13 +1662,109 @@ public abstract class ReportDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE SidewalkEntry");
             database.execSQL("ALTER TABLE Side2 RENAME TO SidewalkEntry");
 
-//            database.execSQL("ALTER TABLE RestroomEntry RENAME COLUMN ''isCollective'' TO restTyping");
-//            database.execSQL("ALTER TABLE RestroomEntry RENAME COLUMN ''restType'' TO restGender");
-
             database.execSQL("CREATE TABLE EquipmentEntry (equipID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER NOT NULL, equipName TEXT, equipLocale TEXT, equipHeight REAL NOT NULL," +
                     "equipObs TEXT, FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
 
             database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN hasLowerSink INTEGER");
+        }
+    };
+
+    static final Migration MIGRATION_66_67 = new Migration(66, 67) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+
+            database.execSQL("ALTER TABLE TableEntry ADD COLUMN tableDesc TEXT");
+
+            database.execSQL("CREATE TABLE RestEntry (restroomID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, restType INTEGER NOT NULL DEFAULT 0," +
+                    "restGender INTEGER, restLocation TEXT, collectiveHasDoor INTEGER, entranceWidth REAL, entranceDoorSill INTEGER, entranceDoorSillObs TEXT, " +
+                    "accessRoute INTEGER, accessRouteObs TEXT, intRestroom INTEGER, intRestObs TEXT, antiDriftFloor INTEGER, antiDriftFloorObs TEXT, restDrain INTEGER, " +
+                    "restDrainObs TEXT, restSwitch INTEGER, switchHeight REAL, switchObs TEXT," +
+                    "upViewLength REAL, upViewWidth REAL, upViewMeasureA REAL, upViewMeasureB REAL, upViewMeasureC REAL, upViewMeasureD REAL, upViewObs TEXT, hasChildToilet INTEGER, " +
+                    "toType INTEGER," +
+                    "toHeightNoSeat REAL, toHasSeat INTEGER, toHeightSeat REAL, toHasSoculo INTEGER, frSoculo REAL, latSoculo REAL, socCorners INTEGER, toHasFrontBar INTEGER," +
+                    "frBarA REAL, frBarB REAL, frBarC REAL, frBarSect REAL, frBarDist REAL, toHasWall INTEGER, hasHorBar INTEGER, horBarD REAL, horBarE REAL, horBarF REAL," +
+                    "horBarDistG REAL, horBarSect REAL, horBarDist REAL, hasVertBar INTEGER, vertBarH REAL, vertBarI REAL, vertBarJ REAL, vertBarSect REAL, vertBarDist REAL," +
+                    "hasSideBar INTEGER, sideBarD REAL, sideBarE REAL, sideBarDistG REAL, sideBarSect REAL," +
+                    "hasArtBar INTEGER, artBarH REAL, artBarI REAL, artBarJ REAL, artBarSect REAL, toActDesc TEXT, toActHeight REAL, toActObs TEXT, hasPapHolder INTEGER," +
+                    "papHolderType INTEGER, papEmbDist REAL, papEmbHeight REAL, papSupAlign INTEGER, papSupHeight REAL, papHoldObs TEXT, hasDouche INTEGER, douchePressHeight REAL," +
+                    "doucheActHeight REAL, doucheObs TEXT, toiletObs TEXT, hasHanger INTEGER, hangerHeight REAL, hangerObs TEXT, hasObjHold INTEGER, objHoldCorrect INTEGER," +
+                    "objHoldHeight REAL, objHoldObs TEXT, hasSoapHold INTEGER, soapHoldHeight REAL, soapHoldObs TEXT, hasTowelHold INTEGER, towelHoldHeight REAL, towelHoldObs TEXT," +
+                    "hasEmergencyButton INTEGER, emergencyHeight REAL, emergencyObs TEXT, hasWaterValve INTEGER, waterValveType INTEGER, waterValveHeight REAL, waterValveObs TEXT," +
+                    "hasWindow INTEGER, winQnt INTEGER, winComType1 TEXT, winComHeight1 REAL, winComType2 TEXT, winComHeight2 REAL, winComType3 TEXT, winComHeight3 REAL, winObs TEXT," +
+                    "hasWallMirror INTEGER, wallMirrorLow REAL, wallMirrorHigh REAL, wallMirrorObs TEXT, hasSink INTEGER, sinkType INTEGER, hasLowerSink INTEGER, " +
+                    "hasLowerColSink INTEGER, " +
+                    "approxMeasureA REAL, approxMeasureB REAL, approxMeasureC REAL, approxMeasureD REAL, approxMeasureE REAL, hasSinkBar INTEGER, hasLeftFrontHorBar INTEGER, " +
+                    "leftFrontHorMeasureA REAL, leftFrontHorMeasureB REAL, leftFrontHorMeasureC REAL, leftFrontHorMeasureD REAL, leftFrontHorDiam REAL, " +
+                    "leftFrontHorDist REAL, leftFrontHorObs TEXT," +
+                    "hasRightSideVertBar INTEGER, rightSideVertMeasureA REAL, rightSideVertMeasureB REAL, rightSideVertMeasureC REAL, rightSideVertMeasureD REAL, " +
+                    "rightSideVertMeasureE REAL, rightSideVertDiam REAL, rightSideVertDist REAL, rightSideVertObs TEXT, sinkHasMirror INTEGER, sinkMirrorLow REAL, " +
+                    "sinkMirrorHigh REAL, sinkObs TEXT, hasUrinal INTEGER, hasAccessUrinal INTEGER, urinalType INTEGER, urMeasureA REAL, urMeasureB REAL, urMeasureC REAL," +
+                    "urMeasureD REAL, urMeasureE REAL, urMeasureF REAL, urMeasureG REAL, urMeasureH REAL, urMeasureI REAL, urMeasureJ REAL, urMeasureK REAL," +
+                    "urMeasureL REAL, urMeasureM REAL, urObs TEXT, FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO RestEntry (restroomID, blockID, restType, restGender, restLocation, collectiveHasDoor, entranceWidth, entranceDoorSill, " +
+                    "entranceDoorSillObs, accessRoute, accessRouteObs, intRestroom, intRestObs, antiDriftFloor, antiDriftFloorObs, restDrain, restDrainObs, " +
+                    "restSwitch, switchHeight, switchObs, upViewLength, upViewWidth, upViewMeasureA, upViewMeasureB, upViewMeasureC, upViewMeasureD, upViewObs, " +
+                    "toType, toHeightNoSeat, toHasSeat, toHeightSeat, toHasSoculo, frSoculo, latSoculo, socCorners, toHasFrontBar, frBarA, frBarB, " +
+                    "frBarC, frBarSect, frBarDist, toHasWall, hasHorBar, horBarD, horBarE, horBarF, horBarDistG, horBarSect, horBarDist, hasVertBar, vertBarH, " +
+                    "vertBarI, vertBarJ, vertBarSect, vertBarDist, hasSideBar, sideBarD, sideBarE, sideBarDistG, sideBarSect, hasArtBar, artBarH, artBarI, artBarJ, " +
+                    "artBarSect, toActDesc, toActHeight, toActObs, hasPapHolder, papHolderType, papEmbDist, papEmbHeight, papSupAlign, papSupHeight, papHoldObs, " +
+                    "hasDouche, douchePressHeight, doucheActHeight, doucheObs, toiletObs, hasHanger, hangerHeight, hangerObs, hasObjHold, objHoldCorrect," +
+                    "objHoldHeight, objHoldObs, hasSoapHold, soapHoldHeight, soapHoldObs, hasTowelHold, towelHoldHeight, towelHoldObs, hasEmergencyButton, " +
+                    "emergencyHeight, emergencyObs, hasWaterValve, waterValveType, waterValveHeight, waterValveObs, hasWindow, winQnt, winComType1, winComHeight1, " +
+                    "winComType2, winComHeight2, winComType3, winComHeight3, winObs, hasWallMirror, wallMirrorLow, wallMirrorHigh, wallMirrorObs, sinkType, hasLowerSink, " +
+                    "hasLowerColSink, approxMeasureA, approxMeasureB, approxMeasureC, approxMeasureD, approxMeasureE, hasSinkBar, hasLeftFrontHorBar, leftFrontHorMeasureA, " +
+                    "leftFrontHorMeasureB, leftFrontHorMeasureC, leftFrontHorMeasureD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasRightSideVertBar, " +
+                    "rightSideVertMeasureA, rightSideVertMeasureB, rightSideVertMeasureC, rightSideVertMeasureD, rightSideVertMeasureE, rightSideVertDiam, rightSideVertDist, " +
+                    "rightSideVertObs, sinkHasMirror, sinkMirrorLow, sinkMirrorHigh, sinkObs, hasUrinal, hasAccessUrinal, urinalType, urMeasureA, urMeasureB, urMeasureC," +
+                    "urMeasureD, urMeasureE, urMeasureF, urMeasureG, urMeasureH, urMeasureI, urMeasureJ, urMeasureK, urMeasureL, urMeasureM, urObs) SELECT " +
+                    "restroomID, blockID, isCollective, restType, restLocation, collectiveHasDoor, entranceWidth, entranceDoorSill, " +
+                    "entranceDoorSillObs, accessRoute, accessRouteObs, intRestroom, intRestObs, antiDriftFloor, antiDriftFloorObs, restDrain, restDrainObs, " +
+                    "restSwitch, switchHeight, switchObs, upViewLength, upViewWidth, upViewMeasureA, upViewMeasureB, upViewMeasureC, upViewMeasureD, upViewObs, " +
+                    "toType, toHeightNoSeat, toHasSeat, toHeightSeat, toHasSoculo, frSoculo, latSoculo, socCorners, toHasFrontBar, frBarA, frBarB, " +
+                    "frBarC, frBarSect, frBarDist, toHasWall, hasHorBar, horBarD, horBarE, horBarF, horBarDistG, horBarSect, horBarDist, hasVertBar, vertBarH, " +
+                    "vertBarI, vertBarJ, vertBarSect, vertBarDist, hasSideBar, sideBarD, sideBarE, sideBarDistG, sideBarSect, hasArtBar, artBarH, artBarI, artBarJ, " +
+                    "artBarSect, toActDesc, toActHeight, toActObs, hasPapHolder, papHolderType, papEmbDist, papEmbHeight, papSupAlign, papSupHeight, papHoldObs, " +
+                    "hasDouche, douchePressHeight, doucheActHeight, doucheObs, toiletObs, hasHanger, hangerHeight, hangerObs, hasObjHold, objHoldCorrect," +
+                    "objHoldHeight, objHoldObs, hasSoapHold, soapHoldHeight, soapHoldObs, hasTowelHold, towelHoldHeight, towelHoldObs, hasEmergencyButton, " +
+                    "emergencyHeight, emergencyObs, hasWaterValve, waterValveType, waterValveHeight, waterValveObs, hasWindow, winQnt, winComType1, winComHeight1, " +
+                    "winComType2, winComHeight2, winComType3, winComHeight3, winObs, hasWallMirror, wallMirrorLow, wallMirrorHigh, wallMirrorObs, sinkType, hasLowerSink, " +
+                    "hasLowerColSink, approxMeasureA, approxMeasureB, approxMeasureC, approxMeasureD, approxMeasureE, hasSinkBar, hasLeftFrontHorBar, leftFrontHorMeasureA, " +
+                    "leftFrontHorMeasureB, leftFrontHorMeasureC, leftFrontHorMeasureD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasRightSideVertBar, " +
+                    "rightSideVertMeasureA, rightSideVertMeasureB, rightSideVertMeasureC, rightSideVertMeasureD, rightSideVertMeasureE, rightSideVertDiam, rightSideVertDist, " +
+                    "rightSideVertObs, sinkHasMirror, sinkMirrorLow, sinkMirrorHigh, sinkObs, hasUrinal, hasAccessUrinal, urinalType, urMeasureA, urMeasureB, urMeasureC," +
+                    "urMeasureD, urMeasureE, urMeasureF, urMeasureG, urMeasureH, urMeasureI, urMeasureJ, urMeasureK, urMeasureL, urMeasureM, urObs FROM RestroomEntry");
+            database.execSQL("DROP TABLE RestroomEntry");
+            database.execSQL("ALTER TABLE RestEntry RENAME TO RestroomEntry");
+
+        }
+    };
+
+    static final Migration MIGRATION_67_68 = new Migration(67, 68) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+
+            database.execSQL("DROP TABLE RestBoxEntry");
+            database.execSQL("CREATE TABLE RestBoxEntry (boxID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,restID INTEGER NOT NULL,typeBox INTEGER NOT NULL,comBoxDoorWidth REAL, " +
+                    "comBoxFreeDiam REAL, comBoxHasBars INTEGER, comBoxToiletDoorDist REAL, comBoxWidth REAL, comBoxHasLeftBar INTEGER, comBoxLeftShapeBarA REAL,  " +
+                    "comBoxLeftShapeBarB REAL, comBoxLeftShapeBarC REAL, comBoxLeftShapeBarD REAL, comBoxLeftShapeBarDiam REAL, comBoxLeftShapeBarDist REAL,  " +
+                    "comBoxLeftBarObs TEXT, comBoxHasRightBar INTEGER, comBoxRightShapeBarA REAL, comBoxRightShapeBarB REAL, comBoxRightShapeBarC REAL,  " +
+                    "comBoxRightShapeBarD REAL, comBoxRightShapeBarDiam REAL, comBoxRightShapeBarDist REAL, comBoxRightBarObs TEXT, comBoxObs TEXT, upViewLength REAL,  " +
+                    "upViewWidth REAL, upViewMeasureA REAL, upViewMeasureB REAL, upViewMeasureC REAL, upViewMeasureD REAL, upViewObs TEXT, restDrain INTEGER, restDrainObs TEXT,  " +
+                    "toType INTEGER, toHeightNoSeat REAL, toHasSeat INTEGER, toHeightSeat REAL, toHasSoculo INTEGER, frSoculo REAL, latSoculo REAL, socCorners INTEGER,  " +
+                    "toHasFrontBar INTEGER, frBarA REAL, frBarB REAL, frBarC REAL, frBarSect REAL, frBarDist REAL, toHasWall INTEGER, hasHorBar INTEGER, horBarD REAL, " +
+                    "horBarE REAL, horBarF REAL, horBarDistG REAL, horBarSect REAL, horBarDist REAL, hasVertBar INTEGER, vertBarH REAL, vertBarI REAL, vertBarJ REAL, vertBarSect REAL, " +
+                    "vertBarDist REAL, hasSideBar INTEGER, sideBarD REAL, sideBarE REAL, sideBarDistG REAL, sideBarSect REAL, hasArtBar INTEGER, artBarH REAL, artBarI REAL,  " +
+                    "artBarJ REAL, artBarSect REAL, toActDesc TEXT, toActHeight REAL, toActObs TEXT, hasPapHolder INTEGER, papHolderType INTEGER, papEmbDist REAL, papEmbHeight REAL, " +
+                    "papSupAlign INTEGER, papSupHeight REAL, papHoldObs TEXT, hasDouche INTEGER, douchePressHeight REAL, doucheActHeight REAL, doucheObs TEXT, toiletObs TEXT,  " +
+                    "hasHanger INTEGER, hangerHeight REAL, hangerObs TEXT, hasObjHold INTEGER, objHoldCorrect INTEGER, objHoldHeight REAL, objHoldObs TEXT, hasSoapHold INTEGER,  " +
+                    "soapHoldHeight REAL, soapHoldObs TEXT, hasTowelHold INTEGER, towelHoldHeight REAL, towelHoldObs TEXT, hasEmergencyButton INTEGER, emergencyHeight REAL,  " +
+                    "emergencyObs TEXT, hasWaterValve INTEGER, waterValveType INTEGER, waterValveHeight REAL, waterValveObs TEXT, hasWallMirror INTEGER,  " +
+                    "wallMirrorLow REAL, wallMirrorHigh REAL, wallMirrorObs TEXT, hasSink INTEGER, sinkType INTEGER, hasLowerColSink INTEGER, approxMeasureA REAL, approxMeasureB REAL,  " +
+                    "approxMeasureC REAL, approxMeasureD REAL, approxMeasureE REAL, hasSinkBar INTEGER, hasLeftFrontHorBar INTEGER, leftFrontHorMeasureA REAL,  " +
+                    "leftFrontHorMeasureB REAL, leftFrontHorMeasureC REAL, leftFrontHorMeasureD REAL, leftFrontHorDiam REAL, leftFrontHorDist REAL, leftFrontHorObs TEXT,  " +
+                    "hasRightSideVertBar INTEGER, rightSideVertMeasureA REAL, rightSideVertMeasureB REAL, rightSideVertMeasureC REAL, rightSideVertMeasureD REAL,  " +
+                    "rightSideVertMeasureE REAL, rightSideVertDiam REAL, rightSideVertDist REAL, rightSideVertObs TEXT, sinkHasMirror INTEGER, sinkMirrorLow REAL,  " +
+                    "sinkMirrorHigh REAL, sinkObs TEXT, FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE)");
         }
     };
 
@@ -1689,7 +1785,8 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_42_43, MIGRATION_43_44, MIGRATION_44_45, MIGRATION_45_46, MIGRATION_46_47, MIGRATION_47_48,
                                     MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
                                     MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58, MIGRATION_58_59, MIGRATION_59_60,
-                                    MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66).build();
+                                    MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66,
+                                    MIGRATION_66_67, MIGRATION_67_68).build();
                 }
             }
         }

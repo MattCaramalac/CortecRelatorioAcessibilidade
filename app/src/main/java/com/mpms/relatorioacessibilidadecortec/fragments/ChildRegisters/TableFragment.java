@@ -25,8 +25,8 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 public class TableFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout supHeightField, infHeightField, tableWidthField, frontalApproxField, obsField, freeWidthField;
-    TextInputEditText supHeightValue, infHeightValue, tableWidthValue, frontalApproxValue, obsValue, freeWidthValue;
+    TextInputLayout supHeightField, infHeightField, tableWidthField, frontalApproxField, obsField, freeWidthField, tableDescField;
+    TextInputEditText supHeightValue, infHeightValue, tableWidthValue, frontalApproxValue, obsValue, freeWidthValue, tableDescValue;
     TextView tableTypeHeader, tableTypeError;
     RadioGroup tableTypeRadio;
     MaterialButton saveTable, cancelTable;
@@ -99,6 +99,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         frontalApproxField = view.findViewById(R.id.table_frontal_approx_field);
         obsField = view.findViewById(R.id.table_obs_field);
         freeWidthField = view.findViewById(R.id.table_fs_width_field);
+        tableDescField = view.findViewById(R.id.table_desc_field);
 //        TextInputEditText
         supHeightValue = view.findViewById(R.id.table_superior_border_height_value);
         infHeightValue = view.findViewById(R.id.table_inferior_border_height_value);
@@ -106,6 +107,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         frontalApproxValue = view.findViewById(R.id.table_frontal_approx_value);
         obsValue = view.findViewById(R.id.table_obs_value);
         freeWidthValue = view.findViewById(R.id.table_fs_width_value);
+        tableDescValue = view.findViewById(R.id.table_desc_value);
 //        TextView
         tableTypeHeader = view.findViewById(R.id.table_type_header_text);
         tableTypeError = view.findViewById(R.id.table_type_error);
@@ -131,6 +133,8 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
     private void loadTableData(TableEntry tableEntry, Bundle bundle) {
         if (bundle.getInt(ROOM_TYPE) == 6)
             tableTypeRadio.check(tableTypeRadio.getChildAt(tableEntry.getTableType()).getId());
+        if (tableEntry.getTableDesc() != null)
+            tableDescValue.setText(tableEntry.getTableDesc());
         supHeightValue.setText(String.valueOf(tableEntry.getSuperiorBorderHeight()));
         infHeightValue.setText(String.valueOf(tableEntry.getInferiorBorderHeight()));
         tableWidthValue.setText(String.valueOf(tableEntry.getTableWidth()));
@@ -187,11 +191,13 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
     private TableEntry newTableEntry(Bundle bundle) {
         Integer tableType = null;
         double supHeight, infHeight, tableWidth, frontAprox, freeWidth;
-        String tableObs = null;
+        String tableObs = null, tableDesc = null;
 
         if (bundle.getInt(ROOM_TYPE) == 6) {
             tableType = getRadioCheckedButton(tableTypeRadio);
         }
+        if (!TextUtils.isEmpty(tableDescValue.getText()))
+            tableDesc = String.valueOf(tableDescValue.getText());
         supHeight = Double.parseDouble(String.valueOf(supHeightValue.getText()));
         infHeight = Double.parseDouble(String.valueOf(infHeightValue.getText()));
         tableWidth = Double.parseDouble(String.valueOf(tableWidthValue.getText()));
@@ -201,7 +207,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
             tableObs = String.valueOf(obsValue.getText());
 
         return new TableEntry(bundle.getInt(AMBIENT_ID), bundle.getInt(ROOM_TYPE), tableType, supHeight, infHeight,
-                tableWidth, frontAprox, tableObs, freeWidth);
+                tableWidth, frontAprox, tableObs, freeWidth, tableDesc);
     }
 
     private void clearTableFields() {

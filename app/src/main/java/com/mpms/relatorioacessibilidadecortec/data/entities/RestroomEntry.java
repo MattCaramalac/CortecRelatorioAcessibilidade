@@ -14,8 +14,8 @@ public class RestroomEntry {
     private int restroomID;
     private int blockID;
     @ColumnInfo(defaultValue = "0")
-    private int isCollective;
-    private Integer restType;
+    private int restType;
+    private Integer restGender;
     private String restLocation;
     private Integer collectiveHasDoor;
     private Double entranceWidth;
@@ -39,6 +39,7 @@ public class RestroomEntry {
     private Double upViewMeasureC;
     private Double upViewMeasureD;
     private String upViewObs;
+    private Integer hasChildToilet;
     private Integer toType;
     private Double toHeightNoSeat;
     private Integer toHasSeat;
@@ -125,7 +126,9 @@ public class RestroomEntry {
     private Double wallMirrorLow;
     private Double wallMirrorHigh;
     private String wallMirrorObs;
+    private Integer hasSink;
     private Integer sinkType;
+    private Integer hasLowerSink;
     private Integer hasLowerColSink;
     private Double approxMeasureA;
     private Double approxMeasureB;
@@ -171,19 +174,17 @@ public class RestroomEntry {
     private Double urMeasureL;
     private Double urMeasureM;
     private String urObs;
-    private Integer hasSink;
-    private Integer hasLowerSink;
 
-    public RestroomEntry(int blockID, int isCollective, Integer restType, String restLocation, Integer collectiveHasDoor, Double entranceWidth, Integer entranceDoorSill,
-                         String entranceDoorSillObs, Integer accessRoute,
-                         String accessRouteObs, Integer intRestroom, String intRestObs, Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain,
-                         String restDrainObs, Integer restSwitch, Double switchHeight, String switchObs, Double upViewLength, Double upViewWidth, Double upViewMeasureA,
-                         Double upViewMeasureB, Double upViewMeasureC, Double upViewMeasureD, String upViewObs, Integer toType, Double toHeightNoSeat, Integer toHasSeat,
-                         Double toHeightSeat, Integer toHasSoculo, Double frSoculo, Double latSoculo, Integer socCorners, Integer toHasFrontBar, Double frBarA, Double frBarB,
-                         Double frBarC, Double frBarSect, Double frBarDist, Integer toHasWall, Integer hasHorBar, Double horBarD, Double horBarE, Double horBarF,
-                         Double horBarDistG, Double horBarSect, Double horBarDist, Integer hasVertBar, Double vertBarH, Double vertBarI, Double vertBarJ, Double vertBarSect,
-                         Double vertBarDist, Integer hasSideBar, Double sideBarD, Double sideBarE, Double sideBarDistG, Double sideBarSect,
-                         Integer hasArtBar, Double artBarH, Double artBarI, Double artBarJ, Double artBarSect, String toActDesc, Double toActHeight,
+
+    public RestroomEntry(int blockID, int restType, Integer restGender, String restLocation, Integer collectiveHasDoor, Double entranceWidth, Integer entranceDoorSill,
+                         String entranceDoorSillObs, Integer accessRoute, String accessRouteObs, Integer intRestroom, String intRestObs, Integer antiDriftFloor,
+                         String antiDriftFloorObs, Integer restDrain, String restDrainObs, Integer restSwitch, Double switchHeight, String switchObs, Double upViewLength,
+                         Double upViewWidth, Double upViewMeasureA, Double upViewMeasureB, Double upViewMeasureC, Double upViewMeasureD, String upViewObs, Integer toType,
+                         Double toHeightNoSeat, Integer toHasSeat, Double toHeightSeat, Integer toHasSoculo, Double frSoculo, Double latSoculo, Integer socCorners,
+                         Integer toHasFrontBar, Double frBarA, Double frBarB, Double frBarC, Double frBarSect, Double frBarDist, Integer toHasWall, Integer hasHorBar,
+                         Double horBarD, Double horBarE, Double horBarF, Double horBarDistG, Double horBarSect, Double horBarDist, Integer hasVertBar, Double vertBarH,
+                         Double vertBarI, Double vertBarJ, Double vertBarSect, Double vertBarDist, Integer hasSideBar, Double sideBarD, Double sideBarE, Double sideBarDistG,
+                         Double sideBarSect, Integer hasArtBar, Double artBarH, Double artBarI, Double artBarJ, Double artBarSect, String toActDesc, Double toActHeight,
                          String toActObs, Integer hasPapHolder, Integer papHolderType, Double papEmbDist, Double papEmbHeight, Integer papSupAlign, Double papSupHeight,
                          String papHoldObs, Integer hasDouche, Double douchePressHeight, Double doucheActHeight, String doucheObs, String toiletObs, Integer hasHanger,
                          Double hangerHeight, String hangerObs, Integer hasObjHold, Integer objHoldCorrect, Double objHoldHeight, String objHoldObs, Integer hasSoapHold,
@@ -198,10 +199,10 @@ public class RestroomEntry {
                          Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh, String sinkObs, Integer hasUrinal,
                          Integer hasAccessUrinal, Integer urinalType, Double urMeasureA, Double urMeasureB, Double urMeasureC, Double urMeasureD, Double urMeasureE,
                          Double urMeasureF, Double urMeasureG, Double urMeasureH, Double urMeasureI, Double urMeasureJ, Double urMeasureK, Double urMeasureL, Double urMeasureM,
-                         String urObs, Integer hasSink, Integer hasLowerSink) {
+                         String urObs, Integer hasSink, Integer hasLowerSink, Integer hasChildToilet) {
         this.blockID = blockID;
-        this.isCollective = isCollective;
         this.restType = restType;
+        this.restGender = restGender;
         this.restLocation = restLocation;
         this.collectiveHasDoor = collectiveHasDoor;
         this.entranceWidth = entranceWidth;
@@ -359,6 +360,15 @@ public class RestroomEntry {
         this.urObs = urObs;
         this.hasSink = hasSink;
         this.hasLowerSink = hasLowerSink;
+        this.hasChildToilet = hasChildToilet;
+    }
+
+    public Integer getHasChildToilet() {
+        return hasChildToilet;
+    }
+
+    public void setHasChildToilet(Integer hasChildToilet) {
+        this.hasChildToilet = hasChildToilet;
     }
 
     public String getWinObs() {
@@ -385,20 +395,20 @@ public class RestroomEntry {
         this.blockID = blockID;
     }
 
-    public int getIsCollective() {
-        return isCollective;
-    }
-
-    public void setIsCollective(int isCollective) {
-        this.isCollective = isCollective;
-    }
-
-    public Integer getRestType() {
+    public int getRestType() {
         return restType;
     }
 
-    public void setRestType(Integer restType) {
+    public void setRestType(int restType) {
         this.restType = restType;
+    }
+
+    public Integer getRestGender() {
+        return restGender;
+    }
+
+    public void setRestGender(Integer restGender) {
+        this.restGender = restGender;
     }
 
     public String getRestLocation() {

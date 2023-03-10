@@ -347,9 +347,9 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
     }
 
     private void loadAccessRestData(RestroomEntry rest) {
-        if (rest.getIsCollective() == layout) {
-            if (rest.getRestType() != null)
-                restTypeRadio.check(restTypeRadio.getChildAt(rest.getRestType()).getId());
+        if (rest.getRestType() == layout) {
+            if (rest.getRestGender() != null)
+                restTypeRadio.check(restTypeRadio.getChildAt(rest.getRestGender()).getId());
             if (rest.getRestLocation() != null)
                 restLocationValue.setText(rest.getRestLocation());
             if (rest.getAntiDriftFloor() != null)

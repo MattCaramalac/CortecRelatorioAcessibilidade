@@ -15,24 +15,13 @@ public class RestBoxAccTwoUpdate {
     private Integer waterValveType;
     private Double waterValveHeight;
     private String waterValveObs;
-    private Integer hasWindow;
-    private Integer winQnt;
-    private String winComType1;
-    private Double winComHeight1;
-    private String winComType2;
-    private Double winComHeight2;
-    private String winComType3;
-    private Double winComHeight3;
-    private String winObs;
     private Integer hasWallMirror;
     private Double wallMirrorLow;
     private Double wallMirrorHigh;
     private String wallMirrorObs;
 
     public RestBoxAccTwoUpdate(int boxID, Integer hasEmergencyButton, Double emergencyHeight, String emergencyObs, Integer hasWaterValve, Integer waterValveType,
-                               Double waterValveHeight, String waterValveObs, Integer hasWindow, Integer winQnt, String winComType1, Double winComHeight1,
-                               String winComType2, Double winComHeight2, String winComType3, Double winComHeight3, String winObs, Integer hasWallMirror,
-                               Double wallMirrorLow, Double wallMirrorHigh, String wallMirrorObs) {
+                               Double waterValveHeight, String waterValveObs, Integer hasWallMirror, Double wallMirrorLow, Double wallMirrorHigh, String wallMirrorObs) {
         this.boxID = boxID;
         this.hasEmergencyButton = hasEmergencyButton;
         this.emergencyHeight = emergencyHeight;
@@ -41,15 +30,6 @@ public class RestBoxAccTwoUpdate {
         this.waterValveType = waterValveType;
         this.waterValveHeight = waterValveHeight;
         this.waterValveObs = waterValveObs;
-        this.hasWindow = hasWindow;
-        this.winQnt = winQnt;
-        this.winComType1 = winComType1;
-        this.winComHeight1 = winComHeight1;
-        this.winComType2 = winComType2;
-        this.winComHeight2 = winComHeight2;
-        this.winComType3 = winComType3;
-        this.winComHeight3 = winComHeight3;
-        this.winObs = winObs;
         this.hasWallMirror = hasWallMirror;
         this.wallMirrorLow = wallMirrorLow;
         this.wallMirrorHigh = wallMirrorHigh;
@@ -118,78 +98,6 @@ public class RestBoxAccTwoUpdate {
 
     public void setWaterValveObs(String waterValveObs) {
         this.waterValveObs = waterValveObs;
-    }
-
-    public Integer getHasWindow() {
-        return hasWindow;
-    }
-
-    public void setHasWindow(Integer hasWindow) {
-        this.hasWindow = hasWindow;
-    }
-
-    public Integer getWinQnt() {
-        return winQnt;
-    }
-
-    public void setWinQnt(Integer winQnt) {
-        this.winQnt = winQnt;
-    }
-
-    public String getWinComType1() {
-        return winComType1;
-    }
-
-    public void setWinComType1(String winComType1) {
-        this.winComType1 = winComType1;
-    }
-
-    public Double getWinComHeight1() {
-        return winComHeight1;
-    }
-
-    public void setWinComHeight1(Double winComHeight1) {
-        this.winComHeight1 = winComHeight1;
-    }
-
-    public String getWinComType2() {
-        return winComType2;
-    }
-
-    public void setWinComType2(String winComType2) {
-        this.winComType2 = winComType2;
-    }
-
-    public Double getWinComHeight2() {
-        return winComHeight2;
-    }
-
-    public void setWinComHeight2(Double winComHeight2) {
-        this.winComHeight2 = winComHeight2;
-    }
-
-    public String getWinComType3() {
-        return winComType3;
-    }
-
-    public void setWinComType3(String winComType3) {
-        this.winComType3 = winComType3;
-    }
-
-    public Double getWinComHeight3() {
-        return winComHeight3;
-    }
-
-    public void setWinComHeight3(Double winComHeight3) {
-        this.winComHeight3 = winComHeight3;
-    }
-
-    public String getWinObs() {
-        return winObs;
-    }
-
-    public void setWinObs(String winObs) {
-        this.winObs = winObs;
     }
 
     public Integer getHasWallMirror() {

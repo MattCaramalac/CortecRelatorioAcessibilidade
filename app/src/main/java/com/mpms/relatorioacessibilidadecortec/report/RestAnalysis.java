@@ -36,7 +36,7 @@ public class RestAnalysis implements StandardMeasurements {
 
                     if (check > 0) {
                         AmbientAnalysis.checkHelpAreaHeader();
-                        String type = restroomTyping(rest.getIsCollective()) + " " + restroomGender(rest.getRestType());
+                        String type = restroomTyping(rest.getRestType()) + " " + restroomGender(rest.getRestGender());
                         AmbientAnalysis.helpRestList.add("Sanitário " + type + ", localizado em " + rest.getRestLocation() + ", com as seguintes irregularidades: ");
                         AmbientAnalysis.helpRestIrregular.put(i, restIrr);
                         i++;
@@ -64,7 +64,7 @@ public class RestAnalysis implements StandardMeasurements {
                 restIrr = checkRestIrregularities(rest, doorList, frSpaceList, boxList, boxDoor);
 
             if (check > 0) {
-                String type = restroomTyping(rest.getIsCollective()) + " " + restroomGender(rest.getRestType());
+                String type = restroomTyping(rest.getRestType()) + " " + restroomGender(rest.getRestGender());
                 if (rest.getRestLocation() != null && rest.getRestLocation().length() > 0)
                     AmbientAnalysis.blockRestList.add("Sanitário " + type + " " + rest.getRestLocation() + ", com as seguintes irregularidades: ");
                 else
@@ -80,7 +80,7 @@ public class RestAnalysis implements StandardMeasurements {
     public static List<String> checkRestIrregularities(RestroomEntry rest, List<DoorEntry> doorList, List<FreeSpaceEntry> frSpaceList,
                                                        List<RestBoxEntry> boxList, List<DoorEntry> boxDoor) {
         List<String> restIrr = new ArrayList<>();
-        int restType = rest.getIsCollective();
+        int restType = rest.getRestType();
 
         if (rest.getAntiDriftFloor() == 0) {
             check++;
@@ -1106,30 +1106,32 @@ public class RestAnalysis implements StandardMeasurements {
                         check++;
                         restIrr.add("a altura da barra de apoio posterior é diferente de " + frBarHeightChild + " m;");
                     }
-                }
-                if (rest.getFrBarC() != frBarToiletAxisChild) {
-                    check++;
-                    restIrr.add("a distância entre o eixo da bacia sanitária até a extremidade da barra de apoio posterior em direção à parede lateral " +
-                            "é diferente de " + frBarToiletAxisChild + " m;");
+
+                    if (rest.getFrBarC() != frBarToiletAxisChild) {
+                        check++;
+                        restIrr.add("a distância entre o eixo da bacia sanitária até a extremidade da barra de apoio posterior em direção à parede lateral " +
+                                "é diferente de " + frBarToiletAxisChild + " m;");
+                    }
+
+                    if (rest.getFrBarB() < frBarMinLength) {
+                        check++;
+                        restIrr.add("o comprimento da barra de apoio posterior é inferior à " + frBarMinLength + " m;");
+                    }
+
+                    if (rest.getFrBarSect() < minHandrailGrip) {
+                        check++;
+                        restIrr.add("a seção transversal da barra de apoio posterior é inferior à " + minHandrailGrip + " mm;");
+                    } else if (rest.getFrBarSect() > maxHandrailGrip) {
+                        check++;
+                        restIrr.add("a seção transversal da barra de apoio posterior é superior à " + maxHandrailGrip + " mm;");
+                    }
+
+                    if (rest.getFrBarDist() < minDistHandrail) {
+                        check++;
+                        restIrr.add("a distância da parede até a barra de apoio posterior é inferior à " + minDistHandrail + " mm;");
+                    }
                 }
 
-                if (rest.getFrBarB() < frBarMinLength) {
-                    check++;
-                    restIrr.add("o comprimento da barra de apoio posterior é inferior à " + frBarMinLength + " m;");
-                }
-
-                if (rest.getFrBarSect() < minHandrailGrip) {
-                    check++;
-                    restIrr.add("a seção transversal da barra de apoio posterior é inferior à " + minHandrailGrip + " mm;");
-                } else if (rest.getFrBarSect() > maxHandrailGrip) {
-                    check++;
-                    restIrr.add("a seção transversal da barra de apoio posterior é superior à " + maxHandrailGrip + " mm;");
-                }
-
-                if (rest.getFrBarDist() < minDistHandrail) {
-                    check++;
-                    restIrr.add("a distância da parede até a barra de apoio posterior é inferior à " + minDistHandrail + " mm;");
-                }
 
                 if (rest.getToHasWall() == 0) {
                     if (rest.getHasSideBar() == 0) {

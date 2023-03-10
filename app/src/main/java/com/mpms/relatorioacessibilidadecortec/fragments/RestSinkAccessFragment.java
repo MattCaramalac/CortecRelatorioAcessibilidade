@@ -1,6 +1,7 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,8 +89,11 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
     }
 
     private void loadBoxSinkData(RestBoxEntry entry) {
-        if (entry.getHasSink() != null)
+        if (entry.getHasSink() != null) {
             accSinkRadio.check(accSinkRadio.getChildAt(entry.getHasSink()).getId());
+            if (entry.getHasSink() == 0 && entry.getSinkObs() != null)
+                accSinkObsValue.setText(entry.getSinkObs());
+        }
     }
 
     private void instAccSinkViews(View view) {
@@ -115,7 +119,10 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
 
     private void saveClick(View view) {
         if (checkEmptyFields()) {
-            getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, accSinkBundle);
+            if (getCheckRadio(accSinkRadio) == 0)
+                saveSinkData(accSinkBundle);
+            else
+                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, accSinkBundle);
         } else
             toastMessage();
     }
@@ -201,6 +208,9 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
 
 
             sinkObs = parcel.getSinkObs();
+        } else {
+            if (!TextUtils.isEmpty(accSinkObsValue.getText()))
+                sinkObs = String.valueOf(accSinkObsValue.getText());
         }
 
         return new RestBoxSinkUpdate(bundle.getInt(BOX_ID), hasSink, sinkType, approxA, approxB, approxC, approxD, approxE, hasColumns, hasSinkBar, hasLeftFrontHor, leftFrontHorA,

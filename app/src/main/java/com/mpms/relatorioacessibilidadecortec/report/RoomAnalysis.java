@@ -5,6 +5,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.EquipmentEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
@@ -18,6 +19,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
 import com.mpms.relatorioacessibilidadecortec.report.Components.BlackboardAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.CounterAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.DoorAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Components.EquipmentAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.FreeSpaceAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.RampAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.StairsAnalysis;
@@ -36,7 +38,7 @@ public class RoomAnalysis implements StandardMeasurements {
                                         List<SwitchEntry> switchList, List<WindowEntry> winList, List<TableEntry> tableList, List<BlackboardEntry> bList,
                                         List<FreeSpaceEntry> fsList, List<RampStairsEntry> rStRoom, List<RampStairsFlightEntry> rStFlight,
                                         List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList,
-                                        List<WaterFountainEntry> waterList) {
+                                        List<WaterFountainEntry> waterList, List<EquipmentEntry> equipList) {
 
         int extRoom = 0;
         int helpRoom = 0;
@@ -50,7 +52,7 @@ public class RoomAnalysis implements StandardMeasurements {
                 List<String> roomIrr = new ArrayList<>();
                 if (room.getBlockID() == blockID) {
                     roomIrr = checkRoomIrregularities(room, doorList, doorLockList, switchList, winList, tableList, bList, fsList, rStRoom,
-                            rStFlight, rStRail, rStHandrail, counterList, waterList);
+                            rStFlight, rStRail, rStHandrail, counterList, waterList, equipList);
                 }
 
                 String rType = roomTyping(room.getRoomType());
@@ -93,7 +95,7 @@ public class RoomAnalysis implements StandardMeasurements {
                                              List<SwitchEntry> switchList, List<WindowEntry> winList, List<TableEntry> tableList, List<BlackboardEntry> bList,
                                              List<FreeSpaceEntry> fsList, List<RampStairsEntry> rStRoom, List<RampStairsFlightEntry> rStFlight,
                                              List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList,
-                                             List<WaterFountainEntry> waterList) {
+                                             List<WaterFountainEntry> waterList, List<EquipmentEntry> equipList) {
 
         int blockRoom = 0;
 
@@ -104,7 +106,7 @@ public class RoomAnalysis implements StandardMeasurements {
             RoomEntry room = roomList.get(i);
             if (room.getBlockID() == blockID)
                 roomIrr = checkRoomIrregularities(room, doorList, doorLockList, switchList, winList, tableList, bList, fsList, rStRoom,
-                        rStFlight, rStRail, rStHandrail, counterList, waterList);
+                        rStFlight, rStRail, rStHandrail, counterList, waterList, equipList);
 
             String rType = roomTyping(room.getRoomType());
 
@@ -120,7 +122,7 @@ public class RoomAnalysis implements StandardMeasurements {
                                                        List<SwitchEntry> switchList, List<WindowEntry> winList, List<TableEntry> tableList, List<BlackboardEntry> bList,
                                                        List<FreeSpaceEntry> fsList, List<RampStairsEntry> rStRoom, List<RampStairsFlightEntry> rStFlight,
                                                        List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList,
-                                                       List<WaterFountainEntry> waterList) {
+                                                       List<WaterFountainEntry> waterList, List<EquipmentEntry> equipList) {
         List<String> roomIrr = new ArrayList<>();
         if (room.getRoomHasVertSing() == 0) {
             check++;
@@ -223,27 +225,11 @@ public class RoomAnalysis implements StandardMeasurements {
             }
         }
 
-        if (room.getHasBellControl() != null && room.getHasBellControl() == 1) {
-            if (room.getBellControlHeight() < minDbHeight) {
+        if (equipList.size() > 0) {
+            List<String> equipError = EquipmentAnalysis.equipList(room.getRoomID(), equipList);
+            if (equipError.size() > 0) {
                 check++;
-                if (room.getBellControlObs() != null)
-                    roomIrr.add("a altura do comando do sinal sonoro é inferior à " + minDbHeight + " m, com as seguintes observações: "
-                            + room.getBellControlObs() + ";");
-                else
-                    roomIrr.add("a altura do comando do sinal sonoro é inferior à " + minDbHeight + " m;");
-            } else if (room.getBellControlHeight() > maxDbHeight) {
-                check++;
-                if (room.getBellControlObs() != null)
-                    roomIrr.add("a altura do comando do sinal sonoro é superior à " + minDbHeight + " m, com as seguintes observações: "
-                            + room.getBellControlObs() + ";");
-                else
-                    roomIrr.add("a altura do comando do sinal sonoro é é superior à " + minDbHeight + " m;");
-            } else {
-                if (room.getBellControlObs() != null) {
-                    check++;
-                    roomIrr.add("a altura do comando do sinal sonoro está de acordo com a norma, porém possui as seguintes observações: "
-                            + room.getBellControlObs() + ";");
-                }
+                roomIrr.addAll(equipError);
             }
         }
 

@@ -152,9 +152,9 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
     }
 
     private void loadAccessRestData(RestroomEntry rest) {
-        if (rest.getIsCollective() == 0) {
-            if (rest.getRestType() != null)
-                restTypeMulti.checkAt(rest.getRestType());
+        if (rest.getRestType() == 0) {
+            if (rest.getRestGender() != null)
+                restTypeMulti.checkAt(rest.getRestGender());
             if (rest.getRestLocation() != null)
                 restLocationValue.setText(rest.getRestLocation());
             if (rest.getAccessRoute() != null)

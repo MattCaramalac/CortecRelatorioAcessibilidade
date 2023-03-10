@@ -27,13 +27,7 @@ public class RestBoxEntry {
     private Double comBoxLeftShapeBarD;
     private Double comBoxLeftShapeBarDiam;
     private Double comBoxLeftShapeBarDist;
-    private String comBoxLeftHorObs;
-    private Double comBoxLeftVertBarA;
-    private Double comBoxLeftVertBarB;
-    private Double comBoxLeftVertBarC;
-    private Double comBoxLeftVertBarDiam;
-    private Double comBoxLeftVertBarDist;
-    private String comBoxLeftVertObs;
+    private String comBoxLeftBarObs;
     private Integer comBoxHasRightBar;
     private Double comBoxRightShapeBarA;
     private Double comBoxRightShapeBarB;
@@ -41,13 +35,7 @@ public class RestBoxEntry {
     private Double comBoxRightShapeBarD;
     private Double comBoxRightShapeBarDiam;
     private Double comBoxRightShapeBarDist;
-    private String comBoxRightHorObs;
-    private Double comBoxRightVertBarA;
-    private Double comBoxRightVertBarB;
-    private Double comBoxRightVertBarC;
-    private Double comBoxRightVertBarDiam;
-    private Double comBoxRightVertBarDist;
-    private String comBoxRightVertObs;
+    private String comBoxRightBarObs;
     private String comBoxObs;
 
     private Double upViewLength;
@@ -132,15 +120,6 @@ public class RestBoxEntry {
     private Integer waterValveType;
     private Double waterValveHeight;
     private String waterValveObs;
-    private Integer hasWindow;
-    private Integer winQnt;
-    private String winComType1;
-    private Double winComHeight1;
-    private String winComType2;
-    private Double winComHeight2;
-    private String winComType3;
-    private Double winComHeight3;
-    private String winObs;
     private Integer hasWallMirror;
     private Double wallMirrorLow;
     private Double wallMirrorHigh;
@@ -152,6 +131,7 @@ public class RestBoxEntry {
     private Double approxMeasureC;
     private Double approxMeasureD;
     private Double approxMeasureE;
+    private Integer hasSink;
     private Integer hasSinkBar;
     private Integer hasLeftFrontHorBar;
     private Double leftFrontHorMeasureA;
@@ -174,16 +154,13 @@ public class RestBoxEntry {
     private Double sinkMirrorLow;
     private Double sinkMirrorHigh;
     private String sinkObs;
-    private Integer hasSink;
 
     public RestBoxEntry(int restID, int typeBox, Double comBoxDoorWidth, Double comBoxFreeDiam, Integer comBoxHasBars, Double comBoxToiletDoorDist, Double comBoxWidth,
                         Integer comBoxHasLeftBar, Double comBoxLeftShapeBarA, Double comBoxLeftShapeBarB, Double comBoxLeftShapeBarC,
-                        Double comBoxLeftShapeBarD, Double comBoxLeftShapeBarDiam, Double comBoxLeftShapeBarDist, String comBoxLeftHorObs, Double comBoxLeftVertBarA,
-                        Double comBoxLeftVertBarB, Double comBoxLeftVertBarC, Double comBoxLeftVertBarDiam, Double comBoxLeftVertBarDist, String comBoxLeftVertObs,
+                        Double comBoxLeftShapeBarD, Double comBoxLeftShapeBarDiam, Double comBoxLeftShapeBarDist, String comBoxLeftBarObs,
                         Integer comBoxHasRightBar, Double comBoxRightShapeBarA, Double comBoxRightShapeBarB, Double comBoxRightShapeBarC, Double comBoxRightShapeBarD,
-                        Double comBoxRightShapeBarDiam, Double comBoxRightShapeBarDist, String comBoxRightHorObs, Double comBoxRightVertBarA, Double comBoxRightVertBarB,
-                        Double comBoxRightVertBarC, Double comBoxRightVertBarDiam, Double comBoxRightVertBarDist,
-                        String comBoxRightVertObs, String comBoxObs, Double upViewLength, Double upViewWidth, Double upViewMeasureA, Double upViewMeasureB, Double upViewMeasureC,
+                        Double comBoxRightShapeBarDiam, Double comBoxRightShapeBarDist, String comBoxRightBarObs, String comBoxObs, Double upViewLength, Double upViewWidth,
+                        Double upViewMeasureA, Double upViewMeasureB, Double upViewMeasureC,
                         Double upViewMeasureD, String upViewObs, Integer restDrain, String restDrainObs, Integer toType, Double toHeightNoSeat, Integer toHasSeat,
                         Double toHeightSeat, Integer toHasSoculo, Double frSoculo, Double latSoculo, Integer socCorners, Integer toHasFrontBar, Double frBarA, Double frBarB,
                         Double frBarC, Double frBarSect, Double frBarDist, Integer toHasWall, Integer hasHorBar, Double horBarD, Double horBarE, Double horBarF,
@@ -194,14 +171,13 @@ public class RestBoxEntry {
                         Double doucheActHeight, String doucheObs, String toiletObs, Integer hasHanger, Double hangerHeight, String hangerObs, Integer hasObjHold,
                         Integer objHoldCorrect, Double objHoldHeight, String objHoldObs, Integer hasSoapHold, Double soapHoldHeight, String soapHoldObs, Integer hasTowelHold,
                         Double towelHoldHeight, String towelHoldObs, Integer hasEmergencyButton, Double emergencyHeight, String emergencyObs, Integer hasWaterValve,
-                        Integer waterValveType, Double waterValveHeight, String waterValveObs, Integer hasWindow, Integer winQnt, String winComType1, Double winComHeight1,
-                        String winComType2, Double winComHeight2, String winComType3, Double winComHeight3, String winObs, Integer hasWallMirror, Double wallMirrorLow,
-                        Double wallMirrorHigh, String wallMirrorObs, Integer sinkType, Integer hasLowerColSink, Double approxMeasureA, Double approxMeasureB,
+                        Integer waterValveType, Double waterValveHeight, String waterValveObs, Integer hasWallMirror, Double wallMirrorLow,
+                        Double wallMirrorHigh, String wallMirrorObs, Integer hasSink, Integer sinkType, Integer hasLowerColSink, Double approxMeasureA, Double approxMeasureB,
                         Double approxMeasureC, Double approxMeasureD, Double approxMeasureE, Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA,
                         Double leftFrontHorMeasureB, Double leftFrontHorMeasureC, Double leftFrontHorMeasureD, Double leftFrontHorDiam, Double leftFrontHorDist,
                         String leftFrontHorObs, Integer hasRightSideVertBar, Double rightSideVertMeasureA, Double rightSideVertMeasureB, Double rightSideVertMeasureC,
                         Double rightSideVertMeasureD, Double rightSideVertMeasureE, Double rightSideVertDiam, Double rightSideVertDist, String rightSideVertObs,
-                        Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh, String sinkObs, Integer hasSink) {
+                        Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh, String sinkObs) {
         this.restID = restID;
         this.typeBox = typeBox;
         this.comBoxDoorWidth = comBoxDoorWidth;
@@ -216,13 +192,7 @@ public class RestBoxEntry {
         this.comBoxLeftShapeBarD = comBoxLeftShapeBarD;
         this.comBoxLeftShapeBarDiam = comBoxLeftShapeBarDiam;
         this.comBoxLeftShapeBarDist = comBoxLeftShapeBarDist;
-        this.comBoxLeftHorObs = comBoxLeftHorObs;
-        this.comBoxLeftVertBarA = comBoxLeftVertBarA;
-        this.comBoxLeftVertBarB = comBoxLeftVertBarB;
-        this.comBoxLeftVertBarC = comBoxLeftVertBarC;
-        this.comBoxLeftVertBarDiam = comBoxLeftVertBarDiam;
-        this.comBoxLeftVertBarDist = comBoxLeftVertBarDist;
-        this.comBoxLeftVertObs = comBoxLeftVertObs;
+        this.comBoxLeftBarObs = comBoxLeftBarObs;
         this.comBoxHasRightBar = comBoxHasRightBar;
         this.comBoxRightShapeBarA = comBoxRightShapeBarA;
         this.comBoxRightShapeBarB = comBoxRightShapeBarB;
@@ -230,13 +200,7 @@ public class RestBoxEntry {
         this.comBoxRightShapeBarD = comBoxRightShapeBarD;
         this.comBoxRightShapeBarDiam = comBoxRightShapeBarDiam;
         this.comBoxRightShapeBarDist = comBoxRightShapeBarDist;
-        this.comBoxRightHorObs = comBoxRightHorObs;
-        this.comBoxRightVertBarA = comBoxRightVertBarA;
-        this.comBoxRightVertBarB = comBoxRightVertBarB;
-        this.comBoxRightVertBarC = comBoxRightVertBarC;
-        this.comBoxRightVertBarDiam = comBoxRightVertBarDiam;
-        this.comBoxRightVertBarDist = comBoxRightVertBarDist;
-        this.comBoxRightVertObs = comBoxRightVertObs;
+        this.comBoxRightBarObs = comBoxRightBarObs;
         this.comBoxObs = comBoxObs;
         this.upViewLength = upViewLength;
         this.upViewWidth = upViewWidth;
@@ -320,15 +284,6 @@ public class RestBoxEntry {
         this.waterValveType = waterValveType;
         this.waterValveHeight = waterValveHeight;
         this.waterValveObs = waterValveObs;
-        this.hasWindow = hasWindow;
-        this.winQnt = winQnt;
-        this.winComType1 = winComType1;
-        this.winComHeight1 = winComHeight1;
-        this.winComType2 = winComType2;
-        this.winComHeight2 = winComHeight2;
-        this.winComType3 = winComType3;
-        this.winComHeight3 = winComHeight3;
-        this.winObs = winObs;
         this.hasWallMirror = hasWallMirror;
         this.wallMirrorLow = wallMirrorLow;
         this.wallMirrorHigh = wallMirrorHigh;
@@ -485,54 +440,6 @@ public class RestBoxEntry {
         this.comBoxLeftShapeBarDist = comBoxLeftShapeBarDist;
     }
 
-    public Double getComBoxLeftVertBarA() {
-        return comBoxLeftVertBarA;
-    }
-
-    public void setComBoxLeftVertBarA(Double comBoxLeftVertBarA) {
-        this.comBoxLeftVertBarA = comBoxLeftVertBarA;
-    }
-
-    public Double getComBoxLeftVertBarB() {
-        return comBoxLeftVertBarB;
-    }
-
-    public void setComBoxLeftVertBarB(Double comBoxLeftVertBarB) {
-        this.comBoxLeftVertBarB = comBoxLeftVertBarB;
-    }
-
-    public Double getComBoxLeftVertBarC() {
-        return comBoxLeftVertBarC;
-    }
-
-    public void setComBoxLeftVertBarC(Double comBoxLeftVertBarC) {
-        this.comBoxLeftVertBarC = comBoxLeftVertBarC;
-    }
-
-    public Double getComBoxLeftVertBarDiam() {
-        return comBoxLeftVertBarDiam;
-    }
-
-    public void setComBoxLeftVertBarDiam(Double comBoxLeftVertBarDiam) {
-        this.comBoxLeftVertBarDiam = comBoxLeftVertBarDiam;
-    }
-
-    public Double getComBoxLeftVertBarDist() {
-        return comBoxLeftVertBarDist;
-    }
-
-    public void setComBoxLeftVertBarDist(Double comBoxLeftVertBarDist) {
-        this.comBoxLeftVertBarDist = comBoxLeftVertBarDist;
-    }
-
-    public String getComBoxLeftVertObs() {
-        return comBoxLeftVertObs;
-    }
-
-    public void setComBoxLeftVertObs(String comBoxLeftVertObs) {
-        this.comBoxLeftVertObs = comBoxLeftVertObs;
-    }
-
     public Integer getComBoxHasRightBar() {
         return comBoxHasRightBar;
     }
@@ -587,54 +494,6 @@ public class RestBoxEntry {
 
     public void setComBoxRightShapeBarDist(Double comBoxRightShapeBarDist) {
         this.comBoxRightShapeBarDist = comBoxRightShapeBarDist;
-    }
-
-    public Double getComBoxRightVertBarA() {
-        return comBoxRightVertBarA;
-    }
-
-    public void setComBoxRightVertBarA(Double comBoxRightVertBarA) {
-        this.comBoxRightVertBarA = comBoxRightVertBarA;
-    }
-
-    public Double getComBoxRightVertBarB() {
-        return comBoxRightVertBarB;
-    }
-
-    public void setComBoxRightVertBarB(Double comBoxRightVertBarB) {
-        this.comBoxRightVertBarB = comBoxRightVertBarB;
-    }
-
-    public Double getComBoxRightVertBarC() {
-        return comBoxRightVertBarC;
-    }
-
-    public void setComBoxRightVertBarC(Double comBoxRightVertBarC) {
-        this.comBoxRightVertBarC = comBoxRightVertBarC;
-    }
-
-    public Double getComBoxRightVertBarDiam() {
-        return comBoxRightVertBarDiam;
-    }
-
-    public void setComBoxRightVertBarDiam(Double comBoxRightVertBarDiam) {
-        this.comBoxRightVertBarDiam = comBoxRightVertBarDiam;
-    }
-
-    public Double getComBoxRightVertBarDist() {
-        return comBoxRightVertBarDist;
-    }
-
-    public void setComBoxRightVertBarDist(Double comBoxRightVertBarDist) {
-        this.comBoxRightVertBarDist = comBoxRightVertBarDist;
-    }
-
-    public String getComBoxRightVertObs() {
-        return comBoxRightVertObs;
-    }
-
-    public void setComBoxRightVertObs(String comBoxRightVertObs) {
-        this.comBoxRightVertObs = comBoxRightVertObs;
     }
 
     public String getComBoxObs() {
@@ -1301,78 +1160,6 @@ public class RestBoxEntry {
         this.waterValveObs = waterValveObs;
     }
 
-    public Integer getHasWindow() {
-        return hasWindow;
-    }
-
-    public void setHasWindow(Integer hasWindow) {
-        this.hasWindow = hasWindow;
-    }
-
-    public Integer getWinQnt() {
-        return winQnt;
-    }
-
-    public void setWinQnt(Integer winQnt) {
-        this.winQnt = winQnt;
-    }
-
-    public String getWinComType1() {
-        return winComType1;
-    }
-
-    public void setWinComType1(String winComType1) {
-        this.winComType1 = winComType1;
-    }
-
-    public Double getWinComHeight1() {
-        return winComHeight1;
-    }
-
-    public void setWinComHeight1(Double winComHeight1) {
-        this.winComHeight1 = winComHeight1;
-    }
-
-    public String getWinComType2() {
-        return winComType2;
-    }
-
-    public void setWinComType2(String winComType2) {
-        this.winComType2 = winComType2;
-    }
-
-    public Double getWinComHeight2() {
-        return winComHeight2;
-    }
-
-    public void setWinComHeight2(Double winComHeight2) {
-        this.winComHeight2 = winComHeight2;
-    }
-
-    public String getWinComType3() {
-        return winComType3;
-    }
-
-    public void setWinComType3(String winComType3) {
-        this.winComType3 = winComType3;
-    }
-
-    public Double getWinComHeight3() {
-        return winComHeight3;
-    }
-
-    public void setWinComHeight3(Double winComHeight3) {
-        this.winComHeight3 = winComHeight3;
-    }
-
-    public String getWinObs() {
-        return winObs;
-    }
-
-    public void setWinObs(String winObs) {
-        this.winObs = winObs;
-    }
-
     public Integer getHasWallMirror() {
         return hasWallMirror;
     }
@@ -1637,20 +1424,20 @@ public class RestBoxEntry {
         this.sinkObs = sinkObs;
     }
 
-    public String getComBoxLeftHorObs() {
-        return comBoxLeftHorObs;
+    public String getComBoxLeftBarObs() {
+        return comBoxLeftBarObs;
     }
 
-    public void setComBoxLeftHorObs(String comBoxLeftHorObs) {
-        this.comBoxLeftHorObs = comBoxLeftHorObs;
+    public void setComBoxLeftBarObs(String comBoxLeftBarObs) {
+        this.comBoxLeftBarObs = comBoxLeftBarObs;
     }
 
-    public String getComBoxRightHorObs() {
-        return comBoxRightHorObs;
+    public String getComBoxRightBarObs() {
+        return comBoxRightBarObs;
     }
 
-    public void setComBoxRightHorObs(String comBoxRightHorObs) {
-        this.comBoxRightHorObs = comBoxRightHorObs;
+    public void setComBoxRightBarObs(String comBoxRightBarObs) {
+        this.comBoxRightBarObs = comBoxRightBarObs;
     }
 
     public Integer getHasSink() {

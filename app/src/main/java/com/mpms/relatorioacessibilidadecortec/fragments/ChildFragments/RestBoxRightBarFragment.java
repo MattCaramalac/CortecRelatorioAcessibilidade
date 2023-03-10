@@ -120,8 +120,8 @@ public class RestBoxRightBarFragment extends Fragment implements TagInterface, S
             rightObs = String.valueOf(obsValue.getText());
 
 
-        BoxBarParcel parcel = new BoxBarParcel(null, null, null, null, null, null, null,
-                rightA, rightB, rightC, rightD, rightDiam, rightDist, rightObs);
+        BoxBarParcel parcel = new BoxBarParcel(null, null, null, null, null,
+                null, null, rightA, rightB, rightC, rightD, rightDiam, rightDist, rightObs);
         bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
     }
 
@@ -139,8 +139,8 @@ public class RestBoxRightBarFragment extends Fragment implements TagInterface, S
             diamValue.setText(String.valueOf(entry.getComBoxRightShapeBarDiam()));
         if (entry.getComBoxRightShapeBarDist() != null)
             distValue.setText(String.valueOf(entry.getComBoxRightShapeBarDist()));
-        if (entry.getComBoxRightVertObs() != null)
-            obsValue.setText(String.valueOf(entry.getComBoxRightVertObs()));
+        if (entry.getComBoxRightBarObs() != null)
+            obsValue.setText(String.valueOf(entry.getComBoxRightBarObs()));
 
     }
 

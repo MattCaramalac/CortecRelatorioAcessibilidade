@@ -76,7 +76,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
         PlaygroundAnalysis.playVerification(jCreate.getPlayList());
         RoomAnalysis.roomVerification(jCreate.getBlockList(), jCreate.getRoomList(), jCreate.getDoorList(), jCreate.getDoorLockList(), jCreate.getSwitchList(),
                 jCreate.getWindowList(), jCreate.getTableList(), jCreate.getBoardList(), jCreate.getFreeList(), jCreate.getRoomStRaList(), jCreate.getRoomFlightList(),
-                jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList(), jCreate.getRoomWater());
+                jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList(), jCreate.getRoomWater(), jCreate.getEquipList());
         RestAnalysis.restVerification(jCreate.getBlockList(), jCreate.getRestList(), jCreate.getRestDoorList(), jCreate.getRestFrSpaceList(), jCreate.getBoxList(),
                 jCreate.getBoxDoorList());
         checkHelpAreaHeader();
@@ -162,7 +162,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
                     if (blockNum == j) {
                         RoomAnalysis.blockRoomVerification(blockID, jCreate.getRoomList(), jCreate.getDoorList(), jCreate.getDoorLockList(), jCreate.getSwitchList(),
                                 jCreate.getWindowList(), jCreate.getTableList(), jCreate.getBoardList(), jCreate.getFreeList(), jCreate.getRoomStRaList(), jCreate.getRoomFlightList(),
-                                jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList(), jCreate.getRoomWater());
+                                jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList(), jCreate.getRoomWater(), jCreate.getEquipList());
                         if (blockRoomList.size() == 0 && blockRoomIrregular.size() == 0)
                             blockRoomList.add("Este bloco não possui salas com irregularidades");
                         else

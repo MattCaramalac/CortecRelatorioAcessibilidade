@@ -227,4 +227,9 @@ public interface StandardMeasurements {
 //    Height
     double lowerReach = 0.40;
     double upperReach = 1.20;
+
+    double lowestHeight = 0.40;
+    double lowestAcceptHeight = 0.80;
+    double highestAcceptHeight = 1.20;
+    double highestHeight = 1.40;
 }

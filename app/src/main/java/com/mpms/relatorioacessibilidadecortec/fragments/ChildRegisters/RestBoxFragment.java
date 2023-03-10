@@ -129,11 +129,10 @@ public class RestBoxFragment extends Fragment implements TagInterface {
     private RestBoxEntry newBox(Bundle bundle) {
         int boxType;
         Integer comHasBar = null, comLeftBarType = null, comRightBarType = null, accBoxDrain = null;
-        Double comDoorWidth = null, comBoxDiam = null, comDoorDist = null, comBoxWidth = null, leftShapeA = null, leftShapeB = null, leftShapeC = null, leftShapeD = null, leftShapeDiam = null,
-                leftShapeDist = null, leftVertA = null, leftVertB = null, leftVertC = null, leftVertDiam = null, leftVertDist = null, rightShapeA = null, rightShapeB = null,
-                rightShapeC = null, rightShapeD = null, rightShapeDiam = null, rightShapeDist = null, rightVertA = null, rightVertB = null, rightVertC = null, rightVertDiam = null, rightVertDist = null,
-                upLength = null, upWidth = null, upA = null, upB = null, upC = null, upD = null;
-        String comBoxObs = null, leftBarObs = null, leftBarVertObs = null, rightBarObs = null, rightBarVertObs = null, upViewObs = null, accBoxDrainObs = null;
+        Double comDoorWidth = null, comBoxDiam = null, comDoorDist = null, comBoxWidth = null, leftShapeA = null, leftShapeB = null, leftShapeC = null, leftShapeD = null,
+                leftShapeDiam = null, leftShapeDist = null,  rightShapeA = null, rightShapeB = null, rightShapeC = null, rightShapeD = null, rightShapeDiam = null,
+                rightShapeDist = null, upLength = null, upWidth = null, upA = null, upB = null, upC = null, upD = null;
+        String comBoxObs = null, leftBarObs = null, rightBarObs = null, upViewObs = null, accBoxDrainObs = null;
 
         boxType = getCheckedBoxRadio(boxTypeRadio);
         if (boxType == 0) {
@@ -191,10 +190,9 @@ public class RestBoxFragment extends Fragment implements TagInterface {
                 accBoxDrainObs = parcel.getRestDrainObs();
         }
         return new RestBoxEntry(boxBundle.getInt(REST_ID), boxType, comDoorWidth, comBoxDiam, comHasBar, comDoorDist, comBoxWidth, comLeftBarType, leftShapeA,
-                leftShapeB, leftShapeC, leftShapeD, leftShapeDiam, leftShapeDist, leftBarObs, leftVertA, leftVertB, leftVertC, leftVertDiam, leftVertDist,
-                leftBarVertObs, comRightBarType, rightShapeA, rightShapeB, rightShapeC, rightShapeD, rightShapeDiam, rightShapeDist, rightBarObs,
-                rightVertA, rightVertB, rightVertC, rightVertDiam, rightVertDist, rightBarVertObs, comBoxObs,
-                upLength, upWidth, upA, upB, upC, upD, upViewObs, accBoxDrain, accBoxDrainObs, null, null, null, null,
+                leftShapeB, leftShapeC, leftShapeD, leftShapeDiam, leftShapeDist, leftBarObs, comRightBarType, rightShapeA, rightShapeB, rightShapeC, rightShapeD,
+                rightShapeDiam, rightShapeDist, rightBarObs, comBoxObs,upLength, upWidth, upA, upB, upC, upD, upViewObs, accBoxDrain, accBoxDrainObs,
+                null, null, null, null,
                 null, null, null, null, null, null, null, null, null, null,
                 null, null,null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null, null,
@@ -206,19 +204,16 @@ public class RestBoxFragment extends Fragment implements TagInterface {
                 null, null, null,null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null);
+                null, null, null, null, null);
     }
 
     private RestBoxFirstUpdate firstUpBox(Bundle bundle) {
         int boxType;
         Integer comHasBar = null, comLeftBarType = null, comRightBarType = null, accBoxDrain = null;
         Double comDoorWidth = null, comBoxDiam = null, comDoorDist = null, comBoxWidth = null, leftShapeA = null, leftShapeB = null, leftShapeC = null, leftShapeD = null,
-                leftShapeDiam = null,
-                leftShapeDist = null, leftVertA = null, leftVertB = null, leftVertC = null, leftVertDiam = null, leftVertDist = null, rightShapeA = null, rightShapeB = null,
-                rightShapeC = null, rightShapeD = null, rightShapeDiam = null, rightShapeDist = null, rightVertA = null, rightVertB = null, rightVertC = null,
-                rightVertDiam = null, rightVertDist = null, upLength = null, upWidth = null, upA = null, upB = null, upC = null, upD = null;
-        String comBoxObs = null, leftBarObs = null, leftBarVertObs = null, rightBarObs = null, rightBarVertObs = null, upViewObs = null, accBoxDrainObs = null;
+                leftShapeDiam = null, leftShapeDist = null, rightShapeA = null, rightShapeB = null, rightShapeC = null, rightShapeD = null, rightShapeDiam = null,
+                rightShapeDist = null,  upLength = null, upWidth = null, upA = null, upB = null, upC = null, upD = null;
+        String comBoxObs = null, leftBarObs = null, rightBarObs = null, upViewObs = null, accBoxDrainObs = null;
 
         boxType = getCheckedBoxRadio(boxTypeRadio);
         if (boxType == 0) {
@@ -277,9 +272,8 @@ public class RestBoxFragment extends Fragment implements TagInterface {
         }
 
         return new RestBoxFirstUpdate(boxBundle.getInt(BOX_ID), boxType, comDoorWidth, comBoxDiam, comHasBar, comDoorDist, comBoxWidth, comLeftBarType, leftShapeA,
-                leftShapeB, leftShapeC, leftShapeD, leftShapeDiam, leftShapeDist, leftBarObs, leftVertA, leftVertB, leftVertC, leftVertDiam, leftVertDist, leftBarVertObs,
-                comRightBarType, rightShapeA, rightShapeB, rightShapeC, rightShapeD, rightShapeDiam, rightShapeDist,  rightBarObs, rightVertA, rightVertB, rightVertC,
-                rightVertDiam, rightVertDist, rightBarVertObs, comBoxObs, upLength, upWidth, upA, upB, upC, upD, upViewObs, accBoxDrain, accBoxDrainObs);
+                leftShapeB, leftShapeC, leftShapeD, leftShapeDiam, leftShapeDist, leftBarObs, comRightBarType, rightShapeA, rightShapeB, rightShapeC, rightShapeD,
+                rightShapeDiam, rightShapeDist,  rightBarObs, comBoxObs, upLength, upWidth, upA, upB, upC, upD, upViewObs, accBoxDrain, accBoxDrainObs);
     }
 
     private int getCheckedBoxRadio(RadioGroup radio) {

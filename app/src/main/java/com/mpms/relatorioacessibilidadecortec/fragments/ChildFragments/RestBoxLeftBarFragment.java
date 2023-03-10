@@ -138,8 +138,8 @@ public class RestBoxLeftBarFragment extends Fragment implements TagInterface, Sc
             diamValue.setText(String.valueOf(entry.getComBoxLeftShapeBarDiam()));
         if (entry.getComBoxLeftShapeBarDist() != null)
             distValue.setText(String.valueOf(entry.getComBoxLeftShapeBarDist()));
-        if (entry.getComBoxLeftVertObs() != null)
-            obsValue.setText(String.valueOf(entry.getComBoxLeftVertObs()));
+        if (entry.getComBoxLeftBarObs() != null)
+            obsValue.setText(String.valueOf(entry.getComBoxLeftBarObs()));
     }
 
     private void imgExpandClick(View view) {

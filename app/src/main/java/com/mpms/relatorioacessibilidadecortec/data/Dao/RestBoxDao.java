@@ -28,11 +28,10 @@ public interface RestBoxDao {
     @Query("SELECT * FROM RestBoxEntry WHERE restID IN (:restID)")
     LiveData<List<RestBoxEntry>> getAllBoxesInRestroom(List<Integer> restID);
 
-    @Query("SELECT boxID, restID, typeBox, comBoxDoorWidth, comBoxFreeDiam, comBoxHasBars, comBoxToiletDoorDist, comBoxWidth, comBoxHasLeftBar, comBoxLeftShapeBarA, comBoxLeftShapeBarB," +
-            "comBoxLeftShapeBarC, comBoxLeftShapeBarD, comBoxLeftShapeBarDiam, comBoxLeftShapeBarDist,  comBoxLeftVertBarA, comBoxLeftVertBarB, " +
-            "comBoxLeftVertBarC,  comBoxLeftVertBarDiam, comBoxLeftVertBarDist, comBoxHasRightBar, comBoxRightShapeBarA, comBoxRightShapeBarB, comBoxRightShapeBarC, " +
-            "comBoxRightShapeBarD, comBoxRightShapeBarDiam, comBoxRightShapeBarDist, comBoxRightVertBarA, comBoxRightVertBarB, comBoxRightVertBarC,  comBoxRightVertBarDiam, " +
-            "comBoxRightVertBarDist, comBoxObs FROM RestBoxEntry WHERE boxID = :boxID")
+    @Query("SELECT boxID, restID, typeBox, comBoxDoorWidth, comBoxFreeDiam, comBoxHasBars, comBoxToiletDoorDist, comBoxWidth, comBoxHasLeftBar, comBoxLeftShapeBarA, " +
+            "comBoxLeftShapeBarB, comBoxLeftBarObs, comBoxLeftShapeBarC, comBoxLeftShapeBarD, comBoxLeftShapeBarDiam, comBoxLeftShapeBarDist, comBoxHasRightBar, " +
+            "comBoxRightShapeBarA, comBoxRightShapeBarB, comBoxRightShapeBarC, comBoxRightShapeBarD, comBoxRightShapeBarDiam, comBoxRightShapeBarDist, comBoxRightBarObs," +
+            "comBoxObs FROM RestBoxEntry WHERE boxID = :boxID")
     LiveData<RestBoxEntry> getCommonBoxData(int boxID);
 
     @Query("SELECT boxID, restID, typeBox, upViewLength, upViewWidth, upViewMeasureA, upViewMeasureB, upViewMeasureC, upViewMeasureD, upViewMeasureD, upViewObs, " +
@@ -50,9 +49,8 @@ public interface RestBoxDao {
             "soapHoldObs, hasTowelHold, towelHoldHeight, towelHoldObs FROM RestBoxEntry WHERE boxID = :boxID")
     LiveData<RestBoxEntry> getBoxAccessData(int boxID);
 
-    @Query("SELECT boxID, restID, typeBox, hasEmergencyButton, emergencyHeight, emergencyObs, hasWaterValve, waterValveType, waterValveHeight, waterValveObs, hasWindow, " +
-            "winQnt, winComType1, winComHeight1, winComType2,winComHeight2, winComType3, winComHeight3, hasWallMirror, wallMirrorLow, wallMirrorHigh, wallMirrorObs " +
-            "FROM RestBoxEntry WHERE boxID = :boxID")
+    @Query("SELECT boxID, restID, typeBox, hasEmergencyButton, emergencyHeight, emergencyObs, hasWaterValve, waterValveType, waterValveHeight, waterValveObs, hasWallMirror, " +
+            "wallMirrorLow, wallMirrorHigh, wallMirrorObs FROM RestBoxEntry WHERE boxID = :boxID")
     LiveData<RestBoxEntry> getBoxAccessDataTwo(int boxID);
 
     @Query("SELECT boxID, restID, typeBox, hasSink, sinkType, approxMeasureA, approxMeasureB, approxMeasureC, approxMeasureD, approxMeasureE, hasSinkBar, hasLeftFrontHorBar, " +

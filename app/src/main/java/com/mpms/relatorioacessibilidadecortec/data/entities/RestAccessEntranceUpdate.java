@@ -8,8 +8,8 @@ public class RestAccessEntranceUpdate {
 
     @PrimaryKey
     private int restroomID;
-    private int isCollective;
-    private Integer restType;
+    private int restType;
+    private Integer restGender;
     private String restLocation;
     private Integer accessRoute;
     private String accessRouteObs;
@@ -23,12 +23,12 @@ public class RestAccessEntranceUpdate {
     private Double switchHeight;
     private String switchObs;
 
-    public RestAccessEntranceUpdate(int restroomID, int isCollective, Integer restType, String restLocation, Integer accessRoute, String accessRouteObs, Integer intRestroom,
+    public RestAccessEntranceUpdate(int restroomID, int restType, Integer restGender, String restLocation, Integer accessRoute, String accessRouteObs, Integer intRestroom,
                                     String intRestObs, Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Integer restSwitch,
                                     Double switchHeight, String switchObs) {
         this.restroomID = restroomID;
-        this.isCollective = isCollective;
         this.restType = restType;
+        this.restGender = restGender;
         this.restLocation = restLocation;
         this.accessRoute = accessRoute;
         this.accessRouteObs = accessRouteObs;
@@ -51,20 +51,20 @@ public class RestAccessEntranceUpdate {
         this.restroomID = restroomID;
     }
 
-    public int getIsCollective() {
-        return isCollective;
-    }
-
-    public void setIsCollective(int isCollective) {
-        this.isCollective = isCollective;
-    }
-
-    public Integer getRestType() {
+    public int getRestType() {
         return restType;
     }
 
-    public void setRestType(Integer restType) {
+    public void setRestType(int restType) {
         this.restType = restType;
+    }
+
+    public Integer getRestGender() {
+        return restGender;
+    }
+
+    public void setRestGender(Integer restGender) {
+        this.restGender = restGender;
     }
 
     public String getRestLocation() {

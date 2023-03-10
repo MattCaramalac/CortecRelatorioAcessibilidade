@@ -181,7 +181,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
     }
 
     private void loadRestData(RestroomEntry entry) {
-        restTypeMultiRadio.checkAt(entry.getIsCollective());
+        restTypeMultiRadio.checkAt(entry.getRestType());
     }
 
     private void cancelClick() {
@@ -363,7 +363,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null, null);
     }
 
     private RestColFirstUpdate restColEntUpdate(Bundle bundle) {

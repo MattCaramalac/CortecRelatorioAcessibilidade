@@ -7,6 +7,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.EquipmentEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
@@ -90,6 +91,7 @@ public class JsonCreation {
     private final List<FreeSpaceEntry> restFrSpaceList;
     private final List<RestBoxEntry> boxList;
     private final List<DoorEntry> boxDoorList;
+    private final List<EquipmentEntry> equipList;
 
     public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blockList, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList,
                         List<PlaygroundEntry> playList, List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList,
@@ -102,7 +104,7 @@ public class JsonCreation {
                         List<RampStairsRailingEntry> parkRailList, List<RampStairsHandrailEntry> roomHandList, List<RampStairsHandrailEntry> sideHandList,
                         List<RampStairsHandrailEntry> extHandList, List<RampStairsHandrailEntry> parkHandList, int qntBlocks, boolean hasHelpSpace, int extPark, int intPark,
                         List<ParkingLotElderlyEntry> elderList, List<ParkingLotPCDEntry> pcdList, List<WaterFountainEntry> roomWater, List<DoorEntry> restDoorList,
-                        List<FreeSpaceEntry> restFrSpaceList, List<RestBoxEntry> boxList, List<DoorEntry> boxDoorList) {
+                        List<FreeSpaceEntry> restFrSpaceList, List<RestBoxEntry> boxList, List<DoorEntry> boxDoorList, List<EquipmentEntry> equipList) {
         this.school = school;
         this.blockList = blockList;
         this.roomList = roomList;
@@ -152,6 +154,7 @@ public class JsonCreation {
         this.restFrSpaceList = restFrSpaceList;
         this.boxList = boxList;
         this.boxDoorList = boxDoorList;
+        this.equipList = equipList;
     }
 
     public List<String> ambListCreator() {
@@ -161,7 +164,8 @@ public class JsonCreation {
             BlockSpaceEntry block = blockList.get(i);
             StringBuilder build = new StringBuilder();
             if (block.getBlockSpaceType() == 0) {
-                int bib = 0, coord = 0, dir = 0, ref = 0, classroom = 0, techRoom = 0, recRoom = 0, profRoom = 0, sec = 0, mBan = 0, fBan = 0, famBan = 0, infBan = 0, water = 0;
+                int bib = 0, coord = 0, dir = 0, ref = 0, classroom = 0, techRoom = 0, recRoom = 0, profRoom = 0, sec = 0, accessSan = 0, accColSan = 0,
+                        colSan = 0, infSan = 0, water = 0;
                 build.append("Bloco ").append(i + 1).append(", contendo: ");
                 for (int j = 0; j < roomList.size(); j++) {
                     RoomEntry entry = roomList.get(j);
@@ -203,14 +207,20 @@ public class JsonCreation {
                 for (int j = 0; j < restList.size(); j++) {
                     RestroomEntry rest = restList.get(j);
                     if (block.getBlockSpaceID() == rest.getBlockID()) {
-                        if (rest.getRestType() == 0)
-                            mBan++;
-                        else if (rest.getRestType() == 1)
-                            fBan++;
-                        else if (rest.getRestType() == 2)
-                            famBan++;
-                        else
-                            infBan++;
+                        switch (rest.getRestType()) {
+                            case 0:
+                                accessSan++;
+                                break;
+                            case 1:
+                                accColSan++;
+                                break;
+                            case 2:
+                                colSan++;
+                                break;
+                            case 3:
+                                infSan++;
+                                break;
+                        }
                     }
                 }
 
@@ -265,25 +275,25 @@ public class JsonCreation {
                 else if (sec > 1)
                     build.append(sec).append(" salas da Secretaria");
 
-                if (mBan == 1)
-                    build.append("1 (um) sanitario masculino, ");
-                else if (mBan > 1)
-                    build.append(mBan).append(" sanitários masculinos, ");
+                if (accessSan == 1)
+                    build.append("1 (um) sanitario accessível independente, ");
+                else if (accessSan > 1)
+                    build.append(accessSan).append(" sanitários accessíveis independentes, ");
 
-                if (fBan == 1)
-                    build.append("1 (um) sanitario feminino, ");
-                else if (fBan > 1)
-                    build.append(fBan).append(" sanitários femininos, ");
+                if (accColSan == 1)
+                    build.append("1 (um) sanitario coletivo acessível, ");
+                else if (accColSan > 1)
+                    build.append(accColSan).append(" sanitários coletivos acessíveis, ");
 
-                if (famBan == 1)
-                    build.append("1 (um) sanitario familiar, ");
-                else if (famBan > 1)
-                    build.append(famBan).append(" sanitários familiar, ");
+                if (colSan == 1)
+                    build.append("1 (um) sanitario coletivo não acessível, ");
+                else if (colSan > 1)
+                    build.append(colSan).append(" sanitários coletivos não acessíveis, ");
 
-                if (infBan == 1)
+                if (infSan == 1)
                     build.append("1 (um) sanitario infantil, ");
-                else if (infBan > 1)
-                    build.append(infBan).append(" sanitários infantis, ");
+                else if (infSan > 1)
+                    build.append(infSan).append(" sanitários infantis, ");
 
                 if (water == 1)
                     build.append("1 (um) bebedouro.");
@@ -292,7 +302,7 @@ public class JsonCreation {
 
                 ambientList.add(build.toString());
             } else if (block.getBlockSpaceType() == 2) {
-                int water = 0, park = 0, play = 0, mBan = 0, fBan = 0, famBan = 0, infBan = 0, other = 0;
+                int water = 0, park = 0, play = 0, accSan = 0, colAccSan = 0, colSan = 0, infSan = 0, other = 0;
                 build.append("Espaços de Apoio, sendo: ");
 
                 for (int j = 0; j < fountList.size(); j++) {
@@ -316,15 +326,22 @@ public class JsonCreation {
                 for (int j = 0; j < restList.size(); j++) {
                     RestroomEntry rest = restList.get(j);
                     if (block.getBlockSpaceID() == rest.getBlockID()) {
-                        if (rest.getRestType() == 0)
-                            mBan++;
-                        else if (rest.getRestType() == 1)
-                            fBan++;
-                        else if (rest.getRestType() == 2)
-                            famBan++;
-                        else
-                            infBan++;
+                        switch (rest.getRestType()) {
+                            case 0:
+                                accSan++;
+                                break;
+                            case 1:
+                                colAccSan++;
+                                break;
+                            case 2:
+                                colSan++;
+                                break;
+                            case 3:
+                                infSan++;
+                                break;
+                        }
                     }
+
                 }
 
                 for (int j = 0; j < roomList.size(); j++) {
@@ -349,25 +366,25 @@ public class JsonCreation {
                 else if (play > 1)
                     build.append(play).append(" playgrounds, ");
 
-                if (mBan == 1)
-                    build.append("1 (um) sanitario masculino, ");
-                else if (mBan > 1)
-                    build.append(mBan).append(" sanitários masculinos, ");
+                if (accSan == 1)
+                    build.append("1 (um) sanitario accessível independente, ");
+                else if (accSan > 1)
+                    build.append(accSan).append(" sanitários accessíveis independentes, ");
 
-                if (fBan == 1)
-                    build.append("1 (um) sanitario feminino, ");
-                else if (fBan > 1)
-                    build.append(fBan).append(" sanitários femininos, ");
+                if (colAccSan == 1)
+                    build.append("1 (um) sanitario coletivo acessível, ");
+                else if (colAccSan > 1)
+                    build.append(colAccSan).append(" sanitários coletivos acessíveis, ");
 
-                if (famBan == 1)
-                    build.append("1 (um) sanitario familiar, ");
-                else if (famBan > 1)
-                    build.append(famBan).append(" sanitários familiar, ");
+                if (colSan == 1)
+                    build.append("1 (um) sanitario coletivo não acessível, ");
+                else if (colSan > 1)
+                    build.append(colSan).append(" sanitários coletivos não acessíveis, ");
 
-                if (infBan == 1)
+                if (infSan == 1)
                     build.append("1 (um) sanitario infantil, ");
-                else if (infBan > 1)
-                    build.append(infBan).append(" sanitários infantis, ");
+                else if (infSan > 1)
+                    build.append(infSan).append(" sanitários infantis, ");
 
                 ambientList.add(build.toString());
             }
@@ -448,7 +465,7 @@ public class JsonCreation {
             schoolObj.put("blockQnt", blockText);
 
             if (school.getFinalDateInspection() == null || school.getFinalDateInspection().length() == 0
-            || school.getFinalDateInspection().equals(school.getInitialDateInspection()))
+                    || school.getFinalDateInspection().equals(school.getInitialDateInspection()))
                 schoolObj.put("visitDate", "Em " + school.getInitialDateInspection());
             else {
                 schoolObj.put("visitDate", "Entre os dias " + school.getInitialDateInspection() +
@@ -823,5 +840,9 @@ public class JsonCreation {
 
     public List<DoorEntry> getBoxDoorList() {
         return boxDoorList;
+    }
+
+    public List<EquipmentEntry> getEquipList() {
+        return equipList;
     }
 }

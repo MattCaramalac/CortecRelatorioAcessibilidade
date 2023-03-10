@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey;
 public class RestColFirstUpdate {
     @PrimaryKey
     private int restroomID;
-    private int isCollective;
-    private Integer restType;
+    private int restType;
+    private Integer restGender;
     private String restLocation;
     private Integer collectiveHasDoor;
     private Double entranceWidth;
@@ -37,14 +37,14 @@ public class RestColFirstUpdate {
     private Double winComHeight3;
     private String winObs;
 
-    public RestColFirstUpdate(int restroomID, int isCollective, Integer restType, String restLocation, Integer collectiveHasDoor, Double entranceWidth, Integer entranceDoorSill,
+    public RestColFirstUpdate(int restroomID, int restType, Integer restGender, String restLocation, Integer collectiveHasDoor, Double entranceWidth, Integer entranceDoorSill,
                               String entranceDoorSillObs, Integer accessRoute, String accessRouteObs, Integer intRestroom, String intRestObs,
                               Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Integer restSwitch, Double switchHeight,
                               String switchObs, Double upViewLength, Double upViewWidth, Integer hasWindow, Integer winQnt, String winComType1, Double winComHeight1,
                               String winComType2, Double winComHeight2, String winComType3, Double winComHeight3, String winObs) {
         this.restroomID = restroomID;
-        this.isCollective = isCollective;
         this.restType = restType;
+        this.restGender = restGender;
         this.restLocation = restLocation;
         this.collectiveHasDoor = collectiveHasDoor;
         this.entranceWidth = entranceWidth;
@@ -82,12 +82,12 @@ public class RestColFirstUpdate {
         this.restroomID = restroomID;
     }
 
-    public Integer getRestType() {
-        return restType;
+    public Integer getRestGender() {
+        return restGender;
     }
 
-    public void setRestType(Integer restType) {
-        this.restType = restType;
+    public void setRestGender(Integer restGender) {
+        this.restGender = restGender;
     }
 
     public String getRestLocation() {
@@ -194,12 +194,12 @@ public class RestColFirstUpdate {
         this.switchObs = switchObs;
     }
 
-    public int getIsCollective() {
-        return isCollective;
+    public int getRestType() {
+        return restType;
     }
 
-    public void setIsCollective(int isCollective) {
-        this.isCollective = isCollective;
+    public void setRestType(int restType) {
+        this.restType = restType;
     }
 
     public String getWinComType1() {

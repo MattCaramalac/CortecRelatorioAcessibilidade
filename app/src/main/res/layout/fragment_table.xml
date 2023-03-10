@@ -7,7 +7,7 @@
     tools:context=".fragments.ChildRegisters.TableFragment">
 
     <TextView
-        android:id="@+id/table_register_header"
+        android:id="@+id/equip_register_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/section_header_bigger"
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="@dimen/scroll_dimens_small"
-        app:layout_constraintTop_toBottomOf="@id/table_register_header"
+        app:layout_constraintTop_toBottomOf="@id/equip_register_header"
         android:layout_marginTop="@dimen/usual_padding">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -77,13 +77,30 @@
                 />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/table_desc_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_table_identification"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/table_type_error"
+                app:helperText="Este campo é opcional">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/table_desc_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/table_superior_border_height_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_superior_border_table_height"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/table_type_error">
+                app:layout_constraintTop_toBottomOf="@id/table_desc_field"
+                android:layout_marginTop="@dimen/usual_padding">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/table_superior_border_height_value"

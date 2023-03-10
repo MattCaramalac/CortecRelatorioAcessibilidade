@@ -261,41 +261,6 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         if (rest.getWaterValveObs() != null)
             valveObsValue.setText(rest.getWaterValveObs());
 
-        if (rest.getHasWindow() != null && rest.getHasWindow() > -1) {
-            hasWindowRadio.check(hasWindowRadio.getChildAt(rest.getHasWindow()).getId());
-            if (rest.getHasWindow() == 1) {
-                winQnt = rest.getWinQnt();
-                switch (winQnt) {
-                    case 3:
-                        winTypeField3.setVisibility(View.VISIBLE);
-                        if (rest.getWinComType3() != null)
-                            winTypeValue3.setText(rest.getWinComType3());
-                        winHeightField3.setVisibility(View.VISIBLE);
-                        if (rest.getWinComHeight3() != null)
-                            winHeightValue3.setText(String.valueOf(rest.getWinComHeight3()));
-                    case 2:
-                        delWindow.setVisibility(View.VISIBLE);
-                        winTypeField2.setVisibility(View.VISIBLE);
-                        if (rest.getWinComType2() != null)
-                            winTypeValue2.setText(rest.getWinComType2());
-                        winHeightField2.setVisibility(View.VISIBLE);
-                        if (rest.getWinComHeight2() != null)
-                            winHeightValue2.setText(String.valueOf(rest.getWinComHeight2()));
-                    case 1:
-                        addWindow.setVisibility(View.VISIBLE);
-                        winTypeField1.setVisibility(View.VISIBLE);
-                        if (rest.getWinComType1() != null)
-                            winTypeValue1.setText(rest.getWinComType1());
-                        winHeightField1.setVisibility(View.VISIBLE);
-                        if (rest.getWinComHeight1() != null)
-                            winHeightValue1.setText(String.valueOf(rest.getWinComHeight1()));
-                        break;
-                }
-            }
-        }
-        if (rest.getWinObs() != null)
-            winObsValue.setText(rest.getWinObs());
-
         if (rest.getHasWallMirror() != null) {
             mirrorRadio.check(mirrorRadio.getChildAt(rest.getHasWallMirror()).getId());
             if (rest.getHasWallMirror() == 1) {
@@ -601,30 +566,6 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         if (!TextUtils.isEmpty(valveObsValue.getText()))
             valveObs = String.valueOf(valveObsValue.getText());
 
-        hasWindow = getCheckedRadio(hasWindowRadio);
-        if (hasWindow == 1) {
-            switch (winQnt) {
-                case 3:
-                    if (!TextUtils.isEmpty(winHeightValue3.getText()))
-                        height3 = Double.parseDouble(String.valueOf(winHeightValue3.getText()));
-                    if (!TextUtils.isEmpty(winTypeValue3.getText()))
-                        type3 = String.valueOf(winTypeValue3.getText());
-                case 2:
-                    if (!TextUtils.isEmpty(winHeightValue2.getText()))
-                        height2 = Double.parseDouble(String.valueOf(winHeightValue2.getText()));
-                    if (!TextUtils.isEmpty(winTypeValue2.getText()))
-                        type2 = String.valueOf(winTypeValue2.getText());
-                case 1:
-                    if (!TextUtils.isEmpty(winHeightValue1.getText()))
-                        height1 = Double.parseDouble(String.valueOf(winHeightValue1.getText()));
-                    if (!TextUtils.isEmpty(winTypeValue1.getText()))
-                        type1 = String.valueOf(winTypeValue1.getText());
-                    break;
-            }
-        }
-        if (!TextUtils.isEmpty(winObsValue.getText()))
-            winObs = String.valueOf(winObsValue.getText());
-
         hasMirror = getCheckedRadio(mirrorRadio);
         if (hasMirror == 1) {
             if (!TextUtils.isEmpty(mirrorValueA.getText()))
@@ -635,8 +576,7 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         if (!TextUtils.isEmpty(mirrorObsValue.getText()))
             mirObs = String.valueOf(mirrorObsValue.getText());
 
-        return new RestBoxAccTwoUpdate(bundle.getInt(BOX_ID), hasEmer, emerHeight, emerObs, hasValve, valveType, valveHeight, valveObs, hasWindow, winQnt, type1, height1,
-                type2, height2, type3, height3, winObs, hasMirror, mirA, mirB, mirObs);
+        return new RestBoxAccTwoUpdate(bundle.getInt(BOX_ID), hasEmer, emerHeight, emerObs, hasValve, valveType, valveHeight, valveObs, hasMirror, mirA, mirB, mirObs);
     }
 
     private void imgExpandClick(View view) {

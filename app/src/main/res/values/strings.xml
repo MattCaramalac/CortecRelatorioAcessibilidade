@@ -774,5 +774,6 @@
     <string name="hint_equip_location">Localização do Equipamento</string>
     <string name="hint_equip_height">Altura do Equipamento (m)</string>
     <string name="header_fountain_register">Cadastro de Bebedouros e suas Informações</string>
+    <string name="hint_table_identification">Identificação da Mesa</string>
 
 </resources>
