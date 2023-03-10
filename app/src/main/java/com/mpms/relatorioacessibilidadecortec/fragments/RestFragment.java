@@ -234,8 +234,9 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             fragment = RestSinkColFragment.newInstance();
         else if (restTypeMultiRadio.getCheckedRadioButtonIndex() == 2)
             fragment = RestUrinalFragment.newInstance();
-        else
+        else {
             fragment = RestToiletFragment.newInstance();
+        }
         fragment.setArguments(bundle);
         requireActivity().getSupportFragmentManager().beginTransaction().
                 replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();

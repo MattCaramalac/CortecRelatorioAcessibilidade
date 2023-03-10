@@ -13,6 +13,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.EquipmentEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
@@ -93,6 +94,7 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<DoorLockEntry>> allDoorLocks;
     public LiveData<List<DoorLockEntry>> allDoorLocksGates;
     public LiveData<List<RestBoxEntry>> allBoxes;
+    public LiveData<List<EquipmentEntry>> allEquips;
     public final LiveData<List<SchoolEntry>> allEntries;
 
     public LiveData<ExternalAccess> oneAccess;
@@ -620,6 +622,35 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteAllCounterFromRoom(int counterID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllCounterFromRoom(counterID));
+    }
+
+    public static void insertEquip(EquipmentEntry equip) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertEquip(equip));
+    }
+
+    public LiveData<List<EquipmentEntry>> getEquipmentFromRoom(int roomID) {
+        allEquips = repository.getEquipmentFromRoom(roomID);
+        return allEquips;
+    }
+
+    public static LiveData<List<EquipmentEntry>> getAllEquipments(List<Integer> roomID) {
+        return repository.getAllEquipments(roomID);
+    }
+
+    public LiveData<EquipmentEntry> getSpecificEquipment(int equipID) {
+        return repository.getSpecificEquipment(equipID);
+    }
+
+    public static void updateEquipment (EquipmentEntry equip) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateEquipment(equip));
+    }
+
+    public static void deleteEquipment(int equipID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteEquipment(equipID));
+    }
+
+    public void deleteAllEquipsFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllEquipsFromRoom(roomID));
     }
 
     public static void insertRampStairs(RampStairsEntry ramp) {

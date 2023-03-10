@@ -28,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.Secretari
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.BlackboardListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.CounterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorListFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.EquipmentListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.FreeSpaceListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.SwitchListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.TableListFragment;
@@ -47,7 +48,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             phoneHeightField, phoneObsField, biometryHeightField, biometryObsField;
     TextInputEditText roomLocaleValue, roomDescValue, vertSignObsValue, looseCarpetObsValue, accessFloorObsValue, roomObsValue,
             phoneHeightValue, phoneObsValue, biometryHeightValue, biometryObsValue;
-    MaterialButton addDoor, addSwitch, addWindow, addTable, addFreeSpace, addBlackboard, addCounter, addRamp, addStairs, addFountain, cancelRegister, saveRegister;
+    MaterialButton addDoor, addSwitch, addWindow, addTable, addFreeSpace, addBlackboard, addCounter, addRamp, addStairs, addFountain, cancelRegister, saveRegister, addEquip;
     RadioGroup hasVertSingRadio, hasLooseCarpetRadio, hasAccessFloorRadio, phoneRadio, biometryRadio;
     FrameLayout childFrag;
 
@@ -198,6 +199,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         addRamp = view.findViewById(R.id.room_add_ramps_button);
         addStairs = view.findViewById(R.id.room_add_stairs_button);
         addFountain = view.findViewById(R.id.room_add_fountain_button);
+        addEquip = view.findViewById(R.id.room_add_equip_button);
         cancelRegister = view.findViewById(R.id.cancel_room);
         saveRegister = view.findViewById(R.id.save_room);
 //        RadioGroup
@@ -229,6 +231,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         addRamp.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
         addStairs.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
         addFountain.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
+        addEquip.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
         saveRegister.setOnClickListener(v -> buttonClickedListener(roomBundle, view));
         cancelRegister.setOnClickListener(v -> cancelClick());
         addObsFieldsToArray();
@@ -382,6 +385,9 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 break;
             case (R.id.room_add_fountain_button):
                 buttonPressed = 10;
+                break;
+            case (R.id.room_add_equip_button):
+                buttonPressed = 11;
                 break;
             default:
                 buttonPressed = 0;
@@ -537,6 +543,10 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 break;
             case 10:
                 fragment = WaterFountainListFragment.newInstance();
+                break;
+            case 11:
+                fragment = EquipmentListFragment.newInstance();
+                break;
         }
         if (fragment != null) {
             fragment.setArguments(bundle);

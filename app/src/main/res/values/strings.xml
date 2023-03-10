@@ -756,7 +756,7 @@
     <string name="hint_box_width">Largura do Box (m)</string>
     <string name="header_left_bar_register">Cadastro Barra Esquerda (Referencial: De frente para a bacia)</string>
     <string name="header_bar_type">Qual o tipo de barra de apoio utilizado?</string>
-    <string name="radio_L_bar">BARRA EM \'\'L\'\'</string>
+    <string name="radio_L_bar">BARRA EM \"L\"</string>
     <string name="radio_two_bars">DUAS BARRAS</string>
     <string name="radio_other_type_bar">OUTRO TIPO</string>
     <string name="radio_dont_have">NÃO POSSUI</string>
@@ -768,5 +768,11 @@
     <string name="header_register_rest_box">Cadastro de Box Sanitário</string>
     <string name="button_conclusion">CONCLUIR</string>
     <string name="placeholder_time">HH:MM</string>
+    <string name="header_equipment_register">Cadastro de Equipamentos</string>
+    <string name="header_equip_register">Cadastro de Equipamentos</string>
+    <string name="hint_equip_type">Tipo do Equipamento</string>
+    <string name="hint_equip_location">Localização do Equipamento</string>
+    <string name="hint_equip_height">Altura do Equipamento (m)</string>
+    <string name="header_fountain_register">Cadastro de Bebedouros e suas Informações</string>
 
 </resources>

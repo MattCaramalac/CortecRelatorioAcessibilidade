@@ -9,6 +9,7 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.BlockSpaceDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.CounterEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorLockDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.EquipEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ExternalAccessDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FlightRampStairsDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FreeSpaceEntryDao;
@@ -36,6 +37,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.EquipmentEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
@@ -114,6 +116,7 @@ public class ReportRepository {
     private final BlackboardEntryDao blackboardEntryDao;
     private final DoorLockDao doorLockDao;
     private final RestBoxDao restBoxDao;
+    private final EquipEntryDao equipEntryDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -144,6 +147,7 @@ public class ReportRepository {
         blackboardEntryDao = db.blackboardEntryDao();
         doorLockDao = db.doorLockDao();
         restBoxDao = db.restBoxDao();
+        equipEntryDao = db.equipEntryDao();
 
     }
 
@@ -687,6 +691,34 @@ public class ReportRepository {
 
     public void deleteAllCounterFromRoom(int counterID) {
         ReportDatabase.dbWriteExecutor.execute(() -> counterEntryDao.deleteAllCounterFromRoom(counterID));
+    }
+
+    public void insertEquip(EquipmentEntry equip) {
+        ReportDatabase.dbWriteExecutor.execute(() -> equipEntryDao.insertEquip(equip));
+    }
+
+    public LiveData<List<EquipmentEntry>> getEquipmentFromRoom(int roomID) {
+        return equipEntryDao.getEquipmentFromRoom(roomID);
+    }
+
+    public LiveData<List<EquipmentEntry>> getAllEquipments(List<Integer> roomID) {
+        return equipEntryDao.getAllEquipments(roomID);
+    }
+
+    public LiveData<EquipmentEntry> getSpecificEquipment(int equipID) {
+        return equipEntryDao.getSpecificEquipment(equipID);
+    }
+
+    public void updateEquipment (EquipmentEntry equip) {
+        ReportDatabase.dbWriteExecutor.execute(() -> equipEntryDao.updateEquipment(equip));
+    }
+
+    public void deleteEquipment(int equipID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> equipEntryDao.deleteEquipment(equipID));
+    }
+
+    public void deleteAllEquipsFromRoom(int roomID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> equipEntryDao.deleteAllEquipsFromRoom(roomID));
     }
 
     public void insertRampStairs(RampStairsEntry ramp) {

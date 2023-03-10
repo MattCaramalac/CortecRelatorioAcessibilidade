@@ -14,6 +14,7 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.BlockSpaceDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.CounterEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorLockDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.EquipEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ExternalAccessDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FlightRampStairsDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FreeSpaceEntryDao;
@@ -172,6 +173,9 @@ public abstract class ReportDatabase extends RoomDatabase {
                     });
                     dbWriteExecutor.execute(() -> {
                         RestBoxDao restBoxDao = INSTANCE.restBoxDao();
+                    });
+                    dbWriteExecutor.execute(() -> {
+                        EquipEntryDao equipEntryDao = INSTANCE.equipEntryDao();
                     });
 
                 }
@@ -1746,5 +1750,7 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract DoorLockDao doorLockDao();
 
     public abstract RestBoxDao restBoxDao();
+
+    public abstract EquipEntryDao equipEntryDao();
 
 }

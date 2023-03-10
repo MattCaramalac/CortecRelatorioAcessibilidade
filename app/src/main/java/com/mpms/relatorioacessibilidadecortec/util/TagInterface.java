@@ -99,6 +99,7 @@ public interface TagInterface {
     String REST_ID = "REST_ID";
     String FOUNTAIN_ID = "FOUNTAIN_ID";
     String PLAY_ID = "PLAY_ID";
+    String EQUIP_ID = "EQUIP_ID";
 
     //    Door Sill Data
     String HEIGHT_INCLINED_SILL = "HEIGHT_INCLINED_SILL";
