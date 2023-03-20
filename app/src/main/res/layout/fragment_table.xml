@@ -93,13 +93,59 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/table_size_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/table_desc_field"
+                android:textSize="@dimen/section_header"
+                android:text="@string/header_table_size"/>
+
+            <RadioGroup
+                android:id="@+id/table_size_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/table_size_header"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_child_size"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_adult_size"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"/>
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/table_size_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textSize="14sp"
+                android:textColor="@color/error_message"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/table_size_radio"
+                android:layout_marginBottom="@dimen/usual_padding"
+                />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/table_superior_border_height_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_superior_border_table_height"
-                app:layout_constraintTop_toBottomOf="@id/table_desc_field"
+                app:layout_constraintTop_toBottomOf="@id/table_size_error"
                 android:layout_marginTop="@dimen/usual_padding">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -154,7 +200,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/table_width_field"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="Largura Livre da Mesa (m)">
+                android:hint="@string/hint_free_width_table">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/table_fs_width_value"

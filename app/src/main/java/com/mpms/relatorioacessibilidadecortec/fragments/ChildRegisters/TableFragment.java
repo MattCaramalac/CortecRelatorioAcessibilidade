@@ -20,15 +20,16 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class TableFragment extends Fragment implements TagInterface, ScrollEditText {
+public class TableFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     TextInputLayout supHeightField, infHeightField, tableWidthField, frontalApproxField, obsField, freeWidthField, tableDescField;
     TextInputEditText supHeightValue, infHeightValue, tableWidthValue, frontalApproxValue, obsValue, freeWidthValue, tableDescValue;
-    TextView tableTypeHeader, tableTypeError;
-    RadioGroup tableTypeRadio;
+    TextView tableTypeHeader, tableTypeError, tableSizeError;
+    RadioGroup tableTypeRadio, tableSizeRadio;
     MaterialButton saveTable, cancelTable;
 
     Bundle tableBundle;
@@ -111,8 +112,10 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
 //        TextView
         tableTypeHeader = view.findViewById(R.id.table_type_header_text);
         tableTypeError = view.findViewById(R.id.table_type_error);
+        tableSizeError = view.findViewById(R.id.table_size_error);
 //        RadioGroup
         tableTypeRadio = view.findViewById(R.id.table_type_radio);
+        tableSizeRadio = view.findViewById(R.id.table_size_radio);
 //        MaterialButton
         saveTable = view.findViewById(R.id.save_table);
         cancelTable = view.findViewById(R.id.cancel_table);
@@ -132,9 +135,10 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
 
     private void loadTableData(TableEntry tableEntry, Bundle bundle) {
         if (bundle.getInt(ROOM_TYPE) == 6)
-            tableTypeRadio.check(tableTypeRadio.getChildAt(tableEntry.getTableType()).getId());
+            checkRadioGroup(tableTypeRadio, tableEntry.getTableType());
         if (tableEntry.getTableDesc() != null)
             tableDescValue.setText(tableEntry.getTableDesc());
+        checkRadioGroup(tableSizeRadio, tableEntry.getTableSize());
         supHeightValue.setText(String.valueOf(tableEntry.getSuperiorBorderHeight()));
         infHeightValue.setText(String.valueOf(tableEntry.getInferiorBorderHeight()));
         tableWidthValue.setText(String.valueOf(tableEntry.getTableWidth()));
@@ -144,16 +148,16 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
             obsValue.setText(tableEntry.getTableObs());
     }
 
-    private int getRadioCheckedButton(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
     private boolean tableNoEmptyFields(Bundle bundle) {
         clearTableEmptyFieldsErrors();
         int i = 0;
-        if (bundle.getInt(ROOM_TYPE) == 6 && getRadioCheckedButton(tableTypeRadio) == -1) {
+        if (bundle.getInt(ROOM_TYPE) == 6 && indexCheckRadio(tableTypeRadio) == -1) {
             i++;
             tableTypeError.setVisibility(View.VISIBLE);
+        }
+        if (indexCheckRadio(tableSizeRadio) == -1) {
+            i++;
+            tableSizeError.setVisibility(View.VISIBLE);
         }
         if (TextUtils.isEmpty(supHeightValue.getText())) {
             i++;
@@ -181,6 +185,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
 
     private void clearTableEmptyFieldsErrors() {
         tableTypeError.setVisibility(View.GONE);
+        tableSizeError.setVisibility(View.GONE);
         supHeightField.setErrorEnabled(false);
         infHeightField.setErrorEnabled(false);
         tableWidthField.setErrorEnabled(false);
@@ -190,12 +195,14 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
 
     private TableEntry newTableEntry(Bundle bundle) {
         Integer tableType = null;
+        int tableSize;
         double supHeight, infHeight, tableWidth, frontAprox, freeWidth;
         String tableObs = null, tableDesc = null;
 
         if (bundle.getInt(ROOM_TYPE) == 6) {
-            tableType = getRadioCheckedButton(tableTypeRadio);
+            tableType = indexCheckRadio(tableTypeRadio);
         }
+        tableSize = indexCheckRadio(tableSizeRadio);
         if (!TextUtils.isEmpty(tableDescValue.getText()))
             tableDesc = String.valueOf(tableDescValue.getText());
         supHeight = Double.parseDouble(String.valueOf(supHeightValue.getText()));
@@ -207,16 +214,21 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
             tableObs = String.valueOf(obsValue.getText());
 
         return new TableEntry(bundle.getInt(AMBIENT_ID), bundle.getInt(ROOM_TYPE), tableType, supHeight, infHeight,
-                tableWidth, frontAprox, tableObs, freeWidth, tableDesc);
+                tableWidth, frontAprox, tableObs, freeWidth, tableDesc, tableSize);
     }
 
     private void clearTableFields() {
         tableTypeRadio.clearCheck();
+        tableSizeRadio.clearCheck();
         supHeightValue.setText(null);
         infHeightValue.setText(null);
         tableWidthValue.setText(null);
         frontalApproxValue.setText(null);
         freeWidthValue.setText(null);
         obsValue.setText(null);
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
     }
 }
