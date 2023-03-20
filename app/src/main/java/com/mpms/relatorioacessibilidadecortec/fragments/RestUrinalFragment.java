@@ -331,7 +331,7 @@ public class RestUrinalFragment extends Fragment implements TagInterface, Scroll
             if (getCheckRadio(accessRadio) == -1) {
                 i++;
                 accessError.setVisibility(View.VISIBLE);
-            } else if (getCheckRadio(hasUrinal) == 1) {
+            } else if (getCheckRadio(accessRadio) == 1) {
                 if (getCheckRadio(urinalType) == -1) {
                     i++;
                     typeError.setVisibility(View.VISIBLE);
