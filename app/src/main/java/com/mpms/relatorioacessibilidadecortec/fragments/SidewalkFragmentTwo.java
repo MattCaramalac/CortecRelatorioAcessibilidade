@@ -34,7 +34,7 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface, Scrol
     TextInputEditText accessFloorObsValue, sidewalkObsValue, aerialObsDescValue, sidewalkLidDescValue, sideConsObsValue;
     RadioGroup accessibleFloorRadio, sideHasSlopeRadio, hasAerialObsRadio, hasLidRadio, payphoneRadio, sideConsRadio, sideReqSlopeRadio;
     TextView accessFloorError, sideHasSlopeError, aerialError, lidError, payphoneError, payphoneHeader, sideConsError, sideReqSlopeHeader, sideReqSlopeError;
-    MaterialButton addSlope, addPayphone, addRamp, addStairs, returnSideOne, saveSidewalk;
+    MaterialButton addSlope, addPayphone, returnSideOne, saveSidewalk;
 
     ArrayList<TextInputEditText> sidewalk2ObsArray = new ArrayList<>();
 
@@ -162,8 +162,6 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface, Scrol
 //        ButtonListener
         addSlope.setOnClickListener(this::childFragButtonListener);
         addPayphone.setOnClickListener(this::childFragButtonListener);
-        addRamp.setOnClickListener(this::childFragButtonListener);
-        addStairs.setOnClickListener(this::childFragButtonListener);
 
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 
@@ -176,11 +174,8 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface, Scrol
         sidewalk2Data.putBoolean(FROM_SIDEWALK, true);
         if (view == addSlope) {
             openSidewalkSlopeFragment();
-        } else if (view == addPayphone) {
+        } else
             openPayPhoneListFragment();
-        } else {
-            openRampStairsListFragment(view);
-        }
     }
 
     private void loadSidewalk2Data(SidewalkEntry sidewalk) {
@@ -340,19 +335,6 @@ public class SidewalkFragmentTwo extends Fragment implements TagInterface, Scrol
         requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.show_fragment_selected, slopeFragment).addToBackStack(null).commit();
 
-    }
-
-    private void openRampStairsListFragment(View view) {
-        Fragment fragment = RampStairsListFragment.newInstance();
-        if (view == addRamp) {
-            sidewalk2Data.putInt(RAMP_OR_STAIRS, 2);
-        } else {
-            sidewalk2Data.putInt(RAMP_OR_STAIRS, 1);
-        }
-        sidewalk2Data.putInt(RampStairsListFragment.AMBIENT_TYPE, 2);
-        fragment.setArguments(sidewalk2Data);
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.show_fragment_selected, fragment).addToBackStack(OTHER_OBJ_LIST).commit();
     }
 
     private void openPayPhoneListFragment() {
