@@ -97,7 +97,10 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
         closeFountainList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().popBackStackImmediate();
+            if (fountainBundle.getBoolean(FROM_ROOMS))
+                requireActivity().getSupportFragmentManager().popBackStackImmediate();
+            else
+                requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, fountainBundle);
         });
     }
 

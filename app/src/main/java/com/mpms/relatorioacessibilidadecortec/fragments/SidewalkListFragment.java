@@ -107,7 +107,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
         closeSidewalkList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, sideListBundle);
         });
     }
 

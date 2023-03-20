@@ -111,7 +111,7 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
         closeRampStairsList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().popBackStackImmediate();
+            requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, rStListBundle);
         });
     }
 

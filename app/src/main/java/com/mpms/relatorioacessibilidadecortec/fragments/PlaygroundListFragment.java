@@ -104,7 +104,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
         closePlayList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, playBundle);
         });
 
     }

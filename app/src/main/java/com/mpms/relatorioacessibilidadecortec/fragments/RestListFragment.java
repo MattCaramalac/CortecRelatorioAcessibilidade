@@ -101,7 +101,7 @@ public class RestListFragment extends Fragment implements OnEntryClickListener, 
         closeRestroomList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, restListBundle);
         });
 
         addRestroom.setOnClickListener(v -> OpenRestFragment());

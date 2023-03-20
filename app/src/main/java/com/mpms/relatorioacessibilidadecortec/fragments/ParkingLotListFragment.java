@@ -94,7 +94,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
             if (parkListBundle.getBoolean(FROM_SIDEWALK))
                 requireActivity().getSupportFragmentManager().popBackStackImmediate();
             else
-                requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, parkListBundle);
         });
     }
 

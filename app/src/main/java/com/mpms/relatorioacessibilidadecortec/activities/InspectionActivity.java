@@ -136,6 +136,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
             }
         });
 
+        getSupportFragmentManager().setFragmentResultListener(CLOSE_ACTIVITY, this, (key, bundle) -> finish());
+
         fillCreatedDocxFile = registerForActivityResult(new CreateDocumentDaex(), result -> {
 
             Future<?> future = service.submit(() -> {

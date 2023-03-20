@@ -103,7 +103,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
         closeExtAccess.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, extListBundle);
         });
 
         addExtAccess.setOnClickListener(v -> openExtAccessFrag());

@@ -110,7 +110,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         closeRoomList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, roomListBundle);
         });
     }
 
