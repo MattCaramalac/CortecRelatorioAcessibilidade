@@ -531,12 +531,12 @@
     <string name="hint_biometry_obs">Observações do relógio de ponto</string>
     <string name="header_adm_equip_register">Cadastro Equip. Administrativo</string>
     <string name="hint_playground_location">Localização ou Referência</string>
-    <string name="header_accessible_play_floor">O piso do playground pode ser considerado acessível?</string>
+    <string name="header_accessible_play_floor">O piso do parquinho pode ser considerado acessível?</string>
     <string name="hint_playground_floor_obs">Observações sobre o piso</string>
-    <string name="header_accessible_play_equip">Os brinquedos do playground podem ser considerados acessíveis?</string>
+    <string name="header_accessible_play_equip">Os brinquedos do parquinho podem ser considerados acessíveis?</string>
     <string name="hint_play_equip_obs">Observações sobre os brinquedos</string>
-    <string name="hint_playground_obs">Outras observações sobre o playground</string>
-    <string name="header_playground_register">Cadastro de Playgrounds</string>
+    <string name="hint_playground_obs">Outras observações sobre o parquinho</string>
+    <string name="header_playground_register">Cadastro de Parquinhos</string>
     <string name="header_has_left_wing_inclination">Rebaixamento possui aba esquerda?</string>
     <string name="header_has_right_wing_inclination">Rebaixamento possui aba direita?</string>
     <string name="header_accessible_slope_floor">O piso do rebaixamento é acessível?</string>
@@ -665,7 +665,7 @@
     <string name="hint_email">Endereço de e-mail analista responsável</string>
     <string name="label_has_sidewalk_header">A via possui calçada?</string>
     <string name="hint_photo_field">Fotos do Ambiente</string>
-    <string name="hint_play_has_gate">O playground possui portão de acesso?</string>
+    <string name="hint_play_has_gate">O parquinho possui portão de acesso?</string>
     <string name="hint_restroom_type">Qual é o tipo de sanitário a ser cadastrado?</string>
     <string name="rest_has_entrance_door_header">O sanitário possui porta de entrada?</string>
     <string name="anti_drift_floor_header">O sanitário possui piso antiderrapante?</string>
@@ -775,5 +775,8 @@
     <string name="hint_equip_height">Altura do Equipamento (m)</string>
     <string name="header_fountain_register">Cadastro de Bebedouros e suas Informações</string>
     <string name="hint_table_identification">Identificação da Mesa</string>
+    <string name="header_lib_has_long_corridor">Há algum corredor entre as estantes de livros com, pelo menos, 15 metros de comprimento?</string>
+    <string name="header_lib_has_pcs">A biblioteca possui computadores atuando como terminais de consulta e/ou acesso à Internet?</string>
+    <string name="header_is_work_room">Este ambiente é de acesso restrito ao público?</string>
 
 </resources>

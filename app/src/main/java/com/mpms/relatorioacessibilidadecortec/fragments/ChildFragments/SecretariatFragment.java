@@ -17,19 +17,21 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.SecParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class SecretariatFragment extends Fragment implements TagInterface, ScrollEditText {
+import org.parceler.Parcels;
+
+public class SecretariatFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     TextInputLayout pcrSpaceWidthField, pcrSpaceDepthField, pcrSpaceObsField;
     TextInputEditText pcrSpaceWidthValue, pcrSpaceDepthValue, pcrSpaceObsValue;
     RadioGroup hasFixedSeatsRadio, hasPCRSpaceRadio;
     TextView fixedSeatsError, PCRSpaceHeader, PCRSpaceError;
 
-    ViewModelFragments modelFragments;
     ViewModelEntry modelEntry;
 
     public SecretariatFragment() {
@@ -93,67 +95,37 @@ public class SecretariatFragment extends Fragment implements TagInterface, Scrol
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Listeners
-        hasFixedSeatsRadio.setOnCheckedChangeListener(this::secretariatRadioListener);
-        hasPCRSpaceRadio.setOnCheckedChangeListener(this::secretariatRadioListener);
+        hasFixedSeatsRadio.setOnCheckedChangeListener(this::radioListener);
+        hasPCRSpaceRadio.setOnCheckedChangeListener(this::radioListener);
         allowObsScroll(pcrSpaceObsValue);
     }
 
-    public void secretariatRadioListener(RadioGroup radio, int checkedID) {
-        int index = radio.indexOfChild(radio.findViewById(checkedID));
-        if (radio == hasFixedSeatsRadio) {
-            if (index == 1) {
-                PCRSpaceHeader.setVisibility(View.VISIBLE);
-                hasPCRSpaceRadio.setVisibility(View.VISIBLE);
-                pcrSpaceObsField.setVisibility(View.VISIBLE);
-            } else {
-                hasPCRSpaceRadio.clearCheck();
-                pcrSpaceWidthValue.setText(null);
-                pcrSpaceDepthValue.setText(null);
-                pcrSpaceObsValue.setText(null);
-                PCRSpaceHeader.setVisibility(View.GONE);
-                hasPCRSpaceRadio.setVisibility(View.GONE);
-                pcrSpaceWidthField.setVisibility(View.GONE);
-                pcrSpaceDepthField.setVisibility(View.GONE);
-                pcrSpaceObsField.setVisibility(View.GONE);
-            }
-        } else if (radio == hasPCRSpaceRadio) {
-            if (index == 1) {
-                pcrSpaceWidthField.setVisibility(View.VISIBLE);
-                pcrSpaceDepthField.setVisibility(View.VISIBLE);
-            } else {
-                pcrSpaceWidthValue.setText(null);
-                pcrSpaceDepthValue.setText(null);
-                pcrSpaceWidthField.setVisibility(View.GONE);
-                pcrSpaceDepthField.setVisibility(View.GONE);
-            }
-        }
-    }
-
-    public int getCheckedRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
     public void gatherSecData(Bundle bundle) {
-        bundle.putInt(HAS_FIXED_SEATS, getCheckedRadio(hasFixedSeatsRadio));
-        if (getCheckedRadio(hasFixedSeatsRadio) == 1) {
-            bundle.putInt(HAS_PCR_SPACE, getCheckedRadio(hasPCRSpaceRadio));
-            if (getCheckedRadio(hasFixedSeatsRadio) == 1) {
-                if (!TextUtils.isEmpty(pcrSpaceWidthValue.getText()))
-                bundle.putDouble(PCR_WIDTH, Double.parseDouble(String.valueOf(pcrSpaceWidthValue.getText())));
-                if (!TextUtils.isEmpty(pcrSpaceDepthValue.getText()))
-                    bundle.putDouble(PCR_DEPTH, Double.parseDouble(String.valueOf(pcrSpaceDepthValue.getText())));
-                if (!TextUtils.isEmpty(pcrSpaceObsValue.getText()))
-                    bundle.putString(PCR_OBS, String.valueOf(pcrSpaceObsValue.getText()));
+        int hasFixedSeats;
+        Integer hasPCR = null;
+        Double pcrWidth = null, pcrDepth = null;
+        String pcrObs = null;
+
+        hasFixedSeats = indexCheckRadio(hasFixedSeatsRadio);
+        if (hasFixedSeats == 1) {
+            hasPCR = indexCheckRadio(hasPCRSpaceRadio);
+            if (hasPCR == 1) {
+                pcrWidth = Double.parseDouble(String.valueOf(pcrSpaceWidthValue.getText()));
+                pcrDepth = Double.parseDouble(String.valueOf(pcrSpaceDepthValue.getText()));
+                pcrObs = String.valueOf(pcrSpaceObsValue.getText());
             }
         }
+
+        SecParcel parcel = new SecParcel(hasFixedSeats, hasPCR, pcrWidth, pcrDepth, pcrObs);
+        bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
     }
 
     public void loadSecretariatData(RoomEntry room) {
         if (room.getSecHasFixedSeats() != null && room.getSecHasFixedSeats() > -1) {
-            hasFixedSeatsRadio.check(hasFixedSeatsRadio.getChildAt(room.getSecHasFixedSeats()).getId());
+            checkRadioGroup(hasFixedSeatsRadio, room.getSecHasFixedSeats());
             if (room.getSecHasFixedSeats() == 1) {
                 if (room.getSecHasPcrSpace() != null && room.getSecHasPcrSpace() > -1) {
-                    hasPCRSpaceRadio.check(hasPCRSpaceRadio.getChildAt(room.getSecHasPcrSpace()).getId());
+                   checkRadioGroup(hasPCRSpaceRadio, room.getSecHasPcrSpace());
                     if (room.getSecHasPcrSpace() == 1) {
                         if (room.getSecPcrSpaceWidth() != null)
                             pcrSpaceWidthValue.setText(String.valueOf(room.getSecPcrSpaceWidth()));
@@ -171,14 +143,14 @@ public class SecretariatFragment extends Fragment implements TagInterface, Scrol
     public boolean checkEmptySecretariatFields() {
         clearSecretariatErrors();
         int error = 0;
-        if (getCheckedRadio(hasFixedSeatsRadio) == -1) {
+        if (indexCheckRadio(hasFixedSeatsRadio) == -1) {
             error++;
             fixedSeatsError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(hasFixedSeatsRadio) == 1) {
-            if (getCheckedRadio(hasPCRSpaceRadio) == -1) {
+        } else if (indexCheckRadio(hasFixedSeatsRadio) == 1) {
+            if (indexCheckRadio(hasPCRSpaceRadio) == -1) {
                 error++;
                 PCRSpaceError.setVisibility(View.VISIBLE);
-            } else if (getCheckedRadio(hasPCRSpaceRadio) == 1) {
+            } else if (indexCheckRadio(hasPCRSpaceRadio) == 1) {
                 if (TextUtils.isEmpty(pcrSpaceWidthValue.getText())){
                     error++;
                     pcrSpaceWidthField.setError(getText(R.string.req_field_error));
@@ -210,5 +182,37 @@ public class SecretariatFragment extends Fragment implements TagInterface, Scrol
         pcrSpaceWidthField.setVisibility(View.GONE);
         pcrSpaceDepthField.setVisibility(View.GONE);
         pcrSpaceObsField.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int index = indexCheckRadio(radio);
+        if (radio == hasFixedSeatsRadio) {
+            if (index == 1) {
+                PCRSpaceHeader.setVisibility(View.VISIBLE);
+                hasPCRSpaceRadio.setVisibility(View.VISIBLE);
+                pcrSpaceObsField.setVisibility(View.VISIBLE);
+            } else {
+                hasPCRSpaceRadio.clearCheck();
+                pcrSpaceWidthValue.setText(null);
+                pcrSpaceDepthValue.setText(null);
+                pcrSpaceObsValue.setText(null);
+                PCRSpaceHeader.setVisibility(View.GONE);
+                hasPCRSpaceRadio.setVisibility(View.GONE);
+                pcrSpaceWidthField.setVisibility(View.GONE);
+                pcrSpaceDepthField.setVisibility(View.GONE);
+                pcrSpaceObsField.setVisibility(View.GONE);
+            }
+        } else {
+            if (index == 1) {
+                pcrSpaceWidthField.setVisibility(View.VISIBLE);
+                pcrSpaceDepthField.setVisibility(View.VISIBLE);
+            } else {
+                pcrSpaceWidthValue.setText(null);
+                pcrSpaceDepthValue.setText(null);
+                pcrSpaceWidthField.setVisibility(View.GONE);
+                pcrSpaceDepthField.setVisibility(View.GONE);
+            }
+        }
     }
 }

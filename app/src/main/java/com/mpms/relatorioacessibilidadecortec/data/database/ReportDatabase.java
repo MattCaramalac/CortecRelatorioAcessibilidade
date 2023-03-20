@@ -76,7 +76,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class}, version = 68)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class}, version = 69)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1406,7 +1406,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                     "floorGap1 REAL, floorGap2 REAL, floorGap3 REAL, floorGap4 REAL, gateSillType INTEGER, inclHeight REAL, inclMeasureQnt INTEGER, " +
                     "inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL, inclAngle4 REAL, stepHeight REAL, slopeMeasureQnt INTEGER, slopeAngle1 REAL," +
                     "slopeAngle2 REAL, slopeAngle3 REAL, slopeAngle4 REAL, slopeWidth REAL, slopeHeight REAL, sillObs TEXT, " +
-                    "accessibleFloor INTEGER, accessFloorObs TEXT, accessibleEquip INTEGER, accessEquipObs TEXT, playgroundObs TEXT, playPhotoNumber TEXT,"+
+                    "accessibleFloor INTEGER, accessFloorObs TEXT, accessibleEquip INTEGER, accessEquipObs TEXT, playgroundObs TEXT, playPhotoNumber TEXT," +
                     "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
             database.execSQL("INSERT INTO PlaygroundEntry2 (playLocation, blockID, playGateWidth, gateHasFloorTrack, floorTrackHeight, floorTrackHasRamp, " +
                     "rampMeasureQnt, rampMeasure1, rampMeasure2, rampMeasure3, rampMeasure4, hasFloorGap, floorGapQnt, floorGap1, floorGap2, floorGap3, floorGap4, " +
@@ -1490,7 +1490,6 @@ public abstract class ReportDatabase extends RoomDatabase {
                     "sinkHasMirror, siMirrorLow, siMirrorHigh, sinkObs FROM RestroomEntry");
             database.execSQL("DROP TABLE RestroomEntry");
             database.execSQL("ALTER TABLE RestEntry RENAME TO RestroomEntry");
-
 
 
             database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN inclQnt INTEGER");
@@ -1768,6 +1767,31 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_68_69 = new Migration(68, 69) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+
+            database.execSQL("CREATE TABLE Room2(roomID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, roomType INTEGER NOT NULL, " +
+                    "roomLocation TEXT, roomDescription TEXT, isWorkRoom INTEGER, roomHasVertSing INTEGER, roomVertSignObs TEXT, roomHasLooseCarpet INTEGER, looseCarpetObs TEXT," +
+                    "roomAccessFloor INTEGER, accessFloorObs TEXT, libDistShelvesOK INTEGER, libHasLongCorridors INTEGER, libHasManeuverArea INTEGER, " +
+                    "libHasPC INTEGER, libHasAccessPC INTEGER, secHasFixedSeats INTEGER, secHasPcrSpace INTEGER, secPcrSpaceWidth REAL, secPcrSpaceDepth REAL, " +
+                    "secPCRSpaceObs TEXT, hasIntercom INTEGER, intercomHeight REAL, intercomObs TEXT, hasBioClock INTEGER, bioClockHeight REAL, bioClockObs TEXT, " +
+                    "roomPhoto TEXT, roomObs TEXT, FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Room2 (roomID, blockID, roomType, roomLocation, roomDescription, roomHasVertSing, roomVertSignObs, roomHasLooseCarpet, looseCarpetObs," +
+                    "roomAccessFloor, accessFloorObs, libDistShelvesOK, libHasManeuverArea, libHasAccessPC, secHasFixedSeats, secHasPcrSpace, secPcrSpaceWidth, " +
+                    "secPcrSpaceDepth, secPCRSpaceObs, hasIntercom, intercomHeight, intercomObs, hasBioClock, bioClockheight, bioClockObs, roomObs)" +
+                    "SELECT roomID, blockID, roomType, roomLocation, roomDescription, roomHasVertSing, roomVertSignObs, roomHasLooseCarpet, looseCarpetObs, roomAccessFloor, " +
+                    "accessFloorObs, libDistShelvesOK, libPcrManeuversOK, libAccessPcOK, secHasFixedSeats, secHasPcrSpace, secPcrSpaceWidth,secPcrSpaceDepth, secPCRSpaceObs, " +
+                    "hasInternalPhone, internalPhoneHeight, internalPhoneObs, hasBiometricClock, biometricClockHeight, biometricClockObs, roomObs FROM RoomEntry");
+            database.execSQL("DROP TABLE RoomEntry");
+            database.execSQL("ALTER TABLE Room2 RENAME TO RoomEntry");
+            database.execSQL("UPDATE RoomEntry SET isWorkRoom = 0 WHERE roomType = 12");
+
+            database.execSQL("ALTER TABLE TableEntry ADD COLUMN tableSize INTEGER");
+            database.execSQL("UPDATE TableEntry SET tableSize = 1");
+
+        }
+    };
 
 
     public static ReportDatabase getDatabase(final Context context) {
@@ -1786,7 +1810,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
                                     MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58, MIGRATION_58_59, MIGRATION_59_60,
                                     MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66,
-                                    MIGRATION_66_67, MIGRATION_67_68).build();
+                                    MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69).build();
                 }
             }
         }

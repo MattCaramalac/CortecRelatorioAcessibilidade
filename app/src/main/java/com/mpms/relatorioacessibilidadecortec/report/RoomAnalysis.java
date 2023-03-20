@@ -233,48 +233,48 @@ public class RoomAnalysis implements StandardMeasurements {
             }
         }
 
-        if (room.getHasInternalPhone() != null && room.getHasInternalPhone() == 1) {
-            if (room.getInternalPhoneHeight() < minIntTelHeight) {
+        if (room.getHasIntercom() != null && room.getHasIntercom() == 1) {
+            if (room.getIntercomHeight() < minIntTelHeight) {
                 check++;
-                if (room.getInternalPhoneObs() != null)
+                if (room.getIntercomObs() != null)
                     roomIrr.add("a altura do interfone é inferior à " + minIntTelHeight + " m, com as seguintes observações: "
-                            + room.getInternalPhoneObs() + ";");
+                            + room.getIntercomObs() + ";");
                 else
                     roomIrr.add("a altura do interfone é inferior à " + minIntTelHeight + " m;");
-            } else if (room.getInternalPhoneHeight() > maxIntTelHeight) {
+            } else if (room.getIntercomHeight() > maxIntTelHeight) {
                 check++;
-                if (room.getInternalPhoneObs() != null)
+                if (room.getIntercomObs() != null)
                     roomIrr.add("a altura do interfone é superior à " + maxIntTelHeight + " m, com as seguintes observações: "
-                            + room.getInternalPhoneObs() + ";");
+                            + room.getIntercomObs() + ";");
                 else
                     roomIrr.add("a altura do interfone é superior à " + minIntTelHeight + " m;");
             } else {
-                if (room.getInternalPhoneObs() != null) {
+                if (room.getIntercomObs() != null) {
                     roomIrr.add("a altura do interfone está de acordo com a norma, porém possui as seguintes observações: "
-                            + room.getInternalPhoneObs() + ";");
+                            + room.getIntercomObs() + ";");
                 }
             }
         }
 
-        if (room.getHasBiometricClock() != null && room.getHasBiometricClock() == 1) {
-            if (room.getBiometricClockHeight() < minPrecisionCom) {
+        if (room.getHasBioClock() != null && room.getHasBioClock() == 1) {
+            if (room.getBioClockHeight() < minPrecisionCom) {
                 check++;
-                if (room.getBiometricClockObs() != null)
+                if (room.getBioClockObs() != null)
                     roomIrr.add("a altura do ponto biométrico é inferior à " + minPrecisionCom + " m, com as seguintes observações: "
-                            + room.getBiometricClockObs() + ";");
+                            + room.getBioClockObs() + ";");
                 else
                     roomIrr.add("a altura do ponto biométrico é inferior à " + minPrecisionCom + " m;");
-            } else if (room.getBiometricClockHeight() > maxPrecisionCom) {
+            } else if (room.getBioClockHeight() > maxPrecisionCom) {
                 check++;
-                if (room.getBiometricClockObs() != null)
+                if (room.getBioClockObs() != null)
                     roomIrr.add("a altura do ponto biométrico é superior à " + maxPrecisionCom + " m, com as seguintes observações: "
-                            + room.getBiometricClockObs() + ";");
+                            + room.getBioClockObs() + ";");
                 else
                     roomIrr.add("a altura do ponto biométrico é superior à " + maxPrecisionCom + " m;");
             } else {
-                if (room.getBiometricClockObs() != null)
+                if (room.getBioClockObs() != null)
                     roomIrr.add("a altura do ponto biométrico está de acordo com a norma, porém possui as seguintes observações: "
-                            + room.getBiometricClockObs() + ";");
+                            + room.getBioClockObs() + ";");
             }
         }
         return roomIrr;

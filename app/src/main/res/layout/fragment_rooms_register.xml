@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/section_header_bigger"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/room_scroll"
@@ -20,8 +19,8 @@
         android:layout_height="0dp"
         android:layout_below="@id/room_register_header"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintTop_toBottomOf="@id/room_register_header"
-        app:layout_constraintHeight_percent="0.85">
+        app:layout_constraintHeight_percent="0.85"
+        app:layout_constraintTop_toBottomOf="@id/room_register_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -50,10 +49,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_space_description"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_location_field"
-                android:visibility="gone">
+                app:layout_constraintTop_toBottomOf="@id/room_location_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/room_description_value"
@@ -70,510 +69,41 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/label_room_has_visual_sign"
+                android:id="@+id/work_room_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="@string/label_room_has_visual_signal"
+                android:text="@string/header_is_work_room"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_description_field" />
-
-            <RadioGroup
-                android:id="@+id/room_has_visual_sign_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_room_has_visual_sign">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes" />
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/visual_sign_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/empty_fields"
-                android:textColor="@color/error_message"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_has_visual_sign_radio" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/visual_sign_obs_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_sign_observations"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/visual_sign_error"
-                android:visibility="gone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/visual_sign_obs_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="start"
-                    android:inputType="textMultiLine"
-                    android:lines="@integer/multiline_obs_field"
-                    android:overScrollMode="always"
-                    android:scrollbarStyle="outsideInset"
-                    android:scrollbars="vertical"
-                    android:scrollHorizontally="false" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/label_room_has_carpet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:text="@string/label_has_carpet_header"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/visual_sign_obs_field" />
-
-            <RadioGroup
-                android:id="@+id/room_has_carpet_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_room_has_carpet">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes" />
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/carpet_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/empty_fields"
-                android:textColor="@color/error_message"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_has_carpet_radio" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/carpet_obs_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_carpet_obs"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/carpet_error"
-                android:visibility="gone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/carpet_obs_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="start"
-                    android:inputType="textMultiLine"
-                    android:lines="@integer/multiline_obs_field"
-                    android:overScrollMode="always"
-                    android:scrollbarStyle="outsideInset"
-                    android:scrollbars="vertical"
-                    android:scrollHorizontally="false" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/label_room_accessible_floor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/label_accessible_floor_header"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/carpet_obs_field" />
-
-            <RadioGroup
-                android:id="@+id/room_accessible_floor_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_room_accessible_floor">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes" />
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/room_accessible_floor_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/empty_fields"
-                android:textColor="@color/error_message"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_accessible_floor_radio" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/room_access_floor_obs_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/hint_accessible_floor_obs"
-                app:helperText="@string/helper_not_accessible_floor"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_accessible_floor_error"
-                android:visibility="gone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/room_access_floor_obs_value"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="start"
-                    android:inputType="textMultiLine"
-                    android:lines="5"
-                    android:overScrollMode="always"
-                    android:scrollbarStyle="outsideInset"
-                    android:scrollbars="vertical"
-                    android:scrollHorizontally="false" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/label_door_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/label_door_register"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_access_floor_obs_field" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/room_add_door_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_door_register" />
-
-            <TextView
-                android:id="@+id/label_switch_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/label_switch_register"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_add_door_button" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/room_add_switch_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_switch_register" />
-
-            <TextView
-                android:id="@+id/label_window_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/label_window_register"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_add_switch_button" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/room_add_window_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_window_register" />
-
-            <TextView
-                android:id="@+id/label_table_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/label_table_register"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_add_window_button" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/room_add_tables_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_table_register" />
-
-            <TextView
-                android:id="@+id/label_blackboard_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/label_blackboard_register"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_add_tables_button"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/room_add_blackboard_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_blackboard_register"/>
-
-            <TextView
-                android:id="@+id/label_free_spaces"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/label_free_spaces"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_add_blackboard_button" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/room_add_free_space_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_free_spaces" />
-
-            <TextView
-                android:id="@+id/label_room_stairs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/header_stairs_register"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_add_free_space_button" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/room_add_stairs_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_room_stairs" />
-
-            <TextView
-                android:id="@+id/label_room_ramps"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/header_ramp_register"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_add_stairs_button" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/room_add_ramps_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_room_ramps" />
-
-            <TextView
-                android:id="@+id/label_room_fountain"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/header_fountain_register"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_add_ramps_button" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/room_add_fountain_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_room_fountain" />
-
-            <TextView
-                android:id="@+id/label_room_accessory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/header_equip_register"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_add_fountain_button" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/room_add_equip_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_room_accessory" />
-
-            <FrameLayout
-                android:id="@+id/room_child_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                app:layout_constraintTop_toBottomOf="@id/room_add_equip_button" />
-
-            <TextView
-                android:id="@+id/label_counter_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/top_margins"
-                android:text="@string/label_counter_register"
-                android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/room_child_fragment"
+                app:layout_constraintTop_toBottomOf="@id/room_description_field"
                 android:visibility="gone"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/room_add_counter_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/purple_200"
-                android:layout_marginBottom="@dimen/usual_padding"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label_counter_register"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/locale_has_intercom_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/room_add_counter_button"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:textSize="18sp"
-                android:visibility="gone"
-                android:text="@string/header_has_internal_phone"/>
-
             <RadioGroup
-                android:id="@+id/locale_has_intercom_radio"
+                android:id="@+id/work_room_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_header"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                app:layout_constraintTop_toBottomOf="@id/work_room_header"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no"
-                    android:textSize="@dimen/radio_button_text" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"
-                    android:textSize="@dimen/radio_button_text" />
+                    android:text="@string/radio_button_yes" />
 
             </RadioGroup>
 
             <TextView
-                android:id="@+id/locale_has_intercom_error"
+                android:id="@+id/work_room_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/empty_fields"
@@ -581,142 +111,664 @@
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_radio" />
+                app:layout_constraintTop_toBottomOf="@id/work_room_radio" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/intercom_height_field"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/room_const_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/hint_int_phone_height"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_error"
-                android:visibility="gone">
+                app:layout_constraintTop_toBottomOf="@id/work_room_error"
+                android:layout_marginTop="@dimen/usual_padding">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/intercom_height_value"
+                <TextView
+                    android:id="@+id/label_room_has_visual_sign"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                    android:layout_marginTop="@dimen/usual_padding"
+                    android:text="@string/label_room_has_visual_signal"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/locale_has_intercom_obs_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/hint_int_phone_obs"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/intercom_height_field"
-                android:visibility="gone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/locale_has_intercom_obs_value"
+                <RadioGroup
+                    android:id="@+id/room_has_visual_sign_radio"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="start"
-                    android:inputType="textMultiLine"
-                    android:lines="@integer/multiline_obs_field"
-                    android:overScrollMode="always"
-                    android:scrollbarStyle="outsideInset"
-                    android:scrollbars="vertical"
-                    android:scrollHorizontally="false" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_room_has_visual_sign">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_button_no" />
 
-            <TextView
-                android:id="@+id/locale_has_biometry_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_obs_field"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:textSize="18sp"
-                android:visibility="gone"
-                android:text="@string/header_biometry"/>
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_button_yes" />
 
-            <RadioGroup
-                android:id="@+id/locale_has_biometry_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/locale_has_biometry_header"
-                app:layout_constraintStart_toStartOf="parent"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                </RadioGroup>
 
-                <RadioButton
+                <TextView
+                    android:id="@+id/visual_sign_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_fields"
+                    android:textColor="@color/error_message"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_has_visual_sign_radio" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/visual_sign_obs_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_sign_observations"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/visual_sign_error">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/visual_sign_obs_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:inputType="textMultiLine"
+                        android:lines="@integer/multiline_obs_field"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/label_room_has_carpet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/usual_padding"
+                    android:text="@string/label_has_carpet_header"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/visual_sign_obs_field" />
+
+                <RadioGroup
+                    android:id="@+id/room_has_carpet_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_room_has_carpet">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_button_no" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_button_yes" />
+
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/carpet_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_fields"
+                    android:textColor="@color/error_message"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_has_carpet_radio" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/carpet_obs_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_carpet_obs"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/carpet_error">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/carpet_obs_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:inputType="textMultiLine"
+                        android:lines="@integer/multiline_obs_field"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/label_room_accessible_floor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/label_accessible_floor_header"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/carpet_obs_field" />
+
+                <RadioGroup
+                    android:id="@+id/room_accessible_floor_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_room_accessible_floor">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_button_no" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_button_yes" />
+
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/room_accessible_floor_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_fields"
+                    android:textColor="@color/error_message"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_accessible_floor_radio" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/room_access_floor_obs_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/usual_padding"
+                    android:hint="@string/hint_accessible_floor_obs"
+                    android:visibility="gone"
+                    app:helperText="@string/helper_not_accessible_floor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_accessible_floor_error">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/room_access_floor_obs_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:inputType="textMultiLine"
+                        android:lines="5"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/label_door_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/label_door_register"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_access_floor_obs_field" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_door_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no"
-                    android:textSize="@dimen/radio_button_text" />
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_door_register" />
 
-                <RadioButton
+                <TextView
+                    android:id="@+id/label_switch_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/label_switch_register"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_door_button" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_switch_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"
-                    android:textSize="@dimen/radio_button_text" />
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_switch_register" />
 
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/locale_has_biometry_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/empty_fields"
-                android:textColor="@color/error_message"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/locale_has_biometry_radio" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/biometry_height_field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/hint_biometry_height"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/locale_has_biometry_error"
-                android:visibility="gone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/biometry_height_value"
+                <TextView
+                    android:id="@+id/label_window_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/label_window_register"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_switch_button" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_window_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_window_register" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/locale_has_biometry_obs_field"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:hint="@string/hint_biometry_obs"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/biometry_height_field"
-                android:visibility="gone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/locale_has_biometry_obs_value"
+                <TextView
+                    android:id="@+id/label_table_register"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="start"
-                    android:inputType="textMultiLine"
-                    android:lines="@integer/multiline_obs_field"
-                    android:overScrollMode="always"
-                    android:scrollbarStyle="outsideInset"
-                    android:scrollbars="vertical"
-                    android:scrollHorizontally="false" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/label_table_register"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_window_button" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_tables_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_table_register" />
+
+                <TextView
+                    android:id="@+id/label_blackboard_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/label_blackboard_register"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_tables_button" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_blackboard_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_blackboard_register" />
+
+                <TextView
+                    android:id="@+id/label_free_spaces"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/label_free_spaces"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_blackboard_button" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_free_space_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_free_spaces" />
+
+                <TextView
+                    android:id="@+id/label_room_stairs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/header_stairs_register"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_free_space_button" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_stairs_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_room_stairs" />
+
+                <TextView
+                    android:id="@+id/label_room_ramps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/header_ramp_register"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_stairs_button" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_ramps_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_room_ramps" />
+
+                <TextView
+                    android:id="@+id/label_room_fountain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/header_fountain_register"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_ramps_button" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_fountain_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_room_fountain" />
+
+                <TextView
+                    android:id="@+id/label_room_accessory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/header_equip_register"
+                    android:textSize="@dimen/section_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_fountain_button" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_equip_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_room_accessory" />
+
+                <FrameLayout
+                    android:id="@+id/room_child_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_equip_button" />
+
+                <TextView
+                    android:id="@+id/label_counter_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/label_counter_register"
+                    android:textSize="@dimen/section_header"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_child_fragment" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_counter_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/usual_padding"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    app:cornerRadius="3dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label_counter_register" />
+
+                <TextView
+                    android:id="@+id/locale_has_intercom_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/usual_padding"
+                    android:text="@string/header_has_internal_phone"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_counter_button" />
+
+                <RadioGroup
+                    android:id="@+id/locale_has_intercom_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_header">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_button_no"
+                        android:textSize="@dimen/radio_button_text" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_button_yes"
+                        android:textSize="@dimen/radio_button_text" />
+
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/locale_has_intercom_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_fields"
+                    android:textColor="@color/error_message"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_radio" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/intercom_height_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/usual_padding"
+                    android:hint="@string/hint_int_phone_height"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_error">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/intercom_height_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/locale_has_intercom_obs_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/usual_padding"
+                    android:hint="@string/hint_int_phone_obs"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/intercom_height_field">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/locale_has_intercom_obs_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:inputType="textMultiLine"
+                        android:lines="@integer/multiline_obs_field"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/locale_has_biometry_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/usual_padding"
+                    android:text="@string/header_biometry"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/locale_has_intercom_obs_field" />
+
+                <RadioGroup
+                    android:id="@+id/locale_has_biometry_radio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/locale_has_biometry_header">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_button_no"
+                        android:textSize="@dimen/radio_button_text" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="@integer/weight_one"
+                        android:text="@string/radio_button_yes"
+                        android:textSize="@dimen/radio_button_text" />
+
+                </RadioGroup>
+
+                <TextView
+                    android:id="@+id/locale_has_biometry_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/empty_fields"
+                    android:textColor="@color/error_message"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/locale_has_biometry_radio" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/biometry_height_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/usual_padding"
+                    android:hint="@string/hint_biometry_height"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/locale_has_biometry_error">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/biometry_height_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/locale_has_biometry_obs_field"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/usual_padding"
+                    android:hint="@string/hint_biometry_obs"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/biometry_height_field">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/locale_has_biometry_obs_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:inputType="textMultiLine"
+                        android:lines="@integer/multiline_obs_field"
+                        android:overScrollMode="always"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/room_obs_field"
@@ -725,8 +777,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margins"
                 android:hint="@string/hint_obs"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/locale_has_biometry_obs_field">
+                app:layout_constraintTop_toBottomOf="@id/room_const_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/room_obs_value"
@@ -739,6 +790,22 @@
                     android:scrollbarStyle="outsideInset"
                     android:scrollbars="vertical"
                     android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/room_photo_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_photo_field"
+                app:layout_constraintTop_toBottomOf="@id/room_obs_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/room_photo_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

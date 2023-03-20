@@ -13,13 +13,17 @@ import androidx.fragment.app.Fragment;
 
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.LibParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class LibraryFragment extends Fragment implements TagInterface {
+import org.parceler.Parcels;
 
-    RadioGroup distShelvesRadio, pcrManeuverRadio, accessPcRadio;
-    TextView distShelvesError, pcrError, accessPcError;
+public class LibraryFragment extends Fragment implements TagInterface, RadioGroupInterface {
+
+    RadioGroup distShelvesRadio, libCorridorRadio, pcrManeuverRadio, hasComputerRadio, accessPcRadio;
+    TextView distShelvesError, libCorridorError, pcrManeuverHeader, pcrError, hasPCError, accessPcHeader, accessPcError;
 
     ViewModelEntry modelEntry;
 
@@ -72,37 +76,68 @@ public class LibraryFragment extends Fragment implements TagInterface {
         distShelvesRadio = view.findViewById(R.id.distance_shelves_radio);
         pcrManeuverRadio = view.findViewById(R.id.PCR_maneuver_radio);
         accessPcRadio = view.findViewById(R.id.computer_accessibility_radio);
+        libCorridorRadio = view.findViewById(R.id.header_lib_corridor_length);
+        hasComputerRadio = view.findViewById(R.id.header_lib_has_computers);
+
 //        TextView
         distShelvesError = view.findViewById(R.id.distance_shelves_error);
         pcrError = view.findViewById(R.id.PCR_maneuver_error);
         accessPcError = view.findViewById(R.id.computer_accessibility_error);
+        pcrManeuverHeader = view.findViewById(R.id.header_PCR_maneuver);
+        accessPcHeader = view.findViewById(R.id.label_computer_accessibility);
+        libCorridorError = view.findViewById(R.id.lib_corridor_length_error);
+        hasPCError = view.findViewById(R.id.lib_has_computers_error);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+//        Listener
+        libCorridorRadio.setOnCheckedChangeListener(this::radioListener);
+        hasComputerRadio.setOnCheckedChangeListener(this::radioListener);
+
     }
 
     private void loadLibraryData(RoomEntry room) {
         if (room.getLibDistShelvesOK() != null && room.getLibDistShelvesOK() > -1)
-            distShelvesRadio.check(distShelvesRadio.getChildAt(room.getLibDistShelvesOK()).getId());
-        if (room.getLibPcrManeuversOK() != null && room.getLibPcrManeuversOK() > -1)
-            pcrManeuverRadio.check(pcrManeuverRadio.getChildAt(room.getLibPcrManeuversOK()).getId());
-        if (room.getLibAccessPcOK() != null && room.getLibAccessPcOK() > -1)
-            accessPcRadio.check(accessPcRadio.getChildAt(room.getLibAccessPcOK()).getId());
+            checkRadioGroup(distShelvesRadio, room.getLibDistShelvesOK());
+        if (room.getLibHasLongCorridors() != null && room.getLibHasLongCorridors() > -1) {
+            checkRadioGroup(libCorridorRadio, room.getLibHasLongCorridors());
+            if (room.getLibHasLongCorridors() == 1) {
+                if (room.getLibHasManeuverArea() != null && room.getLibHasManeuverArea() > -1)
+                    checkRadioGroup(pcrManeuverRadio, room.getLibHasManeuverArea());
+            }
+        }
+        if (room.getLibHasPC() != null && room.getLibHasPC() > -1) {
+            checkRadioGroup(hasComputerRadio, room.getLibHasPC());
+            if (room.getLibHasPC() == 1) {
+                if (room.getLibHasAccessPC() != null && room.getLibHasAccessPC() > -1)
+                    checkRadioGroup(accessPcRadio, room.getLibHasAccessPC());
+            }
+        }
     }
 
     private boolean checkEmptyLibraryFields() {
         clearLibEmptyFieldsErrors();
         int error = 0;
-        if (distShelvesRadio.getCheckedRadioButtonId() == -1) {
+        if (indexCheckRadio(distShelvesRadio) == -1) {
             distShelvesError.setVisibility(View.VISIBLE);
             error++;
         }
-        if (pcrManeuverRadio.getCheckedRadioButtonId() == -1) {
-            pcrError.setVisibility(View.VISIBLE);
+        if (indexCheckRadio(libCorridorRadio) == -1) {
             error++;
+            libCorridorError.setVisibility(View.VISIBLE);
+        } else if (indexCheckRadio(libCorridorRadio) == 1) {
+            if (indexCheckRadio(pcrManeuverRadio) == -1) {
+                pcrError.setVisibility(View.VISIBLE);
+                error++;
+            }
         }
-        if (accessPcRadio.getCheckedRadioButtonId() == -1) {
-            accessPcError.setVisibility(View.VISIBLE);
+        if (indexCheckRadio(hasComputerRadio) == -1) {
             error++;
+            hasPCError.setVisibility(View.VISIBLE);
+        } else if (indexCheckRadio(hasComputerRadio) == 1) {
+            if (indexCheckRadio(accessPcRadio) == -1) {
+                accessPcError.setVisibility(View.VISIBLE);
+                error++;
+            }
         }
 
         return error == 0;
@@ -110,24 +145,65 @@ public class LibraryFragment extends Fragment implements TagInterface {
 
     private void clearLibEmptyFieldsErrors() {
         distShelvesError.setVisibility(View.GONE);
+        libCorridorError.setVisibility(View.GONE);
         pcrError.setVisibility(View.GONE);
+        hasPCError.setVisibility(View.GONE);
         accessPcError.setVisibility(View.GONE);
     }
 
-    private int getCheckedRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
     private void gatherLibData(Bundle bundle) {
-        bundle.putInt(DISTANCE_SHELVES, getCheckedRadio(distShelvesRadio));
-        bundle.putInt(MANEUVER_PCR, getCheckedRadio(pcrManeuverRadio));
-        bundle.putInt(COMPUTER_ACCESSIBLE, getCheckedRadio(accessPcRadio));
+        int hasDistShelves, hasLongCorridor, hasPC;
+        Integer hasManeuver = null, hasAccessPC = null;
+
+        hasDistShelves = indexCheckRadio(distShelvesRadio);
+        hasLongCorridor = indexCheckRadio(libCorridorRadio);
+        if (hasLongCorridor == 1)
+            hasManeuver = indexCheckRadio(pcrManeuverRadio);
+        hasPC = indexCheckRadio(hasComputerRadio);
+        if (hasPC == 1)
+            hasAccessPC = indexCheckRadio(accessPcRadio);
+
+        LibParcel parcel = new LibParcel(hasDistShelves, hasLongCorridor, hasManeuver, hasPC, hasAccessPC);
+        bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
     }
 
     private void clearLibraryRadio() {
         distShelvesRadio.clearCheck();
+        libCorridorRadio.clearCheck();
         pcrManeuverRadio.clearCheck();
+        pcrManeuverHeader.setVisibility(View.GONE);
+        pcrManeuverRadio.setVisibility(View.GONE);
+        hasComputerRadio.clearCheck();
+        accessPcHeader.setVisibility(View.GONE);
         accessPcRadio.clearCheck();
+        accessPcRadio.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int index = indexCheckRadio(radio);
+
+        if (radio == libCorridorRadio) {
+            if (index == 1) {
+                pcrManeuverHeader.setVisibility(View.VISIBLE);
+                pcrManeuverRadio.setVisibility(View.VISIBLE);
+            } else {
+                pcrManeuverRadio.clearCheck();
+                pcrManeuverHeader.setVisibility(View.GONE);
+                pcrManeuverRadio.setVisibility(View.GONE);
+                pcrError.setVisibility(View.GONE);
+            }
+        } else {
+            if (index == 1) {
+                accessPcHeader.setVisibility(View.VISIBLE);
+                accessPcRadio.setVisibility(View.VISIBLE);
+            } else {
+                accessPcRadio.clearCheck();
+                accessPcHeader.setVisibility(View.GONE);
+                accessPcRadio.setVisibility(View.GONE);
+                accessPcError.setVisibility(View.GONE);
+            }
+        }
     }
 }
 

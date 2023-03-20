@@ -145,20 +145,11 @@ public interface TagInterface {
     String HELP_TITLE = "Áreas de Apoio";
     String BLOCK_TITLE = "Bloco Nº";
 
-    //    Biblioteca
-    String DISTANCE_SHELVES = "DISTANCE_SHELVES";
-    String MANEUVER_PCR = "MANEUVER_PCR";
-    String COMPUTER_ACCESSIBLE = "COMPUTER_ACCESSIBLE";
-
-    //    Secretaria
-    String HAS_FIXED_SEATS = "HAS_FIXED_SEATS";
-    String HAS_PCR_SPACE = "HAS_PCR_SPACE";
-    String PCR_WIDTH = "PCR_WIDTH";
-    String PCR_DEPTH = "PCR_DEPTH";
-    String PCR_OBS = "PCR_OBS";
-
     //    Parcel Indicator
     String CHILD_PARCEL = "CHILD_PARCEL";
     String CHILD_PARCEL_2 = "CHILD_PARCEL_2";
     String CHILD_PARCEL_3 = "CHILD_PARCEL_3";
+
+//    Activity Listeners
+    String CLOSE_ACTIVITY = "CLOSE_ACTIVITY";
 }

@@ -18,6 +18,7 @@ public class RoomEntry {
 
     private String roomLocation;
     private String roomDescription;
+    private Integer isWorkRoom;
     private Integer roomHasVertSing;
     private String roomVertSignObs;
     private Integer roomHasLooseCarpet;
@@ -26,8 +27,10 @@ public class RoomEntry {
     private String accessFloorObs;
 
     private Integer libDistShelvesOK;
-    private Integer libPcrManeuversOK;
-    private Integer libAccessPcOK;
+    private Integer libHasLongCorridors;
+    private Integer libHasManeuverArea;
+    private Integer libHasPC;
+    private Integer libHasAccessPC;
 
     private Integer secHasFixedSeats;
     private Integer secHasPcrSpace;
@@ -35,30 +38,27 @@ public class RoomEntry {
     private Double secPcrSpaceDepth;
     private String secPCRSpaceObs;
 
+    private Integer hasIntercom;
+    private Double intercomHeight;
+    private String intercomObs;
+    private Integer hasBioClock;
+    private Double bioClockHeight;
+    private String bioClockObs;
+
+    private String roomPhoto;
     private String roomObs;
 
-    private Integer roomHasStairs;
-    private Integer roomHasRamps;
 
-    private Integer hasBellControl;
-    private Double bellControlHeight;
-    private String bellControlObs;
-    private Integer hasInternalPhone;
-    private Double internalPhoneHeight;
-    private String internalPhoneObs;
-    private Integer hasBiometricClock;
-    private Double biometricClockHeight;
-    private String biometricClockObs;
-
-    public RoomEntry(int blockID, int roomType, String roomLocation, String roomDescription, Integer roomHasVertSing, String roomVertSignObs, Integer roomHasLooseCarpet,
-                     String looseCarpetObs, Integer roomAccessFloor, String accessFloorObs, Integer libDistShelvesOK, Integer libPcrManeuversOK, Integer libAccessPcOK,
-                     Integer secHasFixedSeats, Integer secHasPcrSpace, Double secPcrSpaceWidth, Double secPcrSpaceDepth, String secPCRSpaceObs, String roomObs,
-                     Integer roomHasStairs, Integer roomHasRamps, Integer hasBellControl, Double bellControlHeight, String bellControlObs, Integer hasInternalPhone,
-                     Double internalPhoneHeight, String internalPhoneObs, Integer hasBiometricClock, Double biometricClockHeight, String biometricClockObs) {
+    public RoomEntry(int blockID, int roomType, String roomLocation, String roomDescription, Integer isWorkRoom, Integer roomHasVertSing, String roomVertSignObs,
+                     Integer roomHasLooseCarpet, String looseCarpetObs, Integer roomAccessFloor, String accessFloorObs, Integer libDistShelvesOK, Integer libHasLongCorridors,
+                     Integer libHasManeuverArea, Integer libHasPC, Integer libHasAccessPC, Integer secHasFixedSeats, Integer secHasPcrSpace, Double secPcrSpaceWidth,
+                     Double secPcrSpaceDepth, String secPCRSpaceObs, Integer hasIntercom, Double intercomHeight, String intercomObs, Integer hasBioClock,
+                     Double bioClockHeight, String bioClockObs, String roomPhoto, String roomObs) {
         this.blockID = blockID;
         this.roomType = roomType;
         this.roomLocation = roomLocation;
         this.roomDescription = roomDescription;
+        this.isWorkRoom = isWorkRoom;
         this.roomHasVertSing = roomHasVertSing;
         this.roomVertSignObs = roomVertSignObs;
         this.roomHasLooseCarpet = roomHasLooseCarpet;
@@ -66,25 +66,23 @@ public class RoomEntry {
         this.roomAccessFloor = roomAccessFloor;
         this.accessFloorObs = accessFloorObs;
         this.libDistShelvesOK = libDistShelvesOK;
-        this.libPcrManeuversOK = libPcrManeuversOK;
-        this.libAccessPcOK = libAccessPcOK;
+        this.libHasLongCorridors = libHasLongCorridors;
+        this.libHasManeuverArea = libHasManeuverArea;
+        this.libHasPC = libHasPC;
+        this.libHasAccessPC = libHasAccessPC;
         this.secHasFixedSeats = secHasFixedSeats;
         this.secHasPcrSpace = secHasPcrSpace;
         this.secPcrSpaceWidth = secPcrSpaceWidth;
         this.secPcrSpaceDepth = secPcrSpaceDepth;
         this.secPCRSpaceObs = secPCRSpaceObs;
+        this.hasIntercom = hasIntercom;
+        this.intercomHeight = intercomHeight;
+        this.intercomObs = intercomObs;
+        this.hasBioClock = hasBioClock;
+        this.bioClockHeight = bioClockHeight;
+        this.bioClockObs = bioClockObs;
+        this.roomPhoto = roomPhoto;
         this.roomObs = roomObs;
-        this.roomHasStairs = roomHasStairs;
-        this.roomHasRamps = roomHasRamps;
-        this.hasBellControl = hasBellControl;
-        this.bellControlHeight = bellControlHeight;
-        this.bellControlObs = bellControlObs;
-        this.hasInternalPhone = hasInternalPhone;
-        this.internalPhoneHeight = internalPhoneHeight;
-        this.internalPhoneObs = internalPhoneObs;
-        this.hasBiometricClock = hasBiometricClock;
-        this.biometricClockHeight = biometricClockHeight;
-        this.biometricClockObs = biometricClockObs;
     }
 
     public int getRoomID() {
@@ -125,6 +123,14 @@ public class RoomEntry {
 
     public void setRoomDescription(String roomDescription) {
         this.roomDescription = roomDescription;
+    }
+
+    public Integer getIsWorkRoom() {
+        return isWorkRoom;
+    }
+
+    public void setIsWorkRoom(Integer isWorkRoom) {
+        this.isWorkRoom = isWorkRoom;
     }
 
     public Integer getRoomHasVertSing() {
@@ -183,20 +189,36 @@ public class RoomEntry {
         this.libDistShelvesOK = libDistShelvesOK;
     }
 
-    public Integer getLibPcrManeuversOK() {
-        return libPcrManeuversOK;
+    public Integer getLibHasLongCorridors() {
+        return libHasLongCorridors;
     }
 
-    public void setLibPcrManeuversOK(Integer libPcrManeuversOK) {
-        this.libPcrManeuversOK = libPcrManeuversOK;
+    public void setLibHasLongCorridors(Integer libHasLongCorridors) {
+        this.libHasLongCorridors = libHasLongCorridors;
     }
 
-    public Integer getLibAccessPcOK() {
-        return libAccessPcOK;
+    public Integer getLibHasManeuverArea() {
+        return libHasManeuverArea;
     }
 
-    public void setLibAccessPcOK(Integer libAccessPcOK) {
-        this.libAccessPcOK = libAccessPcOK;
+    public void setLibHasManeuverArea(Integer libHasManeuverArea) {
+        this.libHasManeuverArea = libHasManeuverArea;
+    }
+
+    public Integer getLibHasPC() {
+        return libHasPC;
+    }
+
+    public void setLibHasPC(Integer libHasPC) {
+        this.libHasPC = libHasPC;
+    }
+
+    public Integer getLibHasAccessPC() {
+        return libHasAccessPC;
+    }
+
+    public void setLibHasAccessPC(Integer libHasAccessPC) {
+        this.libHasAccessPC = libHasAccessPC;
     }
 
     public Integer getSecHasFixedSeats() {
@@ -239,99 +261,67 @@ public class RoomEntry {
         this.secPCRSpaceObs = secPCRSpaceObs;
     }
 
+    public Integer getHasIntercom() {
+        return hasIntercom;
+    }
+
+    public void setHasIntercom(Integer hasIntercom) {
+        this.hasIntercom = hasIntercom;
+    }
+
+    public Double getIntercomHeight() {
+        return intercomHeight;
+    }
+
+    public void setIntercomHeight(Double intercomHeight) {
+        this.intercomHeight = intercomHeight;
+    }
+
+    public String getIntercomObs() {
+        return intercomObs;
+    }
+
+    public void setIntercomObs(String intercomObs) {
+        this.intercomObs = intercomObs;
+    }
+
+    public Integer getHasBioClock() {
+        return hasBioClock;
+    }
+
+    public void setHasBioClock(Integer hasBioClock) {
+        this.hasBioClock = hasBioClock;
+    }
+
+    public Double getBioClockHeight() {
+        return bioClockHeight;
+    }
+
+    public void setBioClockHeight(Double bioClockHeight) {
+        this.bioClockHeight = bioClockHeight;
+    }
+
+    public String getBioClockObs() {
+        return bioClockObs;
+    }
+
+    public void setBioClockObs(String bioClockObs) {
+        this.bioClockObs = bioClockObs;
+    }
+
+    public String getRoomPhoto() {
+        return roomPhoto;
+    }
+
+    public void setRoomPhoto(String roomPhoto) {
+        this.roomPhoto = roomPhoto;
+    }
+
     public String getRoomObs() {
         return roomObs;
     }
 
     public void setRoomObs(String roomObs) {
         this.roomObs = roomObs;
-    }
-
-    public Integer getRoomHasStairs() {
-        return roomHasStairs;
-    }
-
-    public void setRoomHasStairs(Integer roomHasStairs) {
-        this.roomHasStairs = roomHasStairs;
-    }
-
-    public Integer getRoomHasRamps() {
-        return roomHasRamps;
-    }
-
-    public void setRoomHasRamps(Integer roomHasRamps) {
-        this.roomHasRamps = roomHasRamps;
-    }
-
-    public Integer getHasBellControl() {
-        return hasBellControl;
-    }
-
-    public void setHasBellControl(Integer hasBellControl) {
-        this.hasBellControl = hasBellControl;
-    }
-
-    public Double getBellControlHeight() {
-        return bellControlHeight;
-    }
-
-    public void setBellControlHeight(Double bellControlHeight) {
-        this.bellControlHeight = bellControlHeight;
-    }
-
-    public String getBellControlObs() {
-        return bellControlObs;
-    }
-
-    public void setBellControlObs(String bellControlObs) {
-        this.bellControlObs = bellControlObs;
-    }
-
-    public Integer getHasInternalPhone() {
-        return hasInternalPhone;
-    }
-
-    public void setHasInternalPhone(Integer hasInternalPhone) {
-        this.hasInternalPhone = hasInternalPhone;
-    }
-
-    public Double getInternalPhoneHeight() {
-        return internalPhoneHeight;
-    }
-
-    public void setInternalPhoneHeight(Double internalPhoneHeight) {
-        this.internalPhoneHeight = internalPhoneHeight;
-    }
-
-    public String getInternalPhoneObs() {
-        return internalPhoneObs;
-    }
-
-    public void setInternalPhoneObs(String internalPhoneObs) {
-        this.internalPhoneObs = internalPhoneObs;
-    }
-
-    public Integer getHasBiometricClock() {
-        return hasBiometricClock;
-    }
-
-    public void setHasBiometricClock(Integer hasBiometricClock) {
-        this.hasBiometricClock = hasBiometricClock;
-    }
-
-    public Double getBiometricClockHeight() {
-        return biometricClockHeight;
-    }
-
-    public void setBiometricClockHeight(Double biometricClockHeight) {
-        this.biometricClockHeight = biometricClockHeight;
-    }
-
-    public String getBiometricClockObs() {
-        return biometricClockObs;
-    }
-
-    public void setBiometricClockObs(String biometricClockObs) {
-        this.biometricClockObs = biometricClockObs;
     }
 }
