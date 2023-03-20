@@ -778,5 +778,9 @@
     <string name="header_lib_has_long_corridor">Há algum corredor entre as estantes de livros com, pelo menos, 15 metros de comprimento?</string>
     <string name="header_lib_has_pcs">A biblioteca possui computadores atuando como terminais de consulta e/ou acesso à Internet?</string>
     <string name="header_is_work_room">Este ambiente é de acesso restrito ao público?</string>
+    <string name="header_table_size">Tamanho da mesa a ser cadastrada</string>
+    <string name="radio_child_size">INFANTIL</string>
+    <string name="radio_adult_size">ADULTO</string>
+    <string name="hint_free_width_table">Largura Livre da Mesa (m)</string>
 
 </resources>

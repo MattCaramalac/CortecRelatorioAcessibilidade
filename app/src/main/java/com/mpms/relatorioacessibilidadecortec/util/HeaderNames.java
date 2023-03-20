@@ -30,7 +30,7 @@ public class HeaderNames {
             "Bebedouro",
             "Estacionamento Interno",
             "Outros Ambientes",
-            "Playground",
+            "Parquinhos",
             "Sanitário"
     };
 
