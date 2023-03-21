@@ -195,8 +195,8 @@
     <string name="hint_PCR_space">Espaço PCR</string>
     <string name="label_possible_180_turn">É possível realizar um giro de 180º?</string>
     <string name="label_secretariat_fixed_seats">Secretaria possui bancos fixos?</string>
-    <string name="hint_PCR_space_width">Largura Espaço PCR</string>
-    <string name="hint_PCR_space_depth">Profund. Espaço PCR</string>
+    <string name="hint_PCR_space_width">Largura Espaço PCR (m)</string>
+    <string name="hint_PCR_space_depth">Comprimento Espaço PCR (m)</string>
     <string name="label_water_fountain_type">Tipo de Bebedouro</string>
     <string name="radio_option_bica_type">TIPO BICA</string>
     <string name="radio_option_other_type">OUTRO TIPO</string>

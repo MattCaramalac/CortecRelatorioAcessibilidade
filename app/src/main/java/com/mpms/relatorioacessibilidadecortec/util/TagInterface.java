@@ -101,9 +101,6 @@ public interface TagInterface {
     String PLAY_ID = "PLAY_ID";
     String EQUIP_ID = "EQUIP_ID";
 
-    //    Door Sill Data
-    String HEIGHT_INCLINED_SILL = "HEIGHT_INCLINED_SILL";
-    String STEP_HEIGHT = "STEP_HEIGHT";
     String SLOPE_QNT = "SLOPE_QNT";
     String SLOPE_ANGLE_1 = "SLOPE_ANGLE_1";
     String SLOPE_ANGLE_2 = "SLOPE_ANGLE_2";
@@ -137,8 +134,6 @@ public interface TagInterface {
 
     //    External Access
     String EXT_ACCESS_ID = "EXT_ACCESS_ID";
-    String HAS_SOUND = "HAS_SOUND";
-    String ACCESS_OBS = "ACCESS_OBS";
 
     //    Títulos Locais Análise
     String ACCESS_TITLE = "Acessos, Circulações e Área Externa";
@@ -150,6 +145,24 @@ public interface TagInterface {
     String CHILD_PARCEL_2 = "CHILD_PARCEL_2";
     String CHILD_PARCEL_3 = "CHILD_PARCEL_3";
 
-//    Activity Listeners
+    //    Activity Listeners
     String CLOSE_ACTIVITY = "CLOSE_ACTIVITY";
+
+//    Ambient Numeration
+//    1 - Blocos
+    int NUM_WC = 0;
+    int NUM_FOUNT = 1;
+    int NUM_LIB = 2;
+    int NUM_COORD = 3;
+    int NUM_DIR = 4;
+    int NUM_CAFE = 5;
+    int NUM_CLASS = 6;
+    int NUM_TECH = 7;
+    int NUM_RESOURCE = 8;
+    int NUM_TEACHER = 9;
+    int NUM_REST = 10;
+    int NUM_SEC = 11;
+    int NUM_OTHER = 12;
+
+
 }

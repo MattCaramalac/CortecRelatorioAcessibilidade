@@ -43,7 +43,7 @@ public class SwitchRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfa
         SwitchEntry switchEntry = switchList.get(position);
         if (switchEntry != null) {
             holder.textInfoOne.setText(switchLocation(switchEntry));
-            holder.textInfoTwo.setText(switchNumber(getItemCount()-position));
+            holder.textInfoTwo.setText(switchNumberLocation(getItemCount()-position, switchEntry));
             if (selectedItems.get(position))
                 holder.background.setBackgroundColor(Color.rgb(158, 235, 247));
             else
@@ -72,11 +72,11 @@ public class SwitchRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfa
     }
 
     public String switchLocation(SwitchEntry switchEntry) {
-        return switchEntry.getSwitchLocation();
+        return switchEntry.getSwitchType();
     }
 
-    public String switchNumber (int i) {
-        return "Interruptor nº" + i;
+    public String switchNumberLocation(int i, SwitchEntry switchEntry) {
+        return "Interruptor nº" + i + " - " + switchEntry.getSwitchLocation();
     }
 
     @Override
