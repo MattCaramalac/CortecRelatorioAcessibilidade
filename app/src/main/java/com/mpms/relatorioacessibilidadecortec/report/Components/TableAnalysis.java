@@ -29,46 +29,80 @@ public class TableAnalysis implements StandardMeasurements {
 
     private static String tableText(TableEntry table) {
         StringBuilder builder = new StringBuilder();
-        if (table.getInferiorBorderHeight() < minUnderTableHeight) {
-            tableIrregular(builder);
-            builder.append("a altura livre sob o tampo da mesa é inferior a " + minUnderTableHeight + " m");
+
+        /*
+        Atualmente, será considerado que mesas do tipo "infantil" não gerarão erros no cadastro de mesas pela ausência de determinação
+        na norma de alturas compatíveis. Será feito posteriormente análise dos materiais do MEC para adaptações da regra, garantindo
+        que as mesas infantis também seguirão as alturas estipuladas pelo Ministério
+         */
+        if (table.getTableSize() == 1) {
+
+            if (table.getSuperiorBorderHeight() < minUpperTableHeight) {
+                tableIrregular(builder);
+                builder.append("a superfície superior do tampo da mesa está a uma altura do piso acabado inferior a " + minUpperTableHeight + " m");
+            } else if (table.getSuperiorBorderHeight() > maxUpperTableHeight) {
+                tableIrregular(builder);
+                builder.append("a superfície superior do tampo da mesa está a uma altura do piso acabado superior a " + maxUpperTableHeight + " m");
+            }
+
+            if (table.getInferiorBorderHeight() < minUnderTableHeight) {
+                tableIrregular(builder);
+                builder.append("a altura livre sob o tampo da mesa é inferior a " + minUnderTableHeight + " m");
+            }
+
+
+            if (table.getTableWidth() < minTableWidth) {
+                tableIrregular(builder);
+                builder.append("a largura da mesa é inferior ao mínimo de " + minTableWidth + " m");
+            }
+
+            if (table.getTableFreeWidth() < minTableFreeWidth) {
+                tableIrregular(builder);
+                builder.append("a largura livre da mesa é inferior ao mínimo de " + minTableFreeWidth + " m");
+            }
+
+            if (table.getTableFrontalApprox() < underTableDepth) {
+                tableIrregular(builder);
+                builder.append("o comprimento da área de aproximação frontal sob a mesa é inferior ao mínimo de " + underTableDepth + " m");
+            }
+
         }
 
-        if (table.getSuperiorBorderHeight() < minUpperTableHeight) {
-            tableIrregular(builder);
-            builder.append("o tampo da mesa está a uma altura do piso acabado inferior a " + minUpperTableHeight + " m");
-        } else if (table.getSuperiorBorderHeight() > maxUpperTableHeight) {
-            tableIrregular(builder);
-            builder.append("o tampo da mesa está a uma altura do piso acabado superior a " + maxUpperTableHeight + " m");
-        }
-
-        if (table.getTableFrontalApprox() < underTableDepth) {
-            tableIrregular(builder);
-            builder.append("a profundidade livre mínima sob a mesa é inferior ao mínimo de " + underTableDepth + " m");
-        }
-
-        if (table.getTableWidth() < minTableWidth) {
-            tableIrregular(builder);
-            builder.append("a largura da mesa é inferior ao mínimo de " + minTableWidth + " m");
-        }
-
-        if (table.getTableFreeWidth() < minTableFreeWidth) {
-            tableIrregular(builder);
-            builder.append("a largura livre da mesa é inferior ao mínimo de " + minTableFreeWidth + " m");
-        }
 
         if (table.getTableObs() != null && table.getTableObs() .length() > 0) {
             tableIrregular(builder);
             builder.append("as seguintes observações devem ser apontadas sobre a mesa em questão: ").append(table.getTableObs());
         }
 
-        return builder.toString();
+        if (table.getRoomType() == 6) {
+            StringBuilder tableDesc = new StringBuilder();
+            if (table.getTableType() == 0)
+                tableDesc.append(" de professor ");
+            else
+                tableDesc.append(" de aluno ");
+
+            if (table.getTableDesc() != null)
+                tableDesc.append(table.getTableDesc()).append(" ");
+
+            if (builder.length() > 0)
+                builder.replace(16, 18, tableDesc.toString());
+        } else {
+            if (builder.length() > 0 && table.getTableDesc() != null)
+                builder.replace(17, 18, table.getTableDesc());
+            else if (builder.length() > 0)
+                builder.replace(16, 18, " ");
+        }
+
+        if (builder.length() > 0)
+            return builder.toString();
+        else
+            return null;
     }
 
     private static void tableIrregular(StringBuilder builder) {
         if (!irregularTable) {
             irregularTable = true;
-            builder.append("Presença de mesa com as seguintes irregularidades: ");
+            builder.append("Presença de mesa x com as seguintes irregularidades: ");
         } else
             builder.append(", ");
     }

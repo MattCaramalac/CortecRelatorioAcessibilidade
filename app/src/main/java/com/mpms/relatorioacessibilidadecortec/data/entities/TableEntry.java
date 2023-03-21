@@ -23,7 +23,7 @@ public class TableEntry {
     private String tableDesc;
     private Integer tableSize;
 
-    public TableEntry(int roomID, int roomType, Integer tableType, double inferiorBorderHeight, double superiorBorderHeight, double tableWidth,
+    public TableEntry(int roomID, int roomType, Integer tableType, double superiorBorderHeight, double inferiorBorderHeight, double tableWidth,
                       double tableFrontalApprox, String tableObs, Double tableFreeWidth, String tableDesc, Integer tableSize) {
         this.roomID = roomID;
         this.roomType = roomType;
