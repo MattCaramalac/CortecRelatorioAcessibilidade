@@ -37,7 +37,6 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public final Map<Integer, Integer> blockNumber = new HashMap<>();
     public static final Map<Integer, List<String>> sideIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> extIrregular = new HashMap<>();
-    public static final Map<Integer, List<String>> extRoomIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> helpRoomIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> blockRoomIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> extParkIrregular = new HashMap<>();
@@ -49,7 +48,6 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public static final Map<Integer, List<String>> playIrregular = new HashMap<>();
     public static final List<String> sideLocationList = new ArrayList<>();
     public static final List<String> extAccessList = new ArrayList<>();
-    public static final List<String> extRoomList = new ArrayList<>();
     public static final List<String> helpRoomList = new ArrayList<>();
     public static final List<String> blockRoomList = new ArrayList<>();
     public static final List<String> extParkList = new ArrayList<>();
@@ -112,8 +110,8 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
             if (bEntry.getBlockSpaceType() == 0)
                 blockNumber.put(bEntry.getBlockSpaceID(), bEntry.getBlockSpaceNumber());
         }
-        MapUtil.sortByValue(blockNumber);
-        for (Integer bNumber : blockNumber.values()) {
+        Map<Integer, Integer> blockOrder = MapUtil.sortByValue(blockNumber);
+        for (Integer bNumber : blockOrder.values()) {
             checkBlockHeader(bNumber);
         }
     }
@@ -140,7 +138,6 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
             if (i == 0) {
                 irregularTextListing(sideLocationList, sideIrregular, numID, cursor);
                 irregularTextListing(extAccessList, extIrregular, numID, cursor);
-                irregularTextListing(extRoomList, extRoomIrregular, numID, cursor);
                 irregularTextListing(extParkList, extParkIrregular, numID, cursor);
             } else if (i == 1) {
                 irregularTextListing(playList, playIrregular, numID, cursor);

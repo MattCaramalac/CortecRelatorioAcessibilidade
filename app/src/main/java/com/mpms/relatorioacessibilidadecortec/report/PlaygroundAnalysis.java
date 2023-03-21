@@ -119,44 +119,44 @@ public class PlaygroundAnalysis implements StandardMeasurements {
 
             if (play.getAccessibleFloor() == 0 && (play.getAccessFloorObs() != null && play.getAccessFloorObs().length() > 0)) {
                 check++;
-                pIrregular.add("O piso do playground não pode ser considerado acessível pelos seguintes motivos: " + play.getAccessFloorObs());
+                pIrregular.add("O piso do parquinho infantil não pode ser considerado acessível pelos seguintes motivos: " + play.getAccessFloorObs());
             }
             else if (play.getAccessibleFloor() == 1 && (play.getAccessFloorObs() != null && play.getAccessFloorObs().length() > 0)) {
                 check++;
-                pIrregular.add("O piso do playground pode ser considerado acessível, mas devem ser feitas as seguintes observações: " + play.getAccessFloorObs());
+                pIrregular.add("O piso do parquinho infantil pode ser considerado acessível, mas devem ser feitas as seguintes observações: " + play.getAccessFloorObs());
             }
             else if (play.getAccessibleFloor() == 0) {
                 check++;
-                pIrregular.add("O piso do playground não pode ser considerado acessível");
+                pIrregular.add("O piso do parquinho infantil não pode ser considerado acessível");
             }
 
             if (play.getAccessibleEquip() == 0 && (play.getAccessEquipObs() != null && play.getAccessEquipObs().length() > 0)) {
                 check++;
-                pIrregular.add("Os brinquedos do playground não podem ser considerados acessíveis pelos seguintes motivos: " + play.getAccessEquipObs());
+                pIrregular.add("Os brinquedos do parquinho infantil não podem ser considerados acessíveis pelos seguintes motivos: " + play.getAccessEquipObs());
             }
             else if (play.getAccessibleEquip() == 1 && (play.getAccessEquipObs() != null && play.getAccessEquipObs().length() > 0)) {
                 check++;
-                pIrregular.add("Os brinquedos do playground podem ser considerado acessíveis, mas devem ser feitas as seguintes observações: " + play.getAccessEquipObs());
+                pIrregular.add("Os brinquedos do parquinho infantil podem ser considerado acessíveis, mas devem ser feitas as seguintes observações: " + play.getAccessEquipObs());
             }
             else if (play.getAccessibleEquip() == 0) {
                 check++;
-                pIrregular.add("Os brinquedos do playground não podem ser considerados acessíveis");
+                pIrregular.add("Os brinquedos do parquinho infantil não podem ser considerados acessíveis");
             }
 
             if (play.getPlaygroundObs() != null && play.getPlaygroundObs().length() > 0) {
                 check++;
-                pIrregular.add("As seguintes observações devem ser feitas sobre este playground: " + play.getPlaygroundObs());
+                pIrregular.add("As seguintes observações devem ser feitas sobre este parquinho infantil: " + play.getPlaygroundObs());
             }
 
             if (check > 0)
                 AmbientAnalysis.checkHelpAreaHeader();
 
             if (AmbientAnalysis.err) {
-                AmbientAnalysis.playList.add("Playground, localizado em " + play.getPlayLocation() + ", com as seguintes irregularidades:");
+                AmbientAnalysis.playList.add("Parquinho infantil, localizado em " + play.getPlayLocation() + ", com as seguintes irregularidades:");
                 AmbientAnalysis.playIrregular.put(i, pIrregular);
             }
         }
         if (AmbientAnalysis.playList.size() == 0)
-            AmbientAnalysis.playList.add("Não há cadastro de playgrounds com irregularidades;");
+            AmbientAnalysis.playList.add("Não há cadastro de parquinhos infantis com irregularidades;");
     }
 }

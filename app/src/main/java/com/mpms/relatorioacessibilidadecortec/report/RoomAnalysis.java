@@ -26,11 +26,12 @@ import com.mpms.relatorioacessibilidadecortec.report.Components.StairsAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.SwitchAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.TableAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.WindowAnalysis;
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomAnalysis implements StandardMeasurements {
+public class RoomAnalysis implements StandardMeasurements, TagInterface {
 
     private static int check;
 
@@ -57,21 +58,8 @@ public class RoomAnalysis implements StandardMeasurements {
 
                 String rType = roomTyping(room.getRoomType());
 
-//            Area externa = 1
-                if (block.getBlockSpaceType() == 1) {
-
-                    if (check > 0)
-                        AmbientAnalysis.checkHasAccessHeader();
-
-                    if (AmbientAnalysis.err) {
-                        AmbientAnalysis.extRoomList.add(rType + room.getRoomLocation() + ", com as seguintes irregularidades: ");
-                        AmbientAnalysis.extRoomIrregular.put(extRoom, roomIrr);
-                        extRoom++;
-                    }
-
-                }
 //            Áreas de Apoio = 2
-                else if (block.getBlockSpaceType() == 2) {
+                if (block.getBlockSpaceType() == 2) {
                     if (check > 0)
                         AmbientAnalysis.checkHelpAreaHeader();
 
@@ -83,9 +71,6 @@ public class RoomAnalysis implements StandardMeasurements {
                 }
             }
         }
-
-        if (AmbientAnalysis.extRoomList.size() == 0)
-            AmbientAnalysis.extRoomList.add("Não há cadastro de ambientes externos com irregularidades;");
 
         if (AmbientAnalysis.helpRoomList.size() == 0)
             AmbientAnalysis.helpRoomList.add("Não há cadastro de ambientes de apoio com irregularidades;");
@@ -124,181 +109,232 @@ public class RoomAnalysis implements StandardMeasurements {
                                                        List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList,
                                                        List<WaterFountainEntry> waterList, List<EquipmentEntry> equipList) {
         List<String> roomIrr = new ArrayList<>();
-        if (room.getRoomHasVertSing() == 0) {
-            check++;
-            roomIrr.add("ausência de sinalização visual vertical;");
-        } else if (room.getRoomHasVertSing() == 1 && room.getRoomVertSignObs() != null) {
-            check++;
-            roomIrr.add("presença de sinalização visual vertical com as seguintes observações: " + room.getRoomVertSignObs() + ";");
-        }
-
-        if (room.getRoomHasLooseCarpet() == 1) {
-            check++;
-            roomIrr.add("presença de tapete e/ou capacho soltos");
-        } else if (room.getRoomHasLooseCarpet() == 1 && room.getLooseCarpetObs() != null) {
-            check++;
-            roomIrr.add("presença de tapete e/ou capacho soltos, com as seguintes observações: " + room.getLooseCarpetObs() + ";");
-        }
-
-        if (room.getRoomAccessFloor() == 0) {
-            check++;
-            if (room.getAccessFloorObs() != null && room.getAccessFloorObs().length() > 0)
-                roomIrr.add("o piso não pode ser considerado acessível, pois " + room.getAccessFloorObs() + ";");
-        }
-
-        if (doorList.size() > 0) {
-            List<String> doorRegister = DoorAnalysis.doorVerification(room.getRoomID(), doorList, doorLockList);
-            if (doorRegister.size() > 0) {
+        if (room.getRoomType() != NUM_OTHER || (room.getRoomType() == NUM_OTHER && room.getIsWorkRoom() == 0)) {
+            if (room.getRoomHasVertSing() == 0) {
                 check++;
-                roomIrr.addAll(doorRegister);
-            }
-        }
-
-        if (switchList.size() > 0) {
-            List<String> swErrs = SwitchAnalysis.switchList(room.getRoomID(), switchList);
-            if (swErrs.size() > 0) {
+                roomIrr.add("ausência de sinalização visual vertical;");
+            } else if (room.getRoomHasVertSing() == 1 && room.getRoomVertSignObs() != null) {
                 check++;
-                roomIrr.addAll(swErrs);
-            }
-        }
-
-        if (winList.size() > 0) {
-            List<String> winError = WindowAnalysis.winTextList(room.getRoomID(), winList);
-            if (winError.size() > 0) {
-                check++;
-                roomIrr.addAll(winError);
-            }
-        }
-
-        if (tableList.size() > 0) {
-            List<String> tableErrors = TableAnalysis.tableTextList(room.getRoomID(), tableList);
-            if (tableErrors.size() > 0) {
-                check++;
-                roomIrr.addAll(tableErrors);
-            }
-        }
-
-        if (bList.size() > 0) {
-            List<String> boardErrors = BlackboardAnalysis.boardTextList(room.getRoomID(), bList);
-            if (boardErrors.size() > 0) {
-                check++;
-                roomIrr.addAll(boardErrors);
-            }
-        }
-
-        if (fsList.size() > 0) {
-            List<String> fsError = FreeSpaceAnalysis.spaceTextList(room.getRoomID(), fsList);
-            if (fsError.size() > 0) {
-                check++;
-                roomIrr.addAll(fsError);
-            }
-        }
-
-        if (rStRoom.size() > 0) {
-            List<String> stAnalysis = StairsAnalysis.stairsVerification(room.getRoomID(), rStRoom, rStFlight, rStRail, rStHandrail);
-            if (stAnalysis.size() > 0) {
-                check++;
-                roomIrr.addAll(stAnalysis);
+                roomIrr.add("presença de sinalização visual vertical com as seguintes observações: " + room.getRoomVertSignObs() + ";");
             }
 
-            List<String> rampAnalysis = RampAnalysis.rampVerification(room.getRoomID(), rStRoom, rStFlight, rStRail, rStHandrail);
-            if (rampAnalysis.size() > 0) {
+            if (room.getRoomHasLooseCarpet() == 1) {
                 check++;
-                roomIrr.addAll(rampAnalysis);
+                roomIrr.add("presença de tapete e/ou capacho soltos");
+            } else if (room.getRoomHasLooseCarpet() == 1 && room.getLooseCarpetObs() != null) {
+                check++;
+                roomIrr.add("presença de tapete e/ou capacho soltos, com as seguintes observações: " + room.getLooseCarpetObs() + ";");
             }
 
-        }
-
-        if (counterList.size() > 0) {
-            List<String> counterError = CounterAnalysis.counterTextList(room.getRoomID(), counterList);
-            if (counterError.size() > 0) {
+            if (room.getRoomAccessFloor() == 0) {
                 check++;
-                roomIrr.addAll(counterError);
+                if (room.getAccessFloorObs() != null && room.getAccessFloorObs().length() > 0)
+                    roomIrr.add("o piso não pode ser considerado acessível, pois " + room.getAccessFloorObs() + ";");
             }
-        }
 
-        if (waterList.size() > 0) {
-            List<String> waterError = FountainAnalysis.roomFountainVerification(room.getRoomID(), waterList);
-            if (waterError.size() > 0) {
-                check++;
-                roomIrr.addAll(waterError);
+            if (doorList.size() > 0) {
+                List<String> doorRegister = DoorAnalysis.doorVerification(room.getRoomID(), doorList, doorLockList);
+                if (doorRegister.size() > 0) {
+                    check++;
+                    roomIrr.addAll(doorRegister);
+                }
             }
-        }
 
-        if (equipList.size() > 0) {
-            List<String> equipError = EquipmentAnalysis.equipList(room.getRoomID(), equipList);
-            if (equipError.size() > 0) {
-                check++;
-                roomIrr.addAll(equipError);
+            if (switchList.size() > 0) {
+                List<String> swErrs = SwitchAnalysis.switchList(room.getRoomID(), switchList);
+                if (swErrs.size() > 0) {
+                    check++;
+                    roomIrr.addAll(swErrs);
+                }
             }
-        }
 
-        if (room.getHasIntercom() != null && room.getHasIntercom() == 1) {
-            if (room.getIntercomHeight() < minIntTelHeight) {
-                check++;
-                if (room.getIntercomObs() != null)
-                    roomIrr.add("a altura do interfone é inferior à " + minIntTelHeight + " m, com as seguintes observações: "
-                            + room.getIntercomObs() + ";");
-                else
-                    roomIrr.add("a altura do interfone é inferior à " + minIntTelHeight + " m;");
-            } else if (room.getIntercomHeight() > maxIntTelHeight) {
-                check++;
-                if (room.getIntercomObs() != null)
-                    roomIrr.add("a altura do interfone é superior à " + maxIntTelHeight + " m, com as seguintes observações: "
-                            + room.getIntercomObs() + ";");
-                else
-                    roomIrr.add("a altura do interfone é superior à " + minIntTelHeight + " m;");
-            } else {
-                if (room.getIntercomObs() != null) {
-                    roomIrr.add("a altura do interfone está de acordo com a norma, porém possui as seguintes observações: "
-                            + room.getIntercomObs() + ";");
+            if (winList.size() > 0) {
+                List<String> winError = WindowAnalysis.winTextList(room.getRoomID(), winList);
+                if (winError.size() > 0) {
+                    check++;
+                    roomIrr.addAll(winError);
+                }
+            }
+
+            if (tableList.size() > 0) {
+                List<String> tableErrors = TableAnalysis.tableTextList(room.getRoomID(), tableList);
+                if (tableErrors.size() > 0) {
+                    check++;
+                    roomIrr.addAll(tableErrors);
+                }
+            }
+
+            if (bList.size() > 0) {
+                List<String> boardErrors = BlackboardAnalysis.boardTextList(room.getRoomID(), bList);
+                if (boardErrors.size() > 0) {
+                    check++;
+                    roomIrr.addAll(boardErrors);
+                }
+            }
+
+            if (fsList.size() > 0) {
+                List<String> fsError = FreeSpaceAnalysis.spaceTextList(room.getRoomID(), fsList);
+                if (fsError.size() > 0) {
+                    check++;
+                    roomIrr.addAll(fsError);
+                }
+            }
+
+            if (rStRoom.size() > 0) {
+                List<String> stAnalysis = StairsAnalysis.stairsVerification(room.getRoomID(), rStRoom, rStFlight, rStRail, rStHandrail);
+                if (stAnalysis.size() > 0) {
+                    check++;
+                    roomIrr.addAll(stAnalysis);
+                }
+
+                List<String> rampAnalysis = RampAnalysis.rampVerification(room.getRoomID(), rStRoom, rStFlight, rStRail, rStHandrail);
+                if (rampAnalysis.size() > 0) {
+                    check++;
+                    roomIrr.addAll(rampAnalysis);
+                }
+
+            }
+
+            if (counterList.size() > 0) {
+                List<String> counterError = CounterAnalysis.counterTextList(room.getRoomID(), counterList);
+                if (counterError.size() > 0) {
+                    check++;
+                    roomIrr.addAll(counterError);
+                }
+            }
+
+            if (waterList.size() > 0) {
+                List<String> waterError = FountainAnalysis.roomFountainVerification(room.getRoomID(), waterList);
+                if (waterError.size() > 0) {
+                    check++;
+                    roomIrr.addAll(waterError);
+                }
+            }
+
+            if (equipList.size() > 0) {
+                List<String> equipError = EquipmentAnalysis.equipList(room.getRoomID(), equipList);
+                if (equipError.size() > 0) {
+                    check++;
+                    roomIrr.addAll(equipError);
+                }
+            }
+
+
+
+            if (room.getRoomType() == NUM_LIB) {
+                if (room.getLibDistShelvesOK() != null && room.getLibDistShelvesOK() == 0) {
+                    check++;
+                    roomIrr.add("a distância entre as estantes de livros é inferior à 0.90 m;");
+                }
+                if (room.getLibHasLongCorridors() != null && room.getLibHasLongCorridors() == 1 &&
+                        room.getLibHasManeuverArea() != null && room.getLibHasManeuverArea() == 0) {
+                    check++;
+                    roomIrr.add("existência de estantes com pelo menos 15 metros de comprimento sem a presença de bolsões para manobras de PCR;");
+                }
+                if (room.getLibHasPC() != null && room.getLibHasPC() == 1 &&
+                        room.getLibHasAccessPC() != null && room.getLibHasAccessPC() == 0) {
+                    check++;
+                    roomIrr.add("menos de 5% dos terminais de consulta e/ou computadores presentes na biblioteca são acessíveis para PCR e PMR;");
+                }
+            }
+
+            if (room.getRoomType() == NUM_SEC) {
+                if (room.getSecHasFixedSeats() == 1) {
+                    if (room.getSecHasPcrSpace() == 0) {
+                        check++;
+                        roomIrr.add("a secretaria não apresenta espaço sinalizado para PCR ao lado dos bancos fixos instalados no local;");
+                    }
+                    else {
+                        if (room.getSecPcrSpaceWidth() < widthPCR) {
+                            check++;
+                            roomIrr.add("o espaço reservado para PCR possui largura inferior à " + widthPCR + " m;");
+                        }
+                        if (room.getSecPcrSpaceDepth() < lengthPCR) {
+                            check++;
+                            roomIrr.add("o espaço reservado para PCR possui comprimento inferior à " + lengthPCR + " m;");
+                        }
+                    }
+                }
+                if (room.getSecPCRSpaceObs() != null && room.getSecPCRSpaceObs().length() > 0) {
+                    check++;
+                    roomIrr.add("as seguintes observações podem ser realizadas sobre o espaço reservado para PCR: " + room.getSecPCRSpaceObs() + ";");
+                }
+            }
+
+            if (room.getRoomType() == NUM_COORD || room.getRoomType() == NUM_DIR || room.getRoomType() == NUM_TEACHER || room.getRoomType() == NUM_SEC) {
+                if (room.getHasIntercom() != null && room.getHasIntercom() == 1) {
+                    if (room.getIntercomHeight() < minIntTelHeight) {
+                        check++;
+                        if (room.getIntercomObs() != null)
+                            roomIrr.add("a altura do interfone é inferior à " + minIntTelHeight + " m, com as seguintes observações: "
+                                    + room.getIntercomObs() + ";");
+                        else
+                            roomIrr.add("a altura do interfone é inferior à " + minIntTelHeight + " m;");
+                    } else if (room.getIntercomHeight() > maxIntTelHeight) {
+                        check++;
+                        if (room.getIntercomObs() != null)
+                            roomIrr.add("a altura do interfone é superior à " + maxIntTelHeight + " m, com as seguintes observações: "
+                                    + room.getIntercomObs() + ";");
+                        else
+                            roomIrr.add("a altura do interfone é superior à " + minIntTelHeight + " m;");
+                    } else {
+                        if (room.getIntercomObs() != null) {
+                            roomIrr.add("a altura do interfone está de acordo com a norma, porém possui as seguintes observações: "
+                                    + room.getIntercomObs() + ";");
+                        }
+                    }
+                }
+            }
+
+            if (room.getHasBioClock() != null && room.getHasBioClock() == 1) {
+                if (room.getBioClockHeight() < minPrecisionCom) {
+                    check++;
+                    if (room.getBioClockObs() != null)
+                        roomIrr.add("a altura do ponto biométrico é inferior à " + minPrecisionCom + " m, com as seguintes observações: "
+                                + room.getBioClockObs() + ";");
+                    else
+                        roomIrr.add("a altura do ponto biométrico é inferior à " + minPrecisionCom + " m;");
+                } else if (room.getBioClockHeight() > maxPrecisionCom) {
+                    check++;
+                    if (room.getBioClockObs() != null)
+                        roomIrr.add("a altura do ponto biométrico é superior à " + maxPrecisionCom + " m, com as seguintes observações: "
+                                + room.getBioClockObs() + ";");
+                    else
+                        roomIrr.add("a altura do ponto biométrico é superior à " + maxPrecisionCom + " m;");
+                } else {
+                    if (room.getBioClockObs() != null)
+                        roomIrr.add("a altura do ponto biométrico está de acordo com a norma, porém possui as seguintes observações: "
+                                + room.getBioClockObs() + ";");
                 }
             }
         }
 
-        if (room.getHasBioClock() != null && room.getHasBioClock() == 1) {
-            if (room.getBioClockHeight() < minPrecisionCom) {
-                check++;
-                if (room.getBioClockObs() != null)
-                    roomIrr.add("a altura do ponto biométrico é inferior à " + minPrecisionCom + " m, com as seguintes observações: "
-                            + room.getBioClockObs() + ";");
-                else
-                    roomIrr.add("a altura do ponto biométrico é inferior à " + minPrecisionCom + " m;");
-            } else if (room.getBioClockHeight() > maxPrecisionCom) {
-                check++;
-                if (room.getBioClockObs() != null)
-                    roomIrr.add("a altura do ponto biométrico é superior à " + maxPrecisionCom + " m, com as seguintes observações: "
-                            + room.getBioClockObs() + ";");
-                else
-                    roomIrr.add("a altura do ponto biométrico é superior à " + maxPrecisionCom + " m;");
-            } else {
-                if (room.getBioClockObs() != null)
-                    roomIrr.add("a altura do ponto biométrico está de acordo com a norma, porém possui as seguintes observações: "
-                            + room.getBioClockObs() + ";");
-            }
+        if (room.getRoomObs() != null && room.getRoomObs().length() > 0) {
+            check++;
+            roomIrr.add("as seguintes observações podem ser feitas sobre este ambiente: " + room.getRoomObs() +";");
         }
         return roomIrr;
     }
 
     public static String roomTyping(int i) {
         switch (i) {
-            case 2:
+            case NUM_LIB:
                 return "Biblioteca - ";
-            case 3:
+            case NUM_COORD:
                 return "Coordenação - ";
-            case 4:
+            case NUM_DIR:
                 return "Diretoria - ";
-            case 5:
+            case NUM_CAFE:
                 return "Refeitório - ";
-            case 6:
+            case NUM_CLASS:
                 return "Sala de Aula - ";
-            case 7:
+            case NUM_TECH:
                 return "Sala de Tecnologia -";
-            case 8:
+            case NUM_RESOURCE:
                 return "Sala de Recursos - ";
-            case 9:
+            case NUM_TEACHER:
                 return "Sala dos Professores - ";
-            case 11:
+            case NUM_SEC:
                 return "Secretaria - ";
             default:
                 return "";

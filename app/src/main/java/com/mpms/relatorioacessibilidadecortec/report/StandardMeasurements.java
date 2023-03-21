@@ -224,6 +224,10 @@ public interface StandardMeasurements {
     double oFountMinActionHeight = 0.80;
     double oFountMaxActionHeight = 1.20;
 
+//    PCR Space
+    double widthPCR = 0.80;
+    double lengthPCR = 1.20;
+
 //    Height
     double lowerReach = 0.40;
     double upperReach = 1.20;

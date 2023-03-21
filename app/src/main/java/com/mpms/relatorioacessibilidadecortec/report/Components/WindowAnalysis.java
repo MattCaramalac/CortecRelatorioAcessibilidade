@@ -30,26 +30,26 @@ public class WindowAnalysis implements StandardMeasurements {
         StringBuilder builder = new StringBuilder();
         if (window.getComHeight1() > maxWinHeight) {
             windowIrregular(builder);
-            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType1()).append(" é superior a " + maxWinHeight + " m");
+            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType1()).append(", é superior a " + maxWinHeight + " m");
         } else if (window.getComHeight1() < minWinHeight) {
             windowIrregular(builder);
-            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType1()).append(" é inferior a " + minWinHeight + " m");
+            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType1()).append(", é inferior a " + minWinHeight + " m");
         }
 
         if (window.getComHeight2() != null && window.getComHeight2() > maxWinHeight) {
             windowIrregular(builder);
-            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType2()).append(" é superior a " + maxWinHeight + " m");
+            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType2()).append(", é superior a " + maxWinHeight + " m");
         } else if (window.getComHeight2() != null && window.getComHeight2() < minWinHeight) {
             windowIrregular(builder);
-            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType2()).append(" é inferior a " + minWinHeight + " m");
+            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType2()).append(", é inferior a " + minWinHeight + " m");
         }
 
         if (window.getComHeight3() != null && window.getComHeight3() > maxWinHeight) {
             windowIrregular(builder);
-            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType3()).append(" é superior a " + maxWinHeight + " m");
+            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType3()).append(", é superior a " + maxWinHeight + " m");
         } else if (window.getComHeight3() != null && window.getComHeight3() < minWinHeight) {
             windowIrregular(builder);
-            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType3()).append(" é inferior a " + minWinHeight + " m");
+            builder.append(" a altura do comando da janela, do tipo ").append(window.getComType3()).append(", é inferior a " + minWinHeight + " m");
         }
 
         if (window.getWindowObs() != null && window.getWindowObs().length() > 0) {
@@ -57,6 +57,7 @@ public class WindowAnalysis implements StandardMeasurements {
                 builder.append(" e as seguintes observações devem ser apontadas sobre a janela: ").append(window.getWindowObs());
             }
             else
+                windowIrregular(builder);
                 builder.append(" observações a ser apontadas sobre a janela: ").append(window.getWindowObs());
         }
 

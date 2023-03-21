@@ -31,12 +31,12 @@ public class EquipmentAnalysis implements StandardMeasurements {
         StringBuilder builder = new StringBuilder();
 
         if (equip.getEquipHeight() < lowestHeight)
-            builder.append("Presença de equipamento do tipo x, localizada em y, instalado abaixo de " + lowestHeight + " m;");
+            builder.append("Presença de equipamento do tipo x, localizado em y, com altura de instalação inferior a " + lowestHeight + " m;");
         else if ((equip.getEquipHeight() > lowestHeight && equip.getEquipHeight() < lowestAcceptHeight) ||
                 (equip.getEquipHeight() > highestAcceptHeight && equip.getEquipHeight() < highestHeight))
-            builder.append("Recomenda-se a instalação do equipamento do tipo x, localizada em y, numa altura entre " + lowestAcceptHeight + " e " + highestAcceptHeight + " m;");
+            builder.append("Recomenda-se a instalação do equipamento do tipo x, localizado em y, numa altura entre " + lowestAcceptHeight + " e " + highestAcceptHeight + " m;");
         else if (equip.getEquipHeight() > highestHeight)
-            builder.append("Presença de equipamento do tipo x, localizada em y, instalado acima de " + highestHeight + " m;");
+            builder.append("Presença de equipamento do tipo x, localizado em y, com altura de instalação superior a " + highestHeight + " m;");
 
         if (builder.length() <= 0)
             return null;
