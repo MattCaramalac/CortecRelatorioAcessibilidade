@@ -76,8 +76,8 @@ public class LibraryFragment extends Fragment implements TagInterface, RadioGrou
         distShelvesRadio = view.findViewById(R.id.distance_shelves_radio);
         pcrManeuverRadio = view.findViewById(R.id.PCR_maneuver_radio);
         accessPcRadio = view.findViewById(R.id.computer_accessibility_radio);
-        libCorridorRadio = view.findViewById(R.id.header_lib_corridor_length);
-        hasComputerRadio = view.findViewById(R.id.header_lib_has_computers);
+        libCorridorRadio = view.findViewById(R.id.lib_corridor_length_radio);
+        hasComputerRadio = view.findViewById(R.id.lib_has_computers_radio);
 
 //        TextView
         distShelvesError = view.findViewById(R.id.distance_shelves_error);

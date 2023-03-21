@@ -309,6 +309,7 @@ public class SillSlopeFragment extends Fragment implements TagInterface {
                     slopeAngleValue3.setText(String.valueOf(doorEntry.getSlopeAngle3()));
             case 2:
                 slopeAngleField2.setVisibility(View.VISIBLE);
+                delAngle.setVisibility(View.VISIBLE);
                 if (doorEntry.getSlopeAngle2() != null)
                     slopeAngleValue2.setText(String.valueOf(doorEntry.getSlopeAngle2()));
             case 1:

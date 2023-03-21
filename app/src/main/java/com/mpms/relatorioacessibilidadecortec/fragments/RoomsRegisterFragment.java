@@ -270,24 +270,24 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
     private void setChildFragView(Bundle bundle) {
         switch (bundle.getInt(ROOM_TYPE)) {
-            case 2:
+            case NUM_LIB:
                 getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new LibraryFragment()).commit();
                 break;
-            case 3:
-            case 4:
-            case 9:
+            case NUM_SEC:
+                getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new SecretariatFragment()).commit();
+            case NUM_COORD:
+            case NUM_DIR:
+            case NUM_TEACHER:
                 phoneHeader.setVisibility(View.VISIBLE);
                 biometryHeader.setVisibility(View.VISIBLE);
                 phoneRadio.setVisibility(View.VISIBLE);
                 biometryRadio.setVisibility(View.VISIBLE);
                 break;
-            case 5:
+            case NUM_CAFE:
                 counterHeader.setVisibility(View.VISIBLE);
                 addCounter.setVisibility(View.VISIBLE);
                 break;
-            case 11:
-                getChildFragmentManager().beginTransaction().replace(R.id.room_child_fragment, new SecretariatFragment()).commit();
-            case 12:
+            case NUM_OTHER:
                 workRoomHeader.setVisibility(View.VISIBLE);
                 workRoomRadio.setVisibility(View.VISIBLE);
                 roomDescField.setVisibility(View.VISIBLE);
@@ -357,7 +357,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
         if (buttonPressed > 0) {
             roomBundle.putBoolean(RECENT_ENTRY, true);
-            if (bundle.getInt(ROOM_TYPE) == 2 || bundle.getInt(ROOM_TYPE) == 11) {
+            if (bundle.getInt(ROOM_TYPE) == NUM_LIB || bundle.getInt(ROOM_TYPE) == NUM_SEC) {
                 bundle.putBoolean(ADD_ITEM_REQUEST, true);
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);
             } else {
@@ -365,7 +365,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 childFragCaller(buttonPressed, bundle);
             }
         } else {
-            if (bundle.getInt(ROOM_TYPE) == 2 || bundle.getInt(ROOM_TYPE) == 11) {
+            if (bundle.getInt(ROOM_TYPE) == NUM_LIB || bundle.getInt(ROOM_TYPE) == NUM_SEC) {
                 bundle.putBoolean(ADD_ITEM_REQUEST, false);
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);
             } else {
@@ -424,7 +424,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             i++;
             roomLocaleField.setError(getString(R.string.req_field_error));
         }
-        if (bundle.getInt(ROOM_TYPE) == 12) {
+        if (bundle.getInt(ROOM_TYPE) == NUM_OTHER) {
             if (TextUtils.isEmpty(roomDescValue.getText())) {
                 i++;
                 roomDescField.setError(getString(R.string.req_field_error));
@@ -456,8 +456,8 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             accessFloorError.setVisibility(View.VISIBLE);
         }
 
-        if (bundle.getInt(ROOM_TYPE) == 3 || bundle.getInt(ROOM_TYPE) == 4 || bundle.getInt(ROOM_TYPE) == 9 ||
-                bundle.getInt(ROOM_TYPE) == 11 || bundle.getInt(ROOM_TYPE) == 12) {
+        if (bundle.getInt(ROOM_TYPE) == NUM_COORD || bundle.getInt(ROOM_TYPE) == NUM_DIR || bundle.getInt(ROOM_TYPE) == NUM_TEACHER ||
+                bundle.getInt(ROOM_TYPE) == NUM_SEC || bundle.getInt(ROOM_TYPE) == NUM_OTHER) {
             if (indexCheckRadio(phoneRadio) == -1) {
                 i++;
                 phoneError.setVisibility(View.VISIBLE);
@@ -538,7 +538,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         Double secPcrWidth = null, secPcrDepth = null, intPhoneHeight = null, bioClockHeight = null;
 
         roomLocale = String.valueOf(roomLocaleValue.getText());
-        if (bundle.getInt(ROOM_TYPE) == 12) {
+        if (bundle.getInt(ROOM_TYPE) == NUM_OTHER) {
             if (!TextUtils.isEmpty(roomDescValue.getText()))
                 roomDescription = String.valueOf(roomDescValue.getText());
             isWork = indexCheckRadio(workRoomRadio);
@@ -580,7 +580,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             if (!TextUtils.isEmpty(accessFloorObsValue.getText()))
                 accessFloorObs = String.valueOf(accessFloorObsValue.getText());
 
-            if (bundle.getInt(ROOM_TYPE) == 2) {
+            if (bundle.getInt(ROOM_TYPE) ==NUM_LIB) {
                 LibParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
                 libDistShelves = parcel.getRightDistShelves();
@@ -592,7 +592,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                     libAccessPC = parcel.getHasAccessComputer();
 
             }
-            else if (bundle.getInt(ROOM_TYPE) == 11) {
+            else if (bundle.getInt(ROOM_TYPE) == NUM_SEC) {
                 SecParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
                 secHasFixedSeat = parcel.getHasFixedSeats();
@@ -606,8 +606,8 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 }
             }
 
-            if (bundle.getInt(ROOM_TYPE) == 3 || bundle.getInt(ROOM_TYPE) == 4 || bundle.getInt(ROOM_TYPE) == 9 ||
-                    bundle.getInt(ROOM_TYPE) == 11) {
+            if (bundle.getInt(ROOM_TYPE) == NUM_COORD || bundle.getInt(ROOM_TYPE) == NUM_DIR || bundle.getInt(ROOM_TYPE) == NUM_TEACHER ||
+                    bundle.getInt(ROOM_TYPE) == NUM_SEC) {
                 hasIntPhone = indexCheckRadio(phoneRadio);
                 if (hasIntPhone == 1) {
                     if (!TextUtils.isEmpty(phoneHeightValue.getText()))
@@ -643,7 +643,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             roomLocaleValue.setText(roomEntry.getRoomLocation());
         if (roomEntry.getRoomDescription() != null)
             roomDescValue.setText(roomEntry.getRoomDescription());
-        if (roomEntry.getRoomType() == 12) {
+        if (roomEntry.getRoomType() == NUM_OTHER) {
             if (roomEntry.getIsWorkRoom() != null && roomEntry.getIsWorkRoom() > -1) {
                 checkRadioGroup(workRoomRadio, roomEntry.getIsWorkRoom());
                 if (roomEntry.getIsWorkRoom() == 0) {
@@ -713,7 +713,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                     biometryObsValue.setText(roomEntry.getBioClockObs());
             }
 
-            if (roomEntry.getRoomType() == 2 || roomEntry.getRoomType() == 11)
+            if (roomEntry.getRoomType() == NUM_LIB || roomEntry.getRoomType() == NUM_SEC)
                 getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, roomBundle);
         }
 

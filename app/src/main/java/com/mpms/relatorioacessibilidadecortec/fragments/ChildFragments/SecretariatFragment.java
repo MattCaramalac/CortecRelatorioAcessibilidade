@@ -156,7 +156,7 @@ public class SecretariatFragment extends Fragment implements TagInterface, Scrol
                     pcrSpaceWidthField.setError(getText(R.string.req_field_error));
                 }
                 if (TextUtils.isEmpty(pcrSpaceDepthValue.getText())) {
-                    pcrSpaceDepthValue.setError(getText(R.string.req_field_error));
+                    pcrSpaceDepthField.setError(getText(R.string.req_field_error));
                     error++;
                 }
             }
