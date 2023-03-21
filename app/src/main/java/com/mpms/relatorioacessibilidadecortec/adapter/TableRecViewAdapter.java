@@ -72,13 +72,23 @@ public class TableRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
     }
 
     public String tableTypeText(TableEntry table, int i) {
+        String tableType = null;
+        if (table.getTableDesc() != null)
+            tableType = table.getTableDesc();
         if (table.getRoomType() == 6) {
-            if (table.getTableType() == 1)
+            if (table.getTableType() == 1 && tableType != null)
+                return "Mesa do Aluno nº" + i + " - " + tableType;
+            else if (table.getTableType() == 1)
                 return "Mesa do Aluno nº" + i;
+            else if (table.getTableType() == 0 && tableType != null)
+                return "Mesa do Professor nº" + i + " - " + tableType;
             else
                 return "Mesa do Professor nº" + i;
         } else {
-            return "Cadastro de Mesa nº" + i;
+            if (tableType != null)
+                return "Cadastro de Mesa nº" + i + " - " + tableType;
+            else
+                return "Cadastro de Mesa nº" + i;
         }
     }
 
