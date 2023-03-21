@@ -73,7 +73,7 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
 
         instantiateGateObsViews(view);
 
-        if (lockListBundle.getBoolean(FROM_ROOMS)) {
+        if (lockListBundle.getBoolean(FROM_ROOMS) && lockListBundle.getInt(DOOR_ID) == 0) {
             modelEntry.getLastDoorEntry().observe(getViewLifecycleOwner(), lastDoor ->
                     lockListBundle.putInt(DOOR_ID, lastDoor.getDoorID()));
         } else {
@@ -208,7 +208,7 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
     @Override
     public void OnEntryClick(int position) {
         DoorLockEntry lockEntry;
-        if (lockListBundle.getInt(AMBIENT_ID) == 0) {
+        if (!lockListBundle.getBoolean(FROM_EXT_ACCESS)) {
             lockEntry = modelEntry.allDoorLocks.getValue().get(position);
         }
         else {

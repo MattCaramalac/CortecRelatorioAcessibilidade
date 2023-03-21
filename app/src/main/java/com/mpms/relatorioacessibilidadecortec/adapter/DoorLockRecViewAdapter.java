@@ -75,9 +75,9 @@ public class DoorLockRecViewAdapter extends RecyclerView.Adapter<ViewHolderInter
         switch (lockEntry.getLockType()) {
             case 2:
                 return lockEntry.getLockDesc();
-            case 1:
-                return "Trava Deslizante";
             case 0:
+                return "Trava Deslizante";
+            case 1:
                 return "Porta Cadeado";
             default:
                 return "";

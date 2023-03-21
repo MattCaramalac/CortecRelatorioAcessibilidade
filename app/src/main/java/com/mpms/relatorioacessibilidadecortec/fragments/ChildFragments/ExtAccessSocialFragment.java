@@ -103,6 +103,7 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface, S
     @Override
     public void onResume() {
         super.onResume();
+        extAccSocialBundle.putBoolean(FROM_EXT_ACCESS, false);
         if (trackGapFields.size() == 0 && rampTrackFields.size() == 0)
             addRampTrackToArrays();
     }
@@ -287,6 +288,7 @@ public class ExtAccessSocialFragment extends Fragment implements TagInterface, S
             } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         } else if (v == addGateLockButton) {
+            bundle.putBoolean(FROM_EXT_ACCESS, true);
             ExtAccessSocialTwo newSocialTwo = socialTwo(bundle);
             ViewModelEntry.updateExtAccessRegTwo(newSocialTwo);
             frag = new DoorLockListFragment();
