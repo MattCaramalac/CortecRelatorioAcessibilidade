@@ -536,6 +536,11 @@ public class JsonCreation {
             }
             schoolObj.put("schoolServices", services.toString());
 
+            if (school.getServicesObs() != null && school.getServicesObs().length() > 0)
+                schoolObj.put("schoolServicesObs", ", " + school.getServicesObs());
+            else
+                schoolObj.put("schoolServicesObs", "");
+
 //            Horário de Funcionamento
             int hourCounter = 1;
 
@@ -575,6 +580,11 @@ public class JsonCreation {
             }
             schoolObj.put("workingHours", workHour.toString());
 
+            if (school.getWorkingHoursObs() != null && school.getWorkingHoursObs().length() > 0)
+                schoolObj.put("workingHoursObs", ", " + school.getWorkingHoursObs());
+            else
+                schoolObj.put("workingHoursObs", "");
+
             schoolObj.put("numberStudents", String.valueOf(school.getNumberStudents()));
 
 //            Número Alunos PCD/PMR
@@ -590,6 +600,12 @@ public class JsonCreation {
                 schoolObj.put("necessityDesc", "");
             else
                 schoolObj.put("necessityDesc", ", a saber, " + school.getStudentsPCDDescription());
+
+//            Observações dos Alunos
+            if (school.getRegisterStudentObs() != null && school.getRegisterStudentObs().length() > 0)
+                schoolObj.put("studentsObs", "Destaca-se que " + school.getRegisterStudentObs());
+            else
+                schoolObj.put("studentsObs", "");
 
 //            Funcionários da Escola
             schoolObj.put("numberWorkers", String.valueOf(school.getNumberWorkers()));
