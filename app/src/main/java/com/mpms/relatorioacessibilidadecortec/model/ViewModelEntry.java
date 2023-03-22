@@ -121,8 +121,12 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSchoolRegThree(regThree));
     }
 
-    public static void deleteOneSchool(SchoolEntry schoolEntry) {
+    public static void deleteOneSchoolEntry(SchoolEntry schoolEntry) {
         repository.deleteOneSchoolEntry(schoolEntry);
+    }
+
+    public static void delSchoolWithID(int schID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.delSchoolWithID(schID));
     }
 
     public static void deleteAllSchool() {

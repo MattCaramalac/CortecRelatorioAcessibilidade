@@ -297,17 +297,14 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public boolean registerFragmentOnScreen() {
-        int i = 1;
         frag = getSupportFragmentManager().findFragmentById(R.id.show_fragment_selected);
         if (frag == null)
-            i = 0;
+            return true;
         else {
-            if (frag instanceof ExternalAccessListFragment || frag instanceof ParkingLotListFragment || frag instanceof PlaygroundListFragment
+            return frag instanceof ExternalAccessListFragment || frag instanceof ParkingLotListFragment || frag instanceof PlaygroundListFragment
                     || frag instanceof RestListFragment || frag instanceof RoomRegisterListFragment || frag instanceof SidewalkListFragment
-                    || (frag instanceof WaterFountainListFragment && !inspectionBundle.getBoolean(FROM_ROOMS)))
-                i = 0;
+                    || (frag instanceof WaterFountainListFragment && !inspectionBundle.getBoolean(FROM_ROOMS));
         }
-        return i == 0;
     }
 
     public static void callFunction(HashMap<String, String> tData, JsonCreation jCreate, Context context) {

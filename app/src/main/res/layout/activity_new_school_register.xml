@@ -24,24 +24,42 @@
     </ScrollView>
 
     <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/return_school_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_return"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/save_update_close_register"
+        app:layout_constraintTop_toBottomOf="@id/register_scroll_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/save_update_close_register"
-        android:layout_width="150dp"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/register_scroll_view"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="@dimen/top_margins"
-        android:textSize="13sp"/>
+        app:layout_constraintStart_toEndOf="@id/return_school_button"
+        app:layout_constraintEnd_toStartOf="@id/save_update_continue_register"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/purple_200"
+        android:textSize="14sp"
+        android:textStyle="bold"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save_update_continue_register"
-        android:layout_width="150dp"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/register_scroll_view"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/save_update_close_register"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="@dimen/top_margins"
-        android:textSize="13sp"/>
+        android:textSize="14sp"
+        android:textStyle="bold"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

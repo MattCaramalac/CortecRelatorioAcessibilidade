@@ -76,7 +76,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MainViewHolderInte
     public void deleteItemList() {
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
-            ViewModelEntry.deleteOneSchool(schoolEntryList.get(selectedItems.keyAt(i)));
+            ViewModelEntry.deleteOneSchoolEntry(schoolEntryList.get(selectedItems.keyAt(i)));
         }
     }
 

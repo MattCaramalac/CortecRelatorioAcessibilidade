@@ -42,7 +42,10 @@ public interface SchoolEntryDao {
     void updateSchoolRegThree(SchoolRegisterThree... regThree);
 
     @Delete
-    void deleteOne(SchoolEntry schoolEntry);
+    void deleteOneSchoolEntry(SchoolEntry schoolEntry);
+
+    @Query("DELETE FROM SchoolEntry WHERE cadID == :schID")
+    void deleteSchoolWithID(int schID);
 
     @Query("DELETE FROM SchoolEntry")
     void deleteAll();

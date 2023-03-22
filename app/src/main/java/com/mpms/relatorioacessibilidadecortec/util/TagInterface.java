@@ -9,6 +9,15 @@ public interface TagInterface {
 
     //    Tags defining school info
     String SCHOOL_ID = "SCHOOL_ID";
+    String SAVE_CLOSE = "SAVE_CLOSE";
+    String SAVE_CONTINUE = "SAVE_CONTINUE";
+    String UPDATE_CLOSE = "UPDATE_CLOSE";
+    String UPDATE_CONTINUE = "UPDATE_CONTINUE";
+    String CLOSE_FRAGMENT = "CLOSE_FRAGMENT";
+    String OPEN_FRAG_TWO = "OPEN_FRAG_TWO";
+    String OPEN_FRAG_THREE = "OPEN_FRAG_THREE";
+    String NEXT_ACTIVITY = "NEXT_ACTIVITY";
+    String SCHOOL_BUNDLE = "SCHOOL_BUNDLE";
 
     //    Tags defining block info
     String BLOCK_ID = "BLOCK_ID";
@@ -148,7 +157,7 @@ public interface TagInterface {
     //    Activity Listeners
     String CLOSE_ACTIVITY = "CLOSE_ACTIVITY";
 
-//    Ambient Numeration
+    //    Ambient Numeration
 //    1 - Blocos
     int NUM_WC = 0;
     int NUM_FOUNT = 1;

@@ -184,7 +184,11 @@ public class ReportRepository {
     }
 
     public void deleteOneSchoolEntry(SchoolEntry schoolEntry) {
-        ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.deleteOne(schoolEntry));
+        ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.deleteOneSchoolEntry(schoolEntry));
+    }
+
+    public void delSchoolWithID(int schID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.deleteSchoolWithID(schID));
     }
 
     public void insertBlockSpace(BlockSpaceEntry blockSpace) {
