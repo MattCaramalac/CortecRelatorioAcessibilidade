@@ -14,7 +14,6 @@
         <TextView
             android:id="@+id/students_employees_register_header"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/students_employees_register_header"
@@ -26,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/students_employees_register_header"
-            app:layout_constraintStart_toStartOf="parent"
             android:text="@string/students_ages_header"
             android:textSize="@dimen/section_header"
             android:layout_marginTop="@dimen/usual_padding"/>
@@ -181,7 +179,6 @@
             android:id="@+id/description_pcd_students_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/total_students_field"
             android:hint="@string/hint_students_pcd_description"
             android:layout_marginTop="@dimen/usual_padding">
@@ -202,11 +199,34 @@
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/students_register_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/description_pcd_students_field"
+            android:hint="@string/hint_student_obs"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/students_register_obs_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="outsideInset"
+                android:scrollbars="vertical"
+                android:gravity="start"
+                android:scrollHorizontally="false"
+                android:lines="@integer/multiline_obs_field"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/total_workers_field"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/description_pcd_students_field"
+            app:layout_constraintTop_toBottomOf="@id/students_register_obs_field"
             app:layout_constraintEnd_toStartOf="@id/total_pcd_workers_field"
             android:hint="@string/hint_total_workers"
             android:layout_marginTop="@dimen/usual_padding"
@@ -245,7 +265,6 @@
             android:id="@+id/description_pcd_workers_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/total_workers_field"
             android:hint="@string/hint_workers_pcd_description"
             android:layout_marginTop="@dimen/usual_padding">
@@ -278,7 +297,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_has_libras_workers">
 
             <RadioButton
@@ -306,7 +324,6 @@
             android:textColor="@color/error_message"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/has_libras_workers_radio"
-            app:layout_constraintStart_toStartOf="parent"
             />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -315,7 +332,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/libras_workers_error"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_total_workers_libras"
             android:visibility="gone">
@@ -333,7 +349,6 @@
             android:id="@+id/libras_workers_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/total_workers_libras_field"
             android:hint="@string/hint_libras_obs"
             android:layout_marginTop="@dimen/usual_padding"
@@ -354,35 +369,12 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/students_register_obs_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/libras_workers_obs_field"
-            android:hint="Observações Cadastro de estudantes"
-            android:layout_marginTop="@dimen/usual_padding">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/students_register_obs_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="@integer/multiline_obs_field"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/initial_date_inspection_field"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/students_register_obs_field"
+            app:layout_constraintTop_toBottomOf="@id/libras_workers_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
@@ -405,7 +397,6 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/final_date_inspection_field"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/initial_date_inspection_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -425,8 +416,6 @@
                 android:focusableInTouchMode="false"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

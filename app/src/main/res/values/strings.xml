@@ -782,5 +782,8 @@
     <string name="radio_child_size">INFANTIL</string>
     <string name="radio_adult_size">ADULTO</string>
     <string name="hint_free_width_table">Largura Livre da Mesa (m)</string>
+    <string name="hint_student_obs">Observações Cadastro de estudantes</string>
+    <string name="checkbox_nursery">Berçário</string>
+    <string name="checkbox_daycare">Creche</string>
 
 </resources>

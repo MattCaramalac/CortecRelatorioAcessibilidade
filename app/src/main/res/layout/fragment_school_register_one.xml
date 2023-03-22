@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:text="@string/header_school_register"
             android:textSize="@dimen/section_header"
             android:textStyle="bold"/>
@@ -28,7 +27,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_school"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/school_register_header_one"
             android:layout_marginTop="@dimen/usual_padding">
 
@@ -47,7 +45,6 @@
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_address_street"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/school_name_field">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -104,7 +101,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_address_neighborhood"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/address_complement_field">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -121,7 +117,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_city_school"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/address_neighborhood_field">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -138,7 +133,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_name_district"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/address_city_field">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -240,7 +234,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_name_responsible_visit"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/second_telephone_name_field">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -257,7 +250,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_visit_team"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name_responsible_field">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -281,7 +273,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_email"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name_team_components_field">
 
             <com.google.android.material.textfield.TextInputEditText

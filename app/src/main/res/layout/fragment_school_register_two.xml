@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:text="@string/header_school_info_work_services"
             android:textSize="@dimen/section_header"
             android:textStyle="bold"/>
@@ -26,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/school_register_header_two"
-            app:layout_constraintStart_toStartOf="parent"
             android:text="@string/working_hours"
             android:textSize="@dimen/section_header"
             android:layout_marginTop="@dimen/usual_padding"/>
@@ -239,7 +237,6 @@
             android:id="@+id/working_hours_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/working_hours_error_message"
             android:hint="@string/hint_obs"
             android:layout_marginTop="@dimen/usual_padding">
@@ -263,7 +260,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/working_hours_obs_field"
-            app:layout_constraintStart_toStartOf="parent"
             android:text="@string/offered_services"
             android:textSize="@dimen/section_header"
             android:layout_marginTop="@dimen/usual_padding"/>
@@ -272,7 +268,7 @@
             android:id="@+id/checkbox_nursery"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:text="Berçário"
+            android:text="@string/checkbox_nursery"
             android:textSize="18sp"
             android:layout_marginTop="@dimen/top_margins"
             app:layout_constraintTop_toBottomOf="@id/school_services_header"
@@ -282,7 +278,7 @@
             android:id="@+id/checkbox_day_care"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:text="Creche"
+            android:text="@string/checkbox_daycare"
             android:textSize="18sp"
             android:layout_marginTop="@dimen/top_margins"
             app:layout_constraintTop_toBottomOf="@id/checkbox_nursery"
@@ -622,7 +618,6 @@
             android:id="@+id/school_services_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/school_services_error_message"
             android:hint="@string/hint_obs"
             android:layout_marginTop="@dimen/usual_padding">
