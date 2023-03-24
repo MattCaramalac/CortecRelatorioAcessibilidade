@@ -112,6 +112,8 @@ public class RestListFragment extends Fragment implements OnEntryClickListener, 
     public void onResume() {
         super.onResume();
         restListBundle.putInt(REST_ID,0);
+        restListBundle.putBoolean(VISIBLE_MEMORIAL, true);
+        getParentFragmentManager().setFragmentResult(MEMORIAL, restListBundle);
     }
 
     private void instantiateRestListViews(View v) {
@@ -187,6 +189,7 @@ public class RestListFragment extends Fragment implements OnEntryClickListener, 
     }
 
     private void OpenRestFragment() {
+        restListBundle.putBoolean(VISIBLE_MEMORIAL, false);
         RestFragment restFragment = RestFragment.newInstance();
         restFragment.setArguments(restListBundle);
         if (actionMode != null)

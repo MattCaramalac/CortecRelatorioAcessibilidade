@@ -115,7 +115,8 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
     public void onResume() {
         super.onResume();
         sideListBundle.putInt(AMBIENT_ID, 0);
-
+        sideListBundle.putBoolean(VISIBLE_MEMORIAL, true);
+        getParentFragmentManager().setFragmentResult(MEMORIAL, sideListBundle);
     }
 
     private void enableActionMode() {
@@ -173,6 +174,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
     }
 
     private void openSidewalkFragment() {
+        sideListBundle.putBoolean(VISIBLE_MEMORIAL, false);
         SidewalkFragment sidewalkFrag = SidewalkFragment.newInstance();
         fragmentManager = requireActivity().getSupportFragmentManager();
         if (actionMode != null)

@@ -88,6 +88,8 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
 
         instantiateParkingViews(view);
 
+        getParentFragmentManager().setFragmentResult(MEMORIAL,parkingBundle);
+
         if (parkingBundle.getInt(PARKING_ID) > 0) {
             modelEntry.getOneParkingLot(parkingBundle.getInt(PARKING_ID))
                     .observe(getViewLifecycleOwner(), this::loadParkingLotData);

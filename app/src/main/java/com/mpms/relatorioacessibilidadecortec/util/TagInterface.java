@@ -157,6 +157,10 @@ public interface TagInterface {
     //    Activity Listeners
     String CLOSE_ACTIVITY = "CLOSE_ACTIVITY";
 
+    //    Inspection Memorial View Config
+    String MEMORIAL = "MEMORIAL";
+    String VISIBLE_MEMORIAL = "VISIBLE_MEMORIAL";
+
     //    Ambient Numeration
 //    1 - Blocos
     int NUM_WC = 0;

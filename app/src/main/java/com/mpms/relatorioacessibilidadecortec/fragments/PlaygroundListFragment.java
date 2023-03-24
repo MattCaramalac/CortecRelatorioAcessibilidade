@@ -35,7 +35,6 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
 
 
     MaterialButton closePlayList, addPlayground, continuePlayground;
-    TextView playHeader;
 
     TextView registerHeader;
 
@@ -109,6 +108,13 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        playBundle.putBoolean(VISIBLE_MEMORIAL, true);
+        getParentFragmentManager().setFragmentResult(MEMORIAL, playBundle);
+    }
+
     private void enableActionMode() {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
@@ -164,6 +170,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     }
 
     private void openPlayFragment() {
+        playBundle.putBoolean(VISIBLE_MEMORIAL, false);
         PlaygroundFragment playFragment = PlaygroundFragment.newInstance();
         playFragment.setArguments(playBundle);
         if (actionMode != null)

@@ -111,6 +111,8 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         super.onViewCreated(view, savedInstanceState);
         instantiateRoomViews(view);
 
+        getParentFragmentManager().setFragmentResult(MEMORIAL, roomBundle);
+
         if (roomBundle.getInt(AMBIENT_ID) > 0) {
             newEntry = 0;
             modelEntry.getRoomEntry(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadRoomData);

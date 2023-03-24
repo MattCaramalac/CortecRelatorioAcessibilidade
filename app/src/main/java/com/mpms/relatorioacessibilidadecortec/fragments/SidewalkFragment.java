@@ -91,6 +91,8 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
 
         instantiateSidewalkFragmentViews(view);
 
+        getParentFragmentManager().setFragmentResult(MEMORIAL, sideBundle);
+
 
         if (sideBundle.getInt(AMBIENT_ID) > 0) {
             modelEntry.getSidewalkEntry(sideBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSidewalkData);

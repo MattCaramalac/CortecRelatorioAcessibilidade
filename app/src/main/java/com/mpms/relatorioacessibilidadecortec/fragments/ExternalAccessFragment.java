@@ -89,6 +89,8 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
 
         instantiateExternalAccessViews(view);
 
+        getParentFragmentManager().setFragmentResult(MEMORIAL, extBundle);
+
         if (extBundle.getInt(AMBIENT_ID) > 0)
             modelEntry.getOneExternalAccess(extBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadExtAccessInfo);
 

@@ -73,6 +73,11 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     AutoCompleteTextView listItemsMemorial;
     ArrayAdapter<String> adapterLocations;
     HashMap<String, String> tData;
+    MaterialButton saveAndClose;
+
+    ViewModelEntry modelEntry;
+
+    Bundle fragInspection;
 
     SchoolEntry school;
 
@@ -353,12 +358,6 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         ViewModelEntry.getAllBoxDoors(idList).observe(getViewLifecycleOwner(), bDoorList -> boxDoorList = bDoorList);
     };
 
-    MaterialButton saveAndClose;
-
-    ViewModelEntry modelEntry;
-
-    Bundle fragInspection;
-
     public InspectionMemorial() {
         // Required empty public constructor
     }
@@ -395,6 +394,17 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
         ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+
+        getParentFragmentManager().setFragmentResultListener(MEMORIAL, this, (key,bundle) -> {
+            if (!bundle.getBoolean(VISIBLE_MEMORIAL)) {
+                dropdownMenuLocations.setVisibility(View.GONE);
+                saveAndClose.setVisibility(View.GONE);
+            } else {
+                dropdownMenuLocations.setVisibility(View.VISIBLE);
+                saveAndClose.setVisibility(View.VISIBLE);
+            }
+
+        });
 
         modelEntry.getEntry(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), entry -> school = entry);
 

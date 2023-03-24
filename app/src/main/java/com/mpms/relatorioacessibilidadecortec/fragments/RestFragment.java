@@ -90,6 +90,8 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
 
         instantiateRestViews(view);
 
+        getParentFragmentManager().setFragmentResult(MEMORIAL, restBundle);
+
         if (restBundle.getInt(REST_ID) > 0) {
             modelEntry.getOneRestroomEntry(restBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadRestData);
         }

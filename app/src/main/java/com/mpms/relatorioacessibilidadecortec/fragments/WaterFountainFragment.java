@@ -71,6 +71,8 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
 
         instantiateFountainViews(view);
 
+        getParentFragmentManager().setFragmentResult(MEMORIAL, waterBundle);
+
         if (waterBundle.getInt(FOUNTAIN_ID) > 0) {
             modelEntry.getOneWaterFountain(waterBundle.getInt(FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadFountainInfo);
         }

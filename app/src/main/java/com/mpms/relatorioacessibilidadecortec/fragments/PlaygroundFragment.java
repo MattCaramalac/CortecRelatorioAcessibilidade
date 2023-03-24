@@ -96,6 +96,8 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
         super.onViewCreated(view, savedInstanceState);
         instantiatePlayViews(view);
 
+        getParentFragmentManager().setFragmentResult(MEMORIAL, playBundle);
+
         if (playBundle.getInt(PLAY_ID) > 0)
             modelEntry.getOnePlayground(playBundle.getInt(PLAY_ID)).observe(getViewLifecycleOwner(), this::loadPlaygroundData);
 

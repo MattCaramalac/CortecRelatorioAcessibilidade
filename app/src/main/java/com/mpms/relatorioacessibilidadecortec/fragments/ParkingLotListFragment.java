@@ -102,6 +102,8 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     public void onResume() {
         super.onResume();
         parkListBundle.putInt(PARKING_ID, 0);
+        parkListBundle.putBoolean(VISIBLE_MEMORIAL, true);
+        getParentFragmentManager().setFragmentResult(MEMORIAL, parkListBundle);
     }
 
     private void instantiateParkingListViews(View v) {
@@ -198,6 +200,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     }
 
     private void openParkingLotFragment() {
+        parkListBundle.putBoolean(VISIBLE_MEMORIAL, false);
         ParkingLotFragment parkingLot = ParkingLotFragment.newInstance();
         parkingLot.setArguments(parkListBundle);
         if (actionMode != null)

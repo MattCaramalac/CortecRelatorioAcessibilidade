@@ -118,6 +118,8 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     public void onResume() {
         super.onResume();
         roomListBundle.putInt(AMBIENT_ID, 0);
+        roomListBundle.putBoolean(VISIBLE_MEMORIAL, true);
+        getParentFragmentManager().setFragmentResult(MEMORIAL, roomListBundle);
     }
 
     private void instantiateRoomListViews(View view) {
@@ -192,6 +194,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
 
 
     private void openRoomFragment() {
+        roomListBundle.putBoolean(VISIBLE_MEMORIAL, false);
         RoomsRegisterFragment roomFragment = RoomsRegisterFragment.newInstance();
         roomFragment.setArguments(roomListBundle);
         if (actionMode != null)

@@ -108,7 +108,8 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public void onResume() {
         super.onResume();
         fountainBundle.putInt(FOUNTAIN_ID, 0);
-
+        fountainBundle.putBoolean(VISIBLE_MEMORIAL, true);
+        getParentFragmentManager().setFragmentResult(MEMORIAL, fountainBundle);
     }
 
     @Override
@@ -226,12 +227,12 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     }
 
     private void OpenFountainFragment() {
+        fountainBundle.putBoolean(VISIBLE_MEMORIAL, false);
         WaterFountainFragment fountainFragment = WaterFountainFragment.newInstance();
         fountainFragment.setArguments(fountainBundle);
         if (actionMode != null)
             actionMode.finish();
-        fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.show_fragment_selected, fountainFragment).addToBackStack(null).commit();
+        requireActivity().getSupportFragmentManager().beginTransaction().
+                replace(R.id.show_fragment_selected, fountainFragment).addToBackStack(null).commit();
     }
 }
