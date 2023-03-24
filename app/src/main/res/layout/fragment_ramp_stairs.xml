@@ -18,7 +18,7 @@
         android:id="@+id/ramp_stairs_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_small"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
         app:layout_constraintTop_toBottomOf="@id/ramp_stairs_header"
         android:layout_marginTop="@dimen/usual_padding">
 
@@ -49,18 +49,19 @@
         android:id="@+id/save_ramp_stairs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_proceed_register"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ramp_stairs_scroll" />
+        app:layout_constraintTop_toBottomOf="@id/ramp_stairs_scroll"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_ramp_stairs"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_button_cancel"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/save_ramp_stairs"

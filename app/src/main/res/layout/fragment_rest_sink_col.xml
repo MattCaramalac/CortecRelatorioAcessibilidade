@@ -10,7 +10,7 @@
         android:id="@+id/col_sink_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cadastro de Lavatório Coletivo"
+        android:text="@string/header_col_restroom"
         android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,7 +19,7 @@
         android:id="@+id/col_sink_constraint"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.85"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
         app:layout_constraintTop_toBottomOf="@id/col_sink_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="Sanitário possui lavatório?"
+                android:text="@string/header_rest_has_sink"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="Qual o tipo de lavatório presente no sanitário?"
+                android:text="@string/header_sink_type_collective"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintTop_toBottomOf="@id/has_col_sink_error"
                 android:visibility="gone"/>
@@ -90,14 +90,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="INDEPENDENTE"
+                    android:text="@string/radio_independent"
                     android:textSize="@dimen/radio_button_text" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="BANCADA"
+                    android:text="@string/radio_counter"
                     android:textSize="@dimen/radio_button_text" />
             </RadioGroup>
 
@@ -152,18 +152,19 @@
         android:id="@+id/save_col_sink_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/usual_padding"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_proceed_register"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/col_sink_constraint" />
+        app:layout_constraintTop_toBottomOf="@id/col_sink_constraint"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_col_sink_button"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_button_cancel"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/save_col_sink_button"

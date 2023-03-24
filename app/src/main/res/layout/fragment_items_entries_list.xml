@@ -9,7 +9,7 @@
         android:id="@+id/items_entries_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.88"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_bigger"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -17,7 +17,7 @@
         android:id="@+id/add_items_entries"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_add_frag_entry"
         android:textStyle="bold"
         android:textSize="16sp"
@@ -30,7 +30,7 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_button_cancel"
         android:textStyle="bold"
         android:textSize="16sp"

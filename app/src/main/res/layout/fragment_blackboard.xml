@@ -13,14 +13,13 @@
         android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"
         android:text="@string/label_blackboard_register"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ScrollView
         android:id="@+id/blackboard_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
         app:layout_constraintTop_toBottomOf="@id/blackboard_register_header"
         android:layout_marginTop="@dimen/usual_padding">
 
@@ -31,7 +30,6 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/board_location_field"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -47,7 +45,6 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/board_inf_height_field"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/board_location_field"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:layout_width="match_parent"

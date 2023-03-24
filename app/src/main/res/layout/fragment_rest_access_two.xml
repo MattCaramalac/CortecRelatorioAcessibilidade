@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_small"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
         app:layout_constraintTop_toBottomOf="@id/access_info_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -173,14 +173,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="ALAVANCA"
+                    android:text="@string/radio_alavanca"
                     android:textSize="@dimen/radio_button_text" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="OUTRO TIPO"
+                    android:text="@string/radio_other_type"
                     android:textSize="@dimen/radio_button_text" />
 
             </RadioGroup>
@@ -354,7 +354,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="Tipo de Comando Janela 2"
+                android:hint="@string/hint_window_command_2"
                 android:weightSum="@integer/weight_one"
                 app:layout_constraintEnd_toStartOf="@id/rest_win_handle_height_field_2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -375,7 +375,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/usual_padding"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="Altura do Comando 2 (m)"
+                android:hint="@string/hint_window_height_2"
                 android:weightSum="@integer/weight_one"
                 app:layout_constraintBaseline_toBaselineOf="@id/rest_win_handle_id_2_field"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -396,7 +396,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="Tipo do Comando Janela 3"
+                android:hint="@string/hint_window_command_3"
                 android:weightSum="@integer/weight_one"
                 app:layout_constraintEnd_toStartOf="@id/rest_win_handle_height_field_3"
                 app:layout_constraintStart_toStartOf="parent"
@@ -417,7 +417,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/usual_padding"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="Altura do Comando 3 (m)"
+                android:hint="@string/hint_window_height_3"
                 android:weightSum="@integer/weight_one"
                 app:layout_constraintBaseline_toBaselineOf="@id/rest_win_handle_id_3_field"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -438,7 +438,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="Observações Janela"
+                android:hint="@string/hint_window_obs"
                 app:layout_constraintTop_toBottomOf="@id/rest_win_handle_height_field_3">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -577,18 +577,19 @@
         android:id="@+id/continue_sink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_proceed_register"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rest_access_two_scrollview" />
+        app:layout_constraintTop_toBottomOf="@id/rest_access_two_scrollview"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/return_access_one"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_back_button"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/continue_sink"

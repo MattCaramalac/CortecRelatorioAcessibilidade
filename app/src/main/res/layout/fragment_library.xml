@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:text="@string/label_distance_shelves"
             android:textSize="@dimen/section_header"/>
 
@@ -23,7 +22,6 @@
             android:id="@+id/distance_shelves_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_distance_shelves"
             android:orientation="horizontal"
             android:gravity="center">
@@ -62,7 +60,6 @@
             android:id="@+id/header_lib_corridor_length"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/distance_shelves_error"
             android:layout_marginTop="@dimen/top_margins"
             android:text="@string/header_lib_has_long_corridor"
@@ -72,7 +69,6 @@
             android:id="@+id/lib_corridor_length_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_lib_corridor_length"
             android:orientation="horizontal"
             android:gravity="center">
@@ -104,14 +100,12 @@
             android:textColor="@color/error_message"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/lib_corridor_length_radio"
-            app:layout_constraintStart_toStartOf="parent"
             />
 
         <TextView
             android:id="@+id/header_PCR_maneuver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lib_corridor_length_error"
             android:layout_marginTop="@dimen/top_margins"
             android:text="@string/label_PCR_maneuver"
@@ -122,7 +116,6 @@
             android:id="@+id/PCR_maneuver_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_PCR_maneuver"
             android:orientation="horizontal"
             android:gravity="center"
@@ -155,7 +148,6 @@
             android:textColor="@color/error_message"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/PCR_maneuver_radio"
-            app:layout_constraintStart_toStartOf="parent"
             />
 
        <TextView
@@ -163,7 +155,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/PCR_maneuver_error"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/top_margins"
             android:text="@string/header_lib_has_pcs"
             android:textSize="@dimen/section_header"/>
@@ -172,7 +163,6 @@
             android:id="@+id/lib_has_computers_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_lib_has_computers"
             android:orientation="horizontal"
             >
@@ -204,7 +194,6 @@
             android:textColor="@color/error_message"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/lib_has_computers_radio"
-            app:layout_constraintStart_toStartOf="parent"
             />
 
         <TextView
@@ -212,7 +201,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/lib_has_computers_error"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/top_margins"
             android:text="@string/label_computer_accessibility"
             android:textSize="@dimen/section_header"
@@ -222,7 +210,6 @@
             android:id="@+id/computer_accessibility_radio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_computer_accessibility"
             android:orientation="horizontal"
             android:visibility="gone">
@@ -254,7 +241,6 @@
             android:textColor="@color/error_message"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/computer_accessibility_radio"
-            app:layout_constraintStart_toStartOf="parent"
             />
 
      </androidx.constraintlayout.widget.ConstraintLayout>

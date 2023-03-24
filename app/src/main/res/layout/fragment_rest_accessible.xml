@@ -16,14 +16,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/header_rest_gender"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.whygraphics.multilineradiogroup.MultiLineRadioGroup
                 android:id="@+id/restroom_gender_multiradio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_type_header"
                 app:max_in_row="3"
                 app:radio_buttons="@array/multi_radio_restroom" />
@@ -36,7 +34,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_gender_multiradio" />
 
 
@@ -47,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_restroom_id"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_type_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -64,7 +60,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_has_access"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_location_field" />
 
             <RadioGroup
@@ -72,7 +67,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/accessible_route_header">
 
                 <RadioButton
@@ -99,7 +93,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/accessible_route_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -109,7 +102,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/accessible_route_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -133,7 +125,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_restroom_integration_header"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_accessible_route_obs_field" />
 
             <RadioGroup
@@ -141,7 +132,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/integrated_restroom_header">
 
                 <RadioButton
@@ -168,7 +158,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/integrated_restroom_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -178,7 +167,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/integrated_restroom_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -202,7 +190,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_anti_drift_floor"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/integrated_restroom_obs_field" />
 
             <RadioGroup
@@ -210,7 +197,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_drifting_header">
 
                 <RadioButton
@@ -237,7 +223,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_drifting_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -247,7 +232,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_drifting_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -271,7 +255,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_drain_route"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_drifting_obs_field" />
 
             <RadioGroup
@@ -279,7 +262,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_drain_header">
 
                 <RadioButton
@@ -316,7 +298,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_drain_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -340,7 +321,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/rest_has_switch_header"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_drain_obs_field" />
 
             <RadioGroup
@@ -348,7 +328,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_switch_header">
 
                 <RadioButton
@@ -382,7 +361,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_switch_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -393,7 +371,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_switch_height"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_switch_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -411,7 +388,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/restroom_switch_height_field">
 
                 <com.google.android.material.textfield.TextInputEditText

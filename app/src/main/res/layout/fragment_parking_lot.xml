@@ -13,7 +13,6 @@
         android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"
         android:text="@string/parking_lot_header"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
@@ -21,8 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_small"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
         app:layout_constraintTop_toBottomOf="@id/parking_lot_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,7 +30,6 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/ext_park_location_field"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_parking_lot_has_PDMR_vacancy"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ext_park_location_field" />
 
             <RadioGroup
@@ -63,7 +59,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_PDMR_vacancy_header">
 
                 <RadioButton
@@ -90,7 +85,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_PCD_vacancy_radio" />
 
             <TextView
@@ -100,7 +94,6 @@
                 android:layout_marginTop="@dimen/top_margins"
                 android:text="@string/label_has_elderly_vacancy"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/PCD_vacancy_error" />
 
             <RadioGroup
@@ -108,7 +101,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_elderly_vacancy_header">
 
                 <RadioButton
@@ -135,7 +127,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_elderly_vacancy_radio" />
 
             <TextView
@@ -145,7 +136,6 @@
                 android:layout_marginTop="@dimen/top_margins"
                 android:text="@string/header_park_has_stairs"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elderly_vacancy_error" />
 
             <RadioGroup
@@ -153,7 +143,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_has_stairs">
 
                 <RadioButton
@@ -180,7 +169,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_has_stairs_radio" />
 
             <com.google.android.material.button.MaterialButton
@@ -205,7 +193,6 @@
                 android:layout_marginTop="@dimen/top_margins"
                 android:text="@string/header_park_has_ramps"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_parking_stairs_button" />
 
             <RadioGroup
@@ -213,7 +200,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label_parking_has_ramps">
 
                 <RadioButton
@@ -240,7 +226,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_has_ramps_radio" />
 
             <com.google.android.material.button.MaterialButton
@@ -265,7 +250,6 @@
                 android:layout_marginTop="@dimen/top_margins"
                 android:text="@string/header_accessible_floor"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_parking_ramps_button" />
 
             <RadioGroup
@@ -273,7 +257,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_access_floor">
 
                 <RadioButton
@@ -298,7 +281,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_access_floor_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -311,7 +293,6 @@
                 android:visibility="gone"
                 app:helperText="@string/helper_not_accessible_floor"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_access_floor_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -335,7 +316,6 @@
                 android:layout_marginTop="@dimen/top_margins"
                 android:text="@string/header_access_route_parking"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_floor_field" />
 
             <RadioGroup
@@ -343,7 +323,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_access_route_header">
 
                 <RadioButton
@@ -368,7 +347,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_access_route_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -381,7 +359,6 @@
                 android:visibility="gone"
                 app:helperText="@string/helper_not_accessible_floor"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_access_route_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -405,7 +382,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_obs"
                 android:layout_marginTop="@dimen/usual_padding"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/parking_lot_route_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -431,18 +407,19 @@
         android:id="@+id/save_parking_lot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_proceed_register"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/parking_lot_scroll"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_parking_lot"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_button_cancel"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/save_parking_lot"

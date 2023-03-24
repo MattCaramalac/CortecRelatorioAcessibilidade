@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_small"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
         app:layout_constraintTop_toBottomOf="@id/rest_toilet_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,7 +32,7 @@
                 android:id="@+id/toilet_choice_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Selecione o tipo de bacia sanitária presente na instalação (clique na imagem para ampliar)"
+                android:text="@string/header_toilet_type"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="A bacia sanitária possui sóculo?"
+                android:text="@string/header_toilet_soculo"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
@@ -164,7 +164,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="Projeção Frontal do Sóculo (m)"
+                android:hint="@string/hint_frontal_soculo"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toilet_soculo_error">
@@ -185,7 +185,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="Projeção Lateral do Sóculo (m)"
+                android:hint="@string/hint_side_soculo"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/soculo_front_field">
@@ -205,7 +205,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O sóculo possui cantos vivos?"
+                android:text="@string/header_soculo_has_corners"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
@@ -253,7 +253,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="Altura da bacia sem o assento (m)"
+                android:hint="@string/hint_toilet_height_seatless"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/soculo_corner_error">
 
@@ -272,7 +272,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="A bacia sanitária possui assento?"
+                android:text="@string/header_toilet_has_seat"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toilet_no_seat_height_field" />
@@ -318,7 +318,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:hint="Altura da bacia com o assento (m)"
+                android:hint="@string/hint_toilet_height_seat"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toilet_seat_error">
@@ -338,7 +338,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O sanitário possui barra de apoio posterior?"
+                android:text="@string/header_has_frontal_bar"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toilet_seat_height_field" />
@@ -498,7 +498,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O sanitário possui parede lateral?"
+                android:text="@string/header_has_side_wall"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ext_face_bar_dist_field" />
@@ -554,7 +554,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toilet_wall_fragment"
-                android:hint="Descrição Acionamento Descarga">
+                android:hint="@string/hint_flush_description">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/toil_act_desc_value"
@@ -572,7 +572,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toil_act_desc_field"
-                android:hint="Altura acionamento descarga (m)">
+                android:hint="@string/hint_flush_height">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/toil_act_height_value"
@@ -590,7 +590,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toil_act_height_field"
-                android:hint="Observações Acionamento Descarga">
+                android:hint="@string/hint_flush_obs">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/toil_act_obs_value"
@@ -613,7 +613,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="A bacia sanitária possui papeleira?"
+                android:text="@string/header_has_paper_holder"
                 android:textSize="@dimen/section_header"/>
 
             <RadioGroup
@@ -659,7 +659,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Qual o tipo de papeleira instalada?"
+                android:text="@string/header_paper_holder_type"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"/>
 
@@ -676,14 +676,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="EMBUTIDA"
+                    android:text="@string/radio_embued"
                     android:textSize="@dimen/radio_button_text"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="SOBREPOR"
+                    android:text="@string/radio_over"
                     android:textSize="@dimen/radio_button_text"/>
 
             </RadioGroup>
@@ -779,7 +779,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="A papeleira está alinhada com a borda frontal do sanitario (conforme disposto nas figuras)?"
+                android:text="@string/header_pap_holder_aligned"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"/>
 
@@ -847,7 +847,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/pap_super_measureA_field"
-                android:hint="Observações Papeleira">
+                android:hint="@string/hint_paper_holder">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/pap_holder_obs_value"
@@ -870,7 +870,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="O sanitário possui ducha higiênica?"
+                android:text="@string/header_has_douche"
                 android:textSize="@dimen/section_header"/>
 
             <RadioGroup
@@ -917,7 +917,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/douche_error"
-                android:hint="Altura válvula pressão ducha higiênica (m)"
+                android:hint="@string/hint_pressure_valve_height"
                 android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -936,7 +936,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/douche_error"
-                android:hint="Altura acionamento ducha higiênica (m)"
+                android:hint="@string/hint_douche_height"
                 android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -955,7 +955,7 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/douche_height_field"
-                android:hint="Observações Ducha Higiênica">
+                android:hint="@string/hint_douche_obs">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/douche_obs_value"
@@ -1003,18 +1003,19 @@
         android:id="@+id/save_sup_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_proceed_register"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toilet_scrollview" />
+        app:layout_constraintTop_toBottomOf="@id/toilet_scrollview"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/return_up_view"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_back_button"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/save_sup_bar"

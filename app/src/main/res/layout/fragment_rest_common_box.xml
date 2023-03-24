@@ -57,7 +57,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/label_box_support_bar">
 
             <RadioButton
@@ -82,7 +81,6 @@
             android:textColor="@color/error_message"
             android:textSize="14sp"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/box_support_bar_radio" />
 
         <ImageButton
@@ -142,7 +140,6 @@
             android:layout_marginTop="@dimen/usual_padding"
             android:text="@string/header_left_bar_register"
             android:textSize="@dimen/section_header_bigger"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/box_width_field"
             android:visibility="gone"/>
 
@@ -206,7 +203,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="Observações Barra de Apoio à Esquerda"
+            android:hint="@string/hint_bar_obs_left"
             app:layout_constraintTop_toBottomOf="@id/box_left_bar_type_error"
             android:visibility="gone">
 
@@ -303,8 +300,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="Observações Barra de Apoio à Direita"
-            app:layout_constraintStart_toStartOf="parent"
+            android:hint="@string/hint_bar_obs_right"
             app:layout_constraintTop_toBottomOf="@id/box_right_bar_type_error"
             android:visibility="gone">
 
@@ -338,7 +334,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_obs"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/right_bar_frame">
 
             <com.google.android.material.textfield.TextInputEditText

@@ -39,25 +39,26 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="0.70"
+        app:layout_constraintHeight_percent="0.78"
         app:layout_constraintTop_toBottomOf="@id/exclusive_entrance_error"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/continue_rest_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/usual_padding"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_proceed_register"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rest_type_frame" />
+        app:layout_constraintTop_toBottomOf="@id/rest_type_frame"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_rest_register"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_button_cancel"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/continue_rest_register"

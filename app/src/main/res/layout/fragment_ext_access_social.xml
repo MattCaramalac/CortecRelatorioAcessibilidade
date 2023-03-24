@@ -13,16 +13,13 @@
         android:text="@string/header_social_entrance"
         android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/ext_access_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
         app:layout_constraintTop_toBottomOf="@id/external_access_social_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +32,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/header_has_sia"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <RadioGroup
@@ -43,7 +39,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label_has_SIA">
 
                 <RadioButton
@@ -72,7 +67,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/has_SIA_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -82,7 +76,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_PDMR_SIA_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/has_SIA_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -106,14 +99,12 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_gate_type"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/social_entrance_sia_obs_field" />
 
             <com.whygraphics.multilineradiogroup.MultiLineRadioGroup xmlns:multi_line_radio_group="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/ext_gate_type_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/header_external_gate_type"
                 multi_line_radio_group:max_in_row="2"
                 multi_line_radio_group:radio_buttons="@array/multi_radio_gate_type" />
@@ -137,7 +128,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_gate_desc"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ext_gate_type_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -155,7 +145,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/gate_type_desc_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -174,7 +163,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_free_space_gate_2"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/free_space_width_1_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -193,7 +181,6 @@
                 android:text="@string/header_gate_op_type"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/free_space_width_2_field" />
 
             <RadioGroup
@@ -202,7 +189,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label_gate_handle">
 
                 <RadioButton
@@ -229,7 +215,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/gate_handle_type_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -240,7 +225,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_dispositive_height"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/gate_handle_type_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -259,7 +243,6 @@
                 android:text="@string/header_lock_type_register"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/gate_handle_height_field" />
 
             <com.google.android.material.button.MaterialButton
@@ -285,7 +268,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_gate_obs"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_gate_lock_button">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -316,7 +298,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label_has_gate_tracks">
 
                 <RadioButton
@@ -343,7 +324,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/has_gate_tracks_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -354,7 +334,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_ext_trail_height"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/has_gate_tracks_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -373,7 +352,6 @@
                 android:text="@string/frag_ext_trail_ledge"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ext_tracks_height_field" />
 
             <RadioGroup
@@ -382,7 +360,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label_gate_has_track_ramp">
 
                 <RadioButton
@@ -416,7 +393,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/gate_has_track_ramp_radio" />
 
             <com.google.android.material.button.MaterialButton
@@ -549,7 +525,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label_has_track_gaps">
 
                 <RadioButton
@@ -576,7 +551,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/has_track_gaps_radio" />
 
             <com.google.android.material.button.MaterialButton
@@ -701,18 +675,19 @@
         android:id="@+id/continue_ext_access2_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_proceed_register"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ext_access_scroll_view"/>
+        app:layout_constraintTop_toBottomOf="@id/ext_access_scroll_view"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/return_ext_access_button"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/button_return"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/continue_ext_access2_button"

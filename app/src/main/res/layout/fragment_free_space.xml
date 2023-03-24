@@ -13,14 +13,13 @@
         android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"
         android:text="@string/header_free_space_register"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ScrollView
         android:id="@+id/free_space_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_small"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
         app:layout_constraintTop_toBottomOf="@id/free_space_register_header"
         android:layout_marginTop="@dimen/usual_padding">
 
@@ -34,7 +33,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_location_free_space"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -51,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_obstacle_width"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/free_space_placement_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -69,7 +66,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_free_space_width"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/obstacle_width_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -87,7 +83,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_free_space_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/free_space_width_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -112,18 +107,19 @@
         android:id="@+id/save_free_space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_save"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/free_space_scroll" />
+        app:layout_constraintTop_toBottomOf="@id/free_space_scroll"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_free_space"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_button_cancel"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/save_free_space"

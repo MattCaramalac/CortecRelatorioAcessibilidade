@@ -17,7 +17,7 @@
         android:id="@+id/door_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
         android:layout_marginTop="@dimen/usual_padding"
         app:layout_constraintTop_toBottomOf="@id/door_register_header">
 
@@ -47,7 +47,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_door_type"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/door_placement_field" />
 
             <RadioGroup
@@ -88,7 +87,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/door_type_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -297,7 +295,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/door_handle_type_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -307,7 +304,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_handle_height"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/door_handle_type_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -325,7 +321,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_door_handle_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/door_handle_height_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -349,7 +344,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_door_has_locks"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/door_handle_obs_field" />
 
             <RadioGroup
@@ -382,7 +376,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/door_lock_radio" />
 
             <TextView
@@ -392,7 +385,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_lock_type_register"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/door_lock_error"
                 android:visibility="gone"/>
 
@@ -418,7 +410,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_restroom_door_horizontal_handle_header"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_door_lock_button" />
 
             <RadioGroup
@@ -426,7 +417,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/label_hor_handle"
-                app:layout_constraintStart_toStartOf="parent"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -868,7 +858,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_sill_type_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/door_sill_fragment">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -892,7 +881,6 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_obs"
                 android:layout_marginTop="@dimen/usual_padding"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/door_sill_obs_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -933,18 +921,19 @@
         android:id="@+id/save_door"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/usual_padding"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_save"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/door_scroll" />
+        app:layout_constraintTop_toBottomOf="@id/door_scroll"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_door"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_button_cancel"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/save_door"

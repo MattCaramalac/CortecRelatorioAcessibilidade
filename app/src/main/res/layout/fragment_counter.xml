@@ -20,11 +20,10 @@
         android:id="@+id/counter_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
         android:layout_below="@id/counter_register_header"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintTop_toBottomOf="@id/counter_register_header"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/counter_register_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -35,7 +34,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:hint="@string/hint_counter_location">
 
@@ -51,7 +49,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/counter_ref_location_field"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_counter_width">
@@ -69,7 +66,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/counter_width_field"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_fs_counter_width">
@@ -87,7 +83,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/counter_fs_width_field"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_counter_upper_edge">
@@ -105,7 +100,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/counter_upper_edge_field"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_counter_lower_edge">
@@ -123,7 +117,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/counter_lower_edge_field"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_counter_frontal_approx">
@@ -141,8 +134,6 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/counter_frontal_approx_field"
                 android:hint="@string/hint_counter_obs"
                 android:layout_marginTop="@dimen/usual_padding">

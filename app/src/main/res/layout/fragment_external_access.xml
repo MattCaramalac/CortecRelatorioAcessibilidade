@@ -11,7 +11,7 @@
         android:id="@+id/acc_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.87"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_bigger"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -25,7 +25,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_ext_access_location"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -42,7 +41,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_external_access_type"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/entrance_location_field" />
 
             <RadioGroup
@@ -50,7 +48,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label_external_access_type">
 
                 <RadioButton
@@ -80,7 +77,6 @@
                 android:textColor="@color/error_message"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/external_access_type_radio"
-                app:layout_constraintStart_toStartOf="parent"
                 />
 
             <TextView
@@ -90,7 +86,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_accessible_floor"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/external_access_type_error" />
 
             <RadioGroup
@@ -98,7 +93,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/label_ext_accessible_floor">
 
                 <RadioButton
@@ -126,7 +120,6 @@
                 android:textColor="@color/error_message"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/ext_accessible_floor_radio"
-                app:layout_constraintStart_toStartOf="parent"
                 />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -135,7 +128,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ext_accessible_floor_error"
                 app:helperText="@string/helper_not_accessible_floor"
                 android:hint="@string/hint_obs"
@@ -159,7 +151,6 @@
                 android:id="@+id/external_access_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ext_accessible_floor_obs_field"
                 android:layout_marginTop="@dimen/usual_padding"/>
 
@@ -171,18 +162,19 @@
         android:id="@+id/save_ext_access"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_save"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/acc_scroll" />
+        app:layout_constraintTop_toBottomOf="@id/acc_scroll"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_ext_access"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_button_cancel"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/save_ext_access"

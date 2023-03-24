@@ -13,9 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textSize="@dimen/section_header"
+            android:textSize="@dimen/section_header_bigger"
+            android:textStyle="bold"
             />
 
         <ScrollView
@@ -24,7 +23,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/usual_padding"
             app:layout_constraintTop_toBottomOf="@id/water_fountain_header"
-            app:layout_constraintHeight_percent="0.85">
+            app:layout_constraintHeight_percent="@dimen/scroll_dimens_big">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -155,8 +154,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/water_scroll"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="@dimen/top_margins"
+            android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/label_button_save"
             android:textStyle="bold"
             />
@@ -169,7 +169,7 @@
             app:layout_constraintStart_toStartOf="parent"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:textStyle="bold"
-            android:layout_margin="@dimen/top_margins"
+            android:layout_marginStart="@dimen/top_margins"
             android:text="@string/label_button_cancel"
             />
 

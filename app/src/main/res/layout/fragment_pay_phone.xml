@@ -13,14 +13,13 @@
         android:text="@string/header_public_phone"
         android:textStyle="bold"
         android:textSize="@dimen/section_header_bigger"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/pay_phone_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
         android:layout_marginTop="@dimen/usual_padding"
         app:layout_constraintTop_toBottomOf="@id/header_payphone_register">
 
@@ -34,7 +33,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_payphone_ref_location"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -53,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_height_keyboard_payphone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/gate_payphone_ref_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -73,7 +70,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_height_phone_payphone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/payphone_keyboard_height_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -93,7 +89,6 @@
                 android:layout_marginTop="@dimen/top_margins"
                 android:text="@string/label_payphone_has_tactile_floor"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/payphone_phone_height_field" />
 
             <RadioGroup
@@ -101,7 +96,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/payphone_has_tactile_floor_label">
 
                 <RadioButton
@@ -128,7 +122,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/payphone_tactile_floor_radio" />
 
             <TextView
@@ -138,7 +131,6 @@
                 android:layout_marginTop="@dimen/top_margins"
                 android:text="@string/label_special_floor_color"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/gate_payphone_floor_error"
                 android:visibility="gone"/>
 
@@ -175,7 +167,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/payphone_tactile_color_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -184,7 +175,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_tact_floor_dist_proj"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/payphone_tactile_color_error"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:visibility="gone">
@@ -204,7 +194,6 @@
                 android:text="@string/label_alert_special_floor_dimensions"
                 android:textSize="@dimen/section_header"
                 android:layout_marginTop="@dimen/usual_padding"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_tact_floor_dist_field"
                 android:visibility="gone"/>
 
@@ -215,7 +204,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_width"
                 app:layout_constraintTop_toBottomOf="@id/label_payphone_tactile_floor_dimensions"
-                app:layout_constraintStart_toStartOf="parent"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:visibility="gone">
 
@@ -235,7 +223,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_tact_floor_width_field" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -245,7 +232,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_tactile_floor_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/payphone_tactile_dimension_error"
                 android:visibility="gone">
 
@@ -270,7 +256,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_payphone_working"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_tact_floor_obs_field" />
 
             <RadioGroup
@@ -278,7 +263,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/payphone_working_label">
 
                 <RadioButton
@@ -305,7 +289,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/payphone_working_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -315,7 +298,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_public_phone_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/payphone_working_error">
 
                 <com.google.android.material.textfield.TextInputEditText

@@ -17,6 +17,7 @@
     <dimen name="dimen_field">185dp</dimen>
     <dimen name="square_image_100">100dp</dimen>
 
+    <dimen name="scroll_dimens_bigger">0.90</dimen>
     <dimen name="scroll_dimens_big">0.87</dimen>
     <dimen name="scroll_dimens_medium">0.85</dimen>
     <dimen name="scroll_dimens_small">0.83</dimen>

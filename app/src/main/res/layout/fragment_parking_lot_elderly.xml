@@ -13,15 +13,13 @@
         android:text="@string/label_frag_parking_lot_elderly"
         android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/parking_elderly_scrollview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
         app:layout_constraintTop_toBottomOf="@id/parking_lot_elderly_header"
         android:layout_marginTop="@dimen/usual_padding">
 
@@ -37,7 +35,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_vacancy_identification"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -55,7 +52,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:textSize="@dimen/section_header_big"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elderly_vacancy_locale_field"/>
 
             <TextView
@@ -65,7 +61,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_elderly_vert_sign_hader"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vertical_sign_header" />
 
             <RadioGroup
@@ -73,7 +68,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vertical_sign_elderly_header">
 
                 <RadioButton
@@ -100,7 +94,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elder_vertical_sign_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -111,8 +104,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_vert_sign_length"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elderly_vertical_sign_error">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -131,8 +122,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_vert_sign_width"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elder_vertical_sign_length_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -150,7 +139,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_PDMR_vertical_sign_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elder_vertical_sign_width_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -175,7 +163,6 @@
                 android:text="@string/label_parking_horizontal_sign_header"
                 android:textSize="@dimen/section_header_big"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elder_vertical_sign_obs_field" />
 
             <TextView
@@ -195,7 +182,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_vacancy_length"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elderly_vacancy_limiter_header">
 
 
@@ -214,7 +200,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_vacancy_width"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elder_vacancy_length_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -232,7 +217,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_limiter_width"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elder_vacancy_width_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -251,7 +235,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_parking_vacancy_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elderly_vacancy_limiter_width_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -275,7 +258,6 @@
                 android:layout_marginTop="@dimen/top_margins"
                 android:text="@string/label_floor_sign_elderly"
                 android:textSize="@dimen/section_header"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elder_horizontal_sign_obs_field" />
 
             <RadioGroup
@@ -283,7 +265,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elder_floor_sign_header">
 
                 <RadioButton
@@ -310,7 +291,6 @@
                 android:textColor="@color/error_message"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elder_floor_sign_radio" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -320,7 +300,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/hint_elderly_sign_width"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elder_floor_sign_error"
                 android:visibility="gone">
 
@@ -340,7 +319,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:hint="@string/label_elderly_sign_obs"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/elder_floor_sign_width_field">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -369,7 +347,8 @@
         android:text="@string/label_button_save"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/parking_elderly_scrollview" />
+        app:layout_constraintTop_toBottomOf="@id/parking_elderly_scrollview"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_parking_lot_elderly"

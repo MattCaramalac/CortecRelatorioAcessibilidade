@@ -19,7 +19,7 @@
         android:layout_height="0dp"
         android:layout_below="@id/room_register_header"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="0.85"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
         app:layout_constraintTop_toBottomOf="@id/room_register_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -817,18 +817,19 @@
         android:id="@+id/save_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/usual_padding"
+        android:layout_marginStart="@dimen/top_margins"
         android:text="@string/label_button_save"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/room_scroll" />
+        app:layout_constraintTop_toBottomOf="@id/room_scroll"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_room"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/top_margins"
+        android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_cancel"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/save_room"
