@@ -76,6 +76,11 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
         if (lockListBundle.getBoolean(FROM_ROOMS) && lockListBundle.getInt(DOOR_ID) == 0) {
             modelEntry.getLastDoorEntry().observe(getViewLifecycleOwner(), lastDoor ->
                     lockListBundle.putInt(DOOR_ID, lastDoor.getDoorID()));
+        } else if (lockListBundle.getBoolean(FROM_ROOMS) && lockListBundle.getInt(DOOR_ID) != 0) {
+            modelEntry.getDoorLocksFromDoor(lockListBundle.getInt(DOOR_ID)).observe(getViewLifecycleOwner(), lockList -> {
+                lockAdapter = new DoorLockRecViewAdapter(lockList, requireActivity(), this);
+                listCreator(lockAdapter);
+            });
         } else {
             modelEntry.getDoorLocksFromGates(lockListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), extLockList -> {
                 lockAdapter = new DoorLockRecViewAdapter(extLockList, requireActivity(), this);
@@ -83,12 +88,7 @@ public class DoorLockListFragment extends Fragment implements OnEntryClickListen
             });
         }
 
-        if (lockListBundle.getInt(DOOR_ID) != 0) {
-            modelEntry.getDoorLocksFromDoor(lockListBundle.getInt(DOOR_ID)).observe(getViewLifecycleOwner(), lockList -> {
-                lockAdapter = new DoorLockRecViewAdapter(lockList, requireActivity(), this);
-                listCreator(lockAdapter);
-            });
-        }
+
 
 
         closeLockList.setOnClickListener(v -> {
