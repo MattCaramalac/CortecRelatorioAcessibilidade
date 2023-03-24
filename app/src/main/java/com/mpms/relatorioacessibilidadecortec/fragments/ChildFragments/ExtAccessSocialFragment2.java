@@ -90,6 +90,9 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
 
         instantiateSocialAccess2(view);
 
+        if (socialTwoBundle.getInt(AMBIENT_ID) > 0 ) //&& !socialTwoBundle.getBoolean(RECENT_ENTRY)
+            modelEntry.getOneExternalAccess(socialTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSocialData2);
+
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (buttonPressed > 0) {
                 ExtAccessSocialThree socialThree = socialDataThree(bundle);
@@ -130,8 +133,8 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
     public void onStart() {
         super.onStart();
 
-        if (socialTwoBundle.getInt(AMBIENT_ID) > 0 && !socialTwoBundle.getBoolean(RECENT_ENTRY))
-            modelEntry.getOneExternalAccess(socialTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSocialData2);
+//        if (socialTwoBundle.getInt(AMBIENT_ID) > 0 ) //&& !socialTwoBundle.getBoolean(RECENT_ENTRY)
+//            modelEntry.getOneExternalAccess(socialTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSocialData2);
     }
 
     @Override

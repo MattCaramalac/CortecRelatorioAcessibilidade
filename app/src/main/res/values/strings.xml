@@ -817,9 +817,4 @@
     <string name="hint_bar_obs_left">Observações Barra de Apoio à Esquerda</string>
     <string name="hint_bar_obs_right">Observações Barra de Apoio à Direita</string>
     <string name="radio_alavanca">ALAVANCA</string>
-    <string name="hint_window_command_2">Tipo de Comando Janela 2</string>
-    <string name="hint_window_height_2">Altura do Comando 2 (m)</string>
-    <string name="hint_window_command_3">Tipo do Comando Janela 3</string>
-    <string name="hint_window_height_3">Altura do Comando 3 (m)</string>
-
 </resources>
