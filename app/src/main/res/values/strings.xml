@@ -817,4 +817,11 @@
     <string name="hint_bar_obs_left">Observações Barra de Apoio à Esquerda</string>
     <string name="hint_bar_obs_right">Observações Barra de Apoio à Direita</string>
     <string name="radio_alavanca">ALAVANCA</string>
+    <string name="header_urinal_register">Cadastro de Sanitário - Mictório</string>
+    <string name="header_has_urinal">O sanitário possui mictório?</string>
+    <string name="header_has_access_urinal">O sanitário possui mictório acessível?</string>
+    <string name="header_urinal_type">Qual o tipo de mictório encontrado?</string>
+    <string name="radio_urinal_suspended">SUSPENSO</string>
+    <string name="radio_urinal_floor">DE PISO</string>
+    <string name="header_sink_has_column">O lavatório possui coluna?</string>
 </resources>
