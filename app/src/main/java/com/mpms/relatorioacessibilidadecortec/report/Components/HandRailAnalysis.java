@@ -94,6 +94,10 @@ public class HandRailAnalysis implements StandardMeasurements {
                             }
                         }
                     }
+
+                    if (railing.getBeaconPhoto() != null) {
+                        builder.append("Registros fotográficos: ").append(railing.getBeaconPhoto());
+                    }
                 }
             }
         } else {
@@ -262,9 +266,15 @@ public class HandRailAnalysis implements StandardMeasurements {
                                 builder.append(" possui prolongamento em seu final inferior à " + extendHandrail + " m,");
                             }
                         }
+
+                        if (handrail.getHandrailPhoto() != null) {
+                            builder.append(" Registros fotográficos: ").append(handrail.getHandrailPhoto());
+                        }
                     }
                     if (handrail.getHandrailObs() != null && handrail.getHandrailObs().length() > 0)
                         builder.append("e as seguintes observações podem ser feitas: ").append(handrail.getHandrailObs()).append(", ");
+
+
                 }
             }
 

@@ -1263,6 +1263,20 @@ public class RestAnalysis implements StandardMeasurements {
                     }
                 }
             }
+            if (rest.getRestFirstPhoto() != null)
+               restIrr.add("Fotos Acesso Sanitário: " + rest.getRestFirstPhoto());
+            if (rest.getRestUpperPhoto() != null)
+                restIrr.add("Fotos Gerais Sanitário: " + rest.getRestUpperPhoto());
+            if (rest.getRestToiletPhoto() != null)
+                restIrr.add("Fotos Bacia Sanitária: " + rest.getRestToiletPhoto());
+            if (rest.getRestAccessPhoto() != null)
+                restIrr.add("Fotos Acessórios 1: " + rest.getRestAccessPhoto());
+            if (rest.getRestAccessPhoto2() != null)
+                restIrr.add("Fotos Acessórios 2: " + rest.getRestAccessPhoto2());
+            if (rest.getRestSinkPhoto() != null)
+                restIrr.add("Fotos Lavatório: " + rest.getRestSinkPhoto());
+            if (rest.getRestUrinalPhoto() != null)
+                restIrr.add("Fotos Mictório: " + rest.getRestUrinalPhoto());
         }
         return restIrr;
     }

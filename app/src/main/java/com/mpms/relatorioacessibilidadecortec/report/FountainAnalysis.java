@@ -172,6 +172,11 @@ public class FountainAnalysis implements StandardMeasurements {
             fIrr.add("as seguintes observações podem ser feitas sobre o bebedouro: " + fountain.getFountainObs());
         }
 
+        if (fountain.getFountainPhoto() != null) {
+            check++;
+            fIrr.add("Registros fotográficos Bebedouro: " + fountain.getFountainPhoto());
+        }
+
         return fIrr;
     }
 

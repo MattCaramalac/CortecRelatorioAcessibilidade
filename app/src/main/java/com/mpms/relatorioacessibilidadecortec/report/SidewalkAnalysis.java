@@ -229,6 +229,11 @@ public class SidewalkAnalysis implements StandardMeasurements {
                                 }
                             }
 
+                            if (phone.getPhonePhoto() != null) {
+                                phoneIrregular(builder);
+                                builder.append("Registros fotográficos Telefone: ").append(phone.getPhonePhoto());
+                            }
+
                             if (irregularPhone && builder.length() != 0) {
                                 check++;
                                 builder.replace(28, 29, ", localizado em " + phone.getPhoneRefPoint() + ", ");
@@ -239,6 +244,15 @@ public class SidewalkAnalysis implements StandardMeasurements {
                         }
                     }
                 }
+            }
+
+            if (sideEntry.getSidePhotos() != null) {
+                check++;
+                sideIrregular.add("Registros fotográficos calçada 1: " + sideEntry.getSidePhotos());
+            }
+            if (sideEntry.getSidePhotos2() != null) {
+                check++;
+                sideIrregular.add("Registros fotográficos calçada 2: " + sideEntry.getSidePhotos2());
             }
 
             if (check > 0)

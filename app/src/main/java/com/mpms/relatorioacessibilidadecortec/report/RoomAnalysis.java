@@ -41,7 +41,6 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
                                         List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList,
                                         List<WaterFountainEntry> waterList, List<EquipmentEntry> equipList) {
 
-        int extRoom = 0;
         int helpRoom = 0;
 
         for (BlockSpaceEntry block : blockList) {
@@ -219,8 +218,6 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
                 }
             }
 
-
-
             if (room.getRoomType() == NUM_LIB) {
                 if (room.getLibDistShelvesOK() != null && room.getLibDistShelvesOK() == 0) {
                     check++;
@@ -309,10 +306,17 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
             }
         }
 
+
         if (room.getRoomObs() != null && room.getRoomObs().length() > 0) {
             check++;
             roomIrr.add("as seguintes observações podem ser feitas sobre este ambiente: " + room.getRoomObs() +";");
         }
+
+        if (room.getRoomPhoto() != null) {
+            check++;
+            roomIrr.add("Registros fotográficos ambiente: " + room.getRoomPhoto());
+        }
+
         return roomIrr;
     }
 

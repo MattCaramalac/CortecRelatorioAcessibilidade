@@ -148,6 +148,11 @@ public class PlaygroundAnalysis implements StandardMeasurements {
                 pIrregular.add("As seguintes observações devem ser feitas sobre este parquinho infantil: " + play.getPlaygroundObs());
             }
 
+            if (play.getPlayPhotoNumber() != null) {
+                check++;
+                pIrregular.add("Registros fotográficos parquinho: " + play.getPlayPhotoNumber());
+            }
+
             if (check > 0)
                 AmbientAnalysis.checkHelpAreaHeader();
 

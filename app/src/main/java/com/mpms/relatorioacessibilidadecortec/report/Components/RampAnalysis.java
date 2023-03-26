@@ -171,10 +171,14 @@ public class RampAnalysis implements StandardMeasurements {
                         builder.append(flight.getFlightObs());
                     }
 
+                    if (flight.getRampStairPhoto() != null) {
+                        flightIrregular(builder);
+                        builder.append("Registros fotográficos: ").append(flight.getRampStairPhoto());
+                    }
 
                     if (irregularFlight && builder.length() != 0) {
                         builder.replace(14, 15, String.valueOf(flight.getFlightNumber()));
-                        flightText.append(builder.toString());
+                        flightText.append(builder);
                     }
                 }
             }

@@ -57,11 +57,14 @@ public class CounterAnalysis implements StandardMeasurements {
             builder.append("a profundidade livre sob o balcão é inferior ao mínimo de " + underCounterDepth + " m");
         }
 
-
-
         if (counter.getCounterObs() != null) {
             counterIrregular(builder);
             builder.append("as seguintes observações devem ser apontadas sobre o balcão em questão: ").append(counter.getCounterObs());
+        }
+
+        if (counter.getCounterPhoto() != null) {
+            counterIrregular(builder);
+            builder.append("Registros fotográficos: ").append(counter.getCounterPhoto());
         }
 
         if (builder.length() > 0)

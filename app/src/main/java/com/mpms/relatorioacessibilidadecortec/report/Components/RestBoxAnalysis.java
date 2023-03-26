@@ -253,7 +253,7 @@ public class RestBoxAnalysis implements StandardMeasurements {
 
                 if (builder2.toString().length() > 0) {
                     irrText(builder2);
-                    builder.append(builder2.toString());
+                    builder.append(builder2);
                 }
             }
 
@@ -950,6 +950,27 @@ public class RestBoxAnalysis implements StandardMeasurements {
             if (box.getSinkObs() != null && box.getSinkObs().length() > 0) {
                 irrText(builder);
                 builder.append("as seguintes observações podem ser feitas sobre o lavatório: ").append(box.getSinkObs());
+            }
+
+            if (box.getBoxUpperPhoto() != null) {
+                irrText(builder);
+                builder.append("Fotos Gerais Box: ").append(box.getBoxUpperPhoto());
+            }
+            if (box.getBoxToiletPhoto() != null) {
+                irrText(builder);
+                builder.append("Fotos Bacia Sanitária Box: ").append(box.getBoxToiletPhoto());
+            }
+            if (box.getBoxAccessPhoto() != null) {
+                irrText(builder);
+                builder.append("Fotos Acessórios 1 Box: ").append(box.getBoxAccessPhoto());
+            }
+            if (box.getBoxAccessPhoto2() != null) {
+                irrText(builder);
+                builder.append("Fotos Acessórios 2 Box: ").append(box.getBoxAccessPhoto2());
+            }
+            if (box.getBoxSinkPhoto() != null) {
+                irrText(builder);
+                builder.append("Fotos Lavatório Box: ").append(box.getBoxSinkPhoto());
             }
         }
 

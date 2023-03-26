@@ -93,6 +93,11 @@ public class ParkPcdAnalysis implements StandardMeasurements {
             builder.append("as seguintes observações devem ser feitas referents à SIA: ").append(pcdEntry.getPcdSiaObs());
         }
 
+        if (pcdEntry.getPcdPhoto() != null) {
+            pcdIrregular(builder);
+            builder.append("Registros fotográficos: ").append(pcdEntry.getPcdPhoto());
+        }
+
         if (irregularPcd && builder.length() != 0)
             builder.replace(41, 42, String.valueOf(pcdEntry.getPcdVacancyLocal()));
 

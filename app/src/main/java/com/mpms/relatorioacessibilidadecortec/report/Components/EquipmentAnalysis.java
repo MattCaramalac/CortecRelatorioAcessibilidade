@@ -38,6 +38,10 @@ public class EquipmentAnalysis implements StandardMeasurements {
         else if (equip.getEquipHeight() > highestHeight)
             builder.append("Presença de equipamento do tipo x, localizado em y, com altura de instalação superior a " + highestHeight + " m;");
 
+        if (equip.getEquipPhoto() != null) {
+            builder.append(" Registros fotográficos: ").append(equip.getEquipPhoto());
+        }
+
         if (builder.length() <= 0)
             return null;
         else {

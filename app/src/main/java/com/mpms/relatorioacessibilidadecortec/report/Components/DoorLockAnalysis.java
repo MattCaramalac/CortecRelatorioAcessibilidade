@@ -64,6 +64,11 @@ public class DoorLockAnalysis implements StandardMeasurements {
             builder.append("devem ser apontadas as seguintes observações: ").append(lock.getLockObs());
         }
 
+        if (lock.getLockPhoto() != null) {
+            lockIrregular(builder);
+            builder.append("Registros fotográficos: ").append(lock.getLockPhoto());
+        }
+
         if (irregularLock && builder.length() != 0) {
             String lockType;
             if (lock.getLockType() == 0)

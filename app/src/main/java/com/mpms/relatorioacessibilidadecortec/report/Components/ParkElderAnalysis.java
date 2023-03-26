@@ -75,6 +75,11 @@ public class ParkElderAnalysis implements StandardMeasurements {
             builder.append("as seguintes observações devem ser feitas referents ao texto indicativo de vaga: ").append(elder.getFloorIndicatorObs());
         }
 
+        if (elder.getParkElderPhoto() != null) {
+            elderIrregular(builder);
+            builder.append("Registros fotográficos: ").append(elder.getParkElderPhoto());
+        }
+
         if (irregularElder && builder.length() != 0)
             builder.replace(44, 45, String.valueOf(elder.getElderVacLocation()));
 

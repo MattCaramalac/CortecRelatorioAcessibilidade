@@ -61,6 +61,11 @@ public class WindowAnalysis implements StandardMeasurements {
                 builder.append(" observações a ser apontadas sobre a janela: ").append(window.getWindowObs());
         }
 
+        if (window.getWindowPhoto() != null) {
+            windowIrregular(builder);
+            builder.append("Registros fotográficos: ").append(window.getWindowPhoto());
+        }
+
         if (builder.length() > 0)
             builder.replace(21, 22, window.getWindowLocation());
         return builder.toString();

@@ -141,13 +141,11 @@ public class DoorAnalysis implements StandardMeasurements {
         if (door.getTactSignObs() != null && door.getTactSignObs().length() > 0)
             doors.append("as seguintes observações devem ser feitas sobre a sinalização tátil da porta: ").append(door.getTactSignObs());
 
-
         String doorSill = DoorSillAnalysis.doorSillVerification(door);
         if (doorSill != null && doorSill.length() > 0) {
             doorIrregular(doors);
             doors.append(doorSill);
         }
-
 
         if (dLockList != null) {
             String dLocks = DoorLockAnalysis.doorLockVerification(door.getDoorID(), dLockList);
@@ -155,6 +153,11 @@ public class DoorAnalysis implements StandardMeasurements {
                 doorIrregular(doors);
                 doors.append(dLocks);
             }
+        }
+
+        if (door.getDoorPhotos() != null) {
+            doorIrregular(doors);
+            doors.append("Registros fotográficos: ").append(door.getDoorPhotos());
         }
 
         if (doors.length() > 0)

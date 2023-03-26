@@ -335,6 +335,13 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                 }
             }
 
+            if (access.getExtAccPhotos() != null)
+                extIrregular.add("Registros fotográficos 1: " + access.getExtAccPhotos());
+            if (access.getExtAccPhotos2() != null)
+                extIrregular.add("Registros fotográficos 2: " + access.getExtAccPhotos2());
+            if (access.getExtAccPhotos3() != null)
+                extIrregular.add("Registros fotográficos 3: " + access.getExtAccPhotos3());
+
             if (check > 0)
                 AmbientAnalysis.checkHasAccessHeader();
 

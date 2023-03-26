@@ -93,6 +93,11 @@ public class TableAnalysis implements StandardMeasurements {
                 builder.replace(16, 18, " ");
         }
 
+        if (table.getTablePhoto() != null) {
+            tableIrregular(builder);
+            builder.append("Registros fotográficos: ").append(table.getTablePhoto());
+        }
+
         if (builder.length() > 0)
             return builder.toString();
         else

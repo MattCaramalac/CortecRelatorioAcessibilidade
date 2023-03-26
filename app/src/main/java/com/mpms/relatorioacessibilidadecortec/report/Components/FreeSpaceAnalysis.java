@@ -59,6 +59,11 @@ public class FreeSpaceAnalysis implements StandardMeasurements {
             builder.append("as seguintes observações devem ser apontadas sobre a faixa livre em questão: ").append(space.getFrSpaceObs());
         }
 
+        if (space.getFrSpacePhoto() != null) {
+            spaceIrregular(builder);
+            builder.append("Registros fotográficos: ").append(space.getFrSpacePhoto());
+        }
+
         if (builder.length() > 0)
             builder.replace(39, 40, space.getFrSpaceLocation());
 

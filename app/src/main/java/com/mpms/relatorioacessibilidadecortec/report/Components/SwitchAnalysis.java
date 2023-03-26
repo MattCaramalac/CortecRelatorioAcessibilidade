@@ -43,6 +43,11 @@ public class SwitchAnalysis implements StandardMeasurements {
             builder.append("as seguintes observações devem ser apontadas sobre o interruptor: ").append(swEntry.getSwitchObs());
         }
 
+        if (swEntry.getSwitchPhoto() != null) {
+            switchIrregular(builder);
+            builder.append("Registros fotográficos: ").append(swEntry.getSwitchPhoto());
+        }
+
         if (builder.length() > 0) {
             builder.replace(39, 40, swEntry.getSwitchLocation());
             builder.replace(21, 22, swEntry.getSwitchType());

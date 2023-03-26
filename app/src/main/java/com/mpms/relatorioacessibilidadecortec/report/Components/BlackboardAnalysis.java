@@ -39,6 +39,11 @@ public class BlackboardAnalysis implements StandardMeasurements {
             builder.append("as seguintes observações devem ser apontadas sobre a lousa em questão: ").append(board.getBoardObs());
         }
 
+        if (board.getBoardPhoto() != null) {
+            boardIrregular(builder);
+            builder.append("Registros fotográficos: ").append(board.getBoardPhoto());
+        }
+
         if (builder.length() > 0)
             builder.replace(33, 34, board.getBoardLocation());
 

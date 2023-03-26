@@ -82,6 +82,11 @@ public class ParkingAnalysis implements StandardMeasurements {
                         }
                     }
 
+                    if (park.getParkPhotos() != null) {
+                        check++;
+                        parkIrr.add("Registros fotográficos estacionamento: " + park.getParkPhotos());
+                    }
+
                     //            Area externa = 1
                     if (block.getBlockSpaceType() == 1) {
                         if (check > 0)
