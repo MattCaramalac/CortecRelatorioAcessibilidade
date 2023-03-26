@@ -118,6 +118,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     public void onResume() {
         super.onResume();
         roomListBundle.putInt(AMBIENT_ID, 0);
+        roomListBundle.putBoolean(RECENT_ENTRY, false);
         roomListBundle.putBoolean(VISIBLE_MEMORIAL, true);
         getParentFragmentManager().setFragmentResult(MEMORIAL, roomListBundle);
     }

@@ -824,4 +824,8 @@
     <string name="radio_urinal_suspended">SUSPENSO</string>
     <string name="radio_urinal_floor">DE PISO</string>
     <string name="header_sink_has_column">O lavatório possui coluna?</string>
+    <string name="header_has_lower_counter_sink">A bancada possui um lavatório rebaixado?</string>
+    <string name="hint_counter_sink_height">Altura do tampo da bancada (m)</string>
+    <string name="hint_counter_sink_free_space">Altura área livre sob a bancada (m)</string>
+    <string name="header_sink_has_bars">A pia possui barras de apoio?</string>
 </resources>

@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,8 +37,6 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
     private WaterRecViewAdapter fountainAdapter;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private ActionMode actionMode;
 
     int delClick = 0;
@@ -59,7 +55,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null) {
-            fountainBundle = this.getArguments();
+            fountainBundle = new Bundle(this.getArguments());
         }
     }
 
@@ -77,7 +73,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
         instantiateWaterListViews(view);
 
         if (fountainBundle.getBoolean(FROM_ROOMS) && fountainBundle.getInt(AMBIENT_ID) == 0)
-            modelEntry.getLastRoomEntry().observe(this, room -> fountainBundle.putInt(AMBIENT_ID, room.getRoomID()));
+            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), room -> fountainBundle.putInt(AMBIENT_ID, room.getRoomID()));
         else
             modelEntry.getAllBlockWaterFountain(fountainBundle.getInt(BLOCK_ID)).
                     observe(getViewLifecycleOwner(), fountainEntry -> {
@@ -86,7 +82,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
                     });
 
         if (fountainBundle.getInt(AMBIENT_ID) > 0) {
-            modelEntry.getRoomWaterFountains(fountainBundle.getInt(AMBIENT_ID)).observe(this, fountain -> {
+            modelEntry.getRoomWaterFountains(fountainBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), fountain -> {
                 fountainAdapter = new WaterRecViewAdapter(fountain, requireActivity(), this);
                 listCreator(fountainAdapter);
             });
