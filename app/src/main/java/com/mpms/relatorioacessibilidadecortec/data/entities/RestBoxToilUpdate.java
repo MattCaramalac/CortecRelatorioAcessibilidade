@@ -62,6 +62,7 @@ public class RestBoxToilUpdate {
     private Double doucheActHeight;
     private String doucheObs;
     private String toiletObs;
+    private String boxToiletPhoto;
 
     public RestBoxToilUpdate(int boxID, Integer toType, Double toHeightNoSeat, Integer toHasSeat, Double toHeightSeat, Integer toHasSoculo, Double frSoculo, Double latSoculo,
                              Integer socCorners, Integer toHasFrontBar, Double frBarA, Double frBarB, Double frBarC, Double frBarSect, Double frBarDist, Integer toHasWall,
@@ -69,7 +70,8 @@ public class RestBoxToilUpdate {
                              Double vertBarH, Double vertBarI, Double vertBarJ, Double vertBarSect, Double vertBarDist, Integer hasSideBar, Double sideBarD, Double sideBarE,
                              Double sideBarDistG, Double sideBarSect, Integer hasArtBar, Double artBarH, Double artBarI, Double artBarJ, Double artBarSect, String toActDesc,
                              Double toActHeight, String toActObs, Integer hasPapHolder, Integer papHolderType, Double papEmbDist, Double papEmbHeight, Integer papSupAlign,
-                             Double papSupHeight, String papHoldObs, Integer hasDouche, Double douchePressHeight, Double doucheActHeight, String doucheObs, String toiletObs) {
+                             Double papSupHeight, String papHoldObs, Integer hasDouche, Double douchePressHeight, Double doucheActHeight, String doucheObs, String toiletObs,
+                             String boxToiletPhoto) {
         this.boxID = boxID;
         this.toType = toType;
         this.toHeightNoSeat = toHeightNoSeat;
@@ -124,6 +126,7 @@ public class RestBoxToilUpdate {
         this.doucheActHeight = doucheActHeight;
         this.doucheObs = doucheObs;
         this.toiletObs = toiletObs;
+        this.boxToiletPhoto = boxToiletPhoto;
     }
 
     public int getBoxID() {
@@ -556,5 +559,13 @@ public class RestBoxToilUpdate {
 
     public void setToiletObs(String toiletObs) {
         this.toiletObs = toiletObs;
+    }
+
+    public String getBoxToiletPhoto() {
+        return boxToiletPhoto;
+    }
+
+    public void setBoxToiletPhoto(String boxToiletPhoto) {
+        this.boxToiletPhoto = boxToiletPhoto;
     }
 }

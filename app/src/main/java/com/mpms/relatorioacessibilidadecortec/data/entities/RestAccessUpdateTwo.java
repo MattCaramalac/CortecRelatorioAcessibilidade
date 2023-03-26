@@ -28,11 +28,12 @@ public class RestAccessUpdateTwo {
     private Double wallMirrorLow;
     private Double wallMirrorHigh;
     private String wallMirrorObs;
+    private String restAccessPhoto2;
 
     public RestAccessUpdateTwo(int restroomID, Integer hasEmergencyButton, Double emergencyHeight, String emergencyObs, Integer hasWaterValve, Integer waterValveType,
                                Double waterValveHeight, String waterValveObs, Integer hasWindow, Integer winQnt, String winComType1, Double winComHeight1, String winComType2,
                                Double winComHeight2, String winComType3, Double winComHeight3, String winObs, Integer hasWallMirror, Double wallMirrorLow, Double wallMirrorHigh,
-                               String wallMirrorObs) {
+                               String wallMirrorObs, String restAccessPhoto2) {
         this.restroomID = restroomID;
         this.hasEmergencyButton = hasEmergencyButton;
         this.emergencyHeight = emergencyHeight;
@@ -54,6 +55,7 @@ public class RestAccessUpdateTwo {
         this.wallMirrorLow = wallMirrorLow;
         this.wallMirrorHigh = wallMirrorHigh;
         this.wallMirrorObs = wallMirrorObs;
+        this.restAccessPhoto2 = restAccessPhoto2;
     }
 
     public int getRestroomID() {
@@ -222,5 +224,13 @@ public class RestAccessUpdateTwo {
 
     public void setWinObs(String winObs) {
         this.winObs = winObs;
+    }
+
+    public String getRestAccessPhoto2() {
+        return restAccessPhoto2;
+    }
+
+    public void setRestAccessPhoto2(String restAccessPhoto2) {
+        this.restAccessPhoto2 = restAccessPhoto2;
     }
 }

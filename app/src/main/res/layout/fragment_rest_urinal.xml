@@ -10,7 +10,7 @@
         android:id="@+id/urinal_info_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cadastro de Sanitário - Mictório"
+        android:text="@string/header_urinal_register"
         android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O sanitário possui mictório?"
+                android:text="@string/header_has_urinal"
                 android:textSize="@dimen/section_header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="O sanitário possui mictório acessível?"
+                android:text="@string/header_has_access_urinal"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
-                android:text="Qual o tipo de mictório encontrado?"
+                android:text="@string/header_urinal_type"
                 android:textSize="@dimen/section_header"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
@@ -146,14 +146,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="SUSPENSO"
+                    android:text="@string/radio_urinal_suspended"
                     android:textSize="@dimen/radio_button_text" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="@integer/weight_one"
-                    android:text="DE PISO"
+                    android:text="@string/radio_urinal_floor"
                     android:textSize="@dimen/radio_button_text" />
             </RadioGroup>
 
@@ -498,6 +498,22 @@
                     android:scrollbarStyle="outsideInset"
                     android:scrollbars="vertical"
                     android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/urinal_photo_field"
+                app:layout_constraintTop_toBottomOf="@id/urinal_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_photo_field"
+                android:layout_marginTop="@dimen/usual_padding">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urinal_photo_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

@@ -25,9 +25,11 @@ public class PayPhoneEntry {
     private String tactFloorObs;
     private int phoneIsWorking;
     private String payPhoneObs;
+    private String phonePhoto;
 
     public PayPhoneEntry(Integer extAccessID, Integer sidewalkID, String phoneRefPoint, double phoneKeyboardHeight, double phoneHeight, int hasTactileFloor,
-                         Integer rightColorTactileFloor, Double tactFloorDist, Double tactFloorWidth, String tactFloorObs, int phoneIsWorking, String payPhoneObs) {
+                         Integer rightColorTactileFloor, Double tactFloorDist, Double tactFloorWidth, String tactFloorObs, int phoneIsWorking, String payPhoneObs,
+                         String phonePhoto) {
         this.extAccessID = extAccessID;
         this.sidewalkID = sidewalkID;
         this.phoneRefPoint = phoneRefPoint;
@@ -40,6 +42,7 @@ public class PayPhoneEntry {
         this.tactFloorObs = tactFloorObs;
         this.phoneIsWorking = phoneIsWorking;
         this.payPhoneObs = payPhoneObs;
+        this.phonePhoto = phonePhoto;
     }
 
     public int getPayPhoneID() {
@@ -144,5 +147,13 @@ public class PayPhoneEntry {
 
     public void setPayPhoneObs(String payPhoneObs) {
         this.payPhoneObs = payPhoneObs;
+    }
+
+    public String getPhonePhoto() {
+        return phonePhoto;
+    }
+
+    public void setPhonePhoto(String phonePhoto) {
+        this.phonePhoto = phonePhoto;
     }
 }

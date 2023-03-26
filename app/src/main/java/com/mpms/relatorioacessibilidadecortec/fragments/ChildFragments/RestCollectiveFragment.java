@@ -22,6 +22,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.RestAccessColParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
@@ -30,14 +31,15 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class RestCollectiveFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RestCollectiveFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     TextInputLayout restLocationField, swHeightField, swObsField, floorObsField, drainObsField, winTypeField1, winTypeField2, winTypeField3, winHeightField1,
-            winHeightField2, winHeightField3, winObsField, notAccessLengthField, notAccessWidthField, notAccessEntranceField, entranceSillObsField;
+            winHeightField2, winHeightField3, winObsField, notAccessLengthField, notAccessWidthField, notAccessEntranceField, entranceSillObsField, photoField;
     TextInputEditText restLocationValue, swHeightValue, swObsValue, floorObsValue, drainObsValue, winTypeValue1, winTypeValue2, winTypeValue3, winHeightValue1,
-            winHeightValue2, winHeightValue3, winObsValue, notAccessLengthValue, notAccessWidthValue, notAccessEntranceValue, entranceSillObsValue;
+            winHeightValue2, winHeightValue3, winObsValue, notAccessLengthValue, notAccessWidthValue, notAccessEntranceValue, entranceSillObsValue, photoValue;
     RadioGroup hasDoorRadio, restTypeRadio, hasSwitchRadio, floorRadio, drainRadio, hasWindowRadio, entranceSillRadio;
-    TextView hasDoorHeader, hasDoorError, restTypeError, restSwitchError, restFloorError, restDrainError, restWinError, restDrainHeader, entranceSillHeader, entranceSillError, boxHeader;
+    TextView hasDoorHeader, hasDoorError, restTypeError, restSwitchError, restFloorError, restDrainError, restWinError, restDrainHeader, entranceSillHeader, entranceSillError,
+            boxHeader;
     ImageView frSpaceCheck, boxCheck;
     MaterialButton addWinButton, addFrSpaceButton, addBoxButton;
     ImageButton delWinButton;
@@ -111,6 +113,7 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
         notAccessWidthField = view.findViewById(R.id.not_access_width_field);
         notAccessEntranceField = view.findViewById(R.id.not_access_entrance_width_field);
         entranceSillObsField = view.findViewById(R.id.not_access_door_sill_obs_field);
+        photoField = view.findViewById(R.id.cRest_photo_field);
 //        TextInputEditText
         restLocationValue = view.findViewById(R.id.cRest_location_value);
         swHeightValue = view.findViewById(R.id.cRest_switch_height_value);
@@ -128,6 +131,7 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
         notAccessWidthValue = view.findViewById(R.id.not_access_width_value);
         notAccessEntranceValue = view.findViewById(R.id.not_access_entrance_width_value);
         entranceSillObsValue = view.findViewById(R.id.not_access_door_sill_obs_value);
+        photoValue = view.findViewById(R.id.cRest_photo_value);
 //        RadioGroup
         restTypeRadio = view.findViewById(R.id.cRest_type_radio);
         hasSwitchRadio = view.findViewById(R.id.cRest_switch_radio);
@@ -160,9 +164,9 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
 //        ViewModelEntry
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Listeners
-        hasSwitchRadio.setOnCheckedChangeListener(this::colRadioListener);
-        hasWindowRadio.setOnCheckedChangeListener(this::colRadioListener);
-        hasDoorRadio.setOnCheckedChangeListener(this::colRadioListener);
+        hasSwitchRadio.setOnCheckedChangeListener(this::radioListener);
+        hasWindowRadio.setOnCheckedChangeListener(this::radioListener);
+        hasDoorRadio.setOnCheckedChangeListener(this::radioListener);
         addWinButton.setOnClickListener(this::buttonClickListener);
         delWinButton.setOnClickListener(this::buttonClickListener);
         addFrSpaceButton.setOnClickListener(this::buttonClickListener);
@@ -191,26 +195,23 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
         allowObsScroll(obsArray);
     }
 
-    private int getCheckedRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
     private void createColRestParcel(Bundle bundle) {
         Integer hasDoor = null, restType = null, antiDriftFloor = null, restDrain = null, restSwitch = null, hasWin = null, entSill = null;
         Double switchHeight = null, winHeight1 = null, winHeight2 = null, winHeight3 = null, notAccLength = null, notAccWidth = null, notAccEntWidth = null;
-        String restLocation = null, antiDriftFloorObs = null, restDrainObs = null, switchObs = null, winType1 = null, winType2 = null, winType3 = null, winObs = null, entObs = null;
+        String restLocation = null, antiDriftFloorObs = null, restDrainObs = null, switchObs = null, winType1 = null, winType2 = null, winType3 = null, winObs = null,
+                entObs = null, photo = null;
 
-        if (getCheckedRadio(restTypeRadio) != -1)
-            restType = getCheckedRadio(restTypeRadio);
+        if (indexRadio(restTypeRadio) != -1)
+            restType = indexRadio(restTypeRadio);
         if (!TextUtils.isEmpty(restLocationValue.getText()))
             restLocation = String.valueOf(restLocationValue.getText());
-        if (getCheckedRadio(floorRadio) != -1)
-            antiDriftFloor = getCheckedRadio(floorRadio);
+        if (indexRadio(floorRadio) != -1)
+            antiDriftFloor = indexRadio(floorRadio);
         if (!TextUtils.isEmpty(floorObsValue.getText()))
             antiDriftFloorObs = String.valueOf(floorObsValue.getText());
 
-        if (getCheckedRadio(hasSwitchRadio) != -1) {
-            restSwitch = getCheckedRadio(hasSwitchRadio);
+        if (indexRadio(hasSwitchRadio) != -1) {
+            restSwitch = indexRadio(hasSwitchRadio);
             if (restSwitch == 1) {
                 if (!TextUtils.isEmpty(swHeightValue.getText()))
                     switchHeight = Double.parseDouble(String.valueOf(swHeightValue.getText()));
@@ -219,8 +220,8 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
         if (!TextUtils.isEmpty(swObsValue.getText()))
             switchObs = String.valueOf(swObsValue.getText());
 
-        if (getCheckedRadio(hasWindowRadio) != -1) {
-            hasWin = getCheckedRadio(hasWindowRadio);
+        if (indexRadio(hasWindowRadio) != -1) {
+            hasWin = indexRadio(hasWindowRadio);
             if (hasWin == 1) {
                 switch (winQnt) {
                     case 3:
@@ -248,17 +249,17 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
 
 
         if (layout == 1) {
-            if (getCheckedRadio(drainRadio) != -1)
-                restDrain = getCheckedRadio(drainRadio);
+            if (indexRadio(drainRadio) != -1)
+                restDrain = indexRadio(drainRadio);
             if (!TextUtils.isEmpty(drainObsValue.getText()))
                 restDrainObs = String.valueOf(drainObsValue.getText());
-            if (getCheckedRadio(hasDoorRadio) != -1) {
-                hasDoor = getCheckedRadio(hasDoorRadio);
+            if (indexRadio(hasDoorRadio) != -1) {
+                hasDoor = indexRadio(hasDoorRadio);
                 if (hasDoor == 0) {
                     if (!TextUtils.isEmpty(notAccessEntranceValue.getText()))
                         notAccEntWidth = Double.parseDouble(String.valueOf(notAccessEntranceValue.getText()));
-                    if (getCheckedRadio(entranceSillRadio) != -1)
-                        entSill = getCheckedRadio(entranceSillRadio);
+                    if (indexRadio(entranceSillRadio) != -1)
+                        entSill = indexRadio(entranceSillRadio);
                     if (!TextUtils.isEmpty(entranceSillObsValue.getText()))
                         entObs = String.valueOf(entranceSillObsValue.getText());
                 }
@@ -270,67 +271,18 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
                 notAccWidth = Double.parseDouble(String.valueOf(notAccessWidthValue.getText()));
             if (!TextUtils.isEmpty(notAccessEntranceValue.getText()))
                 notAccEntWidth = Double.parseDouble(String.valueOf(notAccessEntranceValue.getText()));
-            if (getCheckedRadio(entranceSillRadio) != -1)
-                entSill = getCheckedRadio(entranceSillRadio);
+            if (indexRadio(entranceSillRadio) != -1)
+                entSill = indexRadio(entranceSillRadio);
             if (!TextUtils.isEmpty(entranceSillObsValue.getText()))
                 entObs = String.valueOf(entranceSillObsValue.getText());
+            if (!TextUtils.isEmpty(photoValue.getText()))
+                photo = String.valueOf(photoValue.getText());
         }
 
         RestAccessColParcel parcel = new RestAccessColParcel(restType, restLocation, notAccLength, notAccWidth, hasDoor, null, null,
                 null, null, antiDriftFloor, antiDriftFloorObs, restDrain, restDrainObs, notAccEntWidth, entSill, entObs, restSwitch,
-                switchHeight, switchObs, hasWin, winQnt, winType1, winHeight1, winType2, winHeight2, winType3, winHeight3, winObs);
+                switchHeight, switchObs, hasWin, winQnt, winType1, winHeight1, winType2, winHeight2, winType3, winHeight3, winObs, photo);
         bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
-    }
-
-    private void colRadioListener(RadioGroup radio, int checkedID) {
-        int index = getCheckedRadio(radio);
-
-        if (radio == hasSwitchRadio) {
-            if (index == 1)
-                swHeightField.setVisibility(View.VISIBLE);
-            else {
-                swHeightValue.setText(null);
-                swHeightField.setVisibility(View.GONE);
-                restSwitchError.setVisibility(View.GONE);
-            }
-        } else if (radio == hasWindowRadio) {
-            if (index == 1) {
-                addWinButton.setVisibility(View.VISIBLE);
-                winTypeField1.setVisibility(View.VISIBLE);
-                winHeightField1.setVisibility(View.VISIBLE);
-                winQnt = 1;
-            } else {
-                winQnt = 0;
-                addWinButton.setVisibility(View.GONE);
-                delWinButton.setVisibility(View.GONE);
-                restWinError.setVisibility(View.GONE);
-                winTypeValue1.setText(null);
-                winHeightValue1.setText(null);
-                winTypeValue2.setText(null);
-                winHeightValue2.setText(null);
-                winTypeValue3.setText(null);
-                winHeightValue3.setText(null);
-                winTypeField1.setVisibility(View.GONE);
-                winHeightField1.setVisibility(View.GONE);
-                winTypeField2.setVisibility(View.GONE);
-                winHeightField2.setVisibility(View.GONE);
-                winTypeField3.setVisibility(View.GONE);
-                winHeightField3.setVisibility(View.GONE);
-            }
-        } else if (radio == hasDoorRadio) {
-            if (index == 0) {
-                notAccessEntranceField.setVisibility(View.VISIBLE);
-                entranceSillRadio.setVisibility(View.VISIBLE);
-                entranceSillHeader.setVisibility(View.VISIBLE);
-                entranceSillObsField.setVisibility(View.VISIBLE);
-            } else if (index == 1) {
-                clearColDoorFields();
-                notAccessEntranceField.setVisibility(View.GONE);
-                entranceSillRadio.setVisibility(View.GONE);
-                entranceSillHeader.setVisibility(View.GONE);
-                entranceSillObsValue.setVisibility(View.GONE);
-            }
-        }
     }
 
     private void clearColDoorErrors() {
@@ -349,15 +301,15 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
     private void loadAccessRestData(RestroomEntry rest) {
         if (rest.getRestType() == layout) {
             if (rest.getRestGender() != null)
-                restTypeRadio.check(restTypeRadio.getChildAt(rest.getRestGender()).getId());
+                checkRadioGroup(restTypeRadio, rest.getRestGender());
             if (rest.getRestLocation() != null)
                 restLocationValue.setText(rest.getRestLocation());
             if (rest.getAntiDriftFloor() != null)
-                floorRadio.check(floorRadio.getChildAt(rest.getAntiDriftFloor()).getId());
+                checkRadioGroup(floorRadio, rest.getAntiDriftFloor());
             if (rest.getAntiDriftFloorObs() != null && rest.getAntiDriftFloorObs().length() > 0)
                 floorObsValue.setText(rest.getAntiDriftFloorObs());
             if (rest.getRestSwitch() != null) {
-                hasSwitchRadio.check(hasSwitchRadio.getChildAt(rest.getRestSwitch()).getId());
+                checkRadioGroup(hasSwitchRadio, rest.getRestSwitch());
                 if (rest.getRestSwitch() == 1 && rest.getSwitchHeight() != null)
                     swHeightValue.setText(String.valueOf(rest.getSwitchHeight()));
             }
@@ -365,7 +317,7 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
                 swObsValue.setText(rest.getSwitchObs());
 
             if (rest.getHasWindow() != null && rest.getHasWindow() > -1) {
-                hasWindowRadio.check(hasWindowRadio.getChildAt(rest.getHasWindow()).getId());
+                checkRadioGroup(hasWindowRadio, rest.getHasWindow());
                 if (rest.getHasWindow() == 1) {
                     winQnt = rest.getWinQnt();
                     switch (winQnt) {
@@ -399,16 +351,16 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
 
             if (layout == 1) {
                 if (rest.getRestDrain() != null)
-                    drainRadio.check(drainRadio.getChildAt(rest.getRestDrain()).getId());
+                    checkRadioGroup(drainRadio, rest.getRestDrain());
                 if (rest.getRestDrainObs() != null && rest.getRestDrainObs().length() > 0)
                     drainObsValue.setText(rest.getRestDrainObs());
                 if (rest.getCollectiveHasDoor() != null) {
-                    hasDoorRadio.check(hasDoorRadio.getChildAt(rest.getCollectiveHasDoor()).getId());
+                    checkRadioGroup(hasDoorRadio, rest.getCollectiveHasDoor());
                     if (rest.getCollectiveHasDoor() == 0) {
                         if (rest.getEntranceWidth() != null)
                             notAccessEntranceValue.setText(String.valueOf(rest.getEntranceWidth()));
                         if (rest.getEntranceDoorSill() != null && rest.getEntranceDoorSill() > -1)
-                            entranceSillRadio.check(entranceSillRadio.getChildAt(rest.getEntranceDoorSill()).getId());
+                            checkRadioGroup(entranceSillRadio, rest.getEntranceDoorSill());
                         if (rest.getEntranceDoorSillObs() != null)
                             entranceSillObsValue.setText(rest.getEntranceDoorSillObs());
                     }
@@ -421,11 +373,13 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
                 if (rest.getEntranceWidth() != null)
                     notAccessEntranceValue.setText(String.valueOf(rest.getEntranceWidth()));
                 if (rest.getEntranceDoorSill() != null)
-                    entranceSillRadio.check(entranceSillRadio.getChildAt(rest.getEntranceDoorSill()).getId());
+                    checkRadioGroup(entranceSillRadio, rest.getEntranceDoorSill());
                 if (rest.getEntranceDoorSillObs() != null)
                     entranceSillObsValue.setText(rest.getEntranceDoorSillObs());
             }
         }
+        if (rest.getRestFirstPhoto() != null)
+            photoValue.setText(rest.getRestFirstPhoto());
     }
 
     private boolean checkRestroomFields() {
@@ -439,23 +393,23 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
             restTypeError.setVisibility(View.VISIBLE);
             error++;
         }
-        if (getCheckedRadio(floorRadio) == -1) {
+        if (indexRadio(floorRadio) == -1) {
             restFloorError.setVisibility(View.VISIBLE);
             error++;
         }
-        if (getCheckedRadio(hasSwitchRadio) == -1) {
+        if (indexRadio(hasSwitchRadio) == -1) {
             restSwitchError.setVisibility(View.VISIBLE);
             error++;
-        } else if (getCheckedRadio(hasSwitchRadio) == 1) {
+        } else if (indexRadio(hasSwitchRadio) == 1) {
             if (TextUtils.isEmpty(swHeightValue.getText())) {
                 swHeightField.setError(getString(R.string.req_field_error));
             }
         }
 
-        if (getCheckedRadio(hasWindowRadio) == -1) {
+        if (indexRadio(hasWindowRadio) == -1) {
             error++;
             restWinError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(hasWindowRadio) == 1) {
+        } else if (indexRadio(hasWindowRadio) == 1) {
             switch (winQnt) {
                 case 3:
                     if (TextUtils.isEmpty(winHeightValue3.getText())) {
@@ -483,20 +437,20 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
         }
 
         if (layout == 1) {
-            if (getCheckedRadio(hasDoorRadio) == -1) {
+            if (indexRadio(hasDoorRadio) == -1) {
                 error++;
                 hasDoorError.setVisibility(View.VISIBLE);
-            } else if (getCheckedRadio(hasDoorRadio) == 0) {
+            } else if (indexRadio(hasDoorRadio) == 0) {
                 if (TextUtils.isEmpty(notAccessEntranceValue.getText())) {
                     error++;
                     notAccessEntranceField.setError(getString(R.string.req_field_error));
                 }
-                if (getCheckedRadio(entranceSillRadio) == -1) {
+                if (indexRadio(entranceSillRadio) == -1) {
                     error++;
                     entranceSillError.setVisibility(View.VISIBLE);
                 }
             }
-            if (getCheckedRadio(drainRadio) == -1) {
+            if (indexRadio(drainRadio) == -1) {
                 restDrainError.setVisibility(View.VISIBLE);
                 error++;
             }
@@ -513,7 +467,7 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
                 error++;
                 notAccessEntranceField.setError(getString(R.string.req_field_error));
             }
-            if (getCheckedRadio(entranceSillRadio) == -1) {
+            if (indexRadio(entranceSillRadio) == -1) {
                 entranceSillError.setVisibility(View.VISIBLE);
                 error++;
             }
@@ -587,5 +541,57 @@ public class RestCollectiveFragment extends Fragment implements TagInterface, Sc
         winHeightArray.add(winHeightField2);
         winHeightArray.add(winHeightField3);
 
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int index = indexRadio(radio);
+
+        if (radio == hasSwitchRadio) {
+            if (index == 1)
+                swHeightField.setVisibility(View.VISIBLE);
+            else {
+                swHeightValue.setText(null);
+                swHeightField.setVisibility(View.GONE);
+                restSwitchError.setVisibility(View.GONE);
+            }
+        } else if (radio == hasWindowRadio) {
+            if (index == 1) {
+                addWinButton.setVisibility(View.VISIBLE);
+                winTypeField1.setVisibility(View.VISIBLE);
+                winHeightField1.setVisibility(View.VISIBLE);
+                winQnt = 1;
+            } else {
+                winQnt = 0;
+                addWinButton.setVisibility(View.GONE);
+                delWinButton.setVisibility(View.GONE);
+                restWinError.setVisibility(View.GONE);
+                winTypeValue1.setText(null);
+                winHeightValue1.setText(null);
+                winTypeValue2.setText(null);
+                winHeightValue2.setText(null);
+                winTypeValue3.setText(null);
+                winHeightValue3.setText(null);
+                winTypeField1.setVisibility(View.GONE);
+                winHeightField1.setVisibility(View.GONE);
+                winTypeField2.setVisibility(View.GONE);
+                winHeightField2.setVisibility(View.GONE);
+                winTypeField3.setVisibility(View.GONE);
+                winHeightField3.setVisibility(View.GONE);
+            }
+        } else if (radio == hasDoorRadio) {
+            if (index == 0) {
+                notAccessEntranceField.setVisibility(View.VISIBLE);
+                entranceSillRadio.setVisibility(View.VISIBLE);
+                entranceSillHeader.setVisibility(View.VISIBLE);
+                entranceSillObsField.setVisibility(View.VISIBLE);
+            } else if (index == 1) {
+                clearColDoorFields();
+                notAccessEntranceField.setVisibility(View.GONE);
+                entranceSillRadio.setVisibility(View.GONE);
+                entranceSillHeader.setVisibility(View.GONE);
+                entranceSillObsValue.setVisibility(View.GONE);
+            }
+        }
     }
 }

@@ -19,15 +19,18 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 
-public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEditText {
+public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
-    TextInputLayout payphoneRefField, keyboardHeightField, phoneHeightField, payphoneObsField, tactFloorDistField, phoneTactileFloorWidthField, tactileFloorObsField;
-    TextInputEditText payphoneRefValue, keyboardHeightValue, phoneHeightValue, payphoneObsValue, tactFloorDistValue, phoneTactileFloorWidthValue, tactileFloorObsValue;
+    TextInputLayout payphoneRefField, keyboardHeightField, phoneHeightField, payphoneObsField, tactFloorDistField, phoneTactileFloorWidthField, tactileFloorObsField,
+            photoField;
+    TextInputEditText payphoneRefValue, keyboardHeightValue, phoneHeightValue, payphoneObsValue, tactFloorDistValue, phoneTactileFloorWidthValue, tactileFloorObsValue,
+            photoValue;
     TextView payphoneFloorError, payphoneTactileColorError, phoneTactColorHeader, phoneTactDimensionsHeader, phoneTactDimensionError, payphoneWorkingError;
     RadioGroup payphoneTactileFloorRadio, payphoneTactileColorRadio, payphoneWorkingRadio;
     Button savePayphone, cancelPayphone;
@@ -87,8 +90,7 @@ public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEd
                     Toast.makeText(getContext(), R.string.unexpected_error, Toast.LENGTH_SHORT).show();
 
                 phoneBundle.putInt(PHONE_ID, 0);
-            }
-            else
+            } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
 
@@ -105,6 +107,7 @@ public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEd
         tactFloorDistField = view.findViewById(R.id.phone_tact_floor_dist_field);
         phoneTactileFloorWidthField = view.findViewById(R.id.phone_tact_floor_width_field);
         tactileFloorObsField = view.findViewById(R.id.phone_tact_floor_obs_field);
+        photoField = view.findViewById(R.id.phone_photo_field);
 //        TextInputEditText
         payphoneRefValue = view.findViewById(R.id.gate_payphone_ref_value);
         keyboardHeightValue = view.findViewById(R.id.payphone_keyboard_height_value);
@@ -113,6 +116,7 @@ public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEd
         tactFloorDistValue = view.findViewById(R.id.phone_tact_floor_dist_value);
         phoneTactileFloorWidthValue = view.findViewById(R.id.phone_tact_floor_width_value);
         tactileFloorObsValue = view.findViewById(R.id.phone_tact_floor_obs_value);
+        photoValue = view.findViewById(R.id.phone_photo_value);
 //        TextView
         payphoneFloorError = view.findViewById(R.id.gate_payphone_floor_error);
         payphoneWorkingError = view.findViewById(R.id.payphone_working_error);
@@ -133,40 +137,13 @@ public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEd
         eTexts.add(payphoneObsValue);
         eTexts.add(tactileFloorObsValue);
         allowObsScroll(eTexts);
-        payphoneTactileFloorRadio.setOnCheckedChangeListener(this::payphoneRadioListener);
-    }
-
-
-
-    private int getCheckedRadioFloor(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
-    private void payphoneRadioListener(RadioGroup radio, int checkedID) {
-        int index = radio.indexOfChild(radio.findViewById(checkedID));
-
-        if (index == 1) {
-            phoneTactColorHeader.setVisibility(View.VISIBLE);
-            payphoneTactileColorRadio.setVisibility(View.VISIBLE);
-            phoneTactDimensionsHeader.setVisibility(View.VISIBLE);
-            tactFloorDistField.setVisibility(View.VISIBLE);
-            phoneTactileFloorWidthField.setVisibility(View.VISIBLE);
-        } else {
-            phoneTactColorHeader.setVisibility(View.GONE);
-            payphoneTactileColorRadio.clearCheck();
-            payphoneTactileColorRadio.setVisibility(View.GONE);
-            phoneTactDimensionsHeader.setVisibility(View.GONE);
-            tactFloorDistValue.setText(null);
-            tactFloorDistField.setVisibility(View.GONE);
-            phoneTactileFloorWidthValue.setText(null);
-            phoneTactileFloorWidthField.setVisibility(View.GONE);
-        }
+        payphoneTactileFloorRadio.setOnCheckedChangeListener(this::radioListener);
     }
 
     private PayPhoneEntry newPayPhone(Bundle bundle) {
         Integer extID = null, sideID = null, rightColor = null;
         int hasTactFloor, isWorking;
-        String payphoneRefLocation, tactFloorObs = null, payphoneObs = null;
+        String payphoneRefLocation, tactFloorObs = null, payphoneObs = null, photo = null;
         double keyboardHeight, phoneHeight;
         Double tactFloorDist = null, tactFloorWidth = null;
 
@@ -177,20 +154,22 @@ public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEd
         payphoneRefLocation = String.valueOf(payphoneRefValue.getText());
         keyboardHeight = Double.parseDouble(String.valueOf(keyboardHeightValue.getText()));
         phoneHeight = Double.parseDouble(String.valueOf(keyboardHeightValue.getText()));
-        hasTactFloor = getCheckedRadioFloor(payphoneTactileFloorRadio);
+        hasTactFloor = indexRadio(payphoneTactileFloorRadio);
         if (hasTactFloor == 1) {
-            rightColor = getCheckedRadioFloor(payphoneTactileColorRadio);
+            rightColor = indexRadio(payphoneTactileColorRadio);
             tactFloorDist = Double.parseDouble(String.valueOf(tactFloorDistValue.getText()));
             tactFloorWidth = Double.parseDouble(String.valueOf(phoneTactileFloorWidthValue.getText()));
             if (!TextUtils.isEmpty(tactileFloorObsValue.getText()))
                 tactFloorObs = String.valueOf(tactileFloorObsValue.getText());
         }
-        isWorking = getCheckedRadioFloor(payphoneWorkingRadio);
+        isWorking = indexRadio(payphoneWorkingRadio);
         if (!TextUtils.isEmpty(payphoneObsValue.getText()))
             payphoneObs = String.valueOf(payphoneObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
         return new PayPhoneEntry(extID, sideID, payphoneRefLocation, keyboardHeight, phoneHeight, hasTactFloor, rightColor, tactFloorDist, tactFloorWidth, tactFloorObs,
-                isWorking, payphoneObs);
+                isWorking, payphoneObs, photo);
     }
 
     private boolean checkEmptyFields() {
@@ -208,11 +187,11 @@ public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEd
             error++;
             phoneHeightField.setError(getString(R.string.req_field_error));
         }
-        if (getCheckedRadioFloor(payphoneTactileFloorRadio) == -1) {
+        if (indexRadio(payphoneTactileFloorRadio) == -1) {
             error++;
             payphoneFloorError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadioFloor(payphoneTactileFloorRadio) == 1) {
-            if (getCheckedRadioFloor(payphoneTactileColorRadio) == -1) {
+        } else if (indexRadio(payphoneTactileFloorRadio) == 1) {
+            if (indexRadio(payphoneTactileColorRadio) == -1) {
                 error++;
                 payphoneTactileColorError.setVisibility(View.VISIBLE);
             }
@@ -227,7 +206,7 @@ public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEd
                 phoneTactDimensionError.setVisibility(View.VISIBLE);
             }
         }
-        if (getCheckedRadioFloor(payphoneWorkingRadio) == -1) {
+        if (indexRadio(payphoneWorkingRadio) == -1) {
             error++;
             payphoneWorkingError.setVisibility(View.VISIBLE);
         }
@@ -262,22 +241,45 @@ public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEd
         tactileFloorObsField.setVisibility(View.GONE);
         payphoneObsValue.setText(null);
         payphoneWorkingRadio.clearCheck();
+        photoValue.setText(null);
     }
 
     private void loadPayPhoneData(PayPhoneEntry payPhone) {
         payphoneRefValue.setText(payPhone.getPhoneRefPoint());
         keyboardHeightValue.setText(String.valueOf(payPhone.getPhoneKeyboardHeight()));
         phoneHeightValue.setText(String.valueOf(payPhone.getPhoneHeight()));
-        payphoneTactileFloorRadio.check(payphoneTactileFloorRadio.getChildAt(payPhone.getHasTactileFloor()).getId());
+        checkRadioGroup(payphoneTactileFloorRadio, payPhone.getHasTactileFloor());
         if (payPhone.getHasTactileFloor() == 1) {
-            payphoneTactileColorRadio.check(payphoneTactileColorRadio.getChildAt(payPhone.getRightColorTactileFloor()).getId());
+            checkRadioGroup(payphoneTactileColorRadio, payPhone.getRightColorTactileFloor());
             tactFloorDistValue.setText(String.valueOf(payPhone.getTactFloorDist()));
             phoneTactileFloorWidthValue.setText(String.valueOf(payPhone.getTactFloorWidth()));
             if (payPhone.getTactFloorObs() != null)
                 tactileFloorObsValue.setText(payPhone.getTactFloorObs());
         }
-        payphoneWorkingRadio.check(payphoneWorkingRadio.getChildAt(payPhone.getPhoneIsWorking()).getId());
+        checkRadioGroup(payphoneWorkingRadio, payPhone.getPhoneIsWorking());
         if (payPhone.getPayPhoneObs() != null)
             payphoneObsValue.setText(payPhone.getPayPhoneObs());
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int index = indexRadio(radio);
+
+        if (index == 1) {
+            phoneTactColorHeader.setVisibility(View.VISIBLE);
+            payphoneTactileColorRadio.setVisibility(View.VISIBLE);
+            phoneTactDimensionsHeader.setVisibility(View.VISIBLE);
+            tactFloorDistField.setVisibility(View.VISIBLE);
+            phoneTactileFloorWidthField.setVisibility(View.VISIBLE);
+        } else {
+            phoneTactColorHeader.setVisibility(View.GONE);
+            payphoneTactileColorRadio.clearCheck();
+            payphoneTactileColorRadio.setVisibility(View.GONE);
+            phoneTactDimensionsHeader.setVisibility(View.GONE);
+            tactFloorDistValue.setText(null);
+            tactFloorDistField.setVisibility(View.GONE);
+            phoneTactileFloorWidthValue.setText(null);
+            phoneTactileFloorWidthField.setVisibility(View.GONE);
+        }
     }
 }

@@ -17,12 +17,14 @@ public class BlackboardEntry {
     private String boardLocation;
     private double infBorderHeight;
     private String boardObs;
+    private String boardPhoto;
 
-    public BlackboardEntry(int roomID, String boardLocation, double infBorderHeight, String boardObs) {
+    public BlackboardEntry(int roomID, String boardLocation, double infBorderHeight, String boardObs, String boardPhoto) {
         this.roomID = roomID;
         this.boardLocation = boardLocation;
         this.infBorderHeight = infBorderHeight;
         this.boardObs = boardObs;
+        this.boardPhoto = boardPhoto;
     }
 
     public int getBoardID() {
@@ -63,5 +65,13 @@ public class BlackboardEntry {
 
     public void setBoardObs(String boardObs) {
         this.boardObs = boardObs;
+    }
+
+    public String getBoardPhoto() {
+        return boardPhoto;
+    }
+
+    public void setBoardPhoto(String boardPhoto) {
+        this.boardPhoto = boardPhoto;
     }
 }

@@ -20,9 +20,10 @@ public class RampStairsRailingEntry {
     private Integer hasBeacon;
     private Double beaconHeight;
     private String beaconObs;
+    private String beaconPhoto;
 
     public RampStairsRailingEntry(int flightID, int railingSide, int hasRailing, Double railingHeight, String railingObs, Integer hasBeacon,
-                                  Double beaconHeight, String beaconObs) {
+                                  Double beaconHeight, String beaconObs, String beaconPhoto) {
         this.flightID = flightID;
         this.railingSide = railingSide;
         this.hasRailing = hasRailing;
@@ -31,6 +32,15 @@ public class RampStairsRailingEntry {
         this.hasBeacon = hasBeacon;
         this.beaconHeight = beaconHeight;
         this.beaconObs = beaconObs;
+        this.beaconPhoto = beaconPhoto;
+    }
+
+    public String getBeaconPhoto() {
+        return beaconPhoto;
+    }
+
+    public void setBeaconPhoto(String beaconPhoto) {
+        this.beaconPhoto = beaconPhoto;
     }
 
     public int getRailingID() {

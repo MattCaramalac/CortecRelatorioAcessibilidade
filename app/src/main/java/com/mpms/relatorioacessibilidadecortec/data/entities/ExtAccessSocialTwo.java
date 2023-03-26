@@ -34,11 +34,13 @@ public class ExtAccessSocialTwo {
     private Double gapMeasure3;
     private Double gapMeasure4;
 
+    private String extAccPhotos2;
+
     public ExtAccessSocialTwo(int externalAccessID, Integer hasSIA, String obsSIA, Integer entranceGateType, String entranceGateDesc, Double freeSpaceWidth1,
                               Double freeSpaceWidth2, Integer gateHandleType, Double gateHandleHeight, String gateObs, Integer gateHasTracks, Double gateTrackHeight,
                               Integer gateHasTrackRamp, Integer trackRampQuantity, Double trackRampMeasure1, Double trackRampMeasure2, Double trackRampMeasure3,
                               Double trackRampMeasure4, Integer hasFloorGap, Integer gapCounter, Double gapMeasure1, Double gapMeasure2,
-                              Double gapMeasure3, Double gapMeasure4) {
+                              Double gapMeasure3, Double gapMeasure4, String extAccPhotos2) {
         this.externalAccessID = externalAccessID;
         this.hasSIA = hasSIA;
         this.obsSIA = obsSIA;
@@ -63,6 +65,7 @@ public class ExtAccessSocialTwo {
         this.gapMeasure2 = gapMeasure2;
         this.gapMeasure3 = gapMeasure3;
         this.gapMeasure4 = gapMeasure4;
+        this.extAccPhotos2 = extAccPhotos2;
     }
 
     public int getExternalAccessID() {
@@ -255,5 +258,13 @@ public class ExtAccessSocialTwo {
 
     public void setGapMeasure4(Double gapMeasure4) {
         this.gapMeasure4 = gapMeasure4;
+    }
+
+    public String getExtAccPhotos2() {
+        return extAccPhotos2;
+    }
+
+    public void setExtAccPhotos2(String extAccPhotos2) {
+        this.extAccPhotos2 = extAccPhotos2;
     }
 }

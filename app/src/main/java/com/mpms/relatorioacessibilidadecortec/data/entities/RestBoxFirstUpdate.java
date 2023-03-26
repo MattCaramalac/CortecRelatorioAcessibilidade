@@ -42,13 +42,15 @@ public class RestBoxFirstUpdate {
     private String upViewObs;
     private Integer restDrain;
     private String restDrainObs;
+    private String boxUpperPhoto;
 
     public RestBoxFirstUpdate(int boxID, int typeBox, Double comBoxDoorWidth, Double comBoxFreeDiam, Integer comBoxHasBars, Double comBoxToiletDoorDist, Double comBoxWidth,
                               Integer comBoxHasLeftBar, Double comBoxLeftShapeBarA, Double comBoxLeftShapeBarB, Double comBoxLeftShapeBarC, Double comBoxLeftShapeBarD,
                               Double comBoxLeftShapeBarDiam, Double comBoxLeftShapeBarDist, String comBoxLeftBarObs, Integer comBoxHasRightBar,
                               Double comBoxRightShapeBarA, Double comBoxRightShapeBarB, Double comBoxRightShapeBarC, Double comBoxRightShapeBarD, Double comBoxRightShapeBarDiam,
                               Double comBoxRightShapeBarDist, String comBoxRightBarObs, String comBoxObs, Double upViewLength, Double upViewWidth,
-                              Double upViewMeasureA, Double upViewMeasureB, Double upViewMeasureC, Double upViewMeasureD, String upViewObs, Integer restDrain, String restDrainObs) {
+                              Double upViewMeasureA, Double upViewMeasureB, Double upViewMeasureC, Double upViewMeasureD, String upViewObs, Integer restDrain, String restDrainObs,
+                              String boxUpperPhoto) {
         this.boxID = boxID;
         this.typeBox = typeBox;
         this.comBoxDoorWidth = comBoxDoorWidth;
@@ -82,6 +84,15 @@ public class RestBoxFirstUpdate {
         this.upViewObs = upViewObs;
         this.restDrain = restDrain;
         this.restDrainObs = restDrainObs;
+        this.boxUpperPhoto = boxUpperPhoto;
+    }
+
+    public String getBoxUpperPhoto() {
+        return boxUpperPhoto;
+    }
+
+    public void setBoxUpperPhoto(String boxUpperPhoto) {
+        this.boxUpperPhoto = boxUpperPhoto;
     }
 
     public int getBoxID() {

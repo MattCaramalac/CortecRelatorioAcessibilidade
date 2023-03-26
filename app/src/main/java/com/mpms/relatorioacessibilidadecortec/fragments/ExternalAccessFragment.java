@@ -35,8 +35,8 @@ import org.parceler.Parcels;
 public class ExternalAccessFragment extends Fragment implements TagInterface, ScrollEditText {
 
     RadioGroup entranceTypeRadio, accessFloorRadio;
-    TextInputLayout entranceLocationField, accessFloorObsField;
-    TextInputEditText entranceLocationValue, accessFloorObsValue;
+    TextInputLayout entranceLocationField, accessFloorObsField, photoField;
+    TextInputEditText entranceLocationValue, accessFloorObsValue, photoValue;
     Button saveExternalAccess, cancelExternalAccess;
     TextView accessTypeError, accessFloorError;
     Fragment accessType;
@@ -189,9 +189,11 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
 //        TextInputLayout
         entranceLocationField = view.findViewById(R.id.entrance_location_field);
         accessFloorObsField = view.findViewById(R.id.ext_accessible_floor_obs_field);
+        photoField = view.findViewById(R.id.ext_acc_photos_field);
 //        TextInputEditText
         entranceLocationValue = view.findViewById(R.id.entrance_location_value);
         accessFloorObsValue = view.findViewById(R.id.ext_accessible_floor_obs_value);
+        photoValue = view.findViewById(R.id.ext_acc_photos_value);
 //        RadioGroup
         entranceTypeRadio = view.findViewById(R.id.external_access_type_radio);
         accessFloorRadio = view.findViewById(R.id.ext_accessible_floor_radio);
@@ -217,6 +219,8 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
         accessFloorRadio.check(accessFloorRadio.getChildAt(extAccess.getFloorIsAccessible()).getId());
         if (extAccess.getAccessibleFloorObs() != null)
             accessFloorObsValue.setText(extAccess.getAccessibleFloorObs());
+        if (extAccess.getExtAccPhotos() != null)
+            photoValue.setText(extAccess.getExtAccPhotos());
 
         getChildFragmentManager().setFragmentResult(InspectionActivity.LOAD_CHILD_DATA, extBundle);
     }
@@ -292,6 +296,7 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
         accessFloorObsField.setVisibility(View.GONE);
         getChildFragmentManager().beginTransaction().remove(accessType).commit();
         accessType = null;
+        photoValue.setText(null);
     }
 
     private ExternalAccess newExtAccess(Bundle bundle) {
@@ -305,11 +310,13 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
             VehicleExtAccParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
             hasSound = parcel.getHasSoundSignal();
             accessObs = parcel.getSoundObs();
-            photos = parcel.getPhotos();
         }
         accessFloor = getRadioCheckIndex(accessFloorRadio);
         if (accessFloor == 0)
             accessFloorObs = String.valueOf(accessFloorObsValue.getText());
+
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photos = String.valueOf(photoValue.getText());
 
         return new ExternalAccess(bundle.getInt(BLOCK_ID), location, accessType, accessFloor, accessFloorObs, null, null,
                 null, null, null, null, null, null, null, null,
@@ -317,11 +324,11 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
                 null, null,null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
-                null, null, hasSound, accessObs, null, photos);
+                null, null, hasSound, accessObs, null, photos, null, null);
     }
 
     private ExtAccessSocialOne upExtAccessOne(Bundle bundle) {
-        String location, accessFloorObs = null;
+        String location, accessFloorObs = null, photo = null;
         int accessType, accessFloor;
 
         location = String.valueOf(entranceLocationValue.getText());
@@ -329,7 +336,9 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
         accessFloor = getRadioCheckIndex(accessFloorRadio);
         if (accessFloor == 0)
             accessFloorObs = String.valueOf(accessFloorObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
-        return new ExtAccessSocialOne(bundle.getInt(AMBIENT_ID), bundle.getInt(BLOCK_ID), location, accessType, accessFloor, accessFloorObs);
+        return new ExtAccessSocialOne(bundle.getInt(AMBIENT_ID), bundle.getInt(BLOCK_ID), location, accessType, accessFloor, accessFloorObs, photo);
     }
 }

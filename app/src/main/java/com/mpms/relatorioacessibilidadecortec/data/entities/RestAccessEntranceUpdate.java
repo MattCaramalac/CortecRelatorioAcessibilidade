@@ -22,10 +22,11 @@ public class RestAccessEntranceUpdate {
     private Integer restSwitch;
     private Double switchHeight;
     private String switchObs;
+    private String restFirstPhoto;
 
     public RestAccessEntranceUpdate(int restroomID, int restType, Integer restGender, String restLocation, Integer accessRoute, String accessRouteObs, Integer intRestroom,
                                     String intRestObs, Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Integer restSwitch,
-                                    Double switchHeight, String switchObs) {
+                                    Double switchHeight, String switchObs, String restFirstPhoto) {
         this.restroomID = restroomID;
         this.restType = restType;
         this.restGender = restGender;
@@ -41,6 +42,15 @@ public class RestAccessEntranceUpdate {
         this.restSwitch = restSwitch;
         this.switchHeight = switchHeight;
         this.switchObs = switchObs;
+        this.restFirstPhoto = restFirstPhoto;
+    }
+
+    public String getRestFirstPhoto() {
+        return restFirstPhoto;
+    }
+
+    public void setRestFirstPhoto(String restFirstPhoto) {
+        this.restFirstPhoto = restFirstPhoto;
     }
 
     public int getRestroomID() {

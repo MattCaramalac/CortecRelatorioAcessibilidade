@@ -154,6 +154,11 @@ public class RestBoxEntry {
     private Double sinkMirrorLow;
     private Double sinkMirrorHigh;
     private String sinkObs;
+    private String boxUpperPhoto;
+    private String boxToiletPhoto;
+    private String boxAccessPhoto;
+    private String boxAccessPhoto2;
+    private String boxSinkPhoto;
 
     public RestBoxEntry(int restID, int typeBox, Double comBoxDoorWidth, Double comBoxFreeDiam, Integer comBoxHasBars, Double comBoxToiletDoorDist, Double comBoxWidth,
                         Integer comBoxHasLeftBar, Double comBoxLeftShapeBarA, Double comBoxLeftShapeBarB, Double comBoxLeftShapeBarC,
@@ -177,7 +182,8 @@ public class RestBoxEntry {
                         Double leftFrontHorMeasureB, Double leftFrontHorMeasureC, Double leftFrontHorMeasureD, Double leftFrontHorDiam, Double leftFrontHorDist,
                         String leftFrontHorObs, Integer hasRightSideVertBar, Double rightSideVertMeasureA, Double rightSideVertMeasureB, Double rightSideVertMeasureC,
                         Double rightSideVertMeasureD, Double rightSideVertMeasureE, Double rightSideVertDiam, Double rightSideVertDist, String rightSideVertObs,
-                        Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh, String sinkObs) {
+                        Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh, String sinkObs, String boxUpperPhoto, String boxToiletPhoto,
+                        String boxAccessPhoto, String boxAccessPhoto2, String boxSinkPhoto) {
         this.restID = restID;
         this.typeBox = typeBox;
         this.comBoxDoorWidth = comBoxDoorWidth;
@@ -318,6 +324,51 @@ public class RestBoxEntry {
         this.sinkMirrorHigh = sinkMirrorHigh;
         this.sinkObs = sinkObs;
         this.hasSink = hasSink;
+        this.boxUpperPhoto = boxUpperPhoto;
+        this.boxToiletPhoto = boxToiletPhoto;
+        this.boxAccessPhoto = boxAccessPhoto;
+        this.boxAccessPhoto2 = boxAccessPhoto2;
+        this.boxSinkPhoto = boxSinkPhoto;
+    }
+
+    public String getBoxUpperPhoto() {
+        return boxUpperPhoto;
+    }
+
+    public void setBoxUpperPhoto(String boxUpperPhoto) {
+        this.boxUpperPhoto = boxUpperPhoto;
+    }
+
+    public String getBoxToiletPhoto() {
+        return boxToiletPhoto;
+    }
+
+    public void setBoxToiletPhoto(String boxToiletPhoto) {
+        this.boxToiletPhoto = boxToiletPhoto;
+    }
+
+    public String getBoxAccessPhoto() {
+        return boxAccessPhoto;
+    }
+
+    public void setBoxAccessPhoto(String boxAccessPhoto) {
+        this.boxAccessPhoto = boxAccessPhoto;
+    }
+
+    public String getBoxAccessPhoto2() {
+        return boxAccessPhoto2;
+    }
+
+    public void setBoxAccessPhoto2(String boxAccessPhoto2) {
+        this.boxAccessPhoto2 = boxAccessPhoto2;
+    }
+
+    public String getBoxSinkPhoto() {
+        return boxSinkPhoto;
+    }
+
+    public void setBoxSinkPhoto(String boxSinkPhoto) {
+        this.boxSinkPhoto = boxSinkPhoto;
     }
 
     public int getBoxID() {

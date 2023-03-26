@@ -18,17 +18,18 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.VehicleExtAccParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.parceler.Parcels;
 
-public class ExtAccessVehicleFragment extends Fragment implements TagInterface, ScrollEditText {
+public class ExtAccessVehicleFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     RadioGroup hasSoundSignRadio;
     TextView soundSingError;
-    TextInputLayout accessObsField, photoField;
-    TextInputEditText accessObsValue, photoValue;
+    TextInputLayout accessObsField;
+    TextInputEditText accessObsValue;
 
     ViewModelEntry modelEntry;
 
@@ -81,37 +82,29 @@ public class ExtAccessVehicleFragment extends Fragment implements TagInterface, 
         soundSingError = view.findViewById(R.id.has_sound_sign_error);
 //        TextInputEditText
         accessObsField = view.findViewById(R.id.external_access_sound_obs_field);
-        photoField = view.findViewById(R.id.vehicle_photos_field);
 //        TextInputEditText
         accessObsValue = view.findViewById(R.id.external_access_sound_obs_value);
-        photoValue = view.findViewById(R.id.vehicle_photos_value);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         allowObsScroll(accessObsValue);
-    }
-
-    private int getRadioCheckIndex(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
     private void createVehicleParcel(Bundle bundle) {
         int hasSound;
         String soundObs = null, photos = null;
 
-        hasSound = getRadioCheckIndex(hasSoundSignRadio);
+        hasSound = indexRadio(hasSoundSignRadio);
         if (!TextUtils.isEmpty(accessObsValue.getText()))
             soundObs = String.valueOf(accessObsValue.getText());
-        if (!TextUtils.isEmpty(photoValue.getText()))
-            photos = String.valueOf(photoValue.getText());
 
-        VehicleExtAccParcel parcel = new VehicleExtAccParcel(hasSound, soundObs, photos);
+        VehicleExtAccParcel parcel = new VehicleExtAccParcel(hasSound, soundObs);
         bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
     }
 
     private boolean checkVehicleEmptyFields() {
         int i = 0;
         soundSingError.setVisibility(View.GONE);
-        if (getRadioCheckIndex(hasSoundSignRadio) == -1) {
+        if (indexRadio(hasSoundSignRadio) == -1) {
             i++;
             soundSingError.setVisibility(View.VISIBLE);
         }
@@ -120,10 +113,13 @@ public class ExtAccessVehicleFragment extends Fragment implements TagInterface, 
 
     private void loadVehicleData(ExternalAccess access) {
         if (access.getGateHasSoundSign() != null)
-            hasSoundSignRadio.check(hasSoundSignRadio.getChildAt(access.getGateHasSoundSign()).getId());
+            checkRadioGroup(hasSoundSignRadio, access.getGateHasSoundSign());
         if (access.getExtAccessObs() != null)
             accessObsValue.setText(access.getExtAccessObs());
-        if (access.getExtAccPhotos() != null)
-            photoValue.setText(access.getExtAccPhotos());
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+
     }
 }

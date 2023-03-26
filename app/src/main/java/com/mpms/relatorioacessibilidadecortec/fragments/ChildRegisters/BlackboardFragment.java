@@ -22,8 +22,8 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 public class BlackboardFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout boardLocationField, boardInfHeightField, boardObsField;
-    TextInputEditText boardLocationValue, boardInfHeightValue, boardObsValue;
+    TextInputLayout boardLocationField, boardInfHeightField, boardObsField, photoField;
+    TextInputEditText boardLocationValue, boardInfHeightValue, boardObsValue, photoValue;
     MaterialButton saveBoard, cancelBoard;
 
     Bundle boardBundle;
@@ -92,10 +92,12 @@ public class BlackboardFragment extends Fragment implements TagInterface, Scroll
         boardLocationField = view.findViewById(R.id.board_location_field);
         boardInfHeightField = view.findViewById(R.id.board_inf_height_field);
         boardObsField = view.findViewById(R.id.blackboard_obs_field);
+        photoField = view.findViewById(R.id.board_photo_field);
 //        TextInputEditText
         boardLocationValue = view.findViewById(R.id.board_location_value);
         boardInfHeightValue = view.findViewById(R.id.board_inf_height_value);
         boardObsValue = view.findViewById(R.id.blackboard_obs_value);
+        photoValue = view.findViewById(R.id.board_photo_value);
 //        MaterialButton
         saveBoard = view.findViewById(R.id.save_board);
         cancelBoard = view.findViewById(R.id.cancel_board);
@@ -110,6 +112,8 @@ public class BlackboardFragment extends Fragment implements TagInterface, Scroll
         boardInfHeightValue.setText(String.valueOf(entry.getInfBorderHeight()));
         if (entry.getBoardObs() != null)
             boardObsValue.setText(entry.getBoardObs());
+        if (entry.getBoardPhoto() != null)
+            photoValue.setText(entry.getBoardPhoto());
     }
 
     private boolean boardNoEmptyFields() {
@@ -136,17 +140,20 @@ public class BlackboardFragment extends Fragment implements TagInterface, Scroll
         boardLocationValue.setText(null);
         boardInfHeightValue.setText(null);
         boardObsValue.setText(null);
+        photoValue.setText(null);
     }
 
     private BlackboardEntry newBoard(Bundle bundle) {
-        String boardLocale, boardObs = null;
+        String boardLocale, boardObs = null, photo = null;
         double boardInfHeight;
 
         boardLocale = String.valueOf(boardLocationValue.getText());
         boardInfHeight = Double.parseDouble(String.valueOf(boardInfHeightValue.getText()));
         if (!TextUtils.isEmpty(boardObsValue.getText()))
             boardObs = String.valueOf(boardObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
-        return new BlackboardEntry(bundle.getInt(AMBIENT_ID), boardLocale, boardInfHeight, boardObs);
+        return new BlackboardEntry(bundle.getInt(AMBIENT_ID), boardLocale, boardInfHeight, boardObs, photo);
     }
 }

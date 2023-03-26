@@ -39,13 +39,14 @@ public class RestSinkUpdate {
     private Double sinkMirrorHigh;
     private String sinkObs;
     private Integer hasLowerSink;
+    private String restSinkPhoto;
 
     public RestSinkUpdate(int restroomID, Integer hasSink, Integer sinkType, Double approxMeasureA, Double approxMeasureB, Double approxMeasureC, Double approxMeasureD,
                           Double approxMeasureE, Integer hasLowerColSink, Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA, Double leftFrontHorMeasureB,
                           Double leftFrontHorMeasureC, Double leftFrontHorMeasureD, Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs,
                           Integer hasRightSideVertBar, Double rightSideVertMeasureA, Double rightSideVertMeasureB, Double rightSideVertMeasureC, Double rightSideVertMeasureD,
                           Double rightSideVertMeasureE, Double rightSideVertDiam, Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow,
-                          Double sinkMirrorHigh, String sinkObs, Integer hasLowerSink) {
+                          Double sinkMirrorHigh, String sinkObs, Integer hasLowerSink, String restSinkPhoto) {
         this.restroomID = restroomID;
         this.hasSink = hasSink;
         this.sinkType = sinkType;
@@ -78,6 +79,7 @@ public class RestSinkUpdate {
         this.sinkMirrorHigh = sinkMirrorHigh;
         this.sinkObs = sinkObs;
         this.hasLowerSink = hasLowerSink;
+        this.restSinkPhoto = restSinkPhoto;
     }
 
     public int getRestroomID() {
@@ -334,5 +336,13 @@ public class RestSinkUpdate {
 
     public void setHasLowerSink(Integer hasLowerSink) {
         this.hasLowerSink = hasLowerSink;
+    }
+
+    public String getRestSinkPhoto() {
+        return restSinkPhoto;
+    }
+
+    public void setRestSinkPhoto(String restSinkPhoto) {
+        this.restSinkPhoto = restSinkPhoto;
     }
 }

@@ -15,13 +15,14 @@ public class CommonBoxParcel {
     Integer rightHasBarType;
     BoxBarParcel rightParcel;
     String boxObs;
+    String boxPhoto;
 
     public CommonBoxParcel() {
 //        Empty Constructor
     }
 
     public CommonBoxParcel(double doorWidth, double boxFreeDiam, int hasBars, Double doorDist, Double boxWidth, Integer leftHasBarType, BoxBarParcel leftParcel,
-                           Integer rightHasBarType, BoxBarParcel rightParcel, String boxObs) {
+                           Integer rightHasBarType, BoxBarParcel rightParcel, String boxObs, String boxPhoto) {
         this.doorWidth = doorWidth;
         this.boxFreeDiam = boxFreeDiam;
         this.hasBars = hasBars;
@@ -32,6 +33,15 @@ public class CommonBoxParcel {
         this.rightHasBarType = rightHasBarType;
         this.rightParcel = rightParcel;
         this.boxObs = boxObs;
+        this.boxPhoto = boxPhoto;
+    }
+
+    public String getBoxPhoto() {
+        return boxPhoto;
+    }
+
+    public void setBoxPhoto(String boxPhoto) {
+        this.boxPhoto = boxPhoto;
     }
 
     public double getDoorWidth() {

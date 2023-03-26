@@ -14,13 +14,14 @@ public class BoxUpViewParcel {
    String upViewObs;
    Integer restDrain;
    String restDrainObs;
+   String upPhoto;
 
    public BoxUpViewParcel() {
 //       EmptyConstructor
    }
 
     public BoxUpViewParcel(Double upViewLength, Double upViewWidth, Double upViewMeasureA, Double upViewMeasureB, Double upViewMeasureC, Double upViewMeasureD,
-                           String upViewObs, Integer restDrain, String restDrainObs) {
+                           String upViewObs, Integer restDrain, String restDrainObs, String upPhoto) {
         this.upViewLength = upViewLength;
         this.upViewWidth = upViewWidth;
         this.upViewMeasureA = upViewMeasureA;
@@ -30,6 +31,15 @@ public class BoxUpViewParcel {
         this.upViewObs = upViewObs;
         this.restDrain = restDrain;
         this.restDrainObs = restDrainObs;
+        this.upPhoto = upPhoto;
+    }
+
+    public String getUpPhoto() {
+        return upPhoto;
+    }
+
+    public void setUpPhoto(String upPhoto) {
+        this.upPhoto = upPhoto;
     }
 
     public Double getUpViewLength() {

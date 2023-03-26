@@ -32,8 +32,8 @@ import java.util.ArrayList;
 public class ParkingLotFragment extends Fragment implements TagInterface, ScrollEditText {
 
     RadioGroup accessFloorRadio, hasPcdVacancy, hasElderlyVacancy, parkHasStairs, parkHasRamps, parkHasAccessRoute;
-    TextInputLayout extParkLocalField, parkAccessFloorObsField, parkAccessRouteObsField, parkObsField;
-    TextInputEditText extParkLocalValue, parkAccessFloorObsValue, parkAccessRouteObsValue, parkObsValue;
+    TextInputLayout extParkLocalField, parkAccessFloorObsField, parkAccessRouteObsField, parkObsField, photoField;
+    TextInputEditText extParkLocalValue, parkAccessFloorObsValue, parkAccessRouteObsValue, parkObsValue, photoValue;
     Button addParkStairs, addParkRamps, cancelParkingLotRegister, saveParkingLotRegister;
     TextView parkingAccessError, pcdVacancyError, elderlyVacancyError, parkHasStairsError, parkHasRampsError, parkAccessRouteError;
     Bundle parkingBundle;
@@ -148,6 +148,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
         hasPcdVacancy = view.findViewById(R.id.parking_lot_PCD_vacancy_radio);
         hasElderlyVacancy = view.findViewById(R.id.parking_lot_elderly_vacancy_radio);
         parkHasAccessRoute = view.findViewById(R.id.parking_lot_access_route_radio);
+        photoField = view.findViewById(R.id.park_lot_photo_field);
 //        TextView
         parkingAccessError = view.findViewById(R.id.parking_lot_access_floor_error);
         pcdVacancyError = view.findViewById(R.id.PCD_vacancy_error);
@@ -155,6 +156,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
         parkHasStairsError = view.findViewById(R.id.parking_has_stairs_error);
         parkHasRampsError = view.findViewById(R.id.parking_has_ramps_error);
         parkAccessRouteError = view.findViewById(R.id.parking_lot_access_route_error);
+        photoValue = view.findViewById(R.id.park_lot_photo_value);
 //        TextInputLayout
         extParkLocalField = view.findViewById(R.id.ext_park_location_field);
         parkAccessFloorObsField = view.findViewById(R.id.parking_lot_floor_field);
@@ -204,6 +206,8 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
             parkAccessRouteObsValue.setText(parkingEntry.getParkAccessRouteObs());
         if (parkingEntry.getParkingObs() != null)
             parkObsValue.setText(parkingEntry.getParkingObs());
+        if (parkingEntry.getParkPhotos() != null)
+            photoValue.setText(parkingEntry.getParkPhotos());
     }
 
     private void openParkingLotTypeFragment() {
@@ -407,7 +411,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
     }
 
     public ParkingLotEntry newParkingLotEntry(Bundle bundle) {
-        String accessFloorObs = null, accessRouteObs = null, extLocal = null, parkObs = null;
+        String accessFloorObs = null, accessRouteObs = null, extLocal = null, parkObs = null, photo = null;
         Integer sideID = null;
         int typeParking;
 
@@ -427,10 +431,12 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
             accessRouteObs = String.valueOf(parkAccessRouteObsValue.getText());
         if (!TextUtils.isEmpty(parkObsValue.getText()))
             parkObs = String.valueOf(parkObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
         return new ParkingLotEntry(bundle.getInt(BLOCK_ID), sideID, typeParking, getCheckedRadio(accessFloorRadio),
                 accessFloorObs, getCheckedRadio(hasPcdVacancy), getCheckedRadio(hasElderlyVacancy), getCheckedRadio(parkHasAccessRoute),
-                accessRouteObs, getCheckedRadio(parkHasStairs), getCheckedRadio(parkHasRamps), extLocal, parkObs);
+                accessRouteObs, getCheckedRadio(parkHasStairs), getCheckedRadio(parkHasRamps), extLocal, parkObs, photo);
 
     }
 

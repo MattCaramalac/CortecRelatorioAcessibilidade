@@ -25,8 +25,8 @@ import java.util.ArrayList;
 
 public class WindowFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout winLocationField, comTypeField1, comTypeField2, comTypeField3, comHeightField1, comHeightField2, comHeightField3, windowObsField;
-    TextInputEditText winLocationValue, comTypeValue1, comTypeValue2, comTypeValue3, comHeightValue1, comHeightValue2, comHeightValue3, windowObsValue;
+    TextInputLayout winLocationField, comTypeField1, comTypeField2, comTypeField3, comHeightField1, comHeightField2, comHeightField3, windowObsField, photoField;
+    TextInputEditText winLocationValue, comTypeValue1, comTypeValue2, comTypeValue3, comHeightValue1, comHeightValue2, comHeightValue3, windowObsValue, photoValue;
     MaterialButton saveWindow, cancelWindow, addWindow;
     ImageButton delWindow;
 
@@ -83,6 +83,7 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
         comHeightField2 = view.findViewById(R.id.win_handle_height_field_2);
         comHeightField3 = view.findViewById(R.id.win_handle_height_field_3);
         windowObsField = view.findViewById(R.id.window_obs_field);
+        photoField = view.findViewById(R.id.window_photo_field);
 //        TextInputEditText
         winLocationValue = view.findViewById(R.id.win_location_value);
         comTypeValue1 = view.findViewById(R.id.win_handle_id_1_value);
@@ -92,6 +93,7 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
         comHeightValue2 = view.findViewById(R.id.win_handle_height_value_2);
         comHeightValue3 = view.findViewById(R.id.win_handle_height_value_3);
         windowObsValue = view.findViewById(R.id.window_obs_value);
+        photoValue = view.findViewById(R.id.phone_photo_value);
 //        MaterialButton
         saveWindow = view.findViewById(R.id.save_window);
         cancelWindow = view.findViewById(R.id.cancel_window);
@@ -181,6 +183,9 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
         if (window.getWindowObs() != null) {
             windowObsValue.setText(window.getWindowObs());
         }
+        if (window.getWindowPhoto() != null) {
+            photoValue.setText(window.getWindowPhoto());
+        }
     }
 
     private boolean windowFieldsNotEmpty() {
@@ -238,10 +243,11 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
         comHeightValue1.setText(null);
         comTypeValue1.setText(null);
         windowObsValue.setText(null);
+        photoValue.setText(null);
     }
 
     private WindowEntry newWindowEntry(Bundle bundle) {
-        String winLocale, comType1 = null, comType2 = null, comType3 = null, winObs = null;
+        String winLocale, comType1 = null, comType2 = null, comType3 = null, winObs = null, photo = null;
         Double winHeight1 = null, winHeight2 = null, winHeight3 = null;
 
         if (!TextUtils.isEmpty(winLocationValue.getText()))
@@ -266,8 +272,10 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
 
         if (windowObsValue.getText() != null)
             winObs = String.valueOf(windowObsValue.getText());
+        if (photoValue.getText() != null)
+            photo = String.valueOf(photoValue.getText());
 
-        return new WindowEntry(bundle.getInt(AMBIENT_ID), winLocale, windowQnt, comType1, winHeight1, comType2, winHeight2, comType3, winHeight3, winObs);
+        return new WindowEntry(bundle.getInt(AMBIENT_ID), winLocale, windowQnt, comType1, winHeight1, comType2, winHeight2, comType3, winHeight3, winObs,photo);
     }
 
     private void viewsToArrays() {

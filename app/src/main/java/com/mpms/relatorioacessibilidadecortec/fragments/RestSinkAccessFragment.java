@@ -23,13 +23,14 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RestSinkUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.SinkParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
-public class RestSinkAccessFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RestSinkAccessFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     RadioGroup accSinkRadio;
     TextView accSinkError;
@@ -85,12 +86,12 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
 
     private void loadRestSinkData(RestroomEntry entry) {
         if (entry.getHasSink() != null)
-            accSinkRadio.check(accSinkRadio.getChildAt(entry.getHasSink()).getId());
+            checkRadioGroup(accSinkRadio, entry.getHasSink());
     }
 
     private void loadBoxSinkData(RestBoxEntry entry) {
         if (entry.getHasSink() != null) {
-            accSinkRadio.check(accSinkRadio.getChildAt(entry.getHasSink()).getId());
+            checkRadioGroup(accSinkRadio, entry.getHasSink());
             if (entry.getHasSink() == 0 && entry.getSinkObs() != null)
                 accSinkObsValue.setText(entry.getSinkObs());
         }
@@ -119,7 +120,7 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
 
     private void saveClick(View view) {
         if (checkEmptyFields()) {
-            if (getCheckRadio(accSinkRadio) == 0)
+            if (indexRadio(accSinkRadio) == 0)
                 saveSinkData(accSinkBundle);
             else
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, accSinkBundle);
@@ -131,7 +132,7 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
     private boolean checkEmptyFields() {
         accSinkError.setVisibility(View.GONE);
         int i = 0;
-        if (getCheckRadio(accSinkRadio) == -1) {
+        if (indexRadio(accSinkRadio) == -1) {
             i++;
             accSinkError.setVisibility(View.VISIBLE);
         }
@@ -163,9 +164,9 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
                 leftFrontHorDist = null, rightSideVertA = null, rightSideVertB = null, rightSideVertC = null, rightSideVertD = null, rightSideVertE = null,
                 rightSideVertDiam = null, rightSideVertDist = null, mirrorLow = null, mirrorHigh = null,
                 approxA = null, approxB = null, approxC = null, approxD = null, approxE = null;
-        String leftFrontHorObs = null, rightSideVertObs = null, sinkObs = null;
+        String leftFrontHorObs = null, rightSideVertObs = null, sinkObs = null, photo = null;
 
-        hasSink = getCheckRadio(accSinkRadio);
+        hasSink = indexRadio(accSinkRadio);
 
         if (hasSink == 1) {
 
@@ -208,6 +209,7 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
 
 
             sinkObs = parcel.getSinkObs();
+            photo = parcel.getSinkPhoto();
         } else {
             if (!TextUtils.isEmpty(accSinkObsValue.getText()))
                 sinkObs = String.valueOf(accSinkObsValue.getText());
@@ -215,7 +217,7 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
 
         return new RestBoxSinkUpdate(bundle.getInt(BOX_ID), hasSink, sinkType, approxA, approxB, approxC, approxD, approxE, hasColumns, hasSinkBar, hasLeftFrontHor, leftFrontHorA,
                 leftFrontHorB, leftFrontHorC, leftFrontHorD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasSideRightVert, rightSideVertA, rightSideVertB,
-                rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs);
+                rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs, photo);
     }
 
     private RestSinkUpdate sinkUpdate(Bundle bundle) {
@@ -225,9 +227,9 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
                 leftFrontHorDist = null, rightSideVertA = null, rightSideVertB = null, rightSideVertC = null, rightSideVertD = null, rightSideVertE = null,
                 rightSideVertDiam = null, rightSideVertDist = null, mirrorLow = null, mirrorHigh = null,
                 approxA = null, approxB = null, approxC = null, approxD = null, approxE = null;
-        String leftFrontHorObs = null, rightSideVertObs = null, sinkObs = null;
+        String leftFrontHorObs = null, rightSideVertObs = null, sinkObs = null, photo = null;
 
-        hasSink = getCheckRadio(accSinkRadio);
+        hasSink = indexRadio(accSinkRadio);
 
         if (hasSink == 1) {
 
@@ -270,19 +272,18 @@ public class RestSinkAccessFragment extends Fragment implements TagInterface, Sc
 
 
             sinkObs = parcel.getSinkObs();
+            photo = parcel.getSinkPhoto();
         }
 
         return new RestSinkUpdate(accSinkBundle.getInt(REST_ID), hasSink, sinkType, approxA, approxB, approxC, approxD, approxE, hasColumn, hasSinkBar, hasLeftFrontHor, leftFrontHorA,
                 leftFrontHorB, leftFrontHorC, leftFrontHorD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasSideRightVert, rightSideVertA, rightSideVertB,
-                rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs, null);
+                rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs, null,
+                photo);
     }
 
-    private int getCheckRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
-    private void radioListener(RadioGroup radio, int checkedID) {
-        int index = getCheckRadio(radio);
+    @Override
+    public void radioListener(RadioGroup radio, int checkedID) {
+        int index = indexRadio(radio);
 
         if (index == 1) {
             accSinkObsValue.setText(null);

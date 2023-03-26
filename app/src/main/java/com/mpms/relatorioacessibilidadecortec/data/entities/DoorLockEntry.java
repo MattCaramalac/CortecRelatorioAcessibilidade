@@ -19,14 +19,24 @@ public class DoorLockEntry {
     private String lockDesc;
     private double lockHeight;
     private String lockObs;
+    private String lockPhoto;
 
-    public DoorLockEntry(Integer doorID, Integer extAccessID, int lockType, String lockDesc, double lockHeight, String lockObs) {
+    public DoorLockEntry(Integer doorID, Integer extAccessID, int lockType, String lockDesc, double lockHeight, String lockObs, String lockPhoto) {
         this.doorID = doorID;
         this.extAccessID = extAccessID;
         this.lockType = lockType;
         this.lockDesc = lockDesc;
         this.lockHeight = lockHeight;
         this.lockObs = lockObs;
+        this.lockPhoto = lockPhoto;
+    }
+
+    public String getLockPhoto() {
+        return lockPhoto;
+    }
+
+    public void setLockPhoto(String lockPhoto) {
+        this.lockPhoto = lockPhoto;
     }
 
     public int getLockID() {

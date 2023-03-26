@@ -27,6 +27,7 @@ public class ParkingLotElderlyEntry {
     private int hasElderlyFloorIndicator;
     private Double floorIndicatorHeight;
     private String floorIndicatorObs;
+    private String parkElderPhoto;
 
     public int getParkElderID() {
         return parkElderID;
@@ -140,9 +141,17 @@ public class ParkingLotElderlyEntry {
         this.floorIndicatorHeight = floorIndicatorHeight;
     }
 
+    public String getParkElderPhoto() {
+        return parkElderPhoto;
+    }
+
+    public void setParkElderPhoto(String parkElderPhoto) {
+        this.parkElderPhoto = parkElderPhoto;
+    }
+
     public ParkingLotElderlyEntry(int parkID, String elderVacLocation, int hasElderlyVertSign, Double elderlyVertSignLength, Double elderlyVertSingWidth,
                                   String elderlyVertSignObs, double elderlyVacancyLength, double elderlyVacancyWidth, double elderlyVacancyLimiterWidth,
-                                  String elderlyVacancyObs, int hasElderlyFloorIndicator, Double floorIndicatorHeight, String floorIndicatorObs) {
+                                  String elderlyVacancyObs, int hasElderlyFloorIndicator, Double floorIndicatorHeight, String floorIndicatorObs, String parkElderPhoto) {
         this.parkID = parkID;
         this.elderVacLocation = elderVacLocation;
         this.hasElderlyVertSign = hasElderlyVertSign;
@@ -156,5 +165,6 @@ public class ParkingLotElderlyEntry {
         this.hasElderlyFloorIndicator = hasElderlyFloorIndicator;
         this.floorIndicatorHeight = floorIndicatorHeight;
         this.floorIndicatorObs = floorIndicatorObs;
+        this.parkElderPhoto = parkElderPhoto;
     }
 }

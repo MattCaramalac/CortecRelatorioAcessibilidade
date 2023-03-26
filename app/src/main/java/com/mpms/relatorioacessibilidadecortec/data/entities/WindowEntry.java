@@ -24,9 +24,10 @@ public class WindowEntry {
     private String comType3;
     private Double comHeight3;
     private String windowObs;
+    private String windowPhoto;
 
     public WindowEntry(int roomID, String windowLocation, int winQnt, String comType1, Double comHeight1, String comType2, Double comHeight2, String comType3,
-                       Double comHeight3, String windowObs) {
+                       Double comHeight3, String windowObs, String windowPhoto) {
         this.roomID = roomID;
         this.windowLocation = windowLocation;
         this.winQnt = winQnt;
@@ -37,6 +38,15 @@ public class WindowEntry {
         this.comType3 = comType3;
         this.comHeight3 = comHeight3;
         this.windowObs = windowObs;
+        this.windowPhoto = windowPhoto;
+    }
+
+    public String getWindowPhoto() {
+        return windowPhoto;
+    }
+
+    public void setWindowPhoto(String windowPhoto) {
+        this.windowPhoto = windowPhoto;
     }
 
     public int getWindowID() {

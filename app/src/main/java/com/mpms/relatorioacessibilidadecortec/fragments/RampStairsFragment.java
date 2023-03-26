@@ -30,8 +30,8 @@ public class RampStairsFragment extends Fragment implements TagInterface {
     private int recentEntry = 0;
     private int updateEntry = 0;
 
-    TextInputLayout rampStairsLocField;
-    TextInputEditText rampStairsLocValue;
+    TextInputLayout rampStairsLocField, photoField;
+    TextInputEditText rampStairsLocValue, photoValue;
     TextView registerHeader;
     Button cancelRampStairs, proceedRegister;
 
@@ -122,8 +122,10 @@ public class RampStairsFragment extends Fragment implements TagInterface {
 
     private void instantiateRampStairsViews(View view) {
         rampStairsLocField = view.findViewById(R.id.ramp_stairs_location_field);
+        photoField = view.findViewById(R.id.ramp_stairs_photo_field);
 
         rampStairsLocValue = view.findViewById(R.id.ramp_stairs_location_value);
+        photoValue = view.findViewById(R.id.ramp_stairs_photo_value);
 
         registerHeader = view.findViewById(R.id.ramp_stairs_header);
 
@@ -175,7 +177,10 @@ public class RampStairsFragment extends Fragment implements TagInterface {
 
     public RampStairsEntry newRampOrStaircase(Bundle bundle) {
         Integer extID = null, sideID = null, parkID = null, roomID = null;
+        String photo = null;
         rampStairsLocation = String.valueOf(rampStairsLocValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
         if (bundle.getInt(AMBIENT_TYPE) == 1)
             extID = bundle.getInt(AMBIENT_ID);
@@ -186,7 +191,7 @@ public class RampStairsFragment extends Fragment implements TagInterface {
         else if (bundle.getInt(AMBIENT_TYPE) == 4)
             roomID = bundle.getInt(AMBIENT_ID);
 
-        return new RampStairsEntry(extID, sideID, parkID, roomID,bundle.getInt(RAMP_OR_STAIRS), rampStairsLocation);
+        return new RampStairsEntry(extID, sideID, parkID, roomID,bundle.getInt(RAMP_OR_STAIRS), rampStairsLocation, photo);
     }
 
     public boolean checkRampStairsFields() {
@@ -205,6 +210,8 @@ public class RampStairsFragment extends Fragment implements TagInterface {
 
     public void loadRampStairsData(RampStairsEntry rampStairs) {
         rampStairsLocValue.setText(rampStairs.getRampStairsLocation());
+        if (rampStairs.getRampStairsPhoto() != null)
+            photoValue.setText(rampStairs.getRampStairsPhoto());
     }
 
     public void errorEscape() {

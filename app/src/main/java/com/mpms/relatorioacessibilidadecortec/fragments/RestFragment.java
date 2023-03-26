@@ -267,7 +267,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
         Integer restGender = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null, winQnt = null, doorSill = null;
         Double hSwitch = null, winHeight1 = null, winHeight2 = null, winHeight3 = null, notAccLength = null, notAccWidth = null, notAccEntWidth = null;
         String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null, winType1 = null, winType2 = null,
-                winType3 = null, winObs = null, nAccEntObs = null;
+                winType3 = null, winObs = null, nAccEntObs = null, firstPhoto = null;
 
         restType = restTypeMultiRadio.getCheckedRadioButtonIndex();
         restBundle.putInt(REST_TYPE, restType);
@@ -344,6 +344,8 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             doorSill = parcel.getNotAccEntranceSill();
         if (parcel.getNotAccEntranceObs() != null)
             nAccEntObs = parcel.getNotAccEntranceObs();
+        if (parcel.getFirstPhoto() != null)
+            firstPhoto = parcel.getFirstPhoto();
 
 
         return new RestroomEntry(restBundle.getInt(BLOCK_ID), restType, restGender, rLocation, hasDoor, notAccEntWidth, doorSill,
@@ -365,7 +367,8 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null, null, firstPhoto,
+                null, null, null, null, null, null);
     }
 
     private RestColFirstUpdate restColEntUpdate(Bundle bundle) {
@@ -374,7 +377,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
                 winQnt = null, doorSill = null;
         Double hSwitch = null, winHeight1 = null, winHeight2 = null, winHeight3 = null, notAccLength = null, notAccWidth = null, notAccEntWidth = null;
         String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null, winType1 = null, winType2 = null,
-                winType3 = null, winObs = null, nAccEntObs = null;
+                winType3 = null, winObs = null, nAccEntObs = null, photo = null;
 
         restType = restTypeMultiRadio.getCheckedRadioButtonIndex();
         restBundle.putInt(REST_TYPE, restType);
@@ -449,18 +452,20 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             doorSill = parcel.getNotAccEntranceSill();
         if (parcel.getNotAccEntranceObs() != null)
             nAccEntObs = parcel.getNotAccEntranceObs();
+        if (parcel.getFirstPhoto() != null)
+            photo = parcel.getFirstPhoto();
 
 
         return new RestColFirstUpdate(restBundle.getInt(REST_ID), restType, restGender, rLocation, hasDoor, notAccEntWidth, doorSill, nAccEntObs, accessRoute, routeObs, intRest,
                 intObs, restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs, notAccLength, notAccWidth, hasWindow, winQnt, winType1, winHeight1,
-                winType2, winHeight2, winType3, winHeight3, winObs);
+                winType2, winHeight2, winType3, winHeight3, winObs, photo);
     }
 
     private RestAccessEntranceUpdate restAccessEntUpdate(Bundle bundle) {
         int restType;
         Integer restGender = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null;
         Double hSwitch = null;
-        String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null;
+        String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null, photo = null;
 
         restType = restTypeMultiRadio.getCheckedRadioButtonIndex();
         restBundle.putInt(REST_TYPE, restType);
@@ -493,9 +498,11 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             hSwitch = parcel.getSwitchHeight();
         if (parcel.getSwitchObs() != null)
             switchObs = parcel.getSwitchObs();
+        if (parcel.getFirstPhoto() != null)
+            photo = parcel.getFirstPhoto();
 
 
         return new RestAccessEntranceUpdate(restBundle.getInt(REST_ID), restType, restGender, rLocation, accessRoute, routeObs, intRest, intObs,
-                restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs);
+                restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs, photo);
     }
 }

@@ -22,8 +22,8 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout fSpaceLocaleField, fSpaceWidthField, fSpaceObsField, obsWidthField;
-    TextInputEditText fSpaceLocaleValue, fSpaceWidthValue, fSpaceObsValue, obsWidthValue;
+    TextInputLayout fSpaceLocaleField, fSpaceWidthField, fSpaceObsField, obsWidthField, photoField;
+    TextInputEditText fSpaceLocaleValue, fSpaceWidthValue, fSpaceObsValue, obsWidthValue, photoValue;
     MaterialButton saveFreeSp, cancelFreeSp;
 
     ViewModelEntry modelEntry;
@@ -93,11 +93,13 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
         fSpaceWidthField = view.findViewById(R.id.free_space_width_field);
         fSpaceObsField = view.findViewById(R.id.free_space_obs_field);
         obsWidthField = view.findViewById(R.id.obstacle_width_field);
+        photoField = view.findViewById(R.id.free_space_photo_field);
 //        TextInputEditText
         fSpaceLocaleValue = view.findViewById(R.id.free_space_placement_value);
         fSpaceWidthValue = view.findViewById(R.id.free_space_width_value);
         fSpaceObsValue = view.findViewById(R.id.free_space_obs_value);
         obsWidthValue = view.findViewById(R.id.obstacle_width_value);
+        photoValue = view.findViewById(R.id.free_space_photo_value);
 //        MaterialButton
         saveFreeSp = view.findViewById(R.id.save_free_space);
         cancelFreeSp = view.findViewById(R.id.cancel_free_space);
@@ -115,6 +117,8 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
             fSpaceWidthValue.setText(String.valueOf(fSpace.getFrSpaceWidth()));
         if (fSpace.getFrSpaceObs() != null)
             fSpaceObsValue.setText(fSpace.getFrSpaceObs());
+        if (fSpace.getFrSpacePhoto() != null)
+            photoValue.setText(fSpace.getFrSpacePhoto());
     }
 
     private void clearFreeSpEmptyFieldErrors() {
@@ -128,10 +132,11 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
         fSpaceWidthValue.setText(null);
         obsWidthValue.setText(null);
         fSpaceObsValue.setText(null);
+        photoValue.setText(null);
     }
 
     private FreeSpaceEntry newFreeSpEntry(Bundle bundle) {
-        String fSpLocale, fSpObs = null;
+        String fSpLocale, fSpObs = null, photo = null;
         double fSpWidth, obsWidth;
         Integer roomID = null, restID = null;
 
@@ -145,8 +150,10 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
         obsWidth = Double.parseDouble(String.valueOf(obsWidthValue.getText()));
         if (!TextUtils.isEmpty(fSpaceObsValue.getText()))
             fSpObs = String.valueOf(fSpaceObsValue.getText());
+        if (photoValue.getText() != null)
+            photo = String.valueOf(photoValue.getText());
 
-        return new FreeSpaceEntry(roomID, restID, fSpLocale, obsWidth, fSpWidth, fSpObs);
+        return new FreeSpaceEntry(roomID, restID, fSpLocale, obsWidth, fSpWidth, fSpObs, photo);
     }
 
     private boolean fSpaceNoEmptyFields() {

@@ -18,14 +18,24 @@ public class FreeSpaceEntry {
     private Double obstacleWidth;
     private Double frSpaceWidth;
     private String frSpaceObs;
+    private String frSpacePhoto;
 
-    public FreeSpaceEntry(Integer roomID, Integer restID, String frSpaceLocation, Double obstacleWidth, Double frSpaceWidth, String frSpaceObs) {
+    public FreeSpaceEntry(Integer roomID, Integer restID, String frSpaceLocation, Double obstacleWidth, Double frSpaceWidth, String frSpaceObs, String frSpacePhoto) {
         this.roomID = roomID;
         this.restID = restID;
         this.frSpaceLocation = frSpaceLocation;
         this.obstacleWidth = obstacleWidth;
         this.frSpaceWidth = frSpaceWidth;
         this.frSpaceObs = frSpaceObs;
+        this.frSpacePhoto = frSpacePhoto;
+    }
+
+    public String getFrSpacePhoto() {
+        return frSpacePhoto;
+    }
+
+    public void setFrSpacePhoto(String frSpacePhoto) {
+        this.frSpacePhoto = frSpacePhoto;
     }
 
     public int getFrSpaceID() {

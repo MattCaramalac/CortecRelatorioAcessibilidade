@@ -21,9 +21,11 @@ public class RestBoxAccOneUpdate {
     private Integer hasTowelHold;
     private Double towelHoldHeight;
     private String towelHoldObs;
+    private String boxAccessPhoto;
 
     public RestBoxAccOneUpdate(int boxID, Integer hasHanger, Double hangerHeight, String hangerObs, Integer hasObjHold, Integer objHoldCorrect, Double objHoldHeight,
-                               String objHoldObs, Integer hasSoapHold, Double soapHoldHeight, String soapHoldObs, Integer hasTowelHold, Double towelHoldHeight, String towelHoldObs) {
+                               String objHoldObs, Integer hasSoapHold, Double soapHoldHeight, String soapHoldObs, Integer hasTowelHold, Double towelHoldHeight, String towelHoldObs,
+                               String boxAccessPhoto) {
         this.boxID = boxID;
         this.hasHanger = hasHanger;
         this.hangerHeight = hangerHeight;
@@ -38,6 +40,7 @@ public class RestBoxAccOneUpdate {
         this.hasTowelHold = hasTowelHold;
         this.towelHoldHeight = towelHoldHeight;
         this.towelHoldObs = towelHoldObs;
+        this.boxAccessPhoto = boxAccessPhoto;
     }
 
     public int getBoxID() {
@@ -150,5 +153,13 @@ public class RestBoxAccOneUpdate {
 
     public void setTowelHoldObs(String towelHoldObs) {
         this.towelHoldObs = towelHoldObs;
+    }
+
+    public String getBoxAccessPhoto() {
+        return boxAccessPhoto;
+    }
+
+    public void setBoxAccessPhoto(String boxAccessPhoto) {
+        this.boxAccessPhoto = boxAccessPhoto;
     }
 }

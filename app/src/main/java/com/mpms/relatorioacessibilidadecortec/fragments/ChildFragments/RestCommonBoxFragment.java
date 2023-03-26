@@ -23,16 +23,17 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.BoxBarParcel;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.CommonBoxParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
-public class RestCommonBoxFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RestCommonBoxFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
-    TextInputLayout boxDoorWidthField, boxDiamField, doorDistField, boxWidthField, boxObsField, leftBarObsField, rightBarObsField;
-    TextInputEditText boxDoorWidthValue, boxDiamValue, doorDistValue, boxWidthValue, boxObsValue, leftBarObsValue, rightBarObsValue;
+    TextInputLayout boxDoorWidthField, boxDiamField, doorDistField, boxWidthField, boxObsField, leftBarObsField, rightBarObsField, photoField;
+    TextInputEditText boxDoorWidthValue, boxDiamValue, doorDistValue, boxWidthValue, boxObsValue, leftBarObsValue, rightBarObsValue, photoValue;
     RadioGroup hasBarRadio, leftBarRadio, rightBarRadio;
     TextView hasBarError, leftBarHeader, leftBarQuestion, leftBarError, rightBarHeader, rightBarQuestion, rightBarError;
     ImageButton imgButton;
@@ -75,9 +76,9 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
         instComBoxViews(view);
 
         getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, this, (key, bundle) -> {
-            if (getCheckRadio(leftBarRadio) == 0 || getCheckRadio(leftBarRadio) == 1)
+            if (indexRadio(leftBarRadio) == 0 || indexRadio(leftBarRadio) == 1)
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA_2, bundle);
-            else if (getCheckRadio(rightBarRadio) == 0 || getCheckRadio(rightBarRadio) == 1)
+            else if (indexRadio(rightBarRadio) == 0 || indexRadio(rightBarRadio) == 1)
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA_3, bundle);
             else {
                 if (checkEmptyComBoxField()) {
@@ -93,7 +94,7 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER_2, this, (key, bundle) -> {
             if (bundle.getParcelable(CHILD_PARCEL) != null)
                 left = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
-            if (getCheckRadio(rightBarRadio) == 0 || getCheckRadio(rightBarRadio) == 1)
+            if (indexRadio(rightBarRadio) == 0 || indexRadio(rightBarRadio) == 1)
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA_3, bundle);
             else {
                 if (checkEmptyComBoxField()) {
@@ -133,6 +134,7 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
         boxObsField = view.findViewById(R.id.common_box_obs_field);
         leftBarObsField = view.findViewById(R.id.left_box_bar_obs_field);
         rightBarObsField = view.findViewById(R.id.right_box_bar_obs_field);
+        photoField = view.findViewById(R.id.common_box_photo_field);
 //        TextInputEditText
         boxDoorWidthValue = view.findViewById(R.id.box_door_width_value);
         boxDiamValue = view.findViewById(R.id.free_space_diam_value);
@@ -141,6 +143,7 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
         boxObsValue = view.findViewById(R.id.common_box_obs_value);
         leftBarObsValue = view.findViewById(R.id.left_box_bar_obs_value);
         rightBarObsValue = view.findViewById(R.id.right_box_bar_obs_value);
+        photoValue = view.findViewById(R.id.common_box_photo_value);
 //        RadioGroup
         hasBarRadio = view.findViewById(R.id.box_support_bar_radio);
         leftBarRadio = view.findViewById(R.id.box_left_bar_type_radio);
@@ -174,25 +177,23 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
             if (entry.getComBoxFreeDiam() != null)
                 boxDiamValue.setText(String.valueOf(entry.getComBoxFreeDiam()));
             if (entry.getComBoxHasBars() != null && entry.getComBoxHasBars() > -1) {
-                hasBarRadio.check(hasBarRadio.getChildAt(entry.getComBoxHasBars()).getId());
+                checkRadioGroup(hasBarRadio, entry.getComBoxHasBars());
                 if (entry.getComBoxHasBars() == 1) {
                     if (entry.getComBoxToiletDoorDist() != null)
                         doorDistValue.setText(String.valueOf(entry.getComBoxToiletDoorDist()));
                     if (entry.getComBoxWidth() != null)
                         boxWidthValue.setText(String.valueOf(entry.getComBoxWidth()));
                     if (entry.getComBoxHasLeftBar() != null && entry.getComBoxHasLeftBar() > -1)
-                        leftBarRadio.check(leftBarRadio.getChildAt(entry.getComBoxHasLeftBar()).getId());
+                       checkRadioGroup(leftBarRadio, entry.getComBoxHasLeftBar());
                     if (entry.getComBoxHasRightBar() != null && entry.getComBoxHasRightBar() > -1)
-                        rightBarRadio.check(rightBarRadio.getChildAt(entry.getComBoxHasRightBar()).getId());
+                        checkRadioGroup(rightBarRadio, entry.getComBoxHasRightBar());
                 }
             }
             if (entry.getComBoxObs() != null)
                 boxObsValue.setText(entry.getComBoxObs());
+            if (entry.getBoxUpperPhoto() != null)
+                photoValue.setText(entry.getBoxUpperPhoto());
         }
-    }
-
-    private int getCheckRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
     private void createComBoxParcel(Bundle bundle, BoxBarParcel left, BoxBarParcel right) {
@@ -200,16 +201,16 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
         int hasBars;
         Double doorDist = null, boxWidth = null;
         Integer hasLeft = null, hasRight = null;
-        String obs = null;
+        String obs = null, photo = null;
 
         doorWidth = Double.parseDouble(String.valueOf(boxDoorWidthValue.getText()));
         boxFreeDiam = Double.parseDouble(String.valueOf(boxDiamValue.getText()));
-        hasBars = getCheckRadio(hasBarRadio);
+        hasBars = indexRadio(hasBarRadio);
         if (hasBars == 1) {
             doorDist = Double.parseDouble(String.valueOf(doorDistValue.getText()));
             boxWidth = Double.parseDouble(String.valueOf(boxWidthValue.getText()));
-            hasLeft = getCheckRadio(leftBarRadio);
-            hasRight = getCheckRadio(rightBarRadio);
+            hasLeft = indexRadio(leftBarRadio);
+            hasRight = indexRadio(rightBarRadio);
             if (hasLeft == 2 && !TextUtils.isEmpty(leftBarObsValue.getText()))
                 left.setComBoxLeftObs(String.valueOf(leftBarObsValue.getText()));
             if (hasRight == 2 && !TextUtils.isEmpty(rightBarObsValue.getText()))
@@ -218,8 +219,11 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
         }
         if (!TextUtils.isEmpty(boxObsValue.getText()))
             obs = String.valueOf(boxObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
-        CommonBoxParcel parcel = new CommonBoxParcel(doorWidth, boxFreeDiam, hasBars, doorDist, boxWidth, hasLeft, left, hasRight, right, obs);
+
+        CommonBoxParcel parcel = new CommonBoxParcel(doorWidth, boxFreeDiam, hasBars, doorDist, boxWidth, hasLeft, left, hasRight, right, obs, photo);
         bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
     }
 
@@ -233,10 +237,10 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
             i++;
             boxDiamField.setError(getString(R.string.req_field_error));
         }
-        if (getCheckRadio(hasBarRadio) == -1) {
+        if (indexRadio(hasBarRadio) == -1) {
             i++;
             hasBarError.setVisibility(View.VISIBLE);
-        } else if (getCheckRadio(hasBarRadio) == 1) {
+        } else if (indexRadio(hasBarRadio) == 1) {
             if (TextUtils.isEmpty(boxWidthValue.getText())) {
                 i++;
                 boxWidthField.setError(getString(R.string.req_field_error));
@@ -245,11 +249,11 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
                 i++;
                 doorDistField.setError(getString(R.string.req_field_error));
             }
-            if (getCheckRadio(leftBarRadio) == -1) {
+            if (indexRadio(leftBarRadio) == -1) {
                 i++;
                 leftBarError.setVisibility(View.VISIBLE);
             }
-            if (getCheckRadio(rightBarRadio) == -1) {
+            if (indexRadio(rightBarRadio) == -1) {
                 i++;
                 rightBarError.setVisibility(View.VISIBLE);
             }
@@ -263,8 +267,9 @@ public class RestCommonBoxFragment extends Fragment implements TagInterface, Scr
         ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
     }
 
-    private void radioListener(RadioGroup radio, int checkedID) {
-        int index = getCheckRadio(radio);
+    @Override
+    public void radioListener(RadioGroup radio, int checkedID) {
+        int index = indexRadio(radio);
         int boxID = comBundle.getInt(BOX_ID);
         if (radio == hasBarRadio) {
             if (index == 1) {

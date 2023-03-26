@@ -25,10 +25,11 @@ public class RestUrinalUpdate {
     private Double urMeasureL;
     private Double urMeasureM;
     private String urObs;
+    private String restUrinalPhoto;
 
     public RestUrinalUpdate(int restroomID, Integer hasUrinal, Integer hasAccessUrinal, Integer urinalType, Double urMeasureA, Double urMeasureB, Double urMeasureC, Double urMeasureD,
                             Double urMeasureE, Double urMeasureF, Double urMeasureG, Double urMeasureH, Double urMeasureI, Double urMeasureJ, Double urMeasureK, Double urMeasureL,
-                            Double urMeasureM, String urObs) {
+                            Double urMeasureM, String urObs, String restUrinalPhoto) {
         this.restroomID = restroomID;
         this.hasUrinal = hasUrinal;
         this.hasAccessUrinal = hasAccessUrinal;
@@ -47,6 +48,7 @@ public class RestUrinalUpdate {
         this.urMeasureL = urMeasureL;
         this.urMeasureM = urMeasureM;
         this.urObs = urObs;
+        this.restUrinalPhoto = restUrinalPhoto;
     }
 
     public int getRestroomID() {
@@ -191,5 +193,13 @@ public class RestUrinalUpdate {
 
     public void setUrObs(String urObs) {
         this.urObs = urObs;
+    }
+
+    public String getRestUrinalPhoto() {
+        return restUrinalPhoto;
+    }
+
+    public void setRestUrinalPhoto(String restUrinalPhoto) {
+        this.restUrinalPhoto = restUrinalPhoto;
     }
 }

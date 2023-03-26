@@ -24,8 +24,8 @@ import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 public class DoorLockFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout lockDescField, lockHeightField, lockObsField;
-    TextInputEditText lockDescValue, lockHeightValue, lockObsValue;
+    TextInputLayout lockDescField, lockHeightField, lockObsField, photoField;
+    TextInputEditText lockDescValue, lockHeightValue, lockObsValue, photoValue;
     MaterialButton saveLock, cancelLock;
     MultiLineRadioGroup lockType;
     TextView lockTypeError;
@@ -98,10 +98,12 @@ public class DoorLockFragment extends Fragment implements TagInterface, ScrollEd
         lockDescField = view.findViewById(R.id.door_lock_description_field);
         lockHeightField = view.findViewById(R.id.door_lock_height_field);
         lockObsField = view.findViewById(R.id.door_lock_obs_field);
+        photoField = view.findViewById(R.id.door_lock_photo_field);
 //        TextInputEditText
         lockDescValue = view.findViewById(R.id.door_lock_description_value);
         lockHeightValue = view.findViewById(R.id.door_lock_height_value);
         lockObsValue = view.findViewById(R.id.door_lock_obs_value);
+        photoValue = view.findViewById(R.id.door_lock_photo_value);
 //        MaterialButton
         saveLock = view.findViewById(R.id.save_lock);
         cancelLock = view.findViewById(R.id.cancel_lock);
@@ -133,6 +135,8 @@ public class DoorLockFragment extends Fragment implements TagInterface, ScrollEd
         lockHeightValue.setText(String.valueOf(lock.getLockHeight()));
         if (lock.getLockObs() != null)
             lockObsValue.setText(lock.getLockObs());
+        if (lock.getLockPhoto() != null)
+            photoValue.setText(lock.getLockPhoto());
     }
 
     private boolean doorLockNoEmptyFields() {
@@ -167,12 +171,13 @@ public class DoorLockFragment extends Fragment implements TagInterface, ScrollEd
         lockDescField.setVisibility(View.GONE);
         lockHeightValue.setText(null);
         lockObsValue.setText(null);
+        photoValue.setText(null);
     }
 
     private DoorLockEntry newDoorLock(Bundle bundle) {
         Integer doorID = null, extAccessID = null;
         int lType;
-        String lDesc = null, lObs = null;
+        String lDesc = null, lObs = null, photo = null;
         double lHeight;
 
         if (bundle.getInt(DOOR_ID) > 0)
@@ -186,7 +191,9 @@ public class DoorLockFragment extends Fragment implements TagInterface, ScrollEd
         lHeight = Double.parseDouble(String.valueOf(lockHeightValue.getText()));
         if (lockObsValue.getText() != null)
             lObs = String.valueOf(lockObsValue.getText());
+        if (photoValue.getText() != null)
+            photo = String.valueOf(photoValue.getText());
 
-        return new DoorLockEntry(doorID, extAccessID, lType, lDesc, lHeight, lObs);
+        return new DoorLockEntry(doorID, extAccessID, lType, lDesc, lHeight, lObs, photo);
     }
 }

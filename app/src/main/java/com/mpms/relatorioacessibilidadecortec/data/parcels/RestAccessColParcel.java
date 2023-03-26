@@ -33,17 +33,18 @@ public class RestAccessColParcel {
     String winComType3;
     Double winComHeight3;
     String winObs;
+    String firstPhoto;
 
 
     public RestAccessColParcel() {
 //        Empty Constructor
     }
 
-    public RestAccessColParcel(Integer restGender, String restLocation, Double notAccessLength, Double notAccessWidth, Integer collectiveHasDoor, Integer accessRoute, String accessRouteObs,
-                               Integer intRestroom, String intRestObs,
-                               Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Double notAccEntranceWidth, Integer notAccEntranceSill,
-                               String notAccEntranceObs, Integer restSwitch, Double switchHeight, String switchObs, Integer hasWindow, Integer winQnt, String winComType1,
-                               Double winComHeight1, String winComType2, Double winComHeight2, String winComType3, Double winComHeight3, String winObs) {
+    public RestAccessColParcel(Integer restGender, String restLocation, Double notAccessLength, Double notAccessWidth, Integer collectiveHasDoor, Integer accessRoute,
+                               String accessRouteObs, Integer intRestroom, String intRestObs, Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain,
+                               String restDrainObs, Double notAccEntranceWidth, Integer notAccEntranceSill, String notAccEntranceObs, Integer restSwitch, Double switchHeight,
+                               String switchObs, Integer hasWindow, Integer winQnt, String winComType1, Double winComHeight1, String winComType2, Double winComHeight2,
+                               String winComType3, Double winComHeight3, String winObs, String firstPhoto) {
         this.restGender = restGender;
         this.restLocation = restLocation;
         this.notAccessLength = notAccessLength;
@@ -72,6 +73,15 @@ public class RestAccessColParcel {
         this.winComType3 = winComType3;
         this.winComHeight3 = winComHeight3;
         this.winObs = winObs;
+        this.firstPhoto = firstPhoto;
+    }
+
+    public String getFirstPhoto() {
+        return firstPhoto;
+    }
+
+    public void setFirstPhoto(String firstPhoto) {
+        this.firstPhoto = firstPhoto;
     }
 
     public Integer getRestGender() {

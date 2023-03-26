@@ -22,6 +22,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxAccOneUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
@@ -29,10 +30,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class RestAccessFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RestAccessFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
-    TextInputLayout hangerHeightField, hangerObsField, objHoldHeightField, objHoldObsField, soapHoldHeightField, soapHoldObsField, towelHoldHeightField, towelHoldObsField;
-    TextInputEditText hangerHeightValue, hangerObsValue, objHoldHeightValue, objHoldObsValue, soapHoldHeightValue, soapHoldObsValue, towelHoldHeightValue, towelHoldObsValue;
+    TextInputLayout hangerHeightField, hangerObsField, objHoldHeightField, objHoldObsField, soapHoldHeightField, soapHoldObsField, towelHoldHeightField, towelHoldObsField,
+            photoField;
+    TextInputEditText hangerHeightValue, hangerObsValue, objHoldHeightValue, objHoldObsValue, soapHoldHeightValue, soapHoldObsValue, towelHoldHeightValue, towelHoldObsValue,
+            photoValue;
     RadioGroup hangRadio, objHoldRadio, objHoldStatRadio, soapRadio, towelRadio;
     TextView hangError, objHoldError, objHoldStatHeader, objHoldStatError, soapError, towelError;
     MaterialButton returnToilView, saveToilAccess;
@@ -98,66 +101,70 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
 
     private void loadAccessData(RestroomEntry rest) {
         if (rest.getHasHanger() != null)
-            hangRadio.check(hangRadio.getChildAt(rest.getHasHanger()).getId());
+            checkRadioGroup(hangRadio, rest.getHasHanger());
         if (rest.getHangerHeight() != null)
             hangerHeightValue.setText(String.valueOf(rest.getHangerHeight()));
         if (rest.getHangerObs() != null)
             hangerObsValue.setText(rest.getHangerObs());
 
         if (rest.getHasObjHold() != null)
-            objHoldRadio.check(objHoldRadio.getChildAt(rest.getHasObjHold()).getId());
+            checkRadioGroup(objHoldRadio, rest.getHasObjHold());
         if (rest.getObjHoldCorrect() != null)
-            objHoldStatRadio.check(objHoldStatRadio.getChildAt(rest.getObjHoldCorrect()).getId());
+            checkRadioGroup(objHoldStatRadio, rest.getObjHoldCorrect());
         if (rest.getObjHoldHeight() != null)
             objHoldHeightValue.setText(String.valueOf(rest.getObjHoldHeight()));
         if (rest.getObjHoldObs() != null)
             objHoldObsValue.setText(rest.getObjHoldObs());
 
         if (rest.getHasSoapHold() != null)
-            soapRadio.check(soapRadio.getChildAt(rest.getHasSoapHold()).getId());
+            checkRadioGroup(soapRadio, rest.getHasSoapHold());
         if (rest.getSoapHoldHeight() != null)
             soapHoldHeightValue.setText(String.valueOf(rest.getSoapHoldHeight()));
         if (rest.getSoapHoldObs() != null)
             soapHoldObsValue.setText(rest.getSoapHoldObs());
 
         if (rest.getHasTowelHold() != null)
-            towelRadio.check(towelRadio.getChildAt(rest.getHasSoapHold()).getId());
+            checkRadioGroup(towelRadio, rest.getHasTowelHold());
         if (rest.getTowelHoldHeight() != null)
             towelHoldHeightValue.setText(String.valueOf(rest.getTowelHoldHeight()));
         if (rest.getTowelHoldObs() != null)
             towelHoldObsValue.setText(rest.getTowelHoldObs());
+        if (rest.getRestAccessPhoto() != null)
+            photoValue.setText(rest.getRestAccessPhoto());
     }
 
     private void loadRestBoxAccOne(RestBoxEntry rest) {
         if (rest.getHasHanger() != null)
-            hangRadio.check(hangRadio.getChildAt(rest.getHasHanger()).getId());
+            checkRadioGroup(hangRadio, rest.getHasHanger());
         if (rest.getHangerHeight() != null)
             hangerHeightValue.setText(String.valueOf(rest.getHangerHeight()));
         if (rest.getHangerObs() != null)
             hangerObsValue.setText(rest.getHangerObs());
 
         if (rest.getHasObjHold() != null)
-            objHoldRadio.check(objHoldRadio.getChildAt(rest.getHasObjHold()).getId());
+            checkRadioGroup(objHoldRadio, rest.getHasObjHold());
         if (rest.getObjHoldCorrect() != null)
-            objHoldStatRadio.check(objHoldStatRadio.getChildAt(rest.getObjHoldCorrect()).getId());
+            checkRadioGroup(objHoldStatRadio, rest.getObjHoldCorrect());
         if (rest.getObjHoldHeight() != null)
             objHoldHeightValue.setText(String.valueOf(rest.getObjHoldHeight()));
         if (rest.getObjHoldObs() != null)
             objHoldObsValue.setText(rest.getObjHoldObs());
 
         if (rest.getHasSoapHold() != null)
-            soapRadio.check(soapRadio.getChildAt(rest.getHasSoapHold()).getId());
+            checkRadioGroup(soapRadio, rest.getHasSoapHold());
         if (rest.getSoapHoldHeight() != null)
             soapHoldHeightValue.setText(String.valueOf(rest.getSoapHoldHeight()));
         if (rest.getSoapHoldObs() != null)
             soapHoldObsValue.setText(rest.getSoapHoldObs());
 
         if (rest.getHasTowelHold() != null)
-            towelRadio.check(towelRadio.getChildAt(rest.getHasSoapHold()).getId());
+            checkRadioGroup(towelRadio, rest.getHasTowelHold());
         if (rest.getTowelHoldHeight() != null)
             towelHoldHeightValue.setText(String.valueOf(rest.getTowelHoldHeight()));
         if (rest.getTowelHoldObs() != null)
             towelHoldObsValue.setText(rest.getTowelHoldObs());
+        if (rest.getBoxAccessPhoto() != null)
+            photoValue.setText(rest.getBoxAccessPhoto());
     }
 
     private void callAccessTwoFragment(Bundle bundle) {
@@ -177,7 +184,7 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         soapHoldObsField = view.findViewById(R.id.soap_obs_field);
         towelHoldHeightField = view.findViewById(R.id.towel_height_field);
         towelHoldObsField = view.findViewById(R.id.towel_obs_field);
-
+        photoField = view.findViewById(R.id.access_one_photo_field);
 //        TextInputEditText
         hangerHeightValue = view.findViewById(R.id.hanger_height_value);
         hangerObsValue = view.findViewById(R.id.hanger_obs_value);
@@ -187,7 +194,7 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         soapHoldObsValue = view.findViewById(R.id.soap_obs_value);
         towelHoldHeightValue = view.findViewById(R.id.towel_height_value);
         towelHoldObsValue = view.findViewById(R.id.towel_obs_value);
-
+        photoValue = view.findViewById(R.id.access_one_photo_value);
 //        RadioGroup
         hangRadio = view.findViewById(R.id.hanger_radio);
         objHoldRadio = view.findViewById(R.id.obj_holder_radio);
@@ -218,12 +225,9 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
 
     }
 
-    private int getCheckedRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
-    private void radioListener(RadioGroup radio, int check) {
-        int index = getCheckedRadio(radio);
+    @Override
+    public void radioListener(RadioGroup radio, int check) {
+        int index = indexRadio(radio);
         if (radio == hangRadio) {
             if (index == 0) {
                 hangerHeightValue.setText(null);
@@ -263,20 +267,20 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
     private boolean checkEmptyFields() {
         clearEmptyFieldErrors();
         int i = 0;
-        if (getCheckedRadio(hangRadio) == -1) {
+        if (indexRadio(hangRadio) == -1) {
             hangError.setVisibility(View.VISIBLE);
             i++;
-        } else if (getCheckedRadio(hangRadio) == 1) {
+        } else if (indexRadio(hangRadio) == 1) {
             if (TextUtils.isEmpty(hangerHeightValue.getText())) {
                 i++;
                 hangerHeightField.setError(getText(R.string.req_field_error));
             }
         }
-        if (getCheckedRadio(objHoldRadio) == -1) {
+        if (indexRadio(objHoldRadio) == -1) {
             objHoldError.setVisibility(View.VISIBLE);
             i++;
-        } else if (getCheckedRadio(objHoldRadio) == 1) {
-            if (getCheckedRadio(objHoldStatRadio) == -1) {
+        } else if (indexRadio(objHoldRadio) == 1) {
+            if (indexRadio(objHoldStatRadio) == -1) {
                 objHoldStatError.setVisibility(View.VISIBLE);
                 i++;
             }
@@ -285,19 +289,19 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
                 objHoldHeightField.setError(getText(R.string.req_field_error));
             }
         }
-        if (getCheckedRadio(soapRadio) == -1) {
+        if (indexRadio(soapRadio) == -1) {
             i++;
             soapError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(soapRadio) == 1) {
+        } else if (indexRadio(soapRadio) == 1) {
             if (TextUtils.isEmpty(soapHoldHeightValue.getText())) {
                 i++;
                 soapHoldHeightField.setError(getText(R.string.req_field_error));
             }
         }
-        if (getCheckedRadio(towelRadio) == -1) {
+        if (indexRadio(towelRadio) == -1) {
             i++;
             towelError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(towelRadio) == 1) {
+        } else if (indexRadio(towelRadio) == 1) {
             if (TextUtils.isEmpty(towelHoldHeightValue.getText())) {
                 i++;
                 towelHoldHeightField.setError(getText(R.string.req_field_error));
@@ -322,65 +326,77 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
     private RestAccessUpdate accUpdate(Bundle bundle) {
         int hasHanger, hasObjHold, hasSoapHold, hasTowelHold;
         Integer objHoldOK = null;
-        Double hangerHeight = null, objHoldHeight = null, soapHoldHeight = null, towelHoldHeight = null, mirrorA = null, mirrorB = null;
-        String hangerObs, objHoldObs, soapObs, towelObs;
+        Double hangerHeight = null, objHoldHeight = null, soapHoldHeight = null, towelHoldHeight = null;
+        String hangerObs = null, objHoldObs = null, soapObs = null, towelObs = null, photo = null;
 
-        hasHanger = getCheckedRadio(hangRadio);
+        hasHanger = indexRadio(hangRadio);
         if (hasHanger == 1)
             hangerHeight = Double.parseDouble(String.valueOf(hangerHeightValue.getText()));
-        hangerObs = String.valueOf(hangerObsValue.getText());
+        if (!TextUtils.isEmpty(hangerObsValue.getText()))
+            hangerObs = String.valueOf(hangerObsValue.getText());
 
-        hasObjHold = getCheckedRadio(objHoldRadio);
+        hasObjHold = indexRadio(objHoldRadio);
         if (hasObjHold == 1) {
-            objHoldOK = getCheckedRadio(objHoldStatRadio);
+            objHoldOK = indexRadio(objHoldStatRadio);
             objHoldHeight = Double.parseDouble(String.valueOf(objHoldHeightValue.getText()));
         }
-        objHoldObs = String.valueOf(objHoldObsValue.getText());
+        if (!TextUtils.isEmpty(objHoldObsValue.getText()))
+            objHoldObs = String.valueOf(objHoldObsValue.getText());
 
-        hasSoapHold = getCheckedRadio(soapRadio);
+        hasSoapHold = indexRadio(soapRadio);
         if (hasSoapHold == 1)
             soapHoldHeight = Double.parseDouble(String.valueOf(soapHoldHeightValue.getText()));
-        soapObs = String.valueOf(soapHoldObsValue.getText());
+        if (!TextUtils.isEmpty(soapHoldObsValue.getText()))
+            soapObs = String.valueOf(soapHoldObsValue.getText());
 
-        hasTowelHold = getCheckedRadio(towelRadio);
+        hasTowelHold = indexRadio(towelRadio);
         if (hasTowelHold == 1)
             towelHoldHeight = Double.parseDouble(String.valueOf(towelHoldHeightValue.getText()));
-        towelObs = String.valueOf(towelHoldObsValue.getText());
+        if (!TextUtils.isEmpty(towelHoldObsValue.getText()))
+            towelObs = String.valueOf(towelHoldObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
         return new RestAccessUpdate(bundle.getInt(REST_ID), hasHanger, hangerHeight, hangerObs, hasObjHold, objHoldOK, objHoldHeight, objHoldObs, hasSoapHold, soapHoldHeight,
-                soapObs, hasTowelHold, towelHoldHeight, towelObs);
+                soapObs, hasTowelHold, towelHoldHeight, towelObs, photo);
     }
 
     private RestBoxAccOneUpdate boxAccOneUpdate(Bundle bundle) {
         int hasHanger, hasObjHold, hasSoapHold, hasTowelHold;
         Integer objHoldOK = null;
-        Double hangerHeight = null, objHoldHeight = null, soapHoldHeight = null, towelHoldHeight = null, mirrorA = null, mirrorB = null;
-        String hangerObs, objHoldObs, soapObs, towelObs;
+        Double hangerHeight = null, objHoldHeight = null, soapHoldHeight = null, towelHoldHeight = null;
+        String hangerObs = null, objHoldObs = null, soapObs = null, towelObs = null, photo = null;
 
-        hasHanger = getCheckedRadio(hangRadio);
+        hasHanger = indexRadio(hangRadio);
         if (hasHanger == 1)
             hangerHeight = Double.parseDouble(String.valueOf(hangerHeightValue.getText()));
-        hangerObs = String.valueOf(hangerObsValue.getText());
+        if (!TextUtils.isEmpty(hangerObsValue.getText()))
+            hangerObs = String.valueOf(hangerObsValue.getText());
 
-        hasObjHold = getCheckedRadio(objHoldRadio);
+        hasObjHold = indexRadio(objHoldRadio);
         if (hasObjHold == 1) {
-            objHoldOK = getCheckedRadio(objHoldStatRadio);
+            objHoldOK = indexRadio(objHoldStatRadio);
             objHoldHeight = Double.parseDouble(String.valueOf(objHoldHeightValue.getText()));
         }
-        objHoldObs = String.valueOf(objHoldObsValue.getText());
+        if (!TextUtils.isEmpty(objHoldObsValue.getText()))
+            objHoldObs = String.valueOf(objHoldObsValue.getText());
 
-        hasSoapHold = getCheckedRadio(soapRadio);
+        hasSoapHold = indexRadio(soapRadio);
         if (hasSoapHold == 1)
             soapHoldHeight = Double.parseDouble(String.valueOf(soapHoldHeightValue.getText()));
-        soapObs = String.valueOf(soapHoldObsValue.getText());
+        if (!TextUtils.isEmpty(soapHoldObsValue.getText()))
+            soapObs = String.valueOf(soapHoldObsValue.getText());
 
-        hasTowelHold = getCheckedRadio(towelRadio);
+        hasTowelHold = indexRadio(towelRadio);
         if (hasTowelHold == 1)
             towelHoldHeight = Double.parseDouble(String.valueOf(towelHoldHeightValue.getText()));
-        towelObs = String.valueOf(towelHoldObsValue.getText());
+        if (!TextUtils.isEmpty(towelHoldObsValue.getText()))
+            towelObs = String.valueOf(towelHoldObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
         return new RestBoxAccOneUpdate(bundle.getInt(BOX_ID), hasHanger, hangerHeight, hangerObs, hasObjHold, objHoldOK, objHoldHeight, objHoldObs, hasSoapHold, soapHoldHeight,
-                soapObs, hasTowelHold, towelHoldHeight, towelObs);
+                soapObs, hasTowelHold, towelHoldHeight, towelObs, photo);
     }
 
     private void addEditTextFields() {

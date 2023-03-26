@@ -117,24 +117,24 @@ public class LibraryFragment extends Fragment implements TagInterface, RadioGrou
     private boolean checkEmptyLibraryFields() {
         clearLibEmptyFieldsErrors();
         int error = 0;
-        if (indexCheckRadio(distShelvesRadio) == -1) {
+        if (indexRadio(distShelvesRadio) == -1) {
             distShelvesError.setVisibility(View.VISIBLE);
             error++;
         }
-        if (indexCheckRadio(libCorridorRadio) == -1) {
+        if (indexRadio(libCorridorRadio) == -1) {
             error++;
             libCorridorError.setVisibility(View.VISIBLE);
-        } else if (indexCheckRadio(libCorridorRadio) == 1) {
-            if (indexCheckRadio(pcrManeuverRadio) == -1) {
+        } else if (indexRadio(libCorridorRadio) == 1) {
+            if (indexRadio(pcrManeuverRadio) == -1) {
                 pcrError.setVisibility(View.VISIBLE);
                 error++;
             }
         }
-        if (indexCheckRadio(hasComputerRadio) == -1) {
+        if (indexRadio(hasComputerRadio) == -1) {
             error++;
             hasPCError.setVisibility(View.VISIBLE);
-        } else if (indexCheckRadio(hasComputerRadio) == 1) {
-            if (indexCheckRadio(accessPcRadio) == -1) {
+        } else if (indexRadio(hasComputerRadio) == 1) {
+            if (indexRadio(accessPcRadio) == -1) {
                 accessPcError.setVisibility(View.VISIBLE);
                 error++;
             }
@@ -155,13 +155,13 @@ public class LibraryFragment extends Fragment implements TagInterface, RadioGrou
         int hasDistShelves, hasLongCorridor, hasPC;
         Integer hasManeuver = null, hasAccessPC = null;
 
-        hasDistShelves = indexCheckRadio(distShelvesRadio);
-        hasLongCorridor = indexCheckRadio(libCorridorRadio);
+        hasDistShelves = indexRadio(distShelvesRadio);
+        hasLongCorridor = indexRadio(libCorridorRadio);
         if (hasLongCorridor == 1)
-            hasManeuver = indexCheckRadio(pcrManeuverRadio);
-        hasPC = indexCheckRadio(hasComputerRadio);
+            hasManeuver = indexRadio(pcrManeuverRadio);
+        hasPC = indexRadio(hasComputerRadio);
         if (hasPC == 1)
-            hasAccessPC = indexCheckRadio(accessPcRadio);
+            hasAccessPC = indexRadio(accessPcRadio);
 
         LibParcel parcel = new LibParcel(hasDistShelves, hasLongCorridor, hasManeuver, hasPC, hasAccessPC);
         bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
@@ -181,7 +181,7 @@ public class LibraryFragment extends Fragment implements TagInterface, RadioGrou
 
     @Override
     public void radioListener(RadioGroup radio, int id) {
-        int index = indexCheckRadio(radio);
+        int index = indexRadio(radio);
 
         if (radio == libCorridorRadio) {
             if (index == 1) {

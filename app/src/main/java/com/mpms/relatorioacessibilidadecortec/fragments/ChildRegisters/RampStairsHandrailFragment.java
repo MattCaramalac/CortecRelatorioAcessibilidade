@@ -19,16 +19,17 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
-public class RampStairsHandrailFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RampStairsHandrailFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     Bundle handrailBundle;
 
-    TextInputLayout handrailHeightField, handrailGripField, handrailDistField, handrailObsField, initExtLengthField, finalExtLengthField;
-    TextInputEditText handrailHeightValue, handrailGripValue, handrailDistValue, handrailObsValue, initExtLengthValue, finalExtLengthValue;
+    TextInputLayout handrailHeightField, handrailGripField, handrailDistField, handrailObsField, initExtLengthField, finalExtLengthField, photoField;
+    TextInputEditText handrailHeightValue, handrailGripValue, handrailDistValue, handrailObsValue, initExtLengthValue, finalExtLengthValue, photoValue;
     MultiLineRadioGroup handrailPlacementRadio;
     RadioGroup hasHandrailRadio, hasInitExtensionRadio, hasFinalExtensionRadio;
     TextView hasHandError, handrailLocationError, hasInitExtensionHeader, helper1, initExtensionError, hasFinalExtensionHeader, helper2, finalExtensionError;
@@ -101,6 +102,7 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         handrailObsField = view.findViewById(R.id.handrail_obs_field);
         initExtLengthField = view.findViewById(R.id.handrail_initial_extension_length_field);
         finalExtLengthField = view.findViewById(R.id.handrail_final_extension_length_field);
+        photoField = view.findViewById(R.id.handrail_photo_field);
 //        TextInputEditText
         handrailHeightValue = view.findViewById(R.id.handrail_height_value);
         handrailGripValue = view.findViewById(R.id.handrail_grip_value);
@@ -108,6 +110,7 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         handrailObsValue = view.findViewById(R.id.handrail_obs_value);
         initExtLengthValue = view.findViewById(R.id.handrail_initial_extension_length_value);
         finalExtLengthValue = view.findViewById(R.id.handrail_final_extension_length_value);
+        photoValue = view.findViewById(R.id.phone_photo_value);
 //        RadioGroups
         hasHandrailRadio = view.findViewById(R.id.side_has_handrail_radio);
         hasInitExtensionRadio = view.findViewById(R.id.handrail_has_initial_extension_radio);
@@ -127,9 +130,9 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         hasFinalExtensionHeader = view.findViewById(R.id.handrail_has_final_extension_header);
         helper2 = view.findViewById(R.id.final_ext_ref_header);
 //        Listeners
-        hasFinalExtensionRadio.setOnCheckedChangeListener(this::radioCheckListener);
-        hasInitExtensionRadio.setOnCheckedChangeListener(this::radioCheckListener);
-        hasHandrailRadio.setOnCheckedChangeListener(this::radioCheckListener);
+        hasFinalExtensionRadio.setOnCheckedChangeListener(this::radioListener);
+        hasInitExtensionRadio.setOnCheckedChangeListener(this::radioListener);
+        hasHandrailRadio.setOnCheckedChangeListener(this::radioListener);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Initial Methods
@@ -168,7 +171,7 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
 
     private void loadHandrailData(RampStairsHandrailEntry entry) {
         handrailPlacementRadio.checkAt(entry.getHandrailPlacement());
-        hasHandrailRadio.check(hasHandrailRadio.getChildAt(entry.getHasHandrail()).getId());
+        checkRadioGroup(hasHandrailRadio, entry.getHasHandrail());
         if (entry.getHasHandrail() == 1) {
             if (entry.getHandrailHeight() != null)
                 handrailHeightValue.setText(String.valueOf(entry.getHandrailHeight()));
@@ -177,13 +180,13 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
             if (entry.getHandrailDist() != null)
                 handrailDistValue.setText(String.valueOf(entry.getHandrailDist()));
             if (entry.getHasInitExtension() != null) {
-                hasInitExtensionRadio.check(hasInitExtensionRadio.getChildAt(entry.getHasInitExtension()).getId());
+                checkRadioGroup(hasInitExtensionRadio, entry.getHasInitExtension());
                 if (entry.getHasInitExtension() == 1)
                     if (entry.getInitExtLength() != null)
                         initExtLengthValue.setText(String.valueOf(entry.getInitExtLength()));
             }
             if (entry.getHasFinalExtension() != null) {
-                hasFinalExtensionRadio.check(hasFinalExtensionRadio.getChildAt(entry.getHasFinalExtension()).getId());
+               checkRadioGroup(hasFinalExtensionRadio, entry.getHasFinalExtension());
                 if (entry.getHasFinalExtension() == 1)
                     if (entry.getFinalExtLength() != null)
                         finalExtLengthValue.setText(String.valueOf(entry.getFinalExtLength()));
@@ -191,11 +194,9 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         }
         if (entry.getHandrailObs() != null)
             handrailObsValue.setText(entry.getHandrailObs());
+        if (entry.getHandrailPhoto() != null)
+            photoValue.setText(entry.getHandrailPhoto());
 
-    }
-
-    private int getCheckedHandrailRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
     private boolean checkHandrailEmptyFields() {
@@ -205,10 +206,10 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
             i++;
             handrailLocationError.setVisibility(View.VISIBLE);
         }
-        if (getCheckedHandrailRadio(hasHandrailRadio) == -1) {
+        if (indexRadio(hasHandrailRadio) == -1) {
             i++;
             hasHandError.setVisibility(View.VISIBLE);
-        } else if (getCheckedHandrailRadio(hasHandrailRadio) == 1) {
+        } else if (indexRadio(hasHandrailRadio) == 1) {
             if (TextUtils.isEmpty(handrailHeightValue.getText())) {
                 i++;
                 handrailHeightField.setError(getString(R.string.req_field_error));
@@ -221,19 +222,19 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
                 i++;
                 handrailDistField.setError(getString(R.string.req_field_error));
             }
-            if (getCheckedHandrailRadio(hasInitExtensionRadio) == -1) {
+            if (indexRadio(hasInitExtensionRadio) == -1) {
                 i++;
                 initExtensionError.setVisibility(View.VISIBLE);
-            } else if (getCheckedHandrailRadio(hasInitExtensionRadio) == 1) {
+            } else if (indexRadio(hasInitExtensionRadio) == 1) {
                 if (TextUtils.isEmpty(initExtLengthValue.getText())) {
                     i++;
                     initExtLengthField.setError(getString(R.string.req_field_error));
                 }
             }
-            if (getCheckedHandrailRadio(hasFinalExtensionRadio) == -1) {
+            if (indexRadio(hasFinalExtensionRadio) == -1) {
                 i++;
                 finalExtensionError.setVisibility(View.VISIBLE);
-            } else if (getCheckedHandrailRadio(hasFinalExtensionRadio) == 1) {
+            } else if (indexRadio(hasFinalExtensionRadio) == 1) {
                 if (TextUtils.isEmpty(finalExtLengthValue.getText())) {
                     i++;
                     finalExtLengthField.setError(getString(R.string.req_field_error));
@@ -256,8 +257,48 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         finalExtLengthField.setErrorEnabled(false);
     }
 
-    private void radioCheckListener(RadioGroup radio, int checkedID) {
-        int index = getCheckedHandrailRadio(radio);
+    private RampStairsHandrailEntry handrailEntry(Bundle bundle) {
+        int handrailPlace, hasHandrail;
+        Integer hasInitExtension = null, hasFinalExtension = null;
+        Double initExtLength = null, finalExtLength = null, handrailHeight = null, handrailGrip = null, handrailDist = null;
+        String handObs = null, photo = null;
+
+        handrailPlace = handrailPlacementRadio.getCheckedRadioButtonIndex();
+        hasHandrail = indexRadio(hasHandrailRadio);
+        if (hasHandrail == 1) {
+            if (!TextUtils.isEmpty(handrailHeightValue.getText()))
+                handrailHeight = Double.parseDouble(String.valueOf(handrailHeightValue.getText()));
+            if (!TextUtils.isEmpty(handrailGripValue.getText()))
+                handrailGrip = Double.parseDouble(String.valueOf(handrailGripValue.getText()));
+            if (!TextUtils.isEmpty(handrailDistValue.getText()))
+                handrailDist = Double.parseDouble(String.valueOf(handrailDistValue.getText()));
+
+            if (indexRadio(hasInitExtensionRadio) != -1) {
+                hasInitExtension = indexRadio(hasInitExtensionRadio);
+                if (hasInitExtension == 1)
+                    initExtLength = Double.parseDouble(String.valueOf(initExtLengthValue.getText()));
+            }
+            if (indexRadio(hasFinalExtensionRadio) != -1) {
+                hasFinalExtension = indexRadio(hasFinalExtensionRadio);
+                if (hasFinalExtension == 1)
+                    finalExtLength = Double.parseDouble(String.valueOf(finalExtLengthValue.getText()));
+            }
+        }
+
+        if (!TextUtils.isEmpty(handrailObsValue.getText()))
+            handObs = String.valueOf(handrailObsValue.getText());
+
+        if (photoValue.getText() != null)
+            photo = String.valueOf(photoValue.getText());
+
+        return new RampStairsHandrailEntry(bundle.getInt(FLIGHT_ID), handrailPlace, hasHandrail, handrailHeight, handrailGrip, handrailDist, hasInitExtension,
+                initExtLength, hasFinalExtension, finalExtLength, handObs, photo);
+
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int index = indexRadio(radio);
         if (radio == hasHandrailRadio) {
             if (index == 1) {
                 handrailHeightField.setVisibility(View.VISIBLE);
@@ -310,42 +351,4 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
             }
         }
     }
-
-    private RampStairsHandrailEntry handrailEntry(Bundle bundle) {
-        int handrailPlace, hasHandrail;
-        Integer hasInitExtension = null, hasFinalExtension = null;
-        Double initExtLength = null, finalExtLength = null, handrailHeight = null, handrailGrip = null, handrailDist = null;
-        String handObs = null;
-
-        handrailPlace = handrailPlacementRadio.getCheckedRadioButtonIndex();
-        hasHandrail = getCheckedHandrailRadio(hasHandrailRadio);
-        if (hasHandrail == 1) {
-            if (!TextUtils.isEmpty(handrailHeightValue.getText()))
-                handrailHeight = Double.parseDouble(String.valueOf(handrailHeightValue.getText()));
-            if (!TextUtils.isEmpty(handrailGripValue.getText()))
-                handrailGrip = Double.parseDouble(String.valueOf(handrailGripValue.getText()));
-            if (!TextUtils.isEmpty(handrailDistValue.getText()))
-                handrailDist = Double.parseDouble(String.valueOf(handrailDistValue.getText()));
-
-            if (getCheckedHandrailRadio(hasInitExtensionRadio) != -1) {
-                hasInitExtension = getCheckedHandrailRadio(hasInitExtensionRadio);
-                if (hasInitExtension == 1)
-                    initExtLength = Double.parseDouble(String.valueOf(initExtLengthValue.getText()));
-            }
-            if (getCheckedHandrailRadio(hasFinalExtensionRadio) != -1) {
-                hasFinalExtension = getCheckedHandrailRadio(hasFinalExtensionRadio);
-                if (hasFinalExtension == 1)
-                    finalExtLength = Double.parseDouble(String.valueOf(finalExtLengthValue.getText()));
-            }
-        }
-
-        if (!TextUtils.isEmpty(handrailObsValue.getText()))
-            handObs = String.valueOf(handrailObsValue.getText());
-
-
-        return new RampStairsHandrailEntry(bundle.getInt(FLIGHT_ID), handrailPlace, hasHandrail, handrailHeight, handrailGrip, handrailDist, hasInitExtension,
-                initExtLength, hasFinalExtension, finalExtLength, handObs);
-
-    }
-
 }

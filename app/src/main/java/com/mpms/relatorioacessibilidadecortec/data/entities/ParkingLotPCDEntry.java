@@ -31,6 +31,7 @@ public class ParkingLotPCDEntry {
     private Double pcdSiaLength;
     private String pcdSiaObs;
     private String pcdVacancyObs;
+    private String pcdPhoto;
 
     public String getPcdVacancyLocal() {
         return pcdVacancyLocal;
@@ -184,9 +185,17 @@ public class ParkingLotPCDEntry {
         this.pcdVacancyObs = pcdVacancyObs;
     }
 
+    public String getPcdPhoto() {
+        return pcdPhoto;
+    }
+
+    public void setPcdPhoto(String pcdPhoto) {
+        this.pcdPhoto = pcdPhoto;
+    }
+
     public ParkingLotPCDEntry(int parkID, String pcdVacancyLocal, int vacancyPosition, int hasVisualPcdVertSign, Double vertPcdSignLength, Double vertPcdSignWidth,
-                              String vertPcdSignObs, double pcdVacancyLength, double pcdVacancyWidth, double pcdVacancyLimitWidth,int hasSecurityZone, Double securityZoneWidth,
-                              String securityZoneObs, int hasPcdSia, Double pcdSiaWidth, Double pcdSiaLength, String pcdSiaObs, String pcdVacancyObs) {
+                              String vertPcdSignObs, double pcdVacancyLength, double pcdVacancyWidth, double pcdVacancyLimitWidth, int hasSecurityZone, Double securityZoneWidth,
+                              String securityZoneObs, int hasPcdSia, Double pcdSiaWidth, Double pcdSiaLength, String pcdSiaObs, String pcdVacancyObs, String pcdPhoto) {
         this.parkID = parkID;
         this.pcdVacancyLocal = pcdVacancyLocal;
         this.vacancyPosition = vacancyPosition;
@@ -205,5 +214,6 @@ public class ParkingLotPCDEntry {
         this.pcdSiaLength = pcdSiaLength;
         this.pcdSiaObs = pcdSiaObs;
         this.pcdVacancyObs = pcdVacancyObs;
+        this.pcdPhoto = pcdPhoto;
     }
 }

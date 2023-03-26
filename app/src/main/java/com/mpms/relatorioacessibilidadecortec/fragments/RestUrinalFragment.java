@@ -23,17 +23,18 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestUrinalUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 
-public class RestUrinalFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RestUrinalFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     ImageButton frontUrinal, frontUrinal2, sideUrinal;
     RadioGroup hasUrinal, accessRadio, urinalType;
     TextView hasUrinalError, accessHeader, accessError, typeHeader, typeError;
-    TextInputLayout fieldA, fieldB, fieldC, fieldD, fieldE, fieldF, fieldG, fieldH, fieldI, fieldJ, fieldK, fieldL, fieldM, urinalObsField;
-    TextInputEditText valueA, valueB, valueC, valueD, valueE, valueF, valueG, valueH, valueI, valueJ, valueK, valueL, valueM, urinalObsValue;
+    TextInputLayout fieldA, fieldB, fieldC, fieldD, fieldE, fieldF, fieldG, fieldH, fieldI, fieldJ, fieldK, fieldL, fieldM, urinalObsField, photoField;
+    TextInputEditText valueA, valueB, valueC, valueD, valueE, valueF, valueG, valueH, valueI, valueJ, valueK, valueL, valueM, urinalObsValue, photoValue;
     MaterialButton saveUrinal, returnSink;
 
     ViewModelEntry modelEntry;
@@ -106,6 +107,7 @@ public class RestUrinalFragment extends Fragment implements TagInterface, Scroll
         fieldL = view.findViewById(R.id.urinal_measureL_field);
         fieldM = view.findViewById(R.id.urinal_measureM_field);
         urinalObsField = view.findViewById(R.id.urinal_obs_field);
+        photoField = view.findViewById(R.id.urinal_photo_field);
 //        TextInputEditText
         valueA = view.findViewById(R.id.urinal_measureA_value);
         valueB = view.findViewById(R.id.urinal_measureB_value);
@@ -121,6 +123,7 @@ public class RestUrinalFragment extends Fragment implements TagInterface, Scroll
         valueL = view.findViewById(R.id.urinal_measureL_value);
         valueM = view.findViewById(R.id.urinal_measureM_value);
         urinalObsValue = view.findViewById(R.id.urinal_obs_value);
+        photoValue = view.findViewById(R.id.urinal_photo_value);
 //        MaterialButton
         saveUrinal= view.findViewById(R.id.save_urinal);
         returnSink= view.findViewById(R.id.return_sink);
@@ -154,13 +157,13 @@ public class RestUrinalFragment extends Fragment implements TagInterface, Scroll
         Integer accessUr = null, urType = null;
         Double measA = null, measB = null, measC = null, measD = null, measE = null, measF = null, measG = null, measH = null, measI = null, measJ = null,
                 measK = null, measL = null, measM = null;
-        String urObs;
+        String urObs = null, photo = null;
 
-        hasUr = getCheckRadio(hasUrinal);
+        hasUr = indexRadio(hasUrinal);
         if (hasUr == 1) {
-            accessUr = getCheckRadio(accessRadio);
+            accessUr = indexRadio(accessRadio);
             if (accessUr == 1) {
-                urType = getCheckRadio(urinalType);
+                urType = indexRadio(urinalType);
                 measA = Double.parseDouble(String.valueOf(valueA.getText()));
                 measB = Double.parseDouble(String.valueOf(valueB.getText()));
                 measC = Double.parseDouble(String.valueOf(valueC.getText()));
@@ -178,10 +181,13 @@ public class RestUrinalFragment extends Fragment implements TagInterface, Scroll
                 }
             }
         }
-        urObs = String.valueOf(urinalObsValue.getText());
+        if (!TextUtils.isEmpty(urinalObsValue.getText()))
+            urObs = String.valueOf(urinalObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
         return new RestUrinalUpdate(bundle.getInt(REST_ID), hasUr, accessUr, urType, measA, measB, measC, measD, measE, measF, measG, measH, measI, measJ, measK,
-                measL, measM, urObs);
+                measL, measM, urObs, photo);
 
     }
 
@@ -197,12 +203,9 @@ public class RestUrinalFragment extends Fragment implements TagInterface, Scroll
         ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
     }
 
-    private int getCheckRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
-    private void radioListener(RadioGroup radio, int check) {
-        int index = radio.indexOfChild(radio.findViewById(check));
+    @Override
+    public void radioListener(RadioGroup radio, int check) {
+        int index = indexRadio(radio);
 
         if (radio == hasUrinal) {
             if (index == 1) {
@@ -324,15 +327,15 @@ public class RestUrinalFragment extends Fragment implements TagInterface, Scroll
     private boolean checkEmptyFields() {
         clearEmptyFieldError();
         int i = 0;
-        if (getCheckRadio(hasUrinal) == -1) {
+        if (indexRadio(hasUrinal) == -1) {
             i++;
             hasUrinalError.setVisibility(View.VISIBLE);
-        } else if (getCheckRadio(hasUrinal) == 1) {
-            if (getCheckRadio(accessRadio) == -1) {
+        } else if (indexRadio(hasUrinal) == 1) {
+            if (indexRadio(accessRadio) == -1) {
                 i++;
                 accessError.setVisibility(View.VISIBLE);
-            } else if (getCheckRadio(accessRadio) == 1) {
-                if (getCheckRadio(urinalType) == -1) {
+            } else if (indexRadio(accessRadio) == 1) {
+                if (indexRadio(urinalType) == -1) {
                     i++;
                     typeError.setVisibility(View.VISIBLE);
                 } else {
@@ -380,7 +383,7 @@ public class RestUrinalFragment extends Fragment implements TagInterface, Scroll
                         i++;
                         fieldK.setError(getText(R.string.req_field_error));
                     }
-                    if (getCheckRadio(urinalType) == 0) {
+                    if (indexRadio(urinalType) == 0) {
                         if (TextUtils.isEmpty(valueL.getText())) {
                             i++;
                             fieldL.setError(getText(R.string.req_field_error));
@@ -416,40 +419,49 @@ public class RestUrinalFragment extends Fragment implements TagInterface, Scroll
     }
 
     private void loadUrinalData(RestroomEntry rest) {
-        if (rest.getHasUrinal() != null)
-            hasUrinal.check(hasUrinal.getChildAt(rest.getHasUrinal()).getId());
-        if (rest.getHasAccessUrinal() != null)
-            accessRadio.check(accessRadio.getChildAt(rest.getHasAccessUrinal()).getId());
-        if (rest.getUrinalType() != null)
-            urinalType.check(urinalType.getChildAt(rest.getUrinalType()).getId());
-        if (rest.getUrMeasureA() != null)
-            valueA.setText(String.valueOf(rest.getUrMeasureA()));
-        if (rest.getUrMeasureB() != null)
-            valueB.setText(String.valueOf(rest.getUrMeasureB()));
-        if (rest.getUrMeasureC() != null)
-            valueC.setText(String.valueOf(rest.getUrMeasureC()));
-        if (rest.getUrMeasureD() != null)
-            valueD.setText(String.valueOf(rest.getUrMeasureD()));
-        if (rest.getUrMeasureE() != null)
-            valueE.setText(String.valueOf(rest.getUrMeasureE()));
-        if (rest.getUrMeasureF() != null)
-            valueF.setText(String.valueOf(rest.getUrMeasureF()));
-        if (rest.getUrMeasureG() != null)
-            valueG.setText(String.valueOf(rest.getUrMeasureG()));
-        if (rest.getUrMeasureH() != null)
-            valueH.setText(String.valueOf(rest.getUrMeasureH()));
-        if (rest.getUrMeasureI() != null)
-            valueI.setText(String.valueOf(rest.getUrMeasureI()));
-        if (rest.getUrMeasureJ() != null)
-            valueJ.setText(String.valueOf(rest.getUrMeasureJ()));
-        if (rest.getUrMeasureK() != null)
-            valueK.setText(String.valueOf(rest.getUrMeasureK()));
-        if (rest.getUrMeasureL() != null)
-            valueL.setText(String.valueOf(rest.getUrMeasureL()));
-        if (rest.getUrMeasureM() != null)
-            valueM.setText(String.valueOf(rest.getUrMeasureM()));
+        if (rest.getHasUrinal() != null) {
+            checkRadioGroup(hasUrinal, rest.getHasUrinal());
+            if (rest.getHasUrinal() == 1) {
+                if (rest.getHasAccessUrinal() != null) {
+                    checkRadioGroup(accessRadio, rest.getHasAccessUrinal());
+                    if (rest.getHasAccessUrinal() == 1) {
+                        if (rest.getUrinalType() != null)
+                            urinalType.check(urinalType.getChildAt(rest.getUrinalType()).getId());
+                        if (rest.getUrMeasureA() != null)
+                            valueA.setText(String.valueOf(rest.getUrMeasureA()));
+                        if (rest.getUrMeasureB() != null)
+                            valueB.setText(String.valueOf(rest.getUrMeasureB()));
+                        if (rest.getUrMeasureC() != null)
+                            valueC.setText(String.valueOf(rest.getUrMeasureC()));
+                        if (rest.getUrMeasureD() != null)
+                            valueD.setText(String.valueOf(rest.getUrMeasureD()));
+                        if (rest.getUrMeasureE() != null)
+                            valueE.setText(String.valueOf(rest.getUrMeasureE()));
+                        if (rest.getUrMeasureF() != null)
+                            valueF.setText(String.valueOf(rest.getUrMeasureF()));
+                        if (rest.getUrMeasureG() != null)
+                            valueG.setText(String.valueOf(rest.getUrMeasureG()));
+                        if (rest.getUrMeasureH() != null)
+                            valueH.setText(String.valueOf(rest.getUrMeasureH()));
+                        if (rest.getUrMeasureI() != null)
+                            valueI.setText(String.valueOf(rest.getUrMeasureI()));
+                        if (rest.getUrMeasureJ() != null)
+                            valueJ.setText(String.valueOf(rest.getUrMeasureJ()));
+                        if (rest.getUrMeasureK() != null)
+                            valueK.setText(String.valueOf(rest.getUrMeasureK()));
+                        if (rest.getUrMeasureL() != null)
+                            valueL.setText(String.valueOf(rest.getUrMeasureL()));
+                        if (rest.getUrMeasureM() != null)
+                            valueM.setText(String.valueOf(rest.getUrMeasureM()));
+                    }
+                }
+            }
+        }
+
         if (rest.getUrObs() != null)
             urinalObsValue.setText(rest.getUrObs());
+        if (rest.getRestUrinalPhoto() != null)
+            photoValue.setText(rest.getRestUrinalPhoto());
     }
 
 }

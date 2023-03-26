@@ -19,13 +19,14 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class GateObsFragment extends Fragment implements TagInterface, ScrollEditText {
+public class GateObsFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
-    TextInputLayout referencePointField, commandHeightField, fSpaceWidthField, obsField;
-    TextInputEditText referencePointValue, commandHeightValue, fSpaceWidthValue, obsValue;
+    TextInputLayout referencePointField, commandHeightField, fSpaceWidthField, obsField, photoField;
+    TextInputEditText referencePointValue, commandHeightValue, fSpaceWidthValue, obsValue, photoValue;
     RadioGroup gateObsTypeRadio, gateObsSiaRadio;
     Button saveGateObs, cancelGateObs;
     TextView gateObsTypeError, gateObsSiaError;
@@ -97,11 +98,13 @@ public class GateObsFragment extends Fragment implements TagInterface, ScrollEdi
         commandHeightField = view.findViewById(R.id.gate_obs_height_field);
         fSpaceWidthField = view.findViewById(R.id.gate_obs_width_field);
         obsField = view.findViewById(R.id.gate_obstacle_obs_field);
+        photoField = view.findViewById(R.id.gate_obstacle_photo_field);
 //        TextInputEditText
         referencePointValue = view.findViewById(R.id.gate_obstacle_location_value);
         commandHeightValue = view.findViewById(R.id.gate_obs_height_value);
         fSpaceWidthValue = view.findViewById(R.id.gate_obs_width_value);
         obsValue = view.findViewById(R.id.gate_obstacle_obs_value);
+        photoValue = view.findViewById(R.id.gate_obstacle_photo_value);
 //        RadioGroup
         gateObsTypeRadio = view.findViewById(R.id.gate_obstacle_type_radio);
         gateObsSiaRadio = view.findViewById(R.id.obs_has_SIA_radio);
@@ -119,22 +122,20 @@ public class GateObsFragment extends Fragment implements TagInterface, ScrollEdi
     public GateObsEntry newGateObstacle(Bundle bundle) {
         int accessType, obsHasSia;
         double barrierHeight, barrierWidth;
-        String referencePoint, obstacleObs = null;
+        String referencePoint, obstacleObs = null, photo = null;
 
         referencePoint = String.valueOf(referencePointValue.getText());
-        accessType = getCheckedRadio(gateObsTypeRadio);
+        accessType = indexRadio(gateObsTypeRadio);
         barrierHeight = Double.parseDouble(String.valueOf(commandHeightValue.getText()));
         barrierWidth = Double.parseDouble(String.valueOf(fSpaceWidthValue.getText()));
-        obsHasSia = getCheckedRadio(gateObsSiaRadio);
+        obsHasSia = indexRadio(gateObsSiaRadio);
         if (!TextUtils.isEmpty(obsValue.getText()))
             obstacleObs = String.valueOf(obsValue.getText());
+        if (photoValue.getText() != null)
+            photo = String.valueOf(photoValue.getText());
 
-        return new GateObsEntry(bundle.getInt(EXT_ACCESS_ID), referencePoint, accessType, barrierHeight, barrierWidth, obsHasSia, obstacleObs);
+        return new GateObsEntry(bundle.getInt(EXT_ACCESS_ID), referencePoint, accessType, barrierHeight, barrierWidth, obsHasSia, obstacleObs, photo);
 
-    }
-
-    public int getCheckedRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
     public boolean checkEmptyFields() {
@@ -178,6 +179,7 @@ public class GateObsFragment extends Fragment implements TagInterface, ScrollEdi
         obsValue.setText(null);
         gateObsTypeRadio.clearCheck();
         gateObsSiaRadio.clearCheck();
+        photoValue.setText(null);
     }
 
     public void loadGateObsData(GateObsEntry gateObs) {
@@ -193,5 +195,12 @@ public class GateObsFragment extends Fragment implements TagInterface, ScrollEdi
             gateObsSiaRadio.check(gateObsSiaRadio.getChildAt(gateObs.getObsHasSia()).getId());
         if (gateObs.getGateObstacleObs() != null)
             obsValue.setText(gateObs.getGateObstacleObs());
+        if (gateObs.getGateObsPhoto() != null)
+            photoValue.setText(gateObs.getGateObsPhoto());
+
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
     }
 }

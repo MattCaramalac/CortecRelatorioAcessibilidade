@@ -20,16 +20,17 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
-public class RampStairsRailingFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RampStairsRailingFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
-    TextInputLayout railingHeightField, railingObsField, beaconHeightField, beaconObsField;
-    TextInputEditText railingHeightValue, railingObsValue, beaconHeightValue, beaconObsValue;
+    TextInputLayout railingHeightField, railingObsField, beaconHeightField, beaconObsField, photoField;
+    TextInputEditText railingHeightValue, railingObsValue, beaconHeightValue, beaconObsValue, photoValue;
     RadioGroup railingSideRadio, hasBeaconRadio;
     MultiLineRadioGroup hasRailingRadio;
     TextView railingSideError, hasRailingError, hasBeaconError, hasBeaconHeader;
@@ -124,7 +125,7 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface,
         cancelRailing = view.findViewById(R.id.cancel_railing);
 //        Listeners
         hasRailingRadio.setOnCheckedChangeListener(this::hasRailingListener);
-        hasBeaconRadio.setOnCheckedChangeListener(this::hasBeaconListener);
+        hasBeaconRadio.setOnCheckedChangeListener(this::radioListener);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Initialize Methods
@@ -146,6 +147,8 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface,
             beaconHeightValue.setText(String.valueOf(entry.getBeaconHeight()));
         if (entry.getBeaconObs() != null)
             beaconObsValue.setText(entry.getBeaconObs());
+        if (entry.getBeaconPhoto() != null)
+            photoValue.setText(entry.getBeaconPhoto());
     }
 
     private void initializeRailingFragment() {
@@ -169,14 +172,10 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface,
         obsRailingArray.add( beaconObsValue);
     }
 
-    private int getCheckedRailingRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
     private boolean checkRailingEmptyFields() {
         clearRailingEmptyFieldError();
         int i = 0;
-        if (getCheckedRailingRadio(railingSideRadio) == -1) {
+        if (indexRadio(railingSideRadio) == -1) {
             i++;
             railingSideError.setVisibility(View.VISIBLE);
         }
@@ -194,20 +193,20 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface,
                     i++;
                     railingHeightField.setError(getString(R.string.req_field_error));
                 }
-                if (getCheckedRailingRadio(hasBeaconRadio) == -1) {
+                if (indexRadio(hasBeaconRadio) == -1) {
                     i++;
                     hasBeaconError.setVisibility(View.VISIBLE);
-                } else if (getCheckedRailingRadio(hasBeaconRadio) == 1) {
+                } else if (indexRadio(hasBeaconRadio) == 1) {
                     if (TextUtils.isEmpty(beaconHeightValue.getText())) {
                         i++;
                         beaconHeightField.setError(getString(R.string.req_field_error));
                     }
                 }
             } else if (hasRailingRadio.getCheckedRadioButtonIndex() == 0) {
-                if (getCheckedRailingRadio(hasBeaconRadio) == -1) {
+                if (indexRadio(hasBeaconRadio) == -1) {
                     i++;
                     hasBeaconError.setVisibility(View.VISIBLE);
-                } else if (getCheckedRailingRadio(hasBeaconRadio) == 1) {
+                } else if (indexRadio(hasBeaconRadio) == 1) {
                     if (TextUtils.isEmpty(beaconHeightValue.getText())) {
                         i++;
                         beaconHeightField.setError(getString(R.string.req_field_error));
@@ -257,8 +256,35 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface,
         }
     }
 
-    private void hasBeaconListener(RadioGroup radio, int checkedID) {
-        int index = getCheckedRailingRadio(radio);
+    private RampStairsRailingEntry railingEntry(Bundle bundle) {
+        int railSide, hasRailing;
+        Integer hasBeacon = null;
+        Double railingHeight = null, beaconHeight = null;
+        String railingObs = null, beaconObs = null, photo = null;
+
+        railSide = indexRadio(railingSideRadio);
+        hasRailing = hasRailingRadio.getCheckedRadioButtonIndex();
+        if (hasRailing == 2 || hasRailing == 1)
+            railingHeight = Double.parseDouble(String.valueOf(railingHeightValue.getText()));
+        if (!TextUtils.isEmpty(railingObsValue.getText()))
+            railingObs = String.valueOf(railingObsValue.getText());
+        if (hasRailing == 1 || hasRailing == 0) {
+            hasBeacon = indexRadio(hasBeaconRadio);
+            if (hasBeacon == 1)
+                beaconHeight = Double.parseDouble(String.valueOf(beaconHeightValue.getText()));
+        }
+        if (!TextUtils.isEmpty(beaconObsValue.getText()))
+            beaconObs = String.valueOf(beaconObsValue.getText());
+
+        if (photoValue.getText() != null)
+            photo = String.valueOf(photoValue.getText());
+
+        return new RampStairsRailingEntry(bundle.getInt(FLIGHT_ID), railSide, hasRailing, railingHeight, railingObs, hasBeacon, beaconHeight, beaconObs, photo);
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int index = indexRadio(radio);
         if (index ==1) {
 //        TextInputLayout
             beaconHeightField.setVisibility(View.VISIBLE);
@@ -269,29 +295,4 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface,
             beaconHeightField.setVisibility(View.GONE);
         }
     }
-
-    private RampStairsRailingEntry railingEntry(Bundle bundle) {
-        int railSide, hasRailing;
-        Integer hasBeacon = null;
-        Double railingHeight = null, beaconHeight = null;
-        String railingObs = null, beaconObs = null;
-
-        railSide = getCheckedRailingRadio(railingSideRadio);
-        hasRailing = hasRailingRadio.getCheckedRadioButtonIndex();
-        if (hasRailing == 2 || hasRailing == 1)
-            railingHeight = Double.parseDouble(String.valueOf(railingHeightValue.getText()));
-        if (!TextUtils.isEmpty(railingObsValue.getText()))
-            railingObs = String.valueOf(railingObsValue.getText());
-        if (hasRailing == 1 || hasRailing == 0) {
-            hasBeacon = getCheckedRailingRadio(hasBeaconRadio);
-            if (hasBeacon == 1)
-                beaconHeight = Double.parseDouble(String.valueOf(beaconHeightValue.getText()));
-        }
-        if (!TextUtils.isEmpty(beaconObsValue.getText()))
-            beaconObs = String.valueOf(beaconObsValue.getText());
-
-        return new RampStairsRailingEntry(bundle.getInt(FLIGHT_ID), railSide, hasRailing, railingHeight,
-                railingObs, hasBeacon, beaconHeight, beaconObs);
-    }
-
 }

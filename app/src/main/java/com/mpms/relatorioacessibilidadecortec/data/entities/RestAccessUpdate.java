@@ -21,11 +21,12 @@ public class RestAccessUpdate {
     private Integer hasTowelHold;
     private Double towelHoldHeight;
     private String towelHoldObs;
+    private String restAccessPhoto;
 
 
     public RestAccessUpdate(int restroomID, Integer hasHanger, Double hangerHeight, String hangerObs, Integer hasObjHold, Integer objHoldCorrect,
                             Double objHoldHeight, String objHoldObs, Integer hasSoapHold, Double soapHoldHeight, String soapHoldObs, Integer hasTowelHold,
-                            Double towelHoldHeight, String towelHoldObs) {
+                            Double towelHoldHeight, String towelHoldObs, String restAccessPhoto) {
         this.restroomID = restroomID;
         this.hasHanger = hasHanger;
         this.hangerHeight = hangerHeight;
@@ -40,6 +41,7 @@ public class RestAccessUpdate {
         this.hasTowelHold = hasTowelHold;
         this.towelHoldHeight = towelHoldHeight;
         this.towelHoldObs = towelHoldObs;
+        this.restAccessPhoto = restAccessPhoto;
     }
 
     public int getRestroomID() {
@@ -152,5 +154,13 @@ public class RestAccessUpdate {
 
     public void setTowelHoldObs(String towelHoldObs) {
         this.towelHoldObs = towelHoldObs;
+    }
+
+    public String getRestAccessPhoto() {
+        return restAccessPhoto;
+    }
+
+    public void setRestAccessPhoto(String restAccessPhoto) {
+        this.restAccessPhoto = restAccessPhoto;
     }
 }

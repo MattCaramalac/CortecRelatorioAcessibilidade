@@ -25,9 +25,9 @@ import java.util.Objects;
 public class CounterFragment extends Fragment implements TagInterface, ScrollEditText {
 
     TextInputLayout counterLocationField, counterSupHeightField, counterInfHeightField, counterFrontApproxField, counterObsField,
-            counterWidthField, counterFreeWidthField;
+            counterWidthField, counterFreeWidthField, photoField;
     TextInputEditText counterLocationValue, counterSupHeightValue, counterInfHeightValue, counterFrontApproxValue, counterObsValue,
-            counterWidthValue, counterFreeWidthValue;
+            counterWidthValue, counterFreeWidthValue, photoValue;
     MaterialButton saveCounter, cancelCounter;
 
     Bundle counterBundle;
@@ -99,6 +99,7 @@ public class CounterFragment extends Fragment implements TagInterface, ScrollEdi
         counterObsField = view.findViewById(R.id.counter_obs_field);
         counterWidthField = view.findViewById(R.id.counter_width_field);
         counterFreeWidthField = view.findViewById(R.id.counter_fs_width_field);
+        photoField = view.findViewById(R.id.counter_photo_field);
 //        TextInputEditText
         counterLocationValue = view.findViewById(R.id.counter_ref_location_value);
         counterSupHeightValue = view.findViewById(R.id.counter_upper_edge_value);
@@ -107,6 +108,7 @@ public class CounterFragment extends Fragment implements TagInterface, ScrollEdi
         counterObsValue = view.findViewById(R.id.counter_obs_value);
         counterWidthValue = view.findViewById(R.id.counter_width_value);
         counterFreeWidthValue = view.findViewById(R.id.counter_fs_width_value);
+        photoValue = view.findViewById(R.id.counter_photo_value);
 //        MaterialButton
         saveCounter = view.findViewById(R.id.save_counter_button);
         cancelCounter = view.findViewById(R.id.cancel_counter_button);
@@ -126,6 +128,8 @@ public class CounterFragment extends Fragment implements TagInterface, ScrollEdi
         counterFrontApproxValue.setText(String.valueOf(counter.getCounterFrontalApprox()));
         if (counter.getCounterObs() != null)
             counterObsValue.setText(counter.getCounterObs());
+        if (counter.getCounterPhoto() != null)
+            photoValue.setText(counter.getCounterPhoto());
     }
 
     public boolean checkEmptyCounterFields() {
@@ -175,10 +179,11 @@ public class CounterFragment extends Fragment implements TagInterface, ScrollEdi
         counterWidthValue.setText(null);
         counterFreeWidthValue.setText(null);
         counterObsValue.setText(null);
+        photoValue.setText(null);
     }
 
     public CounterEntry newCounter(Bundle bundle) {
-        String counterLocale, counterObs = null;
+        String counterLocale, counterObs = null, photo = null;
         double counterSupHeight, counterInfHeight, counterFrontApprox, counterWidth, counterFreeWidth;
 
         counterLocale = String.valueOf(counterLocationValue.getText());
@@ -189,7 +194,10 @@ public class CounterFragment extends Fragment implements TagInterface, ScrollEdi
         counterFrontApprox = Double.parseDouble(Objects.requireNonNull(counterFrontApproxValue.getText()).toString());
         if (!TextUtils.isEmpty(counterObsValue.getText()))
             counterObs = Objects.requireNonNull(counterLocationValue.getText()).toString();
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = Objects.requireNonNull(photoValue.getText()).toString();
 
-        return new CounterEntry(bundle.getInt(AMBIENT_ID), counterLocale, counterSupHeight, counterInfHeight, counterFrontApprox, counterObs, counterWidth, counterFreeWidth);
+        return new CounterEntry(bundle.getInt(AMBIENT_ID), counterLocale, counterSupHeight, counterInfHeight, counterFrontApprox, counterObs, counterWidth,
+                counterFreeWidth, photo);
     }
 }

@@ -35,6 +35,7 @@ public class SinkParcel {
     Double sinkMirrorHigh;
     String sinkObs;
     Integer hasLowerSink;
+    String sinkPhoto;
 
     public SinkParcel() {
 //        Empty Constructor
@@ -45,7 +46,7 @@ public class SinkParcel {
                       Double leftFrontHorMeasureD, Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs, Integer hasRightSideVertBar,
                       Double rightSideVertMeasureA, Double rightSideVertMeasureB, Double rightSideVertMeasureC, Double rightSideVertMeasureD, Double rightSideVertMeasureE,
                       Double rightSideVertDiam, Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh,
-                      String sinkObs, Integer hasLowerSink) {
+                      String sinkObs, Integer hasLowerSink, String sinkPhoto) {
         this.sinkType = sinkType;
         this.approxMeasureA = approxMeasureA;
         this.approxMeasureB = approxMeasureB;
@@ -76,6 +77,7 @@ public class SinkParcel {
         this.sinkMirrorHigh = sinkMirrorHigh;
         this.sinkObs = sinkObs;
         this.hasLowerSink = hasLowerSink;
+        this.sinkPhoto = sinkPhoto;
     }
 
     public Integer getSinkType() {
@@ -316,5 +318,13 @@ public class SinkParcel {
 
     public void setHasLowerSink(Integer hasLowerSink) {
         this.hasLowerSink = hasLowerSink;
+    }
+
+    public String getSinkPhoto() {
+        return sinkPhoto;
+    }
+
+    public void setSinkPhoto(String sinkPhoto) {
+        this.sinkPhoto = sinkPhoto;
     }
 }

@@ -22,12 +22,13 @@ import com.mpms.relatorioacessibilidadecortec.data.parcels.CommonBoxParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestCommonBoxFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestUpViewFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
-public class RestBoxFragment extends Fragment implements TagInterface {
+public class RestBoxFragment extends Fragment implements TagInterface, RadioGroupInterface {
 
     RadioGroup boxTypeRadio;
     TextView boxTypeError;
@@ -82,13 +83,13 @@ public class RestBoxFragment extends Fragment implements TagInterface {
                     modelEntry.getLastBoxEntry().observe(this, box -> {
                         if (isRecent) {
                             boxBundle.putInt(BOX_ID, box.getBoxID());
-                            callNextFrag(getCheckedBoxRadio(boxTypeRadio));
+                            callNextFrag(indexRadio(boxTypeRadio));
                         }
                     });
                 } else if (bundle.getInt(BOX_ID) > 0) {
                     RestBoxFirstUpdate update = firstUpBox(bundle);
                     ViewModelEntry.updateBoxFirstData(update);
-                    callNextFrag(getCheckedBoxRadio(boxTypeRadio));
+                    callNextFrag(indexRadio(boxTypeRadio));
                 }
             } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
@@ -119,7 +120,7 @@ public class RestBoxFragment extends Fragment implements TagInterface {
         saveContinue = view.findViewById(R.id.save_continue_box);
         cancelRegister = view.findViewById(R.id.cancel_box);
 //        Listeners
-        boxTypeRadio.setOnCheckedChangeListener(this::boxRadioListener);
+        boxTypeRadio.setOnCheckedChangeListener(this::radioListener);
         saveContinue.setOnClickListener(this::buttonClick);
         cancelRegister.setOnClickListener(this::buttonClick);
 //        ViewModel
@@ -130,11 +131,11 @@ public class RestBoxFragment extends Fragment implements TagInterface {
         int boxType;
         Integer comHasBar = null, comLeftBarType = null, comRightBarType = null, accBoxDrain = null;
         Double comDoorWidth = null, comBoxDiam = null, comDoorDist = null, comBoxWidth = null, leftShapeA = null, leftShapeB = null, leftShapeC = null, leftShapeD = null,
-                leftShapeDiam = null, leftShapeDist = null,  rightShapeA = null, rightShapeB = null, rightShapeC = null, rightShapeD = null, rightShapeDiam = null,
+                leftShapeDiam = null, leftShapeDist = null, rightShapeA = null, rightShapeB = null, rightShapeC = null, rightShapeD = null, rightShapeDiam = null,
                 rightShapeDist = null, upLength = null, upWidth = null, upA = null, upB = null, upC = null, upD = null;
-        String comBoxObs = null, leftBarObs = null, rightBarObs = null, upViewObs = null, accBoxDrainObs = null;
+        String comBoxObs = null, leftBarObs = null, rightBarObs = null, upViewObs = null, accBoxDrainObs = null, upPhoto = null;
 
-        boxType = getCheckedBoxRadio(boxTypeRadio);
+        boxType = indexRadio(boxTypeRadio);
         if (boxType == 0) {
             CommonBoxParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
             comDoorWidth = parcel.getDoorWidth();
@@ -173,6 +174,7 @@ public class RestBoxFragment extends Fragment implements TagInterface {
                 }
             }
             comBoxObs = parcel.getBoxObs();
+            upPhoto = parcel.getBoxPhoto();
         } else {
             BoxUpViewParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
             upLength = parcel.getUpViewLength();
@@ -188,23 +190,26 @@ public class RestBoxFragment extends Fragment implements TagInterface {
             accBoxDrain = parcel.getRestDrain();
             if (parcel.getRestDrainObs() != null)
                 accBoxDrainObs = parcel.getRestDrainObs();
+            if (parcel.getUpPhoto() != null)
+                upPhoto = parcel.getUpPhoto();
         }
         return new RestBoxEntry(boxBundle.getInt(REST_ID), boxType, comDoorWidth, comBoxDiam, comHasBar, comDoorDist, comBoxWidth, comLeftBarType, leftShapeA,
                 leftShapeB, leftShapeC, leftShapeD, leftShapeDiam, leftShapeDist, leftBarObs, comRightBarType, rightShapeA, rightShapeB, rightShapeC, rightShapeD,
-                rightShapeDiam, rightShapeDist, rightBarObs, comBoxObs,upLength, upWidth, upA, upB, upC, upD, upViewObs, accBoxDrain, accBoxDrainObs,
+                rightShapeDiam, rightShapeDist, rightBarObs, comBoxObs, upLength, upWidth, upA, upB, upC, upD, upViewObs, accBoxDrain, accBoxDrainObs,
                 null, null, null, null,
                 null, null, null, null, null, null, null, null, null, null,
-                null, null,null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
-                null,null, null, null, null, null, null, null,
-                null, null,null, null, null, null, null, null, null,
-                null, null, null,null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, upPhoto, null, null, null,
+                null);
     }
 
     private RestBoxFirstUpdate firstUpBox(Bundle bundle) {
@@ -212,10 +217,10 @@ public class RestBoxFragment extends Fragment implements TagInterface {
         Integer comHasBar = null, comLeftBarType = null, comRightBarType = null, accBoxDrain = null;
         Double comDoorWidth = null, comBoxDiam = null, comDoorDist = null, comBoxWidth = null, leftShapeA = null, leftShapeB = null, leftShapeC = null, leftShapeD = null,
                 leftShapeDiam = null, leftShapeDist = null, rightShapeA = null, rightShapeB = null, rightShapeC = null, rightShapeD = null, rightShapeDiam = null,
-                rightShapeDist = null,  upLength = null, upWidth = null, upA = null, upB = null, upC = null, upD = null;
-        String comBoxObs = null, leftBarObs = null, rightBarObs = null, upViewObs = null, accBoxDrainObs = null;
+                rightShapeDist = null, upLength = null, upWidth = null, upA = null, upB = null, upC = null, upD = null;
+        String comBoxObs = null, leftBarObs = null, rightBarObs = null, upViewObs = null, accBoxDrainObs = null, photo = null;
 
-        boxType = getCheckedBoxRadio(boxTypeRadio);
+        boxType = indexRadio(boxTypeRadio);
         if (boxType == 0) {
             CommonBoxParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
             comDoorWidth = parcel.getDoorWidth();
@@ -254,6 +259,7 @@ public class RestBoxFragment extends Fragment implements TagInterface {
                 }
             }
             comBoxObs = parcel.getBoxObs();
+            photo = parcel.getBoxPhoto();
         } else {
             BoxUpViewParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
             upLength = parcel.getUpViewLength();
@@ -269,28 +275,15 @@ public class RestBoxFragment extends Fragment implements TagInterface {
             accBoxDrain = parcel.getRestDrain();
             if (parcel.getRestDrainObs() != null)
                 accBoxDrainObs = parcel.getRestDrainObs();
+            if (parcel.getUpPhoto() != null)
+                photo = parcel.getUpPhoto();
         }
 
         return new RestBoxFirstUpdate(boxBundle.getInt(BOX_ID), boxType, comDoorWidth, comBoxDiam, comHasBar, comDoorDist, comBoxWidth, comLeftBarType, leftShapeA,
                 leftShapeB, leftShapeC, leftShapeD, leftShapeDiam, leftShapeDist, leftBarObs, comRightBarType, rightShapeA, rightShapeB, rightShapeC, rightShapeD,
-                rightShapeDiam, rightShapeDist,  rightBarObs, comBoxObs, upLength, upWidth, upA, upB, upC, upD, upViewObs, accBoxDrain, accBoxDrainObs);
+                rightShapeDiam, rightShapeDist, rightBarObs, comBoxObs, upLength, upWidth, upA, upB, upC, upD, upViewObs, accBoxDrain, accBoxDrainObs, photo);
     }
 
-    private int getCheckedBoxRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
-    private void boxRadioListener(RadioGroup radio, int checkedID) {
-        int index = getCheckedBoxRadio(radio);
-
-        Fragment fragment;
-        if (index == 0)
-            fragment = new RestCommonBoxFragment();
-        else
-            fragment = new RestUpViewFragment();
-        fragment.setArguments(boxBundle);
-        getChildFragmentManager().beginTransaction().replace(R.id.box_type_fragment, fragment).addToBackStack(null).commit();
-    }
 
     private void loadBoxData(RestBoxEntry entry) {
         boxTypeRadio.check(boxTypeRadio.getChildAt(entry.getTypeBox()).getId());
@@ -298,7 +291,7 @@ public class RestBoxFragment extends Fragment implements TagInterface {
 
     private boolean checkEmptyBoxField() {
         boxTypeError.setVisibility(View.GONE);
-        if (getCheckedBoxRadio(boxTypeRadio) == -1) {
+        if (indexRadio(boxTypeRadio) == -1) {
             boxTypeError.setVisibility(View.VISIBLE);
             return false;
         }
@@ -310,5 +303,19 @@ public class RestBoxFragment extends Fragment implements TagInterface {
             getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, boxBundle);
         else if (view == cancelRegister)
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int index = indexRadio(radio);
+
+        Fragment fragment;
+        if (index == 0)
+            fragment = new RestCommonBoxFragment();
+        else
+            fragment = new RestUpViewFragment();
+        fragment.setArguments(boxBundle);
+        getChildFragmentManager().beginTransaction().replace(R.id.box_type_fragment, fragment).addToBackStack(null).commit();
+
     }
 }

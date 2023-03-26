@@ -18,13 +18,23 @@ public class SwitchEntry {
     private String switchType;
     private Double switchHeight;
     private String switchObs;
+    private String switchPhoto;
 
-    public SwitchEntry(int roomID, String switchLocation, String switchType, Double switchHeight, String switchObs) {
+    public SwitchEntry(int roomID, String switchLocation, String switchType, Double switchHeight, String switchObs, String switchPhoto) {
         this.roomID = roomID;
         this.switchLocation = switchLocation;
         this.switchType = switchType;
         this.switchHeight = switchHeight;
         this.switchObs = switchObs;
+        this.switchPhoto = switchPhoto;
+    }
+
+    public String getSwitchPhoto() {
+        return switchPhoto;
+    }
+
+    public void setSwitchPhoto(String switchPhoto) {
+        this.switchPhoto = switchPhoto;
     }
 
     public int getSwitchID() {

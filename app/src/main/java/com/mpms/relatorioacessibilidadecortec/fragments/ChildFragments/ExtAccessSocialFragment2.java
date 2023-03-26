@@ -27,6 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.GateObsLi
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.PayPhoneListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
@@ -35,7 +36,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, ScrollEditText {
+public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     RadioGroup hasObstaclesRadio, hasPayphoneRadio, hasIntercomRadio, hasStairsRadio, hasRampsRadio;
     MultiLineRadioGroup sillTypeRadio;
@@ -130,17 +131,8 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-//        if (socialTwoBundle.getInt(AMBIENT_ID) > 0 ) //&& !socialTwoBundle.getBoolean(RECENT_ENTRY)
-//            modelEntry.getOneExternalAccess(socialTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSocialData2);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-
         buttonPressed = 0;
     }
 
@@ -180,11 +172,11 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
 //        FrameLayout
         sillFragment = v.findViewById(R.id.ext_access_sill_fragment);
 //        Listeners
-        hasObstaclesRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
-        hasPayphoneRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
-        hasIntercomRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
-        hasRampsRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
-        hasStairsRadio.setOnCheckedChangeListener(this::extAccessRadioListener);
+        hasObstaclesRadio.setOnCheckedChangeListener(this::radioListener);
+        hasPayphoneRadio.setOnCheckedChangeListener(this::radioListener);
+        hasIntercomRadio.setOnCheckedChangeListener(this::radioListener);
+        hasRampsRadio.setOnCheckedChangeListener(this::radioListener);
+        hasStairsRadio.setOnCheckedChangeListener(this::radioListener);
         addObstaclesButton.setOnClickListener(this::addButtonClicked);
         addPayphoneButton.setOnClickListener(this::addButtonClicked);
         addRamps.setOnClickListener(this::addButtonClicked);
@@ -222,38 +214,6 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.ext_access_sill_fragment);
         if (fragment != null)
             getChildFragmentManager().beginTransaction().remove(fragment).commit();
-    }
-
-    private void extAccessRadioListener(RadioGroup radio, int checkedID) {
-        int index = radio.indexOfChild(radio.findViewById(checkedID));
-        if (radio == hasObstaclesRadio) {
-            if (index == 1)
-                addObstaclesButton.setVisibility(View.VISIBLE);
-            else
-                addObstaclesButton.setVisibility(View.GONE);
-        } else if (radio == hasPayphoneRadio) {
-            if (index == 1)
-                addPayphoneButton.setVisibility(View.VISIBLE);
-            else
-                addPayphoneButton.setVisibility(View.GONE);
-        } else if (radio == hasIntercomRadio) {
-            if (index == 1)
-                intercomHeightField.setVisibility(View.VISIBLE);
-            else {
-                intercomHeightValue.setText(null);
-                intercomHeightField.setVisibility(View.GONE);
-            }
-        } else if (radio == hasRampsRadio) {
-            if (index == 1)
-                addRamps.setVisibility(View.VISIBLE);
-            else
-                addRamps.setVisibility(View.GONE);
-        } else if (radio == hasStairsRadio) {
-            if (index == 1)
-                addStairs.setVisibility(View.VISIBLE);
-            else
-                addStairs.setVisibility(View.GONE);
-        }
     }
 
     private void addButtonClicked(View view) {
@@ -316,28 +276,24 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
         if (access.getGateSillObs() != null)
             sillObsValue.setText(access.getGateSillObs());
         if (access.getGateHasObstacles() != null)
-            hasObstaclesRadio.check(hasObstaclesRadio.getChildAt(access.getGateHasObstacles()).getId());
+            checkRadioGroup(hasObstaclesRadio, access.getGateHasObstacles());
         if (access.getGateHasPayphones() != null)
-            hasPayphoneRadio.check(hasPayphoneRadio.getChildAt(access.getGateHasPayphones()).getId());
+            checkRadioGroup(hasPayphoneRadio, access.getGateHasPayphones());
         if (access.getGateHasIntercom() != null) {
-            hasIntercomRadio.check(hasIntercomRadio.getChildAt(access.getGateHasIntercom()).getId());
+            checkRadioGroup(hasIntercomRadio, access.getGateHasIntercom());
             if (access.getGateHasIntercom() == 1)
                 if (access.getIntercomHeight() != null)
                     intercomHeightValue.setText(String.valueOf(access.getIntercomHeight()));
         }
         if (access.getGateHasStairs() != null)
-            hasStairsRadio.check(hasStairsRadio.getChildAt(access.getGateHasStairs()).getId());
+            checkRadioGroup(hasStairsRadio, access.getGateHasStairs());
         if (access.getGateHasRamps() != null)
-            hasRampsRadio.check(hasRampsRadio.getChildAt(access.getGateHasRamps()).getId());
+            checkRadioGroup(hasRampsRadio, access.getGateHasRamps());
         if (access.getExtAccessObs() != null)
             accessObsValue.setText(access.getExtAccessObs());
-        if (access.getExtAccPhotos() != null)
-            photosValue.setText(access.getExtAccPhotos());
+        if (access.getExtAccPhotos3() != null)
+            photosValue.setText(access.getExtAccPhotos3());
 
-    }
-
-    private int getCheckedRadioIndex(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
     private boolean checkSocialThreeNoEmptyField() {
@@ -346,28 +302,28 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
             i++;
             sillTypeError.setVisibility(View.VISIBLE);
         }
-        if (getCheckedRadioIndex(hasObstaclesRadio) == -1) {
+        if (indexRadio(hasObstaclesRadio) == -1) {
             i++;
             obstaclesError.setVisibility(View.VISIBLE);
         }
-        if (getCheckedRadioIndex(hasPayphoneRadio) == -1) {
+        if (indexRadio(hasPayphoneRadio) == -1) {
             i++;
             payphoneError.setVisibility(View.VISIBLE);
         }
-        if (getCheckedRadioIndex(hasIntercomRadio) == -1) {
+        if (indexRadio(hasIntercomRadio) == -1) {
             i++;
             intercomError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadioIndex(hasIntercomRadio) == 1) {
+        } else if (indexRadio(hasIntercomRadio) == 1) {
             if (TextUtils.isEmpty(intercomHeightValue.getText())) {
                 i++;
                 intercomHeightField.setError(getString(R.string.req_field_error));
             }
         }
-        if (getCheckedRadioIndex(hasRampsRadio) == -1) {
+        if (indexRadio(hasRampsRadio) == -1) {
             i++;
             rampError.setVisibility(View.VISIBLE);
         }
-        if (getCheckedRadioIndex(hasStairsRadio) == -1) {
+        if (indexRadio(hasStairsRadio) == -1) {
             i++;
             stairsError.setVisibility(View.VISIBLE);
         }
@@ -419,22 +375,22 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
         }
         if (!TextUtils.isEmpty(sillObsValue.getText()))
             sillObs = String.valueOf(sillObsValue.getText());
-        if (getCheckedRadioIndex(hasObstaclesRadio) > -1)
-            hasObstacles = getCheckedRadioIndex(hasObstaclesRadio);
-        if (getCheckedRadioIndex(hasPayphoneRadio) > -1)
-            hasPayphones = getCheckedRadioIndex(hasPayphoneRadio);
-        if (getCheckedRadioIndex(hasIntercomRadio) > -1) {
-            hasIntercom = getCheckedRadioIndex(hasIntercomRadio);
+        if (indexRadio(hasObstaclesRadio) > -1)
+            hasObstacles = indexRadio(hasObstaclesRadio);
+        if (indexRadio(hasPayphoneRadio) > -1)
+            hasPayphones = indexRadio(hasPayphoneRadio);
+        if (indexRadio(hasIntercomRadio) > -1) {
+            hasIntercom = indexRadio(hasIntercomRadio);
             if (hasIntercom == 1) {
                 if (!TextUtils.isEmpty(intercomHeightValue.getText()))
                     intercomHeight = Double.parseDouble(String.valueOf(intercomHeightValue.getText()));
             }
             if (!TextUtils.isEmpty(accessObsValue.getText()))
                 extAccess = String.valueOf(accessObsValue.getText());
-            if (getCheckedRadioIndex(hasStairsRadio) > -1)
-                hasStairs = getCheckedRadioIndex(hasStairsRadio);
-            if (getCheckedRadioIndex(hasRampsRadio) > -1)
-                hasRamp = getCheckedRadioIndex(hasRampsRadio);
+            if (indexRadio(hasStairsRadio) > -1)
+                hasStairs = indexRadio(hasStairsRadio);
+            if (indexRadio(hasRampsRadio) > -1)
+                hasRamp = indexRadio(hasRampsRadio);
         }
 
         if (!TextUtils.isEmpty(photosValue.getText()))
@@ -451,5 +407,38 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
         bundle.putInt(AMBIENT_ID, socialTwoBundle.getInt(AMBIENT_ID));
         bundle.putBoolean(RECENT_ENTRY, socialTwoBundle.getBoolean(RECENT_ENTRY));
         return bundle;
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int index = indexRadio(radio);
+        if (radio == hasObstaclesRadio) {
+            if (index == 1)
+                addObstaclesButton.setVisibility(View.VISIBLE);
+            else
+                addObstaclesButton.setVisibility(View.GONE);
+        } else if (radio == hasPayphoneRadio) {
+            if (index == 1)
+                addPayphoneButton.setVisibility(View.VISIBLE);
+            else
+                addPayphoneButton.setVisibility(View.GONE);
+        } else if (radio == hasIntercomRadio) {
+            if (index == 1)
+                intercomHeightField.setVisibility(View.VISIBLE);
+            else {
+                intercomHeightValue.setText(null);
+                intercomHeightField.setVisibility(View.GONE);
+            }
+        } else if (radio == hasRampsRadio) {
+            if (index == 1)
+                addRamps.setVisibility(View.VISIBLE);
+            else
+                addRamps.setVisibility(View.GONE);
+        } else if (radio == hasStairsRadio) {
+            if (index == 1)
+                addStairs.setVisibility(View.VISIBLE);
+            else
+                addStairs.setVisibility(View.GONE);
+        }
     }
 }

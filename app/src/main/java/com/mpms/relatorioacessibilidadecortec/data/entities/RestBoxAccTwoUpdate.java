@@ -19,9 +19,11 @@ public class RestBoxAccTwoUpdate {
     private Double wallMirrorLow;
     private Double wallMirrorHigh;
     private String wallMirrorObs;
+    private String boxAccessPhoto2;
 
     public RestBoxAccTwoUpdate(int boxID, Integer hasEmergencyButton, Double emergencyHeight, String emergencyObs, Integer hasWaterValve, Integer waterValveType,
-                               Double waterValveHeight, String waterValveObs, Integer hasWallMirror, Double wallMirrorLow, Double wallMirrorHigh, String wallMirrorObs) {
+                               Double waterValveHeight, String waterValveObs, Integer hasWallMirror, Double wallMirrorLow, Double wallMirrorHigh, String wallMirrorObs,
+                               String boxAccessPhoto2) {
         this.boxID = boxID;
         this.hasEmergencyButton = hasEmergencyButton;
         this.emergencyHeight = emergencyHeight;
@@ -34,6 +36,7 @@ public class RestBoxAccTwoUpdate {
         this.wallMirrorLow = wallMirrorLow;
         this.wallMirrorHigh = wallMirrorHigh;
         this.wallMirrorObs = wallMirrorObs;
+        this.boxAccessPhoto2 = boxAccessPhoto2;
     }
 
     public int getBoxID() {
@@ -130,5 +133,13 @@ public class RestBoxAccTwoUpdate {
 
     public void setWallMirrorObs(String wallMirrorObs) {
         this.wallMirrorObs = wallMirrorObs;
+    }
+
+    public String getBoxAccessPhoto2() {
+        return boxAccessPhoto2;
+    }
+
+    public void setBoxAccessPhoto2(String boxAccessPhoto2) {
+        this.boxAccessPhoto2 = boxAccessPhoto2;
     }
 }

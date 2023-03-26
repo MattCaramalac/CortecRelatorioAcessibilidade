@@ -21,9 +21,10 @@ public class CounterEntry {
     private String counterObs;
     private Double counterWidth;
     private Double counterFreeWidth;
+    private String counterPhoto;
 
     public CounterEntry(int roomID, String counterLocation, double counterUpperEdge, double counterLowerEdge, double counterFrontalApprox, String counterObs,
-                        double counterWidth, double counterFreeWidth) {
+                        double counterWidth, double counterFreeWidth, String counterPhoto) {
         this.roomID = roomID;
         this.counterLocation = counterLocation;
         this.counterUpperEdge = counterUpperEdge;
@@ -32,6 +33,15 @@ public class CounterEntry {
         this.counterObs = counterObs;
         this.counterWidth = counterWidth;
         this.counterFreeWidth = counterFreeWidth;
+        this.counterPhoto = counterPhoto;
+    }
+
+    public String getCounterPhoto() {
+        return counterPhoto;
+    }
+
+    public void setCounterPhoto(String counterPhoto) {
+        this.counterPhoto = counterPhoto;
     }
 
     public int getCounterID() {

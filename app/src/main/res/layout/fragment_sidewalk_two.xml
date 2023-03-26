@@ -502,7 +502,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/sidewalk_obs_field"
+                android:id="@+id/sidewalk_obs_field_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
@@ -511,7 +511,7 @@
                 android:hint="@string/hint_obs">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/sidewalk_obs_value"
+                    android:id="@+id/sidewalk_obs_value_2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine"
@@ -521,6 +521,22 @@
                     android:gravity="start"
                     android:scrollHorizontally="false"
                     android:lines="@integer/multiline_obs_field"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/sidewalk_photo_field_2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_photo_field"
+                app:layout_constraintTop_toBottomOf="@id/sidewalk_obs_field_2"
+                android:layout_marginTop="@dimen/usual_padding">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sidewalk_photo_value_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

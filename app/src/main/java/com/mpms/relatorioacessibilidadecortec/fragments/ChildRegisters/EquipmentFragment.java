@@ -24,8 +24,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class EquipmentFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout equipTypeField, equipLocalField, equipHeightField, equipObsField;
-    TextInputEditText equipTypeValue, equipLocalValue, equipHeightValue, equipObsValue;
+    TextInputLayout equipTypeField, equipLocalField, equipHeightField, equipObsField, photoField;
+    TextInputEditText equipTypeValue, equipLocalValue, equipHeightValue, equipObsValue, photoValue;
     MaterialButton saveEquip, cancelEquip;
 
     ViewModelEntry modelEntry;
@@ -73,11 +73,13 @@ public class EquipmentFragment extends Fragment implements TagInterface, ScrollE
         equipLocalField = v.findViewById(R.id.equip_locale_field);
         equipHeightField = v.findViewById(R.id.equip_height_field);
         equipObsField = v.findViewById(R.id.equip_obs_field);
+        photoField = v.findViewById(R.id.equip_photo_field);
 //        TextInputEditText
         equipTypeValue = v.findViewById(R.id.equip_name_value);
         equipLocalValue = v.findViewById(R.id.equip_locale_value);
         equipHeightValue = v.findViewById(R.id.equip_height_value);
         equipObsValue = v.findViewById(R.id.equip_obs_value);
+        photoValue = v.findViewById(R.id.equip_photo_value);
 //        MaterialButton
         saveEquip = v.findViewById(R.id.save_equip);
         saveEquip.setOnClickListener(this::buttonClick);
@@ -98,6 +100,8 @@ public class EquipmentFragment extends Fragment implements TagInterface, ScrollE
         equipHeightValue.setText(String.valueOf(equip.getEquipHeight()));
         if (equip.getEquipObs() != null)
             equipObsValue.setText(equip.getEquipObs());
+        if (equip.getEquipPhoto() != null)
+            photoValue.setText(equip.getEquipPhoto());
     }
 
     private void buttonClick(View view) {
@@ -129,10 +133,11 @@ public class EquipmentFragment extends Fragment implements TagInterface, ScrollE
         equipLocalValue.setText(null);
         equipHeightValue.setText(null);
         equipObsValue.setText(null);
+        photoValue.setText(null);
     }
 
     private EquipmentEntry newEquip(Bundle bundle) {
-        String eType, eLocal = null, eObs = null;
+        String eType, eLocal = null, eObs = null, photo = null;
         double eHeight;
 
         eType = String.valueOf(equipTypeValue.getText());
@@ -141,8 +146,10 @@ public class EquipmentFragment extends Fragment implements TagInterface, ScrollE
         eHeight = Double.parseDouble(String.valueOf(equipHeightValue.getText()));
         if (!TextUtils.isEmpty(equipObsValue.getText()))
             eObs = String.valueOf(equipObsValue.getText());
+        if (photoValue.getText() != null)
+            photo = String.valueOf(photoValue.getText());
 
-        return new EquipmentEntry(bundle.getInt(AMBIENT_ID), eType, eLocal, eHeight, eObs);
+        return new EquipmentEntry(bundle.getInt(AMBIENT_ID), eType, eLocal, eHeight, eObs, photo);
     }
 
     private boolean checkEmptyFields() {

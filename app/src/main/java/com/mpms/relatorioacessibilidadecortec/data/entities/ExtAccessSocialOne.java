@@ -14,14 +14,17 @@ public class ExtAccessSocialOne {
     private Integer entranceType;
     private Integer floorIsAccessible;
     private String accessibleFloorObs;
+    private String extAccPhotos;
 
-    public ExtAccessSocialOne(int externalAccessID, int blockID, String accessLocation, Integer entranceType, Integer floorIsAccessible, String accessibleFloorObs) {
+    public ExtAccessSocialOne(int externalAccessID, int blockID, String accessLocation, Integer entranceType, Integer floorIsAccessible, String accessibleFloorObs,
+                              String extAccPhotos) {
         this.externalAccessID = externalAccessID;
         this.blockID = blockID;
         this.accessLocation = accessLocation;
         this.entranceType = entranceType;
         this.floorIsAccessible = floorIsAccessible;
         this.accessibleFloorObs = accessibleFloorObs;
+        this.extAccPhotos = extAccPhotos;
     }
 
     public int getExternalAccessID() {
@@ -70,5 +73,13 @@ public class ExtAccessSocialOne {
 
     public void setAccessibleFloorObs(String accessibleFloorObs) {
         this.accessibleFloorObs = accessibleFloorObs;
+    }
+
+    public String getExtAccPhotos() {
+        return extAccPhotos;
+    }
+
+    public void setExtAccPhotos(String extAccPhotos) {
+        this.extAccPhotos = extAccPhotos;
     }
 }

@@ -175,6 +175,14 @@ public class RestroomEntry {
     private Double urMeasureM;
     private String urObs;
 
+    private String restFirstPhoto;
+    private String restUpperPhoto;
+    private String restToiletPhoto;
+    private String restAccessPhoto;
+    private String restAccessPhoto2;
+    private String restSinkPhoto;
+    private String restUrinalPhoto;
+
 
     public RestroomEntry(int blockID, int restType, Integer restGender, String restLocation, Integer collectiveHasDoor, Double entranceWidth, Integer entranceDoorSill,
                          String entranceDoorSillObs, Integer accessRoute, String accessRouteObs, Integer intRestroom, String intRestObs, Integer antiDriftFloor,
@@ -199,7 +207,8 @@ public class RestroomEntry {
                          Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow, Double sinkMirrorHigh, String sinkObs, Integer hasUrinal,
                          Integer hasAccessUrinal, Integer urinalType, Double urMeasureA, Double urMeasureB, Double urMeasureC, Double urMeasureD, Double urMeasureE,
                          Double urMeasureF, Double urMeasureG, Double urMeasureH, Double urMeasureI, Double urMeasureJ, Double urMeasureK, Double urMeasureL, Double urMeasureM,
-                         String urObs, Integer hasSink, Integer hasLowerSink, Integer hasChildToilet) {
+                         String urObs, Integer hasSink, Integer hasLowerSink, Integer hasChildToilet, String restFirstPhoto, String restUpperPhoto, String restToiletPhoto,
+                         String restAccessPhoto, String restAccessPhoto2, String restSinkPhoto, String restUrinalPhoto) {
         this.blockID = blockID;
         this.restType = restType;
         this.restGender = restGender;
@@ -361,6 +370,69 @@ public class RestroomEntry {
         this.hasSink = hasSink;
         this.hasLowerSink = hasLowerSink;
         this.hasChildToilet = hasChildToilet;
+        this.restFirstPhoto = restFirstPhoto;
+        this.restUpperPhoto = restUpperPhoto;
+        this.restToiletPhoto = restToiletPhoto;
+        this.restAccessPhoto = restAccessPhoto;
+        this.restAccessPhoto2 = restAccessPhoto2;
+        this.restSinkPhoto = restSinkPhoto;
+        this.restUrinalPhoto = restUrinalPhoto;
+    }
+
+    public String getRestUpperPhoto() {
+        return restUpperPhoto;
+    }
+
+    public void setRestUpperPhoto(String restUpperPhoto) {
+        this.restUpperPhoto = restUpperPhoto;
+    }
+
+    public String getRestToiletPhoto() {
+        return restToiletPhoto;
+    }
+
+    public void setRestToiletPhoto(String restToiletPhoto) {
+        this.restToiletPhoto = restToiletPhoto;
+    }
+
+    public String getRestAccessPhoto() {
+        return restAccessPhoto;
+    }
+
+    public void setRestAccessPhoto(String restAccessPhoto) {
+        this.restAccessPhoto = restAccessPhoto;
+    }
+
+    public String getRestAccessPhoto2() {
+        return restAccessPhoto2;
+    }
+
+    public void setRestAccessPhoto2(String restAccessPhoto2) {
+        this.restAccessPhoto2 = restAccessPhoto2;
+    }
+
+    public String getRestSinkPhoto() {
+        return restSinkPhoto;
+    }
+
+    public void setRestSinkPhoto(String restSinkPhoto) {
+        this.restSinkPhoto = restSinkPhoto;
+    }
+
+    public String getRestUrinalPhoto() {
+        return restUrinalPhoto;
+    }
+
+    public void setRestUrinalPhoto(String restUrinalPhoto) {
+        this.restUrinalPhoto = restUrinalPhoto;
+    }
+
+    public String getRestFirstPhoto() {
+        return restFirstPhoto;
+    }
+
+    public void setRestFirstPhoto(String restFirstPhoto) {
+        this.restFirstPhoto = restFirstPhoto;
     }
 
     public Integer getHasChildToilet() {

@@ -18,6 +18,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.RestAccessColParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
@@ -26,14 +27,12 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class RestAccessibleFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RestAccessibleFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
-    TextInputLayout restLocationField, accessibleRouteObsField, integratedRestObsField,
-            driftFloorObsField, restDrainObsField, restSwitchObsField,
-            restSwitchHeightField;
-    TextInputEditText restLocationValue, accessibleRouteObsValue, integratedRestObsValue,
-            driftFloorObsValue, restDrainObsValue, restSwitchObsValue,
-            restSwitchHeightValue;
+    TextInputLayout restLocationField, accessibleRouteObsField, integratedRestObsField, driftFloorObsField, restDrainObsField, restSwitchObsField,
+            restSwitchHeightField, photoField;
+    TextInputEditText restLocationValue, accessibleRouteObsValue, integratedRestObsValue, driftFloorObsValue, restDrainObsValue, restSwitchObsValue,
+            restSwitchHeightValue, photoValue;
     TextView restroomTypeError, accessibleRouteError, integratedRestError, driftingFloorError, restroomDrainError, restroomSwitchError;
     RadioGroup accessibleRouteRadio, integratedRestRadio, driftFloorRadio, restDrainRadio, restSwitchRadio;
     MultiLineRadioGroup restTypeMulti;
@@ -95,6 +94,7 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
         restDrainObsField = view.findViewById(R.id.restroom_drain_obs_field);
         restSwitchObsField = view.findViewById(R.id.restroom_switch_obs_field);
         restSwitchHeightField = view.findViewById(R.id.restroom_switch_height_field);
+        photoField = view.findViewById(R.id.rest_first_photo_field);
 //        TextInputEditText
         restLocationValue = view.findViewById(R.id.restroom_location_value);
         accessibleRouteObsValue = view.findViewById(R.id.restroom_accessible_route_obs_value);
@@ -103,6 +103,7 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
         restDrainObsValue = view.findViewById(R.id.restroom_drain_obs_value);
         restSwitchObsValue = view.findViewById(R.id.restroom_switch_obs_value);
         restSwitchHeightValue = view.findViewById(R.id.restroom_switch_height_value);
+        photoValue = view.findViewById(R.id.rest_first_photo_value);
 //        RadioGroup
         accessibleRouteRadio = view.findViewById(R.id.accessible_route_radio);
         integratedRestRadio = view.findViewById(R.id.integrated_restroom_radio);
@@ -121,21 +122,11 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Listeners
-        restSwitchRadio.setOnCheckedChangeListener(this::activateSwitchHeight);
+        restSwitchRadio.setOnCheckedChangeListener(this::radioListener);
 
         addFieldsToArrays();
         allowObsScroll(obsValues);
 
-    }
-
-    private void activateSwitchHeight(RadioGroup radio, int checkedID) {
-        int checkIndex = getRestroomCheckedRadio(radio);
-        if (checkIndex == 1) {
-            restSwitchHeightField.setVisibility(View.VISIBLE);
-        } else {
-            restSwitchHeightValue.setText(null);
-            restSwitchHeightField.setVisibility(View.GONE);
-        }
     }
 
     private void addFieldsToArrays() {
@@ -145,10 +136,6 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
         obsValues.add(restDrainObsValue);
         obsValues.add(restSwitchObsValue);
         obsValues.add(restSwitchHeightValue);
-    }
-
-    public int getRestroomCheckedRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
     private void loadAccessRestData(RestroomEntry rest) {
@@ -180,6 +167,8 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
             }
             if (rest.getSwitchObs() != null && rest.getSwitchObs().length() > 0)
                 restSwitchObsValue.setText(rest.getSwitchObs());
+            if (rest.getRestFirstPhoto() != null )
+                photoValue.setText(rest.getRestFirstPhoto());
         }
     }
 
@@ -194,26 +183,26 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
             restroomTypeError.setVisibility(View.VISIBLE);
             error++;
         }
-        if (getRestroomCheckedRadio(accessibleRouteRadio) == -1) {
+        if (indexRadio(accessibleRouteRadio) == -1) {
             accessibleRouteError.setVisibility(View.VISIBLE);
             error++;
         }
-        if (getRestroomCheckedRadio(integratedRestRadio) == -1) {
+        if (indexRadio(integratedRestRadio) == -1) {
             integratedRestError.setVisibility(View.VISIBLE);
             error++;
         }
-        if (getRestroomCheckedRadio(driftFloorRadio) == -1) {
+        if (indexRadio(driftFloorRadio) == -1) {
             driftingFloorError.setVisibility(View.VISIBLE);
             error++;
         }
-        if (getRestroomCheckedRadio(restDrainRadio) == -1) {
+        if (indexRadio(restDrainRadio) == -1) {
             restroomDrainError.setVisibility(View.VISIBLE);
             error++;
         }
-        if (getRestroomCheckedRadio(restSwitchRadio) == -1) {
+        if (indexRadio(restSwitchRadio) == -1) {
             restroomSwitchError.setVisibility(View.VISIBLE);
             error++;
-        } else if (getRestroomCheckedRadio(restSwitchRadio) == 1) {
+        } else if (indexRadio(restSwitchRadio) == 1) {
             if (TextUtils.isEmpty(restSwitchHeightValue.getText())) {
                 restSwitchHeightField.setError(getString(R.string.req_field_error));
             }
@@ -236,36 +225,48 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
     private void createAccessRestParcel(Bundle bundle) {
         int restType, accessRoute, antiDriftFloor, intRest, restDrain, restSwitch;
         Double switchHeight = null;
-        String restLocation, accessRouteObs = null, intRestObs = null, antiDriftFloorObs = null, restDrainObs = null, switchObs = null;
+        String restLocation, accessRouteObs = null, intRestObs = null, antiDriftFloorObs = null, restDrainObs = null, switchObs = null, photo = null;
 
         restType = restTypeMulti.getCheckedRadioButtonIndex();
         restLocation = String.valueOf(restLocationValue.getText());
-        accessRoute = getRestroomCheckedRadio(accessibleRouteRadio);
+        accessRoute = indexRadio(accessibleRouteRadio);
         if (!TextUtils.isEmpty(accessibleRouteObsValue.getText()))
             accessRouteObs = String.valueOf(accessibleRouteObsValue.getText());
-        intRest = getRestroomCheckedRadio(integratedRestRadio);
+        intRest = indexRadio(integratedRestRadio);
         if (!TextUtils.isEmpty(integratedRestObsValue.getText()))
             intRestObs = String.valueOf(integratedRestObsValue.getText());
-        antiDriftFloor = getRestroomCheckedRadio(driftFloorRadio);
+        antiDriftFloor = indexRadio(driftFloorRadio);
         if (!TextUtils.isEmpty(driftFloorObsValue.getText()))
             antiDriftFloorObs = String.valueOf(driftFloorObsValue.getText());
-        restDrain = getRestroomCheckedRadio(restDrainRadio);
+        restDrain = indexRadio(restDrainRadio);
         if (!TextUtils.isEmpty(restDrainObsValue.getText()))
             restDrainObs = String.valueOf(restDrainObsValue.getText());
-        restSwitch = getRestroomCheckedRadio(restSwitchRadio);
+        restSwitch = indexRadio(restSwitchRadio);
         if (restSwitch == 1) {
             if (!TextUtils.isEmpty(restSwitchHeightValue.getText()))
                 switchHeight = Double.parseDouble(String.valueOf(restSwitchHeightValue.getText()));
         }
         if (!TextUtils.isEmpty(restSwitchObsValue.getText()))
             switchObs = String.valueOf(restSwitchObsValue.getText());
+        if (photoValue.getText() != null)
+            photo = String.valueOf(photoValue.getText());
 
         RestAccessColParcel parcel = new RestAccessColParcel(restType, restLocation, null, null, null,accessRoute, accessRouteObs, intRest,
                 intRestObs, antiDriftFloor, antiDriftFloorObs, restDrain, restDrainObs, null, null, null, restSwitch,
                 switchHeight, switchObs, null, null,null, null, null, null, null,
-                null, null);
+                null, null, photo);
         bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
         bundle.putBoolean(CHILD_DATA_COMPLETE, true);
     }
 
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int checkIndex = indexRadio(radio);
+        if (checkIndex == 1) {
+            restSwitchHeightField.setVisibility(View.VISIBLE);
+        } else {
+            restSwitchHeightValue.setText(null);
+            restSwitchHeightField.setVisibility(View.GONE);
+        }
+    }
 }

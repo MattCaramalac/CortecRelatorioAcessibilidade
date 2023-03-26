@@ -32,6 +32,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.RestUpViewFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestUrinalFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
@@ -40,7 +41,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class DoorFragment extends Fragment implements TagInterface, ScrollEditText {
+public class DoorFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     TextInputLayout doorLocaleField, doorWidthField1, doorWidthField2, pictObsField, doorOpObsField, handleHeightField, handleObsField, horHandleHeightField,
             horHandleLengthField, horHandleFrameDistField, horHandleDiamField, horHandleDoorDistField, horHandleObsField, winInfHeightField, winSupHeightField,
@@ -264,11 +265,11 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Radio Listeners
-        doorTypeRadio.setOnCheckedChangeListener(this::doorRadioListener);
-        hasHorHandleRadio.setOnCheckedChangeListener(this::doorRadioListener);
-        hasWindowRadio.setOnCheckedChangeListener(this::doorRadioListener);
-        tactSignRadio.setOnCheckedChangeListener(this::doorRadioListener);
-        hasDoorLockRadio.setOnCheckedChangeListener(this::doorRadioListener);
+        doorTypeRadio.setOnCheckedChangeListener(this::radioListener);
+        hasHorHandleRadio.setOnCheckedChangeListener(this::radioListener);
+        hasWindowRadio.setOnCheckedChangeListener(this::radioListener);
+        tactSignRadio.setOnCheckedChangeListener(this::radioListener);
+        hasDoorLockRadio.setOnCheckedChangeListener(this::radioListener);
         doorSillMultiRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)
                 (v, r) -> doorMultiRadioListener(doorSillMultiRadio));
 //        OnClickListeners
@@ -346,68 +347,6 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             default:
                 removeSillFragments();
                 break;
-        }
-    }
-
-    private void doorRadioListener(RadioGroup radio, int checkID) {
-        int index = radio.indexOfChild(radio.findViewById(checkID));
-        if (radio == hasDoorLockRadio) {
-            if (index == 1) {
-                addDoorLockHeader.setVisibility(View.VISIBLE);
-                addDoorLockButton.setVisibility(View.VISIBLE);
-            } else {
-                addDoorLockHeader.setVisibility(View.GONE);
-                addDoorLockButton.setVisibility(View.GONE);
-            }
-        } else if (radio == doorTypeRadio) {
-            if (index == 1)
-                doorWidthField2.setVisibility(View.VISIBLE);
-            else {
-                doorWidthValue2.setText(null);
-                doorWidthField2.setVisibility(View.GONE);
-            }
-        } else if (radio == hasHorHandleRadio) {
-            if (index == 1) {
-                horHandleHeightField.setVisibility(View.VISIBLE);
-                horHandleLengthField.setVisibility(View.VISIBLE);
-                horHandleDoorDistField.setVisibility(View.VISIBLE);
-                horHandleDiamField.setVisibility(View.VISIBLE);
-                horHandleFrameDistField.setVisibility(View.VISIBLE);
-            } else {
-                horHandleHeightValue.setText(null);
-                horHandleHeightField.setVisibility(View.GONE);
-                horHandleLengthValue.setText(null);
-                horHandleLengthField.setVisibility(View.GONE);
-                horHandleDoorDistValue.setText(null);
-                horHandleDoorDistField.setVisibility(View.GONE);
-                horHandleDiamValue.setText(null);
-                horHandleDiamField.setVisibility(View.GONE);
-                horHandleFrameDistValue.setText(null);
-                horHandleFrameDistField.setVisibility(View.GONE);
-            }
-        } else if (radio == hasWindowRadio) {
-            if (index == 1) {
-                winInfHeightField.setVisibility(View.VISIBLE);
-                winSupHeightField.setVisibility(View.VISIBLE);
-                winWidthField.setVisibility(View.VISIBLE);
-            } else {
-                winInfHeightValue.setText(null);
-                winSupHeightValue.setText(null);
-                winWidthValue.setText(null);
-                winInfHeightField.setVisibility(View.GONE);
-                winSupHeightField.setVisibility(View.GONE);
-                winWidthField.setVisibility(View.GONE);
-            }
-        } else if (radio == tactSignRadio) {
-            if (index == 1) {
-                tactSignHeightField.setVisibility(View.VISIBLE);
-                tactSignInclField.setVisibility(View.VISIBLE);
-            } else {
-                tactSignHeightValue.setText(null);
-                tactSignInclValue.setText(null);
-                tactSignHeightField.setVisibility(View.GONE);
-                tactSignInclField.setVisibility(View.GONE);
-            }
         }
     }
 
@@ -527,10 +466,6 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, lockList).addToBackStack(null).commit();
     }
 
-    private int getDoorRadioCheck(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
     private boolean checkDoorNoEmptyFields() {
         clearDoorEmptyFieldsErrors();
         int i = 0;
@@ -539,7 +474,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             i++;
             doorWidthField1.setError(getString(R.string.req_field_error));
         }
-        if (getDoorRadioCheck(doorHandleTypeRadio) == -1) {
+        if (indexRadio(doorHandleTypeRadio) == -1) {
             i++;
             handleTypeError.setVisibility(View.VISIBLE);
         }
@@ -548,10 +483,10 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             handleHeightField.setError(getString(R.string.req_field_error));
         }
 
-        if (getDoorRadioCheck(hasHorHandleRadio) == -1) {
+        if (indexRadio(hasHorHandleRadio) == -1) {
             i++;
             horHandleError.setVisibility(View.VISIBLE);
-        } else if (getDoorRadioCheck(hasHorHandleRadio) == 1) {
+        } else if (indexRadio(hasHorHandleRadio) == 1) {
             if (TextUtils.isEmpty(horHandleHeightValue.getText())) {
                 i++;
                 horHandleHeightField.setError(getString(R.string.req_field_error));
@@ -574,10 +509,10 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             }
         }
 
-        if (getDoorRadioCheck(tactSignRadio) == -1) {
+        if (indexRadio(tactSignRadio) == -1) {
             i++;
             tacSignError.setVisibility(View.VISIBLE);
-        } else if (getDoorRadioCheck(tactSignRadio) == 1) {
+        } else if (indexRadio(tactSignRadio) == 1) {
             if (TextUtils.isEmpty(tactSignHeightValue.getText())) {
                 i++;
                 tactSignHeightField.setError(getString(R.string.req_field_error));
@@ -585,15 +520,15 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         }
 
         if (doorBundle.getBoolean(FROM_REST) || doorBundle.getBoolean(FROM_BOX)) {
-            if (getDoorRadioCheck(hasPictRadio) == -1) {
+            if (indexRadio(hasPictRadio) == -1) {
                 i++;
                 hasPictError.setVisibility(View.VISIBLE);
             }
-            if (getDoorRadioCheck(doorOpRadio) == -1) {
+            if (indexRadio(doorOpRadio) == -1) {
                 i++;
                 opDirError.setVisibility(View.VISIBLE);
             }
-            if (getDoorRadioCheck(doorSillRadio) == -1) {
+            if (indexRadio(doorSillRadio) == -1) {
                 i++;
                 doorSillError.setVisibility(View.VISIBLE);
             }
@@ -602,21 +537,21 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
                 i++;
                 doorLocaleField.setError(getString(R.string.req_field_error));
             }
-            if (getDoorRadioCheck(doorTypeRadio) == -1) {
+            if (indexRadio(doorTypeRadio) == -1) {
                 i++;
                 doorTypeError.setVisibility(View.VISIBLE);
-            } else if (getDoorRadioCheck(doorTypeRadio) == 1 && TextUtils.isEmpty(doorWidthValue2.getText())) {
+            } else if (indexRadio(doorTypeRadio) == 1 && TextUtils.isEmpty(doorWidthValue2.getText())) {
                 i++;
                 doorWidthField2.setError(getString(R.string.req_field_error));
             }
-            if (getDoorRadioCheck(hasDoorLockRadio) == -1) {
+            if (indexRadio(hasDoorLockRadio) == -1) {
                 i++;
                 doorLockError.setVisibility(View.VISIBLE);
             }
-            if (getDoorRadioCheck(hasWindowRadio) == -1) {
+            if (indexRadio(hasWindowRadio) == -1) {
                 i++;
                 doorWinError.setVisibility(View.VISIBLE);
-            } else if (getDoorRadioCheck(hasWindowRadio) == 1) {
+            } else if (indexRadio(hasWindowRadio) == 1) {
                 if (TextUtils.isEmpty(winInfHeightValue.getText())) {
                     i++;
                     winInfHeightField.setError(getString(R.string.req_field_error));
@@ -668,29 +603,29 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         if (door.getDoorLocation() != null)
             doorLocaleValue.setText(door.getDoorLocation());
         if (door.getDoorType() != null)
-            doorTypeRadio.check(doorTypeRadio.getChildAt(door.getDoorType()).getId());
+            checkRadioGroup(doorTypeRadio, door.getDoorType());
         if (door.getDoorWidth1() != null)
             doorWidthValue1.setText(String.valueOf(door.getDoorWidth1()));
         if (door.getDoorWidth2() != null)
             doorWidthValue2.setText(String.valueOf(door.getDoorWidth2()));
         if (door.getDoorHasPict() != null && door.getDoorHasPict() > -1)
-            hasPictRadio.check(hasPictRadio.getChildAt(door.getDoorHasPict()).getId());
+            checkRadioGroup(hasPictRadio, door.getDoorHasPict());
         if (door.getDoorPictObs() != null)
             pictObsValue.setText(door.getDoorPictObs());
         if (door.getOpDirection() != null && door.getOpDirection() > -1)
-            doorOpRadio.check(doorOpRadio.getChildAt(door.getOpDirection()).getId());
+            checkRadioGroup(doorOpRadio, door.getOpDirection());
         if (door.getOpDirectionObs() != null)
             doorOpObsValue.setText(door.getOpDirectionObs());
         if (door.getDoorHandleType() != null && door.getDoorHandleType() > -1)
-            doorHandleTypeRadio.check(doorHandleTypeRadio.getChildAt(door.getDoorHandleType()).getId());
+            checkRadioGroup(doorHandleTypeRadio, door.getDoorHandleType());
         if (door.getDoorHandleHeight() != null)
             handleHeightValue.setText(String.valueOf(door.getDoorHandleHeight()));
         if (door.getDoorHandleObs() != null)
             handleObsValue.setText(door.getDoorHandleObs());
         if (door.getDoorHasLocks() != null && door.getDoorHasLocks() > -1)
-            hasDoorLockRadio.check(hasDoorLockRadio.getChildAt(door.getDoorHasLocks()).getId());
+            checkRadioGroup(hasDoorLockRadio, door.getDoorHasLocks());
         if (door.getDoorHasHorBar() != null && door.getDoorHasHorBar() > -1) {
-            hasHorHandleRadio.check(hasHorHandleRadio.getChildAt(door.getDoorHasHorBar()).getId());
+            checkRadioGroup(hasHorHandleRadio, door.getDoorHasHorBar());
             if (door.getDoorHasHorBar() == 1) {
                 if (door.getHorBarHeight() != null)
                     horHandleHeightValue.setText(String.valueOf(door.getHorBarHeight()));
@@ -708,7 +643,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         if (door.getHorBarObs() != null)
             horHandleObsValue.setText(door.getHorBarObs());
         if (door.getDoorHasWindow() != null && door.getDoorHasWindow() > -1) {
-            hasWindowRadio.check(hasWindowRadio.getChildAt(door.getDoorHasWindow()).getId());
+            checkRadioGroup(hasWindowRadio, door.getDoorHasWindow());
             if (door.getDoorHasWindow() > 1) {
                 if (door.getDoorWinInfHeight() != null)
                     winInfHeightValue.setText(String.valueOf(door.getDoorWinInfHeight()));
@@ -722,7 +657,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             winObsValue.setText(door.getDoorWinObs());
 
         if (door.getDoorHasTactSign() != null && door.getDoorHasTactSign() > -1) {
-            tactSignRadio.check(tactSignRadio.getChildAt(door.getDoorHasTactSign()).getId());
+            checkRadioGroup(tactSignRadio, door.getDoorHasTactSign());
             if (door.getDoorHasTactSign() == 1) {
                 if (door.getTactSignHeight() != null)
                     tactSignHeightValue.setText(String.valueOf(door.getTactSignHeight()));
@@ -734,7 +669,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             tactSignObsValue.setText(door.getTactSignObs());
 
         if ((doorBundle.getBoolean(FROM_REST) || doorBundle.getBoolean(FROM_BOX)) && door.getDoorSillType() != null && door.getDoorSillType() > -1) {
-            doorSillRadio.check(doorSillRadio.getChildAt(door.getDoorSillType()).getId());
+            checkRadioGroup(doorSillRadio, door.getDoorSillType());
         } else if (door.getDoorSillType() != null && door.getDoorSillType() > -1) {
             doorSillMultiRadio.checkAt(door.getDoorSillType());
             if (door.getDoorSillType() > 0)
@@ -744,7 +679,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             doorSillObsValue.setText(door.getDoorSillObs());
         if (door.getDoorObs() != null)
             doorObsValue.setText(door.getDoorObs());
-        if(door.getDoorPhotos() != null)
+        if (door.getDoorPhotos() != null)
             photoValue.setText(door.getDoorPhotos());
 
     }
@@ -770,15 +705,15 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         if (!TextUtils.isEmpty(doorWidthValue1.getText()))
             doorWidth1 = Double.parseDouble(String.valueOf(doorWidthValue1.getText()));
 
-        if (getDoorRadioCheck(doorHandleTypeRadio) > -1)
-            handleType = getDoorRadioCheck(doorHandleTypeRadio);
+        if (indexRadio(doorHandleTypeRadio) > -1)
+            handleType = indexRadio(doorHandleTypeRadio);
         if (!TextUtils.isEmpty(handleHeightValue.getText()))
             handleHeight = Double.parseDouble(String.valueOf(handleHeightValue.getText()));
         if (!TextUtils.isEmpty(handleObsValue.getText()))
             handleObs = String.valueOf(handleObsValue.getText());
 
-        if (getDoorRadioCheck(hasHorHandleRadio) != -1) {
-            hasHorBar = getDoorRadioCheck(hasHorHandleRadio);
+        if (indexRadio(hasHorHandleRadio) != -1) {
+            hasHorBar = indexRadio(hasHorHandleRadio);
             if (hasHorBar == 1) {
                 if (!TextUtils.isEmpty(horHandleHeightValue.getText()))
                     horBarHeight = Double.parseDouble(String.valueOf(horHandleHeightValue.getText()));
@@ -795,8 +730,8 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         if (!TextUtils.isEmpty(horHandleObsValue.getText()))
             horBarObs = String.valueOf(horHandleObsValue.getText());
 
-        if (getDoorRadioCheck(tactSignRadio) != -1) {
-            hasTactileSign = getDoorRadioCheck(tactSignRadio);
+        if (indexRadio(tactSignRadio) != -1) {
+            hasTactileSign = indexRadio(tactSignRadio);
             if (hasTactileSign == 1)
                 if (!TextUtils.isEmpty(tactSignHeightValue.getText()))
                     tactHeight = Double.parseDouble(String.valueOf(tactSignHeightValue.getText()));
@@ -814,32 +749,32 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             photos = String.valueOf(photoValue.getText());
 
         if (doorBundle.getBoolean(FROM_REST) || doorBundle.getBoolean(FROM_BOX)) {
-            if (getDoorRadioCheck(hasPictRadio) != -1)
-                hasPict = getDoorRadioCheck(hasPictRadio);
+            if (indexRadio(hasPictRadio) != -1)
+                hasPict = indexRadio(hasPictRadio);
             if (!TextUtils.isEmpty(pictObsValue.getText()))
                 pictObs = String.valueOf(pictObsValue.getText());
 
-            if (getDoorRadioCheck(doorOpRadio) != -1)
-                opDir = getDoorRadioCheck(doorOpRadio);
+            if (indexRadio(doorOpRadio) != -1)
+                opDir = indexRadio(doorOpRadio);
             if (!TextUtils.isEmpty(doorOpObsValue.getText()))
                 opDirObs = String.valueOf(doorOpObsValue.getText());
 
-            if (getDoorRadioCheck(doorSillRadio) != -1) {
-                doorSillType = getDoorRadioCheck(doorSillRadio);
+            if (indexRadio(doorSillRadio) != -1) {
+                doorSillType = indexRadio(doorSillRadio);
             }
         } else {
             if (!TextUtils.isEmpty(doorLocaleValue.getText())) {
                 doorLocale = String.valueOf(doorLocaleValue.getText());
             }
-            if (getDoorRadioCheck(doorTypeRadio) != -1) {
-                doorType = getDoorRadioCheck(doorTypeRadio);
+            if (indexRadio(doorTypeRadio) != -1) {
+                doorType = indexRadio(doorTypeRadio);
                 if (doorType == 1 && !TextUtils.isEmpty(doorWidthValue2.getText()))
                     doorWidth2 = Double.parseDouble(String.valueOf(doorWidthValue2.getText()));
             }
-            if (getDoorRadioCheck(hasDoorLockRadio) > -1)
-                doorHasLocks = getDoorRadioCheck(hasDoorLockRadio);
-            if (getDoorRadioCheck(hasWindowRadio) != -1) {
-                hasWindow = getDoorRadioCheck(hasWindowRadio);
+            if (indexRadio(hasDoorLockRadio) > -1)
+                doorHasLocks = indexRadio(hasDoorLockRadio);
+            if (indexRadio(hasWindowRadio) != -1) {
+                hasWindow = indexRadio(hasWindowRadio);
                 if (hasWindow == 1) {
                     if (!TextUtils.isEmpty(winInfHeightValue.getText()))
                         winInfHeight = Double.parseDouble(String.valueOf(winInfHeightValue.getText()));
@@ -901,6 +836,68 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.door_sill_fragment);
         if (fragment != null)
             getChildFragmentManager().beginTransaction().remove(fragment).commit();
+    }
 
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int index = indexRadio(radio);
+        if (radio == hasDoorLockRadio) {
+            if (index == 1) {
+                addDoorLockHeader.setVisibility(View.VISIBLE);
+                addDoorLockButton.setVisibility(View.VISIBLE);
+            } else {
+                addDoorLockHeader.setVisibility(View.GONE);
+                addDoorLockButton.setVisibility(View.GONE);
+            }
+        } else if (radio == doorTypeRadio) {
+            if (index == 1)
+                doorWidthField2.setVisibility(View.VISIBLE);
+            else {
+                doorWidthValue2.setText(null);
+                doorWidthField2.setVisibility(View.GONE);
+            }
+        } else if (radio == hasHorHandleRadio) {
+            if (index == 1) {
+                horHandleHeightField.setVisibility(View.VISIBLE);
+                horHandleLengthField.setVisibility(View.VISIBLE);
+                horHandleDoorDistField.setVisibility(View.VISIBLE);
+                horHandleDiamField.setVisibility(View.VISIBLE);
+                horHandleFrameDistField.setVisibility(View.VISIBLE);
+            } else {
+                horHandleHeightValue.setText(null);
+                horHandleHeightField.setVisibility(View.GONE);
+                horHandleLengthValue.setText(null);
+                horHandleLengthField.setVisibility(View.GONE);
+                horHandleDoorDistValue.setText(null);
+                horHandleDoorDistField.setVisibility(View.GONE);
+                horHandleDiamValue.setText(null);
+                horHandleDiamField.setVisibility(View.GONE);
+                horHandleFrameDistValue.setText(null);
+                horHandleFrameDistField.setVisibility(View.GONE);
+            }
+        } else if (radio == hasWindowRadio) {
+            if (index == 1) {
+                winInfHeightField.setVisibility(View.VISIBLE);
+                winSupHeightField.setVisibility(View.VISIBLE);
+                winWidthField.setVisibility(View.VISIBLE);
+            } else {
+                winInfHeightValue.setText(null);
+                winSupHeightValue.setText(null);
+                winWidthValue.setText(null);
+                winInfHeightField.setVisibility(View.GONE);
+                winSupHeightField.setVisibility(View.GONE);
+                winWidthField.setVisibility(View.GONE);
+            }
+        } else if (radio == tactSignRadio) {
+            if (index == 1) {
+                tactSignHeightField.setVisibility(View.VISIBLE);
+                tactSignInclField.setVisibility(View.VISIBLE);
+            } else {
+                tactSignHeightValue.setText(null);
+                tactSignInclValue.setText(null);
+                tactSignHeightField.setVisibility(View.GONE);
+                tactSignInclField.setVisibility(View.GONE);
+            }
+        }
     }
 }

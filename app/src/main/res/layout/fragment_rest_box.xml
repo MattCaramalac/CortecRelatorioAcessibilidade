@@ -15,55 +15,69 @@
         android:textSize="@dimen/section_header_bigger"
         android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/box_type_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/box_header"
-        android:layout_marginTop="@dimen/usual_padding"
-        android:text="@string/header_rest_box_type"
-        android:textSize="@dimen/section_header"/>
-
-    <RadioGroup
-        android:id="@+id/box_type_radio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/box_type_header">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="@integer/weight_one"
-            android:text="@string/radio_common"
-            android:textSize="@dimen/radio_button_text"/>
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="@integer/weight_one"
-            android:text="@string/radio_accessible"
-            android:textSize="@dimen/radio_button_text"/>
-
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/box_type_error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/empty_fields"
-        android:textColor="@color/error_message"
-        android:textSize="14sp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/box_type_radio" />
-
-    <FrameLayout
-        android:id="@+id/box_type_fragment"
+    <ScrollView
+        android:id="@+id/box_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/usual_padding"
-        app:layout_constraintHeight_percent="0.80"
-        app:layout_constraintTop_toBottomOf="@id/box_type_error" />
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
+        app:layout_constraintTop_toBottomOf="@id/box_header">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/box_type_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/header_rest_box_type"
+                android:textSize="@dimen/section_header"/>
+
+            <RadioGroup
+                android:id="@+id/box_type_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/box_type_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_common"
+                    android:textSize="@dimen/radio_button_text"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_accessible"
+                    android:textSize="@dimen/radio_button_text"/>
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/box_type_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/box_type_radio" />
+
+            <FrameLayout
+                android:id="@+id/box_type_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                app:layout_constraintTop_toBottomOf="@id/box_type_error" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save_continue_box"
@@ -73,7 +87,7 @@
         android:text="@string/label_button_proceed_register"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/box_type_fragment"
+        app:layout_constraintTop_toBottomOf="@id/box_scroll"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.google.android.material.button.MaterialButton

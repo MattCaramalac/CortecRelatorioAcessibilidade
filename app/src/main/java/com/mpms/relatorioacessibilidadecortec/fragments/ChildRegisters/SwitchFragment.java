@@ -22,8 +22,8 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 public class SwitchFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout switchLocaleField, switchTypeField, switchHeightField, switchObsField;
-    TextInputEditText switchLocaleValue, switchTypeValue, switchHeightValue, switchObsValue;
+    TextInputLayout switchLocaleField, switchTypeField, switchHeightField, switchObsField, photoField;
+    TextInputEditText switchLocaleValue, switchTypeValue, switchHeightValue, switchObsValue, photoValue;
     MaterialButton cancelSwitch, saveSwitch;
 
     Bundle switchBundle;
@@ -93,11 +93,13 @@ public class SwitchFragment extends Fragment implements TagInterface, ScrollEdit
         switchTypeField = v.findViewById(R.id.switch_type_field);
         switchHeightField = v.findViewById(R.id.switch_height_field);
         switchObsField = v.findViewById(R.id.switch_obs_field);
+        photoField = v.findViewById(R.id.switch_photo_field);
 //        TextInputEditText
         switchLocaleValue = v.findViewById(R.id.switch_placement_value);
         switchTypeValue = v.findViewById(R.id.switch_type_value);
         switchHeightValue = v.findViewById(R.id.switch_height_value);
         switchObsValue = v.findViewById(R.id.switch_obs_value);
+        photoValue = v.findViewById(R.id.switch_photo_value);
 //        MaterialButton
         cancelSwitch = v.findViewById(R.id.cancel_switch);
         saveSwitch = v.findViewById(R.id.save_switch);
@@ -108,17 +110,18 @@ public class SwitchFragment extends Fragment implements TagInterface, ScrollEdit
     }
 
     private SwitchEntry newSwitchEntry(Bundle bundle) {
-        String switchLocale, switchType, switchObs = null;
+        String switchLocale, switchType, switchObs = null, photo = null;
         double switchHeight;
 
         switchLocale = String.valueOf(switchLocaleValue.getText());
         switchType = String.valueOf(switchTypeValue.getText());
         switchHeight = Double.parseDouble(String.valueOf(switchHeightValue.getText()));
-        if (switchObsValue.getText() != null) {
+        if (switchObsValue.getText() != null)
             switchObs = String.valueOf(switchObsValue.getText());
-        }
+        if (photoValue.getText() != null)
+            photo = String.valueOf(photoValue.getText());
 
-        return new SwitchEntry(bundle.getInt(AMBIENT_ID), switchLocale, switchType, switchHeight, switchObs);
+        return new SwitchEntry(bundle.getInt(AMBIENT_ID), switchLocale, switchType, switchHeight, switchObs, photo);
     }
 
     private void loadSwitchData(SwitchEntry switchEntry) {
@@ -127,6 +130,9 @@ public class SwitchFragment extends Fragment implements TagInterface, ScrollEdit
         switchHeightValue.setText(String.valueOf(switchEntry.getSwitchHeight()));
         if (switchEntry.getSwitchObs() != null) {
             switchObsValue.setText(switchEntry.getSwitchObs());
+        }
+        if (switchEntry.getSwitchPhoto() != null) {
+            photoValue.setText(switchEntry.getSwitchPhoto());
         }
     }
 
@@ -160,5 +166,6 @@ public class SwitchFragment extends Fragment implements TagInterface, ScrollEdit
         switchTypeValue.setText(null);
         switchHeightValue.setText(null);
         switchObsValue.setText(null);
+        photoValue.setText(null);
     }
 }

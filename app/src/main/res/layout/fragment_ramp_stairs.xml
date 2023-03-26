@@ -40,6 +40,22 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/ramp_stairs_photo_field"
+                app:layout_constraintTop_toBottomOf="@id/ramp_stairs_location_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_photo_field"
+                android:layout_marginTop="@dimen/usual_padding">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ramp_stairs_photo_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

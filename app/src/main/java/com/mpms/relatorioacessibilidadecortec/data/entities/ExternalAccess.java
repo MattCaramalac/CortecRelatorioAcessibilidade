@@ -73,6 +73,8 @@ public class ExternalAccess {
 
     private Integer hasSillIncl;
     private String extAccPhotos;
+    private String extAccPhotos2;
+    private String extAccPhotos3;
 
 
 
@@ -84,7 +86,7 @@ public class ExternalAccess {
                           Double inclAngle2, Double inclAngle3, Double inclAngle4, Double sillStepHeight, Double sillSlopeWidth, Double sillSlopeHeight, Integer slopeMeasureQnt,
                           Double sillSlopeAngle, Double sillSlopeAngle2, Double sillSlopeAngle3, Double sillSlopeAngle4, String gateSillObs, Integer gateHasObstacles,
                           Integer gateHasPayphones, Integer gateHasIntercom, Double intercomHeight, Integer gateHasStairs, Integer gateHasRamps, Integer gateHasSoundSign,
-                          String extAccessObs, Integer hasSillIncl, String extAccPhotos) {
+                          String extAccessObs, Integer hasSillIncl, String extAccPhotos, String extAccPhotos2, String extAccPhotos3) {
         this.blockID = blockID;
         this.accessLocation = accessLocation;
         this.entranceType = entranceType;
@@ -139,6 +141,8 @@ public class ExternalAccess {
         this.gapMeasure4 = gapMeasure4;
         this.hasSillIncl = hasSillIncl;
         this.extAccPhotos = extAccPhotos;
+        this.extAccPhotos2 = extAccPhotos2;
+        this.extAccPhotos3 = extAccPhotos3;
     }
 
     public int getExternalAccessID() {
@@ -579,5 +583,21 @@ public class ExternalAccess {
 
     public void setExtAccPhotos(String extAccPhotos) {
         this.extAccPhotos = extAccPhotos;
+    }
+
+    public String getExtAccPhotos2() {
+        return extAccPhotos2;
+    }
+
+    public void setExtAccPhotos2(String extAccPhotos2) {
+        this.extAccPhotos2 = extAccPhotos2;
+    }
+
+    public String getExtAccPhotos3() {
+        return extAccPhotos3;
+    }
+
+    public void setExtAccPhotos3(String extAccPhotos3) {
+        this.extAccPhotos3 = extAccPhotos3;
     }
 }

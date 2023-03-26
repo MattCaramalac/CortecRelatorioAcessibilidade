@@ -431,10 +431,10 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 i++;
                 roomDescField.setError(getString(R.string.req_field_error));
             }
-            if (indexCheckRadio(workRoomRadio) == -1) {
+            if (indexRadio(workRoomRadio) == -1) {
                 i++;
                 workRoomError.setVisibility(View.VISIBLE);
-            } else if (indexCheckRadio(workRoomRadio) == 0) {
+            } else if (indexRadio(workRoomRadio) == 0) {
                 i += emptyFieldCont(bundle);
             }
         } else
@@ -445,34 +445,34 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
     private int emptyFieldCont(Bundle bundle) {
         int i = 0;
-        if (indexCheckRadio(hasVertSingRadio) == -1) {
+        if (indexRadio(hasVertSingRadio) == -1) {
             i++;
             vertSignError.setVisibility(View.VISIBLE);
         }
-        if (indexCheckRadio(hasLooseCarpetRadio) == -1) {
+        if (indexRadio(hasLooseCarpetRadio) == -1) {
             i++;
             looseCarpetError.setVisibility(View.VISIBLE);
         }
-        if (indexCheckRadio(hasAccessFloorRadio) == -1) {
+        if (indexRadio(hasAccessFloorRadio) == -1) {
             i++;
             accessFloorError.setVisibility(View.VISIBLE);
         }
 
         if (bundle.getInt(ROOM_TYPE) == NUM_COORD || bundle.getInt(ROOM_TYPE) == NUM_DIR || bundle.getInt(ROOM_TYPE) == NUM_TEACHER ||
                 bundle.getInt(ROOM_TYPE) == NUM_SEC || bundle.getInt(ROOM_TYPE) == NUM_OTHER) {
-            if (indexCheckRadio(phoneRadio) == -1) {
+            if (indexRadio(phoneRadio) == -1) {
                 i++;
                 phoneError.setVisibility(View.VISIBLE);
-            } else if (indexCheckRadio(phoneRadio) == 1) {
+            } else if (indexRadio(phoneRadio) == 1) {
                 if (TextUtils.isEmpty(phoneHeightValue.getText())) {
                     i++;
                     phoneHeightField.setError(getString(R.string.req_field_error));
                 }
             }
-            if (indexCheckRadio(biometryRadio) == -1) {
+            if (indexRadio(biometryRadio) == -1) {
                 i++;
                 biometryError.setVisibility(View.VISIBLE);
-            } else if (indexCheckRadio(biometryRadio) == 1) {
+            } else if (indexRadio(biometryRadio) == 1) {
                 if (TextUtils.isEmpty(biometryHeightValue.getText())) {
                     i++;
                     biometryHeightField.setError(getString(R.string.req_field_error));
@@ -543,19 +543,19 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         if (bundle.getInt(ROOM_TYPE) == NUM_OTHER) {
             if (!TextUtils.isEmpty(roomDescValue.getText()))
                 roomDescription = String.valueOf(roomDescValue.getText());
-            isWork = indexCheckRadio(workRoomRadio);
+            isWork = indexRadio(workRoomRadio);
             if (isWork == 0) {
-                hasVertSing = indexCheckRadio(hasVertSingRadio);
+                hasVertSing = indexRadio(hasVertSingRadio);
                 if (!TextUtils.isEmpty(vertSignObsValue.getText()))
                     vertSignObs = String.valueOf(vertSignObsValue.getText());
-                hasLooseCarpet = indexCheckRadio(hasLooseCarpetRadio);
+                hasLooseCarpet = indexRadio(hasLooseCarpetRadio);
                 if (!TextUtils.isEmpty(looseCarpetObsValue.getText()))
                     looseCarpetObs = String.valueOf(looseCarpetObsValue.getText());
-                accessFloor = indexCheckRadio(hasAccessFloorRadio);
+                accessFloor = indexRadio(hasAccessFloorRadio);
                 if (!TextUtils.isEmpty(accessFloorObsValue.getText()))
                     accessFloorObs = String.valueOf(accessFloorObsValue.getText());
 
-                hasIntPhone = indexCheckRadio(phoneRadio);
+                hasIntPhone = indexRadio(phoneRadio);
                 if (hasIntPhone == 1) {
                     if (!TextUtils.isEmpty(phoneHeightValue.getText()))
                         intPhoneHeight = Double.parseDouble(String.valueOf(phoneHeightValue.getText()));
@@ -563,7 +563,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                         intPhoneObs = String.valueOf(phoneObsValue.getText());
                 }
 
-                hasBioClock = indexCheckRadio(biometryRadio);
+                hasBioClock = indexRadio(biometryRadio);
                 if (hasBioClock == 1) {
                     if (!TextUtils.isEmpty(biometryHeightValue.getText()))
                         bioClockHeight = Double.parseDouble(String.valueOf(biometryHeightValue.getText()));
@@ -572,13 +572,13 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 }
             }
         } else {
-            hasVertSing = indexCheckRadio(hasVertSingRadio);
+            hasVertSing = indexRadio(hasVertSingRadio);
             if (!TextUtils.isEmpty(vertSignObsValue.getText()))
                 vertSignObs = String.valueOf(vertSignObsValue.getText());
-            hasLooseCarpet = indexCheckRadio(hasLooseCarpetRadio);
+            hasLooseCarpet = indexRadio(hasLooseCarpetRadio);
             if (!TextUtils.isEmpty(looseCarpetObsValue.getText()))
                 looseCarpetObs = String.valueOf(looseCarpetObsValue.getText());
-            accessFloor = indexCheckRadio(hasAccessFloorRadio);
+            accessFloor = indexRadio(hasAccessFloorRadio);
             if (!TextUtils.isEmpty(accessFloorObsValue.getText()))
                 accessFloorObs = String.valueOf(accessFloorObsValue.getText());
 
@@ -610,7 +610,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
             if (bundle.getInt(ROOM_TYPE) == NUM_COORD || bundle.getInt(ROOM_TYPE) == NUM_DIR || bundle.getInt(ROOM_TYPE) == NUM_TEACHER ||
                     bundle.getInt(ROOM_TYPE) == NUM_SEC) {
-                hasIntPhone = indexCheckRadio(phoneRadio);
+                hasIntPhone = indexRadio(phoneRadio);
                 if (hasIntPhone == 1) {
                     if (!TextUtils.isEmpty(phoneHeightValue.getText()))
                         intPhoneHeight = Double.parseDouble(String.valueOf(phoneHeightValue.getText()));
@@ -618,7 +618,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                         intPhoneObs = String.valueOf(phoneObsValue.getText());
                 }
 
-                hasBioClock = indexCheckRadio(biometryRadio);
+                hasBioClock = indexRadio(biometryRadio);
                 if (hasBioClock == 1) {
                     if (!TextUtils.isEmpty(biometryHeightValue.getText()))
                         bioClockHeight = Double.parseDouble(String.valueOf(biometryHeightValue.getText()));
@@ -727,7 +727,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
     @Override
     public void radioListener(RadioGroup radio, int id) {
-        int index = indexCheckRadio(radio);
+        int index = indexRadio(radio);
         if (radio == workRoomRadio) {
             if (index == 0) {
                 roomConst.setVisibility(View.VISIBLE);

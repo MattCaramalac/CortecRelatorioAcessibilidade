@@ -20,15 +20,25 @@ public class RampStairsEntry {
     private Integer roomID;
     private int rampStairsIdentifier;
     private String rampStairsLocation;
+    private String rampStairsPhoto;
 
     public RampStairsEntry(Integer extAccessID, Integer sidewalkID, Integer parkingID, Integer roomID, int rampStairsIdentifier,
-                           String rampStairsLocation) {
+                           String rampStairsLocation, String rampStairsPhoto) {
         this.extAccessID = extAccessID;
         this.sidewalkID = sidewalkID;
         this.parkingID = parkingID;
         this.roomID = roomID;
         this.rampStairsIdentifier = rampStairsIdentifier;
         this.rampStairsLocation = rampStairsLocation;
+        this.rampStairsPhoto =rampStairsPhoto;
+    }
+
+    public String getRampStairsPhoto() {
+        return rampStairsPhoto;
+    }
+
+    public void setRampStairsPhoto(String rampStairsPhoto) {
+        this.rampStairsPhoto = rampStairsPhoto;
     }
 
     public int getRampStairsID() {

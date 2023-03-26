@@ -16,13 +16,23 @@ public class EquipmentEntry {
     private String equipLocale;
     private double equipHeight;
     private String equipObs;
+    private String equipPhoto;
 
-    public EquipmentEntry(int roomID, String equipName, String equipLocale, double equipHeight, String equipObs) {
+    public EquipmentEntry(int roomID, String equipName, String equipLocale, double equipHeight, String equipObs, String equipPhoto) {
         this.roomID = roomID;
         this.equipName = equipName;
         this.equipLocale = equipLocale;
         this.equipHeight = equipHeight;
         this.equipObs = equipObs;
+        this.equipPhoto = equipPhoto;
+    }
+
+    public String getEquipPhoto() {
+        return equipPhoto;
+    }
+
+    public void setEquipPhoto(String equipPhoto) {
+        this.equipPhoto = equipPhoto;
     }
 
     public int getEquipID() {

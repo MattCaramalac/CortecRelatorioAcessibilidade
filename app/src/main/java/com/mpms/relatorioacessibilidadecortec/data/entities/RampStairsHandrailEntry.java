@@ -25,10 +25,12 @@ public class RampStairsHandrailEntry {
     private Integer hasFinalExtension;
     private Double finalExtLength;
     private String handrailObs;
+    private String handrailPhoto;
 
 
     public RampStairsHandrailEntry(int flightID, int handrailPlacement, int hasHandrail, Double handrailHeight, Double handrailGrip, Double handrailDist,
-                                   Integer hasInitExtension, Double initExtLength, Integer hasFinalExtension, Double finalExtLength, String handrailObs) {
+                                   Integer hasInitExtension, Double initExtLength, Integer hasFinalExtension, Double finalExtLength, String handrailObs,
+                                   String handrailPhoto) {
         this.flightID = flightID;
         this.handrailPlacement = handrailPlacement;
         this.hasHandrail = hasHandrail;
@@ -40,6 +42,15 @@ public class RampStairsHandrailEntry {
         this.initExtLength = initExtLength;
         this.hasFinalExtension = hasFinalExtension;
         this.finalExtLength = finalExtLength;
+        this.handrailPhoto = handrailPhoto;
+    }
+
+    public String getHandrailPhoto() {
+        return handrailPhoto;
+    }
+
+    public void setHandrailPhoto(String handrailPhoto) {
+        this.handrailPhoto = handrailPhoto;
     }
 
     public int getHandrailID() {

@@ -106,9 +106,9 @@ public class SecretariatFragment extends Fragment implements TagInterface, Scrol
         Double pcrWidth = null, pcrDepth = null;
         String pcrObs = null;
 
-        hasFixedSeats = indexCheckRadio(hasFixedSeatsRadio);
+        hasFixedSeats = indexRadio(hasFixedSeatsRadio);
         if (hasFixedSeats == 1) {
-            hasPCR = indexCheckRadio(hasPCRSpaceRadio);
+            hasPCR = indexRadio(hasPCRSpaceRadio);
             if (hasPCR == 1) {
                 pcrWidth = Double.parseDouble(String.valueOf(pcrSpaceWidthValue.getText()));
                 pcrDepth = Double.parseDouble(String.valueOf(pcrSpaceDepthValue.getText()));
@@ -143,14 +143,14 @@ public class SecretariatFragment extends Fragment implements TagInterface, Scrol
     public boolean checkEmptySecretariatFields() {
         clearSecretariatErrors();
         int error = 0;
-        if (indexCheckRadio(hasFixedSeatsRadio) == -1) {
+        if (indexRadio(hasFixedSeatsRadio) == -1) {
             error++;
             fixedSeatsError.setVisibility(View.VISIBLE);
-        } else if (indexCheckRadio(hasFixedSeatsRadio) == 1) {
-            if (indexCheckRadio(hasPCRSpaceRadio) == -1) {
+        } else if (indexRadio(hasFixedSeatsRadio) == 1) {
+            if (indexRadio(hasPCRSpaceRadio) == -1) {
                 error++;
                 PCRSpaceError.setVisibility(View.VISIBLE);
-            } else if (indexCheckRadio(hasPCRSpaceRadio) == 1) {
+            } else if (indexRadio(hasPCRSpaceRadio) == 1) {
                 if (TextUtils.isEmpty(pcrSpaceWidthValue.getText())){
                     error++;
                     pcrSpaceWidthField.setError(getText(R.string.req_field_error));
@@ -186,7 +186,7 @@ public class SecretariatFragment extends Fragment implements TagInterface, Scrol
 
     @Override
     public void radioListener(RadioGroup radio, int id) {
-        int index = indexCheckRadio(radio);
+        int index = indexRadio(radio);
         if (radio == hasFixedSeatsRadio) {
             if (index == 1) {
                 PCRSpaceHeader.setVisibility(View.VISIBLE);

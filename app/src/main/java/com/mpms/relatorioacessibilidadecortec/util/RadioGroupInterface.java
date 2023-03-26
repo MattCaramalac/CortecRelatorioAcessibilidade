@@ -4,7 +4,7 @@ import android.widget.RadioGroup;
 
 public interface RadioGroupInterface {
 
-    default int indexCheckRadio(RadioGroup radio) {
+    default int indexRadio(RadioGroup radio) {
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 

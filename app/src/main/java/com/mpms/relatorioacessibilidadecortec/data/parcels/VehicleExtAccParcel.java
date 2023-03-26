@@ -7,16 +7,14 @@ public class VehicleExtAccParcel {
 
     Integer hasSoundSignal;
     String soundObs;
-    String photos;
 
     public VehicleExtAccParcel() {
 //        Empty Constructor
     }
 
-    public VehicleExtAccParcel(Integer hasSoundSignal, String soundObs, String photos) {
+    public VehicleExtAccParcel(Integer hasSoundSignal, String soundObs) {
         this.hasSoundSignal = hasSoundSignal;
         this.soundObs = soundObs;
-        this.photos = photos;
     }
 
     public Integer getHasSoundSignal() {
@@ -33,13 +31,5 @@ public class VehicleExtAccParcel {
 
     public void setSoundObs(String soundObs) {
         this.soundObs = soundObs;
-    }
-
-    public String getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(String photos) {
-        this.photos = photos;
     }
 }

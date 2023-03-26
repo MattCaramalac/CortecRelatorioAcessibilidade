@@ -61,6 +61,7 @@ public class RestToiletUpdate {
     private Double doucheActHeight;
     private String doucheObs;
     private String toiletObs;
+    private String restToiletPhoto;
 
     public RestToiletUpdate(int restroomID, Integer toType, Double toHeightNoSeat, Integer toHasSeat, Double toHeightSeat, Integer toHasSoculo, Double frSoculo,
                             Double latSoculo, Integer socCorners, Integer toHasFrontBar, Double frBarA, Double frBarB, Double frBarC, Double frBarSect, Double frBarDist,
@@ -69,7 +70,7 @@ public class RestToiletUpdate {
                             Double sideBarD, Double sideBarE, Double sideBarDistG, Double sideBarSect, Integer hasArtBar, Double artBarH, Double artBarI, Double artBarJ,
                             Double artBarSect, String toActDesc, Double toActHeight, String toActObs, Integer hasPapHolder, Integer papHolderType, Double papEmbDist,
                             Double papEmbHeight, Integer papSupAlign, Double papSupHeight, String papHoldObs, Integer hasDouche, Double douchePressHeight, Double doucheActHeight,
-                            String doucheObs, String toiletObs) {
+                            String doucheObs, String toiletObs, String restToiletPhoto) {
         this.restroomID = restroomID;
         this.toType = toType;
         this.toHeightNoSeat = toHeightNoSeat;
@@ -124,6 +125,7 @@ public class RestToiletUpdate {
         this.doucheActHeight = doucheActHeight;
         this.doucheObs = doucheObs;
         this.toiletObs = toiletObs;
+        this.restToiletPhoto = restToiletPhoto;
     }
 
     public int getRestroomID() {
@@ -556,5 +558,13 @@ public class RestToiletUpdate {
 
     public void setDoucheActHeight(Double doucheActHeight) {
         this.doucheActHeight = doucheActHeight;
+    }
+
+    public String getRestToiletPhoto() {
+        return restToiletPhoto;
+    }
+
+    public void setRestToiletPhoto(String restToiletPhoto) {
+        this.restToiletPhoto = restToiletPhoto;
     }
 }

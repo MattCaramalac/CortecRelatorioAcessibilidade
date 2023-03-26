@@ -20,8 +20,10 @@ public class GateObsEntry {
     private Double obsWidth;
     private Integer obsHasSia;
     private String gateObstacleObs;
+    private String gateObsPhoto;
 
-    public GateObsEntry(int extAccessID, String accessRefPoint, Integer accessType, Double obsHeight, Double obsWidth, Integer obsHasSia, String gateObstacleObs) {
+    public GateObsEntry(int extAccessID, String accessRefPoint, Integer accessType, Double obsHeight, Double obsWidth, Integer obsHasSia, String gateObstacleObs,
+                        String gateObsPhoto) {
         this.extAccessID = extAccessID;
         this.accessRefPoint = accessRefPoint;
         this.accessType = accessType;
@@ -29,6 +31,7 @@ public class GateObsEntry {
         this.obsWidth = obsWidth;
         this.obsHasSia = obsHasSia;
         this.gateObstacleObs = gateObstacleObs;
+        this.gateObsPhoto = gateObsPhoto;
     }
 
     public int getGateObsID() {
@@ -93,5 +96,13 @@ public class GateObsEntry {
 
     public void setGateObstacleObs(String gateObstacleObs) {
         this.gateObstacleObs = gateObstacleObs;
+    }
+
+    public String getGateObsPhoto() {
+        return gateObsPhoto;
+    }
+
+    public void setGateObsPhoto(String gateObsPhoto) {
+        this.gateObsPhoto = gateObsPhoto;
     }
 }

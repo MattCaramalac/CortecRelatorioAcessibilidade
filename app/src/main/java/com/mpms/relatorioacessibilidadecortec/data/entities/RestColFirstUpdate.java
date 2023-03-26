@@ -36,12 +36,13 @@ public class RestColFirstUpdate {
     private String winComType3;
     private Double winComHeight3;
     private String winObs;
+    private String restFirstPhoto;
 
     public RestColFirstUpdate(int restroomID, int restType, Integer restGender, String restLocation, Integer collectiveHasDoor, Double entranceWidth, Integer entranceDoorSill,
                               String entranceDoorSillObs, Integer accessRoute, String accessRouteObs, Integer intRestroom, String intRestObs,
                               Integer antiDriftFloor, String antiDriftFloorObs, Integer restDrain, String restDrainObs, Integer restSwitch, Double switchHeight,
                               String switchObs, Double upViewLength, Double upViewWidth, Integer hasWindow, Integer winQnt, String winComType1, Double winComHeight1,
-                              String winComType2, Double winComHeight2, String winComType3, Double winComHeight3, String winObs) {
+                              String winComType2, Double winComHeight2, String winComType3, Double winComHeight3, String winObs, String restFirstPhoto) {
         this.restroomID = restroomID;
         this.restType = restType;
         this.restGender = restGender;
@@ -72,6 +73,15 @@ public class RestColFirstUpdate {
         this.winComType3 = winComType3;
         this.winComHeight3 = winComHeight3;
         this.winObs = winObs;
+        this.restFirstPhoto = restFirstPhoto;
+    }
+
+    public String getRestFirstPhoto() {
+        return restFirstPhoto;
+    }
+
+    public void setRestFirstPhoto(String restFirstPhoto) {
+        this.restFirstPhoto = restFirstPhoto;
     }
 
     public int getRestroomID() {

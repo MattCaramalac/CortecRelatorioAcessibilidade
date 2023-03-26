@@ -25,6 +25,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxAccTwoUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
@@ -32,12 +33,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class RestAccessTwoFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RestAccessTwoFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     TextInputLayout emergencyHeightField, emergencyObsField, valveHeightField, valveObsField, winTypeField1, winTypeField2, winTypeField3, winHeightField1,
-            winHeightField2, winHeightField3, mirrorFieldA, mirrorFieldB, mirrorObsField, winObsField;
+            winHeightField2, winHeightField3, mirrorFieldA, mirrorFieldB, mirrorObsField, winObsField, photoField;
     TextInputEditText emergencyHeightValue, emergencyObsValue, valveHeightValue, valveObsValue, winTypeValue1, winTypeValue2, winTypeValue3, winHeightValue1,
-            winHeightValue2, winHeightValue3, mirrorValueA, mirrorValueB, mirrorObsValue, winObsValue;
+            winHeightValue2, winHeightValue3, mirrorValueA, mirrorValueB, mirrorObsValue, winObsValue, photoValue;
     RadioGroup hasEmergencyRadio, hasValveRadio, valveTypeRadio, hasWindowRadio, mirrorRadio;
     TextView emergencyError, valveError, valveTypeHeader, valveTypeError, winHeader, winError, mirrorError;
     ImageButton delWindow, mirrorImage;
@@ -107,6 +108,7 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         mirrorFieldB = view.findViewById(R.id.wall_mirror_measureB_field);
         mirrorObsField = view.findViewById(R.id.wall_mirror_obs_field);
         winObsField = view.findViewById(R.id.window_obs_field);
+        photoField = view.findViewById(R.id.access_two_photo_field);
 //        TextInputEditText
         emergencyHeightValue = view.findViewById(R.id.emergency_height_value);
         emergencyObsValue = view.findViewById(R.id.emergency_obs_value);
@@ -122,6 +124,7 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         mirrorValueB = view.findViewById(R.id.wall_mirror_measureB_value);
         mirrorObsValue = view.findViewById(R.id.wall_mirror_obs_value);
         winObsValue = view.findViewById(R.id.window_obs_value);
+        photoValue = view.findViewById(R.id.access_two_photo_value);
 //        RadioGroup
         hasEmergencyRadio = view.findViewById(R.id.emergency_radio);
         hasValveRadio = view.findViewById(R.id.water_valve_radio);
@@ -235,6 +238,8 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         }
         if (rest.getWallMirrorObs() != null)
             mirrorObsValue.setText(rest.getWallMirrorObs());
+        if (rest.getRestAccessPhoto2() != null)
+            photoValue.setText(rest.getRestAccessPhoto2());
 
     }
 
@@ -272,6 +277,8 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         }
         if (rest.getWallMirrorObs() != null)
             mirrorObsValue.setText(rest.getWallMirrorObs());
+        if (rest.getBoxAccessPhoto2() != null)
+            photoValue.setText(rest.getBoxAccessPhoto2());
 
     }
 
@@ -286,30 +293,30 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         clearEmptyFieldErrors();
         int i = 0;
 
-        if (getCheckedRadio(hasEmergencyRadio) == -1) {
+        if (indexRadio(hasEmergencyRadio) == -1) {
             i++;
             emergencyError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(hasEmergencyRadio) == 1) {
+        } else if (indexRadio(hasEmergencyRadio) == 1) {
             if (TextUtils.isEmpty(emergencyHeightValue.getText())) {
                 i++;
                 emergencyHeightField.setError(getString(R.string.req_field_error));
             }
         }
 
-        if (getCheckedRadio(hasValveRadio) == -1) {
+        if (indexRadio(hasValveRadio) == -1) {
             i++;
             valveError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(hasValveRadio) == 1) {
+        } else if (indexRadio(hasValveRadio) == 1) {
             if (TextUtils.isEmpty(valveHeightValue.getText())) {
                 i++;
                 valveHeightField.setError(getString(R.string.req_field_error));
             }
         }
 
-        if (!rAccBundle2.getBoolean(FROM_BOX) && getCheckedRadio(hasWindowRadio) == -1) {
+        if (!rAccBundle2.getBoolean(FROM_BOX) && indexRadio(hasWindowRadio) == -1) {
             i++;
             winError.setVisibility(View.VISIBLE);
-        } else if (!rAccBundle2.getBoolean(FROM_BOX) && getCheckedRadio(hasWindowRadio) == 1) {
+        } else if (!rAccBundle2.getBoolean(FROM_BOX) && indexRadio(hasWindowRadio) == 1) {
             switch (winQnt) {
                 case 3:
                     if (TextUtils.isEmpty(winHeightValue3.getText())) {
@@ -336,10 +343,10 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
             }
         }
 
-        if (getCheckedRadio(mirrorRadio) == -1) {
+        if (indexRadio(mirrorRadio) == -1) {
             i++;
             mirrorError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(mirrorRadio) == 1) {
+        } else if (indexRadio(mirrorRadio) == 1) {
             if (TextUtils.isEmpty(mirrorValueA.getText())) {
                 i++;
                 mirrorFieldA.setError(getText(R.string.req_field_error));
@@ -372,12 +379,9 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
 
     }
 
-    private int getCheckedRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
-    private void radioListener(RadioGroup radio, int check) {
-        int index = getCheckedRadio(radio);
+    @Override
+    public void radioListener(RadioGroup radio, int check) {
+        int index = indexRadio(radio);
         if (radio == hasEmergencyRadio) {
             if (index == 1)
                 emergencyHeightField.setVisibility(View.VISIBLE);
@@ -482,9 +486,9 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         int hasEmer, hasValve, hasMirror;
         Integer hasWindow = null, valveType = null;
         Double emerHeight = null, valveHeight = null,  height1 = null, height2 = null, height3 = null, mirA = null, mirB = null;
-        String emerObs = null, valveObs = null, type1 = null, type2 = null, type3 = null, winObs = null, mirObs = null;
+        String emerObs = null, valveObs = null, type1 = null, type2 = null, type3 = null, winObs = null, mirObs = null, photo = null;
 
-        hasEmer = getCheckedRadio(hasEmergencyRadio);
+        hasEmer = indexRadio(hasEmergencyRadio);
         if (hasEmer == 1) {
             if (!TextUtils.isEmpty(emergencyHeightValue.getText()))
                 emerHeight = Double.parseDouble(String.valueOf(emergencyHeightValue.getText()));
@@ -492,10 +496,10 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         if (!TextUtils.isEmpty(emergencyObsValue.getText()))
             emerObs = String.valueOf(emergencyObsValue.getText());
 
-        hasValve = getCheckedRadio(hasValveRadio);
+        hasValve = indexRadio(hasValveRadio);
         if (hasValve == 1) {
-            if (getCheckedRadio(valveTypeRadio) != -1)
-                valveType = getCheckedRadio(valveTypeRadio);
+            if (indexRadio(valveTypeRadio) != -1)
+                valveType = indexRadio(valveTypeRadio);
             if (!TextUtils.isEmpty(valveHeightValue.getText()))
                 valveHeight = Double.parseDouble(String.valueOf(valveHeightValue.getText()));
         }
@@ -503,7 +507,7 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
             valveObs = String.valueOf(valveObsValue.getText());
 
         if (!rAccBundle2.getBoolean(FROM_BOX)) {
-            hasWindow = getCheckedRadio(hasWindowRadio);
+            hasWindow = indexRadio(hasWindowRadio);
             if (hasWindow == 1) {
                 switch (winQnt) {
                     case 3:
@@ -528,7 +532,7 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
                 winObs = String.valueOf(winObsValue.getText());
         }
 
-        hasMirror = getCheckedRadio(mirrorRadio);
+        hasMirror = indexRadio(mirrorRadio);
         if (hasMirror == 1) {
             if (!TextUtils.isEmpty(mirrorValueA.getText()))
                 mirA = Double.parseDouble(String.valueOf(mirrorValueA.getText()));
@@ -537,18 +541,20 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         }
         if (!TextUtils.isEmpty(mirrorObsValue.getText()))
             mirObs = String.valueOf(mirrorObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
         return new RestAccessUpdateTwo(bundle.getInt(REST_ID), hasEmer, emerHeight, emerObs, hasValve, valveType, valveHeight, valveObs, hasWindow, winQnt, type1, height1,
-                type2, height2, type3, height3, winObs, hasMirror, mirA, mirB, mirObs);
+                type2, height2, type3, height3, winObs, hasMirror, mirA, mirB, mirObs, photo);
     }
 
     private RestBoxAccTwoUpdate upAccTwo(Bundle bundle) {
-        int hasEmer, hasValve, hasWindow, hasMirror;
+        int hasEmer, hasValve, hasMirror;
         Integer valveType = null;
-        Double emerHeight = null, valveHeight = null, height1 = null, height2 = null, height3 = null, mirA = null, mirB = null;
-        String emerObs = null, valveObs = null, type1 = null, type2 = null, type3 = null, winObs = null, mirObs = null;
+        Double emerHeight = null, valveHeight = null, mirA = null, mirB = null;
+        String emerObs = null, valveObs = null, mirObs = null, photo = null;
 
-        hasEmer = getCheckedRadio(hasEmergencyRadio);
+        hasEmer = indexRadio(hasEmergencyRadio);
         if (hasEmer == 1) {
             if (!TextUtils.isEmpty(emergencyHeightValue.getText()))
                 emerHeight = Double.parseDouble(String.valueOf(emergencyHeightValue.getText()));
@@ -556,17 +562,17 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         if (!TextUtils.isEmpty(emergencyObsValue.getText()))
             emerObs = String.valueOf(emergencyObsValue.getText());
 
-        hasValve = getCheckedRadio(hasValveRadio);
+        hasValve = indexRadio(hasValveRadio);
         if (hasValve == 1) {
-            if (getCheckedRadio(valveTypeRadio) != -1)
-                valveType = getCheckedRadio(valveTypeRadio);
+            if (indexRadio(valveTypeRadio) != -1)
+                valveType = indexRadio(valveTypeRadio);
             if (!TextUtils.isEmpty(valveHeightValue.getText()))
                 valveHeight = Double.parseDouble(String.valueOf(valveHeightValue.getText()));
         }
         if (!TextUtils.isEmpty(valveObsValue.getText()))
             valveObs = String.valueOf(valveObsValue.getText());
 
-        hasMirror = getCheckedRadio(mirrorRadio);
+        hasMirror = indexRadio(mirrorRadio);
         if (hasMirror == 1) {
             if (!TextUtils.isEmpty(mirrorValueA.getText()))
                 mirA = Double.parseDouble(String.valueOf(mirrorValueA.getText()));
@@ -575,8 +581,11 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         }
         if (!TextUtils.isEmpty(mirrorObsValue.getText()))
             mirObs = String.valueOf(mirrorObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
-        return new RestBoxAccTwoUpdate(bundle.getInt(BOX_ID), hasEmer, emerHeight, emerObs, hasValve, valveType, valveHeight, valveObs, hasMirror, mirA, mirB, mirObs);
+        return new RestBoxAccTwoUpdate(bundle.getInt(BOX_ID), hasEmer, emerHeight, emerObs, hasValve, valveType, valveHeight, valveObs, hasMirror, mirA, mirB, mirObs,
+                photo);
     }
 
     private void imgExpandClick(View view) {

@@ -76,7 +76,7 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class}, version = 69)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class}, version = 70)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1793,6 +1793,49 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_69_70 = new Migration(69, 70) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN extAccPhotos2 TEXT");
+            database.execSQL("ALTER TABLE ExternalAccess ADD COLUMN extAccPhotos3 TEXT");
+            database.execSQL("ALTER TABLE ParkingLotEntry ADD COLUMN parkPhotos TEXT");
+            database.execSQL("ALTER TABLE ParkingLotElderlyEntry ADD COLUMN parkElderPhoto TEXT");
+            database.execSQL("ALTER TABLE ParkingLotPCDEntry ADD COLUMN pcdPhoto TEXT");
+            database.execSQL("ALTER TABLE PayPhoneEntry ADD COLUMN phonePhoto TEXT");
+            database.execSQL("ALTER TABLE RampStairsFlightEntry ADD COLUMN rampStairPhoto TEXT");
+            database.execSQL("ALTER TABLE RampStairsHandrailEntry ADD COLUMN handrailPhoto TEXT");
+            database.execSQL("ALTER TABLE RampStairsRailingEntry ADD COLUMN beaconPhoto TEXT");
+            database.execSQL("ALTER TABLE RampStairsEntry ADD COLUMN rampStairsPhoto TEXT");
+
+            database.execSQL("ALTER TABLE WaterFountainEntry ADD COLUMN fountainPhoto TEXT");
+            database.execSQL("ALTER TABLE SidewalkEntry ADD COLUMN sidePhotos2 TEXT");
+            database.execSQL("ALTER TABLE BlackboardEntry ADD COLUMN boardPhoto TEXT");
+            database.execSQL("ALTER TABLE CounterEntry ADD COLUMN counterPhoto TEXT");
+            database.execSQL("ALTER TABLE DoorLockEntry ADD COLUMN lockPhoto TEXT");
+            database.execSQL("ALTER TABLE EquipmentEntry ADD COLUMN equipPhoto TEXT");
+            database.execSQL("ALTER TABLE FreeSpaceEntry ADD COLUMN frSpacePhoto TEXT");
+            database.execSQL("ALTER TABLE GateObsEntry ADD COLUMN gateObsPhoto TEXT");
+            database.execSQL("ALTER TABLE SwitchEntry ADD COLUMN switchPhoto TEXT");
+            database.execSQL("ALTER TABLE TableEntry ADD COLUMN tablePhoto TEXT");
+            database.execSQL("ALTER TABLE WindowEntry ADD COLUMN windowPhoto TEXT");
+
+            database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN restFirstPhoto TEXT");
+            database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN restUpperPhoto TEXT");
+            database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN restToiletPhoto TEXT");
+            database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN restAccessPhoto TEXT");
+            database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN restAccessPhoto2 TEXT");
+            database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN restSinkPhoto TEXT");
+            database.execSQL("ALTER TABLE RestroomEntry ADD COLUMN restUrinalPhoto TEXT");
+
+            database.execSQL("ALTER TABLE RestBoxEntry ADD COLUMN boxUpperPhoto TEXT");
+            database.execSQL("ALTER TABLE RestBoxEntry ADD COLUMN boxToiletPhoto TEXT");
+            database.execSQL("ALTER TABLE RestBoxEntry ADD COLUMN boxAccessPhoto TEXT");
+            database.execSQL("ALTER TABLE RestBoxEntry ADD COLUMN boxAccessPhoto2 TEXT");
+            database.execSQL("ALTER TABLE RestBoxEntry ADD COLUMN boxSinkPhoto TEXT");
+        }
+    };
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -1810,7 +1853,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
                                     MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58, MIGRATION_58_59, MIGRATION_59_60,
                                     MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66,
-                                    MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69).build();
+                                    MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70).build();
                 }
             }
         }

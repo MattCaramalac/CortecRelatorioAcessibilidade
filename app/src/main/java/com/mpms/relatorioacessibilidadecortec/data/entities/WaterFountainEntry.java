@@ -33,12 +33,13 @@ public class WaterFountainEntry {
     private Double frontalApproxLowestSpout;
 
     private String fountainObs;
+    private String fountainPhoto;
 
     public WaterFountainEntry(int blockID, Integer roomID, String fountainLocation, Integer fountainType, String fountainTypeObs,
                               Integer allowSideApprox, String sideApproxObs, Double faucetHeight,
                               Integer hasCupHolder, Double cupHolderHeight, Integer hasSpoutsDifferentHeights,
                               Double highestSpoutHeight, Double lowestSpoutHeight, Integer allowFrontApprox,
-                              Double frontalApproxDepth, Double frontalApproxLowestSpout, String fountainObs) {
+                              Double frontalApproxDepth, Double frontalApproxLowestSpout, String fountainObs, String fountainPhoto) {
         this.blockID = blockID;
         this.roomID = roomID;
         this.fountainLocation = fountainLocation;
@@ -56,6 +57,7 @@ public class WaterFountainEntry {
         this.frontalApproxDepth = frontalApproxDepth;
         this.frontalApproxLowestSpout = frontalApproxLowestSpout;
         this.fountainObs = fountainObs;
+        this.fountainPhoto = fountainPhoto;
     }
 
     public int getWaterFountainID() {
@@ -200,5 +202,13 @@ public class WaterFountainEntry {
 
     public void setFrontalApproxDepth(Double frontalApproxDepth) {
         this.frontalApproxDepth = frontalApproxDepth;
+    }
+
+    public String getFountainPhoto() {
+        return fountainPhoto;
+    }
+
+    public void setFountainPhoto(String fountainPhoto) {
+        this.fountainPhoto = fountainPhoto;
     }
 }

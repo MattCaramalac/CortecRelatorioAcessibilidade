@@ -26,8 +26,8 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 public class TableFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
-    TextInputLayout supHeightField, infHeightField, tableWidthField, frontalApproxField, obsField, freeWidthField, tableDescField;
-    TextInputEditText supHeightValue, infHeightValue, tableWidthValue, frontalApproxValue, obsValue, freeWidthValue, tableDescValue;
+    TextInputLayout supHeightField, infHeightField, tableWidthField, frontalApproxField, obsField, freeWidthField, tableDescField, photoField;
+    TextInputEditText supHeightValue, infHeightValue, tableWidthValue, frontalApproxValue, obsValue, freeWidthValue, tableDescValue, photoValue;
     TextView tableTypeHeader, tableTypeError, tableSizeError;
     RadioGroup tableTypeRadio, tableSizeRadio;
     MaterialButton saveTable, cancelTable;
@@ -101,6 +101,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         obsField = view.findViewById(R.id.table_obs_field);
         freeWidthField = view.findViewById(R.id.table_fs_width_field);
         tableDescField = view.findViewById(R.id.table_desc_field);
+        photoField = view.findViewById(R.id.table_photo_field);
 //        TextInputEditText
         supHeightValue = view.findViewById(R.id.table_superior_border_height_value);
         infHeightValue = view.findViewById(R.id.table_inferior_border_height_value);
@@ -109,6 +110,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         obsValue = view.findViewById(R.id.table_obs_value);
         freeWidthValue = view.findViewById(R.id.table_fs_width_value);
         tableDescValue = view.findViewById(R.id.table_desc_value);
+        photoValue = view.findViewById(R.id.phone_photo_value);
 //        TextView
         tableTypeHeader = view.findViewById(R.id.table_type_header_text);
         tableTypeError = view.findViewById(R.id.table_type_error);
@@ -146,16 +148,18 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         freeWidthValue.setText(String.valueOf(tableEntry.getTableFreeWidth()));
         if (tableEntry.getTableObs() != null)
             obsValue.setText(tableEntry.getTableObs());
+        if (tableEntry.getTablePhoto() != null)
+            photoValue.setText(tableEntry.getTablePhoto());
     }
 
     private boolean tableNoEmptyFields(Bundle bundle) {
         clearTableEmptyFieldsErrors();
         int i = 0;
-        if (bundle.getInt(ROOM_TYPE) == 6 && indexCheckRadio(tableTypeRadio) == -1) {
+        if (bundle.getInt(ROOM_TYPE) == 6 && indexRadio(tableTypeRadio) == -1) {
             i++;
             tableTypeError.setVisibility(View.VISIBLE);
         }
-        if (indexCheckRadio(tableSizeRadio) == -1) {
+        if (indexRadio(tableSizeRadio) == -1) {
             i++;
             tableSizeError.setVisibility(View.VISIBLE);
         }
@@ -197,12 +201,12 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         Integer tableType = null;
         int tableSize;
         double supHeight, infHeight, tableWidth, frontAprox, freeWidth;
-        String tableObs = null, tableDesc = null;
+        String tableObs = null, tableDesc = null, photo = null;
 
         if (bundle.getInt(ROOM_TYPE) == 6) {
-            tableType = indexCheckRadio(tableTypeRadio);
+            tableType = indexRadio(tableTypeRadio);
         }
-        tableSize = indexCheckRadio(tableSizeRadio);
+        tableSize = indexRadio(tableSizeRadio);
         if (!TextUtils.isEmpty(tableDescValue.getText()))
             tableDesc = String.valueOf(tableDescValue.getText());
         supHeight = Double.parseDouble(String.valueOf(supHeightValue.getText()));
@@ -212,9 +216,11 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         freeWidth = Double.parseDouble(String.valueOf(freeWidthValue.getText()));
         if (!TextUtils.isEmpty(obsValue.getText()))
             tableObs = String.valueOf(obsValue.getText());
+        if (photoValue.getText() != null)
+            photo = String.valueOf(photoValue.getText());
 
         return new TableEntry(bundle.getInt(AMBIENT_ID), bundle.getInt(ROOM_TYPE), tableType, supHeight, infHeight,
-                tableWidth, frontAprox, tableObs, freeWidth, tableDesc, tableSize);
+                tableWidth, frontAprox, tableObs, freeWidth, tableDesc, tableSize, photo);
     }
 
     private void clearTableFields() {
@@ -226,6 +232,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         frontalApproxValue.setText(null);
         freeWidthValue.setText(null);
         obsValue.setText(null);
+        photoValue.setText(null);
     }
 
     @Override

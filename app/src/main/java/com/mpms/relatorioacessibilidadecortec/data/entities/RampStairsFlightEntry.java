@@ -52,6 +52,7 @@ public class RampStairsFlightEntry {
     private String borderSignObs;
     private String flightObs;
     private Double borderSignLength;
+    private String rampStairPhoto;
 
     public RampStairsFlightEntry(int rampStairsID, int flightNumber, Double flightWidth, Double flightLength, Double rampHeight, Integer mirrorCounter,
                                  Double stairMirror1, Double stairMirror2, Double stairMirror3, Double stairMirror4, Integer stepCounter, Double stairStep1,
@@ -59,7 +60,7 @@ public class RampStairsFlightEntry {
                                  Double rampSlope3, Double rampSlope4, Integer signPavement, String signPavementObs, Integer hasLowTactFloor, Double lowTactWidth,
                                  Double lowTactDist, Integer hasUpTactFloor, Double upTactWidth, Double upTactDist, String tactileFloorObs, Integer hasInterLevel,
                                  Double interLevelLength, String interLevelObs, Integer borderSign, Double borderSignWidth, Integer borderSignIdentifiable,
-                                 String borderSignObs, String flightObs, Double borderSignLength) {
+                                 String borderSignObs, String flightObs, Double borderSignLength, String rampStairPhoto) {
         this.rampStairsID = rampStairsID;
         this.flightNumber = flightNumber;
         this.flightWidth = flightWidth;
@@ -98,6 +99,15 @@ public class RampStairsFlightEntry {
         this.borderSignObs = borderSignObs;
         this.flightObs = flightObs;
         this.borderSignLength = borderSignLength;
+        this.rampStairPhoto = rampStairPhoto;
+    }
+
+    public String getRampStairPhoto() {
+        return rampStairPhoto;
+    }
+
+    public void setRampStairPhoto(String rampStairPhoto) {
+        this.rampStairPhoto = rampStairPhoto;
     }
 
     public int getFlightID() {

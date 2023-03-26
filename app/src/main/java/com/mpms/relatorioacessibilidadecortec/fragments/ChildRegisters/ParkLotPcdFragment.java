@@ -19,24 +19,23 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
-public class ParkLotPcdFragment extends Fragment implements TagInterface, ScrollEditText {
+public class ParkLotPcdFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     TextView pcdVertError, pcdSafetyZoneError, pcdSiaError, vacPositionError;
     RadioGroup hasVerticalSign, hasSafetyZone, hasSiaPcd;
     MultiLineRadioGroup vacPositionRadio;
     Button cancelParkingLotPcd, saveParkingLotPcd;
-    TextInputLayout pcdVertLengthField, pcdVertWidthField, pcdVertSignObsField, pcdVacancyLengthField,
-            pcdVacancyWidthField, pcdVacLimiterWidthField, safetyZoneWidthField,
-            safetyZoneObsField, siaLengthField, siaWidthField, siaObsField, pcdVacancyObsField, vacancyLocalField;
-    TextInputEditText pcdVertLengthValue, pcdVertWidthValue, pcdVertSignObsValue, pcdVacancyLengthValue,
-            pcdVacancyWidthValue, pcdVacLimiterWidthValue, safetyZoneWidthValue,
-            safetyZoneObsValue, siaLengthValue, siaWidthValue, siaObsValue, pcdVacancyObsValue, vacancyLocalValue;
+    TextInputLayout pcdVertLengthField, pcdVertWidthField, pcdVertSignObsField, pcdVacancyLengthField, pcdVacancyWidthField, pcdVacLimiterWidthField, safetyZoneWidthField,
+            safetyZoneObsField, siaLengthField, siaWidthField, siaObsField, pcdVacancyObsField, vacancyLocalField, photoField;
+    TextInputEditText pcdVertLengthValue, pcdVertWidthValue, pcdVertSignObsValue, pcdVacancyLengthValue, pcdVacancyWidthValue, pcdVacLimiterWidthValue, safetyZoneWidthValue,
+            safetyZoneObsValue, siaLengthValue, siaWidthValue, siaObsValue, pcdVacancyObsValue, vacancyLocalValue, photoValue;
     ArrayList<TextInputLayout> verticalFields, safetyFields, siaFields;
     ArrayList<TextInputEditText> eText = new ArrayList<>();
 
@@ -132,6 +131,7 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
         siaObsField = view.findViewById(R.id.PCD_SIA_obs_field);
         pcdVacancyObsField = view.findViewById(R.id.PCD_vacancy_obs_field);
         vacancyLocalField = view.findViewById(R.id.PCD_vacancy_locale_field);
+        photoField = view.findViewById(R.id.park_pcd_photo_field);
 //        TextInputEditText
         pcdVertLengthValue = view.findViewById(R.id.vertical_sign_PCD_length_value);
         pcdVertWidthValue = view.findViewById(R.id.vertical_sign_PCD_width_value);
@@ -146,6 +146,7 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
         siaObsValue = view.findViewById(R.id.PCD_SIA_obs_value);
         pcdVacancyObsValue = view.findViewById(R.id.PCD_vacancy_obs_value);
         vacancyLocalValue = view.findViewById(R.id.PCD_vacancy_locale_value);
+        photoValue = view.findViewById(R.id.park_pcd_photo_value);
 //        MaterialButton
         cancelParkingLotPcd = view.findViewById(R.id.cancel_parking_lot_pcd);
         saveParkingLotPcd = view.findViewById(R.id.save_parking_lot_pcd);
@@ -176,7 +177,8 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
 
     }
 
-    private void radioListener(RadioGroup group, int checkedID) {
+    @Override
+    public void radioListener(RadioGroup group, int checkedID) {
         int index = group.indexOfChild(group.findViewById(checkedID));
         if (group == hasVerticalSign) {
             if (index == 1)
@@ -216,7 +218,7 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
     private void loadPcdLotData(ParkingLotPCDEntry pcdEntry) {
         vacancyLocalValue.setText(pcdEntry.getPcdVacancyLocal());
         vacPositionRadio.checkAt(pcdEntry.getVacancyPosition());
-        hasVerticalSign.check(hasVerticalSign.getChildAt(pcdEntry.getHasVisualPcdVertSign()).getId());
+        checkRadioGroup(hasVerticalSign, pcdEntry.getHasVisualPcdVertSign());
         if (pcdEntry.getHasVisualPcdVertSign() == 1) {
             pcdVertLengthValue.setText(String.valueOf(pcdEntry.getVertPcdSignLength()));
             pcdVertWidthValue.setText(String.valueOf(pcdEntry.getVertPcdSignWidth()));
@@ -225,16 +227,18 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
         pcdVacancyLengthValue.setText(String.valueOf(pcdEntry.getPcdVacancyLength()));
         pcdVacancyWidthValue.setText(String.valueOf(pcdEntry.getPcdVacancyWidth()));
         pcdVacLimiterWidthValue.setText(String.valueOf(pcdEntry.getPcdVacancyLimitWidth()));
-        hasSafetyZone.check(hasSafetyZone.getChildAt(pcdEntry.getHasSecurityZone()).getId());
+        checkRadioGroup(hasSafetyZone, pcdEntry.getHasSecurityZone());
         if (pcdEntry.getHasSecurityZone() == 1)
             safetyZoneWidthValue.setText(String.valueOf(pcdEntry.getSecurityZoneWidth()));
-        hasSiaPcd.check(hasSiaPcd.getChildAt(pcdEntry.getHasPcdSia()).getId());
+       checkRadioGroup(hasSiaPcd, pcdEntry.getHasPcdSia());
         if (pcdEntry.getHasPcdSia() == 1) {
             siaLengthValue.setText(String.valueOf(pcdEntry.getPcdSiaLength()));
             siaWidthValue.setText(String.valueOf(pcdEntry.getPcdSiaWidth()));
         }
         siaObsValue.setText(pcdEntry.getPcdSiaObs());
         pcdVacancyObsValue.setText(pcdEntry.getPcdVacancyObs());
+        if (pcdEntry.getPcdPhoto() != null)
+            photoValue.setText(pcdEntry.getPcdPhoto());
     }
 
     private void clearErrorMessages() {
@@ -271,6 +275,7 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
         siaWidthValue.setText(null);
         siaObsValue.setText(null);
         pcdVacancyObsValue.setText(null);
+        photoValue.setText(null);
     }
 
     private boolean verifyEmptyPcdFields() {
@@ -284,10 +289,10 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
             i++;
             vacPositionError.setVisibility(View.VISIBLE);
         }
-        if (getCheckedRadio(hasVerticalSign) == -1) {
+        if (indexRadio(hasVerticalSign) == -1) {
             i++;
             pcdVertError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(hasVerticalSign) == 1) {
+        } else if (indexRadio(hasVerticalSign) == 1) {
             if (TextUtils.isEmpty(pcdVertLengthValue.getText())) {
                 i++;
                 pcdVacancyLengthField.setError(getString(R.string.req_field_error));
@@ -309,19 +314,19 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
             i++;
             pcdVacLimiterWidthField.setError(getString(R.string.req_field_error));
         }
-        if (getCheckedRadio(hasSafetyZone) == -1) {
+        if (indexRadio(hasSafetyZone) == -1) {
             i++;
             pcdSafetyZoneError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(hasSafetyZone) == 1) {
+        } else if (indexRadio(hasSafetyZone) == 1) {
             if (TextUtils.isEmpty(safetyZoneWidthValue.getText())) {
                 i++;
                 safetyZoneWidthField.setError(getString(R.string.req_field_error));
             }
         }
-        if (getCheckedRadio(hasSiaPcd) == -1) {
+        if (indexRadio(hasSiaPcd) == -1) {
             i++;
             pcdSiaError.setVisibility(View.VISIBLE);
-        } else if (getCheckedRadio(hasSiaPcd) == 1) {
+        } else if (indexRadio(hasSiaPcd) == 1) {
             if (TextUtils.isEmpty(siaLengthValue.getText())) {
                 i++;
                 siaLengthField.setError(getString(R.string.req_field_error));
@@ -334,20 +339,16 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
         return i == 0;
     }
 
-    private int getCheckedRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
     public ParkingLotPCDEntry newPcdEntry(Bundle bundle) {
         int hasPcdVertSign, hasPcdSafety, hasPcdSia, vacPosition;
         double vacancyLength, vacancyWidth, vacancyLimiterWidth;
         Double pcdVertSingLength = null, pcdVertSignWidth = null,
                 safetyZoneWidth = null, pcdSiaLength = null, pcdSiaWidth = null;
-        String locale, pcdVertSignObs, pcdHorVacancyObs, safetyZoneObs, pcdSiaObs, pcdVacancyObs;
+        String locale, pcdVertSignObs, pcdHorVacancyObs, safetyZoneObs, pcdSiaObs, pcdVacancyObs, photo = null;
 
         locale = String.valueOf(vacancyLocalValue.getText());
         vacPosition = vacPositionRadio.getCheckedRadioButtonIndex();
-        hasPcdVertSign = getCheckedRadio(hasVerticalSign);
+        hasPcdVertSign = indexRadio(hasVerticalSign);
         if (hasPcdVertSign == 1) {
             pcdVertSingLength = Double.valueOf(String.valueOf(pcdVertLengthValue.getText()));
             pcdVertSignWidth = Double.valueOf(String.valueOf(pcdVertWidthValue.getText()));
@@ -356,23 +357,25 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
         vacancyLength = Double.parseDouble(String.valueOf(pcdVacancyLengthValue.getText()));
         vacancyWidth = Double.parseDouble(String.valueOf(pcdVacancyWidthValue.getText()));
         vacancyLimiterWidth = Double.parseDouble(String.valueOf(pcdVacLimiterWidthValue.getText()));
-        hasPcdSafety = getCheckedRadio(hasSafetyZone);
+        hasPcdSafety = indexRadio(hasSafetyZone);
         if (hasPcdSafety == 1) {
             safetyZoneWidth = Double.valueOf(String.valueOf(safetyZoneWidthValue.getText()));
         }
         safetyZoneObs = String.valueOf(safetyZoneObsValue.getText());
-        hasPcdSia = getCheckedRadio(hasSiaPcd);
+        hasPcdSia = indexRadio(hasSiaPcd);
         if (hasPcdSia == 1) {
             pcdSiaLength = Double.valueOf(String.valueOf(siaLengthValue.getText()));
             pcdSiaWidth = Double.valueOf(String.valueOf(siaWidthValue.getText()));
         }
         pcdSiaObs = String.valueOf(siaObsValue.getText());
         pcdVacancyObs = String.valueOf(pcdVacancyObsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
         return new ParkingLotPCDEntry(bundle.getInt(PARKING_ID), locale, vacPosition, hasPcdVertSign,
                 pcdVertSingLength, pcdVertSignWidth, pcdVertSignObs, vacancyLength, vacancyWidth, vacancyLimiterWidth,
                 hasPcdSafety, safetyZoneWidth, safetyZoneObs, hasPcdSia, pcdSiaLength,
-                pcdSiaWidth, pcdSiaObs, pcdVacancyObs);
+                pcdSiaWidth, pcdSiaObs, pcdVacancyObs, photo);
     }
 
 

@@ -38,13 +38,14 @@ public class RestBoxSinkUpdate {
     private Double sinkMirrorLow;
     private Double sinkMirrorHigh;
     private String sinkObs;
+    private String boxSinkPhoto;
 
     public RestBoxSinkUpdate(int boxID, Integer hasSink, Integer sinkType, Double approxMeasureA, Double approxMeasureB, Double approxMeasureC, Double approxMeasureD,
                              Double approxMeasureE, Integer hasLowerColSink, Integer hasSinkBar, Integer hasLeftFrontHorBar, Double leftFrontHorMeasureA, Double leftFrontHorMeasureB,
                              Double leftFrontHorMeasureC, Double leftFrontHorMeasureD, Double leftFrontHorDiam, Double leftFrontHorDist, String leftFrontHorObs,
                              Integer hasRightSideVertBar, Double rightSideVertMeasureA, Double rightSideVertMeasureB, Double rightSideVertMeasureC, Double rightSideVertMeasureD,
                              Double rightSideVertMeasureE, Double rightSideVertDiam, Double rightSideVertDist, String rightSideVertObs, Integer sinkHasMirror, Double sinkMirrorLow,
-                             Double sinkMirrorHigh, String sinkObs) {
+                             Double sinkMirrorHigh, String sinkObs, String boxSinkPhoto) {
         this.boxID = boxID;
         this.hasSink = hasSink;
         this.sinkType = sinkType;
@@ -76,6 +77,7 @@ public class RestBoxSinkUpdate {
         this.sinkMirrorLow = sinkMirrorLow;
         this.sinkMirrorHigh = sinkMirrorHigh;
         this.sinkObs = sinkObs;
+        this.boxSinkPhoto = boxSinkPhoto;
     }
 
     public int getBoxID() {
@@ -324,5 +326,14 @@ public class RestBoxSinkUpdate {
 
     public void setHasSink(Integer hasSink) {
         this.hasSink = hasSink;
+    }
+
+
+    public String getBoxSinkPhoto() {
+        return boxSinkPhoto;
+    }
+
+    public void setBoxSinkPhoto(String boxSinkPhoto) {
+        this.boxSinkPhoto = boxSinkPhoto;
     }
 }

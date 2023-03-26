@@ -28,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.RestToiletSideBarsParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestSideWallFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
@@ -35,7 +36,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class RestToiletFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RestToiletFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     ImageButton toilet1, toilet2, toilet3, frontBar, pHolder1, pHolder2, pHolder3;
     TextView pHoldError, pHoldTypeHeader, pHoldTypeError, pHoldAlignHeader, pHoldAlignError, tTypeError, tSeatError, tSocError, socCornerError,
@@ -43,10 +44,10 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
     RadioGroup papHoldRadio, papHoldTypeRadio, pHoldAlignRadio, tTypeRadio, tSeatRadio, tSocRadio, socCornerRadio, tWallRadio, tFrontBarRadio, doucheRadio;
     TextInputLayout tActDescField, tActHeightField, tActObsField, papEmbAField, papEmbBField, papSupAField, papObsField, tNoSeatHeightField,
             tSeatHeightField, fSocField, lSocField, fBarFieldMeasureA, fBarFieldMeasureB, fBarFieldMeasureC, fBarSectField, fBarDistField,
-            tObsField, doucheActHeightField, douchePressHeightField, doucheObsField;
+            tObsField, doucheActHeightField, douchePressHeightField, doucheObsField, photoField;
     TextInputEditText tActDescValue, tActHeightValue, tActObsValue, papEmbAValue, papEmbBValue, papSupAValue, papObsValue, tNoSeatHeightValue,
             tSeatHeightValue, fSocValue, lSocValue, fBarValueMeasureA, fBarValueMeasureB, fBarValueMeasureC, fBarSectValue, fBarDistValue,
-            tObsValue, doucheActHeightValue, douchePressHeightValue, doucheObsValue;
+            tObsValue, doucheActHeightValue, douchePressHeightValue, doucheObsValue, photoValue;
     FrameLayout barFrag;
 
     ViewModelEntry modelEntry;
@@ -103,7 +104,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
                     RestBoxToilUpdate tUpdate = boxToilUpdate(bundle);
                     ViewModelEntry.updateBoxToilet(tUpdate);
                 } else {
-                    RestToiletUpdate tUpdate = barUpdate(bundle);
+                    RestToiletUpdate tUpdate = restToilUpdate(bundle);
                     ViewModelEntry.updateRestToiletData(tUpdate);
                 }
                 callNextFragment(resToilBundle);
@@ -113,14 +114,12 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
 
 
         saveSupBar.setOnClickListener(v -> {
-            if (getCheckedRadioIndex(tWallRadio) != -1) {
+            if (indexRadio(tWallRadio) != -1) {
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, cFragBundle);
             } else {
                 checkEmptySupBarField();
                 toastMessage();
             }
-
-
         });
 
         returnUpView.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
@@ -159,6 +158,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         doucheActHeightField = view.findViewById(R.id.douche_height_field);
         douchePressHeightField = view.findViewById(R.id.douche_pressure_height_field);
         doucheObsField = view.findViewById(R.id.douche_obs_field);
+        photoField = view.findViewById(R.id.toilet_photo_field);
 //        TextInputEditText
         tNoSeatHeightValue = view.findViewById(R.id.toilet_no_seat_height_value);
         tSeatHeightValue = view.findViewById(R.id.toilet_seat_height_value);
@@ -180,6 +180,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         doucheActHeightValue = view.findViewById(R.id.douche_height_value);
         douchePressHeightValue = view.findViewById(R.id.douche_pressure_height_value);
         doucheObsValue = view.findViewById(R.id.douche_obs_value);
+        photoValue = view.findViewById(R.id.toilet_photo_value);
 //        TextView
         tTypeError = view.findViewById(R.id.toilet_type_error);
         tSeatError = view.findViewById(R.id.toilet_seat_error);
@@ -269,8 +270,9 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
     }
 
+    @Override
     public void radioListener(RadioGroup radio, int checkedID) {
-        int index = getCheckedRadioIndex(radio);
+        int index = indexRadio(radio);
         if (radio == tTypeRadio) {
             if (index == 1) {
                 tSocHeader.setVisibility(View.GONE);
@@ -412,21 +414,17 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
 
     }
 
-    private int getCheckedRadioIndex(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
     public boolean checkEmptySupBarField() {
         clearEmptyFieldsErrors();
         int i = 0;
-        if (getCheckedRadioIndex(tTypeRadio) == -1) {
+        if (indexRadio(tTypeRadio) == -1) {
             tTypeError.setVisibility(View.VISIBLE);
             i++;
-        } else if (getCheckedRadioIndex(tTypeRadio) != 1) {
-            if (getCheckedRadioIndex(tSocRadio) == -1) {
+        } else if (indexRadio(tTypeRadio) != 1) {
+            if (indexRadio(tSocRadio) == -1) {
                 tSocError.setVisibility(View.VISIBLE);
                 i++;
-            } else if (getCheckedRadioIndex(tSocRadio) == 1) {
+            } else if (indexRadio(tSocRadio) == 1) {
                 if (TextUtils.isEmpty(fSocValue.getText())) {
                     fSocField.setError(getText(R.string.req_field_error));
                     i++;
@@ -435,7 +433,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
                     lSocField.setError(getText(R.string.req_field_error));
                     i++;
                 }
-                if (getCheckedRadioIndex(socCornerRadio) == -1) {
+                if (indexRadio(socCornerRadio) == -1) {
                     socCornerError.setVisibility(View.VISIBLE);
                     i++;
                 }
@@ -445,23 +443,23 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             tNoSeatHeightField.setError(getText(R.string.req_field_error));
             i++;
         }
-        if (getCheckedRadioIndex(tSeatRadio) == -1) {
+        if (indexRadio(tSeatRadio) == -1) {
             tSeatError.setVisibility(View.VISIBLE);
             i++;
-        } else if (getCheckedRadioIndex(tSeatRadio) == 1) {
+        } else if (indexRadio(tSeatRadio) == 1) {
             if (TextUtils.isEmpty(tSeatHeightValue.getText())) {
                 tSeatHeightField.setError(getText(R.string.req_field_error));
                 i++;
             }
         }
-        if (getCheckedRadioIndex(tWallRadio) == -1) {
+        if (indexRadio(tWallRadio) == -1) {
             tSideWallError.setVisibility(View.VISIBLE);
             i++;
         }
-        if (getCheckedRadioIndex(tFrontBarRadio) == -1) {
+        if (indexRadio(tFrontBarRadio) == -1) {
             tFrontBarError.setVisibility(View.VISIBLE);
             i++;
-        } else if (getCheckedRadioIndex(tFrontBarRadio) == 1) {
+        } else if (indexRadio(tFrontBarRadio) == 1) {
             if (TextUtils.isEmpty(fBarValueMeasureA.getText())) {
                 fBarFieldMeasureA.setError(getText(R.string.req_field_error));
                 i++;
@@ -491,14 +489,14 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             i++;
             tActHeightField.setError(getText(R.string.req_field_error));
         }
-        if (getCheckedRadioIndex(papHoldRadio) == -1) {
+        if (indexRadio(papHoldRadio) == -1) {
             pHoldError.setVisibility(View.VISIBLE);
             i++;
-        } else if (getCheckedRadioIndex(papHoldRadio) == 1) {
-            if (getCheckedRadioIndex(papHoldTypeRadio) == -1) {
+        } else if (indexRadio(papHoldRadio) == 1) {
+            if (indexRadio(papHoldTypeRadio) == -1) {
                 i++;
                 pHoldTypeError.setVisibility(View.VISIBLE);
-            } else if (getCheckedRadioIndex(papHoldTypeRadio) == 0) {
+            } else if (indexRadio(papHoldTypeRadio) == 0) {
                 if (TextUtils.isEmpty(papEmbAValue.getText())) {
                     i++;
                     papEmbAField.setError(getText(R.string.req_field_error));
@@ -508,7 +506,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
                     papEmbBField.setError(getText(R.string.req_field_error));
                 }
             } else {
-                if (getCheckedRadioIndex(pHoldAlignRadio) == -1) {
+                if (indexRadio(pHoldAlignRadio) == -1) {
                     i++;
                     pHoldAlignError.setVisibility(View.VISIBLE);
                 }
@@ -518,10 +516,10 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
                 }
             }
         }
-        if (getCheckedRadioIndex(doucheRadio) == -1) {
+        if (indexRadio(doucheRadio) == -1) {
             doucheError.setVisibility(View.VISIBLE);
             i++;
-        } else if (getCheckedRadioIndex(doucheRadio) == 1) {
+        } else if (indexRadio(doucheRadio) == 1) {
             if (TextUtils.isEmpty(doucheActHeightValue.getText())) {
                 i++;
                 doucheActHeightField.setError(getText(R.string.req_field_error));
@@ -552,23 +550,22 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
 
     public void loadToiletData(RestroomEntry rest) {
         if (rest.getToType() != null)
-            tTypeRadio.check(tTypeRadio.getChildAt(rest.getToType()).getId());
+            checkRadioGroup(tTypeRadio, rest.getToType());
         if (rest.getToHasSoculo() != null)
-            tSocRadio.check(tSocRadio.getChildAt(rest.getToHasSoculo()).getId());
+            checkRadioGroup(tSocRadio, rest.getToHasSoculo());
         if (rest.getFrSoculo() != null)
             fSocValue.setText(String.valueOf(rest.getFrSoculo()));
         if (rest.getLatSoculo() != null)
             lSocValue.setText(String.valueOf(rest.getLatSoculo()));
         if (rest.getSocCorners() != null)
-            socCornerRadio.check(socCornerRadio.getChildAt(rest.getSocCorners()).getId());
-        if (rest.getToHeightNoSeat() != null)
+            checkRadioGroup(socCornerRadio, rest.getSocCorners());
             tNoSeatHeightValue.setText(String.valueOf(rest.getToHeightNoSeat()));
         if (rest.getToHasSeat() != null)
-            tSeatRadio.check(tSeatRadio.getChildAt(rest.getToHasSeat()).getId());
+            checkRadioGroup(tSeatRadio, rest.getToHasSeat());
         if (rest.getToHeightSeat() != null)
             tSeatHeightValue.setText(String.valueOf(rest.getToHeightSeat()));
         if (rest.getToHasFrontBar() != null)
-            tFrontBarRadio.check(tFrontBarRadio.getChildAt(rest.getToHasFrontBar()).getId());
+            checkRadioGroup(tFrontBarRadio, rest.getToHasFrontBar());
         if (rest.getFrBarA() != null)
             fBarValueMeasureA.setText(String.valueOf(rest.getFrBarA()));
         if (rest.getFrBarB() != null)
@@ -580,7 +577,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         if (rest.getFrBarDist() != null)
             fBarDistValue.setText(String.valueOf(rest.getFrBarDist()));
         if (rest.getToHasWall() != null) {
-            tWallRadio.check(tWallRadio.getChildAt(rest.getToHasWall()).getId());
+            checkRadioGroup(tWallRadio, rest.getToHasWall());
             getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, resToilBundle);
         }
         if (rest.getToActDesc() != null)
@@ -590,21 +587,20 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         if (rest.getToActObs() != null)
             tActObsValue.setText(rest.getToActObs());
         if (rest.getHasPapHolder() != null)
-            papHoldRadio.check(papHoldRadio.getChildAt(rest.getHasPapHolder()).getId());
+            checkRadioGroup(papHoldRadio, rest.getHasPapHolder());
         if (rest.getPapHolderType() != null)
-            papHoldTypeRadio.check(papHoldTypeRadio.getChildAt(rest.getPapHolderType()).getId());
-        if (rest.getPapEmbDist() != null)
+            checkRadioGroup(papHoldTypeRadio, rest.getPapHolderType());
             papEmbAValue.setText(String.valueOf(rest.getPapEmbDist()));
         if (rest.getPapEmbHeight() != null)
             papEmbBValue.setText(String.valueOf(rest.getPapEmbHeight()));
         if (rest.getPapSupAlign() != null)
-            pHoldAlignRadio.check(pHoldAlignRadio.getChildAt(rest.getPapSupAlign()).getId());
+            checkRadioGroup(pHoldAlignRadio, rest.getPapSupAlign());
         if (rest.getPapSupHeight() != null)
             papSupAValue.setText(String.valueOf(rest.getPapSupHeight()));
         if (rest.getPapHoldObs() != null)
             papObsValue.setText(rest.getPapHoldObs());
         if (rest.getHasDouche() != null)
-            doucheRadio.check(doucheRadio.getChildAt(rest.getHasDouche()).getId());
+           checkRadioGroup(doucheRadio, rest.getHasDouche());
         if (rest.getDoucheActHeight() != null)
             doucheActHeightValue.setText(String.valueOf(rest.getDoucheActHeight()));
         if (rest.getDouchePressHeight() != null)
@@ -613,29 +609,28 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             doucheObsValue.setText(rest.getDoucheObs());
         if (rest.getToiletObs() != null)
             tObsValue.setText(rest.getToiletObs());
-
-
+        if (rest.getRestToiletPhoto() != null)
+            photoValue.setText(rest.getRestToiletPhoto());
     }
 
     public void loadBoxToiletData(RestBoxEntry rest) {
         if (rest.getToType() != null)
-            tTypeRadio.check(tTypeRadio.getChildAt(rest.getToType()).getId());
+            checkRadioGroup(tTypeRadio, rest.getToType());
         if (rest.getToHasSoculo() != null)
-            tSocRadio.check(tSocRadio.getChildAt(rest.getToHasSoculo()).getId());
+            checkRadioGroup(tSocRadio, rest.getToHasSoculo());
         if (rest.getFrSoculo() != null)
             fSocValue.setText(String.valueOf(rest.getFrSoculo()));
         if (rest.getLatSoculo() != null)
             lSocValue.setText(String.valueOf(rest.getLatSoculo()));
         if (rest.getSocCorners() != null)
-            socCornerRadio.check(socCornerRadio.getChildAt(rest.getSocCorners()).getId());
-        if (rest.getToHeightNoSeat() != null)
-            tNoSeatHeightValue.setText(String.valueOf(rest.getToHeightNoSeat()));
+            checkRadioGroup(socCornerRadio, rest.getSocCorners());
+        tNoSeatHeightValue.setText(String.valueOf(rest.getToHeightNoSeat()));
         if (rest.getToHasSeat() != null)
-            tSeatRadio.check(tSeatRadio.getChildAt(rest.getToHasSeat()).getId());
+            checkRadioGroup(tSeatRadio, rest.getToHasSeat());
         if (rest.getToHeightSeat() != null)
             tSeatHeightValue.setText(String.valueOf(rest.getToHeightSeat()));
         if (rest.getToHasFrontBar() != null)
-            tFrontBarRadio.check(tFrontBarRadio.getChildAt(rest.getToHasFrontBar()).getId());
+            checkRadioGroup(tFrontBarRadio, rest.getToHasFrontBar());
         if (rest.getFrBarA() != null)
             fBarValueMeasureA.setText(String.valueOf(rest.getFrBarA()));
         if (rest.getFrBarB() != null)
@@ -647,7 +642,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         if (rest.getFrBarDist() != null)
             fBarDistValue.setText(String.valueOf(rest.getFrBarDist()));
         if (rest.getToHasWall() != null) {
-            tWallRadio.check(tWallRadio.getChildAt(rest.getToHasWall()).getId());
+            checkRadioGroup(tWallRadio, rest.getToHasWall());
             getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, resToilBundle);
         }
         if (rest.getToActDesc() != null)
@@ -657,21 +652,20 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         if (rest.getToActObs() != null)
             tActObsValue.setText(rest.getToActObs());
         if (rest.getHasPapHolder() != null)
-            papHoldRadio.check(papHoldRadio.getChildAt(rest.getHasPapHolder()).getId());
+            checkRadioGroup(papHoldRadio, rest.getHasPapHolder());
         if (rest.getPapHolderType() != null)
-            papHoldTypeRadio.check(papHoldTypeRadio.getChildAt(rest.getPapHolderType()).getId());
-        if (rest.getPapEmbDist() != null)
-            papEmbAValue.setText(String.valueOf(rest.getPapEmbDist()));
+            checkRadioGroup(papHoldTypeRadio, rest.getPapHolderType());
+        papEmbAValue.setText(String.valueOf(rest.getPapEmbDist()));
         if (rest.getPapEmbHeight() != null)
             papEmbBValue.setText(String.valueOf(rest.getPapEmbHeight()));
         if (rest.getPapSupAlign() != null)
-            pHoldAlignRadio.check(pHoldAlignRadio.getChildAt(rest.getPapSupAlign()).getId());
+            checkRadioGroup(pHoldAlignRadio, rest.getPapSupAlign());
         if (rest.getPapSupHeight() != null)
             papSupAValue.setText(String.valueOf(rest.getPapSupHeight()));
         if (rest.getPapHoldObs() != null)
             papObsValue.setText(rest.getPapHoldObs());
         if (rest.getHasDouche() != null)
-            doucheRadio.check(doucheRadio.getChildAt(rest.getHasDouche()).getId());
+            checkRadioGroup(doucheRadio, rest.getHasDouche());
         if (rest.getDoucheActHeight() != null)
             doucheActHeightValue.setText(String.valueOf(rest.getDoucheActHeight()));
         if (rest.getDouchePressHeight() != null)
@@ -680,11 +674,11 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             doucheObsValue.setText(rest.getDoucheObs());
         if (rest.getToiletObs() != null)
             tObsValue.setText(rest.getToiletObs());
-
-
+        if (rest.getBoxToiletPhoto() != null)
+            photoValue.setText(rest.getBoxToiletPhoto());
     }
 
-    public RestToiletUpdate barUpdate(Bundle bundle) {
+    public RestToiletUpdate restToilUpdate(Bundle bundle) {
 
         int tType, tHasSeat, tHasFrontBar, tHasWall, tHasPapHolder, hasDouche;
         Integer tHasSoculo = null, socCorners = null, hasHorBar = null, hasVertBar = null, hasSideBar = null, hasArtBar = null, pHolderType = null, pSupAligned = null;
@@ -694,22 +688,22 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
                 vertBarI = null, vertBarJ = null, vertBarSect = null, vertBarDist = null, sideBarD = null, sideBarE = null, sideBarDistG = null, sideBarSect = null,
                 artBarH = null, artBarI = null, artBarJ = null, artBarSect = null,
                 pEmbDist = null, pEmbHeight = null, pSupHeight = null, doucheActHeight = null, douchePressHeight = null;
-        String tActDesc, tActObs, pHolderObs, doucheObs, tObs;
+        String tActDesc, tActObs = null, pHolderObs = null, doucheObs = null, tObs = null, photo = null;
 
-        tType = getCheckedRadioIndex(tTypeRadio);
+        tType = indexRadio(tTypeRadio);
         if (tType != 1) {
-            tHasSoculo = getCheckedRadioIndex(tSocRadio);
+            tHasSoculo = indexRadio(tSocRadio);
             if (tHasSoculo == 1) {
                 fSoculo = Double.parseDouble(String.valueOf(fSocValue.getText()));
                 lSoculo = Double.parseDouble(String.valueOf(lSocValue.getText()));
-                socCorners = getCheckedRadioIndex(socCornerRadio);
+                socCorners = indexRadio(socCornerRadio);
             }
         }
         tHeightNoSeat = Double.parseDouble(String.valueOf(tNoSeatHeightValue.getText()));
-        tHasSeat = getCheckedRadioIndex(tSeatRadio);
+        tHasSeat = indexRadio(tSeatRadio);
         if (tHasSeat == 1)
             tHeightSeat = Double.parseDouble(String.valueOf(tSeatHeightValue.getText()));
-        tHasFrontBar = getCheckedRadioIndex(tFrontBarRadio);
+        tHasFrontBar = indexRadio(tFrontBarRadio);
         if (tHasFrontBar == 1) {
             fBarA = Double.parseDouble(String.valueOf(fBarValueMeasureA.getText()));
             fBarB = Double.parseDouble(String.valueOf(fBarValueMeasureB.getText()));
@@ -717,7 +711,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             fBarSect = Double.parseDouble(String.valueOf(fBarSectValue.getText()));
             fBarDist = Double.parseDouble(String.valueOf(fBarDistValue.getText()));
         }
-        tHasWall = getCheckedRadioIndex(tWallRadio);
+        tHasWall = indexRadio(tWallRadio);
 
         RestToiletSideBarsParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
@@ -758,36 +752,43 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         }
         tActDesc = String.valueOf(tActDescValue.getText());
         tActHeight = Double.parseDouble(String.valueOf(tActHeightValue.getText()));
-        tActObs = String.valueOf(tActObsValue.getText());
+        if (!TextUtils.isEmpty(tActObsValue.getText()))
+            tActObs = String.valueOf(tActObsValue.getText());
 
-        tHasPapHolder = getCheckedRadioIndex(papHoldRadio);
+        tHasPapHolder = indexRadio(papHoldRadio);
         if (tHasPapHolder == 1) {
-            pHolderType = getCheckedRadioIndex(papHoldTypeRadio);
+            pHolderType = indexRadio(papHoldTypeRadio);
             if (pHolderType == 0) {
                 pEmbDist = Double.parseDouble(String.valueOf(papEmbAValue.getText()));
                 pEmbHeight = Double.parseDouble(String.valueOf(papEmbBValue.getText()));
             } else if (pHolderType == 1) {
-                pSupAligned = getCheckedRadioIndex(pHoldAlignRadio);
+                pSupAligned = indexRadio(pHoldAlignRadio);
                 pSupHeight = Double.parseDouble(String.valueOf(papSupAValue.getText()));
             }
         }
-        pHolderObs = String.valueOf(papObsValue.getText());
+        if (!TextUtils.isEmpty(papObsValue.getText()))
+            pHolderObs = String.valueOf(papObsValue.getText());
 
-        hasDouche = getCheckedRadioIndex(doucheRadio);
+        hasDouche = indexRadio(doucheRadio);
         if (hasDouche == 1) {
             doucheActHeight = Double.parseDouble(String.valueOf(doucheActHeightValue.getText()));
             douchePressHeight = Double.parseDouble(String.valueOf(douchePressHeightValue.getText()));
         }
 
-        doucheObs = String.valueOf(doucheObsValue.getText());
+        if (!TextUtils.isEmpty(doucheObsValue.getText()))
+            doucheObs = String.valueOf(doucheObsValue.getText());
 
-        tObs = String.valueOf(tObsValue.getText());
+        if (!TextUtils.isEmpty(tObsValue.getText()))
+            tObs = String.valueOf(tObsValue.getText());
+
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
         return new RestToiletUpdate(resToilBundle.getInt(REST_ID), tType, tHeightNoSeat, tHasSeat, tHeightSeat, tHasSoculo, fSoculo, lSoculo, socCorners,
                 tHasFrontBar, fBarA, fBarB, fBarC, fBarSect, fBarDist, tHasWall, hasHorBar, horBarD, horBarE, horBarF, horBarDistG, horBarSect, horBarDist,
                 hasVertBar, vertBarH, vertBarI, vertBarJ, vertBarSect, vertBarDist, hasSideBar, sideBarD, sideBarE, sideBarDistG, sideBarSect, hasArtBar,
                 artBarH, artBarI, artBarJ, artBarSect, tActDesc, tActHeight, tActObs, tHasPapHolder, pHolderType, pEmbDist, pEmbHeight, pSupAligned, pSupHeight,
-                pHolderObs, hasDouche, douchePressHeight, doucheActHeight, doucheObs, tObs);
+                pHolderObs, hasDouche, douchePressHeight, doucheActHeight, doucheObs, tObs, photo);
     }
 
     public RestBoxToilUpdate boxToilUpdate(Bundle bundle) {
@@ -800,22 +801,22 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
                 vertBarI = null, vertBarJ = null, vertBarSect = null, vertBarDist = null, sideBarD = null, sideBarE = null, sideBarDistG = null, sideBarSect = null,
                 artBarH = null, artBarI = null, artBarJ = null, artBarSect = null,
                 pEmbDist = null, pEmbHeight = null, pSupHeight = null, doucheActHeight = null, douchePressHeight = null;
-        String tActDesc, tActObs, pHolderObs, doucheObs, tObs;
+        String tActDesc, tActObs = null, pHolderObs = null, doucheObs = null, tObs = null, photo = null;
 
-        tType = getCheckedRadioIndex(tTypeRadio);
+        tType = indexRadio(tTypeRadio);
         if (tType != 1) {
-            tHasSoculo = getCheckedRadioIndex(tSocRadio);
+            tHasSoculo = indexRadio(tSocRadio);
             if (tHasSoculo == 1) {
                 fSoculo = Double.parseDouble(String.valueOf(fSocValue.getText()));
                 lSoculo = Double.parseDouble(String.valueOf(lSocValue.getText()));
-                socCorners = getCheckedRadioIndex(socCornerRadio);
+                socCorners = indexRadio(socCornerRadio);
             }
         }
         tHeightNoSeat = Double.parseDouble(String.valueOf(tNoSeatHeightValue.getText()));
-        tHasSeat = getCheckedRadioIndex(tSeatRadio);
+        tHasSeat = indexRadio(tSeatRadio);
         if (tHasSeat == 1)
             tHeightSeat = Double.parseDouble(String.valueOf(tSeatHeightValue.getText()));
-        tHasFrontBar = getCheckedRadioIndex(tFrontBarRadio);
+        tHasFrontBar = indexRadio(tFrontBarRadio);
         if (tHasFrontBar == 1) {
             fBarA = Double.parseDouble(String.valueOf(fBarValueMeasureA.getText()));
             fBarB = Double.parseDouble(String.valueOf(fBarValueMeasureB.getText()));
@@ -823,7 +824,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             fBarSect = Double.parseDouble(String.valueOf(fBarSectValue.getText()));
             fBarDist = Double.parseDouble(String.valueOf(fBarDistValue.getText()));
         }
-        tHasWall = getCheckedRadioIndex(tWallRadio);
+        tHasWall = indexRadio(tWallRadio);
 
         RestToiletSideBarsParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
@@ -864,36 +865,43 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         }
         tActDesc = String.valueOf(tActDescValue.getText());
         tActHeight = Double.parseDouble(String.valueOf(tActHeightValue.getText()));
-        tActObs = String.valueOf(tActObsValue.getText());
+        if (!TextUtils.isEmpty(tActObsValue.getText()))
+            tActObs = String.valueOf(tActObsValue.getText());
 
-        tHasPapHolder = getCheckedRadioIndex(papHoldRadio);
+        tHasPapHolder = indexRadio(papHoldRadio);
         if (tHasPapHolder == 1) {
-            pHolderType = getCheckedRadioIndex(papHoldTypeRadio);
+            pHolderType = indexRadio(papHoldTypeRadio);
             if (pHolderType == 0) {
                 pEmbDist = Double.parseDouble(String.valueOf(papEmbAValue.getText()));
                 pEmbHeight = Double.parseDouble(String.valueOf(papEmbBValue.getText()));
             } else if (pHolderType == 1) {
-                pSupAligned = getCheckedRadioIndex(pHoldAlignRadio);
+                pSupAligned = indexRadio(pHoldAlignRadio);
                 pSupHeight = Double.parseDouble(String.valueOf(papSupAValue.getText()));
             }
         }
-        pHolderObs = String.valueOf(papObsValue.getText());
+        if (!TextUtils.isEmpty(papObsValue.getText()))
+            pHolderObs = String.valueOf(papObsValue.getText());
 
-        hasDouche = getCheckedRadioIndex(doucheRadio);
+        hasDouche = indexRadio(doucheRadio);
         if (hasDouche == 1) {
             doucheActHeight = Double.parseDouble(String.valueOf(doucheActHeightValue.getText()));
             douchePressHeight = Double.parseDouble(String.valueOf(douchePressHeightValue.getText()));
         }
 
-        doucheObs = String.valueOf(doucheObsValue.getText());
+        if (!TextUtils.isEmpty(doucheObsValue.getText()))
+            doucheObs = String.valueOf(doucheObsValue.getText());
 
-        tObs = String.valueOf(tObsValue.getText());
+        if (!TextUtils.isEmpty(tObsValue.getText()))
+            tObs = String.valueOf(tObsValue.getText());
+
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
         return new RestBoxToilUpdate(resToilBundle.getInt(BOX_ID), tType, tHeightNoSeat, tHasSeat, tHeightSeat, tHasSoculo, fSoculo, lSoculo, socCorners,
                 tHasFrontBar, fBarA, fBarB, fBarC, fBarSect, fBarDist, tHasWall, hasHorBar, horBarD, horBarE, horBarF, horBarDistG, horBarSect, horBarDist,
                 hasVertBar, vertBarH, vertBarI, vertBarJ, vertBarSect, vertBarDist, hasSideBar, sideBarD, sideBarE, sideBarDistG, sideBarSect, hasArtBar,
                 artBarH, artBarI, artBarJ, artBarSect, tActDesc, tActHeight, tActObs, tHasPapHolder, pHolderType, pEmbDist, pEmbHeight, pSupAligned, pSupHeight,
-                pHolderObs, hasDouche, douchePressHeight, doucheActHeight, doucheObs, tObs);
+                pHolderObs, hasDouche, douchePressHeight, doucheActHeight, doucheObs, tObs, photo);
     }
 
 }

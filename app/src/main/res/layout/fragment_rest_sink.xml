@@ -282,7 +282,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:text="O lavatório possui coluna?"
+            android:text="@string/header_sink_has_column"
             android:textSize="@dimen/section_header"
             app:layout_constraintTop_toBottomOf="@id/sink_approx_measureD_field" />
 
@@ -608,6 +608,21 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/sink_photo_field"
+            app:layout_constraintTop_toBottomOf="@id/sink_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_photo_field"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_photo_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

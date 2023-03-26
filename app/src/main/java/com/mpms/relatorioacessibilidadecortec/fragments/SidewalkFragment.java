@@ -26,12 +26,13 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.SideMeasureParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SideMeasureFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.parceler.Parcels;
 
-public class SidewalkFragment extends Fragment implements TagInterface, ScrollEditText {
+public class SidewalkFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     TextInputLayout sideLocationField, sideObsField, sidePhotoField;
     TextInputEditText sideLocationValue, sideObsValue, sidePhotoValue;
@@ -100,7 +101,7 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
         }
 
         saveProceedSidewalk.setOnClickListener(v -> {
-            if (getCheckedSidewalkRadioButton(hasSidewalkRadio) == 1)
+            if (indexRadio(hasSidewalkRadio) == 1)
                 getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, sideBundle);
             else if (checkEmptySidewalkFields()) {
                 if (sideBundle.getInt(AMBIENT_ID) > 0) {
@@ -203,7 +204,7 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
 //        FrameLayout
         sideFrag = view.findViewById(R.id.has_sidewalk_fragment);
 //        Listeners
-        hasSidewalkRadio.setOnCheckedChangeListener(this::sidewalkRadioListener);
+        hasSidewalkRadio.setOnCheckedChangeListener(this::radioListener);
         cancelSidewalk.setOnClickListener(v -> cancelClick());
     }
 
@@ -212,11 +213,10 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
         if (sidewalk.getSidewalkLocation() != null)
             sideLocationValue.setText(sidewalk.getSidewalkLocation());
         if (sidewalk.getStreetPavement() != null && sidewalk.getStreetPavement() > -1)
-            streetPavementRadio.check(streetPavementRadio.getChildAt(sidewalk.getStreetPavement()).getId());
+           checkRadioGroup(streetPavementRadio, sidewalk.getStreetPavement());
         if (sidewalk.getHasSidewalk() != null && sidewalk.getHasSidewalk() > -1) {
-            hasSidewalkRadio.check(hasSidewalkRadio.getChildAt(sidewalk.getHasSidewalk()).getId());
-//            if (sidewalk.getHasSidewalk() == 1)
-//                getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, sideBundle);
+            checkRadioGroup(hasSidewalkRadio, sidewalk.getHasSidewalk());
+
         }
         if (sidewalk.getSidewalkObs() != null)
             sideObsValue.setText(sidewalk.getSidewalkObs());
@@ -225,28 +225,10 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
 
     }
 
-    private void sidewalkRadioListener(RadioGroup radio, int checkedID) {
-        int index = radio.indexOfChild(radio.findViewById(checkedID));
-        if (radio == hasSidewalkRadio) {
-            if (index == 1) {
-                sideFrag.setVisibility(View.VISIBLE);
-                getChildFragmentManager().beginTransaction().replace(R.id.has_sidewalk_fragment, SideMeasureFragment.newInstance(sideBundle)).commit();
-            }
-            else {
-                removeSideMeasureFrag();
-                sideFrag.setVisibility(View.GONE);
-            }
-        }
-    }
-
     private void removeSideMeasureFrag() {
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.has_sidewalk_fragment);
         if (fragment != null)
             getChildFragmentManager().beginTransaction().remove(fragment).commit();
-    }
-
-    private int getCheckedSidewalkRadioButton(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
     private boolean checkEmptySidewalkFields() {
@@ -258,12 +240,12 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
             sideLocationField.setError(getString(R.string.req_field_error));
         }
 
-        if (getCheckedSidewalkRadioButton(streetPavementRadio) == -1) {
+        if (indexRadio(streetPavementRadio) == -1) {
             i++;
             streetPavementError.setVisibility(View.VISIBLE);
         }
 
-        if (getCheckedSidewalkRadioButton(hasSidewalkRadio) == -1) {
+        if (indexRadio(hasSidewalkRadio) == -1) {
             i++;
             hasSidewalkError.setVisibility(View.VISIBLE);
         }
@@ -285,10 +267,10 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
 
         if (!TextUtils.isEmpty(sideLocationValue.getText()))
             sideLocale = String.valueOf(sideLocationValue.getText());
-        if (getCheckedSidewalkRadioButton(streetPavementRadio) != -1)
-            streetPavement = getCheckedSidewalkRadioButton(streetPavementRadio);
-        if (getCheckedSidewalkRadioButton(hasSidewalkRadio) != -1) {
-            hasSide = getCheckedSidewalkRadioButton(streetPavementRadio);
+        if (indexRadio(streetPavementRadio) != -1)
+            streetPavement = indexRadio(streetPavementRadio);
+        if (indexRadio(hasSidewalkRadio) != -1) {
+            hasSide = indexRadio(streetPavementRadio);
 
             if (hasSide == 1) {
                 SideMeasureParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
@@ -350,7 +332,7 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
         return new SidewalkEntry(bundle.getInt(BLOCK_ID), sideLocale, streetPavement, hasSide, sideWidth, sideFSpaceWidth, sideMeasureObs, slopeMeasureQnt,
                 sideSlope1, sideSlope2, sideSlope3, sideSlope4, sideSlope5, sideSlope6, hasTactFloor, tactFloorColor, tacTileDirWidth,
                 tacTileAlertWidth, tactFloorObs, sideObs, null, null,  null, null, null,
-                null, null, null, null, null, null, null, sidePhoto);
+                null, null, null, null, null, null, null, sidePhoto, null);
     }
 
     private SidewalkEntryOne updateSidewalkOne(Bundle bundle) {
@@ -361,10 +343,10 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
 
         if (!TextUtils.isEmpty(sideLocationValue.getText()))
             sideLocale = String.valueOf(sideLocationValue.getText());
-        if (getCheckedSidewalkRadioButton(streetPavementRadio) != -1)
-            streetPavement = getCheckedSidewalkRadioButton(streetPavementRadio);
-        if (getCheckedSidewalkRadioButton(hasSidewalkRadio) != -1) {
-            hasSide = getCheckedSidewalkRadioButton(streetPavementRadio);
+        if (indexRadio(streetPavementRadio) != -1)
+            streetPavement = indexRadio(streetPavementRadio);
+        if (indexRadio(hasSidewalkRadio) != -1) {
+            hasSide = indexRadio(streetPavementRadio);
             if (hasSide == 1) {
                 SideMeasureParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
@@ -435,5 +417,20 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
         removeSideMeasureFrag();
         hasSidewalkRadio.clearCheck();
 
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int index = indexRadio(radio);
+        if (radio == hasSidewalkRadio) {
+            if (index == 1) {
+                sideFrag.setVisibility(View.VISIBLE);
+                getChildFragmentManager().beginTransaction().replace(R.id.has_sidewalk_fragment, SideMeasureFragment.newInstance(sideBundle)).commit();
+            }
+            else {
+                removeSideMeasureFrag();
+                sideFrag.setVisibility(View.GONE);
+            }
+        }
     }
 }
