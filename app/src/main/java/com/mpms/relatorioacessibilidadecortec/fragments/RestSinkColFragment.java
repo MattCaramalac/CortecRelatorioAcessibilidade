@@ -22,13 +22,14 @@ import com.mpms.relatorioacessibilidadecortec.data.parcels.CounterSinkParcel;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.SinkParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.RestColCounterSinkFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
-public class RestSinkColFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RestSinkColFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     RadioGroup hasColSink, sinkTypeRadio;
     TextView colSinkError, sinkTypeHeader, sinkTypeError;
@@ -86,9 +87,9 @@ public class RestSinkColFragment extends Fragment implements TagInterface, Scrol
 
     private void loadColSinkData(RestroomEntry rest) {
         if (rest.getHasSink() != null) {
-            hasColSink.check(hasColSink.getChildAt(rest.getHasSink()).getId());
+            checkRadioGroup(hasColSink, rest.getHasSink());
             if (rest.getHasSink() == 1 && rest.getSinkType() != null) {
-                sinkTypeRadio.check(sinkTypeRadio.getChildAt(rest.getSinkType()).getId());
+                checkRadioGroup(sinkTypeRadio, rest.getSinkType());
             } else {
                 if (rest.getSinkObs() != null)
                     sinkObsValue.setText(rest.getSinkObs());
@@ -126,14 +127,14 @@ public class RestSinkColFragment extends Fragment implements TagInterface, Scrol
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         } else {
             if (checkEmptyFields()) {
-                if (getCheckRadio(hasColSink) == 0) {
+                if (indexRadio(hasColSink) == 0) {
                     RestSinkUpdate sUpdate = colSinkUpdate(colSinkBundle);
                     ViewModelEntry.updateRestSinkData(sUpdate);
                     RestUrinalFragment fragment = RestUrinalFragment.newInstance();
                     fragment.setArguments(colSinkBundle);
                     requireActivity().getSupportFragmentManager().beginTransaction().
                             replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
-                } else if (getCheckRadio(hasColSink) == 1) {
+                } else if (indexRadio(hasColSink) == 1) {
                     getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, colSinkBundle);
                 }
             } else
@@ -142,7 +143,8 @@ public class RestSinkColFragment extends Fragment implements TagInterface, Scrol
         }
     }
 
-    private void radioListener(RadioGroup radio, int checkID) {
+    @Override
+    public void radioListener(RadioGroup radio, int checkID) {
         int index = radio.indexOfChild(radio.findViewById(checkID));
 
         if (radio == hasColSink) {
@@ -181,17 +183,13 @@ public class RestSinkColFragment extends Fragment implements TagInterface, Scrol
 
     }
 
-    private int getCheckRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
     private boolean checkEmptyFields() {
         int i = 0;
-        if (getCheckRadio(hasColSink) == -1) {
+        if (indexRadio(hasColSink) == -1) {
             i++;
             colSinkError.setVisibility(View.VISIBLE);
-        } else if (getCheckRadio(hasColSink) == 1) {
-            if (getCheckRadio(sinkTypeRadio) == -1) {
+        } else if (indexRadio(hasColSink) == 1) {
+            if (indexRadio(sinkTypeRadio) == -1) {
                 i++;
                 sinkTypeError.setVisibility(View.VISIBLE);
             }
@@ -207,14 +205,14 @@ public class RestSinkColFragment extends Fragment implements TagInterface, Scrol
                 leftFrontHorDist = null, rightSideVertA = null, rightSideVertB = null, rightSideVertC = null, rightSideVertD = null, rightSideVertE = null,
                 rightSideVertDiam = null, rightSideVertDist = null, mirrorLow = null, mirrorHigh = null,
                 approxA = null, approxB = null, approxC = null, approxD = null, approxE = null;
-        String leftFrontHorObs = null, rightSideVertObs = null, sinkObs;
+        String leftFrontHorObs = null, rightSideVertObs = null, sinkObs, photo = null;
 
-        hasSink = getCheckRadio(hasColSink);
+        hasSink = indexRadio(hasColSink);
         if (hasSink == 0) {
             sinkObs = String.valueOf(sinkObsValue.getText());
         }
         else {
-            sinkType = getCheckRadio(sinkTypeRadio);
+            sinkType = indexRadio(sinkTypeRadio);
 
             if (sinkType == 0) {
                 SinkParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
@@ -253,6 +251,7 @@ public class RestSinkColFragment extends Fragment implements TagInterface, Scrol
                 mirrorHigh = parcel.getSinkMirrorHigh();
 
                 sinkObs = parcel.getSinkObs();
+                photo = parcel.getSinkPhoto();
             } else {
                 CounterSinkParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
@@ -261,11 +260,13 @@ public class RestSinkColFragment extends Fragment implements TagInterface, Scrol
                 approxC = parcel.getApproxMeasureC();
                 hasSinkBar = parcel.getHasSinkBar();
                 sinkObs = parcel.getSinkObs();
+                photo = parcel.getPhoto();
             }
         }
 
         return new RestSinkUpdate(bundle.getInt(REST_ID), hasSink, sinkType, approxA, approxB, approxC, approxD, approxE, hasColumn, hasSinkBar, hasLeftFrontHor, leftFrontHorA,
                 leftFrontHorB, leftFrontHorC, leftFrontHorD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasSideRightVert, rightSideVertA, rightSideVertB,
-                rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs, lowSink);
+                rightSideVertC, rightSideVertD, rightSideVertE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, hasMirror, mirrorLow, mirrorHigh, sinkObs, lowSink,
+                photo);
     }
 }

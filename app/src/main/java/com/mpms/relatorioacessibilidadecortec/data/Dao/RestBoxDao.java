@@ -31,32 +31,32 @@ public interface RestBoxDao {
     @Query("SELECT boxID, restID, typeBox, comBoxDoorWidth, comBoxFreeDiam, comBoxHasBars, comBoxToiletDoorDist, comBoxWidth, comBoxHasLeftBar, comBoxLeftShapeBarA, " +
             "comBoxLeftShapeBarB, comBoxLeftBarObs, comBoxLeftShapeBarC, comBoxLeftShapeBarD, comBoxLeftShapeBarDiam, comBoxLeftShapeBarDist, comBoxHasRightBar, " +
             "comBoxRightShapeBarA, comBoxRightShapeBarB, comBoxRightShapeBarC, comBoxRightShapeBarD, comBoxRightShapeBarDiam, comBoxRightShapeBarDist, comBoxRightBarObs," +
-            "comBoxObs FROM RestBoxEntry WHERE boxID = :boxID")
+            "comBoxObs, boxUpperPhoto FROM RestBoxEntry WHERE boxID = :boxID")
     LiveData<RestBoxEntry> getCommonBoxData(int boxID);
 
     @Query("SELECT boxID, restID, typeBox, upViewLength, upViewWidth, upViewMeasureA, upViewMeasureB, upViewMeasureC, upViewMeasureD, upViewMeasureD, upViewObs, " +
-            " restDrain, restDrainObs FROM RestBoxEntry WHERE boxID = :boxID")
+            " restDrain, restDrainObs, boxUpperPhoto FROM RestBoxEntry WHERE boxID = :boxID")
     LiveData<RestBoxEntry> getBoxUpViewData(int boxID);
 
     @Query("SELECT boxID, restID, typeBox, toType, toHeightNoSeat, toHasSeat, toHeightSeat, toHasSoculo, frSoculo, latSoculo, socCorners, toHasFrontBar, frBarA, frBarB, " +
             "frBarC, frBarSect, frBarDist, toHasWall, hasHorBar, horBarD, horBarE, horBarF, horBarDistG, horBarSect, horBarDist, hasVertBar, vertBarH, vertBarI, vertBarJ, " +
             "vertBarSect, vertBarDist, hasSideBar, sideBarD, sideBarE, sideBarDistG, sideBarSect, hasArtBar, artBarH, artBarI, artBarJ, artBarSect, toActDesc, toActHeight, " +
             "toActObs, hasPapHolder, papHolderType, papEmbDist, papEmbHeight, papSupAlign, papSupHeight, papHoldObs, hasDouche, douchePressHeight, doucheActHeight, doucheObs, " +
-            "toiletObs FROM RestBoxEntry WHERE boxID = :boxID")
+            "toiletObs, boxToiletPhoto FROM RestBoxEntry WHERE boxID = :boxID")
     LiveData<RestBoxEntry> getBoxToiletData(int boxID);
 
     @Query("SELECT boxID, restID, typeBox, hasHanger, hangerHeight, hangerObs, hasObjHold, objHoldCorrect, objHoldHeight, objHoldObs, hasSoapHold, soapHoldHeight, " +
-            "soapHoldObs, hasTowelHold, towelHoldHeight, towelHoldObs FROM RestBoxEntry WHERE boxID = :boxID")
+            "soapHoldObs, hasTowelHold, towelHoldHeight, towelHoldObs, boxAccessPhoto FROM RestBoxEntry WHERE boxID = :boxID")
     LiveData<RestBoxEntry> getBoxAccessData(int boxID);
 
     @Query("SELECT boxID, restID, typeBox, hasEmergencyButton, emergencyHeight, emergencyObs, hasWaterValve, waterValveType, waterValveHeight, waterValveObs, hasWallMirror, " +
-            "wallMirrorLow, wallMirrorHigh, wallMirrorObs FROM RestBoxEntry WHERE boxID = :boxID")
+            "wallMirrorLow, wallMirrorHigh, wallMirrorObs, boxAccessPhoto2 FROM RestBoxEntry WHERE boxID = :boxID")
     LiveData<RestBoxEntry> getBoxAccessDataTwo(int boxID);
 
     @Query("SELECT boxID, restID, typeBox, hasSink, sinkType, approxMeasureA, approxMeasureB, approxMeasureC, approxMeasureD, approxMeasureE, hasSinkBar, hasLeftFrontHorBar, " +
             "leftFrontHorMeasureA, leftFrontHorMeasureB, leftFrontHorMeasureC, leftFrontHorMeasureD, leftFrontHorDiam, leftFrontHorDist, leftFrontHorObs, hasRightSideVertBar, " +
             "rightSideVertMeasureA, rightSideVertMeasureB, rightSideVertMeasureC, rightSideVertMeasureD, rightSideVertMeasureE, rightSideVertDiam, rightSideVertDist, rightSideVertObs, " +
-            "sinkHasMirror, sinkMirrorLow, sinkMirrorHigh, sinkObs FROM RestBoxEntry WHERE boxID = :boxID")
+            "sinkHasMirror, sinkMirrorLow, sinkMirrorHigh, sinkObs, boxSinkPhoto FROM RestBoxEntry WHERE boxID = :boxID")
     LiveData<RestBoxEntry> getBoxSinkData(int boxID);
 
     @Query("SELECT * FROM RestBoxEntry WHERE boxID == :boxID")

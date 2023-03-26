@@ -275,6 +275,14 @@ public class ExtAccessSocialThree {
     public void setExtAccPhotos(String extAccPhotos) {
         this.extAccPhotos3 = extAccPhotos;
     }
+
+    public String getExtAccPhotos3() {
+        return extAccPhotos3;
+    }
+
+    public void setExtAccPhotos3(String extAccPhotos3) {
+        this.extAccPhotos3 = extAccPhotos3;
+    }
 }
 
 

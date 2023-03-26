@@ -18,18 +18,19 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.CounterSinkParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
-public class RestColCounterSinkFragment extends Fragment implements TagInterface, ScrollEditText {
+public class RestColCounterSinkFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     RadioGroup lowerSinkRadio, sinkBarRadio;
     TextView lowerSinkError, sinkBarError;
-    TextInputLayout counterHeightField, freeSpaceField, obsField;
-    TextInputEditText counterHeightValue, freeSpaceValue, obsValue;
+    TextInputLayout counterHeightField, freeSpaceField, obsField, photoField;
+    TextInputEditText counterHeightValue, freeSpaceValue, obsValue, photoValue;
 
     Bundle cSinkBundle;
 
@@ -90,22 +91,21 @@ public class RestColCounterSinkFragment extends Fragment implements TagInterface
         counterHeightField = view.findViewById(R.id.lower_sink_upper_height_field);
         freeSpaceField = view.findViewById(R.id.lower_sink_lower_height_field);
         obsField = view.findViewById(R.id.sink_counter_obs_field);
+        photoField = view.findViewById(R.id.sink_counter_photo_field);
 //        TextInputEditText
         counterHeightValue = view.findViewById(R.id.lower_sink_upper_height_value);
         freeSpaceValue = view.findViewById(R.id.lower_sink_lower_height_value);
         obsValue = view.findViewById(R.id.sink_counter_obs_value);
+        photoValue = view.findViewById(R.id.sink_counter_photo_value);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 //        Listener
         lowerSinkRadio.setOnCheckedChangeListener(this::radioListener);
     }
 
-    private int getCheckRadio(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
-    }
-
-    private void radioListener(RadioGroup radio, int checkID) {
-        int index = getCheckRadio(radio);
+    @Override
+    public void radioListener(RadioGroup radio, int checkID) {
+        int index = indexRadio(radio);
 
         if (index == 1) {
             counterHeightField.setVisibility(View.VISIBLE);
@@ -132,15 +132,17 @@ public class RestColCounterSinkFragment extends Fragment implements TagInterface
             sinkBarRadio.check(sinkBarRadio.getChildAt(rest.getHasSinkBar()).getId());
         if (rest.getSinkObs() != null)
             obsValue.setText(rest.getSinkObs());
+        if (rest.getRestSinkPhoto() != null)
+            photoValue.setText(rest.getRestSinkPhoto());
     }
 
     private boolean checkEmptyFields() {
         clearErrors();
         int i = 0;
-        if (getCheckRadio(lowerSinkRadio) == -1) {
+        if (indexRadio(lowerSinkRadio) == -1) {
             i++;
             lowerSinkError.setVisibility(View.VISIBLE);
-        } else if (getCheckRadio(lowerSinkRadio) == 1) {
+        } else if (indexRadio(lowerSinkRadio) == 1) {
             if (TextUtils.isEmpty(counterHeightValue.getText())) {
                 i++;
                 counterHeightField.setError(getString(R.string.req_field_error));
@@ -150,7 +152,7 @@ public class RestColCounterSinkFragment extends Fragment implements TagInterface
                 freeSpaceField.setError(getString(R.string.req_field_error));
             }
         }
-        if (getCheckRadio(sinkBarRadio) == -1) {
+        if (indexRadio(sinkBarRadio) == -1) {
             i++;
             sinkBarError.setVisibility(View.VISIBLE);
         }
@@ -167,17 +169,19 @@ public class RestColCounterSinkFragment extends Fragment implements TagInterface
     private CounterSinkParcel createCounterParcel() {
         int hasLowSink, hasBar;
         Double upperCounter = null, freeSpace = null;
-        String sinkObs = null;
+        String sinkObs = null, photo = null;
 
-        hasLowSink = getCheckRadio(lowerSinkRadio);
+        hasLowSink = indexRadio(lowerSinkRadio);
         if (hasLowSink == 1) {
             upperCounter = Double.parseDouble(String.valueOf(counterHeightValue.getText()));
             freeSpace = Double.parseDouble(String.valueOf(freeSpaceValue.getText()));
         }
-        hasBar = getCheckRadio(sinkBarRadio);
+        hasBar = indexRadio(sinkBarRadio);
         if (!TextUtils.isEmpty(obsValue.getText()))
             sinkObs = String.valueOf(obsValue.getText());
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
 
-        return new CounterSinkParcel(hasLowSink, upperCounter, freeSpace, hasBar, sinkObs);
+        return new CounterSinkParcel(hasLowSink, upperCounter, freeSpace, hasBar, sinkObs, photo);
     }
 }

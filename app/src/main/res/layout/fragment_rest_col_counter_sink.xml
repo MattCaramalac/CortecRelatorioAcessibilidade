@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:text="A bancada possui um lavatório rebaixado?"
+            android:text="@string/header_has_lower_counter_sink"
             android:textSize="@dimen/section_header"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -56,7 +56,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Altura do tampo da bancada (m)"
+            android:hint="@string/hint_counter_sink_height"
             app:layout_constraintTop_toBottomOf="@id/has_lower_sink_error"
             android:layout_marginTop="@dimen/usual_padding"
             android:visibility="gone">
@@ -74,7 +74,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Altura área livre sob a bancada (m)"
+            android:hint="@string/hint_counter_sink_free_space"
             app:layout_constraintTop_toBottomOf="@id/lower_sink_upper_height_field"
             android:layout_marginTop="@dimen/usual_padding"
             android:visibility="gone">
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:text="A pia possui barras de apoio?"
+            android:text="@string/header_sink_has_bars"
             android:textSize="@dimen/section_header"
             app:layout_constraintTop_toBottomOf="@id/lower_sink_lower_height_field"/>
 
@@ -149,6 +149,22 @@
                 android:scrollbarStyle="outsideInset"
                 android:scrollbars="vertical"
                 android:scrollHorizontally="false" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/sink_counter_photo_field"
+            app:layout_constraintTop_toBottomOf="@id/sink_counter_obs_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_photo_field"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sink_counter_photo_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -10,17 +10,19 @@ public class CounterSinkParcel {
     Double approxMeasureC;
     Integer hasSinkBar;
     String sinkObs;
+    String photo;
 
     public CounterSinkParcel() {
 
     }
 
-    public CounterSinkParcel(Integer hasLowerSink, Double approxMeasureB, Double approxMeasureC, Integer hasSinkBar, String sinkObs) {
+    public CounterSinkParcel(Integer hasLowerSink, Double approxMeasureB, Double approxMeasureC, Integer hasSinkBar, String sinkObs, String photo) {
         this.hasLowerSink = hasLowerSink;
         this.approxMeasureB = approxMeasureB;
         this.approxMeasureC = approxMeasureC;
         this.hasSinkBar = hasSinkBar;
         this.sinkObs = sinkObs;
+        this.photo = photo;
     }
 
     public Integer getHasLowerSink() {
@@ -61,5 +63,13 @@ public class CounterSinkParcel {
 
     public void setSinkObs(String sinkObs) {
         this.sinkObs = sinkObs;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

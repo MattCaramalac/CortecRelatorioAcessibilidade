@@ -129,8 +129,8 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
             towelHoldHeightValue.setText(String.valueOf(rest.getTowelHoldHeight()));
         if (rest.getTowelHoldObs() != null)
             towelHoldObsValue.setText(rest.getTowelHoldObs());
-        if (rest.getRestAccessPhoto() != null)
-            photoValue.setText(rest.getRestAccessPhoto());
+        if (rest.getRestFirstPhoto() != null)
+            photoValue.setText(rest.getRestFirstPhoto());
     }
 
     private void loadRestBoxAccOne(RestBoxEntry rest) {
@@ -163,8 +163,8 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
             towelHoldHeightValue.setText(String.valueOf(rest.getTowelHoldHeight()));
         if (rest.getTowelHoldObs() != null)
             towelHoldObsValue.setText(rest.getTowelHoldObs());
-        if (rest.getBoxAccessPhoto() != null)
-            photoValue.setText(rest.getBoxAccessPhoto());
+        if (rest.getBoxUpperPhoto() != null)
+            photoValue.setText(rest.getBoxUpperPhoto());
     }
 
     private void callAccessTwoFragment(Bundle bundle) {

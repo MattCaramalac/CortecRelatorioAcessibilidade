@@ -167,7 +167,7 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
             }
             if (rest.getSwitchObs() != null && rest.getSwitchObs().length() > 0)
                 restSwitchObsValue.setText(rest.getSwitchObs());
-            if (rest.getRestFirstPhoto() != null )
+            if (rest.getRestFirstPhoto() != null)
                 photoValue.setText(rest.getRestFirstPhoto());
         }
     }
