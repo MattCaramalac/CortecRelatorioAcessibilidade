@@ -39,7 +39,7 @@ import java.util.ArrayList;
 public class RestToiletFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     ImageButton toilet1, toilet2, toilet3, frontBar, pHolder1, pHolder2, pHolder3;
-    TextView pHoldError, pHoldTypeHeader, pHoldTypeError, pHoldAlignHeader, pHoldAlignError, tTypeError, tSeatError, tSocError, socCornerError,
+    TextView fragHeader, pHoldError, pHoldTypeHeader, pHoldTypeError, pHoldAlignHeader, pHoldAlignError, tTypeError, tSeatError, tSocError, socCornerError,
             tSideWallError, tFrontBarError, tSocHeader, socCornerHeader, doucheError;
     RadioGroup papHoldRadio, papHoldTypeRadio, pHoldAlignRadio, tTypeRadio, tSeatRadio, tSocRadio, socCornerRadio, tWallRadio, tFrontBarRadio, doucheRadio;
     TextInputLayout tActDescField, tActHeightField, tActObsField, papEmbAField, papEmbBField, papSupAField, papObsField, tNoSeatHeightField,
@@ -182,6 +182,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         doucheObsValue = view.findViewById(R.id.douche_obs_value);
         photoValue = view.findViewById(R.id.toilet_photo_value);
 //        TextView
+        fragHeader = view.findViewById(R.id.rest_toilet_header);
         tTypeError = view.findViewById(R.id.toilet_type_error);
         tSeatError = view.findViewById(R.id.toilet_seat_error);
         tSocError = view.findViewById(R.id.toilet_soculo_error);
@@ -250,6 +251,9 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         addObsFields();
         allowObsScroll(toiletObsArray);
+
+        if (resToilBundle.getBoolean(FROM_BOX))
+            fragHeader.setText(R.string.header_box_toilet_header);
     }
 
     private void imgExpandClickListener(View view) {
@@ -559,6 +563,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             lSocValue.setText(String.valueOf(rest.getLatSoculo()));
         if (rest.getSocCorners() != null)
             checkRadioGroup(socCornerRadio, rest.getSocCorners());
+        if (rest.getToHeightNoSeat() != null)
             tNoSeatHeightValue.setText(String.valueOf(rest.getToHeightNoSeat()));
         if (rest.getToHasSeat() != null)
             checkRadioGroup(tSeatRadio, rest.getToHasSeat());
@@ -624,7 +629,8 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             lSocValue.setText(String.valueOf(rest.getLatSoculo()));
         if (rest.getSocCorners() != null)
             checkRadioGroup(socCornerRadio, rest.getSocCorners());
-        tNoSeatHeightValue.setText(String.valueOf(rest.getToHeightNoSeat()));
+        if (rest.getToHeightNoSeat() != null)
+            tNoSeatHeightValue.setText(String.valueOf(rest.getToHeightNoSeat()));
         if (rest.getToHasSeat() != null)
             checkRadioGroup(tSeatRadio, rest.getToHasSeat());
         if (rest.getToHeightSeat() != null)

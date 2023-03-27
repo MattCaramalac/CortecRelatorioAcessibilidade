@@ -19,8 +19,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxFirstUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.BoxBarParcel;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.BoxUpViewParcel;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.CommonBoxParcel;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestBoxUpperViewFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestCommonBoxFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RestUpViewFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -313,7 +313,7 @@ public class RestBoxFragment extends Fragment implements TagInterface, RadioGrou
         if (index == 0)
             fragment = new RestCommonBoxFragment();
         else
-            fragment = new RestUpViewFragment();
+            fragment = new RestBoxUpperViewFragment();
         fragment.setArguments(boxBundle);
         getChildFragmentManager().beginTransaction().replace(R.id.box_type_fragment, fragment).addToBackStack(null).commit();
 

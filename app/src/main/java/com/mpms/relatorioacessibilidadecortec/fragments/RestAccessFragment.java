@@ -37,7 +37,7 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
     TextInputEditText hangerHeightValue, hangerObsValue, objHoldHeightValue, objHoldObsValue, soapHoldHeightValue, soapHoldObsValue, towelHoldHeightValue, towelHoldObsValue,
             photoValue;
     RadioGroup hangRadio, objHoldRadio, objHoldStatRadio, soapRadio, towelRadio;
-    TextView hangError, objHoldError, objHoldStatHeader, objHoldStatError, soapError, towelError;
+    TextView hangError, objHoldError, objHoldStatHeader, objHoldStatError, soapError, towelError, accessHeader, hangHeader, objHeader, soapHeader, towelHeader;
     MaterialButton returnToilView, saveToilAccess;
 
     ViewModelEntry modelEntry;
@@ -208,6 +208,11 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
         objHoldStatError = view.findViewById(R.id.obj_hold_status_error);
         soapError = view.findViewById(R.id.soap_error);
         towelError = view.findViewById(R.id.towel_error);
+        accessHeader = view.findViewById(R.id.access_info_header);
+        hangHeader = view.findViewById(R.id.hanger_header);
+        objHeader = view.findViewById(R.id.obj_holder_header);
+        soapHeader = view.findViewById(R.id.soap_holder_header);
+        towelHeader = view.findViewById(R.id.towel_holder_header);
 
 //        MaterialButton
         returnToilView = view.findViewById(R.id.return_access_one);
@@ -222,6 +227,14 @@ public class RestAccessFragment extends Fragment implements TagInterface, Scroll
 
         addEditTextFields();
         allowObsScroll(accessObsArray);
+
+        if (rAccessBundle.getBoolean(FROM_BOX)) {
+            accessHeader.setText(R.string.header_box_accessories);
+            hangHeader.setText(R.string.header_box_hanger);
+            objHeader.setText(R.string.header_box_obj_holder);
+            soapHeader.setText(R.string.header_box_soap_holder);
+            towelHeader.setText(R.string.header_box_towel_holder);
+        }
 
     }
 

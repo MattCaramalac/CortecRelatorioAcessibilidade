@@ -92,9 +92,9 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
 
         getParentFragmentManager().setFragmentResult(MEMORIAL, restBundle);
 
-        if (restBundle.getInt(REST_ID) > 0) {
+        if (restBundle.getInt(REST_ID) > 0)
             modelEntry.getOneRestroomEntry(restBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadRestData);
-        }
+
 
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (bundle.getBoolean(ADD_ITEM_REQUEST)) {
@@ -131,6 +131,13 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
                     restBundle.putBoolean(RECENT_ENTRY, true);
                     RestroomEntry rest = createRestEntry(bundle);
                     ViewModelEntry.insertRestroomEntry(rest);
+                    modelEntry.getLastRestroomEntry().observe(getViewLifecycleOwner(), nRest -> {
+                        restBundle.putInt(REST_ID, nRest.getRestroomID());
+                        if (restBundle.getBoolean(ADD_ITEM_REQUEST))
+                            callNextChildFragment(restBundle);
+                        else
+                            callNextRestFragment(restBundle);
+                    });
                 } else {
                     restBundle.putInt(REST_ID, 0);
                     Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
@@ -149,17 +156,6 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
     @Override
     public void onResume() {
         super.onResume();
-        if (!restBundle.getBoolean(RECENT_ENTRY)) {
-            modelEntry.getLastRestroomEntry().observe(getViewLifecycleOwner(), rest -> {
-                if (restBundle.getBoolean(RECENT_ENTRY)) {
-                    restBundle.putInt(REST_ID, rest.getRestroomID());
-                    if (restBundle.getBoolean(ADD_ITEM_REQUEST))
-                        callNextChildFragment(restBundle);
-                    else
-                        callNextRestFragment(restBundle);
-                }
-            });
-        }
         restBundle.putBoolean(ADD_ITEM_REQUEST, false);
         restBundle.putBoolean(CHILD_DATA_COMPLETE, false);
         restBundle.putBoolean(BOX_ENTRY, false);
@@ -351,7 +347,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
         return new RestroomEntry(restBundle.getInt(BLOCK_ID), restType, restGender, rLocation, hasDoor, notAccEntWidth, doorSill,
                 nAccEntObs, accessRoute, routeObs, intRest, intObs, restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs,
                 notAccLength, notAccWidth, null, null, null, null, null, null, null,
-                null, null,null, null, null, null, null, null, null, null, null,
+                null, null, null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
                 null, null, null, null, null, null, null, null,
@@ -373,7 +369,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
 
     private RestColFirstUpdate restColEntUpdate(Bundle bundle) {
         int restType;
-        Integer hasDoor = null, restGender = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null,
+        Integer hDoor = null, restGender = null, restAntiDrift = null, restDrain = null, restSwitch = null, accessRoute = null, intRest = null, hasWindow = null,
                 winQnt = null, doorSill = null;
         Double hSwitch = null, winHeight1 = null, winHeight2 = null, winHeight3 = null, notAccLength = null, notAccWidth = null, notAccEntWidth = null;
         String rLocation = null, routeObs = null, intObs = null, driftObs = null, drainObs = null, switchObs = null, winType1 = null, winType2 = null,
@@ -440,8 +436,10 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
         if (parcel.getWinObs() != null)
             winObs = parcel.getWinObs();
 
-        if (parcel.getCollectiveHasDoor() != null)
+        if (parcel.getCollectiveHasDoor() != null) {
+            hDoor = parcel.getCollectiveHasDoor();
             hasDoor = parcel.getCollectiveHasDoor();
+        }
         if (parcel.getNotAccessLength() != null)
             notAccLength = parcel.getNotAccessLength();
         if (parcel.getNotAccessWidth() != null)
@@ -456,7 +454,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
             photo = parcel.getFirstPhoto();
 
 
-        return new RestColFirstUpdate(restBundle.getInt(REST_ID), restType, restGender, rLocation, hasDoor, notAccEntWidth, doorSill, nAccEntObs, accessRoute, routeObs, intRest,
+        return new RestColFirstUpdate(restBundle.getInt(REST_ID), restType, restGender, rLocation, hDoor, notAccEntWidth, doorSill, nAccEntObs, accessRoute, routeObs, intRest,
                 intObs, restAntiDrift, driftObs, restDrain, drainObs, restSwitch, hSwitch, switchObs, notAccLength, notAccWidth, hasWindow, winQnt, winType1, winHeight1,
                 winType2, winHeight2, winType3, winHeight3, winObs, photo);
     }

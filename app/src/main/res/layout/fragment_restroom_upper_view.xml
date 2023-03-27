@@ -199,82 +199,10 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-       <TextView
-            android:id="@+id/rest_box_drain_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:text="@string/drain_header"
-            android:textSize="@dimen/section_header"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/upper_view_obs_field"
-           android:visibility="gone"/>
-
-        <RadioGroup
-            android:id="@+id/rest_box_drain_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rest_box_drain_header"
-            android:visibility="gone">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/radio_button_text" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/radio_button_text" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/rest_box_drain_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textColor="@color/error_message"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rest_box_drain_radio" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/rest_box_drain_obs_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_obs"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rest_box_drain_error"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/rest_box_drain_obs_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:inputType="textMultiLine"
-                android:lines="@integer/multiline_obs_field"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:scrollHorizontally="false" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/rest_up_photo_field"
-            app:layout_constraintTop_toBottomOf="@id/rest_box_drain_obs_field"
+            app:layout_constraintTop_toBottomOf="@id/upper_view_obs_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_photo_field"

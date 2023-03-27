@@ -40,7 +40,7 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
     TextInputEditText emergencyHeightValue, emergencyObsValue, valveHeightValue, valveObsValue, winTypeValue1, winTypeValue2, winTypeValue3, winHeightValue1,
             winHeightValue2, winHeightValue3, mirrorValueA, mirrorValueB, mirrorObsValue, winObsValue, photoValue;
     RadioGroup hasEmergencyRadio, hasValveRadio, valveTypeRadio, hasWindowRadio, mirrorRadio;
-    TextView emergencyError, valveError, valveTypeHeader, valveTypeError, winHeader, winError, mirrorError;
+    TextView emergencyError, valveError, valveTypeHeader, valveTypeError, winHeader, winError, mirrorError, emergencyHeader, valveHeader, mirrorHeader;
     ImageButton delWindow, mirrorImage;
     MaterialButton addWindow, returnAccessOne, continueSink;
 
@@ -139,6 +139,9 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
         winHeader = view.findViewById(R.id.rest_window_header);
         winError = view.findViewById(R.id.rest_window_error);
         mirrorError = view.findViewById(R.id.wall_mirror_error);
+        emergencyHeader = view.findViewById(R.id.emergency_header);
+        valveHeader = view.findViewById(R.id.water_valve_header);
+        mirrorHeader = view.findViewById(R.id.wall_mirror_header);
 //      Material Button
         addWindow = view.findViewById(R.id.add_window_command_button);
         returnAccessOne = view.findViewById(R.id.return_access_one);
@@ -164,6 +167,9 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
             winHeader.setVisibility(View.GONE);
             hasWindowRadio.setVisibility(View.GONE);
             winObsField.setVisibility(View.GONE);
+            emergencyHeader.setText(R.string.header_box_emergency_button);
+            valveHeader.setText(R.string.header_box_water_valve);
+            mirrorHeader.setText(R.string.header_box_wall_mirror);
         }
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
@@ -485,7 +491,7 @@ public class RestAccessTwoFragment extends Fragment implements TagInterface, Scr
     private RestAccessUpdateTwo updateTwo(Bundle bundle) {
         int hasEmer, hasValve, hasMirror;
         Integer hasWindow = null, valveType = null;
-        Double emerHeight = null, valveHeight = null,  height1 = null, height2 = null, height3 = null, mirA = null, mirB = null;
+        Double emerHeight = null, valveHeight = null, height1 = null, height2 = null, height3 = null, mirA = null, mirB = null;
         String emerObs = null, valveObs = null, type1 = null, type2 = null, type3 = null, winObs = null, mirObs = null, photo = null;
 
         hasEmer = indexRadio(hasEmergencyRadio);

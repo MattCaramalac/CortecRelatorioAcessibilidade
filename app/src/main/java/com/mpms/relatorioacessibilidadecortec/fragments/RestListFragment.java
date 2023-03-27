@@ -56,8 +56,10 @@ public class RestListFragment extends Fragment implements OnEntryClickListener, 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null)
+        if (this.getArguments() != null) {
             restListBundle = new Bundle(this.getArguments());
+            restListBundle.putBoolean(RECENT_ENTRY, false);
+        }
         else
             restListBundle = new Bundle();
     }

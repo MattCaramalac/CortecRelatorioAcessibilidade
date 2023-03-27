@@ -134,7 +134,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
     public void onStart() {
         super.onStart();
 
-        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX)) {
+        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX) && !doorBundle.getBoolean(FROM_COLLECTIVE)) {
             getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
                 if (bundle.getBoolean(ADD_ITEM_REQUEST)) {
                     saveUpdateDoorEntry(bundle);
@@ -160,7 +160,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
     @Override
     public void onResume() {
         super.onResume();
-        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX)) {
+        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX) && !doorBundle.getBoolean(FROM_COLLECTIVE)) {
             RoomsRegisterFragment.roomModelFragments.getNewChildRegID().observe(getViewLifecycleOwner(), newDoorID -> {
                 if (newDoorID != null && newDoorID > 0) {
                     if (newEntry == 1)
@@ -177,7 +177,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX))
+        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX) && !doorBundle.getBoolean(FROM_COLLECTIVE))
             RoomsRegisterFragment.roomModelFragments.setNewChildRegID(null);
     }
 
@@ -361,7 +361,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
                 openDoorLockListFragment(bundle);
             }
         } else {
-            if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX)) {
+            if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX) && !doorBundle.getBoolean(FROM_COLLECTIVE)) {
                 bundle.putBoolean(ADD_ITEM_REQUEST, false);
                 if (doorSillMultiRadio.getCheckedRadioButtonIndex() > 0) {
                     getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);
