@@ -276,7 +276,7 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface,
         if (!TextUtils.isEmpty(beaconObsValue.getText()))
             beaconObs = String.valueOf(beaconObsValue.getText());
 
-        if (photoValue.getText() != null)
+        if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
         return new RampStairsRailingEntry(bundle.getInt(FLIGHT_ID), railSide, hasRailing, railingHeight, railingObs, hasBeacon, beaconHeight, beaconObs, photo);

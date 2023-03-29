@@ -189,7 +189,7 @@ public class RestBoxUpperViewFragment extends Fragment implements TagInterface, 
         restDrain = indexRadio(hasDrainRadio);
         if (!TextUtils.isEmpty(drainObsValue.getText()))
             drainObs = String.valueOf(drainObsValue.getText());
-        if (photoValue.getText() != null)
+        if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
         BoxUpViewParcel parcel = new BoxUpViewParcel(upLength, upWidth, measureA, measureB, measureC, measureD, upViewObs, restDrain, drainObs, photo);

@@ -27,13 +27,11 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
-
 public class SideMeasureFragment extends Fragment implements TagInterface, ScrollEditText {
 
-    TextInputLayout sideWidthField, sideFreeSpaceWidthField, sideMeasureObsField, sideTransSlopeField1, sideTransSlopeField2, sideTransSlopeField3,
+    TextInputLayout sideWidthField, sideFreeSpaceWidthField, sideTransSlopeField1, sideTransSlopeField2, sideTransSlopeField3,
             sideTransSlopeField4, sideTransSlopeField5, sideTransSlopeField6, directionTileWidthField, alertTileWidthField, tactileFloorObsField;
-    TextInputEditText sideWidthValue, sideFreeSpaceWidthValue, sideMeasureObsValue, sideTransSlopeValue1, sideTransSlopeValue2, sideTransSlopeValue3,
+    TextInputEditText sideWidthValue, sideFreeSpaceWidthValue, sideTransSlopeValue1, sideTransSlopeValue2, sideTransSlopeValue3,
             sideTransSlopeValue4, sideTransSlopeValue5, sideTransSlopeValue6, directionTileWidthValue, alertTileWidthValue, tactileFloorObsValue;
     RadioGroup hasTactileFloorRadio, tactileFloorColorRadio;
     TextView sideSlopeMeasureError, sideHasTactileFloorError, tactileFloorColorHeader, tactileFloorColorError, directionTileMeasureHeader, alertTileMeasureHeader;
@@ -41,8 +39,6 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
     ImageButton delSideMeasure;
 
     int slopeMeasureQnt = 1;
-
-    ArrayList<TextInputEditText> sidewalkObsArray = new ArrayList<>();
 
     ViewModelEntry modelEntry;
 
@@ -90,7 +86,7 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
     private void createSideParcel(Bundle bundle) {
         Double sidewalkWidth = null, sideFreeSpaceWidth = null, sideTransSlope1 = null, sideTransSlope2 = null, sideTransSlope3 = null, sideTransSlope4 = null,
                 sideTransSlope5 = null, sideTransSlope6 = null, specialTileDirectionWidth = null, specialTileAlertWidth = null;
-        String sideMeasureObs = null, specialFloorObs = null;
+        String specialFloorObs = null;
         Integer specialFloorRightColor = null;
         int hasSpecialFloor;
 
@@ -98,8 +94,7 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
             sidewalkWidth = Double.parseDouble(String.valueOf(sideWidthValue.getText()));
         if (!TextUtils.isEmpty(sideFreeSpaceWidthValue.getText()))
             sideFreeSpaceWidth = Double.parseDouble(String.valueOf(sideFreeSpaceWidthValue.getText()));
-        if (!TextUtils.isEmpty(sideMeasureObsValue.getText()))
-            sideMeasureObs = String.valueOf(sideMeasureObsValue.getText());
+
         switch (slopeMeasureQnt) {
             case 6:
                 if (!TextUtils.isEmpty(sideTransSlopeValue6.getText()))
@@ -132,7 +127,7 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
                 specialFloorObs = String.valueOf(directionTileWidthValue);
         }
 
-        SideMeasureParcel parcel = new SideMeasureParcel(sidewalkWidth, sideFreeSpaceWidth, sideMeasureObs, slopeMeasureQnt, sideTransSlope1,
+        SideMeasureParcel parcel = new SideMeasureParcel(sidewalkWidth, sideFreeSpaceWidth, null, slopeMeasureQnt, sideTransSlope1,
                 sideTransSlope2, sideTransSlope3, sideTransSlope4, sideTransSlope5, sideTransSlope6, hasSpecialFloor, specialFloorRightColor,
                 specialTileDirectionWidth, specialTileAlertWidth, specialFloorObs);
         bundle.putParcelable(CHILD_PARCEL, Parcels.wrap(parcel));
@@ -143,7 +138,6 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
         //        TextInputLayout
         sideWidthField = view.findViewById(R.id.sidewalk_width_field);
         sideFreeSpaceWidthField = view.findViewById(R.id.sidewalk_free_space_field);
-        sideMeasureObsField = view.findViewById(R.id.sidewalk_measurements_obs_field);
         sideTransSlopeField1 = view.findViewById(R.id.sidewalk_measure_1_field);
         sideTransSlopeField2 = view.findViewById(R.id.sidewalk_measure_2_field);
         sideTransSlopeField3 = view.findViewById(R.id.sidewalk_measure_3_field);
@@ -156,7 +150,6 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
 //        TextInputEditText
         sideWidthValue = view.findViewById(R.id.sidewalk_width_value);
         sideFreeSpaceWidthValue = view.findViewById(R.id.sidewalk_free_space_value);
-        sideMeasureObsValue = view.findViewById(R.id.sidewalk_measurements_obs_value);
         sideTransSlopeValue1 = view.findViewById(R.id.sidewalk_measure_1_value);
         sideTransSlopeValue2 = view.findViewById(R.id.sidewalk_measure_2_value);
         sideTransSlopeValue3 = view.findViewById(R.id.sidewalk_measure_3_value);
@@ -190,8 +183,7 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
         hasTactileFloorRadio.setOnCheckedChangeListener(this::sideMeasureRadioListener);
         tactileFloorColorRadio.setOnCheckedChangeListener(this::sideMeasureRadioListener);
 //        Methods
-        addObsFieldsToArray();
-        allowObsScroll(sidewalkObsArray);
+        allowObsScroll(tactileFloorObsValue);
 
     }
 
@@ -286,8 +278,6 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
             sideWidthValue.setText(String.valueOf(sidewalk.getSidewalkWidth()));
         if (sidewalk.getSideFreeSpaceWidth() != null)
             sideFreeSpaceWidthValue.setText(String.valueOf(sidewalk.getSideFreeSpaceWidth()));
-        if (sidewalk.getSideMeasureObs() != null)
-            sideMeasureObsValue.setText(sidewalk.getSideMeasureObs());
         if (sidewalk.getSlopeMeasureQnt() != null)
             slopeMeasureQnt = sidewalk.getSlopeMeasureQnt();
         if (slopeMeasureQnt > 1)
@@ -417,14 +407,9 @@ public class SideMeasureFragment extends Fragment implements TagInterface, Scrol
     private void clearSideMeasureErrors() {
         sideWidthField.setErrorEnabled(false);
         sideFreeSpaceWidthField.setErrorEnabled(false);
-        sideMeasureObsField.setErrorEnabled(false);
         sideSlopeMeasureError.setVisibility(View.GONE);
         sideHasTactileFloorError.setVisibility(View.GONE);
         tactileFloorColorError.setVisibility(View.GONE);
     }
 
-    private void addObsFieldsToArray() {
-        sidewalkObsArray.add(sideMeasureObsValue);
-        sidewalkObsArray.add(tactileFloorObsValue);
-    }
 }

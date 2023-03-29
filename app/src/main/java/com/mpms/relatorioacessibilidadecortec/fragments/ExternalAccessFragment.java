@@ -179,6 +179,7 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
     }
 
     private void callSocialAccessFrag(Bundle bundle) {
+        bundle.putBoolean(RECENT_ENTRY, true);
         ExtAccessSocialFragment fragment = new ExtAccessSocialFragment();
         fragment.setArguments(bundle);
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment)

@@ -131,7 +131,7 @@ public class GateObsFragment extends Fragment implements TagInterface, ScrollEdi
         obsHasSia = indexRadio(gateObsSiaRadio);
         if (!TextUtils.isEmpty(obsValue.getText()))
             obstacleObs = String.valueOf(obsValue.getText());
-        if (photoValue.getText() != null)
+        if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
         return new GateObsEntry(bundle.getInt(EXT_ACCESS_ID), referencePoint, accessType, barrierHeight, barrierWidth, obsHasSia, obstacleObs, photo);

@@ -16,7 +16,8 @@ public class DoorSillAnalysis implements StandardMeasurements {
                             door.getInclAngle2() != null && door.getInclAngle2() > maxSlopePerc ||
                             door.getInclAngle3() != null && door.getInclAngle3() > maxSlopePerc ||
                             door.getInclAngle4() != null && door.getInclAngle4() > maxSlopePerc) {
-                        irrDoorSill = "inclinação da rampa para vencer o desnível da soleira acima do máximo permitido de" + maxSlopePerc + "%";
+                        irrDoorSill = "desnível possui altura permitida para norma para compor rota acessível, entretnão não se encontra vencido por rampa com inclinação " +
+                                "máxima de " + maxSlopePerc + "%";
                     }
                 }
             }

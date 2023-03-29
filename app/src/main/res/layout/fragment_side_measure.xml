@@ -44,29 +44,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/sidewalk_measurements_obs_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_sidewalk_measurements_obs"
-            app:layout_constraintTop_toBottomOf="@id/sidewalk_free_space_field">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/sidewalk_measurements_obs_value"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:inputType="textMultiLine"
-                android:lines="@integer/multiline_obs_field"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:scrollHorizontally="false" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <TextView
             android:id="@+id/header_add_sidewalk_inclination"
             android:layout_width="match_parent"
@@ -74,7 +51,7 @@
             android:layout_marginTop="@dimen/usual_padding"
             android:text="@string/header_side_trans_inclination"
             android:textSize="@dimen/section_header"
-            app:layout_constraintTop_toBottomOf="@id/sidewalk_measurements_obs_field" />
+            app:layout_constraintTop_toBottomOf="@id/sidewalk_free_space_field" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/add_sidewalk_measure_button"

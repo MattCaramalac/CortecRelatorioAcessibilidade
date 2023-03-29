@@ -288,7 +288,7 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         if (!TextUtils.isEmpty(handrailObsValue.getText()))
             handObs = String.valueOf(handrailObsValue.getText());
 
-        if (photoValue.getText() != null)
+        if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
         return new RampStairsHandrailEntry(bundle.getInt(FLIGHT_ID), handrailPlace, hasHandrail, handrailHeight, handrailGrip, handrailDist, hasInitExtension,

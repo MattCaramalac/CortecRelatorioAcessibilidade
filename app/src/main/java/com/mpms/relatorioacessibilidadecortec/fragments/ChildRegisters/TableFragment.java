@@ -216,7 +216,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         freeWidth = Double.parseDouble(String.valueOf(freeWidthValue.getText()));
         if (!TextUtils.isEmpty(obsValue.getText()))
             tableObs = String.valueOf(obsValue.getText());
-        if (photoValue.getText() != null)
+        if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
         return new TableEntry(bundle.getInt(AMBIENT_ID), bundle.getInt(ROOM_TYPE), tableType, supHeight, infHeight,
