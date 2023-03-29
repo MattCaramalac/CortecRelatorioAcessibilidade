@@ -28,6 +28,9 @@ public interface RampStairsEntryDao {
     @Query("SELECT * FROM RampStairsEntry WHERE roomID == :ambientID AND rampStairsIdentifier == :rampOrStairs  ORDER BY rampStairsID DESC")
     LiveData<List<RampStairsEntry>> getStairsRampFromRoom(int ambientID, int rampOrStairs);
 
+    @Query("SELECT * FROM RampStairsEntry WHERE circID == :ambientID AND rampStairsIdentifier == :rampOrStairs  ORDER BY rampStairsID DESC")
+    LiveData<List<RampStairsEntry>> getStairsRampFromCirculation(int ambientID, int rampOrStairs);
+
     @Query("SELECT * FROM RampStairsEntry WHERE rampStairsID == :rampStairsID")
     LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID);
 

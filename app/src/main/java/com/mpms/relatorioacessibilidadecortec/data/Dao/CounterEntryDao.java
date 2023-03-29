@@ -31,6 +31,6 @@ public interface CounterEntryDao {
     @Query("DELETE FROM CounterEntry WHERE counterID == :counterID")
     void deleteCounter(int counterID);
 
-    @Query("DELETE FROM CounterEntry WHERE counterID == :counterID")
-    void deleteAllCounterFromRoom(int counterID);
+    @Query("DELETE FROM CounterEntry WHERE roomID == :roomID")
+    void deleteAllCounterFromRoom(int roomID);
 }

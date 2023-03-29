@@ -838,4 +838,5 @@
     <string name="hint_counter_sink_free_space">Altura área livre sob a bancada (m)</string>
     <string name="header_sink_has_bars">A pia possui barras de apoio?</string>
     <string name="header_upper_view_box">Dimensões do Box - Vista Superior</string>
+    <string name="header_circulation_register">Cadastro de Circulações</string>
 </resources>

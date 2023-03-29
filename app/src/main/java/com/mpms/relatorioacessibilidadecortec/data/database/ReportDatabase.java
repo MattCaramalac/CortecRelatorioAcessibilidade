@@ -11,6 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlackboardEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlockSpaceDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.CirculationDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.CounterEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorLockDao;
@@ -33,12 +34,15 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.RoomEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SchoolEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkSlopeDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.SlopeDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.SoleStepDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SwitchEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.TableEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WaterFountainDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WindowEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.CirculationEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
@@ -61,6 +65,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SoleStepEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -76,7 +82,8 @@ import java.util.concurrent.Executors;
         FreeSpaceEntry.class, SwitchEntry.class, TableEntry.class, WindowEntry.class, GateObsEntry.class, PayPhoneEntry.class,
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
-        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class}, version = 70)
+        PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class,
+        CirculationEntry.class, SlopeEntry.class, SoleStepEntry.class}, version = 71)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -91,91 +98,36 @@ public abstract class ReportDatabase extends RoomDatabase {
 
                     dbWriteExecutor.execute(() -> {
                         SchoolEntryDao schoolEntryDao = INSTANCE.schoolEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         WaterFountainDao waterFountainDao = INSTANCE.waterFountainDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         ExternalAccessDao externalAccessDao = INSTANCE.externalAccessDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         ParkingLotEntryDao parkingLotEntryDao = INSTANCE.parkingLotEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         ParkingLotPcdDao parkingLotPcdDao = INSTANCE.parkingLotPdmrDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         ParkingLotElderlyDao parkingLotElderlyDao = INSTANCE.parkingLotElderlyDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         RoomEntryDao roomEntryDao = INSTANCE.roomEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         DoorEntryDao doorEntryDao = INSTANCE.doorEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         SwitchEntryDao switchEntryDao = INSTANCE.switchEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         FreeSpaceEntryDao freeSpaceEntryDao = INSTANCE.freeSpaceEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         TableEntryDao tableEntryDao = INSTANCE.tableEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         WindowEntryDao windowEntryDao = INSTANCE.windowEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         PayPhoneDao payPhoneDao = INSTANCE.payPhoneDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         GateObsDao gateObsDao = INSTANCE.gateObsDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         CounterEntryDao counterEntryDao = INSTANCE.counterEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         RampStairsEntryDao rampStairsDao = INSTANCE.rampStairsDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         FlightRampStairsDao flightRampStairsDao = INSTANCE.flightRampStairsDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         RestroomEntryDao restroomEntryDao = INSTANCE.restroomEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         SidewalkEntryDao sidewalkEntryDao = INSTANCE.sidewalkEntryDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         SidewalkSlopeDao sidewalkSlopeDao = INSTANCE.sidewalkSlopeDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         RampStairsRailingDao railingDao = INSTANCE.rampStairsRailingDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         RampStairsHandrailDao handrailDao = INSTANCE.rampStairsHandrailDao();
-                    });
-
-                    dbWriteExecutor.execute(() -> {
                         BlockSpaceDao blockSpaceDao = INSTANCE.blockSpaceDao();
-                    });
-
-                    dbWriteExecutor.execute(() -> {
                         PlaygroundEntryDao playgroundEntryDao = INSTANCE.playgroundEntryDao();
-                    });
-
-                    dbWriteExecutor.execute(() -> {
                         BlackboardEntryDao blackboardEntryDao = INSTANCE.blackboardEntryDao();
-                    });
-
-                    dbWriteExecutor.execute(() -> {
                         DoorLockDao doorLockDao = INSTANCE.doorLockDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         RestBoxDao restBoxDao = INSTANCE.restBoxDao();
-                    });
-                    dbWriteExecutor.execute(() -> {
                         EquipEntryDao equipEntryDao = INSTANCE.equipEntryDao();
+                        CirculationDao circulationDao = INSTANCE.circulationDao();
+                        SlopeDao slopeDao = INSTANCE.slopeDao();
+                        SoleStepDao soleStepDao = INSTANCE.soleStepDao();
                     });
 
                 }
@@ -1836,6 +1788,48 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_70_71 = new Migration(70, 71) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE CirculationEntry(circID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolID INTEGER NOT NULL, circLocation TEXT, " +
+                    "hasVertSing INTEGER, vertSignObs TEXT, hasLooseCarpet INTEGER, looseCarpetObs TEXT, accessFloor INTEGER, accessFloorObs TEXT, hasIntercom INTEGER," +
+                    "intercomHeight REAL, intercomObs TEXT, hasBioClock INTEGER, bioClockHeight REAL, bioClockObs TEXT, Integer hasUnevenFloor, unevenHigher INTEGER," +
+                    "unevenHeight REAL, hasSlope INTEGER, slopeHigher INTEGER, slopeAngle REAL, hasFallProtect INTEGER, fallProtectType INTEGER, marginWidth REAL," +
+                    "marginDifferentTexture INTEGER, marginContrastColor INTEGER, beaconHeight REAL, topBeaconContrast INTEGER, railingHeight REAL, circPhoto TEXT, circObs TEXT," +
+                    "FOREIGN KEY (schoolID) REFERENCES SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("CREATE TABLE Ramp2(rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, extAccessID INTEGER, " +
+                    "sidewalkID INTEGER, parkingID INTEGER, roomID INTEGER, circID INTEGER, rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, rampStairsPhoto TEXT," +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntry (sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (parkingID) REFERENCES ParkingLotEntry (parkingID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Ramps2 (rampStairsID, extAccessID, sidewalkID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, rampStairsPhoto)" +
+                    "SELECT rampStairsID, extAccessID, sidewalkID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, rampStairsPhoto FROM RampStairsEntry");
+            database.execSQL("DROP TABLE RampStairsEntry");
+            database.execSQL("ALTER TABLE Ramp2 RENAME TO RampStairsEntry");
+
+            database.execSQL("CREATE TABLE SlopeEntry(slopeID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, circID INTEGER NOT NULL, slopeLocation TEXT, " +
+                    "slopeHeight REAL NOT NULL, slopeHasRamp INTEGER NOT NULL, slopeRampQnt INTEGER, slopeRampIncl1 REAL, slopeRampIncl2 REAL, slopeRampIncl3 REAL," +
+                    "slopeRampIncl4 REAL, slopeRampIncl5 REAL, slopeRampIncl6 REAL, slopeObs TEXT, slopePhoto TEXT," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("CREATE TABLE SoleStepEntry(stepID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, circID INTEGER NOT NULL, stepLocation TEXT, stepSize REAL NOT NULL," +
+                    "stepQnt INTEGER, mirrorHeight1 REAL, stepLenght REAL, mirrorHeight2 REAL, stepHasSignaling INTEGER NOT NULL, stepSignalFull INTEGER, stepSignalContrast INTEGER," +
+                    "stepLowerTactFloor INTEGER NOT NULL, lowerTactFloorDist REAL, lowerTactFloorWidth REAL, lowerAntiDrift INTEGER, lowerColorContrast INTEGER," +
+                    "stepUpperTactFloor INTEGER NOT NULL, upperTactFloorDist REAL, upperTactFloorWidth REAL, upperAntiDrift INTEGER, upperColorContrast INTEGER," +
+                    "hasHandrail INTEGER NOT NULL, singleHandrailLength REAL, singleHandrailHeight REAL, hasLeftHandrail INTEGER, leftUpHandHeight REAL, leftLowHandHeight REAL," +
+                    "leftUpHandStartExtension REAL, leftUpHandEndExtension REAL, leftLowHandStartExtension REAL, leftLowHandEndExtension REAL, hasRightHandrail INTEGER," +
+                    "rightUpHandHeight REAL, rightLowHandHeight REAL, rightUpHandStartExtension REAL, rightUpHandEndExtension REAL, rightLowHandStartExtension REAL," +
+                    "rightLowHandEndExtension REAL, hasMiddleHandrail INTEGER, middleUpHandHeight REAL, middleLowHandHeight REAL, middleUpHandStartExtension REAL," +
+                    "middleUpHandEndExtension REAL, middleLowHandStartExtension REAL, middleLowHandEndExtension REAL, stepObs TEXT, stepPhoto TEXT," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+        }
+    };
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -1853,7 +1847,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
                                     MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58, MIGRATION_58_59, MIGRATION_59_60,
                                     MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66,
-                                    MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70).build();
+                                    MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70, MIGRATION_70_71).build();
                 }
             }
         }
@@ -1916,5 +1910,11 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract RestBoxDao restBoxDao();
 
     public abstract EquipEntryDao equipEntryDao();
+
+    public abstract CirculationDao circulationDao();
+
+    public abstract SlopeDao slopeDao();
+
+    public abstract SoleStepDao soleStepDao();
 
 }

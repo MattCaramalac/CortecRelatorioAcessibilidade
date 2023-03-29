@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
+package com.mpms.relatorioacessibilidadecortec.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,46 +20,47 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.adapter.BlackboardRecViewAdapter;
+import com.mpms.relatorioacessibilidadecortec.adapter.CirculationRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
-import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
+import com.mpms.relatorioacessibilidadecortec.data.entities.CirculationEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
-public class BlackboardListFragment extends Fragment implements OnEntryClickListener, TagInterface {
+public class CirculationListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
-    MaterialButton closeBoardList, addBoard, continueButton;
+    MaterialButton closeCircList, addCirc, continueButton;
 
-    TextView boardHeader;
+    TextView circHeader;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
-    private BlackboardRecViewAdapter boardAdapter;
+    private CirculationRecViewAdapter circAdapter;
     private ActionMode actionMode;
 
     private int delClick = 0;
 
-    Bundle boardListBundle = new Bundle();
+    Bundle circListBundle = new Bundle();
 
-    public BlackboardListFragment(){
+    public CirculationListFragment() {
 
     }
 
-    public static BlackboardListFragment newInstance(){
-        return new BlackboardListFragment();
+    public static CirculationListFragment newInstance() {
+        return new CirculationListFragment();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            boardListBundle = new Bundle(this.getArguments());
+            circListBundle = new Bundle(this.getArguments());
         else
-            boardListBundle = new Bundle();
+            circListBundle = new Bundle();
     }
 
     @Nullable
@@ -69,24 +70,19 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        instantiateBoardViews(view);
+        instantiateCircViews(view);
 
-        if (boardListBundle.getInt(AMBIENT_ID) == 0) {
-            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    boardListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
-        }
-
-        modelEntry.getAllBlackboardsFromRoom(boardListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), boardList -> {
-            boardAdapter = new BlackboardRecViewAdapter(boardList, requireActivity(), this);
-            recyclerView.setAdapter(boardAdapter);
+        modelEntry.getAllCirculations(circListBundle.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), circList -> {
+            circAdapter = new CirculationRecViewAdapter(circList, requireActivity(), this);
+            recyclerView.setAdapter(circAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
             dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
             recyclerView.addItemDecoration(dividerItemDecoration);
 
-            boardAdapter.setListener(new ListClickListener() {
+            circAdapter.setListener(new ListClickListener() {
                 @Override
                 public void onItemClick(int position) {
                     if (actionMode == null)
@@ -102,25 +98,19 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
             });
         });
 
-        closeBoardList.setOnClickListener(v -> {
+        closeCircList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().popBackStackImmediate();
+            requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, circListBundle);
         });
 
-        addBoard.setOnClickListener(v -> openBoardFragment());
+        addCirc.setOnClickListener(v -> openBoardFragment());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        boardListBundle.putInt(BOARD_ID, 0);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(boardListBundle.getInt(AMBIENT_ID));
+        circListBundle.putInt(AMBIENT_ID, 0);
     }
 
     private void enableActionMode() {
@@ -142,7 +132,7 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
                 public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                     if (item.getItemId() == R.id.delete_button) {
                         delClick = 1;
-                        boardAdapter.deleteItemList();
+                        circAdapter.deleteItemList();
                         mode.finish();
                         return true;
                     }
@@ -152,16 +142,16 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        boardAdapter.cancelSelection(recyclerView);
-                    boardAdapter.selectedItems.clear();
-                    boardAdapter.notifyDataSetChanged();
+                        circAdapter.cancelSelection(recyclerView);
+                    circAdapter.selectedItems.clear();
+                    circAdapter.notifyDataSetChanged();
                     delClick = 0;
                     actionMode = null;
                 }
             });
         }
 
-        final int size = boardAdapter.selectedItems.size();
+        final int size = circAdapter.selectedItems.size();
         if (size == 0) {
             actionMode.finish();
         } else {
@@ -170,38 +160,37 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
         }
     }
 
-    private void instantiateBoardViews(View v) {
-//        TextView
-        boardHeader = v.findViewById(R.id.identifier_header);
-        boardHeader.setVisibility(View.VISIBLE);
-        boardHeader.setText(R.string.label_blackboard_register);
+    private void instantiateCircViews(View view) {
+        //        TextView
+        circHeader = view.findViewById(R.id.identifier_header);
+        circHeader.setVisibility(View.VISIBLE);
+        circHeader.setText(R.string.header_circulation_register);
 //        MaterialButton
-        closeBoardList = v.findViewById(R.id.cancel_child_items_entries);
-        addBoard = v.findViewById(R.id.add_child_items_entries);
-        continueButton = v.findViewById(R.id.continue_child_items_entries);
+        closeCircList = view.findViewById(R.id.cancel_child_items_entries);
+        addCirc = view.findViewById(R.id.add_child_items_entries);
+        continueButton = view.findViewById(R.id.continue_child_items_entries);
         continueButton.setVisibility(View.GONE);
 //        RecyclerView
-        recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
+        recyclerView = view.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
-
     }
 
     @Override
     public void OnEntryClick(int position) {
-        BlackboardEntry boardEntry = modelEntry.allBlackboards.getValue().get(position);
-        boardListBundle.putInt(BOARD_ID, boardEntry.getBoardID());
+        CirculationEntry circulation = modelEntry.allCirculations.getValue().get(position);
+        circListBundle.putInt(AMBIENT_ID, circulation.getCircID());
         openBoardFragment();
     }
 
     private void openBoardFragment() {
-        BlackboardFragment boardFragment = BlackboardFragment.newInstance();
-        boardFragment.setArguments(boardListBundle);
+        CirculationFragment circFragment = CirculationFragment.newInstance();
+        circFragment.setArguments(circListBundle);
         if (actionMode != null)
             actionMode.finish();
         requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.show_fragment_selected, boardFragment).addToBackStack(null).commit();
+                .replace(R.id.show_fragment_selected, circFragment).addToBackStack(null).commit();
     }
 }

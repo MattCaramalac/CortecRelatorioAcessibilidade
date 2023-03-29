@@ -399,6 +399,8 @@ public class InspectionMemorial extends Fragment implements TagInterface {
             if (!bundle.getBoolean(VISIBLE_MEMORIAL)) {
                 dropdownMenuLocations.setVisibility(View.GONE);
                 saveAndClose.setVisibility(View.GONE);
+                if (bundle.getBoolean(CIRCULATION))
+                    registerHeader.setText("Cadastro de Circulações");
             } else {
                 dropdownMenuLocations.setVisibility(View.VISIBLE);
                 saveAndClose.setVisibility(View.VISIBLE);

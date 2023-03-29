@@ -109,7 +109,11 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         handler = new Handler(Looper.getMainLooper());
         circBar = findViewById(R.id.progress_indicator);
 
-        if (inspectionBundle.getInt(BLOCK_ID) == 0) {
+        if (inspectionBundle.getBoolean(CIRCULATION)) {
+            inspectionBundle.putBoolean(VISIBLE_MEMORIAL, false);
+            getSupportFragmentManager().setFragmentResult(MEMORIAL, inspectionBundle);
+        }
+        else if (inspectionBundle.getInt(BLOCK_ID) == 0) {
             int areaType = 0;
             if (inspectionBundle.getBoolean(EXT_AREA_REG))
                 areaType = 1;

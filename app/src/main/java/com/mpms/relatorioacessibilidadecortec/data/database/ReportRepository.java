@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlackboardEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.BlockSpaceDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.CirculationDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.CounterEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorLockDao;
@@ -34,6 +35,7 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.WaterFountainDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WindowEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.CirculationEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
@@ -117,6 +119,7 @@ public class ReportRepository {
     private final DoorLockDao doorLockDao;
     private final RestBoxDao restBoxDao;
     private final EquipEntryDao equipEntryDao;
+    private final CirculationDao circulationDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -148,7 +151,7 @@ public class ReportRepository {
         doorLockDao = db.doorLockDao();
         restBoxDao = db.restBoxDao();
         equipEntryDao = db.equipEntryDao();
-
+        circulationDao = db.circulationDao();
     }
 
     public LiveData<List<SchoolEntry>> getAllSchoolEntries() {
@@ -746,6 +749,10 @@ public class ReportRepository {
         return rampStairsEntryDao.getStairsRampFromRoom(ambientID, rampOrStairs);
     }
 
+    public LiveData<List<RampStairsEntry>> getStairsRampFromCirculation(int ambientID, int rampOrStairs) {
+        return rampStairsEntryDao.getStairsRampFromCirculation(ambientID, rampOrStairs);
+    }
+
     public LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID) {
         return rampStairsEntryDao.getRampStairsEntry(rampStairsID);
     }
@@ -1208,5 +1215,29 @@ public class ReportRepository {
 
     public void updateBoxSink(RestBoxSinkUpdate... sinkUpdate) {
         ReportDatabase.dbWriteExecutor.execute(() -> restBoxDao.updateBoxSink(sinkUpdate));
+    }
+
+    public void insertCirculation(CirculationEntry circ) {
+        ReportDatabase.dbWriteExecutor.execute(() -> circulationDao.insertCirculation(circ));
+    }
+
+    public LiveData<List<CirculationEntry>> getAllCirculations(int schoolID) {
+        return circulationDao.getAllCirculations(schoolID);
+    }
+
+    public LiveData<CirculationEntry> getOneCirculation(int circID) {
+        return circulationDao.getOneCirculation(circID);
+    }
+
+    public void updateCirculation (CirculationEntry circ) {
+        ReportDatabase.dbWriteExecutor.execute(() -> circulationDao.updateCirculation(circ));
+    }
+
+    public void deleteCirculation(int circID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> circulationDao.deleteCirculation(circID));
+    }
+
+    public void deleteAllCirculations(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> circulationDao.deleteAllCirculations(schoolID));
     }
 }

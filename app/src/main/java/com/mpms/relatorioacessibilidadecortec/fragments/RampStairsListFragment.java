@@ -84,7 +84,8 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
                 if (rStListBundle.getInt(AMBIENT_ID) == 0)
                 modelEntry.getLastExternalAccess().observe(getViewLifecycleOwner(), lExt -> rStListBundle.putInt(AMBIENT_ID, lExt.getExternalAccessID()));
-            } else if (rStListBundle.getBoolean(FROM_SIDEWALK)) {
+            }
+            else if (rStListBundle.getBoolean(FROM_SIDEWALK)) {
                 modelEntry.getStairsRampFromSidewalk(rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
                 if (rStListBundle.getInt(AMBIENT_ID) == 0)
@@ -99,6 +100,9 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
                 if (rStListBundle.getInt(AMBIENT_ID) == 0)
                     modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lRoom -> rStListBundle.putInt(AMBIENT_ID, lRoom.getRoomID()));
+            } else if (rStListBundle.getBoolean(CIRCULATION)) {
+                modelEntry.getStairsRampFromCirculation(rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
+                        .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
             }
         } else {
             Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente", Toast.LENGTH_SHORT).show();

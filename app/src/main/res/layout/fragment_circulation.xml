@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.CirculationFragment">
+
+<!--    TODO Colocar os campos necessários de forma invisível-->
+
+    <TextView
+        android:id="@+id/circ_register_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/section_header_bigger"
+        android:text="Cadastro de Circulações"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/circ_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/usual_padding"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
+        app:layout_constraintTop_toBottomOf="@id/circ_register_header">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/circ_location_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Localização da Circulação"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/circ_location_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/label_circ_has_visual_sign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/label_room_has_visual_signal"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintTop_toBottomOf="@id/circ_location_field" />
+
+            <RadioGroup
+                android:id="@+id/circ_has_visual_sign_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_circ_has_visual_sign">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/circ_visual_sign_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_has_visual_sign_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/circ_visual_sign_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_sign_observations"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_visual_sign_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/circ_visual_sign_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/label_circ_has_carpet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/label_has_carpet_header"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_visual_sign_obs_field" />
+
+            <RadioGroup
+                android:id="@+id/circ_has_carpet_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_circ_has_carpet">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/circ_carpet_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_has_carpet_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/circ_carpet_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_carpet_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_carpet_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/circ_carpet_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/label_circ_accessible_floor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margins"
+                android:text="@string/label_accessible_floor_header"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_carpet_obs_field" />
+
+            <RadioGroup
+                android:id="@+id/circ_accessible_floor_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label_circ_accessible_floor">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/circ_accessible_floor_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_accessible_floor_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/circ_access_floor_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_accessible_floor_obs"
+                android:visibility="gone"
+                app:helperText="@string/helper_not_accessible_floor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_accessible_floor_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/circ_access_floor_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/circ_has_intercom_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/header_has_internal_phone"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_access_floor_obs_field" />
+
+            <RadioGroup
+                android:id="@+id/circ_has_intercom_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_has_intercom_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/circ_has_intercom_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_has_intercom_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/circ_intercom_height_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_int_phone_height"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_has_intercom_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/circ_intercom_height_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/circ_has_intercom_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_int_phone_obs"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_intercom_height_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/circ_has_intercom_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/circ_has_biometry_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/header_biometry"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_has_intercom_obs_field" />
+
+            <RadioGroup
+                android:id="@+id/circ_has_biometry_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_has_biometry_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/circ_has_biometry_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_has_biometry_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/circ_biometry_height_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_biometry_height"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_has_biometry_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/circ_biometry_height_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/circ_has_biometry_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="@string/hint_biometry_obs"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_biometry_height_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/circ_has_biometry_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/circ_uneven_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="Há desnível entre a área de circulação e áreas adjacentes?"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_has_biometry_obs_field" />
+
+            <RadioGroup
+                android:id="@+id/circ_uneven_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_uneven_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/circ_uneven_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_uneven_radio" />
+
+            <TextView
+                android:id="@+id/circ_uneven_height_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="A altura do desnível é maior ou igual à 0,18 metros?"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_uneven_error" />
+
+            <RadioGroup
+                android:id="@+id/circ_uneven_height_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_uneven_height_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/circ_uneven_height_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_uneven_height_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/circ_uneven_height_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Altura do Desnível (m)"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_uneven_height_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/circ_uneven_height_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/circ_uneven_talude_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="O desnível está associado a um talude?"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_uneven_height_field" />
+
+            <RadioGroup
+                android:id="@+id/circ_uneven_talude_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_uneven_talude_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/circ_uneven_talude_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_uneven_talude_radio" />
+
+            <TextView
+                android:id="@+id/circ_talude_incl_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="A inclinação do talude é maior ou igual a 33,33% ?"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_uneven_talude_error" />
+
+            <RadioGroup
+                android:id="@+id/circ_talude_incl_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_talude_incl_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/circ_talude_incl_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_talude_incl_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/circ_talude_incl_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Inclinação do Talude (%)"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_talude_incl_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/circ_talude_incl_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/circ_fall_protect_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="A circulação possui área de proteção contra quedas?"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_talude_incl_field" />
+
+            <RadioGroup
+                android:id="@+id/circ_fall_protect_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_fall_protect_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/circ_fall_protect_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_fall_protect_radio" />
+
+            <TextView
+                android:id="@+id/circ_protect_type_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Selecione o tipo de área de proteção encontrada na circulação"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintTop_toBottomOf="@id/circ_fall_protect_error"
+                android:layout_marginTop="@dimen/usual_padding"/>
+
+            <ImageButton
+                android:id="@+id/protect_type_1"
+                android:layout_width="@dimen/square_image_100"
+                android:layout_height="@dimen/square_image_100"
+                android:layout_marginTop="@dimen/top_margins"
+                app:layout_constraintEnd_toStartOf="@id/protect_type_2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circ_protect_type_header" />
+
+            <ImageButton
+                android:id="@+id/protect_type_2"
+                android:layout_width="@dimen/square_image_100"
+                android:layout_height="@dimen/square_image_100"
+                android:layout_marginTop="@dimen/top_margins"
+                app:layout_constraintEnd_toStartOf="@id/protect_type_3"
+                app:layout_constraintStart_toEndOf="@id/protect_type_1"
+                app:layout_constraintTop_toBottomOf="@id/circ_protect_type_header" />
+
+            <ImageButton
+                android:id="@+id/protect_type_3"
+                android:layout_width="@dimen/square_image_100"
+                android:layout_height="@dimen/square_image_100"
+                android:layout_marginTop="@dimen/top_margins"
+                android:contentDescription="Bacia Caixa Acoplada"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/protect_type_2"
+                app:layout_constraintTop_toBottomOf="@id/circ_protect_type_header" />
+
+            <RadioGroup
+                android:id="@+id/protect_type_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/protect_type_1">
+
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:layout_marginStart="40dp"/>
+
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:layout_marginStart="40dp"/>
+
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:layout_marginStart="40dp"/>
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/protect_type_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/protect_type_radio" />
+
+            <FrameLayout
+                android:id="@+id/fall_protect_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/protect_type_error"
+                android:layout_marginTop="@dimen/usual_padding"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/circ_photo_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_photo_field"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fall_protect_frame"
+                android:layout_marginTop="@dimen/usual_padding">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/circ_photo_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/continue_circ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/top_margins"
+        android:text="@string/label_button_proceed_register"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/circ_scroll"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_circ"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/top_margins"
+        android:text="@string/label_button_cancel"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/continue_circ"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

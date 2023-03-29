@@ -10,6 +10,7 @@ import com.mpms.relatorioacessibilidadecortec.data.database.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.database.ReportRepository;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.CirculationEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
@@ -95,6 +96,7 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<DoorLockEntry>> allDoorLocksGates;
     public LiveData<List<RestBoxEntry>> allBoxes;
     public LiveData<List<EquipmentEntry>> allEquips;
+    public LiveData<List<CirculationEntry>> allCirculations;
     public final LiveData<List<SchoolEntry>> allEntries;
 
     public LiveData<ExternalAccess> oneAccess;
@@ -682,6 +684,11 @@ public class ViewModelEntry extends AndroidViewModel {
         return allStairsRampsSchool;
     }
 
+    public LiveData<List<RampStairsEntry>> getStairsRampFromCirculation(int ambientID, int rampOrStairs) {
+        allStairsRampsSchool = repository.getStairsRampFromCirculation(ambientID, rampOrStairs);
+        return allStairsRampsSchool;
+    }
+
     public LiveData<RampStairsEntry> getRampStairsEntry(int rampStairsID) {
         return repository.getRampStairsEntry(rampStairsID);
     }
@@ -1189,5 +1196,30 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void updateBoxSink(RestBoxSinkUpdate... sinkUpdate) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateBoxSink(sinkUpdate));
+    }
+
+    public static void insertCirculation(CirculationEntry circ) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertCirculation(circ));
+    }
+
+    public LiveData<List<CirculationEntry>> getAllCirculations(int schoolID) {
+        allCirculations = repository.getAllCirculations(schoolID);
+        return allCirculations;
+    }
+
+    public LiveData<CirculationEntry> getOneCirculation(int circID) {
+        return repository.getOneCirculation(circID);
+    }
+
+    public static void updateCirculation (CirculationEntry circ) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateCirculation(circ));
+    }
+
+    public static void deleteCirculation(int circID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteCirculation(circID));
+    }
+
+    public static void deleteAllCirculations(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllCirculations(schoolID));
     }
 }

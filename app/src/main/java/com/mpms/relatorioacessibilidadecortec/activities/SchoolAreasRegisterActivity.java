@@ -20,7 +20,7 @@ public class SchoolAreasRegisterActivity extends AppCompatActivity implements Ta
     int extID = 0;
     int supID = 0;
 
-    MaterialButton saveQuitButton, externalAreaButton, blocksButton, supportAreaButton;
+    MaterialButton saveQuitButton, externalAreaButton, blocksButton, supportAreaButton, circulationButton;
 
     ViewModelEntry modelEntry;
 
@@ -79,6 +79,11 @@ public class SchoolAreasRegisterActivity extends AppCompatActivity implements Ta
             areasBundle.putInt(BLOCK_ID, supID);
             callInspectionActivity();
         });
+
+        circulationButton.setOnClickListener(v -> {
+            areasBundle.putBoolean(CIRCULATION, true);
+            callInspectionActivity();
+        });
     }
 
 
@@ -87,6 +92,7 @@ public class SchoolAreasRegisterActivity extends AppCompatActivity implements Ta
         super.onResume();
         areasBundle.putBoolean(EXT_AREA_REG, false);
         areasBundle.putBoolean(SUP_AREA_REG, false);
+        areasBundle.putBoolean(CIRCULATION, false);
     }
 
     private void instantiateBlockViews() {
@@ -94,6 +100,7 @@ public class SchoolAreasRegisterActivity extends AppCompatActivity implements Ta
         externalAreaButton = findViewById(R.id.add_external_areas);
         blocksButton = findViewById(R.id.add_blocks);
         supportAreaButton = findViewById(R.id.add_support_area);
+        circulationButton = findViewById(R.id.add_circulation);
 
         modelEntry = new ViewModelEntry(getApplication());
     }
