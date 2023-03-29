@@ -112,6 +112,14 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
                     restBundle.putBoolean(RECENT_ENTRY, true);
                     RestroomEntry rest = createRestEntry(bundle);
                     ViewModelEntry.insertRestroomEntry(rest);
+//                    ---------------
+                    modelEntry.getLastRestroomEntry().observe(getViewLifecycleOwner(), nRest -> {
+                        restBundle.putInt(REST_ID, nRest.getRestroomID());
+                        if (restBundle.getBoolean(ADD_ITEM_REQUEST))
+                            callNextChildFragment(restBundle);
+                        else
+                            callNextRestFragment(restBundle);
+                    });
                 } else {
                     restBundle.putInt(REST_ID, 0);
                     Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();

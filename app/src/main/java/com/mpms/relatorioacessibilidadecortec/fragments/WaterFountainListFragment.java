@@ -72,6 +72,11 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
 
         instantiateWaterListViews(view);
 
+        if (fountainBundle.getBoolean(FROM_ROOMS)) {
+            fountainBundle.putBoolean(VISIBLE_MEMORIAL, false);
+            getParentFragmentManager().setFragmentResult(MEMORIAL, fountainBundle);
+        }
+
         if (fountainBundle.getBoolean(FROM_ROOMS) && fountainBundle.getInt(AMBIENT_ID) == 0)
             modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), room -> fountainBundle.putInt(AMBIENT_ID, room.getRoomID()));
         else
@@ -104,7 +109,8 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public void onResume() {
         super.onResume();
         fountainBundle.putInt(FOUNTAIN_ID, 0);
-        fountainBundle.putBoolean(VISIBLE_MEMORIAL, true);
+        if (!fountainBundle.getBoolean(FROM_ROOMS))
+            fountainBundle.putBoolean(VISIBLE_MEMORIAL, true);
         getParentFragmentManager().setFragmentResult(MEMORIAL, fountainBundle);
     }
 
