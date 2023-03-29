@@ -99,4 +99,11 @@ public class RampStairsEntry {
         this.rampStairsLocation = rampStairsLocation;
     }
 
+    public Integer getCircID() {
+        return circID;
+    }
+
+    public void setCircID(Integer circID) {
+        this.circID = circID;
+    }
 }

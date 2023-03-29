@@ -1,9 +1,13 @@
 package com.mpms.relatorioacessibilidadecortec.data.entities;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(foreignKeys = {@ForeignKey(entity = CirculationEntry.class, parentColumns = "circID", childColumns = "circID",
+        onDelete = CASCADE, onUpdate = CASCADE)})
 public class SlopeEntry {
 
     @PrimaryKey(autoGenerate = true)

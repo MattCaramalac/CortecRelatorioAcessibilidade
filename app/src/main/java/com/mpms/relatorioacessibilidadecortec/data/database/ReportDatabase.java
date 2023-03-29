@@ -1793,20 +1793,19 @@ public abstract class ReportDatabase extends RoomDatabase {
         public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE TABLE CirculationEntry(circID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolID INTEGER NOT NULL, circLocation TEXT, " +
                     "hasVertSing INTEGER, vertSignObs TEXT, hasLooseCarpet INTEGER, looseCarpetObs TEXT, accessFloor INTEGER, accessFloorObs TEXT, hasIntercom INTEGER," +
-                    "intercomHeight REAL, intercomObs TEXT, hasBioClock INTEGER, bioClockHeight REAL, bioClockObs TEXT, Integer hasUnevenFloor, unevenHigher INTEGER," +
+                    "intercomHeight REAL, intercomObs TEXT, hasBioClock INTEGER, bioClockHeight REAL, bioClockObs TEXT, hasUnevenFloor INTEGER, unevenHigher INTEGER," +
                     "unevenHeight REAL, hasSlope INTEGER, slopeHigher INTEGER, slopeAngle REAL, hasFallProtect INTEGER, fallProtectType INTEGER, marginWidth REAL," +
                     "marginDifferentTexture INTEGER, marginContrastColor INTEGER, beaconHeight REAL, topBeaconContrast INTEGER, railingHeight REAL, circPhoto TEXT, circObs TEXT," +
                     "FOREIGN KEY (schoolID) REFERENCES SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
 
-            database.execSQL("CREATE TABLE Ramp2(rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER NOT NULL, extAccessID INTEGER, " +
-                    "sidewalkID INTEGER, parkingID INTEGER, roomID INTEGER, circID INTEGER, rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, rampStairsPhoto TEXT," +
-                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE," +
+            database.execSQL("CREATE TABLE Ramp2(rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, extAccessID INTEGER, sidewalkID INTEGER, parkingID INTEGER, " +
+                    "roomID INTEGER, circID INTEGER, rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, rampStairsPhoto TEXT," +
                     "FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE," +
                     "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntry (sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE," +
                     "FOREIGN KEY (parkingID) REFERENCES ParkingLotEntry (parkingID) ON UPDATE CASCADE ON DELETE CASCADE," +
                     "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
                     "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
-            database.execSQL("INSERT INTO Ramps2 (rampStairsID, extAccessID, sidewalkID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, rampStairsPhoto)" +
+            database.execSQL("INSERT INTO Ramp2 (rampStairsID, extAccessID, sidewalkID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, rampStairsPhoto)" +
                     "SELECT rampStairsID, extAccessID, sidewalkID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, rampStairsPhoto FROM RampStairsEntry");
             database.execSQL("DROP TABLE RampStairsEntry");
             database.execSQL("ALTER TABLE Ramp2 RENAME TO RampStairsEntry");
@@ -1817,14 +1816,14 @@ public abstract class ReportDatabase extends RoomDatabase {
                     "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
 
             database.execSQL("CREATE TABLE SoleStepEntry(stepID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, circID INTEGER NOT NULL, stepLocation TEXT, stepSize REAL NOT NULL," +
-                    "stepQnt INTEGER, mirrorHeight1 REAL, stepLenght REAL, mirrorHeight2 REAL, stepHasSignaling INTEGER NOT NULL, stepSignalFull INTEGER, stepSignalContrast INTEGER," +
-                    "stepLowerTactFloor INTEGER NOT NULL, lowerTactFloorDist REAL, lowerTactFloorWidth REAL, lowerAntiDrift INTEGER, lowerColorContrast INTEGER," +
-                    "stepUpperTactFloor INTEGER NOT NULL, upperTactFloorDist REAL, upperTactFloorWidth REAL, upperAntiDrift INTEGER, upperColorContrast INTEGER," +
-                    "hasHandrail INTEGER NOT NULL, singleHandrailLength REAL, singleHandrailHeight REAL, hasLeftHandrail INTEGER, leftUpHandHeight REAL, leftLowHandHeight REAL," +
-                    "leftUpHandStartExtension REAL, leftUpHandEndExtension REAL, leftLowHandStartExtension REAL, leftLowHandEndExtension REAL, hasRightHandrail INTEGER," +
-                    "rightUpHandHeight REAL, rightLowHandHeight REAL, rightUpHandStartExtension REAL, rightUpHandEndExtension REAL, rightLowHandStartExtension REAL," +
-                    "rightLowHandEndExtension REAL, hasMiddleHandrail INTEGER, middleUpHandHeight REAL, middleLowHandHeight REAL, middleUpHandStartExtension REAL," +
-                    "middleUpHandEndExtension REAL, middleLowHandStartExtension REAL, middleLowHandEndExtension REAL, stepObs TEXT, stepPhoto TEXT," +
+                    "stepQnt INTEGER NOT NULL, mirrorHeight1 REAL NOT NULL, stepLenght REAL, mirrorHeight2 REAL, stepHasSignaling INTEGER NOT NULL, stepSignalFull INTEGER, " +
+                    "stepSignalContrast INTEGER, stepLowerTactFloor INTEGER NOT NULL, lowerTactFloorDist REAL, lowerTactFloorWidth REAL, lowerAntiDrift INTEGER, " +
+                    "lowerColorContrast INTEGER, stepUpperTactFloor INTEGER NOT NULL, upperTactFloorDist REAL, upperTactFloorWidth REAL, upperAntiDrift INTEGER, " +
+                    "upperColorContrast INTEGER, hasHandrail INTEGER NOT NULL, singleHandrailLength REAL, singleHandrailHeight REAL, hasLeftHandrail INTEGER, leftUpHandHeight REAL, " +
+                    "leftLowHandHeight REAL,leftUpHandStartExtension REAL, leftUpHandEndExtension REAL, leftLowHandStartExtension REAL, leftLowHandEndExtension REAL, " +
+                    "hasRightHandrail INTEGER,rightUpHandHeight REAL, rightLowHandHeight REAL, rightUpHandStartExtension REAL, rightUpHandEndExtension REAL, " +
+                    "rightLowHandStartExtension REAL,rightLowHandEndExtension REAL, hasMiddleHandrail INTEGER, middleUpHandHeight REAL, middleLowHandHeight REAL, " +
+                    "middleUpHandStartExtension REAL, middleUpHandEndExtension REAL, middleLowHandStartExtension REAL, middleLowHandEndExtension REAL, stepObs TEXT, stepPhoto TEXT," +
                     "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
 
         }
