@@ -110,6 +110,7 @@ public class RampStairsRailingFragment extends Fragment implements TagInterface,
         railingObsValue = view.findViewById(R.id.railing_obs_value);
         beaconHeightValue = view.findViewById(R.id.beacon_height_value);
         beaconObsValue = view.findViewById(R.id.beacon_obs_value);
+        photoValue = view.findViewById(R.id.beacon_photo_value);
 //        RadioGroup
         railingSideRadio = view.findViewById(R.id.railing_side_radio);
         hasBeaconRadio = view.findViewById(R.id.has_beacon_radio);

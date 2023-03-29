@@ -110,7 +110,7 @@ public class RampStairsHandrailFragment extends Fragment implements TagInterface
         handrailObsValue = view.findViewById(R.id.handrail_obs_value);
         initExtLengthValue = view.findViewById(R.id.handrail_initial_extension_length_value);
         finalExtLengthValue = view.findViewById(R.id.handrail_final_extension_length_value);
-        photoValue = view.findViewById(R.id.phone_photo_value);
+        photoValue = view.findViewById(R.id.handrail_photo_value);
 //        RadioGroups
         hasHandrailRadio = view.findViewById(R.id.side_has_handrail_radio);
         hasInitExtensionRadio = view.findViewById(R.id.handrail_has_initial_extension_radio);

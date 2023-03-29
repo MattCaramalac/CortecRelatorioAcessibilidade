@@ -110,7 +110,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         obsValue = view.findViewById(R.id.table_obs_value);
         freeWidthValue = view.findViewById(R.id.table_fs_width_value);
         tableDescValue = view.findViewById(R.id.table_desc_value);
-        photoValue = view.findViewById(R.id.phone_photo_value);
+        photoValue = view.findViewById(R.id.table_photo_value);
 //        TextView
         tableTypeHeader = view.findViewById(R.id.table_type_header_text);
         tableTypeError = view.findViewById(R.id.table_type_error);

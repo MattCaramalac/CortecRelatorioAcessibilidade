@@ -93,7 +93,7 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
         comHeightValue2 = view.findViewById(R.id.win_handle_height_value_2);
         comHeightValue3 = view.findViewById(R.id.win_handle_height_value_3);
         windowObsValue = view.findViewById(R.id.window_obs_value);
-        photoValue = view.findViewById(R.id.phone_photo_value);
+        photoValue = view.findViewById(R.id.window_photo_value);
 //        MaterialButton
         saveWindow = view.findViewById(R.id.save_window);
         cancelWindow = view.findViewById(R.id.cancel_window);
