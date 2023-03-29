@@ -146,7 +146,7 @@ public class EquipmentFragment extends Fragment implements TagInterface, ScrollE
         eHeight = Double.parseDouble(String.valueOf(equipHeightValue.getText()));
         if (!TextUtils.isEmpty(equipObsValue.getText()))
             eObs = String.valueOf(equipObsValue.getText());
-        if (photoValue.getText() != null)
+        if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
         return new EquipmentEntry(bundle.getInt(AMBIENT_ID), eType, eLocal, eHeight, eObs, photo);

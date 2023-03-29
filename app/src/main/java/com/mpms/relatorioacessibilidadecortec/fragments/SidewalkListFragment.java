@@ -116,6 +116,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
         super.onResume();
         sideListBundle.putInt(AMBIENT_ID, 0);
         sideListBundle.putBoolean(VISIBLE_MEMORIAL, true);
+        sideListBundle.putBoolean(RECENT_ENTRY,false);
         getParentFragmentManager().setFragmentResult(MEMORIAL, sideListBundle);
     }
 

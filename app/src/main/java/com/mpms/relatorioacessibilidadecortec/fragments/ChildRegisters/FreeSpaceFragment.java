@@ -150,7 +150,7 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
         obsWidth = Double.parseDouble(String.valueOf(obsWidthValue.getText()));
         if (!TextUtils.isEmpty(fSpaceObsValue.getText()))
             fSpObs = String.valueOf(fSpaceObsValue.getText());
-        if (photoValue.getText() != null)
+        if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
         return new FreeSpaceEntry(roomID, restID, fSpLocale, obsWidth, fSpWidth, fSpObs, photo);

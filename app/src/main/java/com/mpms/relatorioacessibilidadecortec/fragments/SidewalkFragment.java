@@ -175,6 +175,7 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
     }
 
     private void callNextSidewalkFrag(Bundle bundle) {
+        bundle.putBoolean(RECENT_ENTRY, true);
         SidewalkFragmentTwo sideTwo = SidewalkFragmentTwo.newInstance();
         sideTwo.setArguments(bundle);
         requireActivity().getSupportFragmentManager().beginTransaction()

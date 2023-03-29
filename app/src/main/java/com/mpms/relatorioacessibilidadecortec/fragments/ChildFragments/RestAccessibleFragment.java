@@ -248,7 +248,7 @@ public class RestAccessibleFragment extends Fragment implements TagInterface, Sc
         }
         if (!TextUtils.isEmpty(restSwitchObsValue.getText()))
             switchObs = String.valueOf(restSwitchObsValue.getText());
-        if (photoValue.getText() != null)
+        if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
         RestAccessColParcel parcel = new RestAccessColParcel(restType, restLocation, null, null, null,accessRoute, accessRouteObs, intRest,

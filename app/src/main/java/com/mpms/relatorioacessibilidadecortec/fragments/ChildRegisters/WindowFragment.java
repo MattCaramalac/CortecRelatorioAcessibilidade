@@ -270,9 +270,9 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
                 break;
         }
 
-        if (windowObsValue.getText() != null)
+        if (!TextUtils.isEmpty(windowObsValue.getText()))
             winObs = String.valueOf(windowObsValue.getText());
-        if (photoValue.getText() != null)
+        if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
         return new WindowEntry(bundle.getInt(AMBIENT_ID), winLocale, windowQnt, comType1, winHeight1, comType2, winHeight2, comType3, winHeight3, winObs,photo);

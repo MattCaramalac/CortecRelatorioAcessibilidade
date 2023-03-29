@@ -114,6 +114,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
         super.onResume();
         extListBundle.putInt(AMBIENT_ID, 0);
         extListBundle.putBoolean(VISIBLE_MEMORIAL, true);
+        extListBundle.putBoolean(RECENT_ENTRY, false);
         getParentFragmentManager().setFragmentResult(MEMORIAL, extListBundle);
     }
 

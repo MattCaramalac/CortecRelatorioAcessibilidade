@@ -118,7 +118,7 @@ public class SwitchFragment extends Fragment implements TagInterface, ScrollEdit
         switchHeight = Double.parseDouble(String.valueOf(switchHeightValue.getText()));
         if (switchObsValue.getText() != null)
             switchObs = String.valueOf(switchObsValue.getText());
-        if (photoValue.getText() != null)
+        if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
         return new SwitchEntry(bundle.getInt(AMBIENT_ID), switchLocale, switchType, switchHeight, switchObs, photo);
