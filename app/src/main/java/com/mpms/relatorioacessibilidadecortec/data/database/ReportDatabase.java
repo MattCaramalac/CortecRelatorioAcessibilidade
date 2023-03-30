@@ -83,7 +83,7 @@ import java.util.concurrent.Executors;
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
         PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class,
-        CirculationEntry.class, SlopeEntry.class, SoleStepEntry.class}, version = 71)
+        CirculationEntry.class, SlopeEntry.class, SoleStepEntry.class}, version = 72)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1829,6 +1829,18 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_71_72 = new Migration(71, 72) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE CirculationEntry");
+            database.execSQL("CREATE TABLE CirculationEntry(circID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolID INTEGER NOT NULL, circLocation TEXT, " +
+                    "hasVertSign INTEGER, vertSignObs TEXT, hasLooseCarpet INTEGER, looseCarpetObs TEXT, accessFloor INTEGER, accessFloorObs TEXT, hasIntercom INTEGER," +
+                    "intercomHeight REAL, intercomObs TEXT, hasBioClock INTEGER, bioClockHeight REAL, bioClockObs TEXT, hasUnevenFloor INTEGER, unevenHigher INTEGER," +
+                    "unevenHeight REAL, hasSlope INTEGER, slopeHigher INTEGER, slopeAngle REAL, hasFallProtect INTEGER, fallProtectType INTEGER, protectWidthLength REAL," +
+                    "hasVisualContrast INTEGER, hasTactileContrast INTEGER, fallProtectObs TEXT, circPhoto TEXT, circObs TEXT," +
+                    "FOREIGN KEY (schoolID) REFERENCES SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -1846,7 +1858,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
                                     MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58, MIGRATION_58_59, MIGRATION_59_60,
                                     MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66,
-                                    MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70, MIGRATION_70_71).build();
+                                    MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70, MIGRATION_70_71, MIGRATION_71_72).build();
                 }
             }
         }

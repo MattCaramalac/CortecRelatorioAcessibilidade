@@ -93,6 +93,7 @@ public interface TagInterface {
     String FREE_LIST = "FREE_LIST";
     String PLAYGROUND_LIST = "PLAYGROUND_LIST";
     String BOX_LIST = "BOX_LIST";
+    String CIRC_LIST = "CIRC_LIST";
 
     //    Tags defining register's IDs
     String SIDEWALK_ID = "SIDEWALK_ID";

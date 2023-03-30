@@ -9,28 +9,38 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.data.entities.CirculationEntry;
+import com.mpms.relatorioacessibilidadecortec.data.parcels.FallProtectParcel;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.FallProtectFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
 
 public class CirculationFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     TextInputLayout circLocField, vertSignObsField, carpetObsField, accessFloorField, intercomHeightField, intercomObsField, biometryHeightField, biometryObsField,
-            unevenHeightField, inclField, photoField;
+            unevenHeightField, inclField, photoField, obsField;
     TextInputEditText circLocValue, vertSignObsValue, carpetObsValue, accessFloorValue, intercomHeightValue, intercomObsValue, biometryHeightValue, biometryObsValue,
-            unevenHeightValue, inclValue, photoValue;
+            unevenHeightValue, inclValue, photoValue, obsValue;
     RadioGroup vertSignRadio, carpetRadio, accessFloorRadio, intercomRadio, bioClockRadio, hasUnevenRadio, unevenHeightRadio, taludeRadio, taludeInclRadio,
             hasProtectRadio, protectTypeRadio;
     TextView vertSignError, carpetError, accessError, intercomError, bioClockError, hasUnevenError, unevenHeightHeader, unevenHeightError, hasTaludeHeader, hasTaludeError,
@@ -40,9 +50,8 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
     FrameLayout protectFrame;
 
     Bundle circBundle;
-
     ViewModelEntry modelEntry;
-
+    ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     public CirculationFragment() {
         // Required empty public constructor
@@ -60,6 +69,19 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
             circBundle = new Bundle(this.getArguments());
         else
             circBundle = new Bundle();
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (circBundle.getBoolean(RECENT_ENTRY))
+                    cancelClick();
+                else {
+                    setEnabled(false);
+                    requireActivity().onBackPressed();
+                }
+                setEnabled(true);
+            }
+        });
     }
 
     @Override
@@ -72,6 +94,29 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        instantiateCircViews(view);
+
+        if (circBundle.getInt(AMBIENT_ID) > 0)
+            modelEntry.getOneCirculation(circBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadCirculationData);
+
+        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, getViewLifecycleOwner(), (key, bundle) -> {
+            if (noEmptyFields() && bundle.getBoolean(CHILD_DATA_COMPLETE))
+                saveUpdateCirculation(bundle);
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
+        });
+
+        continueCirc.setOnClickListener(v -> {
+            if (indexRadio(protectTypeRadio) != -1)
+                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, circBundle);
+            else if (noEmptyFields())
+                saveUpdateCirculation(circBundle);
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
+        });
+
+        cancelCirc.setOnClickListener(v -> cancelClick());
     }
 
     private void instantiateCircViews(View view) {
@@ -87,6 +132,7 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
         unevenHeightField = view.findViewById(R.id.circ_uneven_height_field);
         inclField = view.findViewById(R.id.circ_talude_incl_field);
         photoField = view.findViewById(R.id.circ_photo_field);
+        obsField = view.findViewById(R.id.circ_obs_field);
 //        TextInputEditText
         circLocValue = view.findViewById(R.id.circ_location_value);
         vertSignObsValue = view.findViewById(R.id.circ_visual_sign_obs_value);
@@ -99,6 +145,7 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
         unevenHeightValue = view.findViewById(R.id.circ_uneven_height_value);
         inclValue = view.findViewById(R.id.circ_talude_incl_value);
         photoValue = view.findViewById(R.id.circ_photo_value);
+        obsValue = view.findViewById(R.id.circ_obs_value);
 //        RadioGroup
         vertSignRadio = view.findViewById(R.id.circ_has_visual_sign_radio);
         carpetRadio = view.findViewById(R.id.circ_has_carpet_radio);
@@ -149,14 +196,367 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
         taludeInclRadio.setOnCheckedChangeListener(this::radioListener);
         hasProtectRadio.setOnCheckedChangeListener(this::radioListener);
         protectTypeRadio.setOnCheckedChangeListener(this::radioListener);
+//        Utility
+        editTextFields();
+        allowObsScroll(eText);
     }
+
+    private void saveUpdateCirculation(Bundle bundle) {
+        if (bundle.getInt(AMBIENT_ID) > 0) {
+            CirculationEntry entry = createCirculation(bundle);
+            entry.setCircID(bundle.getInt(AMBIENT_ID));
+            ViewModelEntry.updateCirculation(entry);
+            callNextFragment(bundle);
+        } else if (bundle.getInt(AMBIENT_ID) == 0) {
+            ViewModelEntry.insertCirculation(createCirculation(bundle));
+            callNextFragment(bundle);
+        } else {
+            circBundle.putInt(AMBIENT_ID, 0);
+            Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void callNextFragment(Bundle bundle) {
+//        TODO - Chamar o Prox. Fragment qnd criado
+        bundle.putBoolean(RECENT_ENTRY, true);
+        requireActivity().getSupportFragmentManager().popBackStack(CIRC_LIST, 0);
+    }
+
+    private void removeChildFragments() {
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fall_protect_frame);
+        if (fragment != null)
+            getChildFragmentManager().beginTransaction().remove(fragment).commit();
+    }
+
+    private void loadCirculationData(CirculationEntry entry) {
+        if (entry.getCircLocation() != null)
+            circLocValue.setText(entry.getCircLocation());
+        if (entry.getHasVertSign() != null)
+            checkRadioGroup(vertSignRadio, entry.getHasVertSign());
+        if (entry.getVertSignObs() != null)
+            vertSignObsValue.setText(entry.getVertSignObs());
+        if (entry.getHasLooseCarpet() != null)
+            checkRadioGroup(carpetRadio, entry.getHasLooseCarpet());
+        if (entry.getLooseCarpetObs() != null)
+            carpetObsValue.setText(entry.getLooseCarpetObs());
+        if (entry.getAccessFloor() != null) {
+            checkRadioGroup(accessFloorRadio, entry.getAccessFloor());
+            if (entry.getAccessFloor() == 0) {
+                if (entry.getAccessFloorObs() != null)
+                    accessFloorValue.setText(entry.getAccessFloorObs());
+            }
+        }
+        if (entry.getHasIntercom() != null) {
+            checkRadioGroup(intercomRadio, entry.getHasIntercom());
+            if (entry.getHasIntercom() == 1) {
+                intercomHeightValue.setText(String.valueOf(entry.getIntercomHeight()));
+                if (entry.getIntercomObs() != null)
+                    intercomObsValue.setText(entry.getIntercomObs());
+            }
+        }
+
+        if (entry.getHasBioClock() != null) {
+            checkRadioGroup(bioClockRadio, entry.getHasBioClock());
+            if (entry.getHasBioClock() == 1) {
+                if (entry.getBioClockHeight() != null)
+                    biometryHeightValue.setText(String.valueOf(entry.getBioClockHeight()));
+                if (entry.getBioClockObs() != null)
+                    biometryObsValue.setText(entry.getBioClockObs());
+            }
+        }
+        if (entry.getHasUnevenFloor() != null) {
+            checkRadioGroup(hasUnevenRadio, entry.getHasUnevenFloor());
+            if (entry.getHasUnevenFloor() == 1) {
+                if (entry.getUnevenHigher() != null) {
+                    checkRadioGroup(unevenHeightRadio, entry.getUnevenHigher());
+                    if (entry.getUnevenHigher() == 1) {
+                        if (entry.getUnevenHeight() != null)
+                            unevenHeightValue.setText(String.valueOf(entry.getUnevenHeight()));
+                        if (entry.getHasSlope() != null) {
+                            checkRadioGroup(taludeRadio, entry.getHasSlope());
+                            if (entry.getHasSlope() == 1) {
+                                if (entry.getSlopeHigher() != null) {
+                                    checkRadioGroup(taludeInclRadio, entry.getSlopeHigher());
+                                    if (entry.getSlopeHigher() == 1) {
+                                        if (entry.getSlopeAngle() != null)
+                                            inclValue.setText(String.valueOf(entry.getSlopeAngle()));
+                                        if (entry.getHasFallProtect() != null) {
+                                            checkRadioGroup(hasProtectRadio, entry.getHasFallProtect());
+                                            if (entry.getHasFallProtect() == 1) {
+                                                if (entry.getFallProtectType() != null)
+                                                    checkRadioGroup(protectTypeRadio, entry.getFallProtectType());
+                                            }
+                                        }
+                                    }
+                                }
+                            } else if (entry.getHasSlope() == 0) {
+                                if (entry.getHasFallProtect() != null) {
+                                    checkRadioGroup(hasProtectRadio, entry.getHasFallProtect());
+                                    if (entry.getHasFallProtect() == 1) {
+                                        if (entry.getFallProtectType() != null)
+                                            checkRadioGroup(protectTypeRadio, entry.getFallProtectType());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (entry.getCircPhoto() != null)
+            photoValue.setText(entry.getCircPhoto());
+        if (entry.getCircObs() != null)
+            obsValue.setText(entry.getCircObs());
+    }
+
+    private boolean noEmptyFields() {
+        clearErrors();
+        int i = 0;
+        if (TextUtils.isEmpty(circLocValue.getText())) {
+            i++;
+            circLocField.setError(getString(R.string.req_field_error));
+        }
+        if (indexRadio(vertSignRadio) == -1) {
+            i++;
+            vertSignError.setVisibility(View.VISIBLE);
+        }
+        if (indexRadio(carpetRadio) == -1) {
+            i++;
+            carpetError.setVisibility(View.VISIBLE);
+        }
+        if (indexRadio(accessFloorRadio) == -1) {
+            i++;
+            accessError.setVisibility(View.VISIBLE);
+        } else if (indexRadio(accessFloorRadio) == 0) {
+            if (TextUtils.isEmpty(accessFloorValue.getText())) {
+                i++;
+                accessFloorField.setError(getString(R.string.req_field_error));
+            }
+        }
+        if (indexRadio(intercomRadio) == -1) {
+            i++;
+            intercomError.setVisibility(View.VISIBLE);
+        } else if (indexRadio(intercomRadio) == 1) {
+            if (TextUtils.isEmpty(intercomHeightValue.getText())) {
+                i++;
+                intercomHeightField.setError(getString(R.string.req_field_error));
+            }
+        }
+        if (indexRadio(bioClockRadio) == -1) {
+            i++;
+            bioClockError.setVisibility(View.VISIBLE);
+        } else if (indexRadio(bioClockRadio) == 1) {
+            if (TextUtils.isEmpty(biometryHeightValue.getText())) {
+                i++;
+                biometryHeightField.setError(getString(R.string.req_field_error));
+            }
+        }
+        if (indexRadio(hasUnevenRadio) == -1) {
+            i++;
+            hasUnevenError.setVisibility(View.VISIBLE);
+        } else if (indexRadio(hasUnevenRadio) == 1) {
+            if (indexRadio(unevenHeightRadio) == -1) {
+                i++;
+                unevenHeightError.setVisibility(View.VISIBLE);
+            } else if (indexRadio(unevenHeightRadio) == 1) {
+                if (TextUtils.isEmpty(unevenHeightValue.getText())) {
+                    i++;
+                    unevenHeightField.setError(getString(R.string.req_field_error));
+                }
+                if (indexRadio(taludeRadio) == -1) {
+                    i++;
+                    hasTaludeError.setVisibility(View.VISIBLE);
+                } else if (indexRadio(taludeRadio) == 0) {
+                    if (indexRadio(hasProtectRadio) == -1) { ///
+                        i++;
+                        hasProtectError.setVisibility(View.VISIBLE);
+                    } else if (indexRadio(hasProtectRadio) == 1) {
+                        if (indexRadio(protectTypeRadio) == -1) {
+                            i++;
+                            protectTypeError.setVisibility(View.VISIBLE);
+                        }
+                    }
+                } else {
+                    if (indexRadio(taludeInclRadio) == -1) {
+                        i++;
+                        taludeInclError.setVisibility(View.VISIBLE);
+                    } else if (indexRadio(taludeInclRadio) == 1) {
+                        if (TextUtils.isEmpty(inclValue.getText())) {
+                            i++;
+                            inclField.setError(getString(R.string.req_field_error));
+                        }
+                        if (indexRadio(hasProtectRadio) == -1) {
+                            i++;
+                            hasProtectError.setVisibility(View.VISIBLE);
+                        } else if (indexRadio(hasProtectRadio) == 1) {
+                            if (indexRadio(protectTypeRadio) == -1) {
+                                i++;
+                                protectTypeError.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        return i == 0;
+    }
+
+    private void cancelClick() {
+        if (circBundle.getBoolean(RECENT_ENTRY)) {
+            CancelEntryDialog dialog = CancelEntryDialog.newInstance();
+            dialog.setListener(() -> {
+                ViewModelEntry.deleteDoor(circBundle.getInt(AMBIENT_ID));
+                circBundle = null;
+                requireActivity().getSupportFragmentManager().popBackStack(CIRC_LIST, 0);
+            });
+            FragmentManager manager = requireActivity().getSupportFragmentManager();
+            dialog.show(manager, "MOSTRA");
+        } else
+            requireActivity().getSupportFragmentManager().popBackStack(CIRC_LIST, 0);
+    }
+
+    private void clearErrors() {
+        circLocField.setErrorEnabled(false);
+        accessFloorField.setErrorEnabled(false);
+        intercomHeightField.setErrorEnabled(false);
+        biometryHeightField.setErrorEnabled(false);
+        unevenHeightField.setErrorEnabled(false);
+        inclField.setErrorEnabled(false);
+
+        vertSignError.setVisibility(View.GONE);
+        carpetError.setVisibility(View.GONE);
+        accessError.setVisibility(View.GONE);
+        intercomError.setVisibility(View.GONE);
+        bioClockError.setVisibility(View.GONE);
+        hasUnevenError.setVisibility(View.GONE);
+        unevenHeightError.setVisibility(View.GONE);
+        hasTaludeError.setVisibility(View.GONE);
+        taludeInclError.setVisibility(View.GONE);
+        hasProtectError.setVisibility(View.GONE);
+        protectTypeError.setVisibility(View.GONE);
+    }
+
+    private void editTextFields() {
+        eText.add(vertSignObsValue);
+        eText.add(carpetObsValue);
+        eText.add(accessFloorValue);
+        eText.add(intercomObsValue);
+        eText.add(biometryObsValue);
+        eText.add(obsValue);
+    }
+
+    private CirculationEntry createCirculation(Bundle bundle) {
+        String location, vertObs = null, carpetObs = null, accessObs = null, intercomObs = null, bioObs = null, protectObs = null, photo = null, circObs = null;
+        Double interHeight = null, bioHeight = null, unevenHeight = null, angle = null, protectDimen = null;
+        int vertSign, carpet, access, intercom, bioClock, unevenFloor;
+        Integer unevenHigh = null, talude = null, taludeAngle = null, hasProtect = null, protectType = null, hasTactile = null, hasVisible = null;
+
+        location = String.valueOf(circLocValue.getText());
+        vertSign = indexRadio(vertSignRadio);
+        if (!TextUtils.isEmpty(vertSignObsValue.getText()))
+            vertObs = String.valueOf(vertSignObsValue.getText());
+        carpet = indexRadio(carpetRadio);
+        if (!TextUtils.isEmpty(carpetObsValue.getText()))
+            carpetObs = String.valueOf(carpetObsValue.getText());
+        access = indexRadio(accessFloorRadio);
+        if (!TextUtils.isEmpty(accessFloorValue.getText()))
+            accessObs = String.valueOf(accessFloorValue.getText());
+        intercom = indexRadio(intercomRadio);
+        if (!TextUtils.isEmpty(intercomHeightValue.getText()))
+            interHeight = Double.parseDouble(String.valueOf(intercomHeightValue.getText()));
+        if (!TextUtils.isEmpty(intercomObsValue.getText()))
+            intercomObs = String.valueOf(intercomObsValue.getText());
+        bioClock = indexRadio(bioClockRadio);
+        if (!TextUtils.isEmpty(biometryHeightValue.getText()))
+            bioHeight = Double.parseDouble(String.valueOf(biometryHeightValue.getText()));
+        if (!TextUtils.isEmpty(biometryObsValue.getText()))
+            bioObs = String.valueOf(biometryObsValue.getText());
+        unevenFloor = indexRadio(hasUnevenRadio);
+        if (unevenFloor == 1) {
+            unevenHigh = indexRadio(unevenHeightRadio);
+            if (unevenHigh == 1) {
+                unevenHeight = Double.parseDouble(String.valueOf(unevenHeightValue.getText()));
+                talude = indexRadio(taludeRadio);
+                if (talude == 1) {
+                    taludeAngle = indexRadio(taludeInclRadio);
+                    if (taludeAngle == 1) {
+                        angle = Double.parseDouble(String.valueOf(inclValue.getText()));
+                        hasProtect = indexRadio(hasProtectRadio);
+                        if (hasProtect == 1) {
+                            protectType = indexRadio(protectTypeRadio);
+
+                            FallProtectParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+
+                            switch (protectType) {
+                                case 0:
+                                    hasTactile = parcel.getTactileContrast();
+                                case 1:
+                                    hasVisible = parcel.getVisualContrast();
+                                case 2:
+                                    protectDimen = parcel.getHeightLength();
+                                default:
+                                    protectObs = parcel.getProtectObs();
+                                    break;
+                            }
+                        }
+                    }
+                } else if (talude == 0) {
+                    hasProtect = indexRadio(hasProtectRadio);
+                    if (hasProtect == 1) {
+                        protectType = indexRadio(protectTypeRadio);
+
+                        FallProtectParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+
+                        switch (protectType) {
+                            case 0:
+                                hasTactile = parcel.getTactileContrast();
+                            case 1:
+                                hasVisible = parcel.getVisualContrast();
+                            case 2:
+                                protectDimen = parcel.getHeightLength();
+                            default:
+                                protectObs = parcel.getProtectObs();
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!TextUtils.isEmpty(photoValue.getText()))
+            photo = String.valueOf(photoValue.getText());
+        if (!TextUtils.isEmpty(obsValue.getText()))
+            circObs = String.valueOf(obsValue.getText());
+
+        return new CirculationEntry(bundle.getInt(SCHOOL_ID), location, vertSign, vertObs, carpet, carpetObs, access, accessObs, intercom, interHeight, intercomObs,
+                bioClock, bioHeight, bioObs, unevenFloor, unevenHigh, unevenHeight, talude, taludeAngle, angle, hasProtect, protectType, protectDimen, hasVisible,
+                hasTactile, protectObs, photo, circObs);
+    }
+
 
     @Override
     public void radioListener(RadioGroup radio, int id) {
         int index = indexRadio(radio);
 
-        if (radio == accessFloorRadio) {
+        if (radio == vertSignRadio) {
             if (index == 1)
+                vertSignObsField.setVisibility(View.VISIBLE);
+            else {
+                vertSignObsValue.setText(null);
+                vertSignObsField.setVisibility(View.GONE);
+            }
+        }
+        if (radio == carpetRadio) {
+            if (index == 1)
+                carpetObsField.setVisibility(View.VISIBLE);
+            else {
+                carpetObsValue.setText(null);
+                carpetObsField.setVisibility(View.GONE);
+            }
+        }
+        if (radio == accessFloorRadio) {
+            if (index == 0)
                 accessFloorField.setVisibility(View.VISIBLE);
             else {
                 accessFloorValue.setText(null);
@@ -186,6 +586,7 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
             } else {
 //                Tirar todas as views de desnível
                 unevenHeightHeader.setVisibility(View.GONE);
+                unevenHeightRadio.clearCheck();
                 unevenHeightRadio.setVisibility(View.GONE);
                 unevenHeightValue.setText(null);
                 unevenHeightField.setVisibility(View.GONE);
@@ -219,13 +620,25 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
                 hasTaludeHeader.setVisibility(View.GONE);
                 taludeRadio.clearCheck();
                 taludeRadio.setVisibility(View.GONE);
+                hasProtectHeader.setVisibility(View.GONE);
+                hasProtectRadio.clearCheck();
+                hasProtectRadio.setVisibility(View.GONE);
+                removeChildFragments();
+                protectTypeHeader.setVisibility(View.GONE);
+                protectType1.setVisibility(View.GONE);
+                protectType2.setVisibility(View.GONE);
+                protectType3.setVisibility(View.GONE);
+                protectTypeRadio.clearCheck();
+                protectTypeRadio.setVisibility(View.GONE);
             }
         } else if (radio == taludeRadio) {
             if (index == 1) {
                 taludeInclHeader.setVisibility(View.VISIBLE);
                 taludeInclRadio.setVisibility(View.VISIBLE);
-            }
-            else if (index == 0) {
+                hasProtectHeader.setVisibility(View.GONE);
+                hasProtectRadio.clearCheck();
+                hasProtectRadio.setVisibility(View.GONE);
+            } else if (index == 0) {
                 taludeInclHeader.setVisibility(View.GONE);
                 taludeInclRadio.clearCheck();
                 taludeInclRadio.setVisibility(View.GONE);
@@ -269,58 +682,11 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
                 protectTypeRadio.setVisibility(View.GONE);
             }
         } else {
-//            TODO - Criar os fragmentos para os tipos de proteção contra queda
+            if (index > -1) {
+                FallProtectFragment fragment = FallProtectFragment.newInstance(index, circBundle);
+                getChildFragmentManager().beginTransaction().replace(R.id.fall_protect_frame, fragment).commit();
+            } else
+                removeChildFragments();
         }
-    }
-
-    private void removeChildFragments() {
-        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fall_protect_frame);
-        if (fragment != null)
-            getChildFragmentManager().beginTransaction().remove(fragment).commit();
-    }
-
-    private boolean noEmptyFields() {
-        int i = 0;
-        if (!TextUtils.isEmpty(circLocValue.getText())) {
-            i++;
-            circLocField.setError(getString(R.string.req_field_error));
-        }
-        if (indexRadio(vertSignRadio) == -1) {
-            i++;
-            vertSignError.setVisibility(View.VISIBLE);
-        }
-        if (indexRadio(carpetRadio) == -1) {
-            i++;
-            carpetError.setVisibility(View.VISIBLE);
-        }
-        if (indexRadio(accessFloorRadio) == -1) {
-            i++;
-            accessError.setVisibility(View.VISIBLE);
-        } else if (indexRadio(accessFloorRadio) == 1) {
-            if (TextUtils.isEmpty(accessFloorValue.getText())) {
-                i++;
-                accessFloorField.setError(getString(R.string.req_field_error));
-            }
-        }
-        if (indexRadio(intercomRadio) == -1) {
-            i++;
-            intercomError.setVisibility(View.VISIBLE);
-        } else if (indexRadio(intercomRadio) == 1) {
-            if (TextUtils.isEmpty(intercomHeightValue.getText())) {
-                i++;
-                intercomHeightField.setError(getString(R.string.req_field_error));
-            }
-        }
-        if (indexRadio(bioClockRadio) == -1) {
-            i++;
-            bioClockError.setVisibility(View.VISIBLE);
-        } else if (indexRadio(bioClockRadio) == 1) {
-            if (TextUtils.isEmpty(biometryHeightValue.getText())) {
-                i++;
-                biometryHeightField.setError(getString(R.string.req_field_error));
-            }
-        }
-
-        return i == 0;
     }
 }

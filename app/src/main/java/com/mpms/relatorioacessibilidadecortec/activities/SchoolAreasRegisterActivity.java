@@ -2,7 +2,6 @@ package com.mpms.relatorioacessibilidadecortec.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,9 +81,9 @@ public class SchoolAreasRegisterActivity extends AppCompatActivity implements Ta
         });
 
         circulationButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Em fase de Desenvolvimento", Toast.LENGTH_SHORT).show();
-//            areasBundle.putBoolean(CIRCULATION, true);
-//            callInspectionActivity();
+//            Toast.makeText(this, "Em fase de Desenvolvimento", Toast.LENGTH_SHORT).show();
+            areasBundle.putBoolean(CIRCULATION, true);
+            callInspectionActivity();
         });
     }
 

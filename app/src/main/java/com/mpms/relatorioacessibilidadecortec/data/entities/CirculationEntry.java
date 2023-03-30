@@ -15,7 +15,7 @@ public class CirculationEntry {
     private int schoolID;
 
     private String circLocation;
-    private Integer hasVertSing;
+    private Integer hasVertSign;
     private String vertSignObs;
     private Integer hasLooseCarpet;
     private String looseCarpetObs;
@@ -37,23 +37,21 @@ public class CirculationEntry {
     private Double slopeAngle;
     private Integer hasFallProtect;
     private Integer fallProtectType;
-    private Double marginWidth;
-    private Integer marginDifferentTexture;
-    private Integer marginContrastColor;
-    private Double beaconHeight;
-    private Integer topBeaconContrast;
-    private Double railingHeight;
+    private Double protectWidthLength;
+    private Integer hasVisualContrast;
+    private Integer hasTactileContrast;
+    private String fallProtectObs;
 
     private String circPhoto;
     private String circObs;
 
-    public CirculationEntry(int schoolID, String circLocation, Integer hasVertSing, String vertSignObs, Integer hasLooseCarpet, String looseCarpetObs, Integer accessFloor, String accessFloorObs,
+    public CirculationEntry(int schoolID, String circLocation, Integer hasVertSign, String vertSignObs, Integer hasLooseCarpet, String looseCarpetObs, Integer accessFloor, String accessFloorObs,
                             Integer hasIntercom, Double intercomHeight, String intercomObs, Integer hasBioClock, Double bioClockHeight, String bioClockObs, Integer hasUnevenFloor, Integer unevenHigher,
-                            Double unevenHeight, Integer hasSlope, Integer slopeHigher, Double slopeAngle, Integer hasFallProtect, Integer fallProtectType, Double marginWidth, Integer marginDifferentTexture,
-                            Integer marginContrastColor, Double beaconHeight, Integer topBeaconContrast, Double railingHeight, String circPhoto, String circObs) {
+                            Double unevenHeight, Integer hasSlope, Integer slopeHigher, Double slopeAngle, Integer hasFallProtect, Integer fallProtectType, Double protectWidthLength, Integer hasVisualContrast,
+                            Integer hasTactileContrast, String fallProtectObs, String circPhoto, String circObs) {
         this.schoolID = schoolID;
         this.circLocation = circLocation;
-        this.hasVertSing = hasVertSing;
+        this.hasVertSign = hasVertSign;
         this.vertSignObs = vertSignObs;
         this.hasLooseCarpet = hasLooseCarpet;
         this.looseCarpetObs = looseCarpetObs;
@@ -73,12 +71,10 @@ public class CirculationEntry {
         this.slopeAngle = slopeAngle;
         this.hasFallProtect = hasFallProtect;
         this.fallProtectType = fallProtectType;
-        this.marginWidth = marginWidth;
-        this.marginDifferentTexture = marginDifferentTexture;
-        this.marginContrastColor = marginContrastColor;
-        this.beaconHeight = beaconHeight;
-        this.topBeaconContrast = topBeaconContrast;
-        this.railingHeight = railingHeight;
+        this.protectWidthLength = protectWidthLength;
+        this.hasVisualContrast = hasVisualContrast;
+        this.hasTactileContrast = hasTactileContrast;
+        this.fallProtectObs = fallProtectObs;
         this.circPhoto = circPhoto;
         this.circObs = circObs;
     }
@@ -107,12 +103,12 @@ public class CirculationEntry {
         this.circLocation = circLocation;
     }
 
-    public Integer getHasVertSing() {
-        return hasVertSing;
+    public Integer getHasVertSign() {
+        return hasVertSign;
     }
 
-    public void setHasVertSing(Integer hasVertSing) {
-        this.hasVertSing = hasVertSing;
+    public void setHasVertSign(Integer hasVertSign) {
+        this.hasVertSign = hasVertSign;
     }
 
     public String getVertSignObs() {
@@ -283,51 +279,35 @@ public class CirculationEntry {
         this.fallProtectType = fallProtectType;
     }
 
-    public Double getMarginWidth() {
-        return marginWidth;
+    public Double getProtectWidthLength() {
+        return protectWidthLength;
     }
 
-    public void setMarginWidth(Double marginWidth) {
-        this.marginWidth = marginWidth;
+    public void setProtectWidthLength(Double protectWidthLength) {
+        this.protectWidthLength = protectWidthLength;
     }
 
-    public Integer getMarginDifferentTexture() {
-        return marginDifferentTexture;
+    public Integer getHasVisualContrast() {
+        return hasVisualContrast;
     }
 
-    public void setMarginDifferentTexture(Integer marginDifferentTexture) {
-        this.marginDifferentTexture = marginDifferentTexture;
+    public void setHasVisualContrast(Integer hasVisualContrast) {
+        this.hasVisualContrast = hasVisualContrast;
     }
 
-    public Integer getMarginContrastColor() {
-        return marginContrastColor;
+    public Integer getHasTactileContrast() {
+        return hasTactileContrast;
     }
 
-    public void setMarginContrastColor(Integer marginContrastColor) {
-        this.marginContrastColor = marginContrastColor;
+    public void setHasTactileContrast(Integer hasTactileContrast) {
+        this.hasTactileContrast = hasTactileContrast;
     }
 
-    public Double getBeaconHeight() {
-        return beaconHeight;
+    public String getFallProtectObs() {
+        return fallProtectObs;
     }
 
-    public void setBeaconHeight(Double beaconHeight) {
-        this.beaconHeight = beaconHeight;
-    }
-
-    public Integer getTopBeaconContrast() {
-        return topBeaconContrast;
-    }
-
-    public void setTopBeaconContrast(Integer topBeaconContrast) {
-        this.topBeaconContrast = topBeaconContrast;
-    }
-
-    public Double getRailingHeight() {
-        return railingHeight;
-    }
-
-    public void setRailingHeight(Double railingHeight) {
-        this.railingHeight = railingHeight;
+    public void setFallProtectObs(String fallProtectObs) {
+        this.fallProtectObs = fallProtectObs;
     }
 }

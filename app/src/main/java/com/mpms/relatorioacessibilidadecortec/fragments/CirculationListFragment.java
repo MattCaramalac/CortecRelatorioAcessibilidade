@@ -111,6 +111,7 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
     public void onResume() {
         super.onResume();
         circListBundle.putInt(AMBIENT_ID, 0);
+        circListBundle.putBoolean(RECENT_ENTRY, false);
     }
 
     private void enableActionMode() {
