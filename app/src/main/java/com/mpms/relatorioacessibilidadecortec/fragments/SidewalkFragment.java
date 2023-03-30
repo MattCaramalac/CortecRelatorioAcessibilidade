@@ -271,7 +271,7 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
         if (indexRadio(streetPavementRadio) != -1)
             streetPavement = indexRadio(streetPavementRadio);
         if (indexRadio(hasSidewalkRadio) != -1) {
-            hasSide = indexRadio(streetPavementRadio);
+            hasSide = indexRadio(hasSidewalkRadio);
 
             if (hasSide == 1) {
                 SideMeasureParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
