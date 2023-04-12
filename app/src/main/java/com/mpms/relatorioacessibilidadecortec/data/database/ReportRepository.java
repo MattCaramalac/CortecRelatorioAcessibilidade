@@ -29,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.RoomEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SchoolEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkSlopeDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.SoleStepDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SwitchEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.TableEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.WaterFountainDao;
@@ -80,6 +81,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -120,6 +122,7 @@ public class ReportRepository {
     private final RestBoxDao restBoxDao;
     private final EquipEntryDao equipEntryDao;
     private final CirculationDao circulationDao;
+    private final SoleStepDao stepDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -152,6 +155,7 @@ public class ReportRepository {
         restBoxDao = db.restBoxDao();
         equipEntryDao = db.equipEntryDao();
         circulationDao = db.circulationDao();
+        stepDao = db.soleStepDao();
     }
 
     public LiveData<List<SchoolEntry>> getAllSchoolEntries() {
@@ -1229,6 +1233,10 @@ public class ReportRepository {
         return circulationDao.getOneCirculation(circID);
     }
 
+    public LiveData<CirculationEntry> getLastCirculation() {
+        return circulationDao.getLastCirculation();
+    }
+
     public void updateCirculation (CirculationEntry circ) {
         ReportDatabase.dbWriteExecutor.execute(() -> circulationDao.updateCirculation(circ));
     }
@@ -1239,5 +1247,33 @@ public class ReportRepository {
 
     public void deleteAllCirculations(int schoolID) {
         ReportDatabase.dbWriteExecutor.execute(() -> circulationDao.deleteAllCirculations(schoolID));
+    }
+
+    public void insertSoleStep(SingleStepEntry slop) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stepDao.insertSoleStep(slop));
+    }
+
+    public LiveData<List<SingleStepEntry>> getAllCircSingleSteps(int circID) {
+        return stepDao.getAllCircSingleSteps(circID);
+    }
+
+    public LiveData<List<SingleStepEntry>> getAllRoomSingleSteps(int roomID) {
+        return stepDao.getAllRoomSingleSteps(roomID);
+    }
+
+    public LiveData<SingleStepEntry> getOneSoleStep(int stepID) {
+        return stepDao.getOneSoleStep(stepID);
+    }
+
+    public void updateSoleStep (SingleStepEntry soleStep) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stepDao.updateSoleStep(soleStep));
+    }
+
+    public void deleteSoleStep(int stepID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stepDao.deleteSoleStep(stepID));
+    }
+
+    public void deleteAllSoleSteps(int circID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> stepDao.deleteAllSoleSteps(circID));
     }
 }

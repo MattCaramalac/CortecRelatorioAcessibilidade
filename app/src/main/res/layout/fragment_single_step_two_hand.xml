@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.ChildFragments.SingleStepLeftHandFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hand_upper_height_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Altura corrimão superior (m)"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/hand_upper_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hand_lower_height_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Altura corrimão inferior (m)"
+            app:helperText="Este campo é opcional"
+            app:layout_constraintTop_toBottomOf="@id/hand_upper_height_field"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/hand_lower_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hand_diam_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Diâmetro corrimão (m)"
+            app:layout_constraintTop_toBottomOf="@id/hand_lower_height_field"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/hand_diam_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hand_dist_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Distância corrimão até parede (m)"
+            app:layout_constraintTop_toBottomOf="@id/hand_diam_field"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/hand_dist_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/hand_lower_extension_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="O corrimão possui prolongamento em seu nível inferior?"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintTop_toBottomOf="@id/hand_dist_field" />
+
+        <RadioGroup
+            android:id="@+id/hand_lower_extension_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/hand_lower_extension_header">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/hand_lower_extension_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/hand_lower_extension_radio" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hand_start_extension_upper_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Prolongamento corrimão superior (m)"
+            app:layout_constraintTop_toBottomOf="@id/hand_lower_extension_error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/hand_start_extension_upper_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hand_start_extension_lower_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Prolongamento corrimão inferior (m)"
+            app:helperText="Este campo é opcional"
+            app:layout_constraintTop_toBottomOf="@id/hand_start_extension_upper_field"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/hand_start_extension_lower_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+       <TextView
+            android:id="@+id/hand_upper_extension_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="O corrimão possui prolongamento em seu nível superior?"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintTop_toBottomOf="@id/hand_start_extension_lower_field" />
+
+        <RadioGroup
+            android:id="@+id/hand_upper_extension_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/hand_upper_extension_header">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/hand_upper_extension_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/hand_upper_extension_radio" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hand_end_extension_upper_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Prolongamento corrimão superior (m)"
+            app:layout_constraintTop_toBottomOf="@id/hand_upper_extension_error">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/hand_end_extension_upper_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hand_end_extension_lower_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Prolongamento corrimão inferior (m)"
+            app:helperText="Este campo é opcional"
+            app:layout_constraintTop_toBottomOf="@id/hand_end_extension_upper_field"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/hand_end_extension_lower_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

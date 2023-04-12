@@ -97,8 +97,8 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
 
         instantiateCircViews(view);
 
-        if (circBundle.getInt(AMBIENT_ID) > 0)
-            modelEntry.getOneCirculation(circBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadCirculationData);
+        if (circBundle.getInt(CIRC_ID) > 0)
+            modelEntry.getOneCirculation(circBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), this::loadCirculationData);
 
         getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, getViewLifecycleOwner(), (key, bundle) -> {
             if (noEmptyFields() && bundle.getBoolean(CHILD_DATA_COMPLETE))
@@ -202,16 +202,16 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
     }
 
     private void saveUpdateCirculation(Bundle bundle) {
-        if (bundle.getInt(AMBIENT_ID) > 0) {
+        if (bundle.getInt(CIRC_ID) > 0) {
             CirculationEntry entry = createCirculation(bundle);
-            entry.setCircID(bundle.getInt(AMBIENT_ID));
+            entry.setCircID(bundle.getInt(CIRC_ID));
             ViewModelEntry.updateCirculation(entry);
             callNextFragment(bundle);
-        } else if (bundle.getInt(AMBIENT_ID) == 0) {
+        } else if (bundle.getInt(CIRC_ID) == 0) {
             ViewModelEntry.insertCirculation(createCirculation(bundle));
             callNextFragment(bundle);
         } else {
-            circBundle.putInt(AMBIENT_ID, 0);
+            circBundle.putInt(CIRC_ID, 0);
             Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
         }
     }
@@ -219,7 +219,10 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
     private void callNextFragment(Bundle bundle) {
 //        TODO - Chamar o Prox. Fragment qnd criado
         bundle.putBoolean(RECENT_ENTRY, true);
-        requireActivity().getSupportFragmentManager().popBackStack(CIRC_LIST, 0);
+        CirculationTwoFragment fragment = new CirculationTwoFragment();
+        fragment.setArguments(bundle);
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
+//        requireActivity().getSupportFragmentManager().popBackStack(CIRC_LIST, 0);
     }
 
     private void removeChildFragments() {
@@ -406,7 +409,7 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
         if (circBundle.getBoolean(RECENT_ENTRY)) {
             CancelEntryDialog dialog = CancelEntryDialog.newInstance();
             dialog.setListener(() -> {
-                ViewModelEntry.deleteDoor(circBundle.getInt(AMBIENT_ID));
+                ViewModelEntry.deleteDoor(circBundle.getInt(CIRC_ID));
                 circBundle = null;
                 requireActivity().getSupportFragmentManager().popBackStack(CIRC_LIST, 0);
             });

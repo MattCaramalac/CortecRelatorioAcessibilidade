@@ -781,7 +781,7 @@
     <string name="hint_equip_type">Tipo do Equipamento</string>
     <string name="hint_equip_location">Localização do Equipamento</string>
     <string name="hint_equip_height">Altura do Equipamento (m)</string>
-    <string name="header_fountain_register">Cadastro de Bebedouros e suas Informações</string>
+    <string name="header_fountain_register">Cadastro de Bebedouros</string>
     <string name="hint_table_identification">Identificação da Mesa</string>
     <string name="header_lib_has_long_corridor">Há algum corredor entre as estantes de livros com, pelo menos, 15 metros de comprimento?</string>
     <string name="header_lib_has_pcs">A biblioteca possui computadores atuando como terminais de consulta e/ou acesso à Internet?</string>
@@ -852,4 +852,6 @@
     <string name="header_visual_contrast">A proteção contra quedas possui contraste visual em relação ao piso da área de circulação?</string>
     <string name="header_tactile_contrast">A proteção contra quedas possui contraste tátil em relação ao piso da área de circulação?</string>
     <string name="hint_fall_protect_obs">Observações da proteção contra quedas</string>
+    <string name="button_add_measure">Adicionar Medição</string>
+    <string name="button_add_command">Adicionar Comando</string>
 </resources>

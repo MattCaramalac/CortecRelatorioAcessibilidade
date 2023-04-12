@@ -1,4 +1,4 @@
-package com.mpms.relatorioacessibilidadecortec.fragments;
+package com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,47 +20,40 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.adapter.CirculationRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
-import com.mpms.relatorioacessibilidadecortec.data.entities.CirculationEntry;
+import com.mpms.relatorioacessibilidadecortec.adapter.StepRecViewAdapter;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
 
-public class CirculationListFragment extends Fragment implements OnEntryClickListener, TagInterface {
+public class SingleStepListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
-    MaterialButton closeCircList, addCirc, continueButton;
+    MaterialButton closeStepList, addStep, continueButton;
 
-    TextView circHeader;
+    TextView stepHeader;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
-    private CirculationRecViewAdapter circAdapter;
+    private StepRecViewAdapter stepAdapter;
     private ActionMode actionMode;
 
-    private int delClick = 0;
+    int delClick = 0;
 
-    Bundle circListBundle = new Bundle();
+    Bundle stepListBundle;
 
-    public CirculationListFragment() {
-
-    }
-
-    public static CirculationListFragment newInstance() {
-        return new CirculationListFragment();
+    public SingleStepListFragment() {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            circListBundle = new Bundle(this.getArguments());
+            stepListBundle = new Bundle(this.getArguments());
         else
-            circListBundle = new Bundle();
+            stepListBundle = new Bundle();
     }
 
     @Nullable
@@ -70,19 +63,24 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
     }
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        instantiateCircViews(view);
+        instantiateStepListViews(view);
 
-        modelEntry.getAllCirculations(circListBundle.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), circList -> {
-            circAdapter = new CirculationRecViewAdapter(circList, requireActivity(), this);
-            recyclerView.setAdapter(circAdapter);
+        if (stepListBundle.getInt(CIRC_ID) == 0) {
+            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
+                    stepListBundle.putInt(CIRC_ID, lastRoom.getRoomID()));
+        }
+
+        modelEntry.getAllCircSingleSteps(stepListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), stepList -> {
+            stepAdapter = new StepRecViewAdapter(stepList, requireActivity(), this);
+            recyclerView.setAdapter(stepAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
             dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
             recyclerView.addItemDecoration(dividerItemDecoration);
 
-            circAdapter.setListener(new ListClickListener() {
+            stepAdapter.setListener(new ListClickListener() {
                 @Override
                 public void onItemClick(int position) {
                     if (actionMode == null)
@@ -98,20 +96,26 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
             });
         });
 
-        closeCircList.setOnClickListener(v -> {
+        closeStepList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, circListBundle);
+            requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
 
-        addCirc.setOnClickListener(v -> openBoardFragment());
+        addStep.setOnClickListener(v -> openSwitchFragment());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        circListBundle.putInt(CIRC_ID, 0);
-        circListBundle.putBoolean(RECENT_ENTRY, false);
+        stepListBundle.putInt(STEP_ID, 0);
+        stepListBundle.putInt(RECENT_ENTRY, 0);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+//        RoomsRegisterFragment.roomModelFragments.setNewRoomID(stepListBundle.getInt(AMBIENT_ID));
     }
 
     private void enableActionMode() {
@@ -133,7 +137,7 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
                 public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                     if (item.getItemId() == R.id.delete_button) {
                         delClick = 1;
-                        circAdapter.deleteItemList();
+                        stepAdapter.deleteItemList();
                         mode.finish();
                         return true;
                     }
@@ -143,16 +147,16 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        circAdapter.cancelSelection(recyclerView);
-                    circAdapter.selectedItems.clear();
-                    circAdapter.notifyDataSetChanged();
+                        stepAdapter.cancelSelection(recyclerView);
+                    stepAdapter.selectedItems.clear();
+                    stepAdapter.notifyDataSetChanged();
                     delClick = 0;
                     actionMode = null;
                 }
             });
         }
 
-        final int size = circAdapter.selectedItems.size();
+        final int size = stepAdapter.selectedItems.size();
         if (size == 0) {
             actionMode.finish();
         } else {
@@ -161,18 +165,18 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
         }
     }
 
-    private void instantiateCircViews(View view) {
-        //        TextView
-        circHeader = view.findViewById(R.id.identifier_header);
-        circHeader.setVisibility(View.VISIBLE);
-        circHeader.setText(R.string.header_circulation_register);
+    private void instantiateStepListViews(View v) {
+//        TextView
+        stepHeader = v.findViewById(R.id.identifier_header);
+        stepHeader.setVisibility(View.VISIBLE);
+        stepHeader.setText("Cadastro de Degraus Isolados");
 //        MaterialButton
-        closeCircList = view.findViewById(R.id.cancel_child_items_entries);
-        addCirc = view.findViewById(R.id.add_child_items_entries);
-        continueButton = view.findViewById(R.id.continue_child_items_entries);
+        closeStepList = v.findViewById(R.id.cancel_child_items_entries);
+        addStep = v.findViewById(R.id.add_child_items_entries);
+        continueButton = v.findViewById(R.id.continue_child_items_entries);
         continueButton.setVisibility(View.GONE);
 //        RecyclerView
-        recyclerView = view.findViewById(R.id.child_items_entries_recycler_view);
+        recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 //        ViewModel
@@ -181,17 +185,17 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
 
     @Override
     public void OnEntryClick(int position) {
-        CirculationEntry circulation = modelEntry.allCirculations.getValue().get(position);
-        circListBundle.putInt(CIRC_ID, circulation.getCircID());
-        openBoardFragment();
+        SingleStepEntry step = modelEntry.allSteps.getValue().get(position);
+        stepListBundle.putInt(STEP_ID, step.getStepID());
+        openSwitchFragment();
     }
 
-    private void openBoardFragment() {
-        CirculationFragment circFragment = CirculationFragment.newInstance();
-        circFragment.setArguments(circListBundle);
+    private void openSwitchFragment() {
+        SingleStepFragment stepFragment = SingleStepFragment.newInstance();
+        stepFragment.setArguments(stepListBundle);
         if (actionMode != null)
             actionMode.finish();
         requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.show_fragment_selected, circFragment).addToBackStack(null).commit();
+                .replace(R.id.show_fragment_selected, stepFragment).addToBackStack(null).commit();
     }
 }

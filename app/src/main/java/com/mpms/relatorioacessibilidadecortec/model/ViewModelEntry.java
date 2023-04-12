@@ -55,6 +55,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -97,6 +98,7 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<RestBoxEntry>> allBoxes;
     public LiveData<List<EquipmentEntry>> allEquips;
     public LiveData<List<CirculationEntry>> allCirculations;
+    public LiveData<List<SingleStepEntry>> allSteps;
     public final LiveData<List<SchoolEntry>> allEntries;
 
     public LiveData<ExternalAccess> oneAccess;
@@ -1211,6 +1213,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getOneCirculation(circID);
     }
 
+    public LiveData<CirculationEntry> getLastCirculation() {
+        return repository.getLastCirculation();
+    }
+
     public static void updateCirculation (CirculationEntry circ) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.updateCirculation(circ));
     }
@@ -1221,5 +1227,35 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteAllCirculations(int schoolID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllCirculations(schoolID));
+    }
+
+    public static void insertSoleStep(SingleStepEntry slop) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertSoleStep(slop));
+    }
+
+    public LiveData<List<SingleStepEntry>> getAllCircSingleSteps(int circID) {
+        allSteps = repository.getAllCircSingleSteps(circID);
+        return allSteps;
+    }
+
+    public LiveData<List<SingleStepEntry>> getAllRoomSingleSteps(int roomID) {
+        allSteps = repository.getAllRoomSingleSteps(roomID);
+        return allSteps;
+    }
+
+    public LiveData<SingleStepEntry> getOneSoleStep(int stepID) {
+        return repository.getOneSoleStep(stepID);
+    }
+
+    public static void updateSoleStep (SingleStepEntry soleStep) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSoleStep(soleStep));
+    }
+
+    public static void deleteSoleStep(int stepID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteSoleStep(stepID));
+    }
+
+    public static void deleteAllSoleSteps(int circID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllSoleSteps(circID));
     }
 }

@@ -795,9 +795,9 @@
         android:layout_marginEnd="@dimen/top_margins"
         android:text="@string/label_button_proceed_register"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/circ_scroll"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/circ_scroll" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_circ"
@@ -805,10 +805,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/top_margins"
-        android:text="@string/label_button_cancel"
+        android:text="@string/button_return"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/continue_circ"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

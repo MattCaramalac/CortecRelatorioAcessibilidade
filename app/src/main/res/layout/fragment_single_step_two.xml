@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.ChildFragments.SingleStepTwoFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/double_step_mirror_one_height_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Altura primeiro espelho (m)"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/double_step_mirror_one_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/double_step_length_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Largura do degrau intermediário (m)"
+            app:layout_constraintTop_toBottomOf="@id/double_step_mirror_one_height_field"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/double_step_length_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/double_step_mirror_two_height_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Altura segundo espelho (m)"
+            app:layout_constraintTop_toBottomOf="@id/double_step_length_field"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/double_step_mirror_two_height_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/double_step_width_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Largura do vão vencido pelo degrau isolado (m)"
+            app:layout_constraintTop_toBottomOf="@id/double_step_mirror_two_height_field"
+            android:layout_marginTop="@dimen/usual_padding">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/double_step_width_value"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/header_left_handrail_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="Degrau isolado possui corrimão em seu lado esquerdo? (Referencial de quem está subindo os degraus)"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintTop_toBottomOf="@id/double_step_width_field" />
+
+        <RadioGroup
+            android:id="@+id/left_handrail_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/header_left_handrail_header">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/left_handrail_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/left_handrail_radio" />
+
+
+        <FrameLayout
+            android:id="@+id/left_hand_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/left_handrail_error"
+            android:layout_marginTop="@dimen/usual_padding"/>
+
+
+        <TextView
+            android:id="@+id/header_right_handrail_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="Degrau isolado possui corrimão em seu lado direito? (Referencial de quem está subindo os degraus)"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintTop_toBottomOf="@id/left_hand_frame" />
+
+        <RadioGroup
+            android:id="@+id/right_handrail_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/header_right_handrail_header">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/right_handrail_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/right_handrail_radio" />
+
+
+        <FrameLayout
+            android:id="@+id/right_hand_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/right_handrail_error"
+            android:layout_marginTop="@dimen/usual_padding"/>
+
+
+        <TextView
+            android:id="@+id/header_middle_handrail_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:text="Degrau isolado possui corrimão intermediário?"
+            android:textSize="@dimen/section_header"
+            app:layout_constraintTop_toBottomOf="@id/right_hand_frame" />
+
+        <RadioGroup
+            android:id="@+id/middle_handrail_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/header_middle_handrail_header">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_no" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/weight_one"
+                android:text="@string/radio_button_yes" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/middle_handrail_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_fields"
+            android:textColor="@color/error_message"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/middle_handrail_radio" />
+
+        <FrameLayout
+            android:id="@+id/middle_hand_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/middle_handrail_error"
+            android:layout_marginTop="@dimen/usual_padding"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>

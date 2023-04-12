@@ -66,7 +66,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.SoleStepEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -83,7 +83,7 @@ import java.util.concurrent.Executors;
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
         PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class,
-        CirculationEntry.class, SlopeEntry.class, SoleStepEntry.class}, version = 72)
+        CirculationEntry.class, SlopeEntry.class, SingleStepEntry.class}, version = 73)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1842,6 +1842,26 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_72_73 = new Migration(72, 73) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE SoleStepEntry");
+            database.execSQL("CREATE TABLE SingleStepEntry(stepID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, circID INTEGER, roomID INTEGER, stepLocation TEXT, " +
+                    "stepQnt INTEGER NOT NULL, firstMirror REAL NOT NULL, stepLength REAL, secondMirror REAL, stepWidth REAL, hasLeftHand INTEGER NOT NULL, leftHandUpHeight REAL, " +
+                    "leftHandDownHeight REAL, leftHandLength REAL, leftHandDiam REAL, leftHandDist REAL, leftHasLowerExt INTEGER, leftLowerUpLength REAL, leftLowerDownLength REAL, " +
+                    "leftHasUpperExt INTEGER, leftUpperUpLength REAL, leftUpperDownLength REAL, hasRightHand INTEGER, rightHandUpHeight REAL, rightHandDownHeight REAL, " +
+                    "rightHandLength REAL, rightHandDiam REAL, rightHandDist REAL, rightHasLowerExt INTEGER, rightLowerUpLength REAL, rightLowerDownLength REAL, " +
+                    "rightHasUpperExt INTEGER, rightUpperUpLength REAL, rightUpperDownLength REAL, hasMiddleHand INTEGER, middleHandUpHeight REAL, middleHandDownHeight REAL, " +
+                    "middleHandLength REAL, middleHandDiam REAL, middleHasLowerExt INTEGER, middleLowerUpLength REAL, middleLowerDownLength REAL, middleHasUpperExt INTEGER, " +
+                    "middleUpperUpLength REAL, middleUpperDownLength REAL, stepHasSign INTEGER NOT NULL, stepSignWidth REAL, stepSignFullApp INTEGER, stepSignMirrorStep INTEGER, " +
+                    "stepHasTactSign INTEGER NOT NULL, hasLowTact INTEGER, lowTactDist REAL, lowTactWidth REAL, lowTactAntiDrift INTEGER, lowTactSoilContrast INTEGER, " +
+                    "lowTactVisualContrast INTEGER, hasHighTact INTEGER, highTactDist REAL, highTactWidth REAL, highTactAntiDrift INTEGER, highTactSoilContrast INTEGER, " +
+                    "highTactVisualContrast INTEGER, stepObs TEXT, stepPhoto TEXT," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+        }
+    };
+
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ReportDatabase.class) {
@@ -1858,7 +1878,8 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_48_49, MIGRATION_49_50, MIGRATION_50_51, MIGRATION_51_52, MIGRATION_52_53, MIGRATION_53_54,
                                     MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58, MIGRATION_58_59, MIGRATION_59_60,
                                     MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66,
-                                    MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70, MIGRATION_70_71, MIGRATION_71_72).build();
+                                    MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70, MIGRATION_70_71, MIGRATION_71_72,
+                                    MIGRATION_72_73).build();
                 }
             }
         }

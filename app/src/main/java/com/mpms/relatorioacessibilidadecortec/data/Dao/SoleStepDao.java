@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.mpms.relatorioacessibilidadecortec.data.entities.SoleStepEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
 
 import java.util.List;
 
@@ -14,20 +14,23 @@ import java.util.List;
 public interface SoleStepDao {
 
     @Insert
-    void insertSoleStep(SoleStepEntry slop);
+    void insertSoleStep(SingleStepEntry slop);
 
-    @Query("SELECT * FROM SoleStepEntry WHERE circID == :circID")
-    LiveData<List<SoleStepEntry>> getAllSoleSteps(int circID);
+    @Query("SELECT * FROM SingleStepEntry WHERE circID == :circID")
+    LiveData<List<SingleStepEntry>> getAllCircSingleSteps(int circID);
 
-    @Query("SELECT * FROM SoleStepEntry WHERE stepID == :stepID")
-    LiveData<SoleStepEntry> getOneSoleStep(int stepID);
+    @Query("SELECT * FROM SingleStepEntry WHERE roomID == :roomID")
+    LiveData<List<SingleStepEntry>> getAllRoomSingleSteps(int roomID);
+
+    @Query("SELECT * FROM SingleStepEntry WHERE stepID == :stepID")
+    LiveData<SingleStepEntry> getOneSoleStep(int stepID);
 
     @Update
-    void updateSoleStep (SoleStepEntry soleStep);
+    void updateSoleStep (SingleStepEntry soleStep);
 
-    @Query("DELETE FROM SoleStepEntry WHERE stepID == :stepID")
+    @Query("DELETE FROM SingleStepEntry WHERE stepID == :stepID")
     void deleteSoleStep(int stepID);
 
-    @Query("DELETE FROM SoleStepEntry WHERE circID == :circID")
+    @Query("DELETE FROM SingleStepEntry WHERE circID == :circID")
     void deleteAllSoleSteps(int circID);
 }

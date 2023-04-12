@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.ChildRegisters.SingleStepFragment">
+
+    <TextView
+        android:id="@+id/single_step_register_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/section_header_bigger"
+        android:text="Cadastro de Degrau Isolado"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ScrollView
+        android:id="@+id/single_step_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
+        app:layout_constraintTop_toBottomOf="@id/single_step_register_header"
+        android:layout_marginTop="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/single_step_location_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Localização do Degrau Isolado"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/single_step_location_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/header_single_step_qnt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="Qual a quantidade de degraus neste degrau isolado?"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintTop_toBottomOf="@id/single_step_location_field" />
+
+            <RadioGroup
+                android:id="@+id/single_step_qnt_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/header_single_step_qnt">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="UM" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="DOIS" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/single_step_qnt_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/single_step_qnt_radio" />
+
+            <FrameLayout
+                android:id="@+id/single_step_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/single_step_qnt_error"
+                android:layout_marginTop="@dimen/usual_padding"/>
+
+            <TextView
+                android:id="@+id/single_step_signal_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="O degrau isolado se encontra sinalizado?"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintTop_toBottomOf="@id/single_step_frame" />
+
+            <RadioGroup
+                android:id="@+id/single_step_signal_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/single_step_signal_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/single_step_signal_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/single_step_signal_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/single_step_signal_width_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Largura da sinalização do degrau isolado (cm)"
+                app:layout_constraintTop_toBottomOf="@id/single_step_signal_error"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/single_step_signal_width_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/single_step_entire_signal_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="A sinalização está aplicada por toda a extensão do degrau?"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintTop_toBottomOf="@id/single_step_signal_width_field"
+                android:visibility="gone"/>
+
+            <RadioGroup
+                android:id="@+id/single_step_entire_signal_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/single_step_entire_signal_header"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/single_step_entire_signal_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/single_step_entire_signal_radio"
+                />
+
+            <TextView
+                android:id="@+id/single_step_mirror_signal_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="A sinalização está aplicada no piso e no espelho do degrau isolado?"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintTop_toBottomOf="@id/single_step_entire_signal_error"
+                android:visibility="gone"/>
+
+            <RadioGroup
+                android:id="@+id/single_step_mirror_signal_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/single_step_mirror_signal_header"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/single_step_mirror_signal_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/single_step_mirror_signal_radio" />
+
+            <TextView
+                android:id="@+id/single_step_tact_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="O degrau isolado possui sinalização tátil de alerta?"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintTop_toBottomOf="@id/single_step_mirror_signal_error" />
+
+            <RadioGroup
+                android:id="@+id/single_step_tact_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/single_step_tact_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/single_step_tact_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/single_step_tact_radio" />
+
+            <FrameLayout
+                android:id="@+id/single_step_tact_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/single_step_tact_error"
+                android:layout_marginTop="@dimen/usual_padding"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/single_step_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:hint="Observações degrau isolado"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/single_step_tact_frame">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/single_step_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false"  />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/single_step_photo_field"
+                app:layout_constraintTop_toBottomOf="@id/single_step_obs_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_photo_field"
+                android:layout_marginTop="@dimen/usual_padding">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/single_step_photo_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_single_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/top_margins"
+        android:text="@string/label_button_save"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/single_step_scroll"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_single_step"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/top_margins"
+        android:text="@string/label_button_cancel"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/save_single_step"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
