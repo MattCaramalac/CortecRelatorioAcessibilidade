@@ -73,7 +73,7 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
     public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        instantiateGateObsViews(view);
+        instantiateCounterViews(view);
 
         if (counterListBundle.getInt(AMBIENT_ID) == 0) {
             modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
@@ -109,7 +109,7 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
 
-        addCounter.setOnClickListener(v -> openSwitchFragment());
+        addCounter.setOnClickListener(v -> openCounterFragment());
     }
 
     @Override
@@ -171,7 +171,7 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
         }
     }
 
-    public void instantiateGateObsViews (View v) {
+    public void instantiateCounterViews (View v) {
 //        TextView
         counterHeader = v.findViewById(R.id.identifier_header);
         counterHeader.setVisibility(View.VISIBLE);
@@ -193,10 +193,10 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
     public void OnEntryClick(int position) {
         CounterEntry counterEntry = modelEntry.allCounters.getValue().get(position);
         counterListBundle.putInt(COUNTER_ID, counterEntry.getCounterID());
-        openSwitchFragment();
+        openCounterFragment();
     }
 
-    private void openSwitchFragment() {
+    private void openCounterFragment() {
         CounterFragment counterFragment = CounterFragment.newInstance();
         counterFragment.setArguments(counterListBundle);
         if (actionMode != null)

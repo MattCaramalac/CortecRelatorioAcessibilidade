@@ -397,12 +397,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_gate_track_ramp_button"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
+                android:text="@string/button_add_measure"
                 android:textColor="@color/black"
                 android:visibility="gone"
                 app:cornerRadius="3dp"
@@ -555,12 +555,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/add_track_gap_button"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
+                android:text="@string/button_add_measure"
                 android:textColor="@color/black"
                 android:visibility="gone"
                 app:cornerRadius="3dp"

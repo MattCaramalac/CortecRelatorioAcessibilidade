@@ -130,6 +130,7 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 //        TextView
         registerHeader = v.findViewById(R.id.identifier_header);
+        registerHeader.setVisibility(View.VISIBLE);
         registerHeader.setText(R.string.header_slope_list_register);
 //        ViewModel
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
