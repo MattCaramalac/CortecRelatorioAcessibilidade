@@ -28,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class TableListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -45,11 +46,11 @@ public class TableListFragment extends Fragment implements OnEntryClickListener,
 
     Bundle tableListBundle;
 
-    public TableListFragment(){
+    public TableListFragment() {
 
     }
 
-    public static TableListFragment newInstance(){
+    public static TableListFragment newInstance() {
         return new TableListFragment();
     }
 
@@ -74,34 +75,14 @@ public class TableListFragment extends Fragment implements OnEntryClickListener,
 
         instantiateTableListViews(view);
 
-        if (tableListBundle.getInt(AMBIENT_ID) == 0) {
-            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    tableListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+        if (tableListBundle.getInt(CIRC_ID) > 0)
+            modelEntry.getTablesFromCirc(tableListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> listCreator(list, this));
+        else {
+            if (tableListBundle.getInt(AMBIENT_ID) == 0)
+                modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> tableListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+
+            modelEntry.getTablesFromRoom(tableListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(),list -> listCreator(list, this));
         }
-
-        modelEntry.selectTablesFromRoom(tableListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), tableList -> {
-            tableAdapter = new TableRecViewAdapter(tableList, requireActivity(), this);
-            recyclerView.setAdapter(tableAdapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-            recyclerView.addItemDecoration(dividerItemDecoration);
-
-            tableAdapter.setListener(new ListClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    if (actionMode == null)
-                        OnEntryClick(position);
-                    else
-                        enableActionMode();
-                }
-
-                @Override
-                public void onItemLongClick(int position) {
-                    enableActionMode();
-                }
-            });
-        });
-
 
         closeTableList.setOnClickListener(v -> {
             if (actionMode != null)
@@ -121,7 +102,34 @@ public class TableListFragment extends Fragment implements OnEntryClickListener,
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(tableListBundle.getInt(AMBIENT_ID));
+        if (tableListBundle.getInt(CIRC_ID) == 0)
+            RoomsRegisterFragment.roomModelFragments.setNewRoomID(tableListBundle.getInt(AMBIENT_ID));
+    }
+
+    private void listCreator(List<TableEntry> list, OnEntryClickListener listener) {
+        tableAdapter = new TableRecViewAdapter(list, requireActivity(), listener);
+        recyclerView.setAdapter(tableAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        tableAdapter.setListener(clickListener());
+    }
+
+    private ListClickListener clickListener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
     }
 
     private void enableActionMode() {

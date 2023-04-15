@@ -6,20 +6,23 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE))
+@Entity(foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = CirculationEntry.class, parentColumns = "circID", childColumns = "circID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class EquipmentEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int equipID;
-    private int roomID;
+    private Integer roomID;
+    private Integer circID;
     private String equipName;
     private String equipLocale;
     private double equipHeight;
     private String equipObs;
     private String equipPhoto;
 
-    public EquipmentEntry(int roomID, String equipName, String equipLocale, double equipHeight, String equipObs, String equipPhoto) {
+    public EquipmentEntry(Integer roomID, Integer circID, String equipName, String equipLocale, double equipHeight, String equipObs, String equipPhoto) {
         this.roomID = roomID;
+        this.circID = circID;
         this.equipName = equipName;
         this.equipLocale = equipLocale;
         this.equipHeight = equipHeight;
@@ -43,12 +46,20 @@ public class EquipmentEntry {
         this.equipID = equipID;
     }
 
-    public int getRoomID() {
+    public Integer getRoomID() {
         return roomID;
     }
 
-    public void setRoomID(int roomID) {
+    public void setRoomID(Integer roomID) {
         this.roomID = roomID;
+    }
+
+    public Integer getCircID() {
+        return circID;
+    }
+
+    public void setCircID(Integer circID) {
+        this.circID = circID;
     }
 
     public String getEquipName() {

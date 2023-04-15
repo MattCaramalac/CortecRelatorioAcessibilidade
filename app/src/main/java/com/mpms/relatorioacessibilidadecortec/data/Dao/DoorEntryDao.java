@@ -25,7 +25,7 @@ public interface DoorEntryDao {
     @Query("SELECT * FROM DoorEntry WHERE doorID == :doorID")
     LiveData<DoorEntry> getSpecificDoor(int doorID);
 
-    @Query("SELECT * FROM DoorEntry WHERE restID == :restID")
+    @Query("SELECT * FROM DoorEntry WHERE restID == :restID ORDER BY doorID DESC")
     LiveData<DoorEntry> getRestDoor(int restID);
 
     @Query("SELECT * FROM DoorEntry WHERE restID IN (:restID)")
@@ -39,6 +39,12 @@ public interface DoorEntryDao {
 
     @Query("SELECT * FROM DoorEntry WHERE doorID == (SELECT MAX(doorID) from DoorEntry)")
     LiveData<DoorEntry> getLastDoorEntry();
+
+    @Query("SELECT * FROM DoorEntry WHERE circID == :circID ORDER BY doorID DESC")
+    LiveData<List<DoorEntry>> getCircDoor(int circID);
+
+    @Query("SELECT * FROM DoorEntry WHERE restID IN (:circID)")
+    LiveData<List<DoorEntry>> getAllCircDoors(List<Integer> circID);
 
     @Update
     void updateDoor (DoorEntry door);

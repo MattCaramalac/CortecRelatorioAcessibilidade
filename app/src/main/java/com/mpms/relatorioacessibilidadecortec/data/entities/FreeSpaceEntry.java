@@ -7,22 +7,25 @@ import androidx.room.PrimaryKey;
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE),
-        @ForeignKey(entity = RestroomEntry.class, parentColumns = "restroomID", childColumns = "restID", onDelete = CASCADE, onUpdate = CASCADE)})
+        @ForeignKey(entity = RestroomEntry.class, parentColumns = "restroomID", childColumns = "restID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = CirculationEntry.class, parentColumns = "circID", childColumns = "circID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class FreeSpaceEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int frSpaceID;
     private Integer roomID;
     private Integer restID;
+    private Integer circID;
     private String frSpaceLocation;
     private Double obstacleWidth;
     private Double frSpaceWidth;
     private String frSpaceObs;
     private String frSpacePhoto;
 
-    public FreeSpaceEntry(Integer roomID, Integer restID, String frSpaceLocation, Double obstacleWidth, Double frSpaceWidth, String frSpaceObs, String frSpacePhoto) {
+    public FreeSpaceEntry(Integer roomID, Integer restID, Integer circID, String frSpaceLocation, Double obstacleWidth, Double frSpaceWidth, String frSpaceObs, String frSpacePhoto) {
         this.roomID = roomID;
         this.restID = restID;
+        this.circID = circID;
         this.frSpaceLocation = frSpaceLocation;
         this.obstacleWidth = obstacleWidth;
         this.frSpaceWidth = frSpaceWidth;
@@ -60,6 +63,14 @@ public class FreeSpaceEntry {
 
     public void setRestID(Integer restID) {
         this.restID = restID;
+    }
+
+    public Integer getCircID() {
+        return circID;
+    }
+
+    public void setCircID(Integer circID) {
+        this.circID = circID;
     }
 
     public String getFrSpaceLocation() {

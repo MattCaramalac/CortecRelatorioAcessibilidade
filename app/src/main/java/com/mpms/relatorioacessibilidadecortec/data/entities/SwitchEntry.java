@@ -6,13 +6,14 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID",
-                onDelete = CASCADE, onUpdate = CASCADE)})
+@Entity (foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = CirculationEntry.class, parentColumns = "circID", childColumns = "circID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class SwitchEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int switchID;
-    private int roomID;
+    private Integer roomID;
+    private Integer circID;
 
     private String switchLocation;
     private String switchType;
@@ -20,8 +21,9 @@ public class SwitchEntry {
     private String switchObs;
     private String switchPhoto;
 
-    public SwitchEntry(int roomID, String switchLocation, String switchType, Double switchHeight, String switchObs, String switchPhoto) {
+    public SwitchEntry(Integer roomID, Integer circID, String switchLocation, String switchType, Double switchHeight, String switchObs, String switchPhoto) {
         this.roomID = roomID;
+        this.circID = circID;
         this.switchLocation = switchLocation;
         this.switchType = switchType;
         this.switchHeight = switchHeight;
@@ -45,12 +47,20 @@ public class SwitchEntry {
         this.switchID = switchID;
     }
 
-    public int getRoomID() {
+    public Integer getRoomID() {
         return roomID;
     }
 
-    public void setRoomID(int roomID) {
+    public void setRoomID(Integer roomID) {
         this.roomID = roomID;
+    }
+
+    public Integer getCircID() {
+        return circID;
+    }
+
+    public void setCircID(Integer circID) {
+        this.circID = circID;
     }
 
     public String getSwitchLocation() {

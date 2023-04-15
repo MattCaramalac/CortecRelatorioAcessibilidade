@@ -7,12 +7,14 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE)})
+@Entity (foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = CirculationEntry.class, parentColumns = "circID", childColumns = "circID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class WindowEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int windowID;
-    private int roomID;
+    private Integer roomID;
+    private Integer circID;
     @ColumnInfo(defaultValue = "Única")
     private String windowLocation;
     @ColumnInfo(defaultValue = "1")
@@ -26,9 +28,10 @@ public class WindowEntry {
     private String windowObs;
     private String windowPhoto;
 
-    public WindowEntry(int roomID, String windowLocation, int winQnt, String comType1, Double comHeight1, String comType2, Double comHeight2, String comType3,
+    public WindowEntry(Integer roomID, Integer circID, String windowLocation, int winQnt, String comType1, Double comHeight1, String comType2, Double comHeight2, String comType3,
                        Double comHeight3, String windowObs, String windowPhoto) {
         this.roomID = roomID;
+        this.circID = circID;
         this.windowLocation = windowLocation;
         this.winQnt = winQnt;
         this.comType1 = comType1;
@@ -57,12 +60,20 @@ public class WindowEntry {
         this.windowID = windowID;
     }
 
-    public int getRoomID() {
+    public Integer getRoomID() {
         return roomID;
     }
 
-    public void setRoomID(int roomID) {
+    public void setRoomID(Integer roomID) {
         this.roomID = roomID;
+    }
+
+    public Integer getCircID() {
+        return circID;
+    }
+
+    public void setCircID(Integer circID) {
+        this.circID = circID;
     }
 
     public String getWindowLocation() {

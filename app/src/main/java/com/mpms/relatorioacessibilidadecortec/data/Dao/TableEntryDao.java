@@ -17,13 +17,19 @@ public interface TableEntryDao {
     void insertTable(TableEntry table);
 
     @Query("SELECT * FROM TableEntry WHERE roomID == :roomID ORDER BY tableID DESC")
-    LiveData<List<TableEntry>> selectTablesFromRoom(int roomID);
+    LiveData<List<TableEntry>> getTablesFromRoom(int roomID);
 
     @Query("SELECT * FROM TableEntry WHERE roomID IN (:roomID)")
-    LiveData<List<TableEntry>> getAllTables(List<Integer> roomID);
+    LiveData<List<TableEntry>> getAllRoomsTables(List<Integer> roomID);
+
+    @Query("SELECT * FROM TableEntry WHERE circID == :circID ORDER BY tableID DESC")
+    LiveData<List<TableEntry>> getTablesFromCirc(int circID);
+
+    @Query("SELECT * FROM TableEntry WHERE circID IN (:circID)")
+    LiveData<List<TableEntry>> getAllCircTables(List<Integer> circID);
 
     @Query("SELECT * FROM TableEntry WHERE tableID == :tableID")
-    LiveData<TableEntry> selectSpecificTable(int tableID);
+    LiveData<TableEntry> getSpecificTable(int tableID);
 
     @Update
     void updateTable(TableEntry table);

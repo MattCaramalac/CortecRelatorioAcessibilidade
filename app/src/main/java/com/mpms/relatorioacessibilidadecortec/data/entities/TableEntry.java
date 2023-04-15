@@ -6,12 +6,14 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity (foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE)})
+@Entity (foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = CirculationEntry.class, parentColumns = "circID", childColumns = "circID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class TableEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int tableID;
-    private int roomID;
+    private Integer roomID;
+    private Integer circID;
     private int roomType;
     private Integer tableType;
     private double inferiorBorderHeight;
@@ -24,9 +26,10 @@ public class TableEntry {
     private Integer tableSize;
     private String tablePhoto;
 
-    public TableEntry(int roomID, int roomType, Integer tableType, double superiorBorderHeight, double inferiorBorderHeight, double tableWidth,
+    public TableEntry(Integer roomID, Integer circID, int roomType, Integer tableType, double superiorBorderHeight, double inferiorBorderHeight, double tableWidth,
                       double tableFrontalApprox, String tableObs, Double tableFreeWidth, String tableDesc, Integer tableSize, String tablePhoto) {
         this.roomID = roomID;
+        this.circID = circID;
         this.roomType = roomType;
         this.tableType = tableType;
         this.inferiorBorderHeight = inferiorBorderHeight;
@@ -56,12 +59,20 @@ public class TableEntry {
         this.tableID = tableID;
     }
 
-    public int getRoomID() {
-        return roomID;
+    public void setRoomID(Integer roomID) {
+        this.roomID = roomID;
     }
 
-    public void setRoomID(int roomID) {
-        this.roomID = roomID;
+    public Integer getCircID() {
+        return circID;
+    }
+
+    public void setCircID(Integer circID) {
+        this.circID = circID;
+    }
+
+    public Integer getRoomID() {
+        return roomID;
     }
 
     public int getRoomType() {

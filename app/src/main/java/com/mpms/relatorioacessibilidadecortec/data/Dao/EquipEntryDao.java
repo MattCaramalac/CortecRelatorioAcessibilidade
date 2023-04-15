@@ -22,6 +22,12 @@ public interface EquipEntryDao {
     @Query("SELECT * FROM EquipmentEntry WHERE roomID IN (:roomID)")
     LiveData<List<EquipmentEntry>> getAllEquipments(List<Integer> roomID);
 
+    @Query("SELECT * FROM EquipmentEntry WHERE circID == :circID ORDER BY equipID DESC")
+    LiveData<List<EquipmentEntry>> getEquipmentFromCirc(int circID);
+
+    @Query("SELECT * FROM EquipmentEntry WHERE circID IN (:circID)")
+    LiveData<List<EquipmentEntry>> getAllCircEquipments(List<Integer> circID);
+
     @Query("SELECT * FROM EquipmentEntry WHERE equipID == :equipID")
     LiveData<EquipmentEntry> getSpecificEquipment(int equipID);
 

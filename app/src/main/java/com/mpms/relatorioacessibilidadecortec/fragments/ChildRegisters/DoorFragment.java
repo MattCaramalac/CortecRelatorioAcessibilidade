@@ -160,7 +160,8 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
     @Override
     public void onResume() {
         super.onResume();
-        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX) && !doorBundle.getBoolean(FROM_COLLECTIVE)) {
+        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX) && !doorBundle.getBoolean(FROM_COLLECTIVE)
+        && doorBundle.getInt(CIRC_ID) == 0) {
             RoomsRegisterFragment.roomModelFragments.getNewChildRegID().observe(getViewLifecycleOwner(), newDoorID -> {
                 if (newDoorID != null && newDoorID > 0) {
                     if (newEntry == 1)
@@ -177,7 +178,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX) && !doorBundle.getBoolean(FROM_COLLECTIVE))
+        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX) && !doorBundle.getBoolean(FROM_COLLECTIVE) && doorBundle.getInt(CIRC_ID) == 0)
             RoomsRegisterFragment.roomModelFragments.setNewChildRegID(null);
     }
 
@@ -689,7 +690,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         String doorLocale = null, handleObs = null, pictObs = null, opDirObs = null, horBarObs = null, winObs = null, tactileSignObs = null, doorSillObs = null,
                 doorObs = null, photos = null;
         Integer handleType = null, hasPict = null, opDir = null, doorHasLocks = null, hasHorBar = null, hasWindow = null, hasTactileSign = null,
-                doorSillType = null, inclQnt = null, sillSlopeQnt = null, ambientID = null, restID = null, boxID = null, hasSillIncl = null;
+                doorSillType = null, inclQnt = null, sillSlopeQnt = null, ambientID = null, restID = null, boxID = null, hasSillIncl = null, circID = null;
         Double doorWidth1 = null, doorWidth2 = null, handleHeight = null, horBarHeight = null, horBarLength = null, horBarDiam = null, horBarFrameDist = null,
                 horBarDoorDist = null, winInfHeight = null, winSupHeight = null, winWidth = null, tactHeight = null, tactIncl = null, inclHeight = null,
                 stepHeight = null, slopeAngle1 = null, slopeAngle2 = null, slopeAngle3 = null, slopeAngle4 = null, slopeWidth = null, slopeHeight = null,
@@ -697,10 +698,13 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
 
         if (bundle.getInt(AMBIENT_ID) != 0)
             ambientID = bundle.getInt(AMBIENT_ID);
-        else if ((bundle.getInt(BOX_ID) != 0))
+        else if (bundle.getInt(BOX_ID) != 0)
             boxID = bundle.getInt(BOX_ID);
         else if (bundle.getInt(REST_ID) != 0)
             restID = bundle.getInt(REST_ID);
+        else if (bundle.getInt(CIRC_ID) != 0)
+            circID = bundle.getInt(CIRC_ID);
+
 
         if (!TextUtils.isEmpty(doorWidthValue1.getText()))
             doorWidth1 = Double.parseDouble(String.valueOf(doorWidthValue1.getText()));
@@ -824,7 +828,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             }
         }
 
-        return new DoorEntry(ambientID, restID, boxID, doorLocale, doorType, doorWidth1, doorWidth2, hasPict, pictObs, opDir, opDirObs, handleType, handleHeight,
+        return new DoorEntry(ambientID, restID, boxID, circID, doorLocale, doorType, doorWidth1, doorWidth2, hasPict, pictObs, opDir, opDirObs, handleType, handleHeight,
                 handleObs, doorHasLocks, hasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, horBarDoorDist, horBarObs, hasWindow, winInfHeight,
                 winSupHeight, winWidth, winObs, hasTactileSign, tactHeight, tactIncl, tactileSignObs, doorSillType, inclHeight, inclQnt, inclAngle1,
                 inclAngle2, inclAngle3, inclAngle4, stepHeight, sillSlopeQnt, slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4, slopeWidth, slopeHeight,

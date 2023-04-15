@@ -6,13 +6,14 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID",
-        onDelete = CASCADE, onUpdate = CASCADE))
+@Entity(foreignKeys = {@ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = CirculationEntry.class, parentColumns = "circID", childColumns = "circID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class CounterEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int counterID;
-    private int roomID;
+    private Integer roomID;
+    private Integer circID;
 
     private String counterLocation;
     private double counterUpperEdge;
@@ -23,9 +24,10 @@ public class CounterEntry {
     private Double counterFreeWidth;
     private String counterPhoto;
 
-    public CounterEntry(int roomID, String counterLocation, double counterUpperEdge, double counterLowerEdge, double counterFrontalApprox, String counterObs,
-                        double counterWidth, double counterFreeWidth, String counterPhoto) {
+    public CounterEntry(Integer roomID, Integer circID, String counterLocation, double counterUpperEdge, double counterLowerEdge, double counterFrontalApprox, String counterObs,
+                        Double counterWidth, Double counterFreeWidth, String counterPhoto) {
         this.roomID = roomID;
+        this.circID = circID;
         this.counterLocation = counterLocation;
         this.counterUpperEdge = counterUpperEdge;
         this.counterLowerEdge = counterLowerEdge;
@@ -52,12 +54,20 @@ public class CounterEntry {
         this.counterID = counterID;
     }
 
-    public int getRoomID() {
+    public Integer getRoomID() {
         return roomID;
     }
 
-    public void setRoomID(int roomID) {
+    public void setRoomID(Integer roomID) {
         this.roomID = roomID;
+    }
+
+    public Integer getCircID() {
+        return circID;
+    }
+
+    public void setCircID(Integer circID) {
+        this.circID = circID;
     }
 
     public String getCounterLocation() {

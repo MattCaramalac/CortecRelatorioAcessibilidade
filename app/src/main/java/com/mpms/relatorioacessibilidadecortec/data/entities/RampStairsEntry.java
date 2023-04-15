@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey;
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys = {@ForeignKey(entity = ExternalAccess.class, parentColumns = "externalAccessID", childColumns = "extAccessID", onDelete = CASCADE, onUpdate = CASCADE),
-        @ForeignKey(entity = SidewalkEntry.class, parentColumns = "sidewalkID", childColumns = "sidewalkID", onDelete = CASCADE, onUpdate = CASCADE),
         @ForeignKey(entity = ParkingLotEntry.class, parentColumns = "parkingID", childColumns = "parkingID", onDelete = CASCADE, onUpdate = CASCADE),
         @ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE),
         @ForeignKey(entity = CirculationEntry.class, parentColumns = "circID", childColumns = "circID", onDelete = CASCADE, onUpdate = CASCADE)})
@@ -16,7 +15,6 @@ public class RampStairsEntry {
     @PrimaryKey(autoGenerate = true)
     private int rampStairsID;
     private Integer extAccessID;
-    private Integer sidewalkID;
     private Integer parkingID;
     private Integer roomID;
     private Integer circID;
@@ -24,12 +22,12 @@ public class RampStairsEntry {
     private String rampStairsLocation;
     private String rampStairsPhoto;
 
-    public RampStairsEntry(Integer extAccessID, Integer sidewalkID, Integer parkingID, Integer roomID, Integer circID, int rampStairsIdentifier,
+    public RampStairsEntry(Integer extAccessID, Integer parkingID, Integer roomID, Integer circID, int rampStairsIdentifier,
                            String rampStairsLocation, String rampStairsPhoto) {
         this.extAccessID = extAccessID;
-        this.sidewalkID = sidewalkID;
         this.parkingID = parkingID;
         this.roomID = roomID;
+        this.circID = circID;
         this.rampStairsIdentifier = rampStairsIdentifier;
         this.rampStairsLocation = rampStairsLocation;
         this.rampStairsPhoto = rampStairsPhoto;
@@ -59,14 +57,6 @@ public class RampStairsEntry {
         this.extAccessID = extAccessID;
     }
 
-    public Integer getSidewalkID() {
-        return sidewalkID;
-    }
-
-    public void setSidewalkID(Integer sidewalkID) {
-        this.sidewalkID = sidewalkID;
-    }
-
     public Integer getParkingID() {
         return parkingID;
     }
@@ -82,6 +72,7 @@ public class RampStairsEntry {
     public void setRoomID(Integer roomID) {
         this.roomID = roomID;
     }
+
 
     public int getRampStairsIdentifier() {
         return rampStairsIdentifier;

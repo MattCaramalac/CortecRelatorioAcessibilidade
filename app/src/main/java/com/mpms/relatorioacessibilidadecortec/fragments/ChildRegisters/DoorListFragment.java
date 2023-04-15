@@ -28,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class DoorListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -45,11 +46,11 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
 
     Bundle doorListBundle;
 
-    public DoorListFragment(){
+    public DoorListFragment() {
 
     }
 
-    public static DoorListFragment newInstance(){
+    public static DoorListFragment newInstance() {
         return new DoorListFragment();
     }
 
@@ -74,33 +75,14 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
 
         instantiateDoorViews(view);
 
-        if (doorListBundle.getInt(AMBIENT_ID) == 0) {
-            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    doorListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+        if (doorListBundle.getInt(CIRC_ID) > 0) {
+            modelEntry.getDoorsFromCirc(doorListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), doorList -> listCreator(doorList, this));
+        } else {
+            if (doorListBundle.getInt(AMBIENT_ID) == 0)
+                modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> doorListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+
+            modelEntry.getDoorsFromRoom(doorListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), doorList -> listCreator(doorList, this));
         }
-
-        modelEntry.getDoorsFromRoom(doorListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), doorList -> {
-            doorAdapter = new DoorRecViewAdapter(doorList, requireActivity(), this);
-            recyclerView.setAdapter(doorAdapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-            recyclerView.addItemDecoration(dividerItemDecoration);
-
-            doorAdapter.setListener(new ListClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    if (actionMode == null)
-                        OnEntryClick(position);
-                    else
-                        enableActionMode();
-                }
-
-                @Override
-                public void onItemLongClick(int position) {
-                    enableActionMode();
-                }
-            });
-        });
 
         closeDoorList.setOnClickListener(v -> {
             if (actionMode != null)
@@ -120,7 +102,34 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(doorListBundle.getInt(AMBIENT_ID));
+        if (doorListBundle.getInt(CIRC_ID) == 0)
+            RoomsRegisterFragment.roomModelFragments.setNewRoomID(doorListBundle.getInt(AMBIENT_ID));
+    }
+
+    private ListClickListener clickListener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
+    }
+
+    private void listCreator(List<DoorEntry> list, OnEntryClickListener listener) {
+        doorAdapter = new DoorRecViewAdapter(list, requireActivity(), listener);
+        recyclerView.setAdapter(doorAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        doorAdapter.setListener(clickListener());
     }
 
     private void enableActionMode() {
@@ -170,7 +179,7 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
         }
     }
 
-    private void instantiateDoorViews (View v) {
+    private void instantiateDoorViews(View v) {
 //        TextView
         doorHeader = v.findViewById(R.id.identifier_header);
         doorHeader.setVisibility(View.VISIBLE);

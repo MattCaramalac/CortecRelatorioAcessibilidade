@@ -28,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class SwitchListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -45,11 +46,11 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
 
     Bundle switchListBundle;
 
-    public SwitchListFragment(){
+    public SwitchListFragment() {
 
     }
 
-    public static SwitchListFragment newInstance(){
+    public static SwitchListFragment newInstance() {
         return new SwitchListFragment();
     }
 
@@ -72,35 +73,16 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        instantiateGateObsViews(view);
+        instantiateSwitchViews(view);
 
-        if (switchListBundle.getInt(AMBIENT_ID) == 0) {
-            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    switchListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+        if (switchListBundle.getInt(CIRC_ID) > 0) {
+            modelEntry.getSwitchesFromCirc(switchListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), switchList -> listCreator(switchList, this));
+        } else {
+            if (switchListBundle.getInt(AMBIENT_ID) == 0)
+                modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> switchListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+
+            modelEntry.getSwitchesFromRoom(switchListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), switchList -> listCreator(switchList, this));
         }
-
-        modelEntry.getSwitchesFromRoom(switchListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), switchList -> {
-            switchAdapter = new SwitchRecViewAdapter(switchList, requireActivity(), this);
-            recyclerView.setAdapter(switchAdapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-            recyclerView.addItemDecoration(dividerItemDecoration);
-
-            switchAdapter.setListener(new ListClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    if (actionMode == null)
-                        OnEntryClick(position);
-                    else
-                        enableActionMode();
-                }
-
-                @Override
-                public void onItemLongClick(int position) {
-                    enableActionMode();
-                }
-            });
-        });
 
         closeSwitchList.setOnClickListener(v -> {
             if (actionMode != null)
@@ -120,7 +102,8 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(switchListBundle.getInt(AMBIENT_ID));
+        if (switchListBundle.getInt(CIRC_ID) == 0)
+            RoomsRegisterFragment.roomModelFragments.setNewRoomID(switchListBundle.getInt(AMBIENT_ID));
     }
 
     private void enableActionMode() {
@@ -170,7 +153,34 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
         }
     }
 
-    public void instantiateGateObsViews (View v) {
+    private ListClickListener clickListener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
+    }
+
+    private void listCreator(List<SwitchEntry> list, OnEntryClickListener listener) {
+        switchAdapter = new SwitchRecViewAdapter(list, requireActivity(), listener);
+        recyclerView.setAdapter(switchAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        switchAdapter.setListener(clickListener());
+
+    }
+
+    public void instantiateSwitchViews(View v) {
 //        TextView
         switchHeader = v.findViewById(R.id.identifier_header);
         switchHeader.setVisibility(View.VISIBLE);

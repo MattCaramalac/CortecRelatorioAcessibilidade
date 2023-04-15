@@ -7,38 +7,37 @@ import androidx.room.PrimaryKey;
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys = {@ForeignKey(entity = CirculationEntry.class, parentColumns = "circID", childColumns = "circID",
+        onDelete = CASCADE, onUpdate = CASCADE), @ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID",
         onDelete = CASCADE, onUpdate = CASCADE)})
 public class SlopeEntry {
 
     @PrimaryKey(autoGenerate = true)
     int slopeID;
-    int circID;
+    Integer circID;
+    Integer roomID;
     String slopeLocation;
     double slopeHeight;
     int slopeHasRamp;
     Integer slopeRampQnt;
-    Double slopeRampIncl1;
-    Double slopeRampIncl2;
-    Double slopeRampIncl3;
-    Double slopeRampIncl4;
-    Double slopeRampIncl5;
-    Double slopeRampIncl6;
+    Double inclAngle1;
+    Double inclAngle2;
+    Double inclAngle3;
+    Double inclAngle4;
     String slopeObs;
     String slopePhoto;
 
-    public SlopeEntry(int circID, String slopeLocation, double slopeHeight, int slopeHasRamp, Integer slopeRampQnt, Double slopeRampIncl1, Double slopeRampIncl2, Double slopeRampIncl3,
-                      Double slopeRampIncl4, Double slopeRampIncl5, Double slopeRampIncl6, String slopeObs, String slopePhoto) {
+    public SlopeEntry(Integer circID, Integer roomID, String slopeLocation, double slopeHeight, int slopeHasRamp, Integer slopeRampQnt, Double inclAngle1, Double inclAngle2, Double inclAngle3,
+                      Double inclAngle4, String slopeObs, String slopePhoto) {
         this.circID = circID;
+        this.roomID = roomID;
         this.slopeLocation = slopeLocation;
         this.slopeHeight = slopeHeight;
         this.slopeHasRamp = slopeHasRamp;
         this.slopeRampQnt = slopeRampQnt;
-        this.slopeRampIncl1 = slopeRampIncl1;
-        this.slopeRampIncl2 = slopeRampIncl2;
-        this.slopeRampIncl3 = slopeRampIncl3;
-        this.slopeRampIncl4 = slopeRampIncl4;
-        this.slopeRampIncl5 = slopeRampIncl5;
-        this.slopeRampIncl6 = slopeRampIncl6;
+        this.inclAngle1 = inclAngle1;
+        this.inclAngle2 = inclAngle2;
+        this.inclAngle3 = inclAngle3;
+        this.inclAngle4 = inclAngle4;
         this.slopeObs = slopeObs;
         this.slopePhoto = slopePhoto;
     }
@@ -51,12 +50,20 @@ public class SlopeEntry {
         this.slopeID = slopeID;
     }
 
-    public int getCircID() {
+    public Integer getCircID() {
         return circID;
     }
 
-    public void setCircID(int circID) {
+    public void setCircID(Integer circID) {
         this.circID = circID;
+    }
+
+    public Integer getRoomID() {
+        return roomID;
+    }
+
+    public void setRoomID(Integer roomID) {
+        this.roomID = roomID;
     }
 
     public String getSlopeLocation() {
@@ -91,52 +98,36 @@ public class SlopeEntry {
         this.slopeRampQnt = slopeRampQnt;
     }
 
-    public Double getSlopeRampIncl1() {
-        return slopeRampIncl1;
+    public Double getInclAngle1() {
+        return inclAngle1;
     }
 
-    public void setSlopeRampIncl1(Double slopeRampIncl1) {
-        this.slopeRampIncl1 = slopeRampIncl1;
+    public void setInclAngle1(Double inclAngle1) {
+        this.inclAngle1 = inclAngle1;
     }
 
-    public Double getSlopeRampIncl2() {
-        return slopeRampIncl2;
+    public Double getInclAngle2() {
+        return inclAngle2;
     }
 
-    public void setSlopeRampIncl2(Double slopeRampIncl2) {
-        this.slopeRampIncl2 = slopeRampIncl2;
+    public void setInclAngle2(Double inclAngle2) {
+        this.inclAngle2 = inclAngle2;
     }
 
-    public Double getSlopeRampIncl3() {
-        return slopeRampIncl3;
+    public Double getInclAngle3() {
+        return inclAngle3;
     }
 
-    public void setSlopeRampIncl3(Double slopeRampIncl3) {
-        this.slopeRampIncl3 = slopeRampIncl3;
+    public void setInclAngle3(Double inclAngle3) {
+        this.inclAngle3 = inclAngle3;
     }
 
-    public Double getSlopeRampIncl4() {
-        return slopeRampIncl4;
+    public Double getInclAngle4() {
+        return inclAngle4;
     }
 
-    public void setSlopeRampIncl4(Double slopeRampIncl4) {
-        this.slopeRampIncl4 = slopeRampIncl4;
-    }
-
-    public Double getSlopeRampIncl5() {
-        return slopeRampIncl5;
-    }
-
-    public void setSlopeRampIncl5(Double slopeRampIncl5) {
-        this.slopeRampIncl5 = slopeRampIncl5;
-    }
-
-    public Double getSlopeRampIncl6() {
-        return slopeRampIncl6;
-    }
-
-    public void setSlopeRampIncl6(Double slopeRampIncl6) {
-        this.slopeRampIncl6 = slopeRampIncl6;
+    public void setInclAngle4(Double inclAngle4) {
+        this.inclAngle4 = inclAngle4;
     }
 
     public String getSlopeObs() {

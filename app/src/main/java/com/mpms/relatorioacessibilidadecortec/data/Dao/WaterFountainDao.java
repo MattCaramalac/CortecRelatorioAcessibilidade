@@ -31,6 +31,12 @@ public interface WaterFountainDao {
     @Query("SELECT * FROM WaterFountainEntry WHERE waterFountainID == :waterFountain")
     LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountain);
 
+    @Query("SELECT * FROM WaterFountainEntry WHERE circID == :circID ORDER BY waterFountainID DESC")
+    LiveData<List<WaterFountainEntry>> getCircWaterFountains(int circID);
+
+    @Query("SELECT * FROM WaterFountainEntry WHERE circID IN (:circID) AND roomID IS NULL")
+    LiveData<List<WaterFountainEntry>> getAllCircWaterFountains(List<Integer> circID);
+
     @Update
     void updateWaterFountain(WaterFountainEntry waterFountain);
 

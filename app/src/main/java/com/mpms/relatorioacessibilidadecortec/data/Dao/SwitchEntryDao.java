@@ -17,10 +17,16 @@ public interface SwitchEntryDao {
     void insertSwitch(SwitchEntry switchEntry);
 
     @Query("SELECT * FROM SwitchEntry WHERE roomID == :roomID ORDER BY switchID DESC")
-    LiveData<List<SwitchEntry>> selectSwitchesFromRoom(int roomID);
+    LiveData<List<SwitchEntry>> getSwitchesFromRoom(int roomID);
 
     @Query("SELECT * FROM SwitchEntry WHERE roomID IN (:roomID)")
-    LiveData<List<SwitchEntry>> getAllSwitches(List<Integer> roomID);
+    LiveData<List<SwitchEntry>> getAllRoomsSwitches(List<Integer> roomID);
+
+    @Query("SELECT * FROM SwitchEntry WHERE circID == :circID ORDER BY switchID DESC")
+    LiveData<List<SwitchEntry>> getSwitchesFromCirc(int circID);
+
+    @Query("SELECT * FROM SwitchEntry WHERE circID IN (:circID)")
+    LiveData<List<SwitchEntry>> getAllCircSwitches(List<Integer> circID);
 
     @Query("SELECT * FROM SwitchEntry WHERE switchID == :switchID")
     LiveData<SwitchEntry> selectSpecificSwitch(int switchID);

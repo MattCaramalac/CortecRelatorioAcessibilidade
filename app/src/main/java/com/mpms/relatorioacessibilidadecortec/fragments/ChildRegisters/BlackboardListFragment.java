@@ -28,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class BlackboardListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -74,33 +75,14 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
 
         instantiateBoardViews(view);
 
-        if (boardListBundle.getInt(AMBIENT_ID) == 0) {
-            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    boardListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+        if (boardListBundle.getInt(CIRC_ID) > 0) {
+            modelEntry.getAllBlackboardsFromCirc(boardListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> listCreator(list, this));
+        } else {
+            if (boardListBundle.getInt(AMBIENT_ID) == 0)
+                modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> boardListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+
+            modelEntry.getAllBlackboardsFromRoom(boardListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(),list -> listCreator(list, this));
         }
-
-        modelEntry.getAllBlackboardsFromRoom(boardListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), boardList -> {
-            boardAdapter = new BlackboardRecViewAdapter(boardList, requireActivity(), this);
-            recyclerView.setAdapter(boardAdapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-            recyclerView.addItemDecoration(dividerItemDecoration);
-
-            boardAdapter.setListener(new ListClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    if (actionMode == null)
-                        OnEntryClick(position);
-                    else
-                        enableActionMode();
-                }
-
-                @Override
-                public void onItemLongClick(int position) {
-                    enableActionMode();
-                }
-            });
-        });
 
         closeBoardList.setOnClickListener(v -> {
             if (actionMode != null)
@@ -120,7 +102,34 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(boardListBundle.getInt(AMBIENT_ID));
+        if (boardListBundle.getInt(CIRC_ID) == 0)
+            RoomsRegisterFragment.roomModelFragments.setNewRoomID(boardListBundle.getInt(AMBIENT_ID));
+    }
+
+    private void listCreator(List<BlackboardEntry> list, OnEntryClickListener listener) {
+        boardAdapter = new BlackboardRecViewAdapter(list, requireActivity(), listener);
+        recyclerView.setAdapter(boardAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        boardAdapter.setListener(clickListener());
+    }
+
+    private ListClickListener clickListener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
     }
 
     private void enableActionMode() {

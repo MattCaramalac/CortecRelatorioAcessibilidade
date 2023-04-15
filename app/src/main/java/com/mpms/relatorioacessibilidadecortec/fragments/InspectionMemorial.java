@@ -215,9 +215,9 @@ public class InspectionMemorial extends Fragment implements TagInterface {
                 stRaList.add(st.getRampStairsID());
             flRoomID.setIdList(stRaList);
         });
-        ViewModelEntry.getAllSwitches(idList).observe(getViewLifecycleOwner(), sList -> switchList = sList);
-        ViewModelEntry.getAllTables(idList).observe(getViewLifecycleOwner(), tList -> tableList = tList);
-        ViewModelEntry.getAllWindows(idList).observe(getViewLifecycleOwner(), wList -> windowList = wList);
+        ViewModelEntry.getAllRoomsSwitches(idList).observe(getViewLifecycleOwner(), sList -> switchList = sList);
+        ViewModelEntry.getAllRoomsTables(idList).observe(getViewLifecycleOwner(), tList -> tableList = tList);
+        ViewModelEntry.getAllRoomsWindows(idList).observe(getViewLifecycleOwner(), wList -> windowList = wList);
         ViewModelEntry.getAllEquipments(idList).observe(getViewLifecycleOwner(), eList -> equipList = eList);
         ViewModelEntry.getAllRoomWaterFountains(idList).observe(getViewLifecycleOwner(), waterList -> roomFountList = waterList);
     };
@@ -259,13 +259,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
         ViewModelEntry.getAllPhonesSidewalk(idList).observe(getViewLifecycleOwner(), phList -> sidePhoneList = phList);
 
-        ViewModelEntry.getAllRampStSide(idList).observe(getViewLifecycleOwner(), rampList -> {
-            sideStRaList = rampList;
-            List<Integer> stRaList = new ArrayList<>();
-            for (RampStairsEntry st : rampList)
-                stRaList.add(st.getRampStairsID());
-            flSideID.setIdList(stRaList);
-        });
+
         ViewModelEntry.getAllSideSlopes(idList).observe(getViewLifecycleOwner(), slList -> slopeList = slList);
     };
 

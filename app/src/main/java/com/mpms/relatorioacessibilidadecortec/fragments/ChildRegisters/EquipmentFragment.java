@@ -137,8 +137,14 @@ public class EquipmentFragment extends Fragment implements TagInterface, ScrollE
     }
 
     private EquipmentEntry newEquip(Bundle bundle) {
+        Integer room = null, circ = null;
         String eType, eLocal = null, eObs = null, photo = null;
         double eHeight;
+
+        if (bundle.getInt(AMBIENT_ID) > 0)
+            room = bundle.getInt(AMBIENT_ID);
+        else if (bundle.getInt(CIRC_ID) > 0)
+            circ = bundle.getInt(CIRC_ID);
 
         eType = String.valueOf(equipTypeValue.getText());
         if (!TextUtils.isEmpty(equipLocalValue.getText()))
@@ -149,7 +155,7 @@ public class EquipmentFragment extends Fragment implements TagInterface, ScrollE
         if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
-        return new EquipmentEntry(bundle.getInt(AMBIENT_ID), eType, eLocal, eHeight, eObs, photo);
+        return new EquipmentEntry(room, circ, eType, eLocal, eHeight, eObs, photo);
     }
 
     private boolean checkEmptyFields() {

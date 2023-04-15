@@ -65,8 +65,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -83,7 +83,7 @@ import java.util.concurrent.Executors;
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
         PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class,
-        CirculationEntry.class, SlopeEntry.class, SingleStepEntry.class}, version = 73)
+        CirculationEntry.class, SlopeEntry.class, SingleStepEntry.class}, version = 74)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -1859,8 +1859,420 @@ public abstract class ReportDatabase extends RoomDatabase {
                     "highTactVisualContrast INTEGER, stepObs TEXT, stepPhoto TEXT," +
                     "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE," +
                     "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("CREATE TABLE DoorEntry_2(doorID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restID INTEGER, roomID INTEGER, boxID INTEGER, " +
+                    "circID INTEGER, doorLocation TEXT, doorType INTEGER, doorWidth1 REAL, doorWidth2 REAL, doorHasPict INTEGER, doorPictObs TEXT, opDirection INTEGER, opDirectionObs TEXT, " +
+                    "doorHandleType INTEGER, doorHandleHeight REAL, doorHandleObs TEXT, doorHasLocks INTEGER, doorHasHorBar INTEGER, horBarHeight REAL, horBarLength REAL, " +
+                    "horBarFrameDist REAL, horBarDiam REAL, horBarDoorDist REAL, horBarObs TEXT, doorHasWindow INTEGER, doorWinInfHeight REAL, doorWinSupHeight REAL, " +
+                    "doorWinWidth REAL, doorWinObs TEXT, doorHasTactSign INTEGER, tactSignHeight REAL, tactSignIncl REAL, tactSignObs TEXT, doorSillType INTEGER, " +
+                    "inclHeight REAL, hasSillIncl INTEGER, inclQnt INTEGER, inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL, inclAngle4 REAL, stepHeight REAL, " +
+                    "slopeQnt INTEGER, slopeAngle1 REAL, slopeAngle2 REAL, slopeAngle3 REAL, slopeAngle4 REAL, slopeWidth REAL, slopeHeight REAL, doorSillObs TEXT, " +
+                    "doorObs TEXT, doorPhotos TEXT, " +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (boxID) REFERENCES RestBoxEntry (boxID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO DoorEntry_2 (doorID, roomID, restID, doorLocation, doorType, doorWidth1, doorWidth2, doorHasPict, doorPictObs, opDirection, " +
+                    "opDirectionObs, doorHandleType, doorHandleHeight, doorHandleObs, doorHasLocks, doorHasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, " +
+                    "horBarDoorDist, horBarObs, doorHasWindow, doorWinInfHeight, doorWinSupHeight, doorWinWidth, doorWinObs, doorHasTactSign, tactSignHeight, tactSignIncl, " +
+                    "tactSignObs, doorSillType, inclHeight, hasSillIncl, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight, slopeWidth, slopeHeight, slopeQnt, " +
+                    "slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4,  doorSillObs, doorObs, doorPhotos) " +
+                    "SELECT doorID, roomID, restID, doorLocation, doorType, doorWidth1, doorWidth2, doorHasPict, doorPictObs, opDirection, opDirectionObs, doorHandleType, " +
+                    "doorHandleHeight, doorHandleObs, doorHasLocks, doorHasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, horBarDoorDist, horBarObs, " +
+                    "doorHasWindow, doorWinInfHeight, doorWinSupHeight, doorWinWidth, doorWinObs, doorHasTactSign, tactSignHeight, tactSignIncl, tactSignObs, doorSillType, " +
+                    "inclHeight, hasSillIncl, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight, slopeWidth, slopeHeight, slopeQnt, slopeAngle1, slopeAngle2, " +
+                    "slopeAngle3, slopeAngle4,  doorSillObs, doorObs, doorPhotos FROM DoorEntry");
+            database.execSQL("DROP TABLE DoorEntry");
+            database.execSQL("ALTER TABLE DoorEntry_2 RENAME TO DoorEntry");
+
+            database.execSQL("DROP TABLE SlopeEntry");
+            database.execSQL("CREATE TABLE SlopeEntry(slopeID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, circID INTEGER, roomID INTEGER, slopeLocation TEXT, " +
+                    "slopeHeight REAL NOT NULL, slopeHasRamp INTEGER NOT NULL, slopeRampQnt INTEGER, inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL," +
+                    "inclAngle4 REAL, slopeObs TEXT, slopePhoto TEXT," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("CREATE TABLE SwitchEntry_2 (switchID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, switchLocation TEXT, " +
+                    "switchType TEXT, switchHeight REAL, switchObs TEXT, switchPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO SwitchEntry_2 (switchID, roomID, switchLocation, switchType, switchHeight, switchObs, switchPhoto) SELECT switchID, roomID," +
+                    "switchLocation, switchType, switchHeight, switchObs, switchPhoto FROM SwitchEntry");
+            database.execSQL("DROP TABLE SwitchEntry");
+            database.execSQL("ALTER TABLE SwitchEntry_2 RENAME TO SwitchEntry");
+
+            database.execSQL("CREATE TABLE WinEntry(windowID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, windowLocation TEXT DEFAULT 'Única'," +
+                    "winQnt INTEGER NOT NULL DEFAULT 1, comType1 TEXT, comHeight1 REAL, comType2 TEXT, comHeight2 REAL, comType3 TEXT, " +
+                    "comHeight3 REAL, windowObs TEXT, windowPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO WinEntry(windowID, roomID, windowLocation, winQnt, comType1, comHeight1, comType2, comHeight2, comType3," +
+                    "comHeight3, windowObs, windowPhoto) SELECT windowID, roomID, windowLocation, winQnt, comType1, comHeight1, comType2, comHeight2, comType3," +
+                    "comHeight3, windowObs, windowPhoto FROM WindowEntry");
+            database.execSQL("DROP TABLE WindowEntry");
+            database.execSQL("ALTER TABLE WinEntry RENAME TO WindowEntry");
+
+            database.execSQL("CREATE TABLE TableEntry_2 (tableID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, roomType INTEGER NOT NULL, " +
+                    "tableType INTEGER, inferiorBorderHeight REAL NOT NULL, superiorBorderHeight REAL NOT NULL, tableWidth REAL NOT NULL, tableFrontalApprox REAL NOT NULL, " +
+                    "tableObs TEXT, tableFreeWidth REAL, tableDesc TEXT, tableSize INTEGER, tablePhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO TableEntry_2 (tableID, roomID , roomType, tableType, inferiorBorderHeight, superiorBorderHeight, tableWidth, " +
+                    "tableFrontalApprox, tableObs, tableFreeWidth, tableDesc, tableSize, tablePhoto) SELECT tableID, roomID , roomType, tableType, inferiorBorderHeight, " +
+                    "superiorBorderHeight, tableWidth, tableFrontalApprox, tableObs, tableFreeWidth, tableDesc, tableSize, tablePhoto FROM TableEntry");
+            database.execSQL("DROP TABLE TableEntry");
+            database.execSQL("ALTER TABLE TableEntry_2 RENAME TO TableEntry");
+
+            database.execSQL("CREATE TABLE Board (boardID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, boardType INTEGER NOT NULL DEFAULT 0, " +
+                    "boardLocation TEXT, infBorderHeight REAL NOT NULL, boardObs TEXT, boardPhoto TEXT," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Board (boardID, roomID, boardLocation, infBorderHeight, boardObs, boardPhoto) SELECT boardID, roomID, boardLocation, infBorderHeight, " +
+                    "boardObs, boardPhoto FROM BlackboardEntry");
+            database.execSQL("DROP TABLE BlackboardEntry");
+            database.execSQL("ALTER TABLE Board RENAME TO BlackboardEntry");
+
+            database.execSQL("CREATE TABLE FreeSpaceEntry2(frSpaceID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, restID INTEGER, circID INTEGER, " +
+                    "frSpaceLocation TEXT, obstacleWidth REAL, frSpaceWidth REAL, frSpaceObs TEXT, frSpacePhoto TEXT," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO FreeSpaceEntry2 (frSpaceID, roomID, restID, frSpaceLocation, obstacleWidth, frSpaceWidth, frSpaceObs, frSpacePhoto) " +
+                    "SELECT frSpaceID, roomID, restID, frSpaceLocation, obstacleWidth, frSpaceWidth, frSpaceObs, frSpacePhoto FROM FreeSpaceEntry");
+            database.execSQL("DROP TABLE FreeSpaceEntry");
+            database.execSQL("ALTER TABLE FreeSpaceEntry2 RENAME TO FreeSpaceEntry");
+
+            database.execSQL("CREATE TABLE Ramps(rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, extAccessID INTEGER, parkingID INTEGER, roomID INTEGER, circID INTEGER, " +
+                    "rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, rampStairsPhoto TEXT," +
+                    "FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (parkingID) REFERENCES ParkingLotEntry (parkingID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Ramps (rampStairsID, extAccessID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, rampStairsPhoto) " +
+                    "SELECT rampStairsID, extAccessID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, rampStairsPhoto FROM RampStairsEntry");
+            database.execSQL("DROP TABLE RampStairsEntry");
+            database.execSQL("ALTER TABLE Ramps RENAME TO RampStairsEntry");
+
+            database.execSQL("CREATE TABLE Equip (equipID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, equipName TEXT, " +
+                    "equipLocale TEXT, equipHeight REAL NOT NULL, equipObs TEXT, equipPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Equip (equipID, roomID, equipName, equipLocale, equipHeight, equipObs, equipPhoto) " +
+                    "SELECT equipID, roomID, equipName, equipLocale, equipHeight, equipObs, equipPhoto FROM EquipmentEntry");
+            database.execSQL("DROP TABLE EquipmentEntry");
+            database.execSQL("ALTER TABLE Equip RENAME TO EquipmentEntry");
+
+            database.execSQL("CREATE TABLE Counter (counterID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, counterLocation TEXT, " +
+                    "counterUpperEdge REAL NOT NULL, counterLowerEdge REAL NOT NULL, counterFrontalApprox REAL NOT NULL, counterWidth REAL, counterFreeWidth REAL, " +
+                    "counterObs TEXT, counterPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Counter (counterID, roomID, counterLocation, counterUpperEdge, counterLowerEdge, counterFrontalApprox, counterWidth, " +
+                    "counterFreeWidth, counterObs, counterPhoto) SELECT counterID, roomID, counterLocation, counterUpperEdge, counterLowerEdge, counterFrontalApprox, " +
+                    "counterWidth, counterFreeWidth, counterObs, counterPhoto FROM CounterEntry");
+            database.execSQL("DROP TABLE CounterEntry");
+            database.execSQL("ALTER TABLE Counter RENAME TO CounterEntry");
+
+            database.execSQL("CREATE TABLE Water (waterFountainID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER, roomID INTEGER, circID INTEGER, " +
+                    "fountainLocation TEXT, fountainType INTEGER, fountainTypeObs TEXT, allowSideApprox INTEGER, sideApproxObs TEXT, faucetHeight REAL, " +
+                    "hasCupHolder INTEGER, cupHolderHeight REAL, hasSpoutsDifferentHeights INTEGER, highestSpoutHeight REAL, lowestSpoutHeight REAL, allowFrontApprox INTEGER," +
+                    "frontalApproxDepth REAL, frontalApproxLowestSpout REAL, fountainObs TEXT, fountainPhoto TEXT," +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Water (waterFountainID, blockID , roomID, fountainLocation, fountainType, fountainTypeObs, allowSideApprox, sideApproxObs," +
+                    "faucetHeight, hasCupHolder, cupHolderHeight, hasSpoutsDifferentHeights, highestSpoutHeight, lowestSpoutHeight, allowFrontApprox, frontalApproxDepth, " +
+                    "frontalApproxLowestSpout, fountainObs, fountainPhoto) SELECT waterFountainID, blockID , roomID, fountainLocation, fountainType, fountainTypeObs, " +
+                    "allowSideApprox, sideApproxObs, faucetHeight, hasCupHolder, cupHolderHeight, hasSpoutsDifferentHeights, highestSpoutHeight, lowestSpoutHeight, " +
+                    "allowFrontApprox, frontalApproxDepth, frontalApproxLowestSpout, fountainObs, fountainPhoto FROM WaterFountainEntry");
+            database.execSQL("DROP TABLE WaterFountainEntry");
+            database.execSQL("ALTER TABLE Water RENAME TO WaterFountainEntry");
         }
     };
+
+    static final Migration MIGRATION_73_74 = new Migration(73, 74) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+
+            database.execSQL("CREATE TABLE DoorEntry_2(doorID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restID INTEGER, roomID INTEGER, boxID INTEGER, " +
+                    "circID INTEGER, doorLocation TEXT, doorType INTEGER, doorWidth1 REAL, doorWidth2 REAL, doorHasPict INTEGER, doorPictObs TEXT, opDirection INTEGER, opDirectionObs TEXT, " +
+                    "doorHandleType INTEGER, doorHandleHeight REAL, doorHandleObs TEXT, doorHasLocks INTEGER, doorHasHorBar INTEGER, horBarHeight REAL, horBarLength REAL, " +
+                    "horBarFrameDist REAL, horBarDiam REAL, horBarDoorDist REAL, horBarObs TEXT, doorHasWindow INTEGER, doorWinInfHeight REAL, doorWinSupHeight REAL, " +
+                    "doorWinWidth REAL, doorWinObs TEXT, doorHasTactSign INTEGER, tactSignHeight REAL, tactSignIncl REAL, tactSignObs TEXT, doorSillType INTEGER, " +
+                    "inclHeight REAL, hasSillIncl INTEGER, inclQnt INTEGER, inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL, inclAngle4 REAL, stepHeight REAL, " +
+                    "slopeQnt INTEGER, slopeAngle1 REAL, slopeAngle2 REAL, slopeAngle3 REAL, slopeAngle4 REAL, slopeWidth REAL, slopeHeight REAL, doorSillObs TEXT, " +
+                    "doorObs TEXT, doorPhotos TEXT, " +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (boxID) REFERENCES RestBoxEntry (boxID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO DoorEntry_2 (doorID, roomID, restID, doorLocation, doorType, doorWidth1, doorWidth2, doorHasPict, doorPictObs, opDirection, " +
+                    "opDirectionObs, doorHandleType, doorHandleHeight, doorHandleObs, doorHasLocks, doorHasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, " +
+                    "horBarDoorDist, horBarObs, doorHasWindow, doorWinInfHeight, doorWinSupHeight, doorWinWidth, doorWinObs, doorHasTactSign, tactSignHeight, tactSignIncl, " +
+                    "tactSignObs, doorSillType, inclHeight, hasSillIncl, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight, slopeWidth, slopeHeight, slopeQnt, " +
+                    "slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4,  doorSillObs, doorObs, doorPhotos) " +
+                    "SELECT doorID, roomID, restID, doorLocation, doorType, doorWidth1, doorWidth2, doorHasPict, doorPictObs, opDirection, opDirectionObs, doorHandleType, " +
+                    "doorHandleHeight, doorHandleObs, doorHasLocks, doorHasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, horBarDoorDist, horBarObs, " +
+                    "doorHasWindow, doorWinInfHeight, doorWinSupHeight, doorWinWidth, doorWinObs, doorHasTactSign, tactSignHeight, tactSignIncl, tactSignObs, doorSillType, " +
+                    "inclHeight, hasSillIncl, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight, slopeWidth, slopeHeight, slopeQnt, slopeAngle1, slopeAngle2, " +
+                    "slopeAngle3, slopeAngle4,  doorSillObs, doorObs, doorPhotos FROM DoorEntry");
+            database.execSQL("DROP TABLE DoorEntry");
+            database.execSQL("ALTER TABLE DoorEntry_2 RENAME TO DoorEntry");
+
+            database.execSQL("DROP TABLE SlopeEntry");
+            database.execSQL("CREATE TABLE SlopeEntry(slopeID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, circID INTEGER, roomID INTEGER, slopeLocation TEXT, " +
+                    "slopeHeight REAL NOT NULL, slopeHasRamp INTEGER NOT NULL, slopeRampQnt INTEGER, inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL," +
+                    "inclAngle4 REAL, slopeObs TEXT, slopePhoto TEXT," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("CREATE TABLE SwitchEntry_2 (switchID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, switchLocation TEXT, " +
+                    "switchType TEXT, switchHeight REAL, switchObs TEXT, switchPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO SwitchEntry_2 (switchID, roomID, switchLocation, switchType, switchHeight, switchObs, switchPhoto) SELECT switchID, roomID," +
+                    "switchLocation, switchType, switchHeight, switchObs, switchPhoto FROM SwitchEntry");
+            database.execSQL("DROP TABLE SwitchEntry");
+            database.execSQL("ALTER TABLE SwitchEntry_2 RENAME TO SwitchEntry");
+
+            database.execSQL("CREATE TABLE WinEntry(windowID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, windowLocation TEXT DEFAULT 'Única'," +
+                    "winQnt INTEGER NOT NULL DEFAULT 1, comType1 TEXT, comHeight1 REAL, comType2 TEXT, comHeight2 REAL, comType3 TEXT, " +
+                    "comHeight3 REAL, windowObs TEXT, windowPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO WinEntry(windowID, roomID, windowLocation, winQnt, comType1, comHeight1, comType2, comHeight2, comType3," +
+                    "comHeight3, windowObs, windowPhoto) SELECT windowID, roomID, windowLocation, winQnt, comType1, comHeight1, comType2, comHeight2, comType3," +
+                    "comHeight3, windowObs, windowPhoto FROM WindowEntry");
+            database.execSQL("DROP TABLE WindowEntry");
+            database.execSQL("ALTER TABLE WinEntry RENAME TO WindowEntry");
+
+            database.execSQL("CREATE TABLE TableEntry_2 (tableID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, roomType INTEGER NOT NULL, " +
+                    "tableType INTEGER, inferiorBorderHeight REAL NOT NULL, superiorBorderHeight REAL NOT NULL, tableWidth REAL NOT NULL, tableFrontalApprox REAL NOT NULL, " +
+                    "tableObs TEXT, tableFreeWidth REAL, tableDesc TEXT, tableSize INTEGER, tablePhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO TableEntry_2 (tableID, roomID , roomType, tableType, inferiorBorderHeight, superiorBorderHeight, tableWidth, " +
+                    "tableFrontalApprox, tableObs, tableFreeWidth, tableDesc, tableSize, tablePhoto) SELECT tableID, roomID , roomType, tableType, inferiorBorderHeight, " +
+                    "superiorBorderHeight, tableWidth, tableFrontalApprox, tableObs, tableFreeWidth, tableDesc, tableSize, tablePhoto FROM TableEntry");
+            database.execSQL("DROP TABLE TableEntry");
+            database.execSQL("ALTER TABLE TableEntry_2 RENAME TO TableEntry");
+
+            database.execSQL("CREATE TABLE Board (boardID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, boardType INTEGER NOT NULL DEFAULT 0, " +
+                    "boardLocation TEXT, infBorderHeight REAL NOT NULL, boardObs TEXT, boardPhoto TEXT," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Board (boardID, roomID, boardLocation, infBorderHeight, boardObs, boardPhoto) SELECT boardID, roomID, boardLocation, infBorderHeight, " +
+                    "boardObs, boardPhoto FROM BlackboardEntry");
+            database.execSQL("DROP TABLE BlackboardEntry");
+            database.execSQL("ALTER TABLE Board RENAME TO BlackboardEntry");
+
+            database.execSQL("CREATE TABLE FreeSpaceEntry2(frSpaceID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, restID INTEGER, circID INTEGER, " +
+                    "frSpaceLocation TEXT, obstacleWidth REAL, frSpaceWidth REAL, frSpaceObs TEXT, frSpacePhoto TEXT," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO FreeSpaceEntry2 (frSpaceID, roomID, restID, frSpaceLocation, obstacleWidth, frSpaceWidth, frSpaceObs, frSpacePhoto) " +
+                    "SELECT frSpaceID, roomID, restID, frSpaceLocation, obstacleWidth, frSpaceWidth, frSpaceObs, frSpacePhoto FROM FreeSpaceEntry");
+            database.execSQL("DROP TABLE FreeSpaceEntry");
+            database.execSQL("ALTER TABLE FreeSpaceEntry2 RENAME TO FreeSpaceEntry");
+
+            database.execSQL("CREATE TABLE Ramps(rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, extAccessID INTEGER, parkingID INTEGER, roomID INTEGER, circID INTEGER, " +
+                    "rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, rampStairsPhoto TEXT," +
+                    "FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (parkingID) REFERENCES ParkingLotEntry (parkingID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Ramps (rampStairsID, extAccessID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, rampStairsPhoto) " +
+                    "SELECT rampStairsID, extAccessID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, rampStairsPhoto FROM RampStairsEntry");
+            database.execSQL("DROP TABLE RampStairsEntry");
+            database.execSQL("ALTER TABLE Ramps RENAME TO RampStairsEntry");
+
+            database.execSQL("CREATE TABLE Equip (equipID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, equipName TEXT, " +
+                    "equipLocale TEXT, equipHeight REAL NOT NULL, equipObs TEXT, equipPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Equip (equipID, roomID, equipName, equipLocale, equipHeight, equipObs, equipPhoto) " +
+                    "SELECT equipID, roomID, equipName, equipLocale, equipHeight, equipObs, equipPhoto FROM EquipmentEntry");
+            database.execSQL("DROP TABLE EquipmentEntry");
+            database.execSQL("ALTER TABLE Equip RENAME TO EquipmentEntry");
+
+            database.execSQL("CREATE TABLE Counter (counterID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, counterLocation TEXT, " +
+                    "counterUpperEdge REAL NOT NULL, counterLowerEdge REAL NOT NULL, counterFrontalApprox REAL NOT NULL, counterWidth REAL, counterFreeWidth REAL, " +
+                    "counterObs TEXT, counterPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Counter (counterID, roomID, counterLocation, counterUpperEdge, counterLowerEdge, counterFrontalApprox, counterWidth, " +
+                    "counterFreeWidth, counterObs, counterPhoto) SELECT counterID, roomID, counterLocation, counterUpperEdge, counterLowerEdge, counterFrontalApprox, " +
+                    "counterWidth, counterFreeWidth, counterObs, counterPhoto FROM CounterEntry");
+            database.execSQL("DROP TABLE CounterEntry");
+            database.execSQL("ALTER TABLE Counter RENAME TO CounterEntry");
+
+            database.execSQL("CREATE TABLE Water (waterFountainID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER, roomID INTEGER, circID INTEGER, " +
+                    "fountainLocation TEXT, fountainType INTEGER, fountainTypeObs TEXT, allowSideApprox INTEGER, sideApproxObs TEXT, faucetHeight REAL, " +
+                    "hasCupHolder INTEGER, cupHolderHeight REAL, hasSpoutsDifferentHeights INTEGER, highestSpoutHeight REAL, lowestSpoutHeight REAL, allowFrontApprox INTEGER," +
+                    "frontalApproxDepth REAL, frontalApproxLowestSpout REAL, fountainObs TEXT, fountainPhoto TEXT," +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Water (waterFountainID, blockID , roomID, fountainLocation, fountainType, fountainTypeObs, allowSideApprox, sideApproxObs," +
+                    "faucetHeight, hasCupHolder, cupHolderHeight, hasSpoutsDifferentHeights, highestSpoutHeight, lowestSpoutHeight, allowFrontApprox, frontalApproxDepth, " +
+                    "frontalApproxLowestSpout, fountainObs, fountainPhoto) SELECT waterFountainID, blockID , roomID, fountainLocation, fountainType, fountainTypeObs, " +
+                    "allowSideApprox, sideApproxObs, faucetHeight, hasCupHolder, cupHolderHeight, hasSpoutsDifferentHeights, highestSpoutHeight, lowestSpoutHeight, " +
+                    "allowFrontApprox, frontalApproxDepth, frontalApproxLowestSpout, fountainObs, fountainPhoto FROM WaterFountainEntry");
+            database.execSQL("DROP TABLE WaterFountainEntry");
+            database.execSQL("ALTER TABLE Water RENAME TO WaterFountainEntry");
+        }
+    };
+
+    static final Migration MIGRATION_72_74 = new Migration(72, 74) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE SoleStepEntry");
+            database.execSQL("CREATE TABLE SingleStepEntry(stepID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, circID INTEGER, roomID INTEGER, stepLocation TEXT, " +
+                    "stepQnt INTEGER NOT NULL, firstMirror REAL NOT NULL, stepLength REAL, secondMirror REAL, stepWidth REAL, hasLeftHand INTEGER NOT NULL, leftHandUpHeight REAL, " +
+                    "leftHandDownHeight REAL, leftHandLength REAL, leftHandDiam REAL, leftHandDist REAL, leftHasLowerExt INTEGER, leftLowerUpLength REAL, leftLowerDownLength REAL, " +
+                    "leftHasUpperExt INTEGER, leftUpperUpLength REAL, leftUpperDownLength REAL, hasRightHand INTEGER, rightHandUpHeight REAL, rightHandDownHeight REAL, " +
+                    "rightHandLength REAL, rightHandDiam REAL, rightHandDist REAL, rightHasLowerExt INTEGER, rightLowerUpLength REAL, rightLowerDownLength REAL, " +
+                    "rightHasUpperExt INTEGER, rightUpperUpLength REAL, rightUpperDownLength REAL, hasMiddleHand INTEGER, middleHandUpHeight REAL, middleHandDownHeight REAL, " +
+                    "middleHandLength REAL, middleHandDiam REAL, middleHasLowerExt INTEGER, middleLowerUpLength REAL, middleLowerDownLength REAL, middleHasUpperExt INTEGER, " +
+                    "middleUpperUpLength REAL, middleUpperDownLength REAL, stepHasSign INTEGER NOT NULL, stepSignWidth REAL, stepSignFullApp INTEGER, stepSignMirrorStep INTEGER, " +
+                    "stepHasTactSign INTEGER NOT NULL, hasLowTact INTEGER, lowTactDist REAL, lowTactWidth REAL, lowTactAntiDrift INTEGER, lowTactSoilContrast INTEGER, " +
+                    "lowTactVisualContrast INTEGER, hasHighTact INTEGER, highTactDist REAL, highTactWidth REAL, highTactAntiDrift INTEGER, highTactSoilContrast INTEGER, " +
+                    "highTactVisualContrast INTEGER, stepObs TEXT, stepPhoto TEXT," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("CREATE TABLE DoorEntry_2(doorID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, restID INTEGER, roomID INTEGER, boxID INTEGER, " +
+                    "circID INTEGER, doorLocation TEXT, doorType INTEGER, doorWidth1 REAL, doorWidth2 REAL, doorHasPict INTEGER, doorPictObs TEXT, opDirection INTEGER, opDirectionObs TEXT, " +
+                    "doorHandleType INTEGER, doorHandleHeight REAL, doorHandleObs TEXT, doorHasLocks INTEGER, doorHasHorBar INTEGER, horBarHeight REAL, horBarLength REAL, " +
+                    "horBarFrameDist REAL, horBarDiam REAL, horBarDoorDist REAL, horBarObs TEXT, doorHasWindow INTEGER, doorWinInfHeight REAL, doorWinSupHeight REAL, " +
+                    "doorWinWidth REAL, doorWinObs TEXT, doorHasTactSign INTEGER, tactSignHeight REAL, tactSignIncl REAL, tactSignObs TEXT, doorSillType INTEGER, " +
+                    "inclHeight REAL, hasSillIncl INTEGER, inclQnt INTEGER, inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL, inclAngle4 REAL, stepHeight REAL, " +
+                    "slopeQnt INTEGER, slopeAngle1 REAL, slopeAngle2 REAL, slopeAngle3 REAL, slopeAngle4 REAL, slopeWidth REAL, slopeHeight REAL, doorSillObs TEXT, " +
+                    "doorObs TEXT, doorPhotos TEXT, " +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (boxID) REFERENCES RestBoxEntry (boxID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO DoorEntry_2 (doorID, roomID, restID, doorLocation, doorType, doorWidth1, doorWidth2, doorHasPict, doorPictObs, opDirection, " +
+                    "opDirectionObs, doorHandleType, doorHandleHeight, doorHandleObs, doorHasLocks, doorHasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, " +
+                    "horBarDoorDist, horBarObs, doorHasWindow, doorWinInfHeight, doorWinSupHeight, doorWinWidth, doorWinObs, doorHasTactSign, tactSignHeight, tactSignIncl, " +
+                    "tactSignObs, doorSillType, inclHeight, hasSillIncl, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight, slopeWidth, slopeHeight, slopeQnt, " +
+                    "slopeAngle1, slopeAngle2, slopeAngle3, slopeAngle4,  doorSillObs, doorObs, doorPhotos) " +
+                    "SELECT doorID, roomID, restID, doorLocation, doorType, doorWidth1, doorWidth2, doorHasPict, doorPictObs, opDirection, opDirectionObs, doorHandleType, " +
+                    "doorHandleHeight, doorHandleObs, doorHasLocks, doorHasHorBar, horBarHeight, horBarLength, horBarFrameDist, horBarDiam, horBarDoorDist, horBarObs, " +
+                    "doorHasWindow, doorWinInfHeight, doorWinSupHeight, doorWinWidth, doorWinObs, doorHasTactSign, tactSignHeight, tactSignIncl, tactSignObs, doorSillType, " +
+                    "inclHeight, hasSillIncl, inclQnt, inclAngle1, inclAngle2, inclAngle3, inclAngle4, stepHeight, slopeWidth, slopeHeight, slopeQnt, slopeAngle1, slopeAngle2, " +
+                    "slopeAngle3, slopeAngle4,  doorSillObs, doorObs, doorPhotos FROM DoorEntry");
+            database.execSQL("DROP TABLE DoorEntry");
+            database.execSQL("ALTER TABLE DoorEntry_2 RENAME TO DoorEntry");
+
+            database.execSQL("DROP TABLE SlopeEntry");
+            database.execSQL("CREATE TABLE SlopeEntry(slopeID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, circID INTEGER, roomID INTEGER, slopeLocation TEXT, " +
+                    "slopeHeight REAL NOT NULL, slopeHasRamp INTEGER NOT NULL, slopeRampQnt INTEGER, inclAngle1 REAL, inclAngle2 REAL, inclAngle3 REAL," +
+                    "inclAngle4 REAL, slopeObs TEXT, slopePhoto TEXT," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("CREATE TABLE SwitchEntry_2 (switchID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, switchLocation TEXT, " +
+                    "switchType TEXT, switchHeight REAL, switchObs TEXT, switchPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO SwitchEntry_2 (switchID, roomID, switchLocation, switchType, switchHeight, switchObs, switchPhoto) SELECT switchID, roomID," +
+                    "switchLocation, switchType, switchHeight, switchObs, switchPhoto FROM SwitchEntry");
+            database.execSQL("DROP TABLE SwitchEntry");
+            database.execSQL("ALTER TABLE SwitchEntry_2 RENAME TO SwitchEntry");
+
+            database.execSQL("CREATE TABLE WinEntry(windowID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, windowLocation TEXT DEFAULT 'Única'," +
+                    "winQnt INTEGER NOT NULL DEFAULT 1, comType1 TEXT, comHeight1 REAL, comType2 TEXT, comHeight2 REAL, comType3 TEXT, " +
+                    "comHeight3 REAL, windowObs TEXT, windowPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO WinEntry(windowID, roomID, windowLocation, winQnt, comType1, comHeight1, comType2, comHeight2, comType3," +
+                    "comHeight3, windowObs, windowPhoto) SELECT windowID, roomID, windowLocation, winQnt, comType1, comHeight1, comType2, comHeight2, comType3," +
+                    "comHeight3, windowObs, windowPhoto FROM WindowEntry");
+            database.execSQL("DROP TABLE WindowEntry");
+            database.execSQL("ALTER TABLE WinEntry RENAME TO WindowEntry");
+
+            database.execSQL("CREATE TABLE TableEntry_2 (tableID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, roomType INTEGER NOT NULL, " +
+                    "tableType INTEGER, inferiorBorderHeight REAL NOT NULL, superiorBorderHeight REAL NOT NULL, tableWidth REAL NOT NULL, tableFrontalApprox REAL NOT NULL, " +
+                    "tableObs TEXT, tableFreeWidth REAL, tableDesc TEXT, tableSize INTEGER, tablePhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO TableEntry_2 (tableID, roomID , roomType, tableType, inferiorBorderHeight, superiorBorderHeight, tableWidth, " +
+                    "tableFrontalApprox, tableObs, tableFreeWidth, tableDesc, tableSize, tablePhoto) SELECT tableID, roomID , roomType, tableType, inferiorBorderHeight, " +
+                    "superiorBorderHeight, tableWidth, tableFrontalApprox, tableObs, tableFreeWidth, tableDesc, tableSize, tablePhoto FROM TableEntry");
+            database.execSQL("DROP TABLE TableEntry");
+            database.execSQL("ALTER TABLE TableEntry_2 RENAME TO TableEntry");
+
+            database.execSQL("CREATE TABLE Board (boardID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, boardType INTEGER NOT NULL DEFAULT 0, " +
+                    "boardLocation TEXT, infBorderHeight REAL NOT NULL, boardObs TEXT, boardPhoto TEXT," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Board (boardID, roomID, boardLocation, infBorderHeight, boardObs, boardPhoto) SELECT boardID, roomID, boardLocation, infBorderHeight, " +
+                    "boardObs, boardPhoto FROM BlackboardEntry");
+            database.execSQL("DROP TABLE BlackboardEntry");
+            database.execSQL("ALTER TABLE Board RENAME TO BlackboardEntry");
+
+            database.execSQL("CREATE TABLE FreeSpaceEntry2(frSpaceID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, restID INTEGER, circID INTEGER, " +
+                    "frSpaceLocation TEXT, obstacleWidth REAL, frSpaceWidth REAL, frSpaceObs TEXT, frSpacePhoto TEXT," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (restID) REFERENCES RestroomEntry (restroomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO FreeSpaceEntry2 (frSpaceID, roomID, restID, frSpaceLocation, obstacleWidth, frSpaceWidth, frSpaceObs, frSpacePhoto) " +
+                    "SELECT frSpaceID, roomID, restID, frSpaceLocation, obstacleWidth, frSpaceWidth, frSpaceObs, frSpacePhoto FROM FreeSpaceEntry");
+            database.execSQL("DROP TABLE FreeSpaceEntry");
+            database.execSQL("ALTER TABLE FreeSpaceEntry2 RENAME TO FreeSpaceEntry");
+
+            database.execSQL("CREATE TABLE Ramps(rampStairsID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, extAccessID INTEGER, parkingID INTEGER, roomID INTEGER, circID INTEGER, " +
+                    "rampStairsIdentifier INTEGER NOT NULL, rampStairsLocation TEXT, rampStairsPhoto TEXT," +
+                    "FOREIGN KEY (extAccessID) REFERENCES ExternalAccess (externalAccessID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (parkingID) REFERENCES ParkingLotEntry (parkingID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE, " +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Ramps (rampStairsID, extAccessID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, rampStairsPhoto) " +
+                    "SELECT rampStairsID, extAccessID, parkingID, roomID, rampStairsIdentifier, rampStairsLocation, rampStairsPhoto FROM RampStairsEntry");
+            database.execSQL("DROP TABLE RampStairsEntry");
+            database.execSQL("ALTER TABLE Ramps RENAME TO RampStairsEntry");
+
+            database.execSQL("CREATE TABLE Equip (equipID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, equipName TEXT, " +
+                    "equipLocale TEXT, equipHeight REAL NOT NULL, equipObs TEXT, equipPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Equip (equipID, roomID, equipName, equipLocale, equipHeight, equipObs, equipPhoto) " +
+                    "SELECT equipID, roomID, equipName, equipLocale, equipHeight, equipObs, equipPhoto FROM EquipmentEntry");
+            database.execSQL("DROP TABLE EquipmentEntry");
+            database.execSQL("ALTER TABLE Equip RENAME TO EquipmentEntry");
+
+            database.execSQL("CREATE TABLE Counter (counterID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, roomID INTEGER, circID INTEGER, counterLocation TEXT, " +
+                    "counterUpperEdge REAL NOT NULL, counterLowerEdge REAL NOT NULL, counterFrontalApprox REAL NOT NULL, counterWidth REAL, counterFreeWidth REAL, " +
+                    "counterObs TEXT, counterPhoto TEXT, " +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Counter (counterID, roomID, counterLocation, counterUpperEdge, counterLowerEdge, counterFrontalApprox, counterWidth, " +
+                    "counterFreeWidth, counterObs, counterPhoto) SELECT counterID, roomID, counterLocation, counterUpperEdge, counterLowerEdge, counterFrontalApprox, " +
+                    "counterWidth, counterFreeWidth, counterObs, counterPhoto FROM CounterEntry");
+            database.execSQL("DROP TABLE CounterEntry");
+            database.execSQL("ALTER TABLE Counter RENAME TO CounterEntry");
+
+            database.execSQL("CREATE TABLE Water (waterFountainID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, blockID INTEGER, roomID INTEGER, circID INTEGER, " +
+                    "fountainLocation TEXT, fountainType INTEGER, fountainTypeObs TEXT, allowSideApprox INTEGER, sideApproxObs TEXT, faucetHeight REAL, " +
+                    "hasCupHolder INTEGER, cupHolderHeight REAL, hasSpoutsDifferentHeights INTEGER, highestSpoutHeight REAL, lowestSpoutHeight REAL, allowFrontApprox INTEGER," +
+                    "frontalApproxDepth REAL, frontalApproxLowestSpout REAL, fountainObs TEXT, fountainPhoto TEXT," +
+                    "FOREIGN KEY (blockID) REFERENCES BlockSpaceEntry (blockSpaceID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (roomID) REFERENCES RoomEntry (roomID) ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Water (waterFountainID, blockID , roomID, fountainLocation, fountainType, fountainTypeObs, allowSideApprox, sideApproxObs," +
+                    "faucetHeight, hasCupHolder, cupHolderHeight, hasSpoutsDifferentHeights, highestSpoutHeight, lowestSpoutHeight, allowFrontApprox, frontalApproxDepth, " +
+                    "frontalApproxLowestSpout, fountainObs, fountainPhoto) SELECT waterFountainID, blockID , roomID, fountainLocation, fountainType, fountainTypeObs, " +
+                    "allowSideApprox, sideApproxObs, faucetHeight, hasCupHolder, cupHolderHeight, hasSpoutsDifferentHeights, highestSpoutHeight, lowestSpoutHeight, " +
+                    "allowFrontApprox, frontalApproxDepth, frontalApproxLowestSpout, fountainObs, fountainPhoto FROM WaterFountainEntry");
+            database.execSQL("DROP TABLE WaterFountainEntry");
+            database.execSQL("ALTER TABLE Water RENAME TO WaterFountainEntry");
+        }
+    };
+
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -1879,7 +2291,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58, MIGRATION_58_59, MIGRATION_59_60,
                                     MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66,
                                     MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70, MIGRATION_70_71, MIGRATION_71_72,
-                                    MIGRATION_72_73).build();
+                                    MIGRATION_72_73, MIGRATION_73_74, MIGRATION_72_74).build();
                 }
             }
         }

@@ -183,8 +183,14 @@ public class CounterFragment extends Fragment implements TagInterface, ScrollEdi
     }
 
     public CounterEntry newCounter(Bundle bundle) {
+        Integer room = null, circ = null;
         String counterLocale, counterObs = null, photo = null;
         double counterSupHeight, counterInfHeight, counterFrontApprox, counterWidth, counterFreeWidth;
+
+        if (bundle.getInt(AMBIENT_ID) > 0)
+            room = bundle.getInt(AMBIENT_ID);
+        else if (bundle.getInt(CIRC_ID) > 0)
+            circ = bundle.getInt(CIRC_ID);
 
         counterLocale = String.valueOf(counterLocationValue.getText());
         counterSupHeight = Double.parseDouble(String.valueOf(counterSupHeightValue.getText()));
@@ -197,7 +203,7 @@ public class CounterFragment extends Fragment implements TagInterface, ScrollEdi
         if (!TextUtils.isEmpty(photoValue.getText()))
             photo = Objects.requireNonNull(photoValue.getText()).toString();
 
-        return new CounterEntry(bundle.getInt(AMBIENT_ID), counterLocale, counterSupHeight, counterInfHeight, counterFrontApprox, counterObs, counterWidth,
+        return new CounterEntry(room, circ, counterLocale, counterSupHeight, counterInfHeight, counterFrontApprox, counterObs, counterWidth,
                 counterFreeWidth, photo);
     }
 }

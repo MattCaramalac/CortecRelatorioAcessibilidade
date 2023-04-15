@@ -26,9 +26,9 @@ public class StairsAnalysis implements StandardMeasurements {
                 String analysis = null;
                 if (stairs.getRampStairsIdentifier() == 1) {
                     if (stairs.getExtAccessID() != null && stairs.getExtAccessID() == ambientID ||
-                            stairs.getSidewalkID() != null && stairs.getSidewalkID() == ambientID ||
                             stairs.getParkingID() != null && stairs.getParkingID() == ambientID ||
-                            stairs.getRoomID() != null && stairs.getRoomID() == ambientID)
+                            stairs.getRoomID() != null && stairs.getRoomID() == ambientID ||
+                            stairs.getCircID() != null && stairs.getCircID() == ambientID)
                         analysis = flightText(stairs.getRampStairsID(), rStFlight, rStRail, rStHandrail);
                 }
                 if (analysis != null && analysis.length() != 0) {

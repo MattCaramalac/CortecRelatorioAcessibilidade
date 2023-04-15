@@ -66,7 +66,7 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
-            circBundle = new Bundle(this.getArguments());
+            circBundle = new Bundle(getArguments());
         else
             circBundle = new Bundle();
 

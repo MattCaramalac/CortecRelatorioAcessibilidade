@@ -27,6 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class WaterFountainListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -54,9 +55,10 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this.getArguments() != null) {
-            fountainBundle = new Bundle(this.getArguments());
-        }
+        if (getArguments() != null)
+            fountainBundle = new Bundle(getArguments());
+        else
+            fountainBundle = new Bundle();
     }
 
     @Override
@@ -72,33 +74,29 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
 
         instantiateWaterListViews(view);
 
-        if (fountainBundle.getBoolean(FROM_ROOMS)) {
+        if (fountainBundle.getBoolean(FROM_ROOMS) || fountainBundle.getBoolean(CIRCULATION)) {
             fountainBundle.putBoolean(VISIBLE_MEMORIAL, false);
             getParentFragmentManager().setFragmentResult(MEMORIAL, fountainBundle);
         }
 
-        if (fountainBundle.getBoolean(FROM_ROOMS) && fountainBundle.getInt(AMBIENT_ID) == 0)
-            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), room -> fountainBundle.putInt(AMBIENT_ID, room.getRoomID()));
-        else
-            modelEntry.getAllBlockWaterFountain(fountainBundle.getInt(BLOCK_ID)).
-                    observe(getViewLifecycleOwner(), fountainEntry -> {
-                        fountainAdapter = new WaterRecViewAdapter(fountainEntry, requireActivity(), this);
-                        listCreator(fountainAdapter);
-                    });
+        if (fountainBundle.getInt(CIRC_ID) > 0)
+            modelEntry.getCircWaterFountains(fountainBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> listCreator(list, this));
+        else if (fountainBundle.getBoolean(FROM_ROOMS)) {
+            if (fountainBundle.getInt(AMBIENT_ID) == 0)
+                modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), room -> fountainBundle.putInt(AMBIENT_ID, room.getRoomID()));
 
-        if (fountainBundle.getInt(AMBIENT_ID) > 0) {
-            modelEntry.getRoomWaterFountains(fountainBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), fountain -> {
-                fountainAdapter = new WaterRecViewAdapter(fountain, requireActivity(), this);
-                listCreator(fountainAdapter);
-            });
+            modelEntry.getRoomWaterFountains(fountainBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), fountain -> listCreator(fountain, this));
         }
+        else
+            modelEntry.getAllBlockWaterFountain(fountainBundle.getInt(BLOCK_ID)).observe(getViewLifecycleOwner(), list -> listCreator(list, this));
+
 
         addFountain.setOnClickListener(v -> OpenFountainFragment());
 
         closeFountainList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            if (fountainBundle.getBoolean(FROM_ROOMS))
+            if (fountainBundle.getBoolean(FROM_ROOMS) || fountainBundle.getBoolean(CIRCULATION))
                 requireActivity().getSupportFragmentManager().popBackStackImmediate();
             else
                 requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, fountainBundle);
@@ -109,7 +107,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public void onResume() {
         super.onResume();
         fountainBundle.putInt(FOUNTAIN_ID, 0);
-        if (!fountainBundle.getBoolean(FROM_ROOMS))
+        if (!fountainBundle.getBoolean(FROM_ROOMS) && !fountainBundle.getBoolean(CIRCULATION))
             fountainBundle.putBoolean(VISIBLE_MEMORIAL, true);
         getParentFragmentManager().setFragmentResult(MEMORIAL, fountainBundle);
     }
@@ -121,13 +119,13 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
             RoomsRegisterFragment.roomModelFragments.setNewRoomID(fountainBundle.getInt(AMBIENT_ID));
     }
 
-    private void listCreator(WaterRecViewAdapter adapter) {
-        adapter.setListener(clickListener());
-
-        recyclerView.setAdapter(adapter);
+    private void listCreator(List<WaterFountainEntry> list, OnEntryClickListener listener) {
+        fountainAdapter = new WaterRecViewAdapter(list, requireActivity(), listener);
+        recyclerView.setAdapter(fountainAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
         recyclerView.addItemDecoration(dividerItemDecoration);
+        fountainAdapter.setListener(clickListener());
     }
 
     private ListClickListener clickListener() {
@@ -155,7 +153,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
         invisible.setVisibility(View.GONE);
 //        TextView
         fountHeader = v.findViewById(R.id.identifier_header);
-        if (fountainBundle.getBoolean(FROM_ROOMS)){
+        if (fountainBundle.getBoolean(FROM_ROOMS) || fountainBundle.getBoolean(CIRCULATION)) {
             fountHeader.setVisibility(View.VISIBLE);
             fountHeader.setText(getText(R.string.fountain_reg_header));
         }
@@ -220,10 +218,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     @Override
     public void OnEntryClick(int position) {
         WaterFountainEntry fountainEntry;
-        if (fountainBundle.getBoolean(FROM_ROOMS))
-            fountainEntry = modelEntry.allFountainsInRoom.getValue().get(position);
-        else
-            fountainEntry = modelEntry.allFountainsInBlock.getValue().get(position);
+        fountainEntry = modelEntry.allFountains.getValue().get(position);
         fountainBundle.putInt(FOUNTAIN_ID, fountainEntry.getWaterFountainID());
         OpenFountainFragment();
     }

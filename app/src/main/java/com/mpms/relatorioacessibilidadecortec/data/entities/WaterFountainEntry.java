@@ -6,15 +6,16 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = {@ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID",
-        onDelete = CASCADE, onUpdate = CASCADE), @ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID",
-        onDelete = CASCADE, onUpdate = CASCADE)})
+@Entity(foreignKeys = {@ForeignKey(entity = BlockSpaceEntry.class, parentColumns = "blockSpaceID", childColumns = "blockID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = RoomEntry.class, parentColumns = "roomID", childColumns = "roomID", onDelete = CASCADE, onUpdate = CASCADE),
+        @ForeignKey(entity = CirculationEntry.class, parentColumns = "circID", childColumns = "circID", onDelete = CASCADE, onUpdate = CASCADE)})
 public class WaterFountainEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int waterFountainID;
-    private int blockID;
+    private Integer blockID;
     private Integer roomID;
+    private Integer circID;
     private String fountainLocation;
     private Integer fountainType;
     private String fountainTypeObs;
@@ -35,13 +36,14 @@ public class WaterFountainEntry {
     private String fountainObs;
     private String fountainPhoto;
 
-    public WaterFountainEntry(int blockID, Integer roomID, String fountainLocation, Integer fountainType, String fountainTypeObs,
+    public WaterFountainEntry(Integer blockID, Integer roomID, Integer circID, String fountainLocation, Integer fountainType, String fountainTypeObs,
                               Integer allowSideApprox, String sideApproxObs, Double faucetHeight,
                               Integer hasCupHolder, Double cupHolderHeight, Integer hasSpoutsDifferentHeights,
                               Double highestSpoutHeight, Double lowestSpoutHeight, Integer allowFrontApprox,
                               Double frontalApproxDepth, Double frontalApproxLowestSpout, String fountainObs, String fountainPhoto) {
         this.blockID = blockID;
         this.roomID = roomID;
+        this.circID = circID;
         this.fountainLocation = fountainLocation;
         this.fountainType = fountainType;
         this.fountainTypeObs = fountainTypeObs;
@@ -68,12 +70,20 @@ public class WaterFountainEntry {
         this.waterFountainID = waterFountainID;
     }
 
-    public int getBlockID() {
+    public Integer getBlockID() {
         return blockID;
     }
 
-    public void setBlockID(int blockID) {
+    public void setBlockID(Integer blockID) {
         this.blockID = blockID;
+    }
+
+    public Integer getCircID() {
+        return circID;
+    }
+
+    public void setCircID(Integer circID) {
+        this.circID = circID;
     }
 
     public Integer getRoomID() {

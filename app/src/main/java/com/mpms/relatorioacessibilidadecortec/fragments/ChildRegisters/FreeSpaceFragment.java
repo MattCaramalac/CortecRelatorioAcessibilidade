@@ -42,7 +42,7 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
-            fSpaceBundle = new Bundle(this.getArguments());
+            fSpaceBundle = new Bundle(getArguments());
         else
             fSpaceBundle = new Bundle();
     }
@@ -61,7 +61,7 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
         instantiateFreeSpViews(view);
 
         if (fSpaceBundle.getInt(FREE_SPACE_ID) > 0)
-            modelEntry.selectSpecificFreeSpace(fSpaceBundle.getInt(FREE_SPACE_ID)).observe(getViewLifecycleOwner(), this::loadFreeSpData);
+            modelEntry.getSpecificFreeSpace(fSpaceBundle.getInt(FREE_SPACE_ID)).observe(getViewLifecycleOwner(), this::loadFreeSpData);
 
         saveFreeSp.setOnClickListener(v -> {
             if (fSpaceNoEmptyFields()) {
@@ -138,12 +138,14 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
     private FreeSpaceEntry newFreeSpEntry(Bundle bundle) {
         String fSpLocale, fSpObs = null, photo = null;
         double fSpWidth, obsWidth;
-        Integer roomID = null, restID = null;
+        Integer roomID = null, restID = null, circID = null;
 
         if (bundle.getInt(AMBIENT_ID) != 0)
             roomID = bundle.getInt(AMBIENT_ID);
         else if (bundle.getInt(REST_ID) != 0)
             restID = bundle.getInt(REST_ID);
+        else if (bundle.getInt(CIRC_ID) != 0)
+            circID = bundle.getInt(CIRC_ID);
 
         fSpLocale = String.valueOf(fSpaceLocaleValue.getText());
         fSpWidth = Double.parseDouble(String.valueOf(fSpaceWidthValue.getText()));
@@ -153,7 +155,7 @@ public class FreeSpaceFragment extends Fragment implements TagInterface, ScrollE
         if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
-        return new FreeSpaceEntry(roomID, restID, fSpLocale, obsWidth, fSpWidth, fSpObs, photo);
+        return new FreeSpaceEntry(roomID, restID, circID, fSpLocale, obsWidth, fSpWidth, fSpObs, photo);
     }
 
     private boolean fSpaceNoEmptyFields() {

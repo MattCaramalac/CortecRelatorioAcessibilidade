@@ -23,10 +23,12 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.StepRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
+import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class SingleStepListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -68,33 +70,16 @@ public class SingleStepListFragment extends Fragment implements OnEntryClickList
 
         instantiateStepListViews(view);
 
-        if (stepListBundle.getInt(CIRC_ID) == 0) {
-            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    stepListBundle.putInt(CIRC_ID, lastRoom.getRoomID()));
+        if (stepListBundle.getInt(CIRC_ID) > 0) {
+            modelEntry.getAllCircSingleSteps(stepListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> listCreator(list, this));
+        } else {
+            if (stepListBundle.getInt(AMBIENT_ID) == 0)
+                modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> stepListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+
+            modelEntry.getAllRoomSingleSteps(stepListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> listCreator(list, this));
+
         }
 
-        modelEntry.getAllCircSingleSteps(stepListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), stepList -> {
-            stepAdapter = new StepRecViewAdapter(stepList, requireActivity(), this);
-            recyclerView.setAdapter(stepAdapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-            recyclerView.addItemDecoration(dividerItemDecoration);
-
-            stepAdapter.setListener(new ListClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    if (actionMode == null)
-                        OnEntryClick(position);
-                    else
-                        enableActionMode();
-                }
-
-                @Override
-                public void onItemLongClick(int position) {
-                    enableActionMode();
-                }
-            });
-        });
 
         closeStepList.setOnClickListener(v -> {
             if (actionMode != null)
@@ -102,7 +87,7 @@ public class SingleStepListFragment extends Fragment implements OnEntryClickList
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
 
-        addStep.setOnClickListener(v -> openSwitchFragment());
+        addStep.setOnClickListener(v -> openSingleStepFragment());
     }
 
     @Override
@@ -115,7 +100,34 @@ public class SingleStepListFragment extends Fragment implements OnEntryClickList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        RoomsRegisterFragment.roomModelFragments.setNewRoomID(stepListBundle.getInt(AMBIENT_ID));
+        if (stepListBundle.getInt(CIRC_ID) == 0)
+            RoomsRegisterFragment.roomModelFragments.setNewRoomID(stepListBundle.getInt(AMBIENT_ID));
+    }
+
+    private void listCreator(List<SingleStepEntry> list, OnEntryClickListener listener) {
+        stepAdapter = new StepRecViewAdapter(list, requireActivity(), listener);
+        recyclerView.setAdapter(stepAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        stepAdapter.setListener(clickListener());
+    }
+
+    private ListClickListener clickListener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
     }
 
     private void enableActionMode() {
@@ -187,10 +199,10 @@ public class SingleStepListFragment extends Fragment implements OnEntryClickList
     public void OnEntryClick(int position) {
         SingleStepEntry step = modelEntry.allSteps.getValue().get(position);
         stepListBundle.putInt(STEP_ID, step.getStepID());
-        openSwitchFragment();
+        openSingleStepFragment();
     }
 
-    private void openSwitchFragment() {
+    private void openSingleStepFragment() {
         SingleStepFragment stepFragment = SingleStepFragment.newInstance();
         stepFragment.setArguments(stepListBundle);
         if (actionMode != null)

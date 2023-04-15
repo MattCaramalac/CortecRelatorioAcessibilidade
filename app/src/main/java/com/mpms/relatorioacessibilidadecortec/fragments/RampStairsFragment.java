@@ -176,7 +176,7 @@ public class RampStairsFragment extends Fragment implements TagInterface {
     }
 
     public RampStairsEntry newRampOrStaircase(Bundle bundle) {
-        Integer extID = null, sideID = null, parkID = null, roomID = null, circID = null;
+        Integer extID = null, parkID = null, roomID = null, circID = null;
         String photo = null;
         rampStairsLocation = String.valueOf(rampStairsLocValue.getText());
         if (!TextUtils.isEmpty(photoValue.getText()))
@@ -184,14 +184,14 @@ public class RampStairsFragment extends Fragment implements TagInterface {
 
         if (bundle.getInt(AMBIENT_TYPE) == 1)
             extID = bundle.getInt(AMBIENT_ID);
-        else if (bundle.getInt(AMBIENT_TYPE) == 2)
-            sideID = bundle.getInt(AMBIENT_ID);
         else if (bundle.getInt(AMBIENT_TYPE) == 3)
             parkID = bundle.getInt(AMBIENT_ID);
         else if (bundle.getInt(AMBIENT_TYPE) == 4)
             roomID = bundle.getInt(AMBIENT_ID);
+        else if (bundle.getInt(CIRC_ID) != 0)
+            circID = bundle.getInt(CIRC_ID);
 
-        return new RampStairsEntry(extID, sideID, parkID, roomID, circID, bundle.getInt(RAMP_OR_STAIRS), rampStairsLocation, photo);
+        return new RampStairsEntry(extID, parkID, roomID, circID, bundle.getInt(RAMP_OR_STAIRS), rampStairsLocation, photo);
     }
 
     public boolean checkRampStairsFields() {

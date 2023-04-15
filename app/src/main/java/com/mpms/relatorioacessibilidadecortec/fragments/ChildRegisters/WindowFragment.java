@@ -247,8 +247,14 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
     }
 
     private WindowEntry newWindowEntry(Bundle bundle) {
+        Integer room = null, circ = null;
         String winLocale, comType1 = null, comType2 = null, comType3 = null, winObs = null, photo = null;
         Double winHeight1 = null, winHeight2 = null, winHeight3 = null;
+
+        if (bundle.getInt(AMBIENT_ID) > 0)
+            room = bundle.getInt(AMBIENT_ID);
+        else if (bundle.getInt(CIRC_ID) > 0)
+            circ = bundle.getInt(CIRC_ID);
 
         if (!TextUtils.isEmpty(winLocationValue.getText()))
             winLocale = String.valueOf(winLocationValue.getText());
@@ -275,7 +281,7 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
         if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
-        return new WindowEntry(bundle.getInt(AMBIENT_ID), winLocale, windowQnt, comType1, winHeight1, comType2, winHeight2, comType3, winHeight3, winObs,photo);
+        return new WindowEntry(room, circ, winLocale, windowQnt, comType1, winHeight1, comType2, winHeight2, comType3, winHeight3, winObs,photo);
     }
 
     private void viewsToArrays() {

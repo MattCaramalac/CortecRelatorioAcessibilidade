@@ -81,7 +81,6 @@ public class SchoolAreasRegisterActivity extends AppCompatActivity implements Ta
         });
 
         circulationButton.setOnClickListener(v -> {
-//            Toast.makeText(this, "Em fase de Desenvolvimento", Toast.LENGTH_SHORT).show();
             areasBundle.putBoolean(CIRCULATION, true);
             callInspectionActivity();
         });

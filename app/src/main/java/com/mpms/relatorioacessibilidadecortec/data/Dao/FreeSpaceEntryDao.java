@@ -28,6 +28,12 @@ public interface FreeSpaceEntryDao {
     @Query("SELECT * FROM FreeSpaceEntry WHERE restID IN (:restID)")
     LiveData<List<FreeSpaceEntry>> getAllRestFreeSpaces(List<Integer> restID);
 
+    @Query("SELECT * FROM FreeSpaceEntry WHERE circID == :circID ORDER BY frSpaceID DESC")
+    LiveData<List<FreeSpaceEntry>> getFreeSpaceFromCirc(int circID);
+
+    @Query("SELECT * FROM FreeSpaceEntry WHERE circID IN (:circID)")
+    LiveData<List<FreeSpaceEntry>> getAllCircFreeSpaces(List<Integer> circID);
+
     @Query("SELECT * FROM FreeSpaceEntry WHERE frSpaceID == :freeSpaceID")
     LiveData<FreeSpaceEntry> selectSpecificFreeSpace(int freeSpaceID);
 

@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dark_grey">#454545</color>
     <color name="error_message">#B22222</color>
+    <color name="right_green">#1FAE00</color>
 </resources>

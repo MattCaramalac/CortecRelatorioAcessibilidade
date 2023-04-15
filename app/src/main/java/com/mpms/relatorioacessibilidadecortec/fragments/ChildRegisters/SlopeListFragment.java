@@ -20,9 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.adapter.CounterRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
-import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
+import com.mpms.relatorioacessibilidadecortec.adapter.SlopeRecViewAdapter;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
@@ -31,37 +31,31 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import java.util.List;
 import java.util.Objects;
 
-public class CounterListFragment extends Fragment implements OnEntryClickListener, TagInterface {
+public class SlopeListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
-    MaterialButton closeCounterList, addCounter, continueButton;
+    MaterialButton closeSlopeList, addSlope, continueButton;
 
-    TextView counterHeader;
-
+    TextView slopeHeader;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
-    private CounterRecViewAdapter counterAdapter;
+    private SlopeRecViewAdapter slopeAdapter;
     private ActionMode actionMode;
 
     int delClick = 0;
 
-    Bundle counterListBundle;
+    Bundle slopeListBundle;
 
-    public CounterListFragment(){
-
-    }
-
-    public static CounterListFragment newInstance(){
-        return new CounterListFragment();
+    public SlopeListFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            counterListBundle = new Bundle(this.getArguments());
+            slopeListBundle = new Bundle(this.getArguments());
         else
-            counterListBundle = new Bundle();
+            slopeListBundle = new Bundle();
     }
 
     @Nullable
@@ -74,46 +68,51 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
     public void onViewCreated(@NonNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        instantiateCounterViews(view);
+        instantiateSlopeListViews(view);
 
-        if (counterListBundle.getInt(CIRC_ID) > 0) {
-            modelEntry.getCountersFromCirc(counterListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> listCreator(list, this));
+        if (slopeListBundle.getInt(CIRC_ID) > 0) {
+            modelEntry.getAllCircSlopes(slopeListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+                listCreator(list, this);
+            });
         } else {
-            if (counterListBundle.getInt(AMBIENT_ID) == 0)
-                modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> counterListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+            if (slopeListBundle.getInt(AMBIENT_ID) == 0)
+                modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> slopeListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
 
-            modelEntry.getCountersFromRoom(counterListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(),list -> listCreator(list, this));
+            modelEntry.getAllRoomSlopes(slopeListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+                listCreator(list, this);
+            });
         }
 
-        closeCounterList.setOnClickListener(v -> {
+        closeSlopeList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         });
 
-        addCounter.setOnClickListener(v -> openCounterFragment());
+        addSlope.setOnClickListener(v -> openSlopeFragment());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        counterListBundle.putInt(COUNTER_ID, 0);
+        slopeListBundle.putInt(SLOPE_ID, 0);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (counterListBundle.getInt(CIRC_ID) == 0)
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(counterListBundle.getInt(AMBIENT_ID));
+        if (slopeListBundle.getInt(CIRC_ID) == 0)
+            RoomsRegisterFragment.roomModelFragments.setNewRoomID(slopeListBundle.getInt(AMBIENT_ID));
     }
 
-    private void listCreator(List<CounterEntry> list, OnEntryClickListener listener) {
-        counterAdapter = new CounterRecViewAdapter(list, requireActivity(), listener);
-        recyclerView.setAdapter(counterAdapter);
+    private void listCreator(List<SlopeEntry> list, OnEntryClickListener listener) {
+        slopeAdapter = new SlopeRecViewAdapter(list, requireActivity(), listener);
+        recyclerView.setAdapter(slopeAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
         recyclerView.addItemDecoration(dividerItemDecoration);
-        counterAdapter.setListener(clickListener());
+        slopeAdapter.setListener(clickListener());
+
     }
 
     private ListClickListener clickListener() {
@@ -152,7 +151,7 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
                 public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                     if (item.getItemId() == R.id.delete_button) {
                         delClick = 1;
-                        counterAdapter.deleteItemList();
+                        slopeAdapter.deleteItemList();
                         mode.finish();
                         return true;
                     }
@@ -162,16 +161,16 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        counterAdapter.cancelSelection(recyclerView);
-                    counterAdapter.selectedItems.clear();
-                    counterAdapter.notifyDataSetChanged();
+                        slopeAdapter.cancelSelection(recyclerView);
+                    slopeAdapter.selectedItems.clear();
+                    slopeAdapter.notifyDataSetChanged();
                     delClick = 0;
                     actionMode = null;
                 }
             });
         }
 
-        final int size = counterAdapter.selectedItems.size();
+        final int size = slopeAdapter.selectedItems.size();
         if (size == 0) {
             actionMode.finish();
         } else {
@@ -180,14 +179,14 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
         }
     }
 
-    public void instantiateCounterViews (View v) {
+    private void instantiateSlopeListViews(View v) {
 //        TextView
-        counterHeader = v.findViewById(R.id.identifier_header);
-        counterHeader.setVisibility(View.VISIBLE);
-        counterHeader.setText(R.string.header_counter_register);
+        slopeHeader = v.findViewById(R.id.identifier_header);
+        slopeHeader.setVisibility(View.VISIBLE);
+        slopeHeader.setText("Cadastro de Degraus Isolados");
 //        MaterialButton
-        closeCounterList = v.findViewById(R.id.cancel_child_items_entries);
-        addCounter = v.findViewById(R.id.add_child_items_entries);
+        closeSlopeList = v.findViewById(R.id.cancel_child_items_entries);
+        addSlope = v.findViewById(R.id.add_child_items_entries);
         continueButton = v.findViewById(R.id.continue_child_items_entries);
         continueButton.setVisibility(View.GONE);
 //        RecyclerView
@@ -198,19 +197,20 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
     }
 
-    @Override
-    public void OnEntryClick(int position) {
-        CounterEntry counterEntry = modelEntry.allCounters.getValue().get(position);
-        counterListBundle.putInt(COUNTER_ID, counterEntry.getCounterID());
-        openCounterFragment();
-    }
-
-    private void openCounterFragment() {
-        CounterFragment counterFragment = CounterFragment.newInstance();
-        counterFragment.setArguments(counterListBundle);
+    private void openSlopeFragment() {
+        slopeListBundle.putBoolean(VISIBLE_MEMORIAL, false);
+        SlopeFragment slopeFragment = new SlopeFragment();
+        slopeFragment.setArguments(slopeListBundle);
         if (actionMode != null)
             actionMode.finish();
         requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.show_fragment_selected, counterFragment).addToBackStack(null).commit();
+                .replace(R.id.show_fragment_selected, slopeFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void OnEntryClick(int position) {
+        SlopeEntry slopeEntry = modelEntry.allSlopes.getValue().get(position);
+        slopeListBundle.putInt(SLOPE_ID, slopeEntry.getSlopeID());
+        openSlopeFragment();
     }
 }

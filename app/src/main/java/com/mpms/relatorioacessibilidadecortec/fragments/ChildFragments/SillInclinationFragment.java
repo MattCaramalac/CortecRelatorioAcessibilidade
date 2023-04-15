@@ -22,8 +22,10 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.InclinationParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.parceler.Parcels;
@@ -31,7 +33,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 
-public class SillInclinationFragment extends Fragment implements TagInterface {
+public class SillInclinationFragment extends Fragment implements TagInterface, RadioGroupInterface {
 
     TextInputLayout inclHeightField, inclField1, inclField2, inclField3, inclField4;
     TextInputEditText inclHeightValue, inclValue1, inclValue2, inclValue3, inclValue4;
@@ -108,6 +110,8 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
             } else if (bundle.getInt(SIDEWALK_SLOPE_ID) > 0) {
                 modelEntry.getSidewalkSlopeEntry(bundle.getInt(SIDEWALK_SLOPE_ID))
                         .observe(getViewLifecycleOwner(), this::loadInclinationSlopeStreetData);
+            } else if (bundle.getInt(SLOPE_ID) > 0) {
+                modelEntry.getOneSlope(bundle.getInt(SLOPE_ID)).observe(getViewLifecycleOwner(), this::loadSlopeData);
             }
         });
 
@@ -116,6 +120,9 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
                 createInclParcel(bundle);
             getParentFragmentManager().setFragmentResult(CHILD_DATA_LISTENER, bundle);
         });
+
+        getParentFragmentManager().setFragmentResultListener(CLEAR_CHILD_DATA, getViewLifecycleOwner(), (key, bundle) ->
+                clearFields());
 
     }
 
@@ -148,7 +155,8 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
         addFieldsToArray();
     }
 
-    private void radioListener(RadioGroup radio, int checkedID) {
+    @Override
+    public void radioListener(RadioGroup radio, int checkedID) {
         int index = radio.indexOfChild(radio.findViewById(checkedID));
 
         if (index == 1) {
@@ -396,5 +404,54 @@ public class SillInclinationFragment extends Fragment implements TagInterface {
                 }
             }
         }
+    }
+
+    private void loadSlopeData(SlopeEntry slope) {
+        inclHeightValue.setText(String.valueOf(slope.getSlopeHeight()));
+        checkRadioGroup(sillRadio, slope.getSlopeHasRamp());
+        if (slope.getSlopeHasRamp() == 1) {
+            if (slope.getSlopeRampQnt() != null)
+                measureQnt = slope.getSlopeRampQnt();
+            switch (measureQnt) {
+                case 4:
+                    if (slope.getInclAngle4() != null) {
+                        inclField4.setVisibility(View.VISIBLE);
+                        inclValue4.setText(String.valueOf(slope.getInclAngle4()));
+                    }
+                case 3:
+                    if (slope.getInclAngle3() != null) {
+                        inclField3.setVisibility(View.VISIBLE);
+                        inclValue3.setText(String.valueOf(slope.getInclAngle3()));
+                    }
+                case 2:
+                    if (slope.getInclAngle2() != null) {
+                        delMeasure.setVisibility(View.VISIBLE);
+                        inclField2.setVisibility(View.VISIBLE);
+                        inclValue2.setText(String.valueOf(slope.getInclAngle2()));
+                    }
+                default:
+                    if (slope.getInclAngle1() != null) {
+                        inclField1.setVisibility(View.VISIBLE);
+                        inclValue1.setText(String.valueOf(slope.getInclAngle1()));
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void clearFields() {
+        inclHeightValue.setText(null);
+        sillRadio.clearCheck();
+        measureQnt = 0;
+        inclValue4.setText(null);
+        inclField4.setVisibility(View.GONE);
+        inclValue3.setText(null);
+        inclField3.setVisibility(View.GONE);
+        inclValue2.setText(null);
+        inclField2.setVisibility(View.GONE);
+        inclValue1.setText(null);
+        inclField1.setVisibility(View.GONE);
+        addMeasure.setVisibility(View.GONE);
+        delMeasure.setVisibility(View.GONE);
     }
 }

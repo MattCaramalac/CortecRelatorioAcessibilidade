@@ -29,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.RoomEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SchoolEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SidewalkSlopeDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.SlopeDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SoleStepDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.SwitchEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.TableEntryDao;
@@ -82,6 +83,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -123,6 +125,7 @@ public class ReportRepository {
     private final EquipEntryDao equipEntryDao;
     private final CirculationDao circulationDao;
     private final SoleStepDao stepDao;
+    private final SlopeDao slopeDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -156,6 +159,7 @@ public class ReportRepository {
         equipEntryDao = db.equipEntryDao();
         circulationDao = db.circulationDao();
         stepDao = db.soleStepDao();
+        slopeDao = db.slopeDao();
     }
 
     public LiveData<List<SchoolEntry>> getAllSchoolEntries() {
@@ -256,6 +260,14 @@ public class ReportRepository {
 
     public LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountainID) {
         return waterFountainDao.getOneWaterFountain(waterFountainID);
+    }
+
+    public LiveData<List<WaterFountainEntry>> getCircWaterFountains(int circID) {
+        return waterFountainDao.getCircWaterFountains(circID);
+    }
+
+    public LiveData<List<WaterFountainEntry>> getAllCircWaterFountains(List<Integer> circID) {
+        return waterFountainDao.getAllCircWaterFountains(circID);
     }
 
     public void insertWaterFountain(WaterFountainEntry waterFountainEntry) {
@@ -452,6 +464,14 @@ public class ReportRepository {
         return doorEntryDao.getAllRestDoors(restID);
     }
 
+    public LiveData<List<DoorEntry>> getCircDoor(int circID) {
+        return doorEntryDao.getCircDoor(circID);
+    }
+
+    public LiveData<List<DoorEntry>> getAllCircDoors(List<Integer> circID) {
+        return doorEntryDao.getAllCircDoors(circID);
+    }
+
     public LiveData<List<DoorEntry>> getAllBoxDoors(List<Integer> boxID) {
         return doorEntryDao.getAllBoxDoors(boxID);
     }
@@ -492,11 +512,11 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> freeSpaceEntryDao.insertFreeSpace(freeSpace));
     }
 
-    public LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRoom(int roomID) {
+    public LiveData<List<FreeSpaceEntry>> getFreeSpaceFromRoom(int roomID) {
         return freeSpaceEntryDao.selectFreeSpaceFromRoom(roomID);
     }
 
-    public LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRest(int restID) {
+    public LiveData<List<FreeSpaceEntry>> getFreeSpaceFromRest(int restID) {
         return freeSpaceEntryDao.selectFreeSpaceFromRest(restID);
     }
 
@@ -508,7 +528,15 @@ public class ReportRepository {
         return freeSpaceEntryDao.getAllRestFreeSpaces(restID);
     }
 
-    public LiveData<FreeSpaceEntry> selectSpecificFreeSpace(int freeSpaceID) {
+    public LiveData<List<FreeSpaceEntry>> getFreeSpaceFromCirc(int circID) {
+        return freeSpaceEntryDao.getFreeSpaceFromCirc(circID);
+    }
+
+    public LiveData<List<FreeSpaceEntry>> getAllCircFreeSpaces(List<Integer> circID) {
+        return freeSpaceEntryDao.getAllCircFreeSpaces(circID);
+    }
+
+    public LiveData<FreeSpaceEntry> getSpecificFreeSpace(int freeSpaceID) {
         return freeSpaceEntryDao.selectSpecificFreeSpace(freeSpaceID);
     }
 
@@ -528,12 +556,20 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> switchEntryDao.insertSwitch(switchEntry));
     }
 
-    public LiveData<List<SwitchEntry>> selectSwitchesFromRoom(int roomID) {
-        return switchEntryDao.selectSwitchesFromRoom(roomID);
+    public LiveData<List<SwitchEntry>> getSwitchesFromRoom(int roomID) {
+        return switchEntryDao.getSwitchesFromRoom(roomID);
     }
 
-    public LiveData<List<SwitchEntry>> getAllSwitches(List<Integer> roomID) {
-        return switchEntryDao.getAllSwitches(roomID);
+    public LiveData<List<SwitchEntry>> getAllRoomsSwitches(List<Integer> roomID) {
+        return switchEntryDao.getAllRoomsSwitches(roomID);
+    }
+
+    public LiveData<List<SwitchEntry>> getSwitchesFromCirc(int circID) {
+        return switchEntryDao.getSwitchesFromCirc(circID);
+    }
+
+    public LiveData<List<SwitchEntry>> getAllCircSwitches(List<Integer> circID) {
+        return switchEntryDao.getAllCircSwitches(circID);
     }
 
     public LiveData<SwitchEntry> selectSpecificSwitch(int switchID) {
@@ -556,12 +592,20 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> windowEntryDao.insertWindow(windowEntry));
     }
 
-    public LiveData<List<WindowEntry>> selectWindowsFromRoom(int roomID) {
-        return windowEntryDao.selectWindowsFromRoom(roomID);
+    public LiveData<List<WindowEntry>> getWindowsFromRoom(int roomID) {
+        return windowEntryDao.getWindowsFromRoom(roomID);
     }
 
-    public LiveData<List<WindowEntry>> getAllWindows(List<Integer> roomID) {
-        return windowEntryDao.getAllWindows(roomID);
+    public LiveData<List<WindowEntry>> getAllRoomsWindows(List<Integer> roomID) {
+        return windowEntryDao.getAllRoomsWindows(roomID);
+    }
+
+    public LiveData<List<WindowEntry>> getWindowsFromCirc(int circID) {
+        return windowEntryDao.getWindowsFromCirc(circID);
+    }
+
+    public LiveData<List<WindowEntry>> getAllCircWindows(List<Integer> circID) {
+        return windowEntryDao.getAllCircWindows(circID);
     }
 
     public LiveData<WindowEntry> selectSpecificWindow(int windowID) {
@@ -584,16 +628,24 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(() -> tableEntryDao.insertTable(table));
     }
 
-    public LiveData<List<TableEntry>> selectTablesFromRoom(int roomID) {
-        return tableEntryDao.selectTablesFromRoom(roomID);
+    public LiveData<List<TableEntry>> getTablesFromRoom(int roomID) {
+        return tableEntryDao.getTablesFromRoom(roomID);
     }
 
-    public LiveData<List<TableEntry>> getAllTables(List<Integer> roomID) {
-        return tableEntryDao.getAllTables(roomID);
+    public LiveData<List<TableEntry>> getAllRoomsTables(List<Integer> roomID) {
+        return tableEntryDao.getAllRoomsTables(roomID);
     }
 
-    public LiveData<TableEntry> selectSpecificTable(int tableID) {
-        return tableEntryDao.selectSpecificTable(tableID);
+    public LiveData<List<TableEntry>> getTablesFromCirc(int circID) {
+        return tableEntryDao.getTablesFromCirc(circID);
+    }
+
+    public LiveData<List<TableEntry>> getAllCircTables(List<Integer> circID) {
+        return tableEntryDao.getAllCircTables(circID);
+    }
+
+    public LiveData<TableEntry> getSpecificTable(int tableID) {
+        return tableEntryDao.getSpecificTable(tableID);
     }
 
     public void updateTable(TableEntry table) {
@@ -688,6 +740,14 @@ public class ReportRepository {
         return counterEntryDao.getAllCounters(roomID);
     }
 
+    public LiveData<List<CounterEntry>> getCountersFromCirc(int circID) {
+        return counterEntryDao.getCountersFromCirc(circID);
+    }
+
+    public LiveData<List<CounterEntry>> getAllCircCounters(List<Integer> circID) {
+        return counterEntryDao.getAllCircCounters(circID);
+    }
+
     public LiveData<CounterEntry> getSpecificCounter(int counterID) {
         return counterEntryDao.getSpecificCounter(counterID);
     }
@@ -716,6 +776,14 @@ public class ReportRepository {
         return equipEntryDao.getAllEquipments(roomID);
     }
 
+    public LiveData<List<EquipmentEntry>> getEquipmentFromCirc(int circID) {
+        return equipEntryDao.getEquipmentFromCirc(circID);
+    }
+
+    public LiveData<List<EquipmentEntry>> getAllCircEquipments(List<Integer> circID) {
+        return equipEntryDao.getAllCircEquipments(circID);
+    }
+
     public LiveData<EquipmentEntry> getSpecificEquipment(int equipID) {
         return equipEntryDao.getSpecificEquipment(equipID);
     }
@@ -738,10 +806,6 @@ public class ReportRepository {
 
     public LiveData<List<RampStairsEntry>> getStairsRampFromExtAccess(int ambientID, int rampOrStairs) {
         return rampStairsEntryDao.getStairsRampFromExtAccess(ambientID, rampOrStairs);
-    }
-
-    public LiveData<List<RampStairsEntry>> getStairsRampFromSidewalk(int ambientID, int rampOrStairs) {
-        return rampStairsEntryDao.getStairsRampFromSidewalk(ambientID, rampOrStairs);
     }
 
     public LiveData<List<RampStairsEntry>> getStairsRampFromParking(int ambientID, int rampOrStairs) {
@@ -769,8 +833,8 @@ public class ReportRepository {
         return rampStairsEntryDao.getAllRampStExt(extID);
     }
 
-    public LiveData<List<RampStairsEntry>> getAllRampStSide(List<Integer> sideID) {
-        return rampStairsEntryDao.getAllRampStSide(sideID);
+    public LiveData<List<RampStairsEntry>> getAllRampStCirc(List<Integer> circID) {
+        return rampStairsEntryDao.getAllRampStCirc(circID);
     }
 
     public LiveData<List<RampStairsEntry>> getAllRampStPark(List<Integer> parkID) {
@@ -1093,6 +1157,14 @@ public class ReportRepository {
         return blackboardEntryDao.getAllBlackboards(roomID);
     }
 
+    public LiveData<List<BlackboardEntry>> getAllBlackboardsFromCirc(int circID) {
+        return blackboardEntryDao.getAllBlackboardsFromCirc(circID);
+    }
+
+    public LiveData<List<BlackboardEntry>> getAllCircBlackboards(List<Integer> circID) {
+        return blackboardEntryDao.getAllCircBlackboards(circID);
+    }
+
     public LiveData<BlackboardEntry> getOneBlackboard(int blackboardID) {
         return blackboardEntryDao.getOneBlackboard(blackboardID);
     }
@@ -1275,5 +1347,33 @@ public class ReportRepository {
 
     public void deleteAllSoleSteps(int circID) {
         ReportDatabase.dbWriteExecutor.execute(() -> stepDao.deleteAllSoleSteps(circID));
+    }
+
+    public void insertSlope(SlopeEntry slope) {
+        ReportDatabase.dbWriteExecutor.execute(() -> slopeDao.insertSlope(slope));
+    }
+
+    public LiveData<List<SlopeEntry>> getAllCircSlopes(int circID) {
+        return slopeDao.getAllCircSlopes(circID);
+    }
+
+    public LiveData<List<SlopeEntry>> getAllRoomSlopes(int roomID) {
+        return slopeDao.getAllRoomSlopes(roomID);
+    }
+
+    public LiveData<SlopeEntry> getOneSlope(int slopeID) {
+        return slopeDao.getOneSlope(slopeID);
+    }
+
+    public void updateSlope (SlopeEntry slope) {
+        ReportDatabase.dbWriteExecutor.execute(() -> slopeDao.updateSlope(slope));
+    }
+
+    public void deleteSlope(int slopeID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> slopeDao.deleteSlope(slopeID));
+    }
+
+    public void deleteAllSlopes(int circID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> slopeDao.deleteSlope(circID));
     }
 }

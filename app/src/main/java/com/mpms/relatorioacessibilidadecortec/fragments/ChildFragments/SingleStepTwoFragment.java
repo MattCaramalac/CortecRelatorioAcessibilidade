@@ -78,7 +78,8 @@ public class SingleStepTwoFragment extends Fragment implements RadioGroupInterfa
         if (twoBundle.getInt(STEP_ID) > 0) {
             stepID = twoBundle.getInt(STEP_ID);
             modelEntry.getOneSoleStep(stepID).observe(getViewLifecycleOwner(), this::loadSingleStepTwoData);
-        };
+        }
+        ;
 
         getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, getViewLifecycleOwner(), (key, bundle) -> {
             dataComplete = true;
@@ -234,22 +235,10 @@ public class SingleStepTwoFragment extends Fragment implements RadioGroupInterfa
             stepWidthValue.setText(String.valueOf(step.getStepWidth()));
 
         checkRadioGroup(leftRadio, step.getHasLeftHand());
-        if (step.getHasLeftHand() == 1) {
-
-        }
-        if (step.getHasRightHand() != null) {
+        if (step.getHasRightHand() != null)
             checkRadioGroup(rightRadio, step.getHasRightHand());
-            if (step.getHasRightHand() == 1) {
-
-            }
-        }
-        if (step.getHasMiddleHand() != null) {
+        if (step.getHasMiddleHand() != null)
             checkRadioGroup(middleRadio, step.getHasMiddleHand());
-            if (step.getHasMiddleHand() == 1) {
-
-            }
-        }
-
     }
 
     private void clearErrors() {
@@ -342,24 +331,21 @@ public class SingleStepTwoFragment extends Fragment implements RadioGroupInterfa
                 fragment = new SingleStepLeftHandFragment();
                 fragment.setArguments(twoBundle);
                 getChildFragmentManager().beginTransaction().replace(leftFrame.getId(), fragment).commit();
-            }
-            else
+            } else
                 removeFragments(leftFrame);
         } else if (radio == rightRadio) {
             if (index == 1) {
                 fragment = new SingleStepRightHandFragment();
                 fragment.setArguments(twoBundle);
                 getChildFragmentManager().beginTransaction().replace(rightFrame.getId(), fragment).commit();
-            }
-            else
+            } else
                 removeFragments(rightFrame);
         } else {
             if (index == 1) {
                 fragment = new SingleStepMiddleHandFragment();
                 fragment.setArguments(twoBundle);
                 getChildFragmentManager().beginTransaction().replace(middleFrame.getId(), fragment).commit();
-            }
-            else
+            } else
                 removeFragments(middleFrame);
         }
     }

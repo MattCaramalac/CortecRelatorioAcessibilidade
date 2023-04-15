@@ -19,9 +19,6 @@ public interface RampStairsEntryDao {
     @Query("SELECT * FROM RampStairsEntry WHERE extAccessID == :ambientID AND rampStairsIdentifier == :rampOrStairs  ORDER BY rampStairsID DESC")
     LiveData<List<RampStairsEntry>> getStairsRampFromExtAccess(int ambientID, int rampOrStairs);
 
-    @Query("SELECT * FROM RampStairsEntry WHERE sidewalkID == :ambientID AND rampStairsIdentifier == :rampOrStairs  ORDER BY rampStairsID DESC")
-    LiveData<List<RampStairsEntry>> getStairsRampFromSidewalk(int ambientID, int rampOrStairs);
-
     @Query("SELECT * FROM RampStairsEntry WHERE parkingID == :ambientID AND rampStairsIdentifier == :rampOrStairs  ORDER BY rampStairsID DESC")
     LiveData<List<RampStairsEntry>> getStairsRampFromParking(int ambientID, int rampOrStairs);
 
@@ -40,11 +37,11 @@ public interface RampStairsEntryDao {
     @Query("SELECT * FROM RampStairsEntry WHERE extAccessID IN (:extID)")
     LiveData<List<RampStairsEntry>> getAllRampStExt(List<Integer> extID);
 
-    @Query("SELECT * FROM RampStairsEntry WHERE sidewalkID IN (:sideID)")
-    LiveData<List<RampStairsEntry>> getAllRampStSide(List<Integer> sideID);
-
     @Query("SELECT * FROM RampStairsEntry WHERE parkingID IN (:parkID)")
     LiveData<List<RampStairsEntry>> getAllRampStPark(List<Integer> parkID);
+
+    @Query("SELECT * FROM RampStairsEntry WHERE circID IN (:circID)")
+    LiveData<List<RampStairsEntry>> getAllRampStCirc(List<Integer> circID);
 
     @Query("SELECT * FROM RampStairsEntry WHERE rampStairsID == (SELECT MAX(rampStairsID) from RampStairsEntry)")
     LiveData<RampStairsEntry> getLastRampStairsEntry();

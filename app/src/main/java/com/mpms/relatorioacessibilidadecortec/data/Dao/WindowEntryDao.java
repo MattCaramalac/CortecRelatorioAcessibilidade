@@ -17,10 +17,16 @@ public interface WindowEntryDao {
     void insertWindow(WindowEntry windowEntry);
 
     @Query("SELECT * FROM WindowEntry WHERE roomID == :roomID ORDER BY windowID DESC")
-    LiveData<List<WindowEntry>> selectWindowsFromRoom(int roomID);
+    LiveData<List<WindowEntry>> getWindowsFromRoom(int roomID);
 
     @Query("SELECT * FROM WindowEntry WHERE roomID IN (:roomID)")
-    LiveData<List<WindowEntry>> getAllWindows(List<Integer> roomID);
+    LiveData<List<WindowEntry>> getAllRoomsWindows(List<Integer> roomID);
+
+    @Query("SELECT * FROM WindowEntry WHERE circID == :circID ORDER BY windowID DESC")
+    LiveData<List<WindowEntry>> getWindowsFromCirc(int circID);
+
+    @Query("SELECT * FROM WindowEntry WHERE circID IN (:circID)")
+    LiveData<List<WindowEntry>> getAllCircWindows(List<Integer> circID);
 
     @Query("SELECT * FROM WindowEntry WHERE windowID == :windowID")
     LiveData<WindowEntry> selectSpecificWindow(int windowID);

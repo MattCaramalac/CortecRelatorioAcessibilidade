@@ -108,7 +108,7 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
         });
 
         cancelWaterFountain.setOnClickListener(v -> {
-            if (waterBundle.getBoolean(FROM_ROOMS))
+            if (waterBundle.getBoolean(FROM_ROOMS) || waterBundle.getBoolean(CIRCULATION))
                 requireActivity().getSupportFragmentManager().popBackStackImmediate();
             else
                 requireActivity().getSupportFragmentManager().popBackStack(WATER_LIST, 0);
@@ -200,11 +200,19 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
     public WaterFountainEntry createFountain(Bundle bundle) {
         String fountainLocation, fountainTypeObs = null, latApproxObs = null, fountainObs = null, photo = null;
         int fountainType;
-        Integer roomID = null, spoutDifHeight = null, spoutFrontApprox = null, otherSideApprox = null, otherCupHolder = null;
+        Integer roomID = null, circID = null, blockID = null, spoutDifHeight = null, spoutFrontApprox = null, otherSideApprox = null, otherCupHolder = null;
         Double spoutHighest = null, spoutLowest = null, spoutFrontHeight = null, spoutFrontDepth = null, otherHeight = null, otherCupHeight = null;
 
-        if (bundle.getInt(AMBIENT_ID) != 0)
-            roomID = bundle.getInt(AMBIENT_ID);
+        if (bundle.getInt(BLOCK_ID) > 0) {
+            blockID = bundle.getInt(BLOCK_ID);
+            if (bundle.getInt(AMBIENT_ID) != 0)
+                roomID = bundle.getInt(AMBIENT_ID);
+        } else if (bundle.getInt(CIRC_ID) > 0)
+            circID = bundle.getInt(CIRC_ID);
+
+
+
+
         fountainLocation = String.valueOf(fountainLocationValue.getText());
         fountainType = indexRadio(typeWaterFountain);
         if (!TextUtils.isEmpty(fountainTypeObsValue.getText()))
@@ -235,9 +243,8 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
         if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
-        return new WaterFountainEntry(bundle.getInt(BLOCK_ID), roomID, fountainLocation, fountainType,
-                fountainTypeObs, otherSideApprox, latApproxObs, otherHeight, otherCupHolder, otherCupHeight, spoutDifHeight, spoutHighest, spoutLowest, spoutFrontApprox,
-                spoutFrontDepth, spoutFrontHeight, fountainObs, photo);
+        return new WaterFountainEntry(blockID, roomID, circID, fountainLocation, fountainType, fountainTypeObs, otherSideApprox, latApproxObs, otherHeight,
+                otherCupHolder, otherCupHeight, spoutDifHeight, spoutHighest, spoutLowest, spoutFrontApprox, spoutFrontDepth, spoutFrontHeight, fountainObs, photo);
     }
 
     @Override

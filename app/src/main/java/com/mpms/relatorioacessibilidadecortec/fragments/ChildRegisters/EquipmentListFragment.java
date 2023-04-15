@@ -28,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class EquipmentListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -45,11 +46,11 @@ public class EquipmentListFragment extends Fragment implements OnEntryClickListe
 
     Bundle equipListBundle;
 
-    public EquipmentListFragment(){
+    public EquipmentListFragment() {
 
     }
 
-    public static EquipmentListFragment newInstance(){
+    public static EquipmentListFragment newInstance() {
         return new EquipmentListFragment();
     }
 
@@ -74,34 +75,14 @@ public class EquipmentListFragment extends Fragment implements OnEntryClickListe
 
         instantiateEquipListViews(view);
 
-        if (equipListBundle.getInt(AMBIENT_ID) == 0) {
-            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    equipListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+        if (equipListBundle.getInt(CIRC_ID) > 0) {
+            modelEntry.getEquipmentFromCirc(equipListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> listCreator(list, this));
+        } else {
+            if (equipListBundle.getInt(AMBIENT_ID) == 0)
+                modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> equipListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
+
+            modelEntry.getEquipmentFromRoom(equipListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> listCreator(list, this));
         }
-
-        modelEntry.getEquipmentFromRoom(equipListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), equipList -> {
-            equipAdapter = new EquipRecViewAdapter(equipList, requireActivity(), this);
-            recyclerView.setAdapter(equipAdapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-            recyclerView.addItemDecoration(dividerItemDecoration);
-
-            equipAdapter.setListener(new ListClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    if (actionMode == null)
-                        OnEntryClick(position);
-                    else
-                        enableActionMode();
-                }
-
-                @Override
-                public void onItemLongClick(int position) {
-                    enableActionMode();
-                }
-            });
-        });
-
 
         closeEquipList.setOnClickListener(v -> {
             if (actionMode != null)
@@ -121,7 +102,34 @@ public class EquipmentListFragment extends Fragment implements OnEntryClickListe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(equipListBundle.getInt(AMBIENT_ID));
+        if (equipListBundle.getInt(CIRC_ID) == 0)
+            RoomsRegisterFragment.roomModelFragments.setNewRoomID(equipListBundle.getInt(AMBIENT_ID));
+    }
+
+    private void listCreator(List<EquipmentEntry> list, OnEntryClickListener listener) {
+        equipAdapter = new EquipRecViewAdapter(list, requireActivity(), listener);
+        recyclerView.setAdapter(equipAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        equipAdapter.setListener(clickListener());
+    }
+
+    private ListClickListener clickListener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
     }
 
     private void enableActionMode() {

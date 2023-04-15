@@ -28,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class WindowListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -45,11 +46,11 @@ public class WindowListFragment extends Fragment implements OnEntryClickListener
 
     Bundle windowListBundle = new Bundle();
 
-    public WindowListFragment(){
+    public WindowListFragment() {
 
     }
 
-    public static WindowListFragment newInstance(){
+    public static WindowListFragment newInstance() {
         return new WindowListFragment();
     }
 
@@ -74,34 +75,18 @@ public class WindowListFragment extends Fragment implements OnEntryClickListener
 
         instantiateWindowListViews(view);
 
-        if (windowListBundle.getInt(AMBIENT_ID) == 0) {
-            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom ->
-                    windowListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
-        }
-
-        modelEntry.selectWindowsFromRoom(windowListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), windowList -> {
-            windowAdapter = new WindowRecViewAdapter(windowList, requireActivity(), this);
-            recyclerView.setAdapter(windowAdapter);
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-            dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
-            recyclerView.addItemDecoration(dividerItemDecoration);
-
-            windowAdapter.setListener(new ListClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    if (actionMode == null)
-                        OnEntryClick(position);
-                    else
-                        enableActionMode();
-                }
-
-                @Override
-                public void onItemLongClick(int position) {
-                    enableActionMode();
-                }
+        if (windowListBundle.getInt(CIRC_ID) > 0) {
+            modelEntry.getWindowsFromCirc(windowListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), windowList -> {
+                listCreator(windowList, this);
             });
-        });
+        } else {
+            if (windowListBundle.getInt(AMBIENT_ID) == 0)
+                modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> windowListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
 
+            modelEntry.getWindowsFromRoom(windowListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), windowList -> {
+                listCreator(windowList, this);
+            });
+        }
 
         closeWindowList.setOnClickListener(v -> {
             if (actionMode != null)
@@ -121,7 +106,34 @@ public class WindowListFragment extends Fragment implements OnEntryClickListener
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(windowListBundle.getInt(AMBIENT_ID));
+        if (windowListBundle.getInt(CIRC_ID) == 0)
+            RoomsRegisterFragment.roomModelFragments.setNewRoomID(windowListBundle.getInt(AMBIENT_ID));
+    }
+
+    private void listCreator(List<WindowEntry> list, OnEntryClickListener listener) {
+        windowAdapter = new WindowRecViewAdapter(list, requireActivity(), listener);
+        recyclerView.setAdapter(windowAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        windowAdapter.setListener(clickListener());
+    }
+
+    private ListClickListener clickListener() {
+        return new ListClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (actionMode == null)
+                    OnEntryClick(position);
+                else
+                    enableActionMode();
+            }
+
+            @Override
+            public void onItemLongClick(int position) {
+                enableActionMode();
+            }
+        };
     }
 
     private void enableActionMode() {

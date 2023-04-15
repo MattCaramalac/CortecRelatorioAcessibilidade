@@ -144,8 +144,14 @@ public class BlackboardFragment extends Fragment implements TagInterface, Scroll
     }
 
     private BlackboardEntry newBoard(Bundle bundle) {
+        Integer room = null, circ = null;
         String boardLocale, boardObs = null, photo = null;
         double boardInfHeight;
+
+        if (bundle.getInt(AMBIENT_ID) > 0)
+            room = bundle.getInt(AMBIENT_ID);
+        else if (bundle.getInt(CIRC_ID) > 0)
+            circ = bundle.getInt(CIRC_ID);
 
         boardLocale = String.valueOf(boardLocationValue.getText());
         boardInfHeight = Double.parseDouble(String.valueOf(boardInfHeightValue.getText()));
@@ -154,6 +160,7 @@ public class BlackboardFragment extends Fragment implements TagInterface, Scroll
         if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
-        return new BlackboardEntry(bundle.getInt(AMBIENT_ID), boardLocale, boardInfHeight, boardObs, photo);
+//        TODO - Inserir este radio no BoardFragment e corrigir aqui
+        return new BlackboardEntry(room, circ, 0, boardLocale, boardInfHeight, boardObs, photo);
     }
 }

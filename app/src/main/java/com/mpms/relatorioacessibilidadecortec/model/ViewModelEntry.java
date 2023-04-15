@@ -56,6 +56,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -67,8 +68,7 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static ReportRepository repository;
     public LiveData<List<ExternalAccess>> allExtAccSchool;
-    public LiveData<List<WaterFountainEntry>> allFountainsInBlock;
-    public LiveData<List<WaterFountainEntry>> allFountainsInRoom;
+    public LiveData<List<WaterFountainEntry>> allFountains;
     public LiveData<List<RestroomEntry>> allRestSchool;
     public LiveData<List<ParkingLotEntry>> allParkingLots;
     public LiveData<List<SidewalkEntry>> allSidewalks;
@@ -99,6 +99,7 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<EquipmentEntry>> allEquips;
     public LiveData<List<CirculationEntry>> allCirculations;
     public LiveData<List<SingleStepEntry>> allSteps;
+    public LiveData<List<SlopeEntry>> allSlopes;
     public final LiveData<List<SchoolEntry>> allEntries;
 
     public LiveData<ExternalAccess> oneAccess;
@@ -235,8 +236,8 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public LiveData<List<WaterFountainEntry>> getAllBlockWaterFountain(int blockID) {
-        allFountainsInBlock = repository.getAllBlockWaterFountains(blockID);
-        return allFountainsInBlock;
+        allFountains = repository.getAllBlockWaterFountains(blockID);
+        return allFountains;
     }
 
     public static LiveData<List<WaterFountainEntry>> getAllWaterFountains(List<Integer> blockID) {
@@ -244,8 +245,8 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public LiveData<List<WaterFountainEntry>> getRoomWaterFountains(int roomID) {
-        allFountainsInRoom = repository.getRoomWaterFountains(roomID);
-        return allFountainsInRoom;
+        allFountains = repository.getRoomWaterFountains(roomID);
+        return allFountains;
     }
 
     public static LiveData<List<WaterFountainEntry>> getAllRoomWaterFountains(List<Integer> roomID) {
@@ -254,6 +255,15 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public LiveData<WaterFountainEntry> getOneWaterFountain(int waterFountainID) {
         return repository.getOneWaterFountain(waterFountainID);
+    }
+
+    public LiveData<List<WaterFountainEntry>> getCircWaterFountains(int circID) {
+        allFountains = repository.getCircWaterFountains(circID);
+        return allFountains;
+    }
+
+    public LiveData<List<WaterFountainEntry>> getAllCircWaterFountains(List<Integer> circID) {
+        return repository.getAllCircWaterFountains(circID);
     }
 
     public LiveData<List<ExternalAccess>> getAllExternalAccessesInOneBlock(int blockID) {
@@ -371,6 +381,14 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getAllRestDoors(restID);
     }
 
+    public LiveData<List<DoorEntry>> getDoorsFromCirc(int circID) {
+        allDoors = repository.getCircDoor(circID);
+        return allDoors;
+    }
+
+    public LiveData<List<DoorEntry>> getAllCircDoors(List<Integer> circID) {
+        return repository.getAllCircDoors(circID);
+    }
     public static LiveData<List<DoorEntry>> getAllBoxDoors(List<Integer> boxID) {
         return repository.getAllBoxDoors(boxID);
     }
@@ -412,12 +430,12 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRoom(int roomID) {
-        allFreeSpaces = repository.selectFreeSpaceFromRoom(roomID);
+        allFreeSpaces = repository.getFreeSpaceFromRoom(roomID);
         return allFreeSpaces;
     }
 
     public LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRest(int restID) {
-        allRestFreeSpaces = repository.selectFreeSpaceFromRest(restID);
+        allRestFreeSpaces = repository.getFreeSpaceFromRest(restID);
         return allRestFreeSpaces;
     }
 
@@ -429,8 +447,16 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getAllRestFreeSpaces(restID);
     }
 
-    public LiveData<FreeSpaceEntry> selectSpecificFreeSpace(int freeSpaceID) {
-        return repository.selectSpecificFreeSpace(freeSpaceID);
+    public LiveData<List<FreeSpaceEntry>> getFreeSpaceFromCirc(int circID) {
+        return repository.getFreeSpaceFromCirc(circID);
+    }
+
+    public LiveData<List<FreeSpaceEntry>> getAllCircFreeSpaces(List<Integer> circID) {
+        return repository.getAllCircFreeSpaces(circID);
+    }
+
+    public LiveData<FreeSpaceEntry> getSpecificFreeSpace(int freeSpaceID) {
+        return repository.getSpecificFreeSpace(freeSpaceID);
     }
 
     public static void updateFreeSpace(FreeSpaceEntry freeSpace) {
@@ -449,13 +475,22 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertWindow(windowEntry));
     }
 
-    public LiveData<List<WindowEntry>> selectWindowsFromRoom(int roomID) {
-        allWindows = repository.selectWindowsFromRoom(roomID);
+    public LiveData<List<WindowEntry>> getWindowsFromRoom(int roomID) {
+        allWindows = repository.getWindowsFromRoom(roomID);
         return allWindows;
     }
 
-    public static LiveData<List<WindowEntry>> getAllWindows(List<Integer> roomID) {
-        return repository.getAllWindows(roomID);
+    public static LiveData<List<WindowEntry>> getAllRoomsWindows(List<Integer> roomID) {
+        return repository.getAllRoomsWindows(roomID);
+    }
+
+    public LiveData<List<WindowEntry>> getWindowsFromCirc(int circID) {
+        allWindows = repository.getWindowsFromCirc(circID);
+        return allWindows;
+    }
+
+    public LiveData<List<WindowEntry>> getAllCircWindows(List<Integer> circID) {
+        return repository.getAllCircWindows(circID);
     }
 
     public LiveData<WindowEntry> selectSpecificWindow(int windowID) {
@@ -479,12 +514,21 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public LiveData<List<SwitchEntry>> getSwitchesFromRoom(int roomID) {
-        allSwitches = repository.selectSwitchesFromRoom(roomID);
+        allSwitches = repository.getSwitchesFromRoom(roomID);
         return allSwitches;
     }
 
-    public static LiveData<List<SwitchEntry>> getAllSwitches(List<Integer> roomID) {
-        return repository.getAllSwitches(roomID);
+    public static LiveData<List<SwitchEntry>> getAllRoomsSwitches(List<Integer> roomID) {
+        return repository.getAllRoomsSwitches(roomID);
+    }
+
+    public LiveData<List<SwitchEntry>> getSwitchesFromCirc(int circID) {
+        allSwitches = repository.getSwitchesFromCirc(circID);
+        return allSwitches;
+    }
+
+    public LiveData<List<SwitchEntry>> getAllCircSwitches(List<Integer> circID) {
+        return repository.getAllCircSwitches(circID);
     }
 
     public LiveData<SwitchEntry> getSpecificSwitch(int switchID) {
@@ -507,17 +551,26 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertTable(tableEntry));
     }
 
-    public LiveData<List<TableEntry>> selectTablesFromRoom(int roomID) {
-        allTables = repository.selectTablesFromRoom(roomID);
+    public LiveData<List<TableEntry>> getTablesFromRoom(int roomID) {
+        allTables = repository.getTablesFromRoom(roomID);
         return allTables;
     }
 
-    public static LiveData<List<TableEntry>> getAllTables(List<Integer> roomID) {
-        return repository.getAllTables(roomID);
+    public static LiveData<List<TableEntry>> getAllRoomsTables(List<Integer> roomID) {
+        return repository.getAllRoomsTables(roomID);
     }
 
-    public LiveData<TableEntry> selectSpecificTable(int tableID) {
-        return repository.selectSpecificTable(tableID);
+    public LiveData<List<TableEntry>> getTablesFromCirc(int circID) {
+        allTables = repository.getTablesFromCirc(circID);
+        return allTables;
+    }
+
+    public LiveData<List<TableEntry>> getAllCircTables(List<Integer> circID) {
+        return repository.getAllCircTables(circID);
+    }
+
+    public LiveData<TableEntry> getSpecificTable(int tableID) {
+        return repository.getSpecificTable(tableID);
     }
 
     public static void updateTable(TableEntry table) {
@@ -616,6 +669,15 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getAllCounters(roomID);
     }
 
+    public LiveData<List<CounterEntry>> getCountersFromCirc(int circID) {
+        allCounters = repository.getCountersFromCirc(circID);
+        return allCounters;
+    }
+
+    public LiveData<List<CounterEntry>> getAllCircCounters(List<Integer> circID) {
+        return repository.getAllCircCounters(circID);
+    }
+
     public LiveData<CounterEntry> getSpecificCounter(int counterID) {
         return repository.getSpecificCounter(counterID);
     }
@@ -645,6 +707,15 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getAllEquipments(roomID);
     }
 
+    public LiveData<List<EquipmentEntry>> getEquipmentFromCirc(int circID) {
+        allEquips = repository.getEquipmentFromCirc(circID);
+        return allEquips;
+    }
+
+    public LiveData<List<EquipmentEntry>> getAllCircEquipments(List<Integer> circID) {
+        return repository.getAllCircEquipments(circID);
+    }
+
     public LiveData<EquipmentEntry> getSpecificEquipment(int equipID) {
         return repository.getSpecificEquipment(equipID);
     }
@@ -667,11 +738,6 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public LiveData<List<RampStairsEntry>> getStairsRampFromExtAccess(int ambientID, int rampOrStairs) {
         allStairsRampsSchool = repository.getStairsRampFromExtAccess(ambientID, rampOrStairs);
-        return allStairsRampsSchool;
-    }
-
-    public LiveData<List<RampStairsEntry>> getStairsRampFromSidewalk(int ambientID, int rampOrStairs) {
-        allStairsRampsSchool = repository.getStairsRampFromSidewalk(ambientID, rampOrStairs);
         return allStairsRampsSchool;
     }
 
@@ -703,8 +769,8 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getAllRampStExt(extID);
     }
 
-    public static LiveData<List<RampStairsEntry>> getAllRampStSide(List<Integer> sideID) {
-        return repository.getAllRampStSide(sideID);
+    public LiveData<List<RampStairsEntry>> getAllRampStCirc(List<Integer> circID) {
+        return repository.getAllRampStCirc(circID);
     }
 
     public static LiveData<List<RampStairsEntry>> getAllRampStPark(List<Integer> parkID) {
@@ -1069,6 +1135,15 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getAllBlackboards(roomID);
     }
 
+    public LiveData<List<BlackboardEntry>> getAllBlackboardsFromCirc(int circID) {
+        allBlackboards = repository.getAllBlackboardsFromCirc(circID);
+        return allBlackboards;
+    }
+
+    public LiveData<List<BlackboardEntry>> getAllCircBlackboards(List<Integer> circID) {
+        return repository.getAllCircBlackboards(circID);
+    }
+
     public LiveData<BlackboardEntry> getOneBlackboard(int blackboardID) {
         return repository.getOneBlackboard(blackboardID);
     }
@@ -1257,5 +1332,35 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public static void deleteAllSoleSteps(int circID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllSoleSteps(circID));
+    }
+
+    public void insertSlope(SlopeEntry slope) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertSlope(slope));
+    }
+
+    public LiveData<List<SlopeEntry>> getAllCircSlopes(int circID) {
+        allSlopes = repository.getAllCircSlopes(circID);
+        return allSlopes;
+    }
+
+    public LiveData<List<SlopeEntry>> getAllRoomSlopes(int roomID) {
+        allSlopes = repository.getAllRoomSlopes(roomID);
+        return allSlopes;
+    }
+
+    public LiveData<SlopeEntry> getOneSlope(int slopeID) {
+        return repository.getOneSlope(slopeID);
+    }
+
+    public void updateSlope (SlopeEntry slope) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateSlope(slope));
+    }
+
+    public void deleteSlope(int slopeID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteSlope(slopeID));
+    }
+
+    public void deleteAllSlopes(int circID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteSlope(circID));
     }
 }

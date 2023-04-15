@@ -22,7 +22,7 @@ public interface CirculationDao {
     @Query("SELECT * FROM CirculationEntry WHERE circID == :circID")
     LiveData<CirculationEntry> getOneCirculation(int circID);
 
-    @Query("SELECT * FROM CirculationEntry WHERE circID == (SELECT MAX(externalAccessID) from ExternalAccess)")
+    @Query("SELECT * FROM CirculationEntry WHERE circID == (SELECT MAX(circID) from CirculationEntry)")
     LiveData<CirculationEntry> getLastCirculation();
 
     @Update

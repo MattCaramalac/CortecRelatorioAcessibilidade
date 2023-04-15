@@ -10,7 +10,7 @@
         android:id="@+id/circ_scroll_2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_bigger"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,6 +47,18 @@
                     app:cornerRadius="3dp" />
 
                 <TextView
+                    android:id="@+id/circ_door_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_door_button"
+                    android:layout_toEndOf="@id/circ_add_door_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
+
+                <TextView
                     android:id="@+id/label_window_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,6 +79,18 @@
                     android:text="@string/label_add_frag_entry"
                     android:textColor="@color/black"
                     app:cornerRadius="3dp" />
+
+                <TextView
+                    android:id="@+id/circ_window_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_window_button"
+                    android:layout_toEndOf="@id/circ_add_window_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_blackboard_register"
@@ -91,6 +115,18 @@
                     app:cornerRadius="3dp" />
 
                 <TextView
+                    android:id="@+id/circ_blackboard_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_blackboard_button"
+                    android:layout_toEndOf="@id/circ_add_blackboard_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
+
+                <TextView
                     android:id="@+id/label_circ_stairs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,6 +147,18 @@
                     android:text="@string/label_add_frag_entry"
                     android:textColor="@color/black"
                     app:cornerRadius="3dp" />
+
+                <TextView
+                    android:id="@+id/circ_stairs_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_stairs_button"
+                    android:layout_toEndOf="@id/circ_add_stairs_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_circ_single_step"
@@ -139,7 +187,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/circ_add_single_step_button"
-                    android:layout_toRightOf="@id/circ_add_single_step_button"
+                    android:layout_toEndOf="@id/circ_add_single_step_button"
                     android:gravity="center_horizontal"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/top_margins"
@@ -169,6 +217,18 @@
                     app:cornerRadius="3dp" />
 
                 <TextView
+                    android:id="@+id/circ_fountain_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_fountain_button"
+                    android:layout_toEndOf="@id/circ_add_fountain_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
+
+                <TextView
                     android:id="@+id/label_counter_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -190,6 +250,18 @@
                     android:layout_below="@id/label_counter_register"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/top_margins"/>
+
+                <TextView
+                    android:id="@+id/circ_counter_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_counter_button"
+                    android:layout_toEndOf="@id/circ_add_counter_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
 
             </RelativeLayout>
 
@@ -223,6 +295,18 @@
                     app:cornerRadius="3dp" />
 
                 <TextView
+                    android:id="@+id/circ_switch_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_switch_button"
+                    android:layout_toEndOf="@id/circ_add_switch_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
+
+                <TextView
                     android:id="@+id/label_table_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -243,6 +327,18 @@
                     android:text="@string/label_add_frag_entry"
                     android:textColor="@color/black"
                     app:cornerRadius="3dp" />
+
+                <TextView
+                    android:id="@+id/circ_table_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_tables_button"
+                    android:layout_toEndOf="@id/circ_add_tables_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_free_spaces"
@@ -267,6 +363,18 @@
                     app:cornerRadius="3dp" />
 
                 <TextView
+                    android:id="@+id/circ_free_space_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_free_space_button"
+                    android:layout_toEndOf="@id/circ_add_free_space_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
+
+                <TextView
                     android:id="@+id/label_circ_ramps"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -287,6 +395,18 @@
                     android:text="@string/label_add_frag_entry"
                     android:textColor="@color/black"
                     app:cornerRadius="3dp" />
+
+                <TextView
+                    android:id="@+id/circ_ramps_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_ramps_button"
+                    android:layout_toEndOf="@id/circ_add_ramps_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_circ_slopes"
@@ -311,6 +431,18 @@
                     app:cornerRadius="3dp" />
 
                 <TextView
+                    android:id="@+id/circ_slope_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_slopes_button"
+                    android:layout_toEndOf="@id/circ_add_slopes_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
+
+                <TextView
                     android:id="@+id/label_circ_equip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -331,6 +463,18 @@
                     android:layout_below="@id/label_circ_equip"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/top_margins"/>
+
+                <TextView
+                    android:id="@+id/circ_equip_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_equip_button"
+                    android:layout_toEndOf="@id/circ_add_equip_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_fall_protect_register"
@@ -355,15 +499,21 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/top_margins"/>
 
+                <TextView
+                    android:id="@+id/circ_fall_protect_counter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/circ_add_fall_protect_button"
+                    android:layout_toEndOf="@id/circ_add_fall_protect_button"
+                    android:gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="(0)"
+                    android:textSize="@dimen/section_header_big" />
 
             </RelativeLayout>
 
-
-
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </ScrollView>
 

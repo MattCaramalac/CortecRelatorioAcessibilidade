@@ -67,7 +67,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         instantiateTableViews(tableBundle, view);
 
         if (tableBundle.getInt(TABLE_ID) > 0)
-            modelEntry.selectSpecificTable(tableBundle.getInt(TABLE_ID)).observe(getViewLifecycleOwner(), table -> loadTableData(table, tableBundle));
+            modelEntry.getSpecificTable(tableBundle.getInt(TABLE_ID)).observe(getViewLifecycleOwner(), table -> loadTableData(table, tableBundle));
 
         saveTable.setOnClickListener(v -> {
             if (tableNoEmptyFields(tableBundle)) {
@@ -198,10 +198,15 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
     }
 
     private TableEntry newTableEntry(Bundle bundle) {
-        Integer tableType = null;
+        Integer tableType = null, room = null, circ = null;
         int tableSize;
         double supHeight, infHeight, tableWidth, frontAprox, freeWidth;
         String tableObs = null, tableDesc = null, photo = null;
+
+        if (bundle.getInt(AMBIENT_ID) > 0)
+            room = bundle.getInt(AMBIENT_ID);
+        else if (bundle.getInt(CIRC_ID) > 0)
+            circ = bundle.getInt(CIRC_ID);
 
         if (bundle.getInt(ROOM_TYPE) == 6) {
             tableType = indexRadio(tableTypeRadio);
@@ -219,8 +224,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
-        return new TableEntry(bundle.getInt(AMBIENT_ID), bundle.getInt(ROOM_TYPE), tableType, supHeight, infHeight,
-                tableWidth, frontAprox, tableObs, freeWidth, tableDesc, tableSize, photo);
+        return new TableEntry(room, circ, bundle.getInt(ROOM_TYPE), tableType, supHeight, infHeight, tableWidth, frontAprox, tableObs, freeWidth, tableDesc, tableSize, photo);
     }
 
     private void clearTableFields() {

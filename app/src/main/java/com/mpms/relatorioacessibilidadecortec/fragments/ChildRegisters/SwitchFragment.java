@@ -110,8 +110,14 @@ public class SwitchFragment extends Fragment implements TagInterface, ScrollEdit
     }
 
     private SwitchEntry newSwitchEntry(Bundle bundle) {
+        Integer room = null, circ = null;
         String switchLocale, switchType, switchObs = null, photo = null;
         double switchHeight;
+
+        if (bundle.getInt(AMBIENT_ID) > 0)
+            room = bundle.getInt(AMBIENT_ID);
+        else if (bundle.getInt(CIRC_ID) > 0)
+            circ = bundle.getInt(CIRC_ID);
 
         switchLocale = String.valueOf(switchLocaleValue.getText());
         switchType = String.valueOf(switchTypeValue.getText());
@@ -121,7 +127,7 @@ public class SwitchFragment extends Fragment implements TagInterface, ScrollEdit
         if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
-        return new SwitchEntry(bundle.getInt(AMBIENT_ID), switchLocale, switchType, switchHeight, switchObs, photo);
+        return new SwitchEntry(room, circ, switchLocale, switchType, switchHeight, switchObs, photo);
     }
 
     private void loadSwitchData(SwitchEntry switchEntry) {
