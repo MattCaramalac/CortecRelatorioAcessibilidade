@@ -19,6 +19,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.Blackboar
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.CounterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.EquipmentListFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.FallProtectListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.FreeSpaceListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.SingleStepListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.SlopeListFragment;
@@ -52,8 +53,8 @@ public class CirculationTwoFragment extends Fragment implements TagInterface {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-            circTwoBundle = new Bundle(getArguments());
+        if (this.getArguments() != null)
+            circTwoBundle = new Bundle(this.getArguments());
         else
             circTwoBundle = new Bundle();
     }
@@ -212,7 +213,26 @@ public class CirculationTwoFragment extends Fragment implements TagInterface {
                 clearCounter(counter);
         });
 
-//        TODO - Fazer contador para escadas, rampas e proteções
+        modelEntry.getStairsRampFromCirculation(circTwoBundle.getInt(CIRC_ID), 1).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(stairCounter, list.size());
+            else
+                clearCounter(stairCounter);
+        });
+
+        modelEntry.getStairsRampFromCirculation(circTwoBundle.getInt(CIRC_ID), 2).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(rampCounter, list.size());
+            else
+                clearCounter(rampCounter);
+        });
+
+        modelEntry.getFallProtectFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(protectCounter, list.size());
+            else
+                clearCounter(protectCounter);
+        });
     }
 
     private void setCounter(TextView view, int number) {
@@ -254,14 +274,12 @@ public class CirculationTwoFragment extends Fragment implements TagInterface {
             if (v == addFreeSpace)
                 fragment = new FreeSpaceListFragment();
             if (v == addStairs) {
-                fragment = new Fragment();
-                Toast.makeText(getContext(), "Em desenvolvimento", Toast.LENGTH_SHORT).show();
-                return;
+                fragment = new RampStairsListFragment();
+                circTwoBundle.putInt(RAMP_OR_STAIRS, 1);
             }
             if (v == addRamps) {
-                fragment = new Fragment();
-                Toast.makeText(getContext(), "Em desenvolvimento", Toast.LENGTH_SHORT).show();
-                return;
+                fragment = new RampStairsListFragment();
+                circTwoBundle.putInt(RAMP_OR_STAIRS, 2);
             }
             if (v == addSteps)
                 fragment = new SingleStepListFragment();
@@ -274,15 +292,13 @@ public class CirculationTwoFragment extends Fragment implements TagInterface {
             if (v == addCounter)
                 fragment = new CounterListFragment();
             else if (v == addProtect) {
-                fragment = new Fragment();
-                Toast.makeText(getContext(), "Em desenvolvimento", Toast.LENGTH_SHORT).show();
-                return;
+                fragment = new FallProtectListFragment();
             }
 
             fragment.setArguments(circTwoBundle);
             fragment.setArguments(circTwoBundle);
             requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
+                    .replace(R.id.show_fragment_selected, fragment).addToBackStack(OTHER_OBJ_LIST).commit();
         }
     }
 }

@@ -6,8 +6,7 @@ import androidx.room.PrimaryKey;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = SchoolEntry.class, parentColumns = "cadID", childColumns = "schoolID",
-        onDelete = CASCADE, onUpdate = CASCADE))
+@Entity(foreignKeys = @ForeignKey(entity = SchoolEntry.class, parentColumns = "cadID", childColumns = "schoolID", onDelete = CASCADE, onUpdate = CASCADE))
 public class CirculationEntry {
 
     @PrimaryKey(autoGenerate = true)
@@ -29,26 +28,11 @@ public class CirculationEntry {
     private Double bioClockHeight;
     private String bioClockObs;
 
-    private Integer hasUnevenFloor;
-    private Integer unevenHigher;
-    private Double unevenHeight;
-    private Integer hasSlope;
-    private Integer slopeHigher;
-    private Double slopeAngle;
-    private Integer hasFallProtect;
-    private Integer fallProtectType;
-    private Double protectWidthLength;
-    private Integer hasVisualContrast;
-    private Integer hasTactileContrast;
-    private String fallProtectObs;
-
     private String circPhoto;
     private String circObs;
 
     public CirculationEntry(int schoolID, String circLocation, Integer hasVertSign, String vertSignObs, Integer hasLooseCarpet, String looseCarpetObs, Integer accessFloor, String accessFloorObs,
-                            Integer hasIntercom, Double intercomHeight, String intercomObs, Integer hasBioClock, Double bioClockHeight, String bioClockObs, Integer hasUnevenFloor, Integer unevenHigher,
-                            Double unevenHeight, Integer hasSlope, Integer slopeHigher, Double slopeAngle, Integer hasFallProtect, Integer fallProtectType, Double protectWidthLength, Integer hasVisualContrast,
-                            Integer hasTactileContrast, String fallProtectObs, String circPhoto, String circObs) {
+                            Integer hasIntercom, Double intercomHeight, String intercomObs, Integer hasBioClock, Double bioClockHeight, String bioClockObs, String circPhoto, String circObs) {
         this.schoolID = schoolID;
         this.circLocation = circLocation;
         this.hasVertSign = hasVertSign;
@@ -63,18 +47,6 @@ public class CirculationEntry {
         this.hasBioClock = hasBioClock;
         this.bioClockHeight = bioClockHeight;
         this.bioClockObs = bioClockObs;
-        this.hasUnevenFloor = hasUnevenFloor;
-        this.unevenHigher = unevenHigher;
-        this.unevenHeight = unevenHeight;
-        this.hasSlope = hasSlope;
-        this.slopeHigher = slopeHigher;
-        this.slopeAngle = slopeAngle;
-        this.hasFallProtect = hasFallProtect;
-        this.fallProtectType = fallProtectType;
-        this.protectWidthLength = protectWidthLength;
-        this.hasVisualContrast = hasVisualContrast;
-        this.hasTactileContrast = hasTactileContrast;
-        this.fallProtectObs = fallProtectObs;
         this.circPhoto = circPhoto;
         this.circObs = circObs;
     }
@@ -215,99 +187,4 @@ public class CirculationEntry {
         this.circObs = circObs;
     }
 
-    public Integer getHasUnevenFloor() {
-        return hasUnevenFloor;
-    }
-
-    public void setHasUnevenFloor(Integer hasUnevenFloor) {
-        this.hasUnevenFloor = hasUnevenFloor;
-    }
-
-    public Integer getUnevenHigher() {
-        return unevenHigher;
-    }
-
-    public void setUnevenHigher(Integer unevenHigher) {
-        this.unevenHigher = unevenHigher;
-    }
-
-    public Double getUnevenHeight() {
-        return unevenHeight;
-    }
-
-    public void setUnevenHeight(Double unevenHeight) {
-        this.unevenHeight = unevenHeight;
-    }
-
-    public Integer getHasSlope() {
-        return hasSlope;
-    }
-
-    public void setHasSlope(Integer hasSlope) {
-        this.hasSlope = hasSlope;
-    }
-
-    public Integer getSlopeHigher() {
-        return slopeHigher;
-    }
-
-    public void setSlopeHigher(Integer slopeHigher) {
-        this.slopeHigher = slopeHigher;
-    }
-
-    public Double getSlopeAngle() {
-        return slopeAngle;
-    }
-
-    public void setSlopeAngle(Double slopeAngle) {
-        this.slopeAngle = slopeAngle;
-    }
-
-    public Integer getHasFallProtect() {
-        return hasFallProtect;
-    }
-
-    public void setHasFallProtect(Integer hasFallProtect) {
-        this.hasFallProtect = hasFallProtect;
-    }
-
-    public Integer getFallProtectType() {
-        return fallProtectType;
-    }
-
-    public void setFallProtectType(Integer fallProtectType) {
-        this.fallProtectType = fallProtectType;
-    }
-
-    public Double getProtectWidthLength() {
-        return protectWidthLength;
-    }
-
-    public void setProtectWidthLength(Double protectWidthLength) {
-        this.protectWidthLength = protectWidthLength;
-    }
-
-    public Integer getHasVisualContrast() {
-        return hasVisualContrast;
-    }
-
-    public void setHasVisualContrast(Integer hasVisualContrast) {
-        this.hasVisualContrast = hasVisualContrast;
-    }
-
-    public Integer getHasTactileContrast() {
-        return hasTactileContrast;
-    }
-
-    public void setHasTactileContrast(Integer hasTactileContrast) {
-        this.hasTactileContrast = hasTactileContrast;
-    }
-
-    public String getFallProtectObs() {
-        return fallProtectObs;
-    }
-
-    public void setFallProtectObs(String fallProtectObs) {
-        this.fallProtectObs = fallProtectObs;
-    }
 }

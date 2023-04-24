@@ -16,7 +16,7 @@ public interface CirculationDao {
     @Insert
     void insertCirculation(CirculationEntry circ);
 
-    @Query("SELECT * FROM CirculationEntry WHERE schoolID == :schoolID")
+    @Query("SELECT * FROM CirculationEntry WHERE schoolID == :schoolID ORDER BY circID DESC")
     LiveData<List<CirculationEntry>> getAllCirculations(int schoolID);
 
     @Query("SELECT * FROM CirculationEntry WHERE circID == :circID")

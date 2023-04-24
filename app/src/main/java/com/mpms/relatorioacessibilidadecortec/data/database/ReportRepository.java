@@ -12,6 +12,7 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorLockDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.EquipEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ExternalAccessDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.FallProtectDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FlightRampStairsDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FreeSpaceEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.GateObsDao;
@@ -46,6 +47,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.data.entities.FallProtectionEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
@@ -126,6 +128,7 @@ public class ReportRepository {
     private final CirculationDao circulationDao;
     private final SoleStepDao stepDao;
     private final SlopeDao slopeDao;
+    private final FallProtectDao fallProtectDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -160,6 +163,7 @@ public class ReportRepository {
         circulationDao = db.circulationDao();
         stepDao = db.soleStepDao();
         slopeDao = db.slopeDao();
+        fallProtectDao = db.fallProtectDao();
     }
 
     public LiveData<List<SchoolEntry>> getAllSchoolEntries() {
@@ -1375,5 +1379,38 @@ public class ReportRepository {
 
     public void deleteAllSlopes(int circID) {
         ReportDatabase.dbWriteExecutor.execute(() -> slopeDao.deleteSlope(circID));
+    }
+
+    public void insertFallProtection(FallProtectionEntry protect) {
+        ReportDatabase.dbWriteExecutor.execute(() -> fallProtectDao.insertFallProtection(protect));
+    }
+
+    public LiveData<List<FallProtectionEntry>> getFallProtectFromCirc(int circID) {
+        return fallProtectDao.getFallProtectFromCirc(circID);
+    }
+
+    public LiveData<List<FallProtectionEntry>> getAllFallProtection(List<Integer> circID) {
+        return fallProtectDao.getAllFallProtection(circID);
+    }
+
+    public LiveData<FallProtectionEntry> getOneFallProtection(int protectID) {
+        return fallProtectDao.getOneFallProtection(protectID);
+    }
+
+    public LiveData<FallProtectionEntry> getLastFallProtection() {
+        return fallProtectDao.getLastFallProtection();
+    }
+
+    public void updateFallProtection (FallProtectionEntry protect) {
+        ReportDatabase.dbWriteExecutor.execute(() -> fallProtectDao.updateFallProtection(protect));
+    }
+
+
+    public void deleteFallProtection(int protectID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> fallProtectDao.deleteFallProtection(protectID));
+    }
+
+    public void deleteAllFallProtectCirc(int circID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> fallProtectDao.deleteAllFallProtectCirc(circID));
     }
 }

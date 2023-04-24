@@ -839,9 +839,9 @@
     <string name="header_sink_has_bars">A pia possui barras de apoio?</string>
     <string name="header_upper_view_box">Dimensões do Box - Vista Superior</string>
     <string name="header_circulation_register">Cadastro de Circulações</string>
-    <string name="header_fall_protection">Área de Proteção Contra Quedas</string>
+    <string name="header_fall_protection">Cadastro de Proteção Contra Quedas</string>
     <string name="header_uneven_floor">Há desnível entre a área de circulação e áreas adjacentes?</string>
-    <string name="header_uneven_height">A altura do desnível é maior ou igual à 0,18 metros?</string>
+    <string name="header_uneven_height">A altura do desnível entre a circulação e a área adjacente é maior ou igual à 0,18 metros?</string>
     <string name="hint_uneven_height">Altura do Desnível (m)</string>
     <string name="header_uneven_slope">O desnível está associado a um talude?</string>
     <string name="header_slope_inclination">A inclinação do talude é maior ou igual a 33,33% ?</string>
@@ -854,6 +854,4 @@
     <string name="hint_fall_protect_obs">Observações da proteção contra quedas</string>
     <string name="button_add_measure">Adicionar Medição</string>
     <string name="button_add_command">Adicionar Comando</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

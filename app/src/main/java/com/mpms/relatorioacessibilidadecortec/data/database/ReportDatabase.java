@@ -17,6 +17,7 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.DoorLockDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.EquipEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ExternalAccessDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.FallProtectDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FlightRampStairsDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.FreeSpaceEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.GateObsDao;
@@ -48,6 +49,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.EquipmentEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.data.entities.FallProtectionEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
@@ -83,7 +85,7 @@ import java.util.concurrent.Executors;
         CounterEntry.class, RampStairsEntry.class, RampStairsFlightEntry.class, RestroomEntry.class, SidewalkEntry.class,
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
         PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class,
-        CirculationEntry.class, SlopeEntry.class, SingleStepEntry.class}, version = 74)
+        CirculationEntry.class, SlopeEntry.class, SingleStepEntry.class, FallProtectionEntry.class}, version = 75)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -128,6 +130,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                         CirculationDao circulationDao = INSTANCE.circulationDao();
                         SlopeDao slopeDao = INSTANCE.slopeDao();
                         SoleStepDao soleStepDao = INSTANCE.soleStepDao();
+                        FallProtectDao fallProtectDao = INSTANCE.fallProtectDao();
                     });
 
                 }
@@ -2272,6 +2275,27 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_74_75 = new Migration(74, 75) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE FallProtectionEntry(protectID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, circID INTEGER, protectLocal TEXT, unevenHigher INTEGER, " +
+                    "unevenHeight REAL, hasSlope INTEGER, slopeHigher INTEGER, slopeAngle REAL, hasFallProtect INTEGER, fallProtectType INTEGER, protectWidthLength REAL, " +
+                    "hasVisualContrast INTEGER, hasTactileContrast INTEGER, fallProtectObs TEXT, protectPhoto TEXT, protectObs TEXT," +
+                    "FOREIGN KEY (circID) REFERENCES CirculationEntry (circID) ON UPDATE CASCADE ON DELETE CASCADE)");
+
+            database.execSQL("CREATE TABLE Circulation(circID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolID INTEGER NOT NULL, circLocation TEXT, " +
+                    "hasVertSign INTEGER, vertSignObs TEXT, hasLooseCarpet INTEGER, looseCarpetObs TEXT, accessFloor INTEGER, accessFloorObs TEXT, hasIntercom INTEGER," +
+                    "intercomHeight REAL, intercomObs TEXT, hasBioClock INTEGER, bioClockHeight REAL, bioClockObs TEXT, circPhoto TEXT, circObs TEXT," +
+                    "FOREIGN KEY (schoolID) REFERENCES SchoolEntry (cadID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO Circulation(circID, schoolID, circLocation, hasVertSign, vertSignObs, hasLooseCarpet, looseCarpetObs, accessFloor, accessFloorObs, " +
+                    "hasIntercom, intercomHeight, intercomObs, hasBioClock, bioClockHeight, bioClockObs, circPhoto, circObs) SELECT circID, schoolID, circLocation, hasVertSign, " +
+                    "vertSignObs, hasLooseCarpet, looseCarpetObs, accessFloor, accessFloorObs, hasIntercom, intercomHeight, intercomObs, hasBioClock, bioClockHeight, bioClockObs, " +
+                    "circPhoto, circObs FROM CirculationEntry");
+            database.execSQL("DROP TABLE CirculationEntry");
+            database.execSQL("ALTER TABLE Circulation RENAME TO CirculationEntry");
+        }
+    };
+
 
 
     public static ReportDatabase getDatabase(final Context context) {
@@ -2291,7 +2315,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_54_55, MIGRATION_55_56, MIGRATION_56_57, MIGRATION_57_58, MIGRATION_58_59, MIGRATION_59_60,
                                     MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66,
                                     MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70, MIGRATION_70_71, MIGRATION_71_72,
-                                    MIGRATION_72_73, MIGRATION_73_74, MIGRATION_72_74).build();
+                                    MIGRATION_72_73, MIGRATION_73_74, MIGRATION_72_74, MIGRATION_74_75).build();
                 }
             }
         }
@@ -2360,5 +2384,7 @@ public abstract class ReportDatabase extends RoomDatabase {
     public abstract SlopeDao slopeDao();
 
     public abstract SoleStepDao soleStepDao();
+
+    public abstract FallProtectDao fallProtectDao();
 
 }

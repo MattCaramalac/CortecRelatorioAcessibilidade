@@ -1,147 +1,408 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.ChildFragments.FallProtectFragment">
+    tools:context=".fragments.ChildRegisters.FallProtectFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/fall_register_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/section_header_bigger"
+        android:textStyle="bold"
+        android:text="@string/header_fall_protection"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fall_protect_width_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <ScrollView
+        android:id="@+id/fall_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
+        android:layout_marginTop="@dimen/usual_padding"
+        app:layout_constraintTop_toBottomOf="@id/fall_register_header">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fall_protect_width_value"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/protect_location_field"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/fall_protect_color_contrast_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/fall_protect_width_field"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:text="@string/header_visual_contrast"
-            android:textSize="@dimen/section_header"/>
-
-        <RadioGroup
-            android:id="@+id/fall_protect_color_contrast_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/fall_protect_color_contrast_header"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <RadioButton
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/section_header"
-                />
+                android:hint="Localização/Identificação do Desnível"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/section_header"
-                />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/protect_location_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-        </RadioGroup>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/fall_protect_color_contrast_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/fall_protect_color_contrast_radio"
-            />
-
-        <TextView
-            android:id="@+id/fall_protect_tactile_contrast_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/fall_protect_color_contrast_error"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:text="@string/header_tactile_contrast"
-            android:textSize="@dimen/section_header"/>
-
-        <RadioGroup
-            android:id="@+id/fall_protect_tactile_contrast_radio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/fall_protect_tactile_contrast_header"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_no"
-                android:textSize="@dimen/section_header"
-                />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="@integer/weight_one"
-                android:text="@string/radio_button_yes"
-                android:textSize="@dimen/section_header"
-                />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/fall_protect_tactile_contrast_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/empty_fields"
-            android:textSize="14sp"
-            android:textColor="@color/error_message"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/fall_protect_tactile_contrast_radio"
-            app:layout_constraintStart_toStartOf="parent"
-            />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fall_protect_obs_field"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_fall_protect_obs"
-            app:layout_constraintTop_toBottomOf="@id/fall_protect_tactile_contrast_error">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fall_protect_obs_value"
+            <TextView
+                android:id="@+id/protect_uneven_height_header"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start"
-                android:inputType="textMultiLine"
-                android:lines="5"
-                android:overScrollMode="always"
-                android:scrollbarStyle="outsideInset"
-                android:scrollbars="vertical"
-                android:scrollHorizontally="false" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/header_uneven_height"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/protect_location_field" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <RadioGroup
+                android:id="@+id/protect_uneven_height_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/protect_uneven_height_header">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/protect_uneven_height_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_uneven_height_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/protect_uneven_height_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_uneven_height"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_uneven_height_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/protect_uneven_height_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/protect_uneven_talude_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/header_uneven_slope"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_uneven_height_field" />
+
+            <RadioGroup
+                android:id="@+id/protect_uneven_talude_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_uneven_talude_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/protect_uneven_talude_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_uneven_talude_radio" />
+
+            <TextView
+                android:id="@+id/protect_talude_incl_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/header_slope_inclination"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_uneven_talude_error" />
+
+            <RadioGroup
+                android:id="@+id/protect_talude_incl_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_talude_incl_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/protect_talude_incl_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_talude_incl_radio" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/protect_talude_incl_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_slope_inclination"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_talude_incl_error">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/protect_talude_incl_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/protect_fall_protect_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/usual_padding"
+                android:text="@string/header_has_fall_protection"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_talude_incl_field" />
+
+            <RadioGroup
+                android:id="@+id/protect_fall_protect_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_fall_protect_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_no"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="@string/radio_button_yes"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/protect_fall_protect_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_fall_protect_radio" />
+
+            <TextView
+                android:id="@+id/protect_type_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/header_protect_type_selection"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintTop_toBottomOf="@id/protect_fall_protect_error"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/usual_padding"/>
+
+            <ImageButton
+                android:id="@+id/protect_type_1"
+                android:layout_width="@dimen/square_image_100"
+                android:layout_height="@dimen/square_image_100"
+                android:layout_marginTop="@dimen/top_margins"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/protect_type_2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/protect_type_header" />
+
+            <ImageButton
+                android:id="@+id/protect_type_2"
+                android:layout_width="@dimen/square_image_100"
+                android:layout_height="@dimen/square_image_100"
+                android:layout_marginTop="@dimen/top_margins"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/protect_type_3"
+                app:layout_constraintStart_toEndOf="@id/protect_type_1"
+                app:layout_constraintTop_toBottomOf="@id/protect_type_header" />
+
+            <ImageButton
+                android:id="@+id/protect_type_3"
+                android:layout_width="@dimen/square_image_100"
+                android:layout_height="@dimen/square_image_100"
+                android:layout_marginTop="@dimen/top_margins"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/protect_type_2"
+                app:layout_constraintTop_toBottomOf="@id/protect_type_header" />
+
+            <RadioGroup
+                android:id="@+id/protect_type_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_type_1">
 
 
-</ScrollView>
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:layout_marginStart="40dp"/>
+
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:layout_marginStart="40dp"/>
+
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:layout_marginStart="40dp"/>
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/protect_type_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/protect_type_radio" />
+
+            <FrameLayout
+                android:id="@+id/fall_protect_frame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/protect_type_error"
+                android:layout_marginTop="@dimen/usual_padding"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/protect_photo_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_photo_field"
+                app:layout_constraintTop_toBottomOf="@id/fall_protect_frame"
+                android:layout_marginTop="@dimen/usual_padding">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/protect_photo_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/protect_obs_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_obs"
+                android:layout_marginTop="@dimen/usual_padding"
+                app:layout_constraintTop_toBottomOf="@id/protect_photo_field">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/protect_obs_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:inputType="textMultiLine"
+                    android:lines="@integer/multiline_obs_field"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="outsideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_protection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/top_margins"
+        android:text="@string/label_button_proceed_register"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fall_scroll" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancel_protection"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/top_margins"
+        android:text="@string/button_return"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/save_protection"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

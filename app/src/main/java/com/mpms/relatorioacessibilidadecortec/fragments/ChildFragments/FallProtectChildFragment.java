@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.data.entities.CirculationEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.FallProtectionEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.FallProtectParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
@@ -25,7 +25,7 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
-public class FallProtectFragment extends Fragment implements RadioGroupInterface, TagInterface, ScrollEditText {
+public class FallProtectChildFragment extends Fragment implements RadioGroupInterface, TagInterface, ScrollEditText {
 
     TextInputLayout protectSizeField, obsField;
     TextInputEditText protectSizeValue, obsValue;
@@ -38,14 +38,14 @@ public class FallProtectFragment extends Fragment implements RadioGroupInterface
     static Bundle dataBundle;
     Bundle imgData;
 
-    public FallProtectFragment() {
+    public FallProtectChildFragment() {
         // Required empty public constructor
     }
 
-    public static FallProtectFragment newInstance(int visual, Bundle bundle) {
+    public static FallProtectChildFragment newInstance(int visual, Bundle bundle) {
         layout = visual;
         dataBundle = bundle;
-        return new FallProtectFragment();
+        return new FallProtectChildFragment();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class FallProtectFragment extends Fragment implements RadioGroupInterface
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fall_protect, container, false);
+        return inflater.inflate(R.layout.fragment_fall_protect_child, container, false);
     }
 
     @Override
@@ -67,8 +67,8 @@ public class FallProtectFragment extends Fragment implements RadioGroupInterface
 
         instantiateViews(view);
 
-        if (dataBundle.getInt(AMBIENT_ID) > 0)
-            modelEntry.getOneCirculation(dataBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadProtectData);
+        if (dataBundle.getInt(PROTECT_ID) > 0)
+            modelEntry.getOneFallProtection(dataBundle.getInt(PROTECT_ID)).observe(getViewLifecycleOwner(), this::loadProtectData);
 
         getParentFragmentManager().setFragmentResultListener(GATHER_CHILD_DATA, getViewLifecycleOwner(), (key, bundle) -> {
             if (noEmptyFields()) {
@@ -164,7 +164,7 @@ public class FallProtectFragment extends Fragment implements RadioGroupInterface
         return new FallProtectParcel(lengthHeight, hasVisual, hasTactile, obs);
     }
 
-    private void loadProtectData(CirculationEntry entry) {
+    private void loadProtectData(FallProtectionEntry entry) {
         if (entry.getProtectWidthLength() != null)
             protectSizeValue.setText(String.valueOf(entry.getProtectWidthLength()));
         if (entry.getHasVisualContrast() != null)

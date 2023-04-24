@@ -19,6 +19,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.data.entities.FallProtectionEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
@@ -100,6 +101,7 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<CirculationEntry>> allCirculations;
     public LiveData<List<SingleStepEntry>> allSteps;
     public LiveData<List<SlopeEntry>> allSlopes;
+    public LiveData<List<FallProtectionEntry>> allFallProtect;
     public final LiveData<List<SchoolEntry>> allEntries;
 
     public LiveData<ExternalAccess> oneAccess;
@@ -448,7 +450,8 @@ public class ViewModelEntry extends AndroidViewModel {
     }
 
     public LiveData<List<FreeSpaceEntry>> getFreeSpaceFromCirc(int circID) {
-        return repository.getFreeSpaceFromCirc(circID);
+        allFreeSpaces =  repository.getFreeSpaceFromCirc(circID);
+        return allFreeSpaces;
     }
 
     public LiveData<List<FreeSpaceEntry>> getAllCircFreeSpaces(List<Integer> circID) {
@@ -1362,5 +1365,39 @@ public class ViewModelEntry extends AndroidViewModel {
 
     public void deleteAllSlopes(int circID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteSlope(circID));
+    }
+
+    public void insertFallProtection(FallProtectionEntry protect) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.insertFallProtection(protect));
+    }
+
+    public LiveData<List<FallProtectionEntry>> getFallProtectFromCirc(int circID) {
+        allFallProtect = repository.getFallProtectFromCirc(circID);
+        return allFallProtect;
+    }
+
+    public LiveData<List<FallProtectionEntry>> getAllFallProtection(List<Integer> circID) {
+        return repository.getAllFallProtection(circID);
+    }
+
+    public LiveData<FallProtectionEntry> getOneFallProtection(int protectID) {
+        return repository.getOneFallProtection(protectID);
+    }
+
+    public LiveData<FallProtectionEntry> getLastFallProtection() {
+        return repository.getLastFallProtection();
+    }
+
+    public void updateFallProtection (FallProtectionEntry protect) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateFallProtection(protect));
+    }
+
+
+    public static void deleteFallProtection(int protectID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteFallProtection(protectID));
+    }
+
+    public void deleteAllFallProtectCirc(int circID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllFallProtectCirc(circID));
     }
 }

@@ -116,6 +116,7 @@ public interface TagInterface {
     String PLAY_ID = "PLAY_ID";
     String EQUIP_ID = "EQUIP_ID";
     String CIRC_ID = "CIRC_ID";
+    String PROTECT_ID = "PROTECT_ID";
     String SLOPE_ID = "SLOPE_ID";
 
     String SLOPE_QNT = "SLOPE_QNT";
