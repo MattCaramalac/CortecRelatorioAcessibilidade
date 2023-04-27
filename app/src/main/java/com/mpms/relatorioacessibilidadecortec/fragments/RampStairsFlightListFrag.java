@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -103,6 +104,8 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
         finishFlights.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
+
+            Toast.makeText(getContext(), "Cadastro concluído com Sucesso!", Toast.LENGTH_SHORT).show();
 
             if (flightBundle.getBoolean(FROM_ROOMS))
                 requireActivity().getSupportFragmentManager().popBackStack(ROOM_OBJ_LIST, 0);

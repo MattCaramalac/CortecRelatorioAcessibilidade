@@ -61,8 +61,8 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
 
     int recentFlight = 0;
     int updateFlight = 0;
-    int mirIncCounter = 0;
-    int stepCounter = 0;
+    int mirIncCounter = 1;
+    int stepCounter = 1;
 
     Integer handrailCounter, railingCounter;
 
@@ -205,10 +205,12 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
                 dimensionsButtonsHeader.setText(getString(R.string.label_step_dimensions_header));
                 mirIncButton.setText(R.string.label_mirror_register_text);
                 stepButton.setVisibility(View.VISIBLE);
+                stepField1.setVisibility(View.VISIBLE);
                 borderSignHeader.setVisibility(View.VISIBLE);
                 radioStepBorderSign.setVisibility(View.VISIBLE);
                 radioStepBorderSign.setOnCheckedChangeListener(this::radioListener);
                 mirIncField1.setHint(getString(R.string.measurement_m_1));
+                mirIncField1.setVisibility(View.VISIBLE);
                 mirIncField2.setHint(getString(R.string.measurement_m_2));
                 mirIncField3.setHint(getString(R.string.measurement_m_3));
                 mirIncField4.setHint(getString(R.string.measurement_m_4));
@@ -220,6 +222,7 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
                 dimensionsButtonsHeader.setText(getString(R.string.label_inclination_ramp_header));
                 mirIncButton.setText(R.string.label_inclination_button);
                 mirIncField1.setHint(getString(R.string.first_measurement_perc));
+                mirIncField1.setVisibility(View.VISIBLE);
                 mirIncField2.setHint(getString(R.string.second_measure_perc));
                 mirIncField3.setHint(getString(R.string.third_measure_perc));
                 mirIncField4.setHint(getString(R.string.fourth_measure_perc));
@@ -354,12 +357,9 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
 
     private void buttonClickListener(View view) {
         if (view == mirIncButton) {
-            if (mirIncCounter < 0) {
-                mirIncCounter = 0;
+            if (mirIncCounter < 1) {
+                mirIncCounter = 1;
                 Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-            } else if (mirIncCounter == 0) {
-                mirIncField1.setVisibility(View.VISIBLE);
-                mirIncCounter++;
             } else if (mirIncCounter == 1) {
                 deleteMirInc.setVisibility(View.VISIBLE);
                 mirIncField2.setVisibility(View.VISIBLE);
@@ -402,9 +402,6 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
             if (stepCounter < 0) {
                 stepCounter = 0;
                 Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
-            } else if (stepCounter == 0) {
-                stepField1.setVisibility(View.VISIBLE);
-                stepCounter++;
             } else if (stepCounter == 1) {
                 deleteStep.setVisibility(View.VISIBLE);
                 stepField2.setVisibility(View.VISIBLE);

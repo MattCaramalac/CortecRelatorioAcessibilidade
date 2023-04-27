@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +34,7 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
 
     MaterialButton closeCircList, addCirc, continueButton;
 
-    TextView circHeader;
+//    TextView circHeader;
 
     private ViewModelEntry modelEntry;
     private RecyclerView recyclerView;
@@ -162,10 +161,10 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
     }
 
     private void instantiateCircViews(View view) {
-        //        TextView
-        circHeader = view.findViewById(R.id.identifier_header);
-        circHeader.setVisibility(View.VISIBLE);
-        circHeader.setText(R.string.header_circulation_register);
+//        //        TextView
+//        circHeader = view.findViewById(R.id.identifier_header);
+//        circHeader.setVisibility(View.VISIBLE);
+//        circHeader.setText(R.string.header_circulation_register);
 //        MaterialButton
         closeCircList = view.findViewById(R.id.cancel_child_items_entries);
         addCirc = view.findViewById(R.id.add_child_items_entries);

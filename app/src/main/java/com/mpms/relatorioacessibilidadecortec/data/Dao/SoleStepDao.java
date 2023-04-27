@@ -16,7 +16,7 @@ public interface SoleStepDao {
     @Insert
     void insertSoleStep(SingleStepEntry slop);
 
-    @Query("SELECT * FROM SingleStepEntry WHERE circID == :circID")
+    @Query("SELECT * FROM SingleStepEntry WHERE circID == :circID ORDER BY stepID DESC")
     LiveData<List<SingleStepEntry>> getAllCircSingleSteps(int circID);
 
     @Query("SELECT * FROM SingleStepEntry WHERE circID IN (:circID)")

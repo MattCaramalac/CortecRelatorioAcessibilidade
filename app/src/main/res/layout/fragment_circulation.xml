@@ -400,7 +400,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_photo_field"
-                app:layout_constraintTop_toBottomOf="@id/circ_has_biometry_radio"
+                app:layout_constraintTop_toBottomOf="@id/circ_has_biometry_obs_field"
                 android:layout_marginTop="@dimen/usual_padding">
 
                 <com.google.android.material.textfield.TextInputEditText

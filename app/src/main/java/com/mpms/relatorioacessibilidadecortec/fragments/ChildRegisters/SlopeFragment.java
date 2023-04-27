@@ -89,6 +89,8 @@ public class SlopeFragment extends Fragment implements TagInterface, ScrollEditT
         });
 
         saveSlope.setOnClickListener(v -> getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, slopeBundle));
+
+        cancelSlope.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
     }
 
     private void instantiateSlopeViews(View view) {

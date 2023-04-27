@@ -113,7 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/top_margins"
-        android:text="@string/label_button_cancel"
+        android:text="@string/button_return"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/save_slope"
         app:layout_constraintStart_toStartOf="parent" />

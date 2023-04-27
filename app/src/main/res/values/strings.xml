@@ -100,7 +100,7 @@
     <string name="req_field_error">Campo Obrigatório</string>
     <string name="wrong_input_error">Este campo só aceita números</string>
     <string name="invalid_input_error">Este número é inválido</string>
-    <string name="empty_fields">Um ou mais campos não foram preenchidos</string>
+    <string name="empty_fields">Um ou mais campos não foram preenchidos corretamente</string>
     <string name="unexpected_error">Ocorreu um erro. Por Favor, tente novamente!"</string>
 
     <string name="working_hours">Horário de Funcionamento:</string>
@@ -854,4 +854,5 @@
     <string name="hint_fall_protect_obs">Observações da proteção contra quedas</string>
     <string name="button_add_measure">Adicionar Medição</string>
     <string name="button_add_command">Adicionar Comando</string>
+    <string name="help_slope_height">Um desnível possui altura entre 0,5 até 2 cm</string>
 </resources>

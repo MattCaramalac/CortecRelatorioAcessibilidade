@@ -94,6 +94,8 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
             else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
+
+        cancelProtect.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
     }
 
     private void instantiateFallViews(View view) {
@@ -165,6 +167,8 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
 
     private void loadProtectData(FallProtectionEntry entry) {
 
+        if (entry.getProtectLocal() != null)
+            protectLocalValue.setText(entry.getProtectLocal());
         if (entry.getUnevenHigher() != null) {
             checkRadioGroup(unevenHeightRadio, entry.getUnevenHigher());
             if (entry.getUnevenHigher() == 1) {
@@ -277,6 +281,10 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
 
         int i = 0;
 
+        if (TextUtils.isEmpty(protectLocalValue.getText())) {
+            i++;
+            protectLocalField.setError(getString(R.string.req_field_error));
+        }
         if (indexRadio(unevenHeightRadio) == -1) {
             i++;
             unevenHeightError.setVisibility(View.VISIBLE);

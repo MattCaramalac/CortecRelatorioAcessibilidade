@@ -193,6 +193,9 @@ public class SillInclinationFragment extends Fragment implements TagInterface, R
         if (TextUtils.isEmpty(inclHeightValue.getText())) {
             inclHeightField.setError(getString(R.string.req_field_error));
             i++;
+        } else if (Double.parseDouble(String.valueOf(inclHeightValue.getText())) > 2) {
+            inclHeightField.setError(getString(R.string.help_slope_height));
+            i++;
         }
 
         switch (measureQnt) {

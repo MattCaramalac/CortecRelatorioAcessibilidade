@@ -183,7 +183,7 @@ public class SlopeListFragment extends Fragment implements OnEntryClickListener,
 //        TextView
         slopeHeader = v.findViewById(R.id.identifier_header);
         slopeHeader.setVisibility(View.VISIBLE);
-        slopeHeader.setText("Cadastro de Degraus Isolados");
+        slopeHeader.setText("Cadastro de Desníveis");
 //        MaterialButton
         closeSlopeList = v.findViewById(R.id.cancel_child_items_entries);
         addSlope = v.findViewById(R.id.add_child_items_entries);

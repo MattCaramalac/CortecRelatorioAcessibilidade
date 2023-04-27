@@ -16,7 +16,7 @@ public interface SlopeDao {
     @Insert
     void insertSlope(SlopeEntry slop);
 
-    @Query("SELECT * FROM SlopeEntry WHERE circID == :circID")
+    @Query("SELECT * FROM SlopeEntry WHERE circID == :circID ORDER BY slopeID DESC")
     LiveData<List<SlopeEntry>> getAllCircSlopes(int circID);
 
     @Query("SELECT * FROM SlopeEntry WHERE circID IN (:circID)")

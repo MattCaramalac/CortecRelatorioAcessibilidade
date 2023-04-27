@@ -16,7 +16,7 @@ public interface FallProtectDao {
     @Insert
     void insertFallProtection(FallProtectionEntry protect);
 
-    @Query("SELECT * FROM FallProtectionEntry WHERE circID == :circID")
+    @Query("SELECT * FROM FallProtectionEntry WHERE circID == :circID ORDER BY protectID DESC")
     LiveData<List<FallProtectionEntry>> getFallProtectFromCirc(int circID);
 
     @Query("SELECT * FROM FallProtectionEntry WHERE circID IN (:circID)")
