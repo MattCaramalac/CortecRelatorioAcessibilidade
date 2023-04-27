@@ -1305,12 +1305,20 @@ public class ReportRepository {
         return circulationDao.getAllCirculations(schoolID);
     }
 
+    public LiveData<List<CirculationEntry>> getAllCircWithID(List<Integer> circID) {
+        return circulationDao.getAllCircWithID(circID);
+    }
+
     public LiveData<CirculationEntry> getOneCirculation(int circID) {
         return circulationDao.getOneCirculation(circID);
     }
 
     public LiveData<CirculationEntry> getLastCirculation() {
         return circulationDao.getLastCirculation();
+    }
+
+    public LiveData<List<Integer>> getAllCircIds(int schoolID) {
+        return circulationDao.getAllCircIds(schoolID);
     }
 
     public void updateCirculation (CirculationEntry circ) {
@@ -1331,6 +1339,10 @@ public class ReportRepository {
 
     public LiveData<List<SingleStepEntry>> getAllCircSingleSteps(int circID) {
         return stepDao.getAllCircSingleSteps(circID);
+    }
+
+    public LiveData<List<SingleStepEntry>> getAllSingleStepsCirc(List<Integer> circID) {
+        return stepDao.getAllSingleStepsCirc(circID);
     }
 
     public LiveData<List<SingleStepEntry>> getAllRoomSingleSteps(int roomID) {
@@ -1359,6 +1371,10 @@ public class ReportRepository {
 
     public LiveData<List<SlopeEntry>> getAllCircSlopes(int circID) {
         return slopeDao.getAllCircSlopes(circID);
+    }
+
+    public LiveData<List<SlopeEntry>> getCircAllSlopes(List<Integer> circID) {
+        return slopeDao.getCircAllSlopes(circID);
     }
 
     public LiveData<List<SlopeEntry>> getAllRoomSlopes(int roomID) {

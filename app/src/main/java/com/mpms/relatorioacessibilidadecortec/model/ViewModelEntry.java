@@ -264,7 +264,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return allFountains;
     }
 
-    public LiveData<List<WaterFountainEntry>> getAllCircWaterFountains(List<Integer> circID) {
+    public static LiveData<List<WaterFountainEntry>> getAllCircWaterFountains(List<Integer> circID) {
         return repository.getAllCircWaterFountains(circID);
     }
 
@@ -388,7 +388,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return allDoors;
     }
 
-    public LiveData<List<DoorEntry>> getAllCircDoors(List<Integer> circID) {
+    public static LiveData<List<DoorEntry>> getAllCircDoors(List<Integer> circID) {
         return repository.getAllCircDoors(circID);
     }
     public static LiveData<List<DoorEntry>> getAllBoxDoors(List<Integer> boxID) {
@@ -454,7 +454,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return allFreeSpaces;
     }
 
-    public LiveData<List<FreeSpaceEntry>> getAllCircFreeSpaces(List<Integer> circID) {
+    public static LiveData<List<FreeSpaceEntry>> getAllCircFreeSpaces(List<Integer> circID) {
         return repository.getAllCircFreeSpaces(circID);
     }
 
@@ -492,7 +492,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return allWindows;
     }
 
-    public LiveData<List<WindowEntry>> getAllCircWindows(List<Integer> circID) {
+    public static LiveData<List<WindowEntry>> getAllCircWindows(List<Integer> circID) {
         return repository.getAllCircWindows(circID);
     }
 
@@ -530,7 +530,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return allSwitches;
     }
 
-    public LiveData<List<SwitchEntry>> getAllCircSwitches(List<Integer> circID) {
+    public static LiveData<List<SwitchEntry>> getAllCircSwitches(List<Integer> circID) {
         return repository.getAllCircSwitches(circID);
     }
 
@@ -568,7 +568,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return allTables;
     }
 
-    public LiveData<List<TableEntry>> getAllCircTables(List<Integer> circID) {
+    public static LiveData<List<TableEntry>> getAllCircTables(List<Integer> circID) {
         return repository.getAllCircTables(circID);
     }
 
@@ -677,7 +677,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return allCounters;
     }
 
-    public LiveData<List<CounterEntry>> getAllCircCounters(List<Integer> circID) {
+    public static LiveData<List<CounterEntry>> getAllCircCounters(List<Integer> circID) {
         return repository.getAllCircCounters(circID);
     }
 
@@ -715,7 +715,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return allEquips;
     }
 
-    public LiveData<List<EquipmentEntry>> getAllCircEquipments(List<Integer> circID) {
+    public static LiveData<List<EquipmentEntry>> getAllCircEquipments(List<Integer> circID) {
         return repository.getAllCircEquipments(circID);
     }
 
@@ -772,7 +772,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return repository.getAllRampStExt(extID);
     }
 
-    public LiveData<List<RampStairsEntry>> getAllRampStCirc(List<Integer> circID) {
+    public static LiveData<List<RampStairsEntry>> getAllRampStCirc(List<Integer> circID) {
         return repository.getAllRampStCirc(circID);
     }
 
@@ -1143,7 +1143,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return allBlackboards;
     }
 
-    public LiveData<List<BlackboardEntry>> getAllCircBlackboards(List<Integer> circID) {
+    public static LiveData<List<BlackboardEntry>> getAllCircBlackboards(List<Integer> circID) {
         return repository.getAllCircBlackboards(circID);
     }
 
@@ -1287,12 +1287,24 @@ public class ViewModelEntry extends AndroidViewModel {
         return allCirculations;
     }
 
+    public static LiveData<List<CirculationEntry>> getAllCircList(int schoolID) {
+        return repository.getAllCirculations(schoolID);
+    }
+
+    public static LiveData<List<CirculationEntry>> getAllCircWithID(List<Integer> circID) {
+        return repository.getAllCircWithID(circID);
+    }
+
     public LiveData<CirculationEntry> getOneCirculation(int circID) {
         return repository.getOneCirculation(circID);
     }
 
     public LiveData<CirculationEntry> getLastCirculation() {
         return repository.getLastCirculation();
+    }
+
+    public LiveData<List<Integer>> getAllCircIds(int schoolID) {
+        return repository.getAllCircIds(schoolID);
     }
 
     public static void updateCirculation (CirculationEntry circ) {
@@ -1314,6 +1326,10 @@ public class ViewModelEntry extends AndroidViewModel {
     public LiveData<List<SingleStepEntry>> getAllCircSingleSteps(int circID) {
         allSteps = repository.getAllCircSingleSteps(circID);
         return allSteps;
+    }
+
+    public static LiveData<List<SingleStepEntry>> getAllSingleStepsCirc(List<Integer> circID) {
+        return repository.getAllSingleStepsCirc(circID);
     }
 
     public LiveData<List<SingleStepEntry>> getAllRoomSingleSteps(int roomID) {
@@ -1346,6 +1362,10 @@ public class ViewModelEntry extends AndroidViewModel {
         return allSlopes;
     }
 
+    public static LiveData<List<SlopeEntry>> getCircAllSlopes(List<Integer> circID) {
+        return repository.getCircAllSlopes(circID);
+    }
+
     public LiveData<List<SlopeEntry>> getAllRoomSlopes(int roomID) {
         allSlopes = repository.getAllRoomSlopes(roomID);
         return allSlopes;
@@ -1376,7 +1396,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return allFallProtect;
     }
 
-    public LiveData<List<FallProtectionEntry>> getAllFallProtection(List<Integer> circID) {
+    public static LiveData<List<FallProtectionEntry>> getAllFallProtection(List<Integer> circID) {
         return repository.getAllFallProtection(circID);
     }
 

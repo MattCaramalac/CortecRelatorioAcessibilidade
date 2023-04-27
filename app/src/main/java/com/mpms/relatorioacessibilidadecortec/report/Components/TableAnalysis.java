@@ -27,6 +27,23 @@ public class TableAnalysis implements StandardMeasurements {
         return tableListing;
     }
 
+    public static List<String> circTableList(int circID, List<TableEntry> tableList) {
+
+        List<String> tableListing = new ArrayList<>();
+
+        if (tableList.size() > 0) {
+            for (TableEntry table : tableList) {
+                irregularTable = false;
+                String analysis = null;
+                if (table.getCircID() == circID)
+                    analysis = tableText(table);
+                if (analysis != null && analysis.length() > 0)
+                    tableListing.add(analysis);
+            }
+        }
+        return tableListing;
+    }
+
     private static String tableText(TableEntry table) {
         StringBuilder builder = new StringBuilder();
 

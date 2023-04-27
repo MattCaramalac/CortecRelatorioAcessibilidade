@@ -19,6 +19,9 @@ public interface SoleStepDao {
     @Query("SELECT * FROM SingleStepEntry WHERE circID == :circID")
     LiveData<List<SingleStepEntry>> getAllCircSingleSteps(int circID);
 
+    @Query("SELECT * FROM SingleStepEntry WHERE circID IN (:circID)")
+    LiveData<List<SingleStepEntry>> getAllSingleStepsCirc(List<Integer> circID);
+
     @Query("SELECT * FROM SingleStepEntry WHERE roomID == :roomID")
     LiveData<List<SingleStepEntry>> getAllRoomSingleSteps(int roomID);
 

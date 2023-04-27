@@ -97,18 +97,18 @@ public class StairsAnalysis implements StandardMeasurements {
                     builder.append("as alturas dos espelhos são divergentes entre si");
                 }
 
-                if (flight.getStairStep1() != null && flight.getStairStep1() < minStepWidth ||
-                        flight.getStairStep2() != null && flight.getStairStep2() < minStepWidth ||
-                        flight.getStairStep3() != null && flight.getStairStep3() < minStepWidth ||
-                        flight.getStairStep4() != null && flight.getStairStep4() < minStepWidth) {
+                if (flight.getStairStep1() != null && flight.getStairStep1() < minStepLength ||
+                        flight.getStairStep2() != null && flight.getStairStep2() < minStepLength ||
+                        flight.getStairStep3() != null && flight.getStairStep3() < minStepLength ||
+                        flight.getStairStep4() != null && flight.getStairStep4() < minStepLength) {
                     flightIrregular(builder);
-                    builder.append("o comprimento dos pisos é inferior ao mínimo permitido de ").append(minStepWidth).append(" m");
-                } else if (flight.getStairStep1() != null && flight.getStairStep1() > maxStepWidth ||
-                        flight.getStairStep2() != null && flight.getStairStep2() > maxStepWidth ||
-                        flight.getStairStep3() != null && flight.getStairStep3() > maxStepWidth ||
-                        flight.getStairStep4() != null && flight.getStairStep4() > maxStepWidth) {
+                    builder.append("o comprimento dos pisos é inferior ao mínimo permitido de ").append(minStepLength).append(" m");
+                } else if (flight.getStairStep1() != null && flight.getStairStep1() > maxStepLength ||
+                        flight.getStairStep2() != null && flight.getStairStep2() > maxStepLength ||
+                        flight.getStairStep3() != null && flight.getStairStep3() > maxStepLength ||
+                        flight.getStairStep4() != null && flight.getStairStep4() > maxStepLength) {
                     flightIrregular(builder);
-                    builder.append("a largura dos pisos é superior ao máximo permitido de ").append(maxStepWidth).append(" m");
+                    builder.append("a largura dos pisos é superior ao máximo permitido de ").append(maxStepLength).append(" m");
                 }
 
                 if (flight.getStairStep2() != null && !flight.getStairStep1().equals(flight.getStairStep2()) ||

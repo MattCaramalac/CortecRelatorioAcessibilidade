@@ -28,6 +28,24 @@ public class SwitchAnalysis implements StandardMeasurements {
         return swListing;
     }
 
+    public static List<String> circSwitchList (int circID, List<SwitchEntry> swList) {
+
+        List<String> swListing = new ArrayList<>();
+
+        if (swList.size() > 0) {
+            for (SwitchEntry swEntry : swList) {
+                irregularSwitch = false;
+                String analysis = null;
+                if (swEntry.getCircID() == circID)
+                    analysis = swText(swEntry);
+                if (analysis != null && analysis.length() > 0)
+                    swListing.add(analysis);
+            }
+        }
+
+        return swListing;
+    }
+
     private static String swText(SwitchEntry swEntry) {
         StringBuilder builder = new StringBuilder();
         if (swEntry.getSwitchHeight() > maxSwHeight) {

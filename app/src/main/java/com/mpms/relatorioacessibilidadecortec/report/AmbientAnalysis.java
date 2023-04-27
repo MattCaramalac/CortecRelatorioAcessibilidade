@@ -46,6 +46,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public static final Map<Integer, List<String>> helpFountainIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> blockFountainIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> playIrregular = new HashMap<>();
+    public static final Map<Integer, List<String>> circIrregular = new HashMap<>();
     public static final List<String> sideLocationList = new ArrayList<>();
     public static final List<String> extAccessList = new ArrayList<>();
     public static final List<String> helpRoomList = new ArrayList<>();
@@ -58,6 +59,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public static final List<String> blockNoAccessRestList = new ArrayList<>();
     public static final List<String> helpFountainList = new ArrayList<>();
     public static final List<String> blockFountainList = new ArrayList<>();
+    public static final List<String> circList = new ArrayList<>();
     public static final List<String> playList = new ArrayList<>();
     public static final List<String> placeType = new ArrayList<>();
 
@@ -65,6 +67,10 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
         this.mDoc = mDoc;
         this.mParagraph = mParagraph;
         this.jCreate = jCreate;
+        CirculationAnalysis.circVerification(jCreate.getCircList(), jCreate.getCircDoorList(), jCreate.getCircLockList(), jCreate.getCircSwitchList(),
+                jCreate.getCircWindowList(), jCreate.getCircTableList(), jCreate.getCircBoardList(), jCreate.getCircFreeSpList(), jCreate.getCircStepList(),
+                jCreate.getCircSlopeList(), jCreate.getCircFountainList(), jCreate.getCircEquipList(), jCreate.getCircCounterList(), jCreate.getCircProtectList(),
+                jCreate.getCircRampStairsList(), jCreate.getCircFlightList(), jCreate.getCircRailList(), jCreate.getCircHandList());
         SidewalkAnalysis.sidewalkVerification(jCreate.getSideList(), jCreate.getSideStRaList(), jCreate.getSideFlightList(), jCreate.getSidePhoneList(),
                 jCreate.getSlopeList());
         ExtAccessAnalysis.extAccessVerification(jCreate.getExtList(), jCreate.getGateLockList(), jCreate.getGateObsList(), jCreate.getExtPhoneList(),
@@ -136,6 +142,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
             createIrregularList(string, numID, cursor, 0);
 
             if (i == 0) {
+                irregularTextListing(circList, circIrregular, numID, cursor);
                 irregularTextListing(sideLocationList, sideIrregular, numID, cursor);
                 irregularTextListing(extAccessList, extIrregular, numID, cursor);
                 irregularTextListing(extParkList, extParkIrregular, numID, cursor);

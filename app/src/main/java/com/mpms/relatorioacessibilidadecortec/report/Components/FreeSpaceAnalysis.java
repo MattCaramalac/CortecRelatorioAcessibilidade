@@ -44,6 +44,23 @@ public class FreeSpaceAnalysis implements StandardMeasurements {
         return spaceList;
     }
 
+    public static List<String> circSpaceTextList(int circID, List<FreeSpaceEntry> sList) {
+
+        List<String> spaceList = new ArrayList<>();
+
+        if (sList.size() > 0) {
+            for (FreeSpaceEntry space : sList) {
+                irregularSpace = false;
+                String analysis = null;
+                if (space.getCircID() == circID)
+                    analysis = spaceText(space);
+                if (analysis != null && analysis.length() > 0)
+                    spaceList.add(analysis);
+            }
+        }
+        return spaceList;
+    }
+
     private static String spaceText(FreeSpaceEntry space) {
         StringBuilder builder = new StringBuilder();
         if (space.getObstacleWidth() <= limitWidthObstacle && space.getFrSpaceWidth() < lowerFreeWidth) {

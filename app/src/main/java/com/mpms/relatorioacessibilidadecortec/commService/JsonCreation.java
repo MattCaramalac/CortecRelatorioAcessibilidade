@@ -4,11 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.CirculationEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.EquipmentEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.data.entities.FallProtectionEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.GateObsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
@@ -26,6 +28,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -93,6 +97,25 @@ public class JsonCreation {
     private final List<DoorEntry> boxDoorList;
     private final List<EquipmentEntry> equipList;
 
+    private final List<CirculationEntry> circList;
+    private final List<DoorEntry> circDoorList;
+    private final List<DoorLockEntry> circLockList;
+    private final List<SwitchEntry> circSwitchList;
+    private final List<WindowEntry> circWindowList;
+    private final List<TableEntry> circTableList;
+    private final List<BlackboardEntry> circBoardList;
+    private final List<FreeSpaceEntry> circFreeSpList;
+    private final List<SingleStepEntry> circStepList;
+    private final List<SlopeEntry> circSlopeList;
+    private final List<WaterFountainEntry> circFountainList;
+    private final List<EquipmentEntry> circEquipList;
+    private final List<CounterEntry> circCounterList;
+    private final List<FallProtectionEntry> circProtectList;
+    private final List<RampStairsEntry> circRampStairsList;
+    private final List<RampStairsFlightEntry> circFlightList;
+    private final List<RampStairsRailingEntry> circRailList;
+    private final List<RampStairsHandrailEntry> circHandList;
+
     public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blockList, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList,
                         List<PlaygroundEntry> playList, List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList,
                         List<RampStairsEntry> roomStRaList, List<RampStairsEntry> sideStRaList, List<RampStairsEntry> extStRaList, List<RampStairsEntry> parkStRaList,
@@ -104,7 +127,12 @@ public class JsonCreation {
                         List<RampStairsRailingEntry> parkRailList, List<RampStairsHandrailEntry> roomHandList, List<RampStairsHandrailEntry> sideHandList,
                         List<RampStairsHandrailEntry> extHandList, List<RampStairsHandrailEntry> parkHandList, int qntBlocks, boolean hasHelpSpace, int extPark, int intPark,
                         List<ParkingLotElderlyEntry> elderList, List<ParkingLotPCDEntry> pcdList, List<WaterFountainEntry> roomWater, List<DoorEntry> restDoorList,
-                        List<FreeSpaceEntry> restFrSpaceList, List<RestBoxEntry> boxList, List<DoorEntry> boxDoorList, List<EquipmentEntry> equipList) {
+                        List<FreeSpaceEntry> restFrSpaceList, List<RestBoxEntry> boxList, List<DoorEntry> boxDoorList, List<EquipmentEntry> equipList,
+                        List<CirculationEntry> circList, List<DoorEntry> circDoorList, List<DoorLockEntry> circLockList, List<SwitchEntry> circSwitchList,
+                        List<WindowEntry> circWindowList, List<TableEntry> circTableList, List<BlackboardEntry> circBoardList, List<FreeSpaceEntry> circFreeSpList,
+                        List<SingleStepEntry> circStepList, List<SlopeEntry> circSlopeList, List<WaterFountainEntry> circFountainList, List<EquipmentEntry> circEquipList,
+                        List<CounterEntry> circCounterList, List<FallProtectionEntry> circProtectList, List<RampStairsEntry> circRampStairsList,
+                        List<RampStairsFlightEntry> circFlightList, List<RampStairsRailingEntry> circRailList, List<RampStairsHandrailEntry> circHandList) {
         this.school = school;
         this.blockList = blockList;
         this.roomList = roomList;
@@ -155,6 +183,24 @@ public class JsonCreation {
         this.boxList = boxList;
         this.boxDoorList = boxDoorList;
         this.equipList = equipList;
+        this.circList = circList;
+        this.circDoorList = circDoorList;
+        this.circLockList = circLockList;
+        this.circSwitchList = circSwitchList;
+        this.circWindowList = circWindowList;
+        this.circTableList = circTableList;
+        this.circBoardList = circBoardList;
+        this.circFreeSpList = circFreeSpList;
+        this.circStepList = circStepList;
+        this.circSlopeList = circSlopeList;
+        this.circFountainList = circFountainList;
+        this.circEquipList = circEquipList;
+        this.circCounterList = circCounterList;
+        this.circProtectList = circProtectList;
+        this.circRampStairsList = circRampStairsList;
+        this.circFlightList = circFlightList;
+        this.circRailList = circRailList;
+        this.circHandList = circHandList;
     }
 
     public List<String> ambListCreator() {
@@ -302,7 +348,7 @@ public class JsonCreation {
 
                 ambientList.add(build.toString());
             } else if (block.getBlockSpaceType() == 2) {
-                int water = 0, park = 0, play = 0, accSan = 0, colAccSan = 0, colSan = 0, infSan = 0, other = 0;
+                int water = 0, park = 0, play = 0, accSan = 0, colAccSan = 0, colSan = 0, infSan = 0;
                 build.append("Espaços de Apoio, sendo: ");
 
                 for (int j = 0; j < fountList.size(); j++) {
@@ -860,5 +906,77 @@ public class JsonCreation {
 
     public List<EquipmentEntry> getEquipList() {
         return equipList;
+    }
+
+    public List<CirculationEntry> getCircList() {
+        return circList;
+    }
+
+    public List<DoorEntry> getCircDoorList() {
+        return circDoorList;
+    }
+
+    public List<DoorLockEntry> getCircLockList() {
+        return circLockList;
+    }
+
+    public List<SwitchEntry> getCircSwitchList() {
+        return circSwitchList;
+    }
+
+    public List<WindowEntry> getCircWindowList() {
+        return circWindowList;
+    }
+
+    public List<TableEntry> getCircTableList() {
+        return circTableList;
+    }
+
+    public List<BlackboardEntry> getCircBoardList() {
+        return circBoardList;
+    }
+
+    public List<FreeSpaceEntry> getCircFreeSpList() {
+        return circFreeSpList;
+    }
+
+    public List<SingleStepEntry> getCircStepList() {
+        return circStepList;
+    }
+
+    public List<SlopeEntry> getCircSlopeList() {
+        return circSlopeList;
+    }
+
+    public List<WaterFountainEntry> getCircFountainList() {
+        return circFountainList;
+    }
+
+    public List<EquipmentEntry> getCircEquipList() {
+        return circEquipList;
+    }
+
+    public List<CounterEntry> getCircCounterList() {
+        return circCounterList;
+    }
+
+    public List<FallProtectionEntry> getCircProtectList() {
+        return circProtectList;
+    }
+
+    public List<RampStairsEntry> getCircRampStairsList() {
+        return circRampStairsList;
+    }
+
+    public List<RampStairsFlightEntry> getCircFlightList() {
+        return circFlightList;
+    }
+
+    public List<RampStairsRailingEntry> getCircRailList() {
+        return circRailList;
+    }
+
+    public List<RampStairsHandrailEntry> getCircHandList() {
+        return circHandList;
     }
 }

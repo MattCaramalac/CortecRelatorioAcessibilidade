@@ -19,11 +19,17 @@ public interface CirculationDao {
     @Query("SELECT * FROM CirculationEntry WHERE schoolID == :schoolID ORDER BY circID DESC")
     LiveData<List<CirculationEntry>> getAllCirculations(int schoolID);
 
+    @Query("SELECT * FROM CirculationEntry WHERE circID IN (:circID)")
+    LiveData<List<CirculationEntry>> getAllCircWithID(List<Integer> circID);
+
     @Query("SELECT * FROM CirculationEntry WHERE circID == :circID")
     LiveData<CirculationEntry> getOneCirculation(int circID);
 
     @Query("SELECT * FROM CirculationEntry WHERE circID == (SELECT MAX(circID) from CirculationEntry)")
     LiveData<CirculationEntry> getLastCirculation();
+
+    @Query("SELECT circID FROM CirculationEntry WHERE schoolID == :schoolID ORDER BY circID ASC")
+    LiveData<List<Integer>> getAllCircIds(int schoolID);
 
     @Update
     void updateCirculation (CirculationEntry circ);

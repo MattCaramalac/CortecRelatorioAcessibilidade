@@ -15,10 +15,6 @@ public interface StandardMeasurements {
 
     //    Sidewalk Ramp Measurements
     double minFlightWidth = 1.2;
-    double minTactWidthRamp = 0.25;
-    double maxTactWidthRamp = 0.60;
-    double minDistTactRamp = 0.25;
-    double maxDistTactRamp = 0.32;
     double minInterLength = 1.2;
     double lowestRampHeight = 0.8;
     double medRampHeight = 1.0;
@@ -47,10 +43,22 @@ public interface StandardMeasurements {
     double maxAccessHeight = 1.20;
 
 
-    //    Alert Tactile Floor Distance
+    //    Alert Tactile Floor
     double distAlertTactSuspObj = 0.6;
     double minWidthAlertTactSuspObj = 0.25;
     double maxWidthAlertTactSuspObj = 0.60;
+    double minTactWidthRamp = 0.25;
+    double maxTactWidthRamp = 0.60;
+    double minDistTactRamp = 0.25;
+    double maxDistTactRamp = 0.32;
+    double maxTactDistSingleStepLow = 0.25;
+    double minTactWidthSingleStepLow = 0.25;
+    double minTactWidthDistSingleStepLow = 0.50;
+    double maxTactWidthDistSingleStepLow = 0.65;
+    double minTactDistSingleStepHigh = 0.25;
+    double minTactWidthSingleStepHigh = 0.25;
+    double minTactWidthDistSingleStepHigh = 0.50;
+
 
     //    Door
     double freeSpaceGeneral = 0.80;
@@ -84,8 +92,8 @@ public interface StandardMeasurements {
     //    Stairs Measurements
     double minStepHeight = 0.16;
     double maxStepHeight = 0.18;
-    double minStepWidth = 0.28;
-    double maxStepWidth = 0.32;
+    double minStepLength = 0.28;
+    double maxStepLength = 0.32;
     double minStairsSum = 0.63;
     double maxStairsSum = 0.65;
     double maxHeightUntilInterLevel = 3.20;
@@ -105,6 +113,11 @@ public interface StandardMeasurements {
     double minHandrailGrip = 30; //in mm
     double maxHandrailGrip = 45; //in mm
     double minDistHandrail = 40; //in mm
+
+//    Single Step Measurements
+    double minHandLength = 0.30;
+    double handHeight = 0.75;
+    double minStepWidthInterHand = 2.40;
 
     //    Tables
     double minTableWidth = 0.90;

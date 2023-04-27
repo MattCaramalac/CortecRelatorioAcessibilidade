@@ -25,6 +25,21 @@ public class WindowAnalysis implements StandardMeasurements {
         return winListing;
     }
 
+    public static List<String> circWinList(int circID, List<WindowEntry> winList) {
+
+        List<String> winListing = new ArrayList<>();
+
+        for (WindowEntry window : winList) {
+            irregularWindow = false;
+            String analysis = null;
+            if (window.getCircID() == circID)
+                analysis = winText(window);
+            if (analysis != null && analysis.length() > 0)
+                winListing.add(analysis);
+        }
+        return winListing;
+    }
+
 
     private static String winText(WindowEntry window) {
         StringBuilder builder = new StringBuilder();

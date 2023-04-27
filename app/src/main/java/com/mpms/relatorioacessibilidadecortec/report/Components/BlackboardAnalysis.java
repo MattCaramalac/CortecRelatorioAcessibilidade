@@ -27,6 +27,23 @@ public class BlackboardAnalysis implements StandardMeasurements {
         return boardList;
     }
 
+    public static List<String> circBoardList(int circID, List<BlackboardEntry> bList) {
+
+        List<String> boardList = new ArrayList<>();
+
+        if (bList.size() > 0) {
+            for (BlackboardEntry board : bList) {
+                irregularBoard = false;
+                String analysis = null;
+                if (board.getCircID() == circID)
+                    analysis = boardText(board);
+                if (analysis != null && analysis.length() > 0)
+                    boardList.add(analysis);
+            }
+        }
+        return boardList;
+    }
+
     private static String boardText(BlackboardEntry board) {
         StringBuilder builder = new StringBuilder();
         if (board.getInfBorderHeight() > maxBlackboardHeight) {

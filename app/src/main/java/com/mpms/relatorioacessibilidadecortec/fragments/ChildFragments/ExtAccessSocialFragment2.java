@@ -113,7 +113,7 @@ public class ExtAccessSocialFragment2 extends Fragment implements TagInterface, 
                     bundle.putInt(RampStairsListFragment.AMBIENT_TYPE, 1);
                 }
                 fragment.setArguments(bundle);
-                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
+                requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(OTHER_OBJ_LIST).commit();
             } else {
                 if (checkSocialThreeNoEmptyField() && bundle.getBoolean(CHILD_DATA_COMPLETE)) {
                     ExtAccessSocialThree socialThree = socialDataThree(bundle);

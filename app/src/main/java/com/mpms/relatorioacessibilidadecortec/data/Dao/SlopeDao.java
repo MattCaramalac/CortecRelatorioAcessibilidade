@@ -16,10 +16,11 @@ public interface SlopeDao {
     @Insert
     void insertSlope(SlopeEntry slop);
 
-//    TODO - Fazer captação de todos os Slopes pro relatório
-
     @Query("SELECT * FROM SlopeEntry WHERE circID == :circID")
     LiveData<List<SlopeEntry>> getAllCircSlopes(int circID);
+
+    @Query("SELECT * FROM SlopeEntry WHERE circID IN (:circID)")
+    LiveData<List<SlopeEntry>> getCircAllSlopes(List<Integer> circID);
 
     @Query("SELECT * FROM SlopeEntry WHERE roomID == :roomID")
     LiveData<List<SlopeEntry>> getAllRoomSlopes(int roomID);

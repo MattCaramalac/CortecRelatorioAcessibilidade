@@ -27,6 +27,23 @@ public class CounterAnalysis implements StandardMeasurements {
         return counterList;
     }
 
+    public static List<String> circCounterList(int circID, List<CounterEntry> cList) {
+
+        List<String> counterList = new ArrayList<>();
+
+        if (cList.size() > 0) {
+            for (CounterEntry counter : cList) {
+                irregularCounter = false;
+                String analysis = null;
+                if (counter.getCircID() == circID)
+                    analysis = counterText(counter);
+                if (analysis != null && analysis.length() > 0)
+                    counterList.add(analysis);
+            }
+        }
+        return counterList;
+    }
+
     private static String counterText(CounterEntry counter) {
         StringBuilder builder = new StringBuilder();
         if (counter.getCounterLowerEdge() < minUnderCounterHeight) {

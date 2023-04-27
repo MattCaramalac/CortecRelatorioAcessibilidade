@@ -29,6 +29,24 @@ public class DoorAnalysis implements StandardMeasurements {
         return doorText;
     }
 
+    public static List<String> doorCircVerification(int circID, List<DoorEntry> doorList, List<DoorLockEntry> doorLockList) {
+
+        List<String> doorText = new ArrayList<>();
+
+        if (doorList.size() > 0) {
+            for (DoorEntry door : doorList) {
+                irregularDoor = false;
+                String analysis = null;
+                if (door.getCircID() != null && door.getCircID() == circID)
+                    analysis = doorTexts(door, doorLockList);
+                if (analysis != null && analysis.length() > 0) {
+                    doorText.add(analysis);
+                }
+            }
+        }
+        return doorText;
+    }
+
     public static List<String> restBoxDoorVerification(int id, List<DoorEntry> doorList, boolean isBox) {
 
         List<String> doorText = new ArrayList<>();
