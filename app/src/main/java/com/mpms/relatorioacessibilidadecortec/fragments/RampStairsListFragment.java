@@ -91,8 +91,8 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
             } else if (rStListBundle.getBoolean(FROM_PARKING)) {
                 modelEntry.getStairsRampFromParking(rStListBundle.getInt(PARKING_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
-                if (rStListBundle.getInt(AMBIENT_ID) == 0)
-                    modelEntry.getLastInsertedParkingLot().observe(getViewLifecycleOwner(), lPark -> rStListBundle.putInt(AMBIENT_ID, lPark.getParkingID()));
+                if (rStListBundle.getInt(PARKING_ID) == 0)
+                    modelEntry.getLastInsertedParkingLot().observe(getViewLifecycleOwner(), lPark -> rStListBundle.putInt(PARKING_ID, lPark.getParkingID()));
             } else if (rStListBundle.getBoolean(FROM_ROOMS)) {
                 modelEntry.getStairsRampFromRoom(rStListBundle.getInt(AMBIENT_ID), rStListBundle.getInt(RAMP_OR_STAIRS))
                         .observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));

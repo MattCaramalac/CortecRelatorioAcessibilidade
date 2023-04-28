@@ -24,12 +24,15 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.ParkLotElderListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.ParkLotPcdListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.ArrayList;
 
-public class ParkingLotFragment extends Fragment implements TagInterface, ScrollEditText {
+//TODO - Corrigir cadastro de estacionamento
+
+public class ParkingLotFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     RadioGroup accessFloorRadio, hasPcdVacancy, hasElderlyVacancy, parkHasStairs, parkHasRamps, parkHasAccessRoute;
     TextInputLayout extParkLocalField, parkAccessFloorObsField, parkAccessRouteObsField, parkObsField, photoField;
@@ -42,7 +45,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
 
     ViewModelEntry modelEntry;
 
-    int pcdVacancy = 0, elderVacancy = 0;
+    int pcdVacancy = 0, elderVacancy = 0, recentPark = 0;
     boolean saveAttempt = false, rampStairsReg = false;
 
     public ParkingLotFragment() {
@@ -88,27 +91,29 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
 
         instantiateParkingViews(view);
 
-        getParentFragmentManager().setFragmentResult(MEMORIAL,parkingBundle);
+        getParentFragmentManager().setFragmentResult(MEMORIAL, parkingBundle);
 
-        if (parkingBundle.getInt(PARKING_ID) > 0) {
-            modelEntry.getOneParkingLot(parkingBundle.getInt(PARKING_ID))
-                    .observe(getViewLifecycleOwner(), this::loadParkingLotData);
-        }
+        if (parkingBundle.getInt(PARKING_ID) > 0)
+            modelEntry.getOneParkingLot(parkingBundle.getInt(PARKING_ID)).observe(getViewLifecycleOwner(), this::loadParkingLotData);
+
 
         modelEntry.getLastInsertedParkingLot().observe(getViewLifecycleOwner(), lastLot -> {
-            if (parkingBundle.getBoolean(RECENT_ENTRY)) {
+            if (recentPark == 1 && saveAttempt) {
+                recentPark = 0;
                 parkingBundle.putInt(PARKING_ID, lastLot.getParkingID());
-                if (saveAttempt) {
-                    saveAttempt = false;
-                    clearFields();
-                    openParkingLotTypeFragment();
-                } else if (rampStairsReg) {
-                    rampStairsReg = false;
-                    clearFields();
-                    openRampStairsListFragment();
-                }
+                saveAttempt = false;
+                openParkingLotTypeFragment();
+            } else if (recentPark == 1 && rampStairsReg) {
+                recentPark = 0;
+                parkingBundle.putInt(PARKING_ID, lastLot.getParkingID());
+                rampStairsReg = false;
+                openRampStairsListFragment();
             }
         });
+
+        if (parkingBundle.getInt(PARKING_ID) > 0 && modelEntry.getLastInsertedParkingLot().hasActiveObservers())
+            modelEntry.getLastInsertedParkingLot().removeObservers(getViewLifecycleOwner());
+
     }
 
     @Override
@@ -117,6 +122,8 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
         parkingBundle.putBoolean(FROM_PARKING, false);
         saveAttempt = false;
         rampStairsReg = false;
+
+
     }
 
     private void cancelClick() {
@@ -170,10 +177,10 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
 //
         if (parkingBundle.getBoolean(EXT_AREA_REG))
             extParkLocalField.setVisibility(View.VISIBLE);
-        parkHasStairs.setOnCheckedChangeListener(this::parkRadioListener);
-        parkHasRamps.setOnCheckedChangeListener(this::parkRadioListener);
-        accessFloorRadio.setOnCheckedChangeListener(this::parkRadioListener);
-        parkHasAccessRoute.setOnCheckedChangeListener(this::parkRadioListener);
+        parkHasStairs.setOnCheckedChangeListener(this::radioListener);
+        parkHasRamps.setOnCheckedChangeListener(this::radioListener);
+        accessFloorRadio.setOnCheckedChangeListener(this::radioListener);
+        parkHasAccessRoute.setOnCheckedChangeListener(this::radioListener);
         saveParkingLotRegister.setOnClickListener(this::buttonClick);
         addParkStairs.setOnClickListener(this::buttonClick);
         addParkRamps.setOnClickListener(this::buttonClick);
@@ -188,20 +195,20 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
     private void loadParkingLotData(ParkingLotEntry parkingEntry) {
         if (parkingEntry.getExtParkLocation() != null)
             extParkLocalValue.setText(parkingEntry.getExtParkLocation());
-        if (parkingEntry.getHasPCDVacancy() != null)
-            hasPcdVacancy.check(hasPcdVacancy.getChildAt(parkingEntry.getHasPCDVacancy()).getId());
-        if (parkingEntry.getHasElderVacancy() != null)
-            hasElderlyVacancy.check(hasElderlyVacancy.getChildAt(parkingEntry.getHasElderVacancy()).getId());
-        if (parkingEntry.getParkingHasStairs() != null)
-            parkHasStairs.check(parkHasStairs.getChildAt(parkingEntry.getParkingHasStairs()).getId());
-        if (parkingEntry.getParkingHasRamps() != null)
-            parkHasRamps.check(parkHasRamps.getChildAt(parkingEntry.getParkingHasRamps()).getId());
-        if (parkingEntry.getParkAccessFloor() != null)
-            accessFloorRadio.check(accessFloorRadio.getChildAt(parkingEntry.getParkAccessFloor()).getId());
+        if (parkingEntry.getHasPCDVacancy() != null && parkingEntry.getHasPCDVacancy() > -1)
+            checkRadioGroup(hasPcdVacancy, parkingEntry.getHasPCDVacancy());
+        if (parkingEntry.getHasElderVacancy() != null && parkingEntry.getHasElderVacancy() > -1)
+            checkRadioGroup(hasElderlyVacancy, parkingEntry.getHasElderVacancy());
+        if (parkingEntry.getParkingHasStairs() != null && parkingEntry.getParkingHasStairs() > -1)
+            checkRadioGroup(parkHasStairs, parkingEntry.getParkingHasStairs());
+        if (parkingEntry.getParkingHasRamps() != null && parkingEntry.getParkingHasRamps() > -1)
+            checkRadioGroup(parkHasRamps, parkingEntry.getParkingHasRamps());
+        if (parkingEntry.getParkAccessFloor() != null && parkingEntry.getParkAccessFloor() > -1)
+            checkRadioGroup(accessFloorRadio, parkingEntry.getParkAccessFloor());
         if (parkingEntry.getParkFloorObs() != null)
             parkAccessFloorObsValue.setText(parkingEntry.getParkFloorObs());
-        if (parkingEntry.getParkAccessRoute() != null)
-            parkHasAccessRoute.check(parkHasAccessRoute.getChildAt(parkingEntry.getParkAccessRoute()).getId());
+        if (parkingEntry.getParkAccessRoute() != null && parkingEntry.getParkAccessRoute() > -1)
+            checkRadioGroup(parkHasAccessRoute, parkingEntry.getParkAccessRoute());
         if (parkingEntry.getParkAccessRouteObs() != null)
             parkAccessRouteObsValue.setText(parkingEntry.getParkAccessRouteObs());
         if (parkingEntry.getParkingObs() != null)
@@ -257,10 +264,21 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
                 if (newEntry != null) {
                     ViewModelEntry.insertParkingLot(newEntry);
                     parkingBundle.putBoolean(RECENT_ENTRY, true);
+                    recentPark++;
                 }
-
+            } else if (parkingBundle.getInt(PARKING_ID) > 0) {
+                ParkingLotEntry newEntry = newParkingLotEntry(parkingBundle);
+                if (newEntry != null) {
+                    newEntry.setParkingID(parkingBundle.getInt(PARKING_ID));
+                    ViewModelEntry.updateParkingLot(newEntry);
+                    parkingBundle.putBoolean(RECENT_ENTRY, true);
+                    recentPark++;
+                    openRampStairsListFragment();
+                }
+            } else {
+                parkingBundle.putInt(PARKING_ID, 0);
+                Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
             }
-            openRampStairsListFragment();
         } else {
             if (checkEmptyFields()) {
                 ParkingLotEntry newEntry = newParkingLotEntry(parkingBundle);
@@ -275,7 +293,6 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
                             }
                             newEntry.setParkingID(parkingBundle.getInt(PARKING_ID));
                             ViewModelEntry.updateParkingLot(newEntry);
-                            clearFields();
                             openParkingLotTypeFragment();
                         }
                     } else if (parkingBundle.getInt(PARKING_ID) == 0) {
@@ -289,8 +306,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
                             }
                             ViewModelEntry.insertParkingLot(newEntry);
                             parkingBundle.putBoolean(RECENT_ENTRY, true);
-                            clearFields();
-                            openParkingLotTypeFragment();
+                            recentPark++;
                         }
                     }
                 } else {
@@ -299,36 +315,6 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
                 }
             } else
                 Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void parkRadioListener(RadioGroup radio, int check) {
-        int index = getCheckedRadio(radio);
-
-        if (radio == parkHasStairs) {
-            if (index == 1)
-                addParkStairs.setVisibility(View.VISIBLE);
-            else
-                addParkStairs.setVisibility(View.GONE);
-        } else if (radio == parkHasRamps) {
-            if (index == 1)
-                addParkRamps.setVisibility(View.VISIBLE);
-            else
-                addParkRamps.setVisibility(View.GONE);
-        } else if (radio == accessFloorRadio) {
-            if (index == 0)
-                parkAccessFloorObsField.setVisibility(View.VISIBLE);
-            else {
-                parkAccessFloorObsValue.setText(null);
-                parkAccessFloorObsField.setVisibility(View.GONE);
-            }
-        } else if (radio == parkHasAccessRoute) {
-            if (index == 0)
-                parkAccessRouteObsField.setVisibility(View.VISIBLE);
-            else {
-                parkAccessRouteObsValue.setText(null);
-                parkAccessRouteObsField.setVisibility(View.GONE);
-            }
         }
     }
 
@@ -398,21 +384,21 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
         return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
     }
 
-    public void clearFields() {
-        accessFloorRadio.clearCheck();
-        parkHasAccessRoute.clearCheck();
-        parkHasRamps.clearCheck();
-        parkHasStairs.clearCheck();
-        parkAccessFloorObsValue.setText(null);
-        parkAccessRouteObsValue.setText(null);
-        extParkLocalValue.setText(null);
-        hasPcdVacancy.clearCheck();
-        hasElderlyVacancy.clearCheck();
-    }
+//    public void clearFields() {
+//        accessFloorRadio.clearCheck();
+//        parkHasAccessRoute.clearCheck();
+//        parkHasRamps.clearCheck();
+//        parkHasStairs.clearCheck();
+//        parkAccessFloorObsValue.setText(null);
+//        parkAccessRouteObsValue.setText(null);
+//        extParkLocalValue.setText(null);
+//        hasPcdVacancy.clearCheck();
+//        hasElderlyVacancy.clearCheck();
+//    }
 
     public ParkingLotEntry newParkingLotEntry(Bundle bundle) {
         String accessFloorObs = null, accessRouteObs = null, extLocal = null, parkObs = null, photo = null;
-        Integer sideID = null;
+        Integer sideID = null, accessFloor = null, pcdVacancy = null, elderVacancy = null, accessRoute = null, hasStairs = null, hasRamps = null;
         int typeParking;
 
         if (bundle.getBoolean(EXT_AREA_REG)) {
@@ -434,10 +420,52 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
         if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
-        return new ParkingLotEntry(bundle.getInt(BLOCK_ID), sideID, typeParking, getCheckedRadio(accessFloorRadio),
-                accessFloorObs, getCheckedRadio(hasPcdVacancy), getCheckedRadio(hasElderlyVacancy), getCheckedRadio(parkHasAccessRoute),
-                accessRouteObs, getCheckedRadio(parkHasStairs), getCheckedRadio(parkHasRamps), extLocal, parkObs, photo);
+        if (getCheckedRadio(accessFloorRadio) > -1)
+            accessFloor = getCheckedRadio(accessFloorRadio);
+        if (getCheckedRadio(hasPcdVacancy) > -1)
+            pcdVacancy = getCheckedRadio(hasPcdVacancy);
+        if (getCheckedRadio(hasElderlyVacancy) > -1)
+            elderVacancy = getCheckedRadio(hasElderlyVacancy);
+        if (getCheckedRadio(parkHasAccessRoute) > -1)
+            accessRoute = getCheckedRadio(parkHasAccessRoute);
+        if (getCheckedRadio(parkHasStairs) > -1)
+            hasStairs = getCheckedRadio(parkHasStairs);
+        if (getCheckedRadio(parkHasRamps) > -1)
+            hasRamps = getCheckedRadio(parkHasRamps);
+
+        return new ParkingLotEntry(bundle.getInt(BLOCK_ID), sideID, typeParking, accessFloor, accessFloorObs, pcdVacancy, elderVacancy, accessRoute,
+                accessRouteObs, hasStairs, hasRamps, extLocal, parkObs, photo);
 
     }
 
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+        int index = getCheckedRadio(radio);
+
+        if (radio == parkHasStairs) {
+            if (index == 1)
+                addParkStairs.setVisibility(View.VISIBLE);
+            else
+                addParkStairs.setVisibility(View.GONE);
+        } else if (radio == parkHasRamps) {
+            if (index == 1)
+                addParkRamps.setVisibility(View.VISIBLE);
+            else
+                addParkRamps.setVisibility(View.GONE);
+        } else if (radio == accessFloorRadio) {
+            if (index == 0)
+                parkAccessFloorObsField.setVisibility(View.VISIBLE);
+            else {
+                parkAccessFloorObsValue.setText(null);
+                parkAccessFloorObsField.setVisibility(View.GONE);
+            }
+        } else if (radio == parkHasAccessRoute) {
+            if (index == 0)
+                parkAccessRouteObsField.setVisibility(View.VISIBLE);
+            else {
+                parkAccessRouteObsValue.setText(null);
+                parkAccessRouteObsField.setVisibility(View.GONE);
+            }
+        }
+    }
 }

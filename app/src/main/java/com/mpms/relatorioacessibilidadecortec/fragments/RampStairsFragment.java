@@ -185,7 +185,7 @@ public class RampStairsFragment extends Fragment implements TagInterface {
         if (bundle.getInt(AMBIENT_TYPE) == 1)
             extID = bundle.getInt(AMBIENT_ID);
         else if (bundle.getInt(AMBIENT_TYPE) == 3)
-            parkID = bundle.getInt(AMBIENT_ID);
+            parkID = bundle.getInt(PARKING_ID);
         else if (bundle.getInt(AMBIENT_TYPE) == 4)
             roomID = bundle.getInt(AMBIENT_ID);
         else if (bundle.getInt(CIRC_ID) != 0)
