@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,9 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.ExpandImageDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FallProtectionEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.FallProtectParcel;
@@ -41,7 +44,7 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
     MaterialButton cancelProtect, saveProtect;
     FrameLayout protectFrame;
 
-    Bundle fallBundle;
+    Bundle fallBundle, imgBundle;
     ViewModelEntry modelEntry;
 
 
@@ -61,6 +64,7 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
             fallBundle = new Bundle(this.getArguments());
         else
             fallBundle = new Bundle();
+        imgBundle = new Bundle();
     }
 
     @Override
@@ -131,12 +135,18 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
         protectType1 = view.findViewById(R.id.protect_type_1);
         protectType2 = view.findViewById(R.id.protect_type_2);
         protectType3 = view.findViewById(R.id.protect_type_3);
+        Glide.with(this).load(R.drawable.protect1).centerCrop().into(protectType1);
+        Glide.with(this).load(R.drawable.protect2).centerCrop().into(protectType2);
+        Glide.with(this).load(R.drawable.protect3).centerCrop().into(protectType3);
         //        MaterialButton
         cancelProtect = view.findViewById(R.id.cancel_protection);
         saveProtect = view.findViewById(R.id.save_protection);
         //        FrameLayout
         protectFrame = view.findViewById(R.id.fall_protect_frame);
 //        Listener
+        protectType1.setOnClickListener(this::imgExpandClick);
+        protectType2.setOnClickListener(this::imgExpandClick);
+        protectType3.setOnClickListener(this::imgExpandClick);
         unevenHeightRadio.setOnCheckedChangeListener(this::radioListener);
         taludeRadio.setOnCheckedChangeListener(this::radioListener);
         taludeInclRadio.setOnCheckedChangeListener(this::radioListener);
@@ -145,6 +155,17 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
         allowObsScroll(protectObsValue);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+    }
+
+    private void imgExpandClick(View view) {
+        if (view == protectType1)
+            imgBundle.putInt(IMAGE_ID, R.drawable.protect1);
+        else if (view == protectType2)
+            imgBundle.putInt(IMAGE_ID, R.drawable.protect2);
+        else if (view == protectType3)
+            imgBundle.putInt(IMAGE_ID, R.drawable.protect3);
+        ExpandImageDialog.expandImage(requireActivity().getSupportFragmentManager(), imgBundle);
+
     }
 
     private void saveUpdateProtect(Bundle bundle) {
@@ -365,13 +386,13 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
                 hasProtectHeader.setVisibility(View.GONE);
                 hasProtectRadio.clearCheck();
                 hasProtectRadio.setVisibility(View.GONE);
-                removeChildFragments();
                 protectTypeHeader.setVisibility(View.GONE);
                 protectType1.setVisibility(View.GONE);
                 protectType2.setVisibility(View.GONE);
                 protectType3.setVisibility(View.GONE);
                 protectTypeRadio.clearCheck();
                 protectTypeRadio.setVisibility(View.GONE);
+                removeChildFragments();
             }
         } else if (radio == taludeRadio) {
             if (index == 1) {
@@ -380,7 +401,7 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
                 hasProtectHeader.setVisibility(View.GONE);
                 hasProtectRadio.clearCheck();
                 hasProtectRadio.setVisibility(View.GONE);
-            } else if (index == 0) {
+            } else {
                 taludeInclHeader.setVisibility(View.GONE);
                 taludeInclRadio.clearCheck();
                 taludeInclRadio.setVisibility(View.GONE);
@@ -399,13 +420,14 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
                 hasProtectHeader.setVisibility(View.GONE);
                 hasProtectRadio.clearCheck();
                 hasProtectRadio.setVisibility(View.GONE);
-                removeChildFragments();
                 protectTypeHeader.setVisibility(View.GONE);
                 protectType1.setVisibility(View.GONE);
                 protectType2.setVisibility(View.GONE);
                 protectType3.setVisibility(View.GONE);
                 protectTypeRadio.clearCheck();
                 protectTypeRadio.setVisibility(View.GONE);
+                if (index > -1)
+                    removeChildFragments();
             }
         } else if (radio == hasProtectRadio) {
             if (index == 1) {
@@ -415,16 +437,19 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
                 protectType3.setVisibility(View.VISIBLE);
                 protectTypeRadio.setVisibility(View.VISIBLE);
             } else {
-                removeChildFragments();
                 protectTypeHeader.setVisibility(View.GONE);
                 protectType1.setVisibility(View.GONE);
                 protectType2.setVisibility(View.GONE);
                 protectType3.setVisibility(View.GONE);
                 protectTypeRadio.clearCheck();
                 protectTypeRadio.setVisibility(View.GONE);
+                if (index > -1)
+                    removeChildFragments();
             }
-        } else {
-            if (index > -1) {
+        } else if (radio == protectTypeRadio){
+            removeChildFragments();
+            RadioButton button = radio.findViewById(id);
+            if (index > -1 && button.isChecked()) {
                 FallProtectChildFragment fragment = FallProtectChildFragment.newInstance(index, fallBundle);
                 getChildFragmentManager().beginTransaction().replace(R.id.fall_protect_frame, fragment).commit();
             } else
