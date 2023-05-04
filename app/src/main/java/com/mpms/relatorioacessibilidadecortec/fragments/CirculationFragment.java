@@ -93,8 +93,6 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
         if (circBundle.getInt(CIRC_ID) > 0)
             modelEntry.getOneCirculation(circBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), this::loadCirculationData);
 
-
-
         continueCirc.setOnClickListener(v -> {
             if (noEmptyFields())
                 saveUpdateCirculation(circBundle);

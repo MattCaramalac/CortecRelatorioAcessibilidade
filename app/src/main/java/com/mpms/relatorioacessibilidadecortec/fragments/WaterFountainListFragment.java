@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.WaterRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -39,6 +41,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     private RecyclerView recyclerView;
     private WaterRecViewAdapter fountainAdapter;
     private ActionMode actionMode;
+    InspectionViewModel dataView;
 
     int delClick = 0;
 
@@ -107,9 +110,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
     public void onResume() {
         super.onResume();
         fountainBundle.putInt(FOUNTAIN_ID, 0);
-        if (!fountainBundle.getBoolean(FROM_ROOMS) && !fountainBundle.getBoolean(CIRCULATION))
-            fountainBundle.putBoolean(VISIBLE_MEMORIAL, true);
-        getParentFragmentManager().setFragmentResult(MEMORIAL, fountainBundle);
+        dataView.setVisible(!fountainBundle.getBoolean(FROM_ROOMS) && !fountainBundle.getBoolean(CIRCULATION));
     }
 
     @Override
@@ -164,6 +165,7 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
 //        ViewModel
 //        modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
 
 
     }

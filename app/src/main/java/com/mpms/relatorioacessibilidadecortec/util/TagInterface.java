@@ -63,6 +63,9 @@ public interface TagInterface {
     String REST_TYPE = "REST_TYPE";
     String CIRCULATION = "CIRCULATION";
 
+    String NEW_SIDEWALK_ENTRY = "NEW_SIDEWALK_ENTRY";
+
+
     //    Tags used in Inspection Activity
     String LOAD_CHILD_DATA = "LOAD_CHILD_DATA";
     String LOAD_CHILD_DATA_2 = "LOAD_CHILD_DATA_2";

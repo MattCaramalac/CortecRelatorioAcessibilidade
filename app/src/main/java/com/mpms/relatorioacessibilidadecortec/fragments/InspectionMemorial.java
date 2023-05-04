@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -53,6 +54,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.HeaderNames;
 import com.mpms.relatorioacessibilidadecortec.util.IdListObservable;
@@ -80,6 +82,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     MaterialButton saveAndClose;
 
     ViewModelEntry modelEntry;
+    InspectionViewModel dataView;
 
     Bundle fragInspection;
 
@@ -451,18 +454,21 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
-        getParentFragmentManager().setFragmentResultListener(MEMORIAL, this, (key,bundle) -> {
-            if (!bundle.getBoolean(VISIBLE_MEMORIAL)) {
-                dropdownMenuLocations.setVisibility(View.GONE);
-                saveAndClose.setVisibility(View.GONE);
-                if (bundle.getBoolean(CIRCULATION))
-                    registerHeader.setText("Cadastro de Circulações");
-            } else {
-                dropdownMenuLocations.setVisibility(View.VISIBLE);
-                saveAndClose.setVisibility(View.VISIBLE);
-            }
-
-        });
+//        getParentFragmentManager().setFragmentResultListener(MEMORIAL, this, (key,bundle) -> {
+//            dataView.setVisible(bundle.getBoolean(VISIBLE_MEMORIAL));
+//            if (!bundle.getBoolean(VISIBLE_MEMORIAL)) {
+//                dropdownMenuLocations.setVisibility(View.GONE);
+//                saveAndClose.setVisibility(View.GONE);
+//                if (bundle.getBoolean(CIRCULATION)) {
+//                    String header = setHeaderText(bundle);
+//                    registerHeader.setText(header);
+//                    dataView.setHeaderTitle(header);
+//                }
+//            } else {
+//                dropdownMenuLocations.setVisibility(View.VISIBLE);
+//                saveAndClose.setVisibility(View.VISIBLE);
+//            }
+//        });
 
         modelEntry.getEntry(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), entry -> school = entry);
 
@@ -508,7 +514,6 @@ public class InspectionMemorial extends Fragment implements TagInterface {
 
             InspectionActivity.callFunction(tData, jCreate, getActivity().getApplicationContext());
 
-
         });
     }
 
@@ -522,7 +527,10 @@ public class InspectionMemorial extends Fragment implements TagInterface {
             throw new ClassCastException(context.toString());
         }
 
-        getParentFragmentManager().setFragmentResultListener(HEADER_TEXT, this, (key, bundle) -> registerHeader.setText(setHeaderText(bundle)));
+        getParentFragmentManager().setFragmentResultListener(HEADER_TEXT, this, (key, bundle) -> {
+            dataView.setHeaderTitle(setHeaderText(bundle));
+            registerHeader.setText(setHeaderText(bundle));
+        });
     }
 
     @Override
@@ -536,12 +544,30 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         listItemsMemorial.setAdapter(adapterLocations);
         listItemsMemorial.setOnItemClickListener((parent, view, position, id) -> listener.onDropdownChoice(position));
 
+        dataView.getVisible().observe(getViewLifecycleOwner(), isVisible -> {
+            if (!isVisible) {
+                dropdownMenuLocations.setVisibility(View.GONE);
+                saveAndClose.setVisibility(View.GONE);
+            } else {
+                dropdownMenuLocations.setVisibility(View.VISIBLE);
+                saveAndClose.setVisibility(View.VISIBLE);
+            }
+        });
+
+        dataView.getHeaderTitle().observe(getViewLifecycleOwner(), header -> {
+            if (header != null && header.length() > 0)
+                registerHeader.setText(header);
+        });
+
+
         super.onResume();
     }
 
     private String setHeaderText(Bundle bundle) {
         int choice = bundle.getInt(CHOICE);
-        if (bundle.getBoolean(EXT_AREA_REG)) {
+        if (bundle.getBoolean(CIRCULATION))
+            return getString(R.string.header_circulation_register);
+        else if (bundle.getBoolean(EXT_AREA_REG)) {
             switch (choice) {
                 case 0:
                     return getString(R.string.label_external_access_header);
@@ -611,6 +637,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         saveAndClose = view.findViewById(R.id.saveAndQuit);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
 //        Observers
         bID.addObserver(blockIdList);
         circID.addObserver(circIdList);

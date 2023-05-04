@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.mpms.relatorioacessibilidadecortec.BuildConfig;
@@ -33,6 +34,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.RestListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.WaterFountainListFragment;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.report.TextUpdate;
 import com.mpms.relatorioacessibilidadecortec.util.BoolObservable;
@@ -62,6 +64,8 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
 
     ExecutorService service;
     Handler handler;
+
+    InspectionViewModel dataView;
 
     static TextUpdate upText;
     static HashMap<String, String> tData;
@@ -100,19 +104,21 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         endRegister = 0;
         setContentView(R.layout.activity_inspection);
         modelEntry = new ViewModelEntry(getApplication());
+        dataView = new ViewModelProvider(this).get(InspectionViewModel.class);
         inspectionBundle = getIntent().getBundleExtra(AREAS_REG_BUNDLE);
         service = Executors.newSingleThreadExecutor();
         handler = new Handler(Looper.getMainLooper());
         circBar = findViewById(R.id.progress_indicator);
 
         if (inspectionBundle.getBoolean(CIRCULATION)) {
-            inspectionBundle.putBoolean(VISIBLE_MEMORIAL, false);
-            getSupportFragmentManager().setFragmentResult(MEMORIAL, inspectionBundle);
+            dataView.setVisible(false);
+            dataView.setHeaderTitle(getString(R.string.header_circulation_register));
             CirculationListFragment cList = CirculationListFragment.newInstance();
             cList.setArguments(inspectionBundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, cList).addToBackStack(CIRC_LIST).commit();
         }
         else if (inspectionBundle.getInt(BLOCK_ID) == 0) {
+            dataView.setVisible(true);
             int areaType = 0;
             if (inspectionBundle.getBoolean(EXT_AREA_REG))
                 areaType = 1;
@@ -120,6 +126,9 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 areaType = 2;
             modelEntry.getAreaFromSchool(inspectionBundle.getInt(SCHOOL_ID), areaType)
                     .observe(this, area -> inspectionBundle.putInt(BLOCK_ID, area.getBlockSpaceID()));
+        }
+        else {
+            dataView.setVisible(true);
         }
 
         upText = new TextUpdate();
@@ -189,6 +198,13 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
             endRegister = 0;
 
         super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        dataView.setHeaderTitle(null);
+        dataView.setVisible(false);
+        super.onDestroy();
     }
 
     @Override

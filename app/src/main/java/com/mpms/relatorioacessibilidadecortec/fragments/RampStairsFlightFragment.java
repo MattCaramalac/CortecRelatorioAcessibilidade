@@ -26,7 +26,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.RampStairsHandrailList;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.RampStairsRailingList;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelDialog;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
@@ -68,7 +67,6 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
 
     ViewModelFragments modelFragments;
     ViewModelEntry modelEntry;
-    ViewModelDialog modelDialog;
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -330,7 +328,6 @@ public class RampStairsFlightFragment extends Fragment implements TagInterface, 
 //        ViewModels
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
-        modelDialog = new ViewModelProvider(requireActivity()).get(ViewModelDialog.class);
 //        ButtonListeners
         mirIncButton.setOnClickListener(this::buttonClickListener);
         stepButton.setOnClickListener(this::buttonClickListener);

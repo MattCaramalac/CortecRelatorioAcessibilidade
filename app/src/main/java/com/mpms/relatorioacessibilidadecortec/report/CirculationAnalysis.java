@@ -49,13 +49,13 @@ public class CirculationAnalysis implements StandardMeasurements {
         for (CirculationEntry circ : circList) {
             check = 0;
             AmbientAnalysis.err = false;
-            List<String> circIrr = new ArrayList<>();
-            circIrr = checkCircIrregularities(circ, circDoorList, circLockList, circSwitchList, circWindowList, circTableList, circBoardList, circFreeSpList, circStepList, circSlopeList,
-                    circFountainList, circEquipList, circCounterList, circProtectList, circRampStairsList, circFlightList, circRailList, circHandList);
+            List<String> circIrr = checkCircIrregularities(circ, circDoorList, circLockList, circSwitchList, circWindowList, circTableList, circBoardList, circFreeSpList,
+                    circStepList, circSlopeList, circFountainList, circEquipList, circCounterList, circProtectList, circRampStairsList, circFlightList, circRailList, circHandList);
 
             if (check > 0) {
                 AmbientAnalysis.circList.add("Circulação localizada em " + circ.getCircLocation() + ", com as seguintes irregularidades: ");
                 AmbientAnalysis.circIrregular.put(order, circIrr);
+                order++;
             }
         }
 

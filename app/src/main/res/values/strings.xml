@@ -238,8 +238,8 @@
     <string name="label_elderly_sign_length">Comprimento da identificação da vaga (m)</string>
     <string name="label_elderly_sign_obs">Observações da identificação da vaga</string>
     <string name="hint_PDMR_SIA_obs">Observações SIA</string>
-    <string name="label_parking_lot_header">Cadastro de Estacionamento</string>
-    <string name="label_sidewalk_header">Cadastro de Calçada</string>
+    <string name="label_parking_lot_header">Cadastro de Estacionamentos</string>
+    <string name="label_sidewalk_header">Cadastro de Calçadas</string>
     <string name="hint_conservation_status_special_floor">Observações Conservação do Piso Tátil</string>
     <string name="label_obligatory_slope_sidewalk">É obrigatório ter rebaixamento nesta calçada?</string>
     <string name="label_slope_register">Cadastro de rebaixamentos e suas dimensões</string>
@@ -254,7 +254,7 @@
     <string name="hint_faucet_height">Altura do acionamento do bebedouro (m)</string>
     <string name="label_fountain_has_cup_holder">Bebedouro possui porta-copos?</string>
     <string name="hint_cup_holder_height">Altura do porta-copos (m)</string>
-    <string name="label_external_access_header">Cadastro de Acesso Externo</string>
+    <string name="label_external_access_header">Cadastro de Acessos Externos</string>
     <string name="label_external_access_type">Tipo de Acesso Externo</string>
     <string name="label_social_entrance_radio">ENTRADA SOCIAL</string>
     <string name="label_cars_entrance_radio">ENTRADA VEÍCULOS</string>

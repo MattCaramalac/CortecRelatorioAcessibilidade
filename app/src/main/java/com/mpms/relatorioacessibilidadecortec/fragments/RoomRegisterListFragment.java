@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RoomRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -37,6 +39,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
     TextView roomListIdentifier;
 
     private ViewModelEntry modelEntry;
+    private InspectionViewModel dataView;
     private RecyclerView recyclerView;
     private RoomRecViewAdapter roomAdapter;
     private ActionMode actionMode;
@@ -119,8 +122,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         super.onResume();
         roomListBundle.putInt(AMBIENT_ID, 0);
         roomListBundle.putBoolean(RECENT_ENTRY, false);
-        roomListBundle.putBoolean(VISIBLE_MEMORIAL, true);
-        getParentFragmentManager().setFragmentResult(MEMORIAL, roomListBundle);
+        dataView.setVisible(true);
     }
 
     private void instantiateRoomListViews(View view) {
@@ -138,6 +140,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
     }
 
     private void enableActionMode() {

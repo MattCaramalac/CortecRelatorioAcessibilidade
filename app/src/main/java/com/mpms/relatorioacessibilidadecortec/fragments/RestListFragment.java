@@ -24,6 +24,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RestroomRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestroomEntry;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -37,6 +38,7 @@ public class RestListFragment extends Fragment implements OnEntryClickListener, 
     TextView restroomIdentifier;
 
     private ViewModelEntry modelEntry;
+    private InspectionViewModel dataView;
     private RecyclerView recyclerView;
     private RestroomRecViewAdapter restroomAdapter;
     private ActionMode actionMode;
@@ -114,8 +116,7 @@ public class RestListFragment extends Fragment implements OnEntryClickListener, 
     public void onResume() {
         super.onResume();
         restListBundle.putInt(REST_ID,0);
-        restListBundle.putBoolean(VISIBLE_MEMORIAL, true);
-        getParentFragmentManager().setFragmentResult(MEMORIAL, restListBundle);
+        dataView.setVisible(true);
     }
 
     private void instantiateRestListViews(View v) {
@@ -134,6 +135,7 @@ public class RestListFragment extends Fragment implements OnEntryClickListener, 
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
     }
 
     private void enableActionMode() {

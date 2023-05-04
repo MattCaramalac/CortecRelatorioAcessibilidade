@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -26,6 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.VehicleExtAccParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessSocialFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.ExtAccessVehicleFragment;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -44,6 +46,7 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
     Bundle extBundle;
 
     private ViewModelEntry modelEntry;
+    InspectionViewModel dataView;
 
     public ExternalAccessFragment() {
         // Required empty public constructor
@@ -89,7 +92,7 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
 
         instantiateExternalAccessViews(view);
 
-        getParentFragmentManager().setFragmentResult(MEMORIAL, extBundle);
+        dataView.setVisible(false);
 
         if (extBundle.getInt(AMBIENT_ID) > 0)
             modelEntry.getOneExternalAccess(extBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadExtAccessInfo);
@@ -206,6 +209,7 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
         cancelExternalAccess = view.findViewById(R.id.cancel_ext_access);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
 
         entranceTypeRadio.setOnCheckedChangeListener(this::radioGroupActivation);
         accessFloorRadio.setOnCheckedChangeListener(this::radioGroupActivation);

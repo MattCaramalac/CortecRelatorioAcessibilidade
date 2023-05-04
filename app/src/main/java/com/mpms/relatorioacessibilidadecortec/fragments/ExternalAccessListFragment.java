@@ -24,6 +24,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.ExtAccRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
@@ -40,6 +41,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
     private RecyclerView recyclerView;
     private ExtAccRecViewAdapter extAccAdapter;
     ViewModelFragments modelFragments;
+    InspectionViewModel dataView;
     private ActionMode actionMode;
 
     int delClick = 0;
@@ -113,9 +115,8 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
     public void onResume() {
         super.onResume();
         extListBundle.putInt(AMBIENT_ID, 0);
-        extListBundle.putBoolean(VISIBLE_MEMORIAL, true);
         extListBundle.putBoolean(RECENT_ENTRY, false);
-        getParentFragmentManager().setFragmentResult(MEMORIAL, extListBundle);
+        dataView.setVisible(true);
     }
 
     private void instantiateExtAccListViews(View v) {
@@ -133,6 +134,7 @@ public class ExternalAccessListFragment extends Fragment implements OnEntryClick
 
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
     }
 
     private void enableActionMode() {

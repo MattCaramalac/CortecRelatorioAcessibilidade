@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -23,6 +24,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.ParkLotElderListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.ParkLotPcdListFragment;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
@@ -44,6 +46,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
     ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     ViewModelEntry modelEntry;
+    InspectionViewModel dataView;
 
     int pcdVacancy = 0, elderVacancy = 0, recentPark = 0;
     boolean saveAttempt = false, rampStairsReg = false;
@@ -91,7 +94,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
 
         instantiateParkingViews(view);
 
-        getParentFragmentManager().setFragmentResult(MEMORIAL, parkingBundle);
+        dataView.setVisible(false);
 
         if (parkingBundle.getInt(PARKING_ID) > 0)
             modelEntry.getOneParkingLot(parkingBundle.getInt(PARKING_ID)).observe(getViewLifecycleOwner(), this::loadParkingLotData);
@@ -122,8 +125,6 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
         parkingBundle.putBoolean(FROM_PARKING, false);
         saveAttempt = false;
         rampStairsReg = false;
-
-
     }
 
     private void cancelClick() {
@@ -143,6 +144,7 @@ public class ParkingLotFragment extends Fragment implements TagInterface, Scroll
     private void instantiateParkingViews(View view) {
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
 //        Buttons
         addParkStairs = view.findViewById(R.id.add_parking_stairs_button);
         addParkRamps = view.findViewById(R.id.add_parking_ramps_button);

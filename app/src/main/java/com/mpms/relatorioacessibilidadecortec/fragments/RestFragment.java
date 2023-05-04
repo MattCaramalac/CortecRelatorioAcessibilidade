@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
@@ -25,6 +26,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.RestColle
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.FreeSpaceListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.RestBoxListFragment;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -42,6 +44,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
     Bundle restBundle;
 
     ViewModelEntry modelEntry;
+    InspectionViewModel dataView;
 
     int hasDoor = -1;
 
@@ -90,7 +93,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
 
         instantiateRestViews(view);
 
-        getParentFragmentManager().setFragmentResult(MEMORIAL, restBundle);
+        dataView.setVisible(false);
 
         if (restBundle.getInt(REST_ID) > 0)
             modelEntry.getOneRestroomEntry(restBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), this::loadRestData);
@@ -180,6 +183,7 @@ public class RestFragment extends Fragment implements TagInterface, ScrollEditTe
 
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
 //        Listeners
         cancelRest.setOnClickListener(v -> cancelClick());
         restTypeMultiRadio.setOnCheckedChangeListener((MultiLineRadioGroup.OnCheckedChangeListener)

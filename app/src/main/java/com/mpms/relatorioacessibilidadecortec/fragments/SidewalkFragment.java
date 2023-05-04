@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -25,6 +26,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.SideMeasureParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SideMeasureFragment;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
@@ -48,6 +50,7 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
     int savedRegister = 0;
 
     ViewModelEntry modelEntry;
+    InspectionViewModel dataView;
 
     public SidewalkFragment() {
         // Required empty public constructor
@@ -92,8 +95,7 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
 
         instantiateSidewalkFragmentViews(view);
 
-        getParentFragmentManager().setFragmentResult(MEMORIAL, sideBundle);
-
+        dataView.setVisible(false);
 
         if (sideBundle.getInt(AMBIENT_ID) > 0) {
             modelEntry.getSidewalkEntry(sideBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadSidewalkData);
@@ -202,6 +204,7 @@ public class SidewalkFragment extends Fragment implements TagInterface, ScrollEd
         cancelSidewalk = view.findViewById(R.id.cancel_sidewalk);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
 //        FrameLayout
         sideFrag = view.findViewById(R.id.has_sidewalk_fragment);
 //        Listeners

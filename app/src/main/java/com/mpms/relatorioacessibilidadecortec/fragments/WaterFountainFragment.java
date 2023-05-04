@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -21,6 +22,7 @@ import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.WaterFountainOtherFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.WaterFountainSpoutFragment;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
@@ -41,6 +43,7 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
     ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     ViewModelEntry modelEntry;
+    InspectionViewModel dataView;
 
     public WaterFountainFragment() {
         // Required empty public constructor
@@ -72,7 +75,7 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
 
         instantiateFountainViews(view);
 
-        getParentFragmentManager().setFragmentResult(MEMORIAL, waterBundle);
+        dataView.setVisible(false);
 
         if (waterBundle.getInt(FOUNTAIN_ID) > 0) {
             modelEntry.getOneWaterFountain(waterBundle.getInt(FOUNTAIN_ID)).observe(getViewLifecycleOwner(), this::loadFountainInfo);
@@ -151,6 +154,7 @@ public class WaterFountainFragment extends Fragment implements TagInterface, Scr
         saveWaterFountain = view.findViewById(R.id.save_waterfountain);
 //        ViewModels
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
 //        Listener
         typeWaterFountain.setOnCheckedChangeListener(this::radioListener);
         eText.add(fountainTypeObsValue);

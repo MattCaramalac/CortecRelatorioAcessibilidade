@@ -25,6 +25,7 @@ import com.mpms.relatorioacessibilidadecortec.activities.BlockRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.PlayRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -39,6 +40,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     TextView registerHeader;
 
     private ViewModelEntry modelEntry;
+    private InspectionViewModel dataView;
     private RecyclerView recyclerView;
     private PlayRecViewAdapter playAdapter;
     private ActionMode actionMode;
@@ -111,8 +113,8 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     @Override
     public void onResume() {
         super.onResume();
-        playBundle.putBoolean(VISIBLE_MEMORIAL, true);
-        getParentFragmentManager().setFragmentResult(MEMORIAL, playBundle);
+        playBundle.putInt(PLAY_ID, 0);
+        dataView.setVisible(true);
     }
 
     private void enableActionMode() {
@@ -170,7 +172,6 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     }
 
     private void openPlayFragment() {
-        playBundle.putBoolean(VISIBLE_MEMORIAL, false);
         PlaygroundFragment playFragment = PlaygroundFragment.newInstance();
         playFragment.setArguments(playBundle);
         if (actionMode != null)
@@ -196,5 +197,6 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
 
 //        ViewModel
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
     }
 }

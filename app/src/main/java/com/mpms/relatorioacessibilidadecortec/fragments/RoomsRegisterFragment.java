@@ -36,6 +36,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.FreeSpace
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.SwitchListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.TableListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.WindowListFragment;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
@@ -63,6 +64,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
     Bundle roomBundle;
 
     ViewModelEntry modelEntry;
+    InspectionViewModel dataView;
     public static ViewModelFragments roomModelFragments;
     FragmentManager manager;
 
@@ -111,7 +113,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         super.onViewCreated(view, savedInstanceState);
         instantiateRoomViews(view);
 
-        getParentFragmentManager().setFragmentResult(MEMORIAL, roomBundle);
+        dataView.setVisible(false);
 
         if (roomBundle.getInt(AMBIENT_ID) > 0) {
             newEntry = 0;
@@ -227,6 +229,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         roomModelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
 //        FragmentManager
         manager = requireActivity().getSupportFragmentManager();
 //        Listeners

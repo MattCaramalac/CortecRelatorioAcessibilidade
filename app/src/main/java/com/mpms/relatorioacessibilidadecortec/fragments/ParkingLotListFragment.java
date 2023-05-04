@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.ParkingRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -35,6 +37,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     TextView parkingHeader;
 
     private ViewModelEntry modelEntry;
+    private InspectionViewModel dataView;
     private RecyclerView recyclerView;
     private ParkingRecViewAdapter parkingAdapter;
     private ActionMode actionMode;
@@ -102,8 +105,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
     public void onResume() {
         super.onResume();
         parkListBundle.putInt(PARKING_ID, 0);
-        parkListBundle.putBoolean(VISIBLE_MEMORIAL, true);
-        getParentFragmentManager().setFragmentResult(MEMORIAL, parkListBundle);
+        dataView.setVisible(!parkListBundle.getBoolean(FROM_SIDEWALK));
     }
 
     private void instantiateParkingListViews(View v) {
@@ -124,6 +126,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
     }
 
     private void listCreator(ParkingRecViewAdapter adapter) {

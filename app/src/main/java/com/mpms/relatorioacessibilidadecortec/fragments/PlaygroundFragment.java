@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.data.parcels.StepParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillInclinationFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillSlopeFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SillStepFragment;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
@@ -57,6 +59,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
     FragmentManager manager;
 
     ViewModelEntry modelEntry;
+    InspectionViewModel dataView;
 
     Bundle playBundle = new Bundle();
     Bundle childData = new Bundle();
@@ -95,9 +98,10 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         instantiatePlayViews(view);
 
-        getParentFragmentManager().setFragmentResult(MEMORIAL, playBundle);
+        dataView.setVisible(false);
 
         if (playBundle.getInt(PLAY_ID) > 0)
             modelEntry.getOnePlayground(playBundle.getInt(PLAY_ID)).observe(getViewLifecycleOwner(), this::loadPlaygroundData);
@@ -213,6 +217,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
         manager = getChildFragmentManager();
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
 //        Listeners
         addTrackGapButton.setOnClickListener(this::addFieldClickListener);
         addTrackRampButton.setOnClickListener(this::addFieldClickListener);

@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +26,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.SidewalkRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
+import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -33,12 +35,11 @@ import java.util.Objects;
 
 public class SidewalkListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
-    public static final String NEW_SIDEWALK_ENTRY = "NEW_SIDEWALK_ENTRY";
-
     MaterialButton closeSidewalkList, addSidewalk, invisible;
     TextView sidewalkHeader;
 
     private ViewModelEntry modelEntry;
+    private InspectionViewModel dataView;
     private RecyclerView recyclerView;
     private SidewalkRecViewAdapter sidewalkAdapter;
     FragmentManager fragmentManager;
@@ -115,9 +116,8 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
     public void onResume() {
         super.onResume();
         sideListBundle.putInt(AMBIENT_ID, 0);
-        sideListBundle.putBoolean(VISIBLE_MEMORIAL, true);
         sideListBundle.putBoolean(RECENT_ENTRY,false);
-        getParentFragmentManager().setFragmentResult(MEMORIAL, sideListBundle);
+        dataView.setVisible(true);
     }
 
     private void enableActionMode() {
@@ -207,5 +207,6 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+        dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
     }
 }
