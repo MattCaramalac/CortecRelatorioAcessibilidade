@@ -144,6 +144,8 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface, Sc
         elderVacancyLimitWidthField.setErrorEnabled(false);
         elderVacLocalField.setErrorEnabled(false);
         elderFloorSignWidthField.setErrorEnabled(false);
+        elderFloorSignObsField.setErrorEnabled(false);
+        elderVacancyObsField.setErrorEnabled(false);
     }
 
     public boolean verifyEmptyFields() {
@@ -177,6 +179,9 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface, Sc
         if (TextUtils.isEmpty(elderVacancyLimitWidthValue.getText())) {
             elderVacancyLimitWidthField.setError(getString(R.string.req_field_error));
             i++;
+        } else if (Double.parseDouble(String.valueOf(elderVacancyLimitWidthValue.getText())) == 0 && TextUtils.isEmpty(elderVacancyObsValue.getText())) {
+            i++;
+            elderVacancyObsField.setError(getString(R.string.req_field_error));
         }
         if (indexRadio(hasFloorSign) == -1) {
             floorSingError.setVisibility(View.VISIBLE);
@@ -185,6 +190,10 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface, Sc
             if (TextUtils.isEmpty(elderFloorSignWidthValue.getText())) {
                 elderFloorSignWidthField.setError(getString(R.string.req_field_error));
                 i++;
+            }
+            else if (Double.parseDouble(String.valueOf(elderFloorSignWidthValue.getText())) == 0 && TextUtils.isEmpty(elderFloorSignObsValue.getText())) {
+                i++;
+                elderFloorSignObsField.setError(getString(R.string.req_field_error));
             }
         }
         return i == 0;

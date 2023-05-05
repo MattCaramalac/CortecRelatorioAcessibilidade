@@ -88,16 +88,16 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
                 if (pcdBundle.getInt(PCD_ID) == 0) {
                     ViewModelEntry.insertPcdParkingLot(pcdEntry);
                     clearPcdFields();
-                    Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                 } else if (pcdBundle.getInt(PCD_ID) > 0) {
                     pcdEntry.setParkPcdID(pcdBundle.getInt(PCD_ID));
                     ViewModelEntry.updatePcdParkingLot(pcdEntry);
                     clearPcdFields();
-                    Toast.makeText(getContext(), "Cadastro atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
                     requireActivity().getSupportFragmentManager().popBackStack(PCD_LIST, 0);
                 } else {
                     pcdBundle.putInt(PCD_ID, 0);
-                    Toast.makeText(getContext(), "Algo deu errado. Por favor, tente novamente!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
                 }
             }
             else
@@ -255,6 +255,8 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
         safetyZoneWidthField.setErrorEnabled(false);
         siaWidthField.setErrorEnabled(false);
         siaLengthField.setErrorEnabled(false);
+        pcdVacancyObsField.setErrorEnabled(false);
+        siaObsField.setErrorEnabled(false);
     }
 
     private void clearPcdFields() {
@@ -313,7 +315,12 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
         if (TextUtils.isEmpty(pcdVacLimiterWidthValue.getText())) {
             i++;
             pcdVacLimiterWidthField.setError(getString(R.string.req_field_error));
+        } else if (TextUtils.isEmpty(pcdVacancyObsValue.getText()) &&
+                Double.parseDouble(String.valueOf(pcdVacLimiterWidthValue.getText())) == 0) {
+            i++;
+            pcdVacancyObsField.setError(getString(R.string.req_field_error));
         }
+
         if (indexRadio(hasSafetyZone) == -1) {
             i++;
             pcdSafetyZoneError.setVisibility(View.VISIBLE);
@@ -334,6 +341,12 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
             if (TextUtils.isEmpty(siaWidthValue.getText())) {
                 i++;
                 siaWidthField.setError(getString(R.string.req_field_error));
+            }
+            if (TextUtils.isEmpty(siaObsValue.getText()) &&
+                    (Double.parseDouble(String.valueOf(siaLengthValue.getText())) == 0 ||
+                            Double.parseDouble(String.valueOf(siaLengthValue.getText())) == 0)) {
+                i++;
+                siaObsField.setError(getString(R.string.req_field_error));
             }
         }
         return i == 0;
