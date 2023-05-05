@@ -42,56 +42,15 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/protect_uneven_height_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:text="@string/header_uneven_height"
-                android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@id/protect_location_field" />
-
-            <RadioGroup
-                android:id="@+id/protect_uneven_height_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/protect_uneven_height_header">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no"
-                    android:textSize="@dimen/radio_button_text" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"
-                    android:textSize="@dimen/radio_button_text" />
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/protect_uneven_height_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/empty_fields"
-                android:textColor="@color/error_message"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/protect_uneven_height_radio" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/protect_uneven_height_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginTop="@dimen/usual_padding"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_uneven_height"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/protect_uneven_height_error">
+                app:helperText="Obrigatoriedade da proteção somente para desníveis maiores ou iguais a 0,18 m"
+                app:layout_constraintTop_toBottomOf="@id/protect_location_field">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/protect_uneven_height_value"
@@ -108,7 +67,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_uneven_slope"
                 android:textSize="18sp"
-                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/protect_uneven_height_field" />
 
             <RadioGroup
@@ -116,7 +74,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/protect_uneven_talude_header">
 
                 <RadioButton
@@ -145,50 +102,6 @@
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/protect_uneven_talude_radio" />
 
-            <TextView
-                android:id="@+id/protect_talude_incl_header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:text="@string/header_slope_inclination"
-                android:textSize="18sp"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/protect_uneven_talude_error" />
-
-            <RadioGroup
-                android:id="@+id/protect_talude_incl_radio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/protect_talude_incl_header">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_no"
-                    android:textSize="@dimen/radio_button_text" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="@integer/weight_one"
-                    android:text="@string/radio_button_yes"
-                    android:textSize="@dimen/radio_button_text" />
-
-            </RadioGroup>
-
-            <TextView
-                android:id="@+id/protect_talude_incl_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/empty_fields"
-                android:textColor="@color/error_message"
-                android:textSize="14sp"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/protect_talude_incl_radio" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/protect_talude_incl_field"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -196,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_slope_inclination"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/protect_talude_incl_error">
+                app:layout_constraintTop_toBottomOf="@id/protect_uneven_talude_error">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/protect_talude_incl_value"
@@ -213,7 +126,6 @@
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_has_fall_protection"
                 android:textSize="18sp"
-                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/protect_talude_incl_field" />
 
             <RadioGroup
@@ -221,7 +133,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/protect_fall_protect_header">
 
                 <RadioButton

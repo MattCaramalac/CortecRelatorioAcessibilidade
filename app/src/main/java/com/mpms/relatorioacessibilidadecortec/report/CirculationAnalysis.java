@@ -22,6 +22,7 @@ import com.mpms.relatorioacessibilidadecortec.report.Components.BlackboardAnalys
 import com.mpms.relatorioacessibilidadecortec.report.Components.CounterAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.DoorAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.EquipmentAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Components.FallProtectAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.FreeSpaceAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.RampAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.SingleStepAnalysis;
@@ -207,6 +208,14 @@ public class CirculationAnalysis implements StandardMeasurements {
             if (stepError.size() > 0) {
                 check++;
                 circIrr.addAll(stepError);
+            }
+        }
+
+        if (circProtectList.size() > 0) {
+            List<String> fallError = FallProtectAnalysis.fallProtectList(circ.getCircID(), circProtectList);
+            if (fallError.size() > 0) {
+                check++;
+                circIrr.addAll(fallError);
             }
         }
 

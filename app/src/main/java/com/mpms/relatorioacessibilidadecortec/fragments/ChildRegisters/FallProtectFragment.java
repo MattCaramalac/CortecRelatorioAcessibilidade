@@ -37,9 +37,8 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
 
     TextInputLayout protectLocalField, unevenHeightField, inclField, protectObsField, protectPhotoField;
     TextInputEditText protectLocalValue, unevenHeightValue, inclValue, protectObsValue, protectPhotoValue;
-    RadioGroup unevenHeightRadio, taludeRadio, taludeInclRadio, hasProtectRadio, protectTypeRadio;
-    TextView unevenHeightError, hasTaludeHeader, hasTaludeError, taludeInclHeader, taludeInclError, hasProtectHeader,
-            hasProtectError, protectTypeHeader, protectTypeError;
+    RadioGroup taludeRadio, hasProtectRadio, protectTypeRadio;
+    TextView hasTaludeHeader, hasTaludeError, hasProtectHeader, hasProtectError, protectTypeHeader, protectTypeError;
     ImageButton protectType1, protectType2, protectType3;
     MaterialButton cancelProtect, saveProtect;
     FrameLayout protectFrame;
@@ -116,17 +115,12 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
         protectObsValue = view.findViewById(R.id.protect_photo_value);
         protectPhotoValue = view.findViewById(R.id.protect_obs_value);
 //        RadioGroup
-        unevenHeightRadio = view.findViewById(R.id.protect_uneven_height_radio);
         taludeRadio = view.findViewById(R.id.protect_uneven_talude_radio);
-        taludeInclRadio = view.findViewById(R.id.protect_talude_incl_radio);
         hasProtectRadio = view.findViewById(R.id.protect_fall_protect_radio);
         protectTypeRadio = view.findViewById(R.id.protect_type_radio);
 //        TextView
-        unevenHeightError = view.findViewById(R.id.protect_uneven_height_error);
         hasTaludeHeader = view.findViewById(R.id.protect_uneven_talude_header);
         hasTaludeError = view.findViewById(R.id.protect_uneven_talude_error);
-        taludeInclHeader = view.findViewById(R.id.protect_talude_incl_header);
-        taludeInclError = view.findViewById(R.id.protect_talude_incl_error);
         hasProtectHeader = view.findViewById(R.id.protect_fall_protect_header);
         hasProtectError = view.findViewById(R.id.protect_fall_protect_error);
         protectTypeError = view.findViewById(R.id.protect_type_error);
@@ -147,9 +141,7 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
         protectType1.setOnClickListener(this::imgExpandClick);
         protectType2.setOnClickListener(this::imgExpandClick);
         protectType3.setOnClickListener(this::imgExpandClick);
-        unevenHeightRadio.setOnCheckedChangeListener(this::radioListener);
         taludeRadio.setOnCheckedChangeListener(this::radioListener);
-        taludeInclRadio.setOnCheckedChangeListener(this::radioListener);
         hasProtectRadio.setOnCheckedChangeListener(this::radioListener);
         protectTypeRadio.setOnCheckedChangeListener(this::radioListener);
         allowObsScroll(protectObsValue);
@@ -190,110 +182,74 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
 
         if (entry.getProtectLocal() != null)
             protectLocalValue.setText(entry.getProtectLocal());
-        if (entry.getUnevenHigher() != null) {
-            checkRadioGroup(unevenHeightRadio, entry.getUnevenHigher());
-            if (entry.getUnevenHigher() == 1) {
-                if (entry.getUnevenHeight() != null)
-                    unevenHeightValue.setText(String.valueOf(entry.getUnevenHeight()));
-                if (entry.getHasSlope() != null) {
-                    checkRadioGroup(taludeRadio, entry.getHasSlope());
-                    if (entry.getHasSlope() == 1) {
-                        if (entry.getSlopeHigher() != null) {
-                            checkRadioGroup(taludeInclRadio, entry.getSlopeHigher());
-                            if (entry.getSlopeHigher() == 1) {
-                                if (entry.getSlopeAngle() != null)
-                                    inclValue.setText(String.valueOf(entry.getSlopeAngle()));
-                                if (entry.getHasFallProtect() != null) {
-                                    checkRadioGroup(hasProtectRadio, entry.getHasFallProtect());
-                                    if (entry.getHasFallProtect() == 1) {
-                                        if (entry.getFallProtectType() != null)
-                                            checkRadioGroup(protectTypeRadio, entry.getFallProtectType());
-                                    }
-                                }
-                            }
-                        }
-                    } else if (entry.getHasSlope() == 0) {
-                        if (entry.getHasFallProtect() != null) {
-                            checkRadioGroup(hasProtectRadio, entry.getHasFallProtect());
-                            if (entry.getHasFallProtect() == 1) {
-                                if (entry.getFallProtectType() != null)
-                                    checkRadioGroup(protectTypeRadio, entry.getFallProtectType());
-                            }
-
-                        }
-                    }
+        if (entry.getUnevenHeight() != null)
+            unevenHeightValue.setText(String.valueOf(entry.getUnevenHeight()));
+        if (entry.getHasSlope() != null) {
+            checkRadioGroup(taludeRadio, entry.getHasSlope());
+            if (entry.getHasSlope() == 1) {
+                if (entry.getSlopeHigher() != null) {
+                    if (entry.getSlopeAngle() != null)
+                        inclValue.setText(String.valueOf(entry.getSlopeAngle()));
                 }
-
             }
         }
+
+        if (entry.getHasFallProtect() != null) {
+            checkRadioGroup(hasProtectRadio, entry.getHasFallProtect());
+            if (entry.getHasFallProtect() == 1) {
+                if (entry.getFallProtectType() != null)
+                    checkRadioGroup(protectTypeRadio, entry.getFallProtectType());
+            }
+        }
+
         if (entry.getProtectObs() != null)
             protectObsValue.setText(entry.getProtectObs());
         if (entry.getProtectPhoto() != null)
             protectPhotoValue.setText(entry.getProtectPhoto());
+
     }
+
 
     private FallProtectionEntry createFallProtect(Bundle bundle) {
         String protectLocal, protectObs = null, photo = null, obs = null;
-        Double unevenHeight = null, angle = null, protectDimen = null;
-        Integer talude = null, taludeAngle = null, hasProtect = null, protectType = null, hasTactile = null, hasVisible = null;
-        int unevenHigh;
+        Double angle = null, protectDimen = null;
+        Integer taludeAngle = null, protectType = null, hasTactile = null, hasVisible = null;
+        int talude, hasProtect;
+        double unevenHeight;
 
         protectLocal = String.valueOf(protectLocalValue.getText());
-        unevenHigh = indexRadio(unevenHeightRadio);
-        if (unevenHigh == 1) {
-            unevenHeight = Double.parseDouble(String.valueOf(unevenHeightValue.getText()));
-            talude = indexRadio(taludeRadio);
-            if (talude == 1) {
-                taludeAngle = indexRadio(taludeInclRadio);
-                if (taludeAngle == 1) {
-                    angle = Double.parseDouble(String.valueOf(inclValue.getText()));
-                    hasProtect = indexRadio(hasProtectRadio);
-                    if (hasProtect == 1) {
-                        protectType = indexRadio(protectTypeRadio);
+        unevenHeight = Double.parseDouble(String.valueOf(unevenHeightValue.getText()));
+        talude = indexRadio(taludeRadio);
+        if (talude == 1) {
+            angle = Double.parseDouble(String.valueOf(inclValue.getText()));
+        }
 
-                        FallProtectParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
+        hasProtect = indexRadio(hasProtectRadio);
+        if (hasProtect == 1) {
+            protectType = indexRadio(protectTypeRadio);
 
-                        switch (protectType) {
-                            case 0:
-                                hasTactile = parcel.getTactileContrast();
-                            case 1:
-                                hasVisible = parcel.getVisualContrast();
-                            case 2:
-                                protectDimen = parcel.getHeightLength();
-                            default:
-                                protectObs = parcel.getProtectObs();
-                                break;
-                        }
-                    }
-                }
-            } else if (talude == 0) {
-                hasProtect = indexRadio(hasProtectRadio);
-                if (hasProtect == 1) {
-                    protectType = indexRadio(protectTypeRadio);
+            FallProtectParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
-                    FallProtectParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
-
-                    switch (protectType) {
-                        case 0:
-                            hasTactile = parcel.getTactileContrast();
-                        case 1:
-                            hasVisible = parcel.getVisualContrast();
-                        case 2:
-                            protectDimen = parcel.getHeightLength();
-                        default:
-                            protectObs = parcel.getProtectObs();
-                            break;
-                    }
-                }
+            switch (protectType) {
+                case 0:
+                    hasTactile = parcel.getTactileContrast();
+                case 1:
+                    hasVisible = parcel.getVisualContrast();
+                case 2:
+                    protectDimen = parcel.getHeightLength();
+                default:
+                    protectObs = parcel.getProtectObs();
+                    break;
             }
         }
+
 
         if (!TextUtils.isEmpty(protectPhotoValue.getText()))
             photo = String.valueOf(protectPhotoValue.getText());
         if (!TextUtils.isEmpty(protectObsValue.getText()))
             obs = String.valueOf(protectObsValue.getText());
 
-        return new FallProtectionEntry(bundle.getInt(CIRC_ID), protectLocal, unevenHigh, unevenHeight, talude, taludeAngle, angle, hasProtect, protectType, protectDimen,
+        return new FallProtectionEntry(bundle.getInt(CIRC_ID), protectLocal, null, unevenHeight, talude, taludeAngle, angle, hasProtect, protectType, protectDimen,
                 hasVisible, hasTactile, protectObs, photo, obs);
     }
 
@@ -306,52 +262,35 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
             i++;
             protectLocalField.setError(getString(R.string.req_field_error));
         }
-        if (indexRadio(unevenHeightRadio) == -1) {
-            i++;
-            unevenHeightError.setVisibility(View.VISIBLE);
-        } else if (indexRadio(unevenHeightRadio) == 1) {
-            if (TextUtils.isEmpty(unevenHeightValue.getText())) {
-                i++;
-                unevenHeightField.setError(getString(R.string.req_field_error));
-            } else if (Double.parseDouble(String.valueOf(unevenHeightValue.getText())) < 0.18) {
-                i++;
-                unevenHeightField.setError("A altura informada deve ser superior à 0.18 metros");
-            }
 
-            if (indexRadio(taludeRadio) == -1) {
+        if (TextUtils.isEmpty(unevenHeightValue.getText())) {
+            i++;
+            unevenHeightField.setError(getString(R.string.req_field_error));
+        } else if (Double.parseDouble(String.valueOf(unevenHeightValue.getText())) < 0.18) {
+            i++;
+            unevenHeightField.setError("A altura informada deve ser superior à 0.18 metros");
+        }
+
+        if (indexRadio(taludeRadio) == -1) {
+            i++;
+            hasTaludeError.setVisibility(View.VISIBLE);
+        } else if (indexRadio(taludeRadio) == 1) {
+            if (TextUtils.isEmpty(inclValue.getText())) {
                 i++;
-                hasTaludeError.setVisibility(View.VISIBLE);
-            } else if (indexRadio(taludeRadio) == 0) {
-                if (indexRadio(hasProtectRadio) == -1) { ///
-                    i++;
-                    hasProtectError.setVisibility(View.VISIBLE);
-                } else if (indexRadio(hasProtectRadio) == 1) {
-                    if (indexRadio(protectTypeRadio) == -1) {
-                        i++;
-                        protectTypeError.setVisibility(View.VISIBLE);
-                    }
-                }
-            } else {
-                if (indexRadio(taludeInclRadio) == -1) {
-                    i++;
-                    taludeInclError.setVisibility(View.VISIBLE);
-                } else if (indexRadio(taludeInclRadio) == 1) {
-                    if (TextUtils.isEmpty(inclValue.getText())) {
-                        i++;
-                        inclField.setError(getString(R.string.req_field_error));
-                    }
-                    if (indexRadio(hasProtectRadio) == -1) {
-                        i++;
-                        hasProtectError.setVisibility(View.VISIBLE);
-                    } else if (indexRadio(hasProtectRadio) == 1) {
-                        if (indexRadio(protectTypeRadio) == -1) {
-                            i++;
-                            protectTypeError.setVisibility(View.VISIBLE);
-                        }
-                    }
-                }
+                inclField.setError(getString(R.string.req_field_error));
             }
         }
+
+        if (indexRadio(hasProtectRadio) == -1) {
+            i++;
+            hasProtectError.setVisibility(View.VISIBLE);
+        } else if (indexRadio(hasProtectRadio) == 1) {
+            if (indexRadio(protectTypeRadio) == -1) {
+                i++;
+                protectTypeError.setVisibility(View.VISIBLE);
+            }
+        }
+
 
         return i == 0;
     }
@@ -360,9 +299,7 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
         unevenHeightField.setErrorEnabled(false);
         inclField.setErrorEnabled(false);
 
-        unevenHeightError.setVisibility(View.GONE);
         hasTaludeError.setVisibility(View.GONE);
-        taludeInclError.setVisibility(View.GONE);
         hasProtectError.setVisibility(View.GONE);
         protectTypeError.setVisibility(View.GONE);
     }
@@ -372,63 +309,14 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
     public void radioListener(RadioGroup radio, int id) {
         int index = indexRadio(radio);
 
-        if (radio == unevenHeightRadio) {
-            if (index == 1) {
-                unevenHeightField.setVisibility(View.VISIBLE);
-                hasTaludeHeader.setVisibility(View.VISIBLE);
-                taludeRadio.setVisibility(View.VISIBLE);
-            } else {
-                unevenHeightValue.setText(null);
-                unevenHeightField.setVisibility(View.GONE);
-                hasTaludeHeader.setVisibility(View.GONE);
-                taludeRadio.clearCheck();
-                taludeRadio.setVisibility(View.GONE);
-                hasProtectHeader.setVisibility(View.GONE);
-                hasProtectRadio.clearCheck();
-                hasProtectRadio.setVisibility(View.GONE);
-                protectTypeHeader.setVisibility(View.GONE);
-                protectType1.setVisibility(View.GONE);
-                protectType2.setVisibility(View.GONE);
-                protectType3.setVisibility(View.GONE);
-                protectTypeRadio.clearCheck();
-                protectTypeRadio.setVisibility(View.GONE);
-                removeChildFragments();
-            }
-        } else if (radio == taludeRadio) {
-            if (index == 1) {
-                taludeInclHeader.setVisibility(View.VISIBLE);
-                taludeInclRadio.setVisibility(View.VISIBLE);
-                hasProtectHeader.setVisibility(View.GONE);
-                hasProtectRadio.clearCheck();
-                hasProtectRadio.setVisibility(View.GONE);
-            } else {
-                taludeInclHeader.setVisibility(View.GONE);
-                taludeInclRadio.clearCheck();
-                taludeInclRadio.setVisibility(View.GONE);
-                hasProtectHeader.setVisibility(View.VISIBLE);
-                hasProtectRadio.setVisibility(View.VISIBLE);
-            }
-
-        } else if (radio == taludeInclRadio) {
-            if (index == 1) {
+        if (radio == taludeRadio) {
+            if (index == 1)
                 inclField.setVisibility(View.VISIBLE);
-                hasProtectHeader.setVisibility(View.VISIBLE);
-                hasProtectRadio.setVisibility(View.VISIBLE);
-            } else {
+            else {
                 inclValue.setText(null);
                 inclField.setVisibility(View.GONE);
-                hasProtectHeader.setVisibility(View.GONE);
-                hasProtectRadio.clearCheck();
-                hasProtectRadio.setVisibility(View.GONE);
-                protectTypeHeader.setVisibility(View.GONE);
-                protectType1.setVisibility(View.GONE);
-                protectType2.setVisibility(View.GONE);
-                protectType3.setVisibility(View.GONE);
-                protectTypeRadio.clearCheck();
-                protectTypeRadio.setVisibility(View.GONE);
-                if (index > -1)
-                    removeChildFragments();
             }
+
         } else if (radio == hasProtectRadio) {
             if (index == 1) {
                 protectTypeHeader.setVisibility(View.VISIBLE);
@@ -443,10 +331,9 @@ public class FallProtectFragment extends Fragment implements TagInterface, Scrol
                 protectType3.setVisibility(View.GONE);
                 protectTypeRadio.clearCheck();
                 protectTypeRadio.setVisibility(View.GONE);
-                if (index > -1)
-                    removeChildFragments();
+                removeChildFragments();
             }
-        } else if (radio == protectTypeRadio){
+        } else if (radio == protectTypeRadio) {
             removeChildFragments();
             RadioButton button = radio.findViewById(id);
             if (index > -1 && button.isChecked()) {

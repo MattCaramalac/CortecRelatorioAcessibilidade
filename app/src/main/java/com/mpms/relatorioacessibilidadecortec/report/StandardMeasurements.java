@@ -249,4 +249,9 @@ public interface StandardMeasurements {
     double lowestAcceptHeight = 0.80;
     double highestAcceptHeight = 1.20;
     double highestHeight = 1.40;
+
+//    Fall Protection
+    double minHeightProtect = 0.18;
+    double safetyLaneWidth = 0.60;
+    double latProtectHeight = 0.15;
 }
