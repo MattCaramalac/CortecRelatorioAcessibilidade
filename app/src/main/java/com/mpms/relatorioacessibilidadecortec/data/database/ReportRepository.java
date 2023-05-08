@@ -517,11 +517,11 @@ public class ReportRepository {
     }
 
     public LiveData<List<FreeSpaceEntry>> getFreeSpaceFromRoom(int roomID) {
-        return freeSpaceEntryDao.selectFreeSpaceFromRoom(roomID);
+        return freeSpaceEntryDao.getFreeSpaceFromRoom(roomID);
     }
 
     public LiveData<List<FreeSpaceEntry>> getFreeSpaceFromRest(int restID) {
-        return freeSpaceEntryDao.selectFreeSpaceFromRest(restID);
+        return freeSpaceEntryDao.getFreeSpaceFromRest(restID);
     }
 
     public LiveData<List<FreeSpaceEntry>> getAllFreeSpaces(List<Integer> roomID) {
@@ -541,7 +541,7 @@ public class ReportRepository {
     }
 
     public LiveData<FreeSpaceEntry> getSpecificFreeSpace(int freeSpaceID) {
-        return freeSpaceEntryDao.selectSpecificFreeSpace(freeSpaceID);
+        return freeSpaceEntryDao.getSpecificFreeSpace(freeSpaceID);
     }
 
     public void updateFreeSpace(FreeSpaceEntry freeSpace) {

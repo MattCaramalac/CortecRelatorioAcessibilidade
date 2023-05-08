@@ -337,14 +337,26 @@
                     android:id="@+id/room_add_door_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:backgroundTint="@color/purple_200"
                     android:text="@string/label_add_frag_entry"
                     android:textColor="@color/black"
                     app:cornerRadius="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_door_register" />
+                    app:layout_constraintTop_toBottomOf="@id/label_door_register"
+                    android:layout_marginTop="@dimen/usual_padding"/>
+
+                <TextView
+                    android:id="@+id/room_door_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_door_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_door_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_switch_register"
@@ -367,7 +379,20 @@
                     app:cornerRadius="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_switch_register" />
+                    app:layout_constraintTop_toBottomOf="@id/label_switch_register"
+                    android:layout_marginTop="@dimen/usual_padding"/>
+
+                <TextView
+                    android:id="@+id/room_switch_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_switch_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_switch_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_window_register"
@@ -390,7 +415,20 @@
                     app:cornerRadius="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_window_register" />
+                    app:layout_constraintTop_toBottomOf="@id/label_window_register"
+                    android:layout_marginTop="@dimen/usual_padding"/>
+
+                <TextView
+                    android:id="@+id/room_window_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_window_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_window_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_table_register"
@@ -413,7 +451,20 @@
                     app:cornerRadius="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_table_register" />
+                    app:layout_constraintTop_toBottomOf="@id/label_table_register"
+                    android:layout_marginTop="@dimen/usual_padding"/>
+
+                <TextView
+                    android:id="@+id/room_table_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_tables_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_tables_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_blackboard_register"
@@ -436,7 +487,20 @@
                     app:cornerRadius="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_blackboard_register" />
+                    app:layout_constraintTop_toBottomOf="@id/label_blackboard_register"
+                    android:layout_marginTop="@dimen/usual_padding"/>
+
+                <TextView
+                    android:id="@+id/room_blackboard_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_blackboard_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_blackboard_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_free_spaces"
@@ -459,7 +523,20 @@
                     app:cornerRadius="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_free_spaces" />
+                    app:layout_constraintTop_toBottomOf="@id/label_free_spaces"
+                    android:layout_marginTop="@dimen/usual_padding"/>
+
+                <TextView
+                    android:id="@+id/room_free_space_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_free_space_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_free_space_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_room_stairs"
@@ -482,7 +559,20 @@
                     app:cornerRadius="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_room_stairs" />
+                    app:layout_constraintTop_toBottomOf="@id/label_room_stairs"
+                    android:layout_marginTop="@dimen/usual_padding"/>
+
+                <TextView
+                    android:id="@+id/room_stairs_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_stairs_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_stairs_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_room_ramps"
@@ -505,7 +595,88 @@
                     app:cornerRadius="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_room_ramps" />
+                    app:layout_constraintTop_toBottomOf="@id/label_room_ramps"
+                    android:layout_marginTop="@dimen/usual_padding"/>
+
+                <TextView
+                    android:id="@+id/room_ramps_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_ramps_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_ramps_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
+
+                <TextView
+                    android:id="@+id/label_room_single_step"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_ramps_button"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/header_single_step_register"
+                    android:textSize="@dimen/section_header" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_single_step_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/label_room_single_step"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp" />
+
+                <TextView
+                    android:id="@+id/room_step_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_single_step_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_single_step_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
+
+                <TextView
+                    android:id="@+id/label_room_slopes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_single_step_button"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/header_slope_register"
+                    android:textSize="@dimen/section_header" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/room_add_slopes_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/label_room_slopes"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:backgroundTint="@color/purple_200"
+                    android:text="@string/label_add_frag_entry"
+                    android:textColor="@color/black"
+                    app:cornerRadius="3dp" />
+
+                <TextView
+                    android:id="@+id/room_slope_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_slopes_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_slopes_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_room_fountain"
@@ -515,7 +686,7 @@
                     android:text="@string/header_fountain_register"
                     android:textSize="@dimen/section_header"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/room_add_ramps_button" />
+                    app:layout_constraintTop_toBottomOf="@id/room_add_slopes_button" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/room_add_fountain_button"
@@ -528,7 +699,20 @@
                     app:cornerRadius="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_room_fountain" />
+                    app:layout_constraintTop_toBottomOf="@id/label_room_fountain"
+                    android:layout_marginTop="@dimen/usual_padding"/>
+
+                <TextView
+                    android:id="@+id/room_fountain_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_fountain_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_fountain_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_room_accessory"
@@ -551,14 +735,20 @@
                     app:cornerRadius="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_room_accessory" />
+                    app:layout_constraintTop_toBottomOf="@id/label_room_accessory"
+                    android:layout_marginTop="@dimen/usual_padding"/>
 
-                <FrameLayout
-                    android:id="@+id/room_child_fragment"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/room_equip_counter"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_equip_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_equip_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/top_margins"
-                    app:layout_constraintTop_toBottomOf="@id/room_add_equip_button" />
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big" />
 
                 <TextView
                     android:id="@+id/label_counter_register"
@@ -569,7 +759,7 @@
                     android:textSize="@dimen/section_header"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/room_child_fragment" />
+                    app:layout_constraintTop_toBottomOf="@id/room_add_equip_button" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/room_add_counter_button"
@@ -584,7 +774,28 @@
                     app:cornerRadius="3dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/label_counter_register" />
+                    app:layout_constraintTop_toBottomOf="@id/label_counter_register"
+                    android:layout_marginTop="@dimen/usual_padding"/>
+
+                <TextView
+                    android:id="@+id/room_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBaseline_toBaselineOf="@id/room_add_counter_button"
+                    app:layout_constraintStart_toEndOf="@id/room_add_counter_button"
+                    android:layout_marginStart="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/top_margins"
+                    android:text="@string/initial_counter"
+                    android:textSize="@dimen/section_header_big"
+                    android:visibility="gone"/>
+
+                <FrameLayout
+                    android:id="@+id/room_child_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_margins"
+                    app:layout_constraintTop_toBottomOf="@id/room_add_counter_button" />
 
                 <TextView
                     android:id="@+id/locale_has_intercom_header"
@@ -595,7 +806,7 @@
                     android:textSize="18sp"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/room_add_counter_button" />
+                    app:layout_constraintTop_toBottomOf="@id/room_child_fragment" />
 
                 <RadioGroup
                     android:id="@+id/locale_has_intercom_radio"

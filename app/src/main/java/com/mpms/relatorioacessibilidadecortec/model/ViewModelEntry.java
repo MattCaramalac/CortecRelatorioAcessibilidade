@@ -431,12 +431,12 @@ public class ViewModelEntry extends AndroidViewModel {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.insertFreeSpace(freeSpace));
     }
 
-    public LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRoom(int roomID) {
+    public LiveData<List<FreeSpaceEntry>> getFreeSpaceFromRoom(int roomID) {
         allFreeSpaces = repository.getFreeSpaceFromRoom(roomID);
         return allFreeSpaces;
     }
 
-    public LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRest(int restID) {
+    public LiveData<List<FreeSpaceEntry>> getFreeSpaceFromRest(int restID) {
         allRestFreeSpaces = repository.getFreeSpaceFromRest(restID);
         return allRestFreeSpaces;
     }

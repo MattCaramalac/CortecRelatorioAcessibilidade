@@ -17,10 +17,10 @@ public interface FreeSpaceEntryDao {
     void insertFreeSpace(FreeSpaceEntry freeSpace);
 
     @Query("SELECT * FROM FreeSpaceEntry WHERE roomID == :roomID ORDER BY frSpaceID DESC")
-    LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRoom(int roomID);
+    LiveData<List<FreeSpaceEntry>> getFreeSpaceFromRoom(int roomID);
 
     @Query("SELECT * FROM FreeSpaceEntry WHERE restID == :restID ORDER BY frSpaceID DESC")
-    LiveData<List<FreeSpaceEntry>> selectFreeSpaceFromRest(int restID);
+    LiveData<List<FreeSpaceEntry>> getFreeSpaceFromRest(int restID);
 
     @Query("SELECT * FROM FreeSpaceEntry WHERE roomID IN (:roomID)")
     LiveData<List<FreeSpaceEntry>> getAllFreeSpaces(List<Integer> roomID);
@@ -35,7 +35,7 @@ public interface FreeSpaceEntryDao {
     LiveData<List<FreeSpaceEntry>> getAllCircFreeSpaces(List<Integer> circID);
 
     @Query("SELECT * FROM FreeSpaceEntry WHERE frSpaceID == :freeSpaceID")
-    LiveData<FreeSpaceEntry> selectSpecificFreeSpace(int freeSpaceID);
+    LiveData<FreeSpaceEntry> getSpecificFreeSpace(int freeSpaceID);
 
     @Update
     void updateFreeSpace(FreeSpaceEntry freeSpace);

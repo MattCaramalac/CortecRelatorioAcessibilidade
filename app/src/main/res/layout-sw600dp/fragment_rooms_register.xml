@@ -362,7 +362,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                     <TextView
@@ -396,7 +396,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                     <TextView
@@ -430,7 +430,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                     <TextView
@@ -464,7 +464,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                     <TextView
@@ -473,7 +473,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/room_add_stairs_button"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="Cadastro de Degraus Isolados"
+                        android:text="@string/header_single_step_register"
                         android:textSize="@dimen/section_header" />
 
                     <com.google.android.material.button.MaterialButton
@@ -498,7 +498,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                     <TextView
@@ -532,7 +532,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                 </RelativeLayout>
@@ -576,7 +576,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                     <TextView
@@ -610,7 +610,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                     <TextView
@@ -644,7 +644,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                     <TextView
@@ -678,7 +678,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                     <TextView
@@ -687,7 +687,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/room_add_ramps_button"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="Cadastro de Desníveis"
+                        android:text="@string/header_slope_register"
                         android:textSize="@dimen/section_header" />
 
                     <com.google.android.material.button.MaterialButton
@@ -712,7 +712,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                     <TextView
@@ -746,7 +746,7 @@
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/top_margins"
-                        android:text="(0)"
+                        android:text="@string/initial_counter"
                         android:textSize="@dimen/section_header_big" />
 
                 </RelativeLayout>
@@ -788,7 +788,7 @@
                     android:gravity="center_horizontal"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/top_margins"
-                    android:text="(0)"
+                    android:text="@string/initial_counter"
                     android:visibility="gone"
                     android:textSize="@dimen/section_header_big" />
 

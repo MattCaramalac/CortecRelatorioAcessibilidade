@@ -1,5 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -49,8 +51,9 @@ import java.util.ArrayList;
 
 public class RoomsRegisterFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
-    TextView roomIdentifier, vertSignError, looseCarpetError, accessFloorError, counterHeader, phoneError, biometryError,
-            phoneHeader, biometryHeader, workRoomHeader, workRoomError;
+    TextView roomIdentifier, vertSignError, looseCarpetError, accessFloorError, counterHeader, phoneError, biometryError, phoneHeader, biometryHeader, workRoomHeader,
+            workRoomError, doorCounter, switchCounter, windowCounter, tableCounter, boardCounter, spaceCounter, stairCounter, rampCounter, slopeCounter, waterCounter,
+            equipCounter, counter, stepCounter;
     TextInputLayout roomLocaleField, roomDescField, vertSignObsField, looseCarpetObsField, accessFloorObsField, roomObsField,
             phoneHeightField, phoneObsField, biometryHeightField, biometryObsField, roomPhotoField;
     TextInputEditText roomLocaleValue, roomDescValue, vertSignObsValue, looseCarpetObsValue, accessFloorObsValue, roomObsValue,
@@ -177,6 +180,19 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         biometryError = view.findViewById(R.id.locale_has_biometry_error);
         workRoomHeader = view.findViewById(R.id.work_room_header);
         workRoomError = view.findViewById(R.id.work_room_error);
+        doorCounter = view.findViewById(R.id.room_door_counter);
+        switchCounter = view.findViewById(R.id.room_switch_counter);
+        windowCounter = view.findViewById(R.id.room_window_counter);
+        tableCounter = view.findViewById(R.id.room_table_counter);
+        boardCounter = view.findViewById(R.id.room_blackboard_counter);
+        spaceCounter = view.findViewById(R.id.room_free_space_counter);
+        stairCounter = view.findViewById(R.id.room_stairs_counter);
+        rampCounter = view.findViewById(R.id.room_ramps_counter);
+        slopeCounter = view.findViewById(R.id.room_slope_counter);
+        waterCounter = view.findViewById(R.id.room_fountain_counter);
+        equipCounter = view.findViewById(R.id.room_equip_counter);
+        counter = view.findViewById(R.id.room_counter);
+        stepCounter = view.findViewById(R.id.room_step_counter);
 //        TextInputLayout
         roomLocaleField = view.findViewById(R.id.room_location_field);
         roomDescField = view.findViewById(R.id.room_description_field);
@@ -256,7 +272,115 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         allowObsScroll(roomScrollArray);
         setChildFragView(roomBundle);
 
+        counterListener();
+    }
 
+    private void counterListener() {
+
+        modelEntry.getDoorsFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(doorCounter, list.size());
+            else
+                clearCounter(doorCounter);
+        });
+
+        modelEntry.getSwitchesFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(switchCounter, list.size());
+            else
+                clearCounter(switchCounter);
+        });
+
+        modelEntry.getWindowsFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(windowCounter, list.size());
+            else
+                clearCounter(windowCounter);
+        });
+
+        modelEntry.getTablesFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(tableCounter, list.size());
+            else
+                clearCounter(tableCounter);
+        });
+
+        modelEntry.getAllBlackboardsFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(boardCounter, list.size());
+            else
+                clearCounter(boardCounter);
+        });
+
+        modelEntry.getFreeSpaceFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(spaceCounter, list.size());
+            else
+                clearCounter(spaceCounter);
+        });
+
+        modelEntry.getAllRoomSingleSteps(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(stepCounter, list.size());
+            else
+                clearCounter(stepCounter);
+        });
+
+        modelEntry.getAllRoomSlopes(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(slopeCounter, list.size());
+            else
+                clearCounter(slopeCounter);
+        });
+
+        modelEntry.getRoomWaterFountains(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(waterCounter, list.size());
+            else
+                clearCounter(waterCounter);
+        });
+
+        modelEntry.getEquipmentFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(equipCounter, list.size());
+            else
+                clearCounter(equipCounter);
+        });
+
+        modelEntry.getCountersFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(counter, list.size());
+            else
+                clearCounter(counter);
+        });
+
+        modelEntry.getStairsRampFromRoom(roomBundle.getInt(AMBIENT_ID), 1).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(stairCounter, list.size());
+            else
+                clearCounter(stairCounter);
+        });
+
+        modelEntry.getStairsRampFromRoom(roomBundle.getInt(AMBIENT_ID), 2).observe(getViewLifecycleOwner(), list -> {
+            if (list != null && list.size() > 0)
+                setCounter(rampCounter, list.size());
+            else
+                clearCounter(rampCounter);
+        });
+    }
+
+    private void setCounter(TextView view, int number) {
+        view.setActivated(true);
+        view.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.countercolor));
+        view.setTypeface(null, Typeface.BOLD);
+        view.setText(new StringBuilder().append("(").append(number).append(")").toString());
+    }
+
+    private void clearCounter(TextView view) {
+        view.setActivated(false);
+        view.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.countercolor));
+        view.setTypeface(null, Typeface.NORMAL);
+        view.setText("(0)");
     }
 
     private void cancelClick() {
@@ -291,6 +415,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             case NUM_CAFE:
                 counterHeader.setVisibility(View.VISIBLE);
                 addCounter.setVisibility(View.VISIBLE);
+                counter.setVisibility(View.VISIBLE);
                 break;
             case NUM_OTHER:
                 workRoomHeader.setVisibility(View.VISIBLE);
@@ -537,7 +662,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
     private RoomEntry newRoomEntry(Bundle bundle) {
         String roomLocale, roomDescription = null, vertSignObs = null, looseCarpetObs = null, accessFloorObs = null, roomObs = null, secPcrSpaceObs = null,
-               intPhoneObs = null, bioClockObs = null, photos = null;
+                intPhoneObs = null, bioClockObs = null, photos = null;
         Integer isWork = null, libDistShelves = null, libLongCorridor = null, libPcrManeuver = null, libHasPC = null, libAccessPC = null, secHasFixedSeat = null,
                 secHasPcrSpace = null, hasIntPhone = null, hasBioClock = null, hasVertSing = null, hasLooseCarpet = null, accessFloor = null;
         Double secPcrWidth = null, secPcrDepth = null, intPhoneHeight = null, bioClockHeight = null;
@@ -585,7 +710,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             if (!TextUtils.isEmpty(accessFloorObsValue.getText()))
                 accessFloorObs = String.valueOf(accessFloorObsValue.getText());
 
-            if (bundle.getInt(ROOM_TYPE) ==NUM_LIB) {
+            if (bundle.getInt(ROOM_TYPE) == NUM_LIB) {
                 LibParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
                 libDistShelves = parcel.getRightDistShelves();
@@ -596,8 +721,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 if (libHasPC == 1)
                     libAccessPC = parcel.getHasAccessComputer();
 
-            }
-            else if (bundle.getInt(ROOM_TYPE) == NUM_SEC) {
+            } else if (bundle.getInt(ROOM_TYPE) == NUM_SEC) {
                 SecParcel parcel = Parcels.unwrap(bundle.getParcelable(CHILD_PARCEL));
 
                 secHasFixedSeat = parcel.getHasFixedSeats();
@@ -743,8 +867,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             } else {
                 roomConst.setVisibility(View.GONE);
             }
-        }
-        else if (radio == hasVertSingRadio) {
+        } else if (radio == hasVertSingRadio) {
             if (index == 1) {
                 vertSignObsField.setVisibility(View.VISIBLE);
             } else {

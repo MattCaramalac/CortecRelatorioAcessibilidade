@@ -76,14 +76,14 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
         instantiateFreeSpaceViews(view);
 
         if (fSpaceListBundle.getBoolean(FROM_REST))
-            modelEntry.selectFreeSpaceFromRest(fSpaceListBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), fSpaceList ->  listLayoutCreator(fSpaceList, this));
+            modelEntry.getFreeSpaceFromRest(fSpaceListBundle.getInt(REST_ID)).observe(getViewLifecycleOwner(), fSpaceList ->  listLayoutCreator(fSpaceList, this));
         else if (fSpaceListBundle.getInt(CIRC_ID) > 0)
             modelEntry.getFreeSpaceFromCirc(fSpaceListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> listLayoutCreator(list, this));
         else {
             if (fSpaceListBundle.getInt(AMBIENT_ID) == 0)
                 modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> fSpaceListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
 
-            modelEntry.selectFreeSpaceFromRoom(fSpaceListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), fSpaceList -> listLayoutCreator(fSpaceList, this));
+            modelEntry.getFreeSpaceFromRoom(fSpaceListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), fSpaceList -> listLayoutCreator(fSpaceList, this));
         }
 
         closeFreeList.setOnClickListener(v -> {
