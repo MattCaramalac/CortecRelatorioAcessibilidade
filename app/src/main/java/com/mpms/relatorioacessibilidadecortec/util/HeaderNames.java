@@ -27,11 +27,12 @@ public class HeaderNames {
     };
 
     public static final String[] supportAreaOptions = {
-            "Bebedouro",
-            "Estacionamento Interno",
+            "Bebedouros",
+            "Estacionamentos Internos",
             "Outros Ambientes",
             "Parquinhos",
-            "Sanitário"
+            "Sanitários",
+            "Piscinas"
     };
 
 }

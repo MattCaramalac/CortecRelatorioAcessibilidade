@@ -21,6 +21,11 @@ import com.mpms.relatorioacessibilidadecortec.data.Dao.ParkingLotEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.ParkingLotPcdDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.PayPhoneDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.PlaygroundEntryDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.PoolBenchDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.PoolDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.PoolEquipDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.PoolRampDao;
+import com.mpms.relatorioacessibilidadecortec.data.Dao.PoolStairsDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsEntryDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsHandrailDao;
 import com.mpms.relatorioacessibilidadecortec.data.Dao.RampStairsRailingDao;
@@ -55,6 +60,13 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolBenchEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEntryOne;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEntryTwo;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEquipEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolRampEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
@@ -129,6 +141,11 @@ public class ReportRepository {
     private final SoleStepDao stepDao;
     private final SlopeDao slopeDao;
     private final FallProtectDao fallProtectDao;
+    private final PoolDao poolDao;
+    private final PoolBenchDao benchDao;
+    private final PoolRampDao poolRampDao;
+    private final PoolStairsDao poolStairsDao;
+    private final PoolEquipDao poolEquipDao;
 
     public ReportRepository(Application application) {
         db = ReportDatabase.getDatabase(application);
@@ -164,6 +181,11 @@ public class ReportRepository {
         stepDao = db.soleStepDao();
         slopeDao = db.slopeDao();
         fallProtectDao = db.fallProtectDao();
+        poolDao = db.poolDao();
+        benchDao = db.benchDao();
+        poolRampDao = db.poolRampDao();
+        poolStairsDao = db.poolStairsDao();
+        poolEquipDao = db.poolEquipDao();
     }
 
     public LiveData<List<SchoolEntry>> getAllSchoolEntries() {
@@ -1429,4 +1451,157 @@ public class ReportRepository {
     public void deleteAllFallProtectCirc(int circID) {
         ReportDatabase.dbWriteExecutor.execute(() -> fallProtectDao.deleteAllFallProtectCirc(circID));
     }
+
+    public void insertPool(PoolEntry pool) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolDao.insertPool(pool));
+    }
+
+    public LiveData<List<PoolEntry>> getAllPoolsPerBlock(int blockID) {
+        return poolDao.getAllPoolsPerBlock(blockID);
+    }
+
+    public LiveData<List<PoolEntry>> getAllPools(List<Integer> blockID) {
+        return poolDao.getAllPools(blockID);
+    }
+
+    public LiveData<PoolEntry> getPool(int poolID) {
+        return poolDao.getPool(poolID);
+    }
+
+    public LiveData<PoolEntry> getLastPoolEntry() {
+        return poolDao.getLastPoolEntry();
+    }
+
+    public void updatePool(PoolEntry pool) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolDao.updatePool(pool));
+    }
+
+    public void updatePoolOne(PoolEntryOne... poolOne) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolDao.updatePoolOne(poolOne));
+    }
+
+    public void updatePoolTwo(PoolEntryTwo... poolTwo) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolDao.updatePoolTwo(poolTwo));
+    }
+
+    public void deletePool(int poolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolDao.deletePool(poolID));
+    }
+
+    public void deleteAllPools(int blockID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolDao.deleteAllPools(blockID));
+    }
+
+    public void insertPoolBench(PoolBenchEntry bench) {
+        ReportDatabase.dbWriteExecutor.execute(() -> benchDao.insertPoolBench(bench));
+    }
+
+    public LiveData<List<PoolBenchEntry>> getPoolBenches(int poolID) {
+        return benchDao.getPoolBenches(poolID);
+    }
+
+    public LiveData<List<PoolBenchEntry>> getAllPoolBenches(List<Integer> poolList) {
+        return benchDao.getAllPoolBenches(poolList);
+    }
+
+    public LiveData<PoolBenchEntry> getOnePoolBench(int poolID) {
+        return benchDao.getOnePoolBench(poolID);
+    }
+
+    public void updatePoolBench(PoolBenchEntry bench) {
+        ReportDatabase.dbWriteExecutor.execute(() -> benchDao.updatePoolBench(bench));
+    }
+
+    public void deletePoolBench(int benchID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> benchDao.deletePoolBench(benchID));
+    }
+
+    public void deleteAllPoolBenches(int poolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> benchDao.deleteAllPoolBenches(poolID));
+    }
+
+    public void insertPoolRamp(PoolRampEntry ramp) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolRampDao.insertPoolRamp(ramp));
+    }
+
+    public LiveData<List<PoolRampEntry>> getPoolRamps(int poolID) {
+        return poolRampDao.getPoolRamps(poolID);
+    }
+
+    public LiveData<List<PoolRampEntry>> getEveryPoolRamps(List<Integer> poolList) {
+        return poolRampDao.getEveryPoolRamps(poolList);
+    }
+
+    public LiveData<PoolRampEntry> getOnePoolRamp(int rampID) {
+        return poolRampDao.getOnePoolRamp(rampID);
+    }
+
+    public void updatePoolRamp(PoolRampEntry ramp) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolRampDao.updatePoolRamp(ramp));
+    }
+
+    public void deletePoolRamp(int rampID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolRampDao.deletePoolRamp(rampID));
+    }
+
+    public void deleteAllPoolRamps(int poolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolRampDao.deleteAllPoolRamps(poolID));
+    }
+
+    public void insertPoolStairs(PoolStairsEntry Stairs) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolStairsDao.insertPoolStairs(Stairs));
+    }
+
+    public LiveData<List<PoolStairsEntry>> getPoolStairs(int poolID) {
+        return poolStairsDao.getPoolStairs(poolID);
+    }
+
+    public LiveData<List<PoolStairsEntry>> getEveryPoolStairs(List<Integer> poolList) {
+        return poolStairsDao.getEveryPoolStairs(poolList);
+    }
+
+    public LiveData<PoolStairsEntry> getOnePoolStairs(int StairsID) {
+        return poolStairsDao.getOnePoolStairs(StairsID);
+    }
+
+    public void updatePoolStairs(PoolStairsEntry Stairs) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolStairsDao.updatePoolStairs(Stairs));
+    }
+
+    public void deletePoolStairs(int benchID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolStairsDao.deletePoolStairs(benchID));
+    }
+
+    public void deleteAllPoolStairs(int poolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolStairsDao.deleteAllPoolStairs(poolID));
+    }
+
+    public void insertPoolEquip(PoolEquipEntry equip) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolEquipDao.insertPoolEquip(equip));
+    }
+
+    public LiveData<List<PoolEquipEntry>> getPoolEquips(int poolID) {
+        return poolEquipDao.getPoolEquips(poolID);
+    }
+
+    public LiveData<List<PoolEquipEntry>> getEveryPoolEquips(List<Integer> poolList) {
+        return poolEquipDao.getEveryPoolEquips(poolList);
+    }
+
+    public LiveData<PoolEquipEntry> getOnePoolEquip(int EquipID) {
+        return poolEquipDao.getOnePoolEquip(EquipID);
+    }
+
+    public void updatePoolEquip(PoolEquipEntry equip) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolEquipDao.updatePoolEquip(equip));
+    }
+
+    public void deletePoolEquip(int equipID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolEquipDao.deletePoolEquip(equipID));
+    }
+
+    public void deleteAllPoolEquips(int poolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> poolEquipDao.deleteAllPoolEquips(poolID));
+    }
+
 }

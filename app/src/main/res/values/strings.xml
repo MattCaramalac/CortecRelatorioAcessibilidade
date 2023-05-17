@@ -59,6 +59,15 @@
         <item>EM ÂNGULO</item>
     </string-array>
 
+    <string-array name="multi_radio_pool_type">
+        <item>PERÍMETRO DE ATÉ 90 M</item>
+        <item>PERÍMETRO ACIMA DE 90 M</item>
+        <item>TANQUE DE ONDA, CORRENTEZA, ETC.</item>
+        <item>TANQUE TIPO SPA, OFURÔ, ETC.</item>
+    </string-array>
+
+    <string name="counter_qnt">(%1$d)</string>
+
 
     <string name="app_name">DAEX Acessibilidade</string>
 
@@ -171,7 +180,7 @@
     <string name="hint_parking_lot_total_vacancy">Total de Vagas no Estacionamento</string>
     <string name="floor_type">Tipo de Piso</string>
     <string name="parking_lot_signal">Sinalização do Estacionamento</string>
-    <string name="hint_stairs_width">Largura da Escadaria</string>
+    <string name="hint_stairs_width">Largura da Escadaria (m)</string>
     <string name="hint_handrail_height">Altura do Corrimão (m)</string>
     <string name="hint_initial_handrail_extensions_length">Prolongamento Inicial (m)</string>
     <string name="hint_final_handrail_extensions_length">Prolongamento Final (m)</string>
@@ -387,7 +396,7 @@
     <string name="hint_measurement_I">Medida I (m)</string>
     <string name="hint_measurement_J">Medida J (m)</string>
     <string name="hint_toilet_flush_height">Altura do acionamento da descarga</string>
-    <string name="hint_sup_bar_diameter">Diâmetro da barra de apoio</string>
+    <string name="hint_sup_bar_diameter">Diâmetro da barra de apoio (mm)</string>
     <string name="hint_sup_bar_obs">Observações sobre a barra de apoio</string>
     <string name="label_paper_holder_type">Tipo de Papeleira</string>
     <string name="radio_built_in_paper_holder">EMBUTIDA</string>
@@ -469,20 +478,20 @@
 
     <string name="long_measurement_header">Medições de Inclinação Longitudinal</string>
     <string name="sidewalk_slope_register_header">Cadastro de Rebaixamentos</string>
-    <string name="first_measurement_perc">Medição 1(%)</string>
-    <string name="second_measure_perc">Medição 2(%)</string>
-    <string name="third_measure_perc">Medição 3(%)</string>
-    <string name="fourth_measure_perc">Medição 4(%)</string>
-    <string name="fifth_measure_perc">Medição 5(%)</string>
-    <string name="sixth_measure_perc">Medição 6(%)</string>
-    <string name="measurement_m_1">Medição 1(m)</string>
-    <string name="measurement_m_2">Medição 2(m)</string>
-    <string name="measurement_m_3">Medição 3(m)</string>
-    <string name="measurement_m_4">Medição 4(m)</string>
-    <string name="measurement_mm_1">Medição 1(mm)</string>
-    <string name="measurement_mm_2">Medição 2(mm)</string>
-    <string name="measurement_mm_3">Medição 3(mm)</string>
-    <string name="measurement_mm_4">Medição 4(mm)</string>
+    <string name="first_measurement_perc">Medição 1 (%)</string>
+    <string name="second_measure_perc">Medição 2 (%)</string>
+    <string name="third_measure_perc">Medição 3 (%)</string>
+    <string name="fourth_measure_perc">Medição 4 (%)</string>
+    <string name="fifth_measure_perc">Medição 5 (%)</string>
+    <string name="sixth_measure_perc">Medição 6 (%)</string>
+    <string name="measurement_m_1">Medição 1 (m)</string>
+    <string name="measurement_m_2">Medição 2 (m)</string>
+    <string name="measurement_m_3">Medição 3 (m)</string>
+    <string name="measurement_m_4">Medição 4 (m)</string>
+    <string name="measurement_mm_1">Medição 1 (mm)</string>
+    <string name="measurement_mm_2">Medição 2 (mm)</string>
+    <string name="measurement_mm_3">Medição 3 (mm)</string>
+    <string name="measurement_mm_4">Medição 4 (mm)</string>
     <string name="left_wing_slope_header">Medições de Inclinação Aba Esquerda</string>
     <string name="right_wing_measure_header">Medições de Inclinação Aba Direita</string>
     <string name="hint_fountain_location">Localização do Bebedouro</string>
@@ -858,4 +867,10 @@
     <string name="initial_counter">(0)</string>
     <string name="header_single_step_register">Cadastro de Degraus Isolados</string>
     <string name="header_slope_register">Cadastro de Desníveis</string>
+    <string name="header_pool_ramp_inclination">Inclinação da rampa de acesso à piscina:</string>
+    <string name="header_pool_ramp_access_floor">O piso da rampa de acesso à piscina pode ser considerado acessível?</string>
+    <string name="header_pool_left_handrail">A rampa de acesso à piscina possui corrimão à sua esquerda?</string>
+    <string name="hint_pool_ref">Referencial: Entrada no Tanque da Piscina</string>
+    <string name="pool_ramp_right_handrail_header">A rampa de acesso à piscina possui corrimão à sua direita?</string>
+    <string name="hint_handrail_diam">Diâmetro do Corrimão (mm)</string>
 </resources>

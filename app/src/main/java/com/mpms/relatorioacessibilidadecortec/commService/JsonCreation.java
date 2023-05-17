@@ -18,6 +18,11 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolBenchEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEquipEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolRampEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
@@ -115,6 +120,11 @@ public class JsonCreation {
     private final List<RampStairsFlightEntry> circFlightList;
     private final List<RampStairsRailingEntry> circRailList;
     private final List<RampStairsHandrailEntry> circHandList;
+    private final List<PoolEntry> pList;
+    private final List<PoolRampEntry> poolRampList;
+    private final List<PoolStairsEntry> poolStairsList;
+    private final List<PoolBenchEntry> poolBenchList;
+    private final List<PoolEquipEntry> poolEquipList;
 
     public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blockList, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList,
                         List<PlaygroundEntry> playList, List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList,
@@ -132,7 +142,9 @@ public class JsonCreation {
                         List<WindowEntry> circWindowList, List<TableEntry> circTableList, List<BlackboardEntry> circBoardList, List<FreeSpaceEntry> circFreeSpList,
                         List<SingleStepEntry> circStepList, List<SlopeEntry> circSlopeList, List<WaterFountainEntry> circFountainList, List<EquipmentEntry> circEquipList,
                         List<CounterEntry> circCounterList, List<FallProtectionEntry> circProtectList, List<RampStairsEntry> circRampStairsList,
-                        List<RampStairsFlightEntry> circFlightList, List<RampStairsRailingEntry> circRailList, List<RampStairsHandrailEntry> circHandList) {
+                        List<RampStairsFlightEntry> circFlightList, List<RampStairsRailingEntry> circRailList, List<RampStairsHandrailEntry> circHandList,
+                        List<PoolEntry> pList, List<PoolRampEntry> poolRampList, List<PoolStairsEntry> poolStairsList, List<PoolBenchEntry> poolBenchList,
+                        List<PoolEquipEntry> poolEquipList) {
         this.school = school;
         this.blockList = blockList;
         this.roomList = roomList;
@@ -201,6 +213,11 @@ public class JsonCreation {
         this.circFlightList = circFlightList;
         this.circRailList = circRailList;
         this.circHandList = circHandList;
+        this.pList = pList;
+        this.poolRampList = poolRampList;
+        this.poolStairsList = poolStairsList;
+        this.poolBenchList = poolBenchList;
+        this.poolEquipList = poolEquipList;
     }
 
     public List<String> ambListCreator() {
@@ -978,5 +995,25 @@ public class JsonCreation {
 
     public List<RampStairsHandrailEntry> getCircHandList() {
         return circHandList;
+    }
+
+    public List<PoolEntry> getpList() {
+        return pList;
+    }
+
+    public List<PoolRampEntry> getPoolRampList() {
+        return poolRampList;
+    }
+
+    public List<PoolStairsEntry> getPoolStairsList() {
+        return poolStairsList;
+    }
+
+    public List<PoolBenchEntry> getPoolBenchList() {
+        return poolBenchList;
+    }
+
+    public List<PoolEquipEntry> getPoolEquipList() {
+        return poolEquipList;
     }
 }

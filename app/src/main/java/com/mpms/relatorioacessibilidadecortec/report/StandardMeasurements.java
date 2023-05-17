@@ -2,6 +2,10 @@ package com.mpms.relatorioacessibilidadecortec.report;
 
 public interface StandardMeasurements {
 
+//    Módulo de Referência
+    double mrWidth = 0.80;
+    double mrLength = 1.20;
+
     //    Sidewalk Measurements
     double sideWidth = 1.9;
     double freeLaneWidth = 1.2;
@@ -254,4 +258,34 @@ public interface StandardMeasurements {
     double minHeightProtect = 0.18;
     double safetyLaneWidth = 0.60;
     double latProtectHeight = 0.15;
+
+//    Pool Dimensions
+
+    double minPoolFenceHeight = 1.10;
+    double maxPoolFenceGaps = 11; //in cm
+    double minPublicSideLaneWidth = 1.80;
+    double minDepthPool = 0.50;
+
+//    Transfer Equipment
+    double behindEquipLength = 0.30;
+    double distanceAxisPool = 0.40;
+    double minHeightTransfEquip = 0.40;
+    double maxHeightTransfEquip = 0.48;
+
+//    Transfer Bench
+    double minBenchExtension = 1.20;
+    double minBenchBarDistance = 1.00;
+    double maxBenchBarDistance = 1.10;
+    double benchWidth = 0.45;
+    double minBenchHeight = 0.40;
+    double maxBenchHeight = 0.48;
+    double minBenchFreeSpaceHeight = 0.30;
+    double benchFreeSpaceDepth = 0.20;
+    double maxBenchWaterLevel = 0.10;
+
+//    PoolStairs
+    double maxPoolStairsMirror = 0.20;
+    double minPoolStepLength = 0.35;
+    double maxPoolStepLength = 0.46;
+    double lowerPoolHandHeight = 0.45;
 }

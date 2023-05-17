@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
-import com.mpms.relatorioacessibilidadecortec.adapter.PlayRecViewAdapter;
-import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.adapter.PoolRecViewAdapter;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEntry;
 import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
@@ -31,36 +31,35 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.Objects;
 
-public class PlaygroundListFragment extends Fragment implements OnEntryClickListener, TagInterface {
+public class PoolListFragment extends Fragment implements OnEntryClickListener, TagInterface {
 
-
-    MaterialButton closePlayList, addPlayground, continuePlayground;
+    MaterialButton closePoolList, addPool, continuePool;
 
     TextView registerHeader;
 
     private ViewModelEntry modelEntry;
     private InspectionViewModel dataView;
     private RecyclerView recyclerView;
-    private PlayRecViewAdapter playAdapter;
+    private PoolRecViewAdapter poolAdapter;
     private ActionMode actionMode;
 
     int delClick = 0;
 
-    Bundle playBundle = new Bundle();
+    Bundle poolBundle = new Bundle();
 
-    public PlaygroundListFragment() {
-        // Required empty public constructor
+    public PoolListFragment() {
+//        Required empty public construct
     }
 
-    public static PlaygroundListFragment newInstance() {
-        return new PlaygroundListFragment();
+    public static PoolListFragment newInstance() {
+        return new PoolListFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            playBundle.putInt(BLOCK_ID, this.getArguments().getInt(BLOCK_ID));
+            poolBundle.putInt(BLOCK_ID, this.getArguments().getInt(BLOCK_ID));
     }
 
     @Nullable
@@ -75,14 +74,14 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
 
         instantiatePlayListViews(view);
 
-        modelEntry.getAllPlaygroundsPerBlock(playBundle.getInt(BLOCK_ID)).observe(getViewLifecycleOwner(), playList -> {
-                    playAdapter = new PlayRecViewAdapter(playList, requireActivity(), this);
-                    recyclerView.setAdapter(playAdapter);
+        modelEntry.getAllPoolsPerBlock(poolBundle.getInt(BLOCK_ID)).observe(getViewLifecycleOwner(), poolList -> {
+                    poolAdapter = new PoolRecViewAdapter(poolList, requireActivity(), this);
+                    recyclerView.setAdapter(poolAdapter);
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                     recyclerView.addItemDecoration(dividerItemDecoration);
 
-                    playAdapter.setListener(new ListClickListener() {
+                    poolAdapter.setListener(new ListClickListener() {
                         @Override
                         public void onItemClick(int position) {
                             if (actionMode == null)
@@ -98,12 +97,12 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
                     });
                 });
 
-        addPlayground.setOnClickListener(v -> openPlayFragment());
+        addPool.setOnClickListener(v -> openPoolFragment());
 
-        closePlayList.setOnClickListener(v -> {
+        closePoolList.setOnClickListener(v -> {
             if (actionMode != null)
                 actionMode.finish();
-            requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, playBundle);
+            requireActivity().getSupportFragmentManager().setFragmentResult(CLOSE_ACTIVITY, poolBundle);
         });
 
     }
@@ -111,7 +110,8 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
     @Override
     public void onResume() {
         super.onResume();
-        playBundle.putInt(PLAY_ID, 0);
+        poolBundle.putInt(POOL_ID, 0);
+        poolBundle.putBoolean(RECENT_ENTRY, false);
         dataView.setVisible(true);
     }
 
@@ -134,7 +134,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
                 public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                     if (item.getItemId() == R.id.delete_button) {
                         delClick = 1;
-                        playAdapter.deleteItemList();
+                        poolAdapter.deleteItemList();
                         mode.finish();
                         return true;
                     }
@@ -144,47 +144,39 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        playAdapter.cancelSelection(recyclerView);
-                    playAdapter.selectedItems.clear();
-                    playAdapter.notifyDataSetChanged();
+                        poolAdapter.cancelSelection(recyclerView);
+                    poolAdapter.selectedItems.clear();
+                    poolAdapter.notifyDataSetChanged();
                     delClick = 0;
                     actionMode = null;
                 }
             });
         }
-
-        final int size = playAdapter.selectedItems.size();
-        if (size == 0) {
-            actionMode.finish();
-        } else {
-            actionMode.setTitle(size + "");
-            actionMode.invalidate();
-        }
     }
 
     @Override
     public void OnEntryClick(int position) {
-        PlaygroundEntry playEntry = modelEntry.allPlaygrounds.getValue().get(position);
-        playBundle.putInt(PLAY_ID, playEntry.getPlayID());
-        openPlayFragment();
+        PoolEntry poolEntry = modelEntry.allPools.getValue().get(position);
+        poolBundle.putInt(POOL_ID, poolEntry.getPoolID());
+        openPoolFragment();
     }
 
-    private void openPlayFragment() {
-        PlaygroundFragment playFragment = PlaygroundFragment.newInstance();
-        playFragment.setArguments(playBundle);
+    private void openPoolFragment() {
+        PoolFragment pool = PoolFragment.newInstance();
+        pool.setArguments(poolBundle);
         if (actionMode != null)
             actionMode.finish();
         requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.show_fragment_selected, playFragment).addToBackStack(null).commit();
+                .replace(R.id.show_fragment_selected, pool).addToBackStack(null).commit();
     }
 
 
     private void instantiatePlayListViews(View v) {
 //        MaterialButton
-        closePlayList = v.findViewById(R.id.cancel_child_items_entries);
-        addPlayground = v.findViewById(R.id.add_child_items_entries);
-        continuePlayground = v.findViewById(R.id.continue_child_items_entries);
-        continuePlayground.setVisibility(View.GONE);
+        closePoolList = v.findViewById(R.id.cancel_child_items_entries);
+        addPool = v.findViewById(R.id.add_child_items_entries);
+        continuePool = v.findViewById(R.id.continue_child_items_entries);
+        continuePool.setVisibility(View.GONE);
 //        RecyclerView
         recyclerView = v.findViewById(R.id.child_items_entries_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -197,4 +189,6 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
         dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
     }
+
+
 }

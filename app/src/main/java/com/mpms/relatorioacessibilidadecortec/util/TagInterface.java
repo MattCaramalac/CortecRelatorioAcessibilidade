@@ -100,6 +100,7 @@ public interface TagInterface {
     String PLAYGROUND_LIST = "PLAYGROUND_LIST";
     String BOX_LIST = "BOX_LIST";
     String CIRC_LIST = "CIRC_LIST";
+    String POOL_LIST = "POOL_LIST";
 
     //    Tags defining register's IDs
     String SIDEWALK_ID = "SIDEWALK_ID";
@@ -121,6 +122,11 @@ public interface TagInterface {
     String CIRC_ID = "CIRC_ID";
     String PROTECT_ID = "PROTECT_ID";
     String SLOPE_ID = "SLOPE_ID";
+    String POOL_ID = "POOL_ID";
+    String PRAMP_ID = "PRAMP_ID";
+    String PBENCH_ID = "PBENCH_ID";
+    String PTRANSF_ID = "PTRANSF_ID";
+    String PSTAIRS_ID = "PSTAIRS_ID";
 
     String SLOPE_QNT = "SLOPE_QNT";
     String SLOPE_ANGLE_1 = "SLOPE_ANGLE_1";

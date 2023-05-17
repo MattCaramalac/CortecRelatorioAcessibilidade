@@ -38,6 +38,11 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolBenchEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEquipEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolRampEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.PoolStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
@@ -104,6 +109,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     IdListObservable flParkID = new IdListObservable();
     IdListObservable restID = new IdListObservable();
     IdListObservable boxID = new IdListObservable();
+    IdListObservable poolID = new IdListObservable();
 
     List<CirculationEntry> circList = new ArrayList<>();
     List<RoomEntry> roomList = new ArrayList<>();
@@ -165,7 +171,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     List<FreeSpaceEntry> restFrSpaceList = new ArrayList<>();
     List<RestBoxEntry> boxList = new ArrayList<>();
     List<DoorEntry> boxDoorList = new ArrayList<>();
-//    Circulation Data
+    //    Circulation Data
     List<DoorEntry> circDoorList = new ArrayList<>();
     List<SwitchEntry> circSwitchList = new ArrayList<>();
     List<WindowEntry> circWindowList = new ArrayList<>();
@@ -178,6 +184,12 @@ public class InspectionMemorial extends Fragment implements TagInterface {
     List<EquipmentEntry> circEquipList = new ArrayList<>();
     List<CounterEntry> circCounterList = new ArrayList<>();
     List<FallProtectionEntry> circProtectList = new ArrayList<>();
+    //    PoolData
+    List<PoolEntry> pList = new ArrayList<>();
+    List<PoolRampEntry> poolRampList = new ArrayList<>();
+    List<PoolStairsEntry> poolStairsList = new ArrayList<>();
+    List<PoolBenchEntry> poolBenchList = new ArrayList<>();
+    List<PoolEquipEntry> poolEquipList = new ArrayList<>();
 
     Observer circIdList = (o, arg) -> {
         IdListObservable idBlockList = (IdListObservable) o;
@@ -209,14 +221,14 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         ViewModelEntry.getAllRampStCirc(idList).observe(getViewLifecycleOwner(), rampList -> {
             circRampStairsList = rampList;
             List<Integer> rIdList = new ArrayList<>();
-            for (RampStairsEntry r: rampList)
+            for (RampStairsEntry r : rampList)
                 rIdList.add(r.getRampStairsID());
             flCircID.setIdList(rIdList);
         });
 
     };
 
-    Observer flCircIdList = (o,arg) -> {
+    Observer flCircIdList = (o, arg) -> {
         IdListObservable idBlockList = (IdListObservable) o;
         List<Integer> idList = idBlockList.getIdList();
 
@@ -272,6 +284,24 @@ public class InspectionMemorial extends Fragment implements TagInterface {
             sideID.setIdList(sIDList);
         });
         ViewModelEntry.getAllWaterFountains(idList).observe(getViewLifecycleOwner(), wList -> fountList = wList);
+        ViewModelEntry.getAllPools(idList).observe(getViewLifecycleOwner(), poolList -> {
+            pList = poolList;
+            List<Integer> pIDList = new ArrayList<>();
+            for (PoolEntry p : pList)
+                pIDList.add(p.getPoolID());
+            poolID.setIdList(pIDList);
+        });
+    };
+
+    Observer poolIdList = (o, arg) -> {
+        IdListObservable idBlockList = (IdListObservable) o;
+        List<Integer> idList = idBlockList.getIdList();
+
+        ViewModelEntry.getAllPoolBenches(idList).observe(getViewLifecycleOwner(), benchList -> poolBenchList = benchList);
+        ViewModelEntry.getEveryPoolRamps(idList).observe(getViewLifecycleOwner(), rampList -> poolRampList = rampList);
+        ViewModelEntry.getEveryPoolStairs(idList).observe(getViewLifecycleOwner(), stairsList -> poolStairsList = stairsList);
+        ViewModelEntry.getEveryPoolEquips(idList).observe(getViewLifecycleOwner(), equipList -> poolEquipList = equipList);
+
     };
 
     Observer roomIdList = (o, arg) -> {
@@ -508,7 +538,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
                     roomRailList, sideRailList, extRailList, parkRailList, roomHandList, sideHandList, extHandList, parkHandList, blockQnt, hasHelpSpace, extParkQnt, intParkQnt,
                     elderList, pcdList, roomFountList, restDoorList, restFrSpaceList, boxList, boxDoorList, equipList, circList, circDoorList, circLockList, circSwitchList,
                     circWindowList, circTableList, circBoardList, circFreeSpList, circStepList, circSlopeList, circFountainList, circEquipList,
-                    circCounterList, circProtectList, circRampStairsList, circFlightList, circRailList, circHandList);
+                    circCounterList, circProtectList, circRampStairsList, circFlightList, circRailList, circHandList, pList , poolRampList , poolStairsList , poolBenchList , poolEquipList);
 
             tData = jCreate.createJson();
 
@@ -590,6 +620,8 @@ public class InspectionMemorial extends Fragment implements TagInterface {
                     return getString(R.string.header_playground_register);
                 case 4:
                     return getString(R.string.restroom_reg_header);
+                case 5:
+                    return "Cadastro de Piscinas";
             }
         } else {
             switch (choice) {
@@ -652,6 +684,7 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         flCircID.addObserver(flCircIdList);
         restID.addObserver(restroomIdList);
         boxID.addObserver(boxIdList);
+        poolID.addObserver(poolIdList);
     }
 
     public interface OnFragmentInteractionListener {

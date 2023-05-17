@@ -30,6 +30,7 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ExternalAccessListFragme
 import com.mpms.relatorioacessibilidadecortec.fragments.InspectionMemorial;
 import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.PlaygroundListFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.PoolListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RestListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.RoomRegisterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.SidewalkListFragment;
@@ -244,6 +245,9 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
                 case 4:
                     displayRestroomListFragment();
                     break;
+                case 5:
+                    displayPoolListFragment();
+                    break;
             }
         } else {
             switch (choice) {
@@ -306,6 +310,12 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         PlaygroundListFragment playListFragment = PlaygroundListFragment.newInstance();
         playListFragment.setArguments(inspectionBundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, playListFragment).addToBackStack(PLAYGROUND_LIST).commit();
+    }
+
+    public void displayPoolListFragment() {
+        PoolListFragment poolList = PoolListFragment.newInstance();
+        poolList.setArguments(inspectionBundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, poolList).addToBackStack(POOL_LIST).commit();
     }
 
     public boolean registerFragmentOnScreen() {

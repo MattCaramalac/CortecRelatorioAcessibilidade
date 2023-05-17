@@ -46,6 +46,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public static final Map<Integer, List<String>> helpFountainIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> blockFountainIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> playIrregular = new HashMap<>();
+    public static final Map<Integer, List<String>> poolIrregular = new HashMap<>();
     public static final Map<Integer, List<String>> circIrregular = new HashMap<>();
     public static final List<String> sideLocationList = new ArrayList<>();
     public static final List<String> extAccessList = new ArrayList<>();
@@ -61,6 +62,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
     public static final List<String> blockFountainList = new ArrayList<>();
     public static final List<String> circList = new ArrayList<>();
     public static final List<String> playList = new ArrayList<>();
+    public static final List<String> poolList = new ArrayList<>();
     public static final List<String> placeType = new ArrayList<>();
 
     public AmbientAnalysis(XWPFDocument mDoc, XWPFParagraph mParagraph, JsonCreation jCreate) {
@@ -78,6 +80,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
         ParkingAnalysis.parkVerification(jCreate.getBlockList(), jCreate.getParkList(), jCreate.getElderList(), jCreate.getPcdList(), jCreate.getParkStRaList(),
                 jCreate.getParkFlightList(), jCreate.getParkRailList(), jCreate.getParkHandList());
         PlaygroundAnalysis.playVerification(jCreate.getPlayList());
+        PoolAnalysis.poolVerification(jCreate.getpList(), jCreate.getPoolRampList(), jCreate.getPoolStairsList(), jCreate.getPoolBenchList(), jCreate.getPoolEquipList());
         RoomAnalysis.roomVerification(jCreate.getBlockList(), jCreate.getRoomList(), jCreate.getDoorList(), jCreate.getDoorLockList(), jCreate.getSwitchList(),
                 jCreate.getWindowList(), jCreate.getTableList(), jCreate.getBoardList(), jCreate.getFreeList(), jCreate.getRoomStRaList(), jCreate.getRoomFlightList(),
                 jCreate.getRoomRailList(), jCreate.getRoomHandList(), jCreate.getCounterList(), jCreate.getRoomWater(), jCreate.getEquipList());
@@ -148,6 +151,7 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
                 irregularTextListing(extParkList, extParkIrregular, numID, cursor);
             } else if (i == 1) {
                 irregularTextListing(playList, playIrregular, numID, cursor);
+                irregularTextListing(poolList, poolIrregular, numID, cursor);
                 irregularTextListing(helpRoomList, helpRoomIrregular, numID, cursor);
                 irregularTextListing(helpParkList, helpParkIrregular, numID, cursor);
                 irregularTextListing(helpRestList, helpRestIrregular, numID, cursor);
