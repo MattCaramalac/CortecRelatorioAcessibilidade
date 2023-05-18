@@ -1,6 +1,5 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
@@ -27,12 +25,13 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.SwitchLis
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.TableListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.WindowListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.CounterInterface;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.jetbrains.annotations.NotNull;
 
 
-public class CirculationTwoFragment extends Fragment implements TagInterface {
+public class CirculationTwoFragment extends Fragment implements TagInterface, CounterInterface {
 
     MaterialButton addDoor, addSwitch, addWindow, addTable, addBoard, addFreeSpace, addStairs, addRamps, addSteps, addSlopes, addFountain, addEquip, addCounter, addProtect,
             returnButton, saveButton;
@@ -138,117 +137,102 @@ public class CirculationTwoFragment extends Fragment implements TagInterface {
 
         modelEntry.getDoorsFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(doorCounter, list.size());
+                setCounter(getContext(), doorCounter, list.size());
             else
-                clearCounter(doorCounter);
+                clearCounter(getContext(), doorCounter);
         });
 
         modelEntry.getSwitchesFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(switchCounter, list.size());
+                setCounter(getContext(), switchCounter, list.size());
             else
-                clearCounter(switchCounter);
+                clearCounter(getContext(), switchCounter);
         });
 
         modelEntry.getWindowsFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(windowCounter, list.size());
+                setCounter(getContext(), windowCounter, list.size());
             else
-                clearCounter(windowCounter);
+                clearCounter(getContext(), windowCounter);
         });
 
         modelEntry.getTablesFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(tableCounter, list.size());
+                setCounter(getContext(), tableCounter, list.size());
             else
-                clearCounter(tableCounter);
+                clearCounter(getContext(), tableCounter);
         });
 
         modelEntry.getAllBlackboardsFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(boardCounter, list.size());
+                setCounter(getContext(), boardCounter, list.size());
             else
-                clearCounter(boardCounter);
+                clearCounter(getContext(), boardCounter);
         });
 
         modelEntry.getFreeSpaceFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(spaceCounter, list.size());
+                setCounter(getContext(), spaceCounter, list.size());
             else
-                clearCounter(spaceCounter);
+                clearCounter(getContext(), spaceCounter);
         });
 
         modelEntry.getAllCircSingleSteps(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(stepCounter, list.size());
+                setCounter(getContext(), stepCounter, list.size());
             else
-                clearCounter(stepCounter);
+                clearCounter(getContext(), stepCounter);
         });
 
         modelEntry.getAllCircSlopes(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(slopeCounter, list.size());
+                setCounter(getContext(), slopeCounter, list.size());
             else
-                clearCounter(slopeCounter);
+                clearCounter(getContext(), slopeCounter);
         });
 
         modelEntry.getCircWaterFountains(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(waterCounter, list.size());
+                setCounter(getContext(), waterCounter, list.size());
             else
-                clearCounter(waterCounter);
+                clearCounter(getContext(), waterCounter);
         });
 
         modelEntry.getEquipmentFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(equipCounter, list.size());
+                setCounter(getContext(), equipCounter, list.size());
             else
-                clearCounter(equipCounter);
+                clearCounter(getContext(), equipCounter);
         });
 
         modelEntry.getCountersFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(counter, list.size());
+                setCounter(getContext(), counter, list.size());
             else
-                clearCounter(counter);
+                clearCounter(getContext(), counter);
         });
 
         modelEntry.getStairsRampFromCirculation(circTwoBundle.getInt(CIRC_ID), 1).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(stairCounter, list.size());
+                setCounter(getContext(), stairCounter, list.size());
             else
-                clearCounter(stairCounter);
+                clearCounter(getContext(), stairCounter);
         });
 
         modelEntry.getStairsRampFromCirculation(circTwoBundle.getInt(CIRC_ID), 2).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(rampCounter, list.size());
+                setCounter(getContext(), rampCounter, list.size());
             else
-                clearCounter(rampCounter);
+                clearCounter(getContext(), rampCounter);
         });
 
         modelEntry.getFallProtectFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
-                setCounter(protectCounter, list.size());
+                setCounter(getContext(), protectCounter, list.size());
             else
-                clearCounter(protectCounter);
+                clearCounter(getContext(), protectCounter);
         });
     }
-
-    private void setCounter(TextView view, int number) {
-        view.setActivated(true);
-        view.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.countercolor));
-        view.setTypeface(null, Typeface.BOLD);
-        view.setText(new StringBuilder().append("(").append(number).append(")").toString());
-    }
-
-    private void clearCounter(TextView view) {
-        view.setActivated(false);
-        view.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.countercolor));
-        view.setTypeface(null, Typeface.NORMAL);
-        view.setText("(0)");
-    }
-
 
     private void buttonListener(View v) {
         if (v == returnButton)
