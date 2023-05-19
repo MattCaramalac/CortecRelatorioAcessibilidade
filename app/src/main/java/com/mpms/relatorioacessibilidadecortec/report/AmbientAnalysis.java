@@ -78,6 +78,38 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
         this.mDoc = mDoc;
         this.mParagraph = mParagraph;
         this.jCreate = jCreate;
+
+        blockNumber.clear();
+        sideIrregular.clear();
+        extIrregular.clear();
+        helpRoomIrregular.clear();
+        blockRoomIrregular.clear();
+        extParkIrregular.clear();
+        helpParkIrregular.clear();
+        helpRestIrregular.clear();
+        blockRestIrregular.clear();
+        helpFountainIrregular.clear();
+        blockFountainIrregular.clear();
+        playIrregular.clear();
+        poolIrregular.clear();
+        circIrregular.clear();
+        sideLocationList.clear();
+        extAccessList.clear();
+        helpRoomList.clear();
+        blockRoomList.clear();
+        extParkList.clear();
+        helpParkList.clear();
+        helpRestList.clear();
+        helpNoAccessRestList.clear();
+        blockRestList.clear();
+        blockNoAccessRestList.clear();
+        helpFountainList.clear();
+        blockFountainList.clear();
+        circList.clear();
+        playList.clear();
+        poolList.clear();
+        placeType.clear();
+
         CirculationAnalysis.circVerification(jCreate.getCircList(), jCreate.getCircDoorList(), jCreate.getCircLockList(), jCreate.getCircSwitchList(),
                 jCreate.getCircWindowList(), jCreate.getCircTableList(), jCreate.getCircBoardList(), jCreate.getCircFreeSpList(), jCreate.getCircStepList(),
                 jCreate.getCircSlopeList(), jCreate.getCircFountainList(), jCreate.getCircEquipList(), jCreate.getCircCounterList(), jCreate.getCircProtectList(),
@@ -190,8 +222,10 @@ public class AmbientAnalysis implements StandardMeasurements, TagInterface {
                                 jCreate.getBoxDoorList());
                         if (blockRestList.size() == 0 && blockRestIrregular.size() == 0)
                             blockRestList.add("Este bloco não possui sanitários com irregularidades");
-                        else if (blockNoAccessRestList.size() != 0)
+                        else if (blockNoAccessRestList.size() != 0) {
                             irregularTextListing(blockNoAccessRestList, null, numID, cursor);
+                            blockNoAccessRestList.clear();
+                        }
                         irregularTextListing(blockRestList, blockRestIrregular, numID, cursor);
 
 

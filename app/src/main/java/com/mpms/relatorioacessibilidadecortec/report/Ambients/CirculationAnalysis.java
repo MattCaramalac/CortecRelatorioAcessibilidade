@@ -66,7 +66,6 @@ public class CirculationAnalysis implements StandardMeasurements {
             AmbientAnalysis.circList.add("Não há cadastro de circulações com irregularidades;");
     }
 
-//    TODO - Criar análise de proteção contra quedas
     public static List<String> checkCircIrregularities(CirculationEntry circ, List<DoorEntry> circDoorList, List<DoorLockEntry> circLockList, List<SwitchEntry> circSwitchList,
                                                        List<WindowEntry> circWindowList, List<TableEntry> circTableList, List<BlackboardEntry> circBoardList, List<FreeSpaceEntry> circFreeSpList,
                                                        List<SingleStepEntry> circStepList, List<SlopeEntry> circSlopeList, List<WaterFountainEntry> circFountainList, List<EquipmentEntry> circEquipList,

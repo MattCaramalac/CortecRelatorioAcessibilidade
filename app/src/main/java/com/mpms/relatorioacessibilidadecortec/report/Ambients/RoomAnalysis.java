@@ -119,28 +119,32 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
                 roomIrr.add("presença de sinalização visual vertical com as seguintes observações: " + room.getRoomVertSignObs() + ";");
             }
 
-            if (room.getHasTactSign() == 0) {
-                check++;
-                roomIrr.add("ausência de sinalização tátil");
-            } else if (room.getHasTactSign() == 1) {
-                if (room.getTactSignHeight() != null && room.getTactSignHeight() < doorTactSignMinHeight) {
+
+            if (room.getHasTactSign() != null) {
+                if (room.getHasTactSign() == 0) {
                     check++;
-                    roomIrr.add("a altura de instalação da sinalização tátil é inferior à " + doorTactSignMinHeight + " m;");
-                } else if (room.getTactSignHeight() != null &&  room.getTactSignHeight() > doorTactSignMaxHeight) {
-                    check++;
-                    roomIrr.add("a altura de instalação da sinalização tátil é superior à " + doorTactSignMaxHeight + " m;");
-                } else {
-                    if (room.getTactSignIncl() != null && room.getTactSignIncl() < doorTactSignMinAngle) {
+                    roomIrr.add("ausência de sinalização tátil");
+                } else if (room.getHasTactSign() == 1) {
+                    if (room.getTactSignHeight() != null && room.getTactSignHeight() < doorTactSignMinHeight) {
                         check++;
-                        roomIrr.add("o ângulo do plano inclinado da sinalização tátil é inferior à " + doorTactSignMinAngle + "º;");
-                    } else if (room.getTactSignIncl() != null && room.getTactSignIncl() > doorTactSignMaxAngle) {
+                        roomIrr.add("a altura de instalação da sinalização tátil é inferior à " + doorTactSignMinHeight + " m;");
+                    } else if (room.getTactSignHeight() != null &&  room.getTactSignHeight() > doorTactSignMaxHeight) {
                         check++;
-                        roomIrr.add("o ângulo do plano inclinado da sinalização tátil é superior à " + doorTactSignMaxAngle + "º;");
+                        roomIrr.add("a altura de instalação da sinalização tátil é superior à " + doorTactSignMaxHeight + " m;");
+                    } else {
+                        if (room.getTactSignIncl() != null && room.getTactSignIncl() < doorTactSignMinAngle) {
+                            check++;
+                            roomIrr.add("o ângulo do plano inclinado da sinalização tátil é inferior à " + doorTactSignMinAngle + "º;");
+                        } else if (room.getTactSignIncl() != null && room.getTactSignIncl() > doorTactSignMaxAngle) {
+                            check++;
+                            roomIrr.add("o ângulo do plano inclinado da sinalização tátil é superior à " + doorTactSignMaxAngle + "º;");
+                        }
                     }
                 }
+                if (room.getTactSignObs() != null && room.getTactSignObs().length() > 0)
+                    roomIrr.add("as seguintes observações devem ser feitas sobre a sinalização tátil da porta: " + room.getTactSignObs().trim() + ";");
             }
-            if (room.getTactSignObs() != null && room.getTactSignObs().length() > 0)
-                roomIrr.add("as seguintes observações devem ser feitas sobre a sinalização tátil da porta: " + room.getTactSignObs().trim() + ";");
+
 
             if (room.getRoomHasLooseCarpet() == 1) {
                 check++;
