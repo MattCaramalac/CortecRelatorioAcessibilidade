@@ -94,6 +94,9 @@ public class SillStepFragment extends Fragment implements TagInterface {
         if (TextUtils.isEmpty(stepHeightValue.getText())) {
             stepHeightField.setError(getString(R.string.req_field_error));
             i++;
+        } else if (Double.parseDouble(String.valueOf(stepHeightValue.getText())) < 2) {
+            stepHeightField.setError(getString(R.string.help_step_height));
+            i++;
         }
         if (!bundle.getBoolean(ADD_ITEM_REQUEST))
             bundle.putBoolean(CHILD_DATA_COMPLETE, i == 0);

@@ -864,6 +864,7 @@
     <string name="button_add_measure">Adicionar Medição</string>
     <string name="button_add_command">Adicionar Comando</string>
     <string name="help_slope_height">Um desnível possui altura entre 0,5 até 2 cm</string>
+    <string name="help_step_height">Um degrau possui altura mínima de 2 cm</string>
     <string name="initial_counter">(0)</string>
     <string name="header_single_step_register">Cadastro de Degraus Isolados</string>
     <string name="header_slope_register">Cadastro de Desníveis</string>
