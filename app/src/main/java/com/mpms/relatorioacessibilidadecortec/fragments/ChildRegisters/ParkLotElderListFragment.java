@@ -24,7 +24,7 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.ParkElderRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotListFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ParentFragments.ParkingLotListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;

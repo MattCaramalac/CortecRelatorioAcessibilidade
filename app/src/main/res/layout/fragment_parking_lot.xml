@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ParkingLotFragment">
+    tools:context=".fragments.ParentFragments.ParkingLotFragment">
 
     <TextView
         android:id="@+id/parking_lot_header"

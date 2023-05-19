@@ -14,9 +14,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.fragments.SchoolRegisterFragmentOne;
-import com.mpms.relatorioacessibilidadecortec.fragments.SchoolRegisterFragmentThree;
-import com.mpms.relatorioacessibilidadecortec.fragments.SchoolRegisterFragmentTwo;
+import com.mpms.relatorioacessibilidadecortec.fragments.ParentFragments.SchoolRegisterFragmentOne;
+import com.mpms.relatorioacessibilidadecortec.fragments.ParentFragments.SchoolRegisterFragmentThree;
+import com.mpms.relatorioacessibilidadecortec.fragments.ParentFragments.SchoolRegisterFragmentTwo;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;

@@ -2,6 +2,15 @@ package com.mpms.relatorioacessibilidadecortec.report;
 
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
+import com.mpms.relatorioacessibilidadecortec.report.Ambients.CirculationAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Ambients.ExtAccessAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Ambients.FountainAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Ambients.ParkingAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Ambients.PlaygroundAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Ambients.PoolAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Ambients.RestAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Ambients.RoomAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Ambients.SidewalkAnalysis;
 import com.mpms.relatorioacessibilidadecortec.util.MapUtil;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 

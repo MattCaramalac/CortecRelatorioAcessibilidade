@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.RestUpViewFragment">
+    tools:context=".fragments.ParentFragments.RestUpViewFragment">
 
     <TextView
         android:id="@+id/rest_upper_view_header"

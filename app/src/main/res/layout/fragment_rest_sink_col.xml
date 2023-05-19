@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.RestSinkColFragment">
+    tools:context=".fragments.ParentFragments.RestSinkColFragment">
 
     <TextView
         android:id="@+id/col_sink_header"

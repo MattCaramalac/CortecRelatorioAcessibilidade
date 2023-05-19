@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.30"
-        class="com.mpms.relatorioacessibilidadecortec.fragments.BlockRegisterFragment"/>
+        class="com.mpms.relatorioacessibilidadecortec.fragments.ParentFragments.BlockRegisterFragment"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/show_block_spaces_registered"

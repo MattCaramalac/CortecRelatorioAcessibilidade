@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.PoolFragment">
+    tools:context=".fragments.ParentFragments.PoolFragment">
 
     <ScrollView
         android:id="@+id/pool_scroll"

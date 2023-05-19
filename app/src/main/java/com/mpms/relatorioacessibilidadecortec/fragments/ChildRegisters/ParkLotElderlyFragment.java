@@ -18,7 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.ParkingLotFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ParentFragments.ParkingLotFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;

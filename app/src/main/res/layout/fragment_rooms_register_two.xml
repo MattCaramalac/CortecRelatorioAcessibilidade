@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.RoomsRegisterFragmentTwo">
+    tools:context=".fragments.ParentFragments.RoomsRegisterFragmentTwo">
 
     <TextView
         android:id="@+id/room_register_header_two"

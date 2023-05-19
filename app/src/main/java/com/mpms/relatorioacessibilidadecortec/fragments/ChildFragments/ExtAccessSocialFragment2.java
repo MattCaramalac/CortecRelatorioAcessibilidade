@@ -25,7 +25,7 @@ import com.mpms.relatorioacessibilidadecortec.data.parcels.SlopeParcel;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.StepParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.GateObsListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.PayPhoneListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.RampStairsListFragment;
+import com.mpms.relatorioacessibilidadecortec.fragments.ParentFragments.RampStairsListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;

@@ -21,6 +21,6 @@ public interface CounterInterface {
         view.setActivated(false);
         view.setTextColor(ContextCompat.getColorStateList(context, R.color.countercolor));
         view.setTypeface(null, Typeface.NORMAL);
-        view.setText("(0)");
+        view.setText(context.getString(R.string.counter_qnt, 0));
     }
 }
