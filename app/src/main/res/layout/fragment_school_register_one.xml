@@ -15,31 +15,31 @@
             android:id="@+id/school_register_header_one"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
             android:text="@string/header_school_register"
             android:textSize="@dimen/section_header"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/school_name_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_school"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/school_register_header_one"
-            android:layout_marginTop="@dimen/usual_padding">
+            app:layout_constraintTop_toBottomOf="@id/school_register_header_one">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/school_name_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/school_name_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/school_address_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
@@ -54,54 +54,57 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/address_complement_field"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/address_linear_1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_address_complements"
-            app:layout_constraintEnd_toStartOf="@id/address_number_field"
-            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@id/school_address_field"
-            app:layout_constraintHorizontal_weight="2"
-            android:layout_marginEnd="@dimen/usual_padding">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/address_complement_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/address_number_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_address_number"
-            app:layout_constraintBaseline_toBaselineOf="@id/address_complement_field"
-            app:layout_constraintStart_toEndOf="@id/address_complement_field"
-            app:layout_constraintHorizontal_weight="@integer/weight_one"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/usual_padding">
+            android:baselineAligned="false">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/address_number_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/address_complement_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/usual_padding"
+                android:hint="@string/hint_address_complements"
+                android:layout_weight="2">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/address_complement_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/address_number_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
+                android:hint="@string/hint_address_number"
+                android:layout_weight="@integer/weight_one">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/address_number_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/address_neighborhood_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_address_neighborhood"
-            app:layout_constraintTop_toBottomOf="@id/address_complement_field">
+            app:layout_constraintTop_toBottomOf="@id/address_linear_1">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/address_neighborhood_value"
@@ -111,8 +114,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/address_city_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
@@ -127,8 +130,8 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/school_district_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
@@ -142,133 +145,212 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/first_telephone_number_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_contact_phone1"
-            app:layout_constraintEnd_toStartOf="@id/first_telephone_name_field"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/school_district_field"
-            app:layout_constraintHorizontal_weight="@integer/weight_one"
-            android:layout_marginEnd="@dimen/usual_padding">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/first_telephone_number_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:maxLength="@integer/max_length_phone"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/first_telephone_name_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_contact_name1"
-            app:layout_constraintBaseline_toBaselineOf="@id/first_telephone_number_field"
-            app:layout_constraintStart_toEndOf="@id/first_telephone_number_field"
-            app:layout_constraintHorizontal_weight="@integer/weight_one"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/usual_padding">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/first_telephone_name_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/second_telephone_number_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_contact_phone2"
-            app:layout_constraintEnd_toStartOf="@id/second_telephone_name_field"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/first_telephone_number_field"
-            app:layout_constraintHorizontal_weight="@integer/weight_one"
-            android:layout_marginEnd="@dimen/usual_padding">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/second_telephone_number_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:maxLength="@integer/max_length_phone"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/second_telephone_name_field"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/top_margins"
-            android:hint="@string/hint_contact_name2"
-            app:layout_constraintBaseline_toBaselineOf="@id/second_telephone_number_field"
-            app:layout_constraintStart_toEndOf="@id/second_telephone_number_field"
-            app:layout_constraintHorizontal_weight="@integer/weight_one"
-            app:layout_constraintTop_toBottomOf="@id/first_telephone_name_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="@dimen/usual_padding">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/second_telephone_name_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/name_responsible_field"
+        <LinearLayout
+            android:id="@+id/phone_linear_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/school_district_field"
             android:layout_marginTop="@dimen/usual_padding"
-            android:hint="@string/hint_name_responsible_visit"
-            app:layout_constraintTop_toBottomOf="@id/second_telephone_name_field">
+            android:baselineAligned="false">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/name_responsible_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/first_telephone_number_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/usual_padding"
+                android:hint="@string/hint_contact_phone1"
+                android:layout_weight="@integer/weight_one">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/first_telephone_number_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:maxLength="@integer/max_length_phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/first_telephone_name_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
+                android:hint="@string/hint_contact_name1"
+                android:layout_weight="@integer/weight_one">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/first_telephone_name_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/phone_linear_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/phone_linear_1"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:baselineAligned="false">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/second_telephone_number_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/usual_padding"
+                android:hint="@string/hint_contact_phone2"
+                android:layout_weight="@integer/weight_one">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/second_telephone_number_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:maxLength="@integer/max_length_phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/second_telephone_name_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
+                android:hint="@string/hint_contact_name2"
+                android:layout_weight="@integer/weight_one">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/second_telephone_name_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/responsible_linear_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/phone_linear_2"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:baselineAligned="false">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/first_responsible_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/usual_padding"
+                android:hint="@string/hint_responsible_visit_1"
+                android:layout_weight="@integer/weight_one">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ffirst_responsible_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:maxLength="@integer/max_length_phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/first_job_description_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
+                android:hint="@string/hint_responsible_job"
+                android:layout_weight="@integer/weight_one">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/first_job_description_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/responsible_linear_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/responsible_linear_1"
+            android:layout_marginTop="@dimen/usual_padding"
+            android:baselineAligned="false">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/second_responsible_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/usual_padding"
+                android:hint="@string/hint_responsible_visit_2"
+                android:layout_weight="@integer/weight_one">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fsecond_responsible_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:maxLength="@integer/max_length_phone" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/second_job_description_field"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/usual_padding"
+                android:hint="@string/hint_responsible_job"
+                android:layout_weight="@integer/weight_one">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/second_job_description_value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/name_team_components_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_visit_team"
-            app:layout_constraintTop_toBottomOf="@id/name_responsible_field">
+            app:layout_constraintTop_toBottomOf="@id/responsible_linear_2">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name_team_components_value"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="start"
                 android:inputType="textMultiLine"
+                android:lines="2"
                 android:overScrollMode="always"
                 android:scrollbarStyle="outsideInset"
                 android:scrollbars="vertical"
-                android:gravity="start"
-                android:scrollHorizontally="false"
-                android:lines="2" />
+                android:scrollHorizontally="false" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:id="@+id/email_field"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
