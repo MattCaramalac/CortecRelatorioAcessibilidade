@@ -23,7 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.SwitchRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -81,7 +80,7 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
             if (switchListBundle.getInt(AMBIENT_ID) == 0)
                 modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> switchListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
 
-            modelEntry.getSwitchesFromRoom(switchListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), switchList -> listCreator(switchList, this));
+            modelEntry.getSwitchesFromRoom(switchListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), switchList -> listCreator(switchList, this));
         }
 
         closeSwitchList.setOnClickListener(v -> {
@@ -97,13 +96,6 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
     public void onResume() {
         super.onResume();
         switchListBundle.putInt(SWITCH_ID, 0);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (switchListBundle.getInt(CIRC_ID) == 0)
-            RoomsRegisterFragment.roomModelFragments.setNewRoomID(switchListBundle.getInt(AMBIENT_ID));
     }
 
     private void enableActionMode() {

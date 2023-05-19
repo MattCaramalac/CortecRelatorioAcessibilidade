@@ -17,7 +17,6 @@ import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.Blackboar
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.CounterListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.EquipmentListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.FallProtectListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.FreeSpaceListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.SingleStepListFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.SlopeListFragment;
@@ -30,39 +29,37 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.jetbrains.annotations.NotNull;
 
+public class RoomsRegisterFragmentTwo extends Fragment implements CounterInterface, TagInterface {
 
-public class CirculationTwoFragment extends Fragment implements TagInterface, CounterInterface {
-
-    MaterialButton addDoor, addSwitch, addWindow, addTable, addBoard, addFreeSpace, addStairs, addRamps, addSteps, addSlopes, addFountain, addEquip, addCounter, addProtect,
+    MaterialButton addDoor, addSwitch, addWindow, addTable, addBoard, addFreeSpace, addStairs, addRamps, addSteps, addSlopes, addFountain, addEquip, addCounter,
             returnButton, saveButton;
     ViewModelEntry modelEntry;
     TextView doorCounter, switchCounter, windowCounter, tableCounter, boardCounter, spaceCounter, stairCounter, rampCounter, stepCounter, slopeCounter, waterCounter,
-            equipCounter, counter, protectCounter;
-    Bundle circTwoBundle;
+            equipCounter, counter, roomHeader, counterHeader;
+    Bundle roomTwoBundle;
 
-    public CirculationTwoFragment() {
+    public RoomsRegisterFragmentTwo() {
         // Required empty public constructor
     }
 
-
-    public static CirculationTwoFragment newInstance() {
-        return new CirculationTwoFragment();
+    public static RoomsRegisterFragmentTwo newInstance() {
+        return new RoomsRegisterFragmentTwo();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (this.getArguments() != null)
-            circTwoBundle = new Bundle(this.getArguments());
+            roomTwoBundle = new Bundle(this.getArguments());
         else
-            circTwoBundle = new Bundle();
+            roomTwoBundle = new Bundle();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_circulation_two, container, false);
+        return inflater.inflate(R.layout.fragment_rooms_register_two, container, false);
     }
 
     @Override
@@ -71,31 +68,29 @@ public class CirculationTwoFragment extends Fragment implements TagInterface, Co
 
         instantiateViews(view);
 
-        if (circTwoBundle.getInt(CIRC_ID) == 0) {
-            circTwoBundle.putBoolean(RECENT_ENTRY, true);
-            modelEntry.getLastCirculation().observe(getViewLifecycleOwner(), circ -> circTwoBundle.putInt(CIRC_ID, circ.getCircID()));
+        if (roomTwoBundle.getInt(AMBIENT_ID) == 0) {
+            roomTwoBundle.putBoolean(RECENT_ENTRY, true);
+            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), room -> roomTwoBundle.putInt(AMBIENT_ID, room.getRoomID()));
         }
-
     }
 
     private void instantiateViews(View view) {
 //        Material Button
-        addDoor = view.findViewById(R.id.circ_add_door_button);
-        addSwitch = view.findViewById(R.id.circ_add_switch_button);
-        addWindow = view.findViewById(R.id.circ_add_window_button);
-        addTable = view.findViewById(R.id.circ_add_tables_button);
-        addBoard = view.findViewById(R.id.circ_add_blackboard_button);
-        addFreeSpace = view.findViewById(R.id.circ_add_free_space_button);
-        addStairs = view.findViewById(R.id.circ_add_stairs_button);
-        addRamps = view.findViewById(R.id.circ_add_ramps_button);
-        addSteps = view.findViewById(R.id.circ_add_single_step_button);
-        addSlopes = view.findViewById(R.id.circ_add_slopes_button);
-        addFountain = view.findViewById(R.id.circ_add_fountain_button);
-        addEquip = view.findViewById(R.id.circ_add_equip_button);
-        addCounter = view.findViewById(R.id.circ_add_counter_button);
-        addProtect = view.findViewById(R.id.circ_add_fall_protect_button);
-        returnButton = view.findViewById(R.id.return_circ);
-        saveButton = view.findViewById(R.id.save_circ);
+        addDoor = view.findViewById(R.id.room_add_door_button);
+        addSwitch = view.findViewById(R.id.room_add_switch_button);
+        addWindow = view.findViewById(R.id.room_add_window_button);
+        addTable = view.findViewById(R.id.room_add_tables_button);
+        addBoard = view.findViewById(R.id.room_add_blackboard_button);
+        addFreeSpace = view.findViewById(R.id.room_add_free_space_button);
+        addStairs = view.findViewById(R.id.room_add_stairs_button);
+        addRamps = view.findViewById(R.id.room_add_ramps_button);
+        addSteps = view.findViewById(R.id.room_add_single_step_button);
+        addSlopes = view.findViewById(R.id.room_add_slopes_button);
+        addFountain = view.findViewById(R.id.room_add_fountain_button);
+        addEquip = view.findViewById(R.id.room_add_equip_button);
+        addCounter = view.findViewById(R.id.room_add_counter_button);
+        returnButton = view.findViewById(R.id.return_room_one);
+        saveButton = view.findViewById(R.id.save_room);
         addDoor.setOnClickListener(this::buttonListener);
         addSwitch.setOnClickListener(this::buttonListener);
         addWindow.setOnClickListener(this::buttonListener);
@@ -109,128 +104,127 @@ public class CirculationTwoFragment extends Fragment implements TagInterface, Co
         addFountain.setOnClickListener(this::buttonListener);
         addEquip.setOnClickListener(this::buttonListener);
         addCounter.setOnClickListener(this::buttonListener);
-        addProtect.setOnClickListener(this::buttonListener);
         returnButton.setOnClickListener(this::buttonListener);
         saveButton.setOnClickListener(this::buttonListener);
 //        TextView
-        doorCounter = view.findViewById(R.id.circ_door_counter);
-        switchCounter = view.findViewById(R.id.circ_switch_counter);
-        windowCounter = view.findViewById(R.id.circ_window_counter);
-        tableCounter = view.findViewById(R.id.circ_table_counter);
-        boardCounter = view.findViewById(R.id.circ_blackboard_counter);
-        spaceCounter = view.findViewById(R.id.circ_free_space_counter);
-        stairCounter = view.findViewById(R.id.circ_stairs_counter);
-        rampCounter = view.findViewById(R.id.circ_ramps_counter);
-        slopeCounter = view.findViewById(R.id.circ_slope_counter);
-        waterCounter = view.findViewById(R.id.circ_fountain_counter);
-        equipCounter = view.findViewById(R.id.circ_equip_counter);
-        counter = view.findViewById(R.id.circ_counter_counter);
-        protectCounter = view.findViewById(R.id.circ_fall_protect_counter);
-        stepCounter = view.findViewById(R.id.circ_step_counter);
+        roomHeader = view.findViewById(R.id.room_register_header_two);
+        doorCounter = view.findViewById(R.id.room_door_counter);
+        switchCounter = view.findViewById(R.id.room_switch_counter);
+        windowCounter = view.findViewById(R.id.room_window_counter);
+        tableCounter = view.findViewById(R.id.room_table_counter);
+        boardCounter = view.findViewById(R.id.room_blackboard_counter);
+        spaceCounter = view.findViewById(R.id.room_free_space_counter);
+        stairCounter = view.findViewById(R.id.room_stairs_counter);
+        rampCounter = view.findViewById(R.id.room_ramps_counter);
+        slopeCounter = view.findViewById(R.id.room_slope_counter);
+        waterCounter = view.findViewById(R.id.room_fountain_counter);
+        equipCounter = view.findViewById(R.id.room_equip_counter);
+        counterHeader = view.findViewById(R.id.label_room_counter_register);
+        counter = view.findViewById(R.id.room_counter_counter);
+        stepCounter = view.findViewById(R.id.room_step_counter);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
+
+        if (roomTwoBundle.getInt(ROOM_TYPE) == NUM_CAFE || roomTwoBundle.getInt(ROOM_TYPE) == NUM_OTHER) {
+            counter.setVisibility(View.VISIBLE);
+            counterHeader.setVisibility(View.VISIBLE);
+            addCounter.setVisibility(View.VISIBLE);
+        }
 
         counterListener();
     }
 
     private void counterListener() {
 
-        modelEntry.getDoorsFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getDoorsFromRoom(roomTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), doorCounter, list.size());
             else
                 clearCounter(getContext(), doorCounter);
         });
 
-        modelEntry.getSwitchesFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getSwitchesFromRoom(roomTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), switchCounter, list.size());
             else
                 clearCounter(getContext(), switchCounter);
         });
 
-        modelEntry.getWindowsFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getWindowsFromRoom(roomTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), windowCounter, list.size());
             else
                 clearCounter(getContext(), windowCounter);
         });
 
-        modelEntry.getTablesFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getTablesFromRoom(roomTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), tableCounter, list.size());
             else
                 clearCounter(getContext(), tableCounter);
         });
 
-        modelEntry.getAllBlackboardsFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getAllBlackboardsFromRoom(roomTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), boardCounter, list.size());
             else
                 clearCounter(getContext(), boardCounter);
         });
 
-        modelEntry.getFreeSpaceFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getFreeSpaceFromRoom(roomTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), spaceCounter, list.size());
             else
                 clearCounter(getContext(), spaceCounter);
         });
 
-        modelEntry.getAllCircSingleSteps(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getAllRoomSingleSteps(roomTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), stepCounter, list.size());
             else
                 clearCounter(getContext(), stepCounter);
         });
 
-        modelEntry.getAllCircSlopes(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getAllRoomSlopes(roomTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), slopeCounter, list.size());
             else
                 clearCounter(getContext(), slopeCounter);
         });
 
-        modelEntry.getCircWaterFountains(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getRoomWaterFountains(roomTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), waterCounter, list.size());
             else
                 clearCounter(getContext(), waterCounter);
         });
 
-        modelEntry.getEquipmentFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getEquipmentFromRoom(roomTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), equipCounter, list.size());
             else
                 clearCounter(getContext(), equipCounter);
         });
 
-        modelEntry.getCountersFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getCountersFromRoom(roomTwoBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), counter, list.size());
             else
                 clearCounter(getContext(), counter);
         });
 
-        modelEntry.getStairsRampFromCirculation(circTwoBundle.getInt(CIRC_ID), 1).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getStairsRampFromRoom(roomTwoBundle.getInt(AMBIENT_ID), 1).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), stairCounter, list.size());
             else
                 clearCounter(getContext(), stairCounter);
         });
 
-        modelEntry.getStairsRampFromCirculation(circTwoBundle.getInt(CIRC_ID), 2).observe(getViewLifecycleOwner(), list -> {
+        modelEntry.getStairsRampFromRoom(roomTwoBundle.getInt(AMBIENT_ID), 2).observe(getViewLifecycleOwner(), list -> {
             if (list != null && list.size() > 0)
                 setCounter(getContext(), rampCounter, list.size());
             else
                 clearCounter(getContext(), rampCounter);
-        });
-
-        modelEntry.getFallProtectFromCirc(circTwoBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(getContext(), protectCounter, list.size());
-            else
-                clearCounter(getContext(), protectCounter);
         });
     }
 
@@ -238,11 +232,11 @@ public class CirculationTwoFragment extends Fragment implements TagInterface, Co
         if (v == returnButton)
             requireActivity().getSupportFragmentManager().popBackStackImmediate();
         else if (v == saveButton) {
-            if (circTwoBundle.getBoolean(RECENT_ENTRY))
+            if (roomTwoBundle.getBoolean(RECENT_ENTRY))
                 Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
-            requireActivity().getSupportFragmentManager().popBackStack(CIRC_LIST, 0);
+            requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0);
         } else {
             Fragment fragment = new Fragment();
             if (v == addDoor)
@@ -259,11 +253,11 @@ public class CirculationTwoFragment extends Fragment implements TagInterface, Co
                 fragment = new FreeSpaceListFragment();
             if (v == addStairs) {
                 fragment = new RampStairsListFragment();
-                circTwoBundle.putInt(RAMP_OR_STAIRS, 1);
+                roomTwoBundle.putInt(RAMP_OR_STAIRS, 1);
             }
             if (v == addRamps) {
                 fragment = new RampStairsListFragment();
-                circTwoBundle.putInt(RAMP_OR_STAIRS, 2);
+                roomTwoBundle.putInt(RAMP_OR_STAIRS, 2);
             }
             if (v == addSteps)
                 fragment = new SingleStepListFragment();
@@ -275,13 +269,11 @@ public class CirculationTwoFragment extends Fragment implements TagInterface, Co
                 fragment = new EquipmentListFragment();
             if (v == addCounter)
                 fragment = new CounterListFragment();
-            else if (v == addProtect) {
-                fragment = new FallProtectListFragment();
-            }
 
-            fragment.setArguments(circTwoBundle);
-            requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.show_fragment_selected, fragment).addToBackStack(OTHER_OBJ_LIST).commit();
+        fragment.setArguments(roomTwoBundle);
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.show_fragment_selected, fragment).addToBackStack(OTHER_OBJ_LIST).commit();
+
         }
     }
 }

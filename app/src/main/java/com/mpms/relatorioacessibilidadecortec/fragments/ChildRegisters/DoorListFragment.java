@@ -23,7 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.DoorRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -97,13 +96,6 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
     public void onResume() {
         super.onResume();
         doorListBundle.putInt(DOOR_ID, 0);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (doorListBundle.getInt(CIRC_ID) == 0)
-            RoomsRegisterFragment.roomModelFragments.setNewRoomID(doorListBundle.getInt(AMBIENT_ID));
     }
 
     private ListClickListener clickListener() {

@@ -23,7 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.BlackboardRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -97,13 +96,6 @@ public class BlackboardListFragment extends Fragment implements OnEntryClickList
     public void onResume() {
         super.onResume();
         boardListBundle.putInt(BOARD_ID, 0);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (boardListBundle.getInt(CIRC_ID) == 0)
-            RoomsRegisterFragment.roomModelFragments.setNewRoomID(boardListBundle.getInt(AMBIENT_ID));
     }
 
     private void listCreator(List<BlackboardEntry> list, OnEntryClickListener listener) {

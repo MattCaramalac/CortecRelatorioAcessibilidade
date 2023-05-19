@@ -23,7 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.TableRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -97,13 +96,6 @@ public class TableListFragment extends Fragment implements OnEntryClickListener,
     public void onResume() {
         super.onResume();
         tableListBundle.putInt(TABLE_ID, 0);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (tableListBundle.getInt(CIRC_ID) == 0)
-            RoomsRegisterFragment.roomModelFragments.setNewRoomID(tableListBundle.getInt(AMBIENT_ID));
     }
 
     private void listCreator(List<TableEntry> list, OnEntryClickListener listener) {

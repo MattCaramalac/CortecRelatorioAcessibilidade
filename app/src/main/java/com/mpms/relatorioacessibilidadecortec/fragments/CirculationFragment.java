@@ -159,13 +159,13 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
     }
 
     private void saveUpdateCirculation(Bundle bundle) {
+        CirculationEntry entry = createCirculation(bundle);
         if (bundle.getInt(CIRC_ID) > 0) {
-            CirculationEntry entry = createCirculation(bundle);
             entry.setCircID(bundle.getInt(CIRC_ID));
             ViewModelEntry.updateCirculation(entry);
             callNextFragment(bundle);
         } else if (bundle.getInt(CIRC_ID) == 0) {
-            ViewModelEntry.insertCirculation(createCirculation(bundle));
+            ViewModelEntry.insertCirculation(entry);
             callNextFragment(bundle);
         } else {
             circBundle.putInt(CIRC_ID, 0);

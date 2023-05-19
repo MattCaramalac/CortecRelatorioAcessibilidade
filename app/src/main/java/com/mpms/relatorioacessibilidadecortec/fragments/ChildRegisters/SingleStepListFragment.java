@@ -23,7 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.StepRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -95,13 +94,6 @@ public class SingleStepListFragment extends Fragment implements OnEntryClickList
         super.onResume();
         stepListBundle.putInt(STEP_ID, 0);
         stepListBundle.putInt(RECENT_ENTRY, 0);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (stepListBundle.getInt(CIRC_ID) == 0)
-            RoomsRegisterFragment.roomModelFragments.setNewRoomID(stepListBundle.getInt(AMBIENT_ID));
     }
 
     private void listCreator(List<SingleStepEntry> list, OnEntryClickListener listener) {
@@ -181,7 +173,7 @@ public class SingleStepListFragment extends Fragment implements OnEntryClickList
 //        TextView
         stepHeader = v.findViewById(R.id.identifier_header);
         stepHeader.setVisibility(View.VISIBLE);
-        stepHeader.setText("Cadastro de Degraus Isolados");
+        stepHeader.setText(getString(R.string.header_single_step_register));
 //        MaterialButton
         closeStepList = v.findViewById(R.id.cancel_child_items_entries);
         addStep = v.findViewById(R.id.add_child_items_entries);

@@ -23,7 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.WindowRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -76,16 +75,12 @@ public class WindowListFragment extends Fragment implements OnEntryClickListener
         instantiateWindowListViews(view);
 
         if (windowListBundle.getInt(CIRC_ID) > 0) {
-            modelEntry.getWindowsFromCirc(windowListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), windowList -> {
-                listCreator(windowList, this);
-            });
+            modelEntry.getWindowsFromCirc(windowListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), windowList -> listCreator(windowList, this));
         } else {
             if (windowListBundle.getInt(AMBIENT_ID) == 0)
                 modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> windowListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
 
-            modelEntry.getWindowsFromRoom(windowListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), windowList -> {
-                listCreator(windowList, this);
-            });
+            modelEntry.getWindowsFromRoom(windowListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), windowList -> listCreator(windowList, this));
         }
 
         closeWindowList.setOnClickListener(v -> {
@@ -101,13 +96,6 @@ public class WindowListFragment extends Fragment implements OnEntryClickListener
     public void onResume() {
         super.onResume();
         windowListBundle.putInt(WINDOW_ID, 0);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (windowListBundle.getInt(CIRC_ID) == 0)
-            RoomsRegisterFragment.roomModelFragments.setNewRoomID(windowListBundle.getInt(AMBIENT_ID));
     }
 
     private void listCreator(List<WindowEntry> list, OnEntryClickListener listener) {

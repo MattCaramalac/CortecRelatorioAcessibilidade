@@ -23,7 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.FreeSpaceRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -99,13 +98,6 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
     public void onResume() {
         super.onResume();
         fSpaceListBundle.putInt(FREE_SPACE_ID, 0);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (!fSpaceListBundle.getBoolean(FROM_REST) && fSpaceListBundle.getInt(CIRC_ID) == 0)
-            RoomsRegisterFragment.roomModelFragments.setNewRoomID(fSpaceListBundle.getInt(AMBIENT_ID));
     }
 
     private void listLayoutCreator(List<FreeSpaceEntry> list, OnEntryClickListener listener) {

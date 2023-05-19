@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.CirculationTwoFragment">
+    tools:context=".fragments.RoomsRegisterFragmentTwo">
+
+    <TextView
+        android:id="@+id/room_register_header_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/section_header_bigger"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:id="@+id/circ_scroll_2"
+        android:id="@+id/room_scroll_2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_bigger"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
+        app:layout_constraintTop_toBottomOf="@id/room_register_header_two">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/label_circ_door_register"
+                android:id="@+id/label_room_door_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/label_door_register"
@@ -26,10 +34,10 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_door_button"
+                android:id="@+id/room_add_door_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/label_circ_door_register"
+                app:layout_constraintTop_toBottomOf="@id/label_room_door_register"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/top_margins"
@@ -39,28 +47,28 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_door_counter"
+                android:id="@+id/room_door_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_door_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_door_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_door_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_door_button"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
 
             <TextView
-                android:id="@+id/label_circ_switch_register"
+                android:id="@+id/label_room_switch_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_door_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_door_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_switch_register"
                 android:textSize="@dimen/section_header" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_switch_button"
+                android:id="@+id/room_add_switch_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/label_circ_switch_register"
+                app:layout_constraintTop_toBottomOf="@id/label_room_switch_register"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/top_margins"
@@ -70,11 +78,11 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_switch_counter"
+                android:id="@+id/room_switch_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_switch_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_switch_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_switch_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_switch_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
@@ -83,13 +91,13 @@
                 android:id="@+id/label_window_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_switch_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_switch_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_window_register"
                 android:textSize="@dimen/section_header" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_window_button"
+                android:id="@+id/room_add_window_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/label_window_register"
@@ -102,11 +110,11 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_window_counter"
+                android:id="@+id/room_window_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_window_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_window_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_window_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_window_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
@@ -115,13 +123,13 @@
                 android:id="@+id/label_table_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_window_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_window_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_table_register"
                 android:textSize="@dimen/section_header" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_tables_button"
+                android:id="@+id/room_add_tables_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/label_table_register"
@@ -134,11 +142,11 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_table_counter"
+                android:id="@+id/room_table_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_tables_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_tables_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_tables_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_tables_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
@@ -147,13 +155,13 @@
                 android:id="@+id/label_blackboard_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_tables_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_tables_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_blackboard_register"
                 android:textSize="@dimen/section_header" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_blackboard_button"
+                android:id="@+id/room_add_blackboard_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/label_blackboard_register"
@@ -166,11 +174,11 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_blackboard_counter"
+                android:id="@+id/room_blackboard_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_blackboard_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_blackboard_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_blackboard_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_blackboard_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
@@ -179,13 +187,13 @@
                 android:id="@+id/label_free_spaces"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_blackboard_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_blackboard_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_free_spaces"
                 android:textSize="@dimen/section_header" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_free_space_button"
+                android:id="@+id/room_add_free_space_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/label_free_spaces"
@@ -198,29 +206,29 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_free_space_counter"
+                android:id="@+id/room_free_space_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_free_space_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_free_space_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_free_space_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_free_space_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
 
             <TextView
-                android:id="@+id/label_circ_stairs"
+                android:id="@+id/label_room_stairs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_free_space_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_free_space_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_stairs_register"
                 android:textSize="@dimen/section_header" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_stairs_button"
+                android:id="@+id/room_add_stairs_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/label_circ_stairs"
+                app:layout_constraintTop_toBottomOf="@id/label_room_stairs"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/top_margins"
@@ -230,29 +238,29 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_stairs_counter"
+                android:id="@+id/room_stairs_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_stairs_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_stairs_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_stairs_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_stairs_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
 
             <TextView
-                android:id="@+id/label_circ_ramps"
+                android:id="@+id/label_room_ramps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_stairs_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_stairs_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/label_ramp_register_header"
                 android:textSize="@dimen/section_header" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_ramps_button"
+                android:id="@+id/room_add_ramps_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/label_circ_ramps"
+                app:layout_constraintTop_toBottomOf="@id/label_room_ramps"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/top_margins"
@@ -262,29 +270,29 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_ramps_counter"
+                android:id="@+id/room_ramps_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_ramps_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_ramps_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_ramps_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_ramps_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
 
             <TextView
-                android:id="@+id/label_circ_single_step"
+                android:id="@+id/label_room_single_step"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_ramps_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_ramps_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_single_step_register"
                 android:textSize="@dimen/section_header" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_single_step_button"
+                android:id="@+id/room_add_single_step_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/label_circ_single_step"
+                app:layout_constraintTop_toBottomOf="@id/label_room_single_step"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/top_margins"
@@ -294,29 +302,29 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_step_counter"
+                android:id="@+id/room_step_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_single_step_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_single_step_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_single_step_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_single_step_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
 
             <TextView
-                android:id="@+id/label_circ_slopes"
+                android:id="@+id/label_room_slopes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_single_step_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_single_step_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_slope_register"
                 android:textSize="@dimen/section_header" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_slopes_button"
+                android:id="@+id/room_add_slopes_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/label_circ_slopes"
+                app:layout_constraintTop_toBottomOf="@id/label_room_slopes"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/top_margins"
@@ -326,29 +334,29 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_slope_counter"
+                android:id="@+id/room_slope_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_slopes_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_slopes_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_slopes_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_slopes_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
 
             <TextView
-                android:id="@+id/label_circ_fountain"
+                android:id="@+id/label_room_fountain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_slopes_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_slopes_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_fountain_register"
                 android:textSize="@dimen/section_header" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_fountain_button"
+                android:id="@+id/room_add_fountain_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/label_circ_fountain"
+                app:layout_constraintTop_toBottomOf="@id/label_room_fountain"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/top_margins"
@@ -358,29 +366,29 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_fountain_counter"
+                android:id="@+id/room_fountain_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_fountain_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_fountain_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_fountain_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_fountain_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
 
             <TextView
-                android:id="@+id/label_circ_equip"
+                android:id="@+id/label_room_equip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_fountain_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_fountain_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_equip_register"
                 android:textSize="@dimen/section_header" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_equip_button"
+                android:id="@+id/room_add_equip_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/label_circ_equip"
+                app:layout_constraintTop_toBottomOf="@id/label_room_equip"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/top_margins"
@@ -390,85 +398,56 @@
                 app:cornerRadius="3dp" />
 
             <TextView
-                android:id="@+id/circ_equip_counter"
+                android:id="@+id/room_equip_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_equip_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_equip_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_equip_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_equip_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
                 android:textSize="@dimen/section_header_big" />
 
             <TextView
-                android:id="@+id/label_counter_register"
+                android:id="@+id/label_room_counter_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_equip_button"
+                app:layout_constraintTop_toBottomOf="@id/room_add_equip_button"
                 android:layout_marginTop="@dimen/usual_padding"
                 android:text="@string/header_counter_register"
-                android:textSize="@dimen/section_header" />
+                android:textSize="@dimen/section_header"
+                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_counter_button"
+                android:id="@+id/room_add_counter_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/label_counter_register"
+                app:layout_constraintTop_toBottomOf="@id/label_room_counter_register"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/top_margins"
                 android:backgroundTint="@color/purple_200"
                 android:text="@string/label_add_frag_entry"
                 android:textColor="@color/black"
-                app:cornerRadius="3dp" />
+                app:cornerRadius="3dp"
+                android:visibility="gone"/>
 
             <TextView
-                android:id="@+id/circ_counter_counter"
+                android:id="@+id/room_counter_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_counter_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_counter_button"
+                app:layout_constraintStart_toEndOf="@id/room_add_counter_button"
+                app:layout_constraintBaseline_toBaselineOf="@id/room_add_counter_button"
                 android:layout_marginTop="@dimen/top_margins"
                 android:layout_marginStart="32dp"
-                android:textSize="@dimen/section_header_big" />
-
-            <TextView
-                android:id="@+id/label_fall_protect_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/circ_add_counter_button"
-                android:layout_marginTop="@dimen/usual_padding"
-                android:text="@string/header_fall_protection"
-                android:textSize="@dimen/section_header" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/circ_add_fall_protect_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/label_fall_protect_register"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="@dimen/top_margins"
-                android:backgroundTint="@color/purple_200"
-                android:text="@string/label_add_frag_entry"
-                android:textColor="@color/black"
-                app:cornerRadius="3dp" />
-
-            <TextView
-                android:id="@+id/circ_fall_protect_counter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/circ_add_fall_protect_button"
-                app:layout_constraintBaseline_toBaselineOf="@id/circ_add_fall_protect_button"
-                android:layout_marginTop="@dimen/top_margins"
-                android:layout_marginStart="32dp"
-                android:textSize="@dimen/section_header_big" />
+                android:textSize="@dimen/section_header_big"
+                android:visibility="gone"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/save_circ"
+        android:id="@+id/save_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/top_margins"
@@ -476,17 +455,17 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/circ_scroll_2" />
+        app:layout_constraintTop_toBottomOf="@id/room_scroll_2" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/return_circ"
+        android:id="@+id/return_room_one"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/top_margins"
         android:text="@string/button_return"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@id/save_circ"
+        app:layout_constraintBaseline_toBaselineOf="@id/save_room"
         app:layout_constraintStart_toStartOf="parent" />
 
 

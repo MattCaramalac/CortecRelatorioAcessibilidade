@@ -23,7 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.SlopeRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -71,16 +70,12 @@ public class SlopeListFragment extends Fragment implements OnEntryClickListener,
         instantiateSlopeListViews(view);
 
         if (slopeListBundle.getInt(CIRC_ID) > 0) {
-            modelEntry.getAllCircSlopes(slopeListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> {
-                listCreator(list, this);
-            });
+            modelEntry.getAllCircSlopes(slopeListBundle.getInt(CIRC_ID)).observe(getViewLifecycleOwner(), list -> listCreator(list, this));
         } else {
             if (slopeListBundle.getInt(AMBIENT_ID) == 0)
                 modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), lastRoom -> slopeListBundle.putInt(AMBIENT_ID, lastRoom.getRoomID()));
 
-            modelEntry.getAllRoomSlopes(slopeListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-                listCreator(list, this);
-            });
+            modelEntry.getAllRoomSlopes(slopeListBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> listCreator(list, this));
         }
 
         closeSlopeList.setOnClickListener(v -> {
@@ -96,13 +91,6 @@ public class SlopeListFragment extends Fragment implements OnEntryClickListener,
     public void onResume() {
         super.onResume();
         slopeListBundle.putInt(SLOPE_ID, 0);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (slopeListBundle.getInt(CIRC_ID) == 0)
-            RoomsRegisterFragment.roomModelFragments.setNewRoomID(slopeListBundle.getInt(AMBIENT_ID));
     }
 
     private void listCreator(List<SlopeEntry> list, OnEntryClickListener listener) {
@@ -183,7 +171,7 @@ public class SlopeListFragment extends Fragment implements OnEntryClickListener,
 //        TextView
         slopeHeader = v.findViewById(R.id.identifier_header);
         slopeHeader.setVisibility(View.VISIBLE);
-        slopeHeader.setText("Cadastro de Desníveis");
+        slopeHeader.setText(getString(R.string.header_slope_register));
 //        MaterialButton
         closeSlopeList = v.findViewById(R.id.cancel_child_items_entries);
         addSlope = v.findViewById(R.id.add_child_items_entries);

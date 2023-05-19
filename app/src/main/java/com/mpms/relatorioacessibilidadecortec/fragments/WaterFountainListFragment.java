@@ -113,13 +113,6 @@ public class WaterFountainListFragment extends Fragment implements OnEntryClickL
         dataView.setVisible(!fountainBundle.getBoolean(FROM_ROOMS) && !fountainBundle.getBoolean(CIRCULATION));
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (fountainBundle.getBoolean(FROM_ROOMS))
-            RoomsRegisterFragment.roomModelFragments.setNewRoomID(fountainBundle.getInt(AMBIENT_ID));
-    }
-
     private void listCreator(List<WaterFountainEntry> list, OnEntryClickListener listener) {
         fountainAdapter = new WaterRecViewAdapter(list, requireActivity(), listener);
         recyclerView.setAdapter(fountainAdapter);

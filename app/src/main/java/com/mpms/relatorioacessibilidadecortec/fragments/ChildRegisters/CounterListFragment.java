@@ -23,7 +23,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.CounterRecViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CounterEntry;
-import com.mpms.relatorioacessibilidadecortec.fragments.RoomsRegisterFragment;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -98,13 +97,6 @@ public class CounterListFragment extends Fragment implements OnEntryClickListene
     public void onResume() {
         super.onResume();
         counterListBundle.putInt(COUNTER_ID, 0);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (counterListBundle.getInt(CIRC_ID) == 0)
-        RoomsRegisterFragment.roomModelFragments.setNewRoomID(counterListBundle.getInt(AMBIENT_ID));
     }
 
     private void listCreator(List<CounterEntry> list, OnEntryClickListener listener) {

@@ -1,6 +1,5 @@
 package com.mpms.relatorioacessibilidadecortec.fragments;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -30,14 +28,6 @@ import com.mpms.relatorioacessibilidadecortec.data.parcels.LibParcel;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.SecParcel;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.LibraryFragment;
 import com.mpms.relatorioacessibilidadecortec.fragments.ChildFragments.SecretariatFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.BlackboardListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.CounterListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.DoorListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.EquipmentListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.FreeSpaceListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.SwitchListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.TableListFragment;
-import com.mpms.relatorioacessibilidadecortec.fragments.ChildRegisters.WindowListFragment;
 import com.mpms.relatorioacessibilidadecortec.model.InspectionViewModel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
@@ -51,14 +41,13 @@ import java.util.ArrayList;
 
 public class RoomsRegisterFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
-    TextView roomIdentifier, vertSignError, looseCarpetError, accessFloorError, counterHeader, phoneError, biometryError, phoneHeader, biometryHeader, workRoomHeader,
-            workRoomError, doorCounter, switchCounter, windowCounter, tableCounter, boardCounter, spaceCounter, stairCounter, rampCounter, slopeCounter, waterCounter,
-            equipCounter, counter, stepCounter;
+    TextView roomIdentifier, vertSignError, looseCarpetError, accessFloorError, phoneError, biometryError, phoneHeader, biometryHeader, workRoomHeader,
+            workRoomError;
     TextInputLayout roomLocaleField, roomDescField, vertSignObsField, looseCarpetObsField, accessFloorObsField, roomObsField,
             phoneHeightField, phoneObsField, biometryHeightField, biometryObsField, roomPhotoField;
     TextInputEditText roomLocaleValue, roomDescValue, vertSignObsValue, looseCarpetObsValue, accessFloorObsValue, roomObsValue,
             phoneHeightValue, phoneObsValue, biometryHeightValue, biometryObsValue, roomPhotoValue;
-    MaterialButton addDoor, addSwitch, addWindow, addTable, addFreeSpace, addBlackboard, addCounter, addRamp, addStairs, addFountain, cancelRegister, saveRegister, addEquip;
+    MaterialButton cancelRegister, saveRegister;
     RadioGroup hasVertSingRadio, hasLooseCarpetRadio, hasAccessFloorRadio, phoneRadio, biometryRadio, workRoomRadio;
     FrameLayout childFrag;
     ConstraintLayout roomConst;
@@ -70,9 +59,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
     InspectionViewModel dataView;
     public static ViewModelFragments roomModelFragments;
     FragmentManager manager;
-
-    int newEntry = 1, recentEntry = 0, buttonPressed = 0;
-
 
     public RoomsRegisterFragment() {
         // Required empty public constructor
@@ -118,52 +104,15 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
         dataView.setVisible(false);
 
-        if (roomBundle.getInt(AMBIENT_ID) > 0) {
-            newEntry = 0;
+        if (roomBundle.getInt(AMBIENT_ID) > 0)
             modelEntry.getRoomEntry(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), this::loadRoomData);
-        }
 
-        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
-            if (bundle.getBoolean(ADD_ITEM_REQUEST)) {
+        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, getViewLifecycleOwner(), (key, bundle) -> {
+            if (roomNoEmptyFields(bundle) && bundle.getBoolean(CHILD_DATA_COMPLETE))
                 saveUpdateRoomEntry(bundle);
-                childFragCaller(buttonPressed, bundle);
-            } else {
-                if (roomNoEmptyFields(bundle) && bundle.getBoolean(CHILD_DATA_COMPLETE)) {
-                    saveUpdateRoomEntry(bundle);
-                    if (newEntry == 1 || (newEntry == 0 && recentEntry == 1)) {
-                        clearRoomFields();
-                        resetVariables(bundle);
-                        Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
-                    } else
-                        Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
-                    requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0);
-                } else
-                    Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
-            }
+            else
+                Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        roomModelFragments.getNewRoomID().observe(getViewLifecycleOwner(), newRoomID -> {
-            if (newRoomID != null && newRoomID > 0) {
-                if (newEntry == 1) {
-                    recentEntry = 1;
-                }
-                newEntry = 0;
-                roomBundle.putInt(AMBIENT_ID, newRoomID);
-                if (!modelEntry.getRoomEntry(roomBundle.getInt(AMBIENT_ID)).hasActiveObservers())
-                    modelEntry.getRoomEntry(newRoomID).observe(getViewLifecycleOwner(), this::loadRoomData);
-                roomModelFragments.setNewRoomID(null);
-            }
-        });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        roomModelFragments.setNewRoomID(null);
     }
 
     private void instantiateRoomViews(View view) {
@@ -173,26 +122,12 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         vertSignError = view.findViewById(R.id.visual_sign_error);
         looseCarpetError = view.findViewById(R.id.carpet_error);
         accessFloorError = view.findViewById(R.id.room_accessible_floor_error);
-        counterHeader = view.findViewById(R.id.label_counter_register);
         phoneHeader = view.findViewById(R.id.locale_has_intercom_header);
         biometryHeader = view.findViewById(R.id.locale_has_biometry_header);
         phoneError = view.findViewById(R.id.locale_has_intercom_error);
         biometryError = view.findViewById(R.id.locale_has_biometry_error);
         workRoomHeader = view.findViewById(R.id.work_room_header);
         workRoomError = view.findViewById(R.id.work_room_error);
-        doorCounter = view.findViewById(R.id.room_door_counter);
-        switchCounter = view.findViewById(R.id.room_switch_counter);
-        windowCounter = view.findViewById(R.id.room_window_counter);
-        tableCounter = view.findViewById(R.id.room_table_counter);
-        boardCounter = view.findViewById(R.id.room_blackboard_counter);
-        spaceCounter = view.findViewById(R.id.room_free_space_counter);
-        stairCounter = view.findViewById(R.id.room_stairs_counter);
-        rampCounter = view.findViewById(R.id.room_ramps_counter);
-        slopeCounter = view.findViewById(R.id.room_slope_counter);
-        waterCounter = view.findViewById(R.id.room_fountain_counter);
-        equipCounter = view.findViewById(R.id.room_equip_counter);
-        counter = view.findViewById(R.id.room_counter);
-        stepCounter = view.findViewById(R.id.room_step_counter);
 //        TextInputLayout
         roomLocaleField = view.findViewById(R.id.room_location_field);
         roomDescField = view.findViewById(R.id.room_description_field);
@@ -218,19 +153,8 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         biometryObsValue = view.findViewById(R.id.locale_has_biometry_obs_value);
         roomPhotoValue = view.findViewById(R.id.room_photo_value);
 //        MaterialButton
-        addDoor = view.findViewById(R.id.room_add_door_button);
-        addSwitch = view.findViewById(R.id.room_add_switch_button);
-        addWindow = view.findViewById(R.id.room_add_window_button);
-        addTable = view.findViewById(R.id.room_add_tables_button);
-        addFreeSpace = view.findViewById(R.id.room_add_free_space_button);
-        addBlackboard = view.findViewById(R.id.room_add_blackboard_button);
-        addCounter = view.findViewById(R.id.room_add_counter_button);
-        addRamp = view.findViewById(R.id.room_add_ramps_button);
-        addStairs = view.findViewById(R.id.room_add_stairs_button);
-        addFountain = view.findViewById(R.id.room_add_fountain_button);
-        addEquip = view.findViewById(R.id.room_add_equip_button);
         cancelRegister = view.findViewById(R.id.cancel_room);
-        saveRegister = view.findViewById(R.id.save_room);
+        saveRegister = view.findViewById(R.id.continue_room);
 //        RadioGroup
         workRoomRadio = view.findViewById(R.id.work_room_radio);
         hasVertSingRadio = view.findViewById(R.id.room_has_visual_sign_radio);
@@ -255,132 +179,12 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         phoneRadio.setOnCheckedChangeListener(this::radioListener);
         biometryRadio.setOnCheckedChangeListener(this::radioListener);
         workRoomRadio.setOnCheckedChangeListener(this::radioListener);
-        addDoor.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
-        addSwitch.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
-        addWindow.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
-        addTable.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
-        addFreeSpace.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
-        addBlackboard.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
-        addCounter.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
-        addRamp.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
-        addStairs.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
-        addFountain.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
-        addEquip.setOnClickListener(v -> buttonClickedListener(roomBundle, v));
-        saveRegister.setOnClickListener(v -> buttonClickedListener(roomBundle, view));
+        saveRegister.setOnClickListener(v -> saveContinueListener(roomBundle));
         cancelRegister.setOnClickListener(v -> cancelClick());
         addObsFieldsToArray();
         allowObsScroll(roomScrollArray);
         setChildFragView(roomBundle);
 
-        counterListener();
-    }
-
-    private void counterListener() {
-
-        modelEntry.getDoorsFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(doorCounter, list.size());
-            else
-                clearCounter(doorCounter);
-        });
-
-        modelEntry.getSwitchesFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(switchCounter, list.size());
-            else
-                clearCounter(switchCounter);
-        });
-
-        modelEntry.getWindowsFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(windowCounter, list.size());
-            else
-                clearCounter(windowCounter);
-        });
-
-        modelEntry.getTablesFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(tableCounter, list.size());
-            else
-                clearCounter(tableCounter);
-        });
-
-        modelEntry.getAllBlackboardsFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(boardCounter, list.size());
-            else
-                clearCounter(boardCounter);
-        });
-
-        modelEntry.getFreeSpaceFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(spaceCounter, list.size());
-            else
-                clearCounter(spaceCounter);
-        });
-
-        modelEntry.getAllRoomSingleSteps(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(stepCounter, list.size());
-            else
-                clearCounter(stepCounter);
-        });
-
-        modelEntry.getAllRoomSlopes(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(slopeCounter, list.size());
-            else
-                clearCounter(slopeCounter);
-        });
-
-        modelEntry.getRoomWaterFountains(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(waterCounter, list.size());
-            else
-                clearCounter(waterCounter);
-        });
-
-        modelEntry.getEquipmentFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(equipCounter, list.size());
-            else
-                clearCounter(equipCounter);
-        });
-
-        modelEntry.getCountersFromRoom(roomBundle.getInt(AMBIENT_ID)).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(counter, list.size());
-            else
-                clearCounter(counter);
-        });
-
-        modelEntry.getStairsRampFromRoom(roomBundle.getInt(AMBIENT_ID), 1).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(stairCounter, list.size());
-            else
-                clearCounter(stairCounter);
-        });
-
-        modelEntry.getStairsRampFromRoom(roomBundle.getInt(AMBIENT_ID), 2).observe(getViewLifecycleOwner(), list -> {
-            if (list != null && list.size() > 0)
-                setCounter(rampCounter, list.size());
-            else
-                clearCounter(rampCounter);
-        });
-    }
-
-    private void setCounter(TextView view, int number) {
-        view.setActivated(true);
-        view.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.countercolor));
-        view.setTypeface(null, Typeface.BOLD);
-        view.setText(new StringBuilder().append("(").append(number).append(")").toString());
-    }
-
-    private void clearCounter(TextView view) {
-        view.setActivated(false);
-        view.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.countercolor));
-        view.setTypeface(null, Typeface.NORMAL);
-        view.setText("(0)");
     }
 
     private void cancelClick() {
@@ -412,11 +216,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 phoneRadio.setVisibility(View.VISIBLE);
                 biometryRadio.setVisibility(View.VISIBLE);
                 break;
-            case NUM_CAFE:
-                counterHeader.setVisibility(View.VISIBLE);
-                addCounter.setVisibility(View.VISIBLE);
-                counter.setVisibility(View.VISIBLE);
-                break;
             case NUM_OTHER:
                 workRoomHeader.setVisibility(View.VISIBLE);
                 workRoomRadio.setVisibility(View.VISIBLE);
@@ -437,101 +236,44 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
     private void saveUpdateRoomEntry(Bundle bundle) {
         RoomEntry newRoom = newRoomEntry(bundle);
-        if (newEntry == 1) {
+        if (bundle.getInt(AMBIENT_ID) == 0) {
             ViewModelEntry.insertRoomEntry(newRoom);
-        } else if (newEntry == 0) {
+            if (bundle.getInt(ROOM_TYPE) != NUM_OTHER || (bundle.getInt(ROOM_TYPE) == NUM_OTHER && indexRadio(workRoomRadio) == 0))
+                callNextFragment(bundle);
+            else {
+                Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
+                requireActivity().getSupportFragmentManager().popBackStackImmediate();
+            }
+        } else if (bundle.getInt(AMBIENT_ID) > 0) {
             newRoom.setRoomID(bundle.getInt(AMBIENT_ID));
             ViewModelEntry.updateRoom(newRoom);
-        }
-    }
-
-    private void buttonClickedListener(Bundle bundle, View view) {
-        switch (view.getId()) {
-            case (R.id.room_add_door_button):
-                buttonPressed = 1;
-                break;
-            case (R.id.room_add_switch_button):
-                buttonPressed = 2;
-                break;
-            case (R.id.room_add_window_button):
-                buttonPressed = 3;
-                break;
-            case (R.id.room_add_tables_button):
-                buttonPressed = 4;
-                break;
-            case (R.id.room_add_free_space_button):
-                buttonPressed = 5;
-                break;
-            case (R.id.room_add_blackboard_button):
-                buttonPressed = 6;
-                break;
-            case (R.id.room_add_counter_button):
-                buttonPressed = 7;
-                break;
-            case (R.id.room_add_stairs_button):
-                buttonPressed = 8;
-                break;
-            case (R.id.room_add_ramps_button):
-                buttonPressed = 9;
-                break;
-            case (R.id.room_add_fountain_button):
-                buttonPressed = 10;
-                break;
-            case (R.id.room_add_equip_button):
-                buttonPressed = 11;
-                break;
-            default:
-                buttonPressed = 0;
-                break;
-        }
-
-        if (buttonPressed > 0) {
-            roomBundle.putBoolean(RECENT_ENTRY, true);
-            if (bundle.getInt(ROOM_TYPE) == NUM_LIB || bundle.getInt(ROOM_TYPE) == NUM_SEC) {
-                bundle.putBoolean(ADD_ITEM_REQUEST, true);
-                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);
-            } else {
-                saveUpdateRoomEntry(bundle);
-                childFragCaller(buttonPressed, bundle);
+            if (bundle.getInt(ROOM_TYPE) != NUM_OTHER || (bundle.getInt(ROOM_TYPE) == NUM_OTHER && indexRadio(workRoomRadio) == 0))
+                callNextFragment(bundle);
+            else {
+                Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
+                requireActivity().getSupportFragmentManager().popBackStackImmediate();
             }
         } else {
-            if (bundle.getInt(ROOM_TYPE) == NUM_LIB || bundle.getInt(ROOM_TYPE) == NUM_SEC) {
-                bundle.putBoolean(ADD_ITEM_REQUEST, false);
-                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);
-            } else {
-                if (roomNoEmptyFields(bundle)) {
-                    saveUpdateRoomEntry(bundle);
-                    if (newEntry == 1 || (newEntry == 0 && recentEntry == 1)) {
-                        clearRoomFields();
-                        resetVariables(bundle);
-                        Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
-                    }
-                    requireActivity().getSupportFragmentManager().popBackStack(ROOM_LIST, 0);
-                } else {
-                    Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
-                }
-            }
+            bundle.putInt(AMBIENT_ID, 0);
+            Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void resetVariables(Bundle bundle) {
-        bundle.putInt(AMBIENT_ID, 0);
-        bundle.putBoolean(ADD_ITEM_REQUEST, false);
-        newEntry = 1;
-        recentEntry = 0;
-        buttonPressed = 0;
+    private void saveContinueListener(Bundle bundle) {
+        if (bundle.getInt(ROOM_TYPE) == NUM_LIB || bundle.getInt(ROOM_TYPE) == NUM_SEC) {
+            getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, bundle);
+        } else if (roomNoEmptyFields(bundle))
+            saveUpdateRoomEntry(bundle);
+        else
+            Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
+
     }
 
-    private void clearRoomFields() {
-        roomLocaleValue.setText(null);
-        roomDescValue.setText(null);
-        hasVertSingRadio.clearCheck();
-        hasLooseCarpetRadio.clearCheck();
-        hasAccessFloorRadio.clearCheck();
-        phoneRadio.clearCheck();
-        biometryRadio.clearCheck();
+    private void callNextFragment(Bundle bundle) {
+        bundle.putBoolean(RECENT_ENTRY, true);
+        RoomsRegisterFragmentTwo fragment = new RoomsRegisterFragmentTwo();
+        fragment.setArguments(bundle);
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
     }
 
     private void clearRoomNoEmptyFieldsErrors() {
@@ -555,10 +297,10 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             roomLocaleField.setError(getString(R.string.req_field_error));
         }
         if (bundle.getInt(ROOM_TYPE) == NUM_OTHER) {
-            if (TextUtils.isEmpty(roomDescValue.getText())) {
-                i++;
-                roomDescField.setError(getString(R.string.req_field_error));
-            }
+//            if (TextUtils.isEmpty(roomDescValue.getText())) {
+//                i++;
+//                roomDescField.setError(getString(R.string.req_field_error));
+//            }
             if (indexRadio(workRoomRadio) == -1) {
                 i++;
                 workRoomError.setVisibility(View.VISIBLE);
@@ -608,56 +350,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             }
         }
         return i;
-    }
-
-    private void childFragCaller(int i, Bundle bundle) {
-        Fragment fragment = null;
-        bundle.putBoolean(FROM_ROOMS, true);
-        switch (i) {
-            case 1:
-                fragment = DoorListFragment.newInstance();
-                break;
-            case 2:
-                fragment = SwitchListFragment.newInstance();
-                break;
-            case 3:
-                fragment = WindowListFragment.newInstance();
-                break;
-            case 4:
-                fragment = TableListFragment.newInstance();
-                break;
-            case 5:
-                fragment = FreeSpaceListFragment.newInstance();
-                break;
-            case 6:
-                fragment = BlackboardListFragment.newInstance();
-                break;
-            case 7:
-                fragment = CounterListFragment.newInstance();
-                break;
-            case 8:
-                bundle.putInt(RAMP_OR_STAIRS, 1);
-                bundle.putInt(AMBIENT_TYPE, 4);
-                fragment = RampStairsListFragment.newInstance();
-                break;
-            case 9:
-                bundle.putInt(RAMP_OR_STAIRS, 2);
-                bundle.putInt(AMBIENT_TYPE, 4);
-                fragment = RampStairsListFragment.newInstance();
-                break;
-            case 10:
-                fragment = WaterFountainListFragment.newInstance();
-                break;
-            case 11:
-                fragment = EquipmentListFragment.newInstance();
-                break;
-        }
-        if (fragment != null) {
-            fragment.setArguments(bundle);
-            requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.show_fragment_selected, fragment).addToBackStack(ROOM_OBJ_LIST).commit();
-        } else
-            Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
     }
 
     private RoomEntry newRoomEntry(Bundle bundle) {
@@ -858,14 +550,14 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         if (radio == workRoomRadio) {
             if (index == 0) {
                 roomConst.setVisibility(View.VISIBLE);
-                counterHeader.setVisibility(View.VISIBLE);
-                addCounter.setVisibility(View.VISIBLE);
                 phoneHeader.setVisibility(View.VISIBLE);
                 biometryHeader.setVisibility(View.VISIBLE);
                 phoneRadio.setVisibility(View.VISIBLE);
                 biometryRadio.setVisibility(View.VISIBLE);
+                saveRegister.setText(getString(R.string.label_button_proceed_register));
             } else {
                 roomConst.setVisibility(View.GONE);
+                saveRegister.setText(getString(R.string.label_button_save));
             }
         } else if (radio == hasVertSingRadio) {
             if (index == 1) {
