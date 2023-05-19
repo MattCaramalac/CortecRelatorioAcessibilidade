@@ -42,13 +42,13 @@ import java.util.ArrayList;
 public class RoomsRegisterFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     TextView roomIdentifier, vertSignError, looseCarpetError, accessFloorError, phoneError, biometryError, phoneHeader, biometryHeader, workRoomHeader,
-            workRoomError;
+            workRoomError, tacSignError;
     TextInputLayout roomLocaleField, roomDescField, vertSignObsField, looseCarpetObsField, accessFloorObsField, roomObsField,
-            phoneHeightField, phoneObsField, biometryHeightField, biometryObsField, roomPhotoField;
+            phoneHeightField, phoneObsField, biometryHeightField, biometryObsField, roomPhotoField, tactSignHeightField, tactSignInclField, tactSignObsField;
     TextInputEditText roomLocaleValue, roomDescValue, vertSignObsValue, looseCarpetObsValue, accessFloorObsValue, roomObsValue,
-            phoneHeightValue, phoneObsValue, biometryHeightValue, biometryObsValue, roomPhotoValue;
+            phoneHeightValue, phoneObsValue, biometryHeightValue, biometryObsValue, roomPhotoValue, tactSignHeightValue, tactSignInclValue, tactSignObsValue;
     MaterialButton cancelRegister, saveRegister;
-    RadioGroup hasVertSingRadio, hasLooseCarpetRadio, hasAccessFloorRadio, phoneRadio, biometryRadio, workRoomRadio;
+    RadioGroup hasVertSingRadio, hasLooseCarpetRadio, hasAccessFloorRadio, phoneRadio, biometryRadio, workRoomRadio, tactSignRadio;
     FrameLayout childFrag;
     ConstraintLayout roomConst;
 
@@ -128,6 +128,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         biometryError = view.findViewById(R.id.locale_has_biometry_error);
         workRoomHeader = view.findViewById(R.id.work_room_header);
         workRoomError = view.findViewById(R.id.work_room_error);
+        tacSignError = view.findViewById(R.id.room_tactile_sign_error);
 //        TextInputLayout
         roomLocaleField = view.findViewById(R.id.room_location_field);
         roomDescField = view.findViewById(R.id.room_description_field);
@@ -140,6 +141,9 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         biometryHeightField = view.findViewById(R.id.biometry_height_field);
         biometryObsField = view.findViewById(R.id.locale_has_biometry_obs_field);
         roomPhotoField = view.findViewById(R.id.room_photo_field);
+        tactSignHeightField = view.findViewById(R.id.room_tact_sign_height_field);
+        tactSignInclField = view.findViewById(R.id.room_tact_sign_incl_field);
+        tactSignObsField = view.findViewById(R.id.tactile_sign_obs_field);
 //        TextInputLayout
         roomLocaleValue = view.findViewById(R.id.room_location_value);
         roomDescValue = view.findViewById(R.id.room_description_value);
@@ -152,6 +156,9 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         biometryHeightValue = view.findViewById(R.id.biometry_height_value);
         biometryObsValue = view.findViewById(R.id.locale_has_biometry_obs_value);
         roomPhotoValue = view.findViewById(R.id.room_photo_value);
+        tactSignHeightValue = view.findViewById(R.id.room_tact_sign_height_value);
+        tactSignInclValue = view.findViewById(R.id.room_tact_sign_incl_value);
+        tactSignObsValue = view.findViewById(R.id.tactile_sign_obs_value);
 //        MaterialButton
         cancelRegister = view.findViewById(R.id.cancel_room);
         saveRegister = view.findViewById(R.id.continue_room);
@@ -162,6 +169,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         hasAccessFloorRadio = view.findViewById(R.id.room_accessible_floor_radio);
         phoneRadio = view.findViewById(R.id.locale_has_intercom_radio);
         biometryRadio = view.findViewById(R.id.locale_has_biometry_radio);
+        tactSignRadio = view.findViewById(R.id.room_has_tactile_sign_radio);
 //        FrameLayout
         childFrag = view.findViewById(R.id.room_child_fragment);
 //        ConstLayout
@@ -176,6 +184,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         hasVertSingRadio.setOnCheckedChangeListener(this::radioListener);
         hasLooseCarpetRadio.setOnCheckedChangeListener(this::radioListener);
         hasAccessFloorRadio.setOnCheckedChangeListener(this::radioListener);
+        tactSignRadio.setOnCheckedChangeListener(this::radioListener);
         phoneRadio.setOnCheckedChangeListener(this::radioListener);
         biometryRadio.setOnCheckedChangeListener(this::radioListener);
         workRoomRadio.setOnCheckedChangeListener(this::radioListener);
@@ -287,6 +296,8 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         accessFloorError.setVisibility(View.GONE);
         phoneError.setVisibility(View.GONE);
         biometryError.setVisibility(View.GONE);
+        tactSignHeightField.setErrorEnabled(false);
+        tacSignError.setVisibility(View.GONE);
     }
 
     private boolean roomNoEmptyFields(Bundle bundle) {
@@ -297,10 +308,6 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             roomLocaleField.setError(getString(R.string.req_field_error));
         }
         if (bundle.getInt(ROOM_TYPE) == NUM_OTHER) {
-//            if (TextUtils.isEmpty(roomDescValue.getText())) {
-//                i++;
-//                roomDescField.setError(getString(R.string.req_field_error));
-//            }
             if (indexRadio(workRoomRadio) == -1) {
                 i++;
                 workRoomError.setVisibility(View.VISIBLE);
@@ -318,6 +325,15 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         if (indexRadio(hasVertSingRadio) == -1) {
             i++;
             vertSignError.setVisibility(View.VISIBLE);
+        }
+        if (indexRadio(tactSignRadio) == -1) {
+            i++;
+            tacSignError.setVisibility(View.VISIBLE);
+        } else if (indexRadio(tactSignRadio) == 1) {
+            if (TextUtils.isEmpty(tactSignHeightValue.getText())) {
+                i++;
+                tactSignHeightField.setError(getString(R.string.req_field_error));
+            }
         }
         if (indexRadio(hasLooseCarpetRadio) == -1) {
             i++;
@@ -354,10 +370,10 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
     private RoomEntry newRoomEntry(Bundle bundle) {
         String roomLocale, roomDescription = null, vertSignObs = null, looseCarpetObs = null, accessFloorObs = null, roomObs = null, secPcrSpaceObs = null,
-                intPhoneObs = null, bioClockObs = null, photos = null;
+                intPhoneObs = null, bioClockObs = null, photos = null, tactileSignObs = null;
         Integer isWork = null, libDistShelves = null, libLongCorridor = null, libPcrManeuver = null, libHasPC = null, libAccessPC = null, secHasFixedSeat = null,
-                secHasPcrSpace = null, hasIntPhone = null, hasBioClock = null, hasVertSing = null, hasLooseCarpet = null, accessFloor = null;
-        Double secPcrWidth = null, secPcrDepth = null, intPhoneHeight = null, bioClockHeight = null;
+                secHasPcrSpace = null, hasIntPhone = null, hasBioClock = null, hasVertSing = null, hasLooseCarpet = null, accessFloor = null, hasTactileSign = null;
+        Double secPcrWidth = null, secPcrDepth = null, intPhoneHeight = null, bioClockHeight = null, tactHeight = null, tactIncl = null;
 
         roomLocale = String.valueOf(roomLocaleValue.getText());
         if (bundle.getInt(ROOM_TYPE) == NUM_OTHER) {
@@ -368,6 +384,16 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 hasVertSing = indexRadio(hasVertSingRadio);
                 if (!TextUtils.isEmpty(vertSignObsValue.getText()))
                     vertSignObs = String.valueOf(vertSignObsValue.getText());
+                if (indexRadio(tactSignRadio) != -1) {
+                    hasTactileSign = indexRadio(tactSignRadio);
+                    if (hasTactileSign == 1)
+                        if (!TextUtils.isEmpty(tactSignHeightValue.getText()))
+                            tactHeight = Double.parseDouble(String.valueOf(tactSignHeightValue.getText()));
+                    if (!TextUtils.isEmpty(tactSignInclValue.getText()))
+                        tactIncl = Double.parseDouble(String.valueOf(tactSignInclValue.getText()));
+                }
+                if (!TextUtils.isEmpty(tactSignObsValue.getText()))
+                    tactileSignObs = String.valueOf(tactSignObsValue.getText());
                 hasLooseCarpet = indexRadio(hasLooseCarpetRadio);
                 if (!TextUtils.isEmpty(looseCarpetObsValue.getText()))
                     looseCarpetObs = String.valueOf(looseCarpetObsValue.getText());
@@ -395,6 +421,16 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
             hasVertSing = indexRadio(hasVertSingRadio);
             if (!TextUtils.isEmpty(vertSignObsValue.getText()))
                 vertSignObs = String.valueOf(vertSignObsValue.getText());
+            if (indexRadio(tactSignRadio) != -1) {
+                hasTactileSign = indexRadio(tactSignRadio);
+                if (hasTactileSign == 1)
+                    if (!TextUtils.isEmpty(tactSignHeightValue.getText()))
+                        tactHeight = Double.parseDouble(String.valueOf(tactSignHeightValue.getText()));
+                if (!TextUtils.isEmpty(tactSignInclValue.getText()))
+                    tactIncl = Double.parseDouble(String.valueOf(tactSignInclValue.getText()));
+            }
+            if (!TextUtils.isEmpty(tactSignObsValue.getText()))
+                tactileSignObs = String.valueOf(tactSignObsValue.getText());
             hasLooseCarpet = indexRadio(hasLooseCarpetRadio);
             if (!TextUtils.isEmpty(looseCarpetObsValue.getText()))
                 looseCarpetObs = String.valueOf(looseCarpetObsValue.getText());
@@ -456,7 +492,8 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
 
         return new RoomEntry(bundle.getInt(BLOCK_ID), bundle.getInt(ROOM_TYPE), roomLocale, roomDescription, isWork, hasVertSing, vertSignObs, hasLooseCarpet, looseCarpetObs,
                 accessFloor, accessFloorObs, libDistShelves, libLongCorridor, libPcrManeuver, libHasPC, libAccessPC, secHasFixedSeat, secHasPcrSpace, secPcrWidth,
-                secPcrDepth, secPcrSpaceObs, hasIntPhone, intPhoneHeight, intPhoneObs, hasBioClock, bioClockHeight, bioClockObs, photos, roomObs);
+                secPcrDepth, secPcrSpaceObs, hasIntPhone, intPhoneHeight, intPhoneObs, hasBioClock, bioClockHeight, bioClockObs, photos, roomObs, hasTactileSign, tactHeight,
+                tactIncl, tactileSignObs);
     }
 
     private void loadRoomData(RoomEntry roomEntry) {
@@ -472,6 +509,17 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                         checkRadioGroup(hasVertSingRadio, roomEntry.getRoomHasVertSing());
                     if (roomEntry.getRoomVertSignObs() != null)
                         vertSignObsValue.setText(roomEntry.getRoomVertSignObs());
+                    if (roomEntry.getHasTactSign() != null && roomEntry.getHasTactSign() > -1) {
+                        checkRadioGroup(tactSignRadio, roomEntry.getHasTactSign());
+                        if (roomEntry.getHasTactSign() == 1) {
+                            if (roomEntry.getTactSignHeight() != null)
+                                tactSignHeightValue.setText(String.valueOf(roomEntry.getTactSignHeight()));
+                            if (roomEntry.getTactSignIncl() != null)
+                                tactSignInclValue.setText(String.valueOf(roomEntry.getTactSignIncl()));
+                        }
+                    }
+                    if (roomEntry.getTactSignObs() != null)
+                        tactSignObsValue.setText(roomEntry.getTactSignObs());
                     if (roomEntry.getRoomHasLooseCarpet() != null && roomEntry.getRoomHasLooseCarpet() != -1) {
                         checkRadioGroup(hasLooseCarpetRadio, roomEntry.getRoomHasLooseCarpet());
                         if (roomEntry.getRoomHasLooseCarpet() == 1 && roomEntry.getLooseCarpetObs() != null)
@@ -506,6 +554,15 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 checkRadioGroup(hasVertSingRadio, roomEntry.getRoomHasVertSing());
             if (roomEntry.getRoomVertSignObs() != null)
                 vertSignObsValue.setText(roomEntry.getRoomVertSignObs());
+            if (roomEntry.getHasTactSign() != null && roomEntry.getHasTactSign() > -1) {
+                checkRadioGroup(tactSignRadio, roomEntry.getHasTactSign());
+                if (roomEntry.getHasTactSign() == 1) {
+                    if (roomEntry.getTactSignHeight() != null)
+                        tactSignHeightValue.setText(String.valueOf(roomEntry.getTactSignHeight()));
+                    if (roomEntry.getTactSignIncl() != null)
+                        tactSignInclValue.setText(String.valueOf(roomEntry.getTactSignIncl()));
+                }
+            }
             if (roomEntry.getRoomHasLooseCarpet() != null && roomEntry.getRoomHasLooseCarpet() != -1) {
                 checkRadioGroup(hasLooseCarpetRadio, roomEntry.getRoomHasLooseCarpet());
                 if (roomEntry.getRoomHasLooseCarpet() == 1 && roomEntry.getLooseCarpetObs() != null)
@@ -589,6 +646,16 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
                 phoneObsValue.setText(null);
                 phoneHeightField.setVisibility(View.GONE);
                 phoneObsField.setVisibility(View.GONE);
+            }
+        } else if (radio == tactSignRadio) {
+            if (index == 1) {
+                tactSignHeightField.setVisibility(View.VISIBLE);
+                tactSignInclField.setVisibility(View.VISIBLE);
+            } else {
+                tactSignHeightValue.setText(null);
+                tactSignInclValue.setText(null);
+                tactSignHeightField.setVisibility(View.GONE);
+                tactSignInclField.setVisibility(View.GONE);
             }
         } else {
             if (index == 1) {

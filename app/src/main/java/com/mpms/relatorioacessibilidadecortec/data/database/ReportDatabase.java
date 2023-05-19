@@ -96,7 +96,7 @@ import java.util.concurrent.Executors;
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
         PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class,
         CirculationEntry.class, SlopeEntry.class, SingleStepEntry.class, FallProtectionEntry.class, PoolEntry.class, PoolEquipEntry.class,
-        PoolBenchEntry.class, PoolRampEntry.class, PoolStairsEntry.class}, version = 78)
+        PoolBenchEntry.class, PoolRampEntry.class, PoolStairsEntry.class}, version = 79)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -2372,6 +2372,16 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_78_79 = new Migration(78, 79) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE RoomEntry ADD COLUMN hasTactSign INTEGER");
+            database.execSQL("ALTER TABLE RoomEntry ADD COLUMN tactSignHeight REAL");
+            database.execSQL("ALTER TABLE RoomEntry ADD COLUMN tactSignIncl REAL");
+            database.execSQL("ALTER TABLE RoomEntry ADD COLUMN tactSignObs TEXT");
+        }
+    };
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -2391,7 +2401,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66,
                                     MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70, MIGRATION_70_71, MIGRATION_71_72,
                                     MIGRATION_72_73, MIGRATION_73_74, MIGRATION_72_74, MIGRATION_74_75, MIGRATION_75_76, MIGRATION_76_77,
-                                    MIGRATION_77_78).build();
+                                    MIGRATION_77_78, MIGRATION_78_79).build();
                 }
             }
         }

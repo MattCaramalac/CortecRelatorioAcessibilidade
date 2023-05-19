@@ -135,30 +135,6 @@ public class DoorAnalysis implements StandardMeasurements {
             doors.append("observações sobre o visor da porta: ").append(door.getDoorWinObs());
         }
 
-        if (door.getDoorHasTactSign() == 0) {
-            doorIrregular(doors);
-            doors.append("a porta não possui sinalização tátil");
-        } else if (door.getDoorHasTactSign() == 1) {
-            if (door.getTactSignHeight() != null && door.getTactSignHeight() < doorTactSignMinHeight) {
-                doorIrregular(doors);
-                doors.append("a altura de instalação da sinalização tátil da porta é inferior à " + doorTactSignMinHeight + " m");
-            } else if (door.getTactSignHeight() != null &&  door.getTactSignHeight() > doorTactSignMaxHeight) {
-                doorIrregular(doors);
-                doors.append("a altura de instalação da sinalização tátil da porta é superior à " + doorTactSignMaxHeight + " m");
-            } else {
-                if (door.getTactSignIncl() != null && door.getTactSignIncl() < doorTactSignMinAngle) {
-                    doorIrregular(doors);
-                    doors.append("o ângulo do plano inclinado da sinalização tátil é inferior à " + doorTactSignMinAngle + "º");
-                } else if (door.getTactSignIncl() != null && door.getTactSignIncl() > doorTactSignMaxAngle) {
-                    doorIrregular(doors);
-                    doors.append("o ângulo do plano inclinado da sinalização tátil é superior à " + doorTactSignMaxAngle + "º");
-                }
-            }
-        }
-
-        if (door.getTactSignObs() != null && door.getTactSignObs().length() > 0)
-            doors.append("as seguintes observações devem ser feitas sobre a sinalização tátil da porta: ").append(door.getTactSignObs());
-
         String doorSill = DoorSillAnalysis.doorSillVerification(door);
         if (doorSill != null && doorSill.length() > 0) {
             doorIrregular(doors);

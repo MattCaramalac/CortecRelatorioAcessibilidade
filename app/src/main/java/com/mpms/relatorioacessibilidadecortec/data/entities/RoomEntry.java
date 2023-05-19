@@ -48,12 +48,18 @@ public class RoomEntry {
     private String roomPhoto;
     private String roomObs;
 
+    private Integer hasTactSign;
+    private Double tactSignHeight;
+    private Double tactSignIncl;
+    private String tactSignObs;
+
 
     public RoomEntry(int blockID, int roomType, String roomLocation, String roomDescription, Integer isWorkRoom, Integer roomHasVertSing, String roomVertSignObs,
                      Integer roomHasLooseCarpet, String looseCarpetObs, Integer roomAccessFloor, String accessFloorObs, Integer libDistShelvesOK, Integer libHasLongCorridors,
                      Integer libHasManeuverArea, Integer libHasPC, Integer libHasAccessPC, Integer secHasFixedSeats, Integer secHasPcrSpace, Double secPcrSpaceWidth,
                      Double secPcrSpaceDepth, String secPCRSpaceObs, Integer hasIntercom, Double intercomHeight, String intercomObs, Integer hasBioClock,
-                     Double bioClockHeight, String bioClockObs, String roomPhoto, String roomObs) {
+                     Double bioClockHeight, String bioClockObs, String roomPhoto, String roomObs, Integer hasTactSign, Double tactSignHeight, Double tactSignIncl,
+                     String tactSignObs) {
         this.blockID = blockID;
         this.roomType = roomType;
         this.roomLocation = roomLocation;
@@ -83,6 +89,10 @@ public class RoomEntry {
         this.bioClockObs = bioClockObs;
         this.roomPhoto = roomPhoto;
         this.roomObs = roomObs;
+        this.hasTactSign = hasTactSign;
+        this.tactSignHeight = tactSignHeight;
+        this.tactSignIncl = tactSignIncl;
+        this.tactSignObs = tactSignObs;
     }
 
     public int getRoomID() {
@@ -323,5 +333,37 @@ public class RoomEntry {
 
     public void setRoomObs(String roomObs) {
         this.roomObs = roomObs;
+    }
+
+    public Integer getHasTactSign() {
+        return hasTactSign;
+    }
+
+    public void setHasTactSign(Integer hasTactSign) {
+        this.hasTactSign = hasTactSign;
+    }
+
+    public Double getTactSignHeight() {
+        return tactSignHeight;
+    }
+
+    public void setTactSignHeight(Double tactSignHeight) {
+        this.tactSignHeight = tactSignHeight;
+    }
+
+    public Double getTactSignIncl() {
+        return tactSignIncl;
+    }
+
+    public void setTactSignIncl(Double tactSignIncl) {
+        this.tactSignIncl = tactSignIncl;
+    }
+
+    public String getTactSignObs() {
+        return tactSignObs;
+    }
+
+    public void setTactSignObs(String tactSignObs) {
+        this.tactSignObs = tactSignObs;
     }
 }
