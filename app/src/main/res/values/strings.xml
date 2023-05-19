@@ -78,6 +78,9 @@
     <string name="hint_city_school">Cidade</string>
     <string name="hint_contact_phone1">Telefone Contato 1</string>
     <string name="hint_contact_phone2">Telefone Contato 2</string>
+    <string name="hint_responsible_visit_1">Nome Acompanhante 1</string>
+    <string name="hint_responsible_visit_2">Nome Acompanhante 2</string>
+    <string name="hint_responsible_job">Função Acompanhante</string>
     <string name="hint_name_district">Distrito</string>
     <string name="hint_name_responsible_visit">Nome do Acompanhante da Visita</string>
     <string name="hint_total_students">Total de Estudantes</string>
@@ -459,11 +462,11 @@
     <string name="check_box_morning">Matutino:</string>
     <string name="check_box_evening">Noturno:</string>
     <string name="check_box_afternoon">Vespertino:</string>
-    <string name="check_box_pre_school">Pré-Escola:</string>
-    <string name="check_box_elementary_middle">Fundamental:</string>
+    <string name="check_box_child_education">Ed. Infantil:</string>
     <string name="check_box_elementary">Fundamental I:</string>
     <string name="check_box_middle_school">Fundamental II:</string>
     <string name="check_box_high_school">Ensino Médio:</string>
+
 
     <string name="students_employees_register_header">Informações sobre os Alunos e Colaboradores da Instituição</string>
     <string name="students_ages_header">Idades dos Alunos atendidos pela Instituição</string>
@@ -474,7 +477,6 @@
     <string name="date_picker_end_inspection">Selecione a data de término da inspeção</string>
     <string name="header_school_register">Cadastro da Instituição Vistoriada</string>
     <string name="header_school_info_work_services">Cadastro das Informações da Instituição</string>
-    <string name="check_box_maternal">Maternal:</string>
 
     <string name="long_measurement_header">Medições de Inclinação Longitudinal</string>
     <string name="sidewalk_slope_register_header">Cadastro de Rebaixamentos</string>
@@ -506,6 +508,8 @@
     <string name="hint_parking_vacancy_obs">Observações sobre a vaga</string>
     <string name="label_has_carpet_header">Possui tapete e/ou capacho solto?</string>
     <string name="hint_libras_obs">Observações Funcionários Capacitados em Libras</string>
+    <string name="elem_school_checkbox_hint">Do 1º ao 5º ano</string>
+    <string name="middle_school_checkbox_hint">Do 6º ao 9º ano</string>
     <string name="high_school_checkbox_hint">Do 1º ao 3º ano</string>
     <string name="label_radio_month">Meses</string>
     <string name="label_radio_years">Anos</string>
@@ -800,8 +804,6 @@
     <string name="radio_adult_size">ADULTO</string>
     <string name="hint_free_width_table">Largura Livre da Mesa (m)</string>
     <string name="hint_student_obs">Observações Cadastro de estudantes</string>
-    <string name="checkbox_nursery">Berçário</string>
-    <string name="checkbox_daycare">Creche</string>
     <string name="header_col_restroom">Cadastro de Lavatório Coletivo</string>
     <string name="header_rest_has_sink">Sanitário possui lavatório?</string>
     <string name="header_sink_type_collective">Qual o tipo de lavatório presente no sanitário?</string>
