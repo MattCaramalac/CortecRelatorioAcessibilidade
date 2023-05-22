@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,14 +19,17 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
-public class BlackboardFragment extends Fragment implements TagInterface, ScrollEditText {
+public class BlackboardFragment extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     TextInputLayout boardLocationField, boardInfHeightField, boardObsField, photoField;
     TextInputEditText boardLocationValue, boardInfHeightValue, boardObsValue, photoValue;
     MaterialButton saveBoard, cancelBoard;
+    RadioGroup boardType;
+    TextView boardError;
 
     Bundle boardBundle;
 
@@ -101,6 +106,10 @@ public class BlackboardFragment extends Fragment implements TagInterface, Scroll
 //        MaterialButton
         saveBoard = view.findViewById(R.id.save_board);
         cancelBoard = view.findViewById(R.id.cancel_board);
+//        RadioGroup
+        boardType = view.findViewById(R.id.board_type_radio);
+//        TextView
+        boardError = view.findViewById(R.id.board_type_error);
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 
@@ -108,6 +117,7 @@ public class BlackboardFragment extends Fragment implements TagInterface, Scroll
     }
 
     private void loadBoardData(BlackboardEntry entry) {
+        checkRadioGroup(boardType, entry.getBoardType());
         boardLocationValue.setText(entry.getBoardLocation());
         boardInfHeightValue.setText(String.valueOf(entry.getInfBorderHeight()));
         if (entry.getBoardObs() != null)
@@ -119,24 +129,26 @@ public class BlackboardFragment extends Fragment implements TagInterface, Scroll
     private boolean boardNoEmptyFields() {
         clearBoardEmptyFieldsErrors();
         int i = 0;
-        if (TextUtils.isEmpty(boardLocationValue.getText())) {
-            i++;
-            boardLocationField.setError(getString(R.string.req_field_error));
-        }
         if (TextUtils.isEmpty(boardInfHeightValue.getText())) {
             i++;
             boardInfHeightField.setError(getString(R.string.req_field_error));
+        }
+        if (indexRadio(boardType) == -1) {
+            i++;
+            boardError.setVisibility(View.VISIBLE);
         }
 
         return i == 0;
     }
 
     private void clearBoardEmptyFieldsErrors() {
+        boardError.setVisibility(View.GONE);
         boardLocationField.setErrorEnabled(false);
         boardInfHeightField.setErrorEnabled(false);
     }
 
     private void clearBoardFields() {
+        boardType.clearCheck();
         boardLocationValue.setText(null);
         boardInfHeightValue.setText(null);
         boardObsValue.setText(null);
@@ -147,20 +159,29 @@ public class BlackboardFragment extends Fragment implements TagInterface, Scroll
         Integer room = null, circ = null;
         String boardLocale, boardObs = null, photo = null;
         double boardInfHeight;
+        int type;
 
         if (bundle.getInt(AMBIENT_ID) > 0)
             room = bundle.getInt(AMBIENT_ID);
         else if (bundle.getInt(CIRC_ID) > 0)
             circ = bundle.getInt(CIRC_ID);
 
-        boardLocale = String.valueOf(boardLocationValue.getText());
+        if (!TextUtils.isEmpty(boardLocationValue.getText()))
+            boardLocale = String.valueOf(boardLocationValue.getText());
+        else
+            boardLocale = "Única";
         boardInfHeight = Double.parseDouble(String.valueOf(boardInfHeightValue.getText()));
+        type = indexRadio(boardType);
         if (!TextUtils.isEmpty(boardObsValue.getText()))
             boardObs = String.valueOf(boardObsValue.getText());
         if (!TextUtils.isEmpty(photoValue.getText()))
             photo = String.valueOf(photoValue.getText());
 
-//        TODO - Inserir este radio no BoardFragment e corrigir aqui
-        return new BlackboardEntry(room, circ, 0, boardLocale, boardInfHeight, boardObs, photo);
+        return new BlackboardEntry(room, circ, type, boardLocale, boardInfHeight, boardObs, photo);
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+
     }
 }

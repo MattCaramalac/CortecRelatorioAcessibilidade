@@ -20,17 +20,57 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
-        app:layout_constraintTop_toBottomOf="@id/blackboard_register_header"
-        android:layout_marginTop="@dimen/usual_padding">
+        app:layout_constraintTop_toBottomOf="@id/blackboard_register_header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/board_type_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Qual o tipo de quadro a ser cadastrado?"
+                android:textSize="@dimen/section_header"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/board_type_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/board_type_header">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="LOUSA"
+                    android:textSize="@dimen/radio_button_text" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="@integer/weight_one"
+                    android:text="MURAL"
+                    android:textSize="@dimen/radio_button_text" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/board_type_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_fields"
+                android:textColor="@color/error_message"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/board_type_radio" />
+
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/board_location_field"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/board_type_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_blackboard_location">

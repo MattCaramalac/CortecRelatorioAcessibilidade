@@ -76,7 +76,7 @@ public class BlackboardRecViewAdapter extends RecyclerView.Adapter<ViewHolderInt
     }
 
     private String boardNumber(int i) {
-        return "Lousa nº" + i;
+        return "Cadastro nº" + i;
     }
 
     @Override
