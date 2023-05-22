@@ -67,16 +67,11 @@ public class RampAnalysis implements StandardMeasurements {
             irregularFlight = false;
             StringBuilder builder = new StringBuilder();
             if (flight.getRampStairsID() == rStID) {
-                double angle = (flight.getRampHeight() * 100) / flight.getFlightLength();
-                if (angle > 5 || flight.getRampSlope1() != null && flight.getRampSlope1() > 5 || flight.getRampSlope2() != null && flight.getRampSlope2() > 5
+                if ( flight.getRampSlope1() != null && flight.getRampSlope1() > 5 || flight.getRampSlope2() != null && flight.getRampSlope2() > 5
                 || flight.getRampSlope3() != null && flight.getRampSlope3() > 5 || flight.getRampSlope4() != null && flight.getRampSlope4() > 5) {
                     if (flight.getFlightWidth() < minFlightWidth) {
                         flightIrregular(builder);
                         builder.append("largura livre mínima inferior à 1,20 m");
-                    }
-                    if (flight.getFlightLength() > maxLengthUntilInterLevel) {
-                        flightIrregular(builder);
-                        builder.append("comprimento do lance é superior à " + maxLengthUntilInterLevel + " m");
                     }
                     if (flight.getRampHeight() > highestRampHeight) {
                         flightIrregular(builder);

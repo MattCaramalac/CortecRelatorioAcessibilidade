@@ -228,6 +228,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
     }
 
     private void clearTableFields() {
+        tableDescValue.setText(null);
         tableTypeRadio.clearCheck();
         tableSizeRadio.clearCheck();
         supHeightValue.setText(null);

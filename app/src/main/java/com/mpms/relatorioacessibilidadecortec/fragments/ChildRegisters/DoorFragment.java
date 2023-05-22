@@ -45,10 +45,10 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
 
     TextInputLayout doorLocaleField, doorWidthField1, doorWidthField2, pictObsField, doorOpObsField, handleHeightField, handleObsField, horHandleHeightField,
             horHandleLengthField, horHandleFrameDistField, horHandleDiamField, horHandleDoorDistField, horHandleObsField, winInfHeightField, winSupHeightField,
-            winWidthField, winObsField, tactSignObsField, doorSillObsField, doorObsField, photoField;
+            winWidthField, winObsField, doorSillObsField, doorObsField, photoField;
     TextInputEditText doorLocaleValue, doorWidthValue1, doorWidthValue2, pictObsValue, doorOpObsValue, handleHeightValue, handleObsValue, horHandleHeightValue,
             horHandleLengthValue, horHandleFrameDistValue, horHandleDiamValue, horHandleDoorDistValue, horHandleObsValue, winInfHeightValue, winSupHeightValue,
-            winWidthValue, winObsValue, tactSignObsValue, doorSillObsValue, doorObsValue, photoValue;
+            winWidthValue, winObsValue, doorSillObsValue, doorObsValue, photoValue;
     TextView doorTypeHeader, doorTypeError, hasPictHeader, hasPictError, opDirHeader, opDirError, handleTypeError, doorLockError, horHandleError, doorWinHeader, doorWinError,
              addDoorLockHeader, doorSillError, labelDoorLock;
     RadioGroup doorTypeRadio, hasPictRadio, doorOpRadio, doorHandleTypeRadio, hasDoorLockRadio, hasHorHandleRadio, hasWindowRadio, doorSillRadio;
@@ -202,7 +202,6 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         winWidthField = view.findViewById(R.id.door_window_width_field);
         winObsField = view.findViewById(R.id.door_window_obs_field);
 
-        tactSignObsField = view.findViewById(R.id.tactile_sign_obs_field);
         doorSillObsField = view.findViewById(R.id.door_sill_obs_field);
         doorObsField = view.findViewById(R.id.door_obs_field);
         photoField = view.findViewById(R.id.door_photos_field);
@@ -225,7 +224,6 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         winWidthValue = view.findViewById(R.id.door_window_width_value);
         winObsValue = view.findViewById(R.id.door_window_obs_value);
 
-        tactSignObsValue = view.findViewById(R.id.tactile_sign_obs_value);
         doorSillObsValue = view.findViewById(R.id.door_sill_obs_value);
         doorObsValue = view.findViewById(R.id.door_obs_value);
         photoValue = view.findViewById(R.id.door_photos_value);
@@ -422,7 +420,6 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         winWidthValue.setText(null);
         winWidthField.setVisibility(View.GONE);
         winObsValue.setText(null);
-        tactSignObsValue.setText(null);
         doorSillObsValue.setText(null);
         doorObsValue.setText(null);
         doorSillMultiRadio.clearCheck();
@@ -515,10 +512,6 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
                 doorSillError.setVisibility(View.VISIBLE);
             }
         } else {
-            if (TextUtils.isEmpty(doorLocaleValue.getText())) {
-                i++;
-                doorLocaleField.setError(getString(R.string.req_field_error));
-            }
             if (indexRadio(doorTypeRadio) == -1) {
                 i++;
                 doorTypeError.setVisibility(View.VISIBLE);
@@ -725,9 +718,11 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
                 doorSillType = indexRadio(doorSillRadio);
             }
         } else {
-            if (!TextUtils.isEmpty(doorLocaleValue.getText())) {
+            if (!TextUtils.isEmpty(doorLocaleValue.getText()))
                 doorLocale = String.valueOf(doorLocaleValue.getText());
-            }
+            else
+                doorLocale = "Única";
+
             if (indexRadio(doorTypeRadio) != -1) {
                 doorType = indexRadio(doorTypeRadio);
                 if (doorType == 1 && !TextUtils.isEmpty(doorWidthValue2.getText()))

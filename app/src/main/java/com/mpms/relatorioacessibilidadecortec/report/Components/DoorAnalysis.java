@@ -154,8 +154,14 @@ public class DoorAnalysis implements StandardMeasurements {
             doors.append("Registros fotográficos: ").append(door.getDoorPhotos());
         }
 
-        if (doors.length() > 0)
-            doors.replace(21, 22, door.getDoorLocation());
+
+        if (doors.length() > 0) {
+            if (door.getDoorLocation().equals("única"))
+                doors.replace(5, 23, " única ");
+            else
+                doors.replace(21, 22, door.getDoorLocation());
+        }
+
         return doors.toString();
 
     }
@@ -184,32 +190,6 @@ public class DoorAnalysis implements StandardMeasurements {
         if (door.getOpDirectionObs() != null && door.getOpDirectionObs().length() > 0) {
             restBoxDoorIrregular(restBoxDoors);
             restBoxDoors.append("observações a serem apontadas sobre o sendito de abertura da porta: ").append(door.getOpDirectionObs());
-        }
-
-        if (!isBox) {
-            if (door.getDoorHasTactSign() == 0) {
-                doorIrregular(restBoxDoors);
-                restBoxDoors.append("a porta não possui sinalização tátil");
-            } else if (door.getDoorHasTactSign() == 1) {
-                if (door.getTactSignHeight() != null && door.getTactSignHeight() < doorTactSignMinHeight) {
-                    doorIrregular(restBoxDoors);
-                    restBoxDoors.append("a altura de instalação da sinalização tátil da porta é inferior à " + doorTactSignMinHeight + " m");
-                } else if (door.getTactSignHeight() != null &&  door.getTactSignHeight() > doorTactSignMaxHeight) {
-                    doorIrregular(restBoxDoors);
-                    restBoxDoors.append("a altura de instalação da sinalização tátil da porta é superior à " + doorTactSignMaxHeight + " m");
-                } else {
-                    if (door.getTactSignIncl() != null && door.getTactSignIncl() < doorTactSignMinAngle) {
-                        doorIrregular(restBoxDoors);
-                        restBoxDoors.append("o ângulo do plano inclinado da sinalização tátil é inferior à " + doorTactSignMinAngle + "º");
-                    } else if (door.getTactSignIncl() != null && door.getTactSignIncl() > doorTactSignMaxAngle) {
-                        doorIrregular(restBoxDoors);
-                        restBoxDoors.append("o ângulo do plano inclinado da sinalização tátil é superior à " + doorTactSignMaxAngle + "º");
-                    }
-                }
-            }
-
-            if (door.getTactSignObs() != null && door.getTactSignObs().length() > 0)
-                restBoxDoors.append("as seguintes observações devem ser feitas sobre a sinalização tátil da porta: ").append(door.getTactSignObs());
         }
 
         if (door.getDoorHandleType() == 1) {
