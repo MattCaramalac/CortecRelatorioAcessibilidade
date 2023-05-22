@@ -103,6 +103,17 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
         cancelCirc.setOnClickListener(v -> cancelClick());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!circBundle.getBoolean(RECENT_ENTRY)) {
+            modelEntry.getLastCirculation().observe(getViewLifecycleOwner(), entry -> {
+                if (circBundle.getBoolean(RECENT_ENTRY))
+                    callNextFragment(entry);
+            });
+        }
+    }
+
     private void instantiateCircViews(View view) {
 //        TextInputLayout
         circLocField = view.findViewById(R.id.circ_location_field);
@@ -165,16 +176,22 @@ public class CirculationFragment extends Fragment implements TagInterface, Scrol
             ViewModelEntry.updateCirculation(entry);
             callNextFragment(bundle);
         } else if (bundle.getInt(CIRC_ID) == 0) {
+            bundle.putBoolean(RECENT_ENTRY, true);
             ViewModelEntry.insertCirculation(entry);
-            callNextFragment(bundle);
         } else {
             circBundle.putInt(CIRC_ID, 0);
             Toast.makeText(getContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void callNextFragment(CirculationEntry entry) {
+        circBundle.putInt(CIRC_ID, entry.getCircID());
+        CirculationTwoFragment fragment = new CirculationTwoFragment();
+        fragment.setArguments(circBundle);
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
+    }
+
     private void callNextFragment(Bundle bundle) {
-        bundle.putBoolean(RECENT_ENTRY, true);
         CirculationTwoFragment fragment = new CirculationTwoFragment();
         fragment.setArguments(bundle);
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();

@@ -115,6 +115,17 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!roomBundle.getBoolean(RECENT_ENTRY)) {
+            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), room -> {
+                if (roomBundle.getBoolean(RECENT_ENTRY))
+                    callNextFragment(room);
+            });
+        }
+    }
+
     private void instantiateRoomViews(View view) {
 //        TextView
         roomIdentifier = view.findViewById(R.id.room_register_header);
@@ -248,7 +259,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         if (bundle.getInt(AMBIENT_ID) == 0) {
             ViewModelEntry.insertRoomEntry(newRoom);
             if (bundle.getInt(ROOM_TYPE) != NUM_OTHER || (bundle.getInt(ROOM_TYPE) == NUM_OTHER && indexRadio(workRoomRadio) == 0))
-                callNextFragment(bundle);
+                roomBundle.putBoolean(RECENT_ENTRY, true);
             else {
                 Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                 requireActivity().getSupportFragmentManager().popBackStackImmediate();
@@ -276,6 +287,13 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
         else
             Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void callNextFragment(RoomEntry entry) {
+        roomBundle.putInt(AMBIENT_ID, entry.getRoomID());
+        RoomsRegisterFragmentTwo fragment = new RoomsRegisterFragmentTwo();
+        fragment.setArguments(roomBundle);
+        requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.show_fragment_selected, fragment).addToBackStack(null).commit();
     }
 
     private void callNextFragment(Bundle bundle) {

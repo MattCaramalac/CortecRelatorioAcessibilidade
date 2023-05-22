@@ -319,8 +319,8 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         } else if (radio == tWallRadio) {
             RestSideWallFragment fragment = new RestSideWallFragment();
             fragment.setArguments(resToilBundle);
-                getChildFragmentManager().beginTransaction()
-                        .replace(R.id.toilet_wall_fragment, RestSideWallFragment.newInstance(index, resToilBundle)).commit();
+            getChildFragmentManager().beginTransaction()
+                    .replace(R.id.toilet_wall_fragment, RestSideWallFragment.newInstance(index, resToilBundle)).commit();
         } else if (radio == papHoldRadio) {
             if (index == 0) {
                 papEmbAValue.setText(null);
@@ -595,6 +595,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             checkRadioGroup(papHoldRadio, rest.getHasPapHolder());
         if (rest.getPapHolderType() != null)
             checkRadioGroup(papHoldTypeRadio, rest.getPapHolderType());
+        if (rest.getPapEmbDist() != null)
             papEmbAValue.setText(String.valueOf(rest.getPapEmbDist()));
         if (rest.getPapEmbHeight() != null)
             papEmbBValue.setText(String.valueOf(rest.getPapEmbHeight()));
@@ -605,7 +606,7 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
         if (rest.getPapHoldObs() != null)
             papObsValue.setText(rest.getPapHoldObs());
         if (rest.getHasDouche() != null)
-           checkRadioGroup(doucheRadio, rest.getHasDouche());
+            checkRadioGroup(doucheRadio, rest.getHasDouche());
         if (rest.getDoucheActHeight() != null)
             doucheActHeightValue.setText(String.valueOf(rest.getDoucheActHeight()));
         if (rest.getDouchePressHeight() != null)
@@ -661,7 +662,8 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
             checkRadioGroup(papHoldRadio, rest.getHasPapHolder());
         if (rest.getPapHolderType() != null)
             checkRadioGroup(papHoldTypeRadio, rest.getPapHolderType());
-        papEmbAValue.setText(String.valueOf(rest.getPapEmbDist()));
+        if (rest.getPapEmbDist() != null)
+            papEmbAValue.setText(String.valueOf(rest.getPapEmbDist()));
         if (rest.getPapEmbHeight() != null)
             papEmbBValue.setText(String.valueOf(rest.getPapEmbHeight()));
         if (rest.getPapSupAlign() != null)

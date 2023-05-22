@@ -71,11 +71,6 @@ public class CirculationTwoFragment extends Fragment implements TagInterface, Co
 
         instantiateViews(view);
 
-        if (circTwoBundle.getInt(CIRC_ID) == 0) {
-            circTwoBundle.putBoolean(RECENT_ENTRY, true);
-            modelEntry.getLastCirculation().observe(getViewLifecycleOwner(), circ -> circTwoBundle.putInt(CIRC_ID, circ.getCircID()));
-        }
-
     }
 
     private void instantiateViews(View view) {

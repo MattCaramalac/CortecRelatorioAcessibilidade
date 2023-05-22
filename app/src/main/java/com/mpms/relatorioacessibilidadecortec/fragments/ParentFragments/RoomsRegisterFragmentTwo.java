@@ -67,11 +67,6 @@ public class RoomsRegisterFragmentTwo extends Fragment implements CounterInterfa
         super.onViewCreated(view, savedInstanceState);
 
         instantiateViews(view);
-
-        if (roomTwoBundle.getInt(AMBIENT_ID) == 0) {
-            roomTwoBundle.putBoolean(RECENT_ENTRY, true);
-            modelEntry.getLastRoomEntry().observe(getViewLifecycleOwner(), room -> roomTwoBundle.putInt(AMBIENT_ID, room.getRoomID()));
-        }
     }
 
     private void instantiateViews(View view) {
