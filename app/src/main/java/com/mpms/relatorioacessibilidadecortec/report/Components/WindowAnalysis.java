@@ -81,8 +81,13 @@ public class WindowAnalysis implements StandardMeasurements {
             builder.append("Registros fotográficos: ").append(window.getWindowPhoto());
         }
 
-        if (builder.length() > 0)
-            builder.replace(21, 22, window.getWindowLocation());
+        if (builder.length() > 0) {
+            if (window.getWindowLocation().equals("única"))
+                builder.replace(7, 22, window.getWindowLocation());
+            else
+                builder.replace(21, 22, window.getWindowLocation());
+        }
+
         return builder.toString();
     }
 

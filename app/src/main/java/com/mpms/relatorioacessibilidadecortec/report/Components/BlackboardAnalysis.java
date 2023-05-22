@@ -61,8 +61,18 @@ public class BlackboardAnalysis implements StandardMeasurements {
             builder.append("Registros fotográficos: ").append(board.getBoardPhoto());
         }
 
-        if (builder.length() > 0)
-            builder.replace(33, 34, board.getBoardLocation());
+        if (builder.length() > 0) {
+            if (board.getBoardLocation().equals("Única"))
+                builder.replace(13, 31, " única ");
+            else
+                builder.replace(29, 30, board.getBoardLocation());
+
+
+            if (board.getBoardType() == 0)
+                builder.replace(12, 13, "lousa");
+            else
+                builder.replace(12, 13, "mural");
+        }
 
         return builder.toString();
     }
@@ -70,7 +80,7 @@ public class BlackboardAnalysis implements StandardMeasurements {
     private static void boardIrregular(StringBuilder builder) {
         if (!irregularBoard) {
             irregularBoard = true;
-            builder.append("Presença de lousa, localizada em x, com as seguintes irregularidades: ");
+            builder.append("Presença de x, localizada em y, com as seguintes irregularidades: ");
         } else
             builder.append(", ");
     }
