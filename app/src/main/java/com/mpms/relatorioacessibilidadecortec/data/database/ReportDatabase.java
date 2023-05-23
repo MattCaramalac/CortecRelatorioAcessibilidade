@@ -96,7 +96,7 @@ import java.util.concurrent.Executors;
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
         PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class,
         CirculationEntry.class, SlopeEntry.class, SingleStepEntry.class, FallProtectionEntry.class, PoolEntry.class, PoolEquipEntry.class,
-        PoolBenchEntry.class, PoolRampEntry.class, PoolStairsEntry.class}, version = 79)
+        PoolBenchEntry.class, PoolRampEntry.class, PoolStairsEntry.class}, version = 80)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -2382,6 +2382,28 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_79_80 = new Migration(79, 80) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE SideSlope(sideSlopeID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, sidewalkID INTEGER NOT NULL, slopeLocation TEXT, slopeWidth REAL NOT NULL, " +
+                    "longMeasureQnt INTEGER NOT NULL, longMeasure1 REAL, longMeasure2 REAL, longMeasure3 REAL, longMeasure4 REAL, hasLeftWingSlope INTEGER NOT NULL, " +
+                    "leftWingMeasureQnt INTEGER, leftMeasure1 REAL, leftMeasure2 REAL, leftMeasure3 REAL, leftMeasure4 REAL, hasRightWingSlope INTEGER NOT NULL, " +
+                    "rightWingMeasureQnt INTEGER, rightMeasure1 REAL, rightMeasure2 REAL, rightMeasure3 REAL, rightMeasure4 REAL, hasTactileFloor INTEGER NOT NULL, " +
+                    "tactileFloorObs TEXT, accessibleSlopeFloor INTEGER NOT NULL, accessibleSlopeFloorObs TEXT, streetSlopeJunction INTEGER, streetSlopeObs TEXT, " +
+                    "slopeObs TEXT, sideSlopePhotos TEXT," +
+                    "FOREIGN KEY (sidewalkID) REFERENCES SidewalkEntry (sidewalkID) ON UPDATE CASCADE ON DELETE CASCADE)");
+            database.execSQL("INSERT INTO SideSlope(sideSlopeID, sidewalkID, slopeLocation, slopeWidth, longMeasureQnt, longMeasure1, longMeasure2, longMeasure3, longMeasure4, " +
+                    "hasLeftWingSlope, leftWingMeasureQnt, leftMeasure1, leftMeasure2, leftMeasure3, leftMeasure4, hasRightWingSlope, rightWingMeasureQnt, rightMeasure1, " +
+                    "rightMeasure2, rightMeasure3, rightMeasure4, hasTactileFloor, tactileFloorObs, accessibleSlopeFloor, accessibleSlopeFloorObs, streetSlopeJunction, " +
+                    "streetSlopeObs, slopeObs, sideSlopePhotos) SELECT sidewalkSlopeID, sidewalkID, slopeLocation, slopeWidth, longMeasureQnt, longMeasure1, longMeasure2, longMeasure3, " +
+                    "longMeasure4, hasLeftWingSlope, leftWingMeasureQnt, leftMeasure1, leftMeasure2, leftMeasure3, leftMeasure4, hasRightWingSlope, rightWingMeasureQnt, rightMeasure1, " +
+                    "rightMeasure2, rightMeasure3, rightMeasure4, hasTactileFloor, tactileFloorObs, accessibleSlopeFloor, accessibleSlopeFloorObs, streetSlopeJunction, streetSlopeObs, " +
+                    "slopeObs, sideSlopePhotos FROM SidewalkSlopeEntry");
+            database.execSQL("DROP TABLE SidewalkSlopeEntry");
+            database.execSQL("ALTER TABLE SideSlope RENAME TO SidewalkSlopeEntry");
+        }
+    };
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -2401,7 +2423,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66,
                                     MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70, MIGRATION_70_71, MIGRATION_71_72,
                                     MIGRATION_72_73, MIGRATION_73_74, MIGRATION_72_74, MIGRATION_74_75, MIGRATION_75_76, MIGRATION_76_77,
-                                    MIGRATION_77_78, MIGRATION_78_79).build();
+                                    MIGRATION_77_78, MIGRATION_78_79, MIGRATION_79_80).build();
                 }
             }
         }

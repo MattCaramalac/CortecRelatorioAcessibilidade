@@ -78,7 +78,7 @@ public class SidewalkSlopeRecViewAdapter extends RecyclerView.Adapter<ViewHolder
     public void deleteItemList() {
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
-            ViewModelEntry.deleteSidewalkSlope(slopeList.get(selectedItems.keyAt(i)).getSidewalkSlopeID());
+            ViewModelEntry.deleteSidewalkSlope(slopeList.get(selectedItems.keyAt(i)).getSideSlopeID());
         }
     }
 

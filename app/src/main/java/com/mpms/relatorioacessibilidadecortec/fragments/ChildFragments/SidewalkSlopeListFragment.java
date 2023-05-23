@@ -196,7 +196,7 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
     @Override
     public void OnEntryClick(int position) {
         SidewalkSlopeEntry slopeEntry = modelEntry.allSidewalkSlopes.getValue().get(position);
-        sideSlopeBundle.putInt(SIDEWALK_SLOPE_ID, slopeEntry.getSidewalkSlopeID());
+        sideSlopeBundle.putInt(SIDEWALK_SLOPE_ID, slopeEntry.getSideSlopeID());
         openSideSlopeFragment();
     }
 

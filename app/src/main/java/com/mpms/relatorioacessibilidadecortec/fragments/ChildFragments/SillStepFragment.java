@@ -16,7 +16,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.StepParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
@@ -66,9 +65,6 @@ public class SillStepFragment extends Fragment implements TagInterface {
             } else if (bundle.getInt(PLAY_ID) > 0) {
                 modelEntry.getOnePlayground(bundle.getInt(PLAY_ID))
                         .observe(getViewLifecycleOwner(), this::loadStepPlayData);
-            } else if (bundle.getInt(SIDEWALK_SLOPE_ID) > 0) {
-                modelEntry.getSidewalkSlopeEntry(bundle.getInt(SIDEWALK_SLOPE_ID))
-                        .observe(getViewLifecycleOwner(), this::loadStepStreetSlopeData);
             }
         });
 
@@ -133,7 +129,4 @@ public class SillStepFragment extends Fragment implements TagInterface {
             stepHeightValue.setText(String.valueOf(doorEntry.getStepHeight()));
     }
 
-    private void loadStepStreetSlopeData(SidewalkSlopeEntry slopeEntry) {
-        stepHeightValue.setText(String.valueOf(slopeEntry.getStepJunctionHeight()));
-    }
 }

@@ -11,7 +11,7 @@ import static androidx.room.ForeignKey.CASCADE;
 public class SidewalkSlopeEntry {
 
     @PrimaryKey(autoGenerate = true)
-    private int sidewalkSlopeID;
+    private int sideSlopeID;
     private int sidewalkID;
 
     private String slopeLocation;
@@ -38,24 +38,15 @@ public class SidewalkSlopeEntry {
     private int accessibleSlopeFloor;
     private String accessibleSlopeFloorObs;
     private Integer streetSlopeJunction;
-    private Double inclinationJunctionHeight;
-    private Double stepJunctionHeight;
-    private Integer inclQnt;
-    private Double inclAngle1;
-    private Double inclAngle2;
-    private Double inclAngle3;
-    private Double inclAngle4;
     private String streetSlopeObs;
     private String slopeObs;
-    private Integer hasSillIncl;
     private String sideSlopePhotos;
 
     public SidewalkSlopeEntry(int sidewalkID, String slopeLocation, double slopeWidth, int longMeasureQnt, Double longMeasure1, Double longMeasure2,
                               Double longMeasure3, Double longMeasure4, int hasLeftWingSlope, Integer leftWingMeasureQnt, Double leftMeasure1, Double leftMeasure2,
                               Double leftMeasure3, Double leftMeasure4, int hasRightWingSlope, Integer rightWingMeasureQnt, Double rightMeasure1, Double rightMeasure2,
                               Double rightMeasure3, Double rightMeasure4, int hasTactileFloor, String tactileFloorObs, int accessibleSlopeFloor, String accessibleSlopeFloorObs,
-                              Integer streetSlopeJunction, Double inclinationJunctionHeight, Integer inclQnt, Double inclAngle1, Double inclAngle2, Double inclAngle3,
-                              Double inclAngle4,Double stepJunctionHeight, String streetSlopeObs, String slopeObs, Integer hasSillIncl, String sideSlopePhotos) {
+                              Integer streetSlopeJunction, String streetSlopeObs, String slopeObs, String sideSlopePhotos) {
         this.sidewalkID = sidewalkID;
         this.slopeLocation = slopeLocation;
         this.slopeWidth = slopeWidth;
@@ -81,25 +72,17 @@ public class SidewalkSlopeEntry {
         this.accessibleSlopeFloor = accessibleSlopeFloor;
         this.accessibleSlopeFloorObs = accessibleSlopeFloorObs;
         this.streetSlopeJunction = streetSlopeJunction;
-        this.inclinationJunctionHeight = inclinationJunctionHeight;
-        this.inclQnt = inclQnt;
-        this.inclAngle1 = inclAngle1;
-        this.inclAngle2 = inclAngle2;
-        this.inclAngle3 = inclAngle3;
-        this.inclAngle4 = inclAngle4;
-        this.stepJunctionHeight = stepJunctionHeight;
         this.streetSlopeObs = streetSlopeObs;
         this.slopeObs = slopeObs;
-        this.hasSillIncl = hasSillIncl;
         this.sideSlopePhotos = sideSlopePhotos;
     }
 
-    public int getSidewalkSlopeID() {
-        return sidewalkSlopeID;
+    public int getSideSlopeID() {
+        return sideSlopeID;
     }
 
-    public void setSidewalkSlopeID(int sidewalkSlopeID) {
-        this.sidewalkSlopeID = sidewalkSlopeID;
+    public void setSideSlopeID(int sideSlopeID) {
+        this.sideSlopeID = sideSlopeID;
     }
 
     public int getSidewalkID() {
@@ -302,62 +285,6 @@ public class SidewalkSlopeEntry {
         this.streetSlopeJunction = streetSlopeJunction;
     }
 
-    public Double getInclinationJunctionHeight() {
-        return inclinationJunctionHeight;
-    }
-
-    public void setInclinationJunctionHeight(Double inclinationJunctionHeight) {
-        this.inclinationJunctionHeight = inclinationJunctionHeight;
-    }
-
-    public Integer getInclQnt() {
-        return inclQnt;
-    }
-
-    public void setInclQnt(Integer inclQnt) {
-        this.inclQnt = inclQnt;
-    }
-
-    public Double getInclAngle1() {
-        return inclAngle1;
-    }
-
-    public void setInclAngle1(Double inclAngle1) {
-        this.inclAngle1 = inclAngle1;
-    }
-
-    public Double getInclAngle2() {
-        return inclAngle2;
-    }
-
-    public void setInclAngle2(Double inclAngle2) {
-        this.inclAngle2 = inclAngle2;
-    }
-
-    public Double getInclAngle3() {
-        return inclAngle3;
-    }
-
-    public void setInclAngle3(Double inclAngle3) {
-        this.inclAngle3 = inclAngle3;
-    }
-
-    public Double getInclAngle4() {
-        return inclAngle4;
-    }
-
-    public void setInclAngle4(Double inclAngle4) {
-        this.inclAngle4 = inclAngle4;
-    }
-
-    public Double getStepJunctionHeight() {
-        return stepJunctionHeight;
-    }
-
-    public void setStepJunctionHeight(Double stepJunctionHeight) {
-        this.stepJunctionHeight = stepJunctionHeight;
-    }
-
     public String getStreetSlopeObs() {
         return streetSlopeObs;
     }
@@ -372,14 +299,6 @@ public class SidewalkSlopeEntry {
 
     public void setSlopeObs(String slopeObs) {
         this.slopeObs = slopeObs;
-    }
-
-    public Integer getHasSillIncl() {
-        return hasSillIncl;
-    }
-
-    public void setHasSillIncl(Integer hasSillIncl) {
-        this.hasSillIncl = hasSillIncl;
     }
 
     public String getSideSlopePhotos() {

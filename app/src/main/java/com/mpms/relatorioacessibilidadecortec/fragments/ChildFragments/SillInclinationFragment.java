@@ -21,7 +21,6 @@ import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
-import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.InclinationParcel;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -107,9 +106,6 @@ public class SillInclinationFragment extends Fragment implements TagInterface, R
             } else if (bundle.getInt(PLAY_ID) > 0) {
                 modelEntry.getOnePlayground(bundle.getInt(PLAY_ID))
                         .observe(getViewLifecycleOwner(), this::loadInclinationPlayData);
-            } else if (bundle.getInt(SIDEWALK_SLOPE_ID) > 0) {
-                modelEntry.getSidewalkSlopeEntry(bundle.getInt(SIDEWALK_SLOPE_ID))
-                        .observe(getViewLifecycleOwner(), this::loadInclinationSlopeStreetData);
             } else if (bundle.getInt(SLOPE_ID) > 0) {
                 modelEntry.getOneSlope(bundle.getInt(SLOPE_ID)).observe(getViewLifecycleOwner(), this::loadSlopeData);
             }
@@ -366,42 +362,6 @@ public class SillInclinationFragment extends Fragment implements TagInterface, R
                         if (doorEntry.getInclAngle1() != null) {
                             inclField1.setVisibility(View.VISIBLE);
                             inclValue1.setText(String.valueOf(doorEntry.getInclAngle1()));
-                        }
-                        break;
-                }
-            }
-        }
-    }
-
-    private void loadInclinationSlopeStreetData(SidewalkSlopeEntry slopeEntry) {
-        if (slopeEntry.getInclinationJunctionHeight() != null)
-            inclHeightValue.setText(String.valueOf(slopeEntry.getInclinationJunctionHeight()));
-        if (slopeEntry.getHasSillIncl() != null) {
-            sillRadio.check(sillRadio.getChildAt(slopeEntry.getHasSillIncl()).getId());
-            if (slopeEntry.getHasSillIncl() == 1) {
-                if (slopeEntry.getInclQnt() != null)
-                    measureQnt = slopeEntry.getInclQnt();
-                switch (measureQnt) {
-                    case 4:
-                        if (slopeEntry.getInclAngle4() != null) {
-                            inclField4.setVisibility(View.VISIBLE);
-                            inclValue4.setText(String.valueOf(slopeEntry.getInclAngle4()));
-                        }
-                    case 3:
-                        if (slopeEntry.getInclAngle3() != null) {
-                            inclField3.setVisibility(View.VISIBLE);
-                            inclValue3.setText(String.valueOf(slopeEntry.getInclAngle3()));
-                        }
-                    case 2:
-                        if (slopeEntry.getInclAngle2() != null) {
-                            delMeasure.setVisibility(View.VISIBLE);
-                            inclField2.setVisibility(View.VISIBLE);
-                            inclValue2.setText(String.valueOf(slopeEntry.getInclAngle2()));
-                        }
-                    default:
-                        if (slopeEntry.getInclAngle1() != null) {
-                            inclField1.setVisibility(View.VISIBLE);
-                            inclValue1.setText(String.valueOf(slopeEntry.getInclAngle1()));
                         }
                         break;
                 }
