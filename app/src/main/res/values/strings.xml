@@ -164,8 +164,8 @@
     <string name="hint_sidewalk_width">Largura Total da Calçada (m)</string>
     <string name="label_has_special_floor">Esta calçada possui composição de piso tátil direcional e de alerta?</string>
     <string name="label_sidewalk_slope">Esta calçada possui rebaixamento?</string>
-    <string name="hint_ramp_width">Largura da Rampa</string>
-    <string name="hint_ramp_slope">Inclinação da Rampa</string>
+    <string name="hint_ramp_width">Largura da Rampa (m)</string>
+    <string name="hint_ramp_slope">Inclinação da Rampa (%)</string>
     <string name="hint_visual_signal">Sinalização Visual</string>
     <string name="hint_visual_signals">Sinalização Visual Vertical</string>
     <string name="label_room_entrance_door">Dimensões da Porta de Entrada</string>
@@ -428,7 +428,7 @@
     <string name="hint_paper_holder_height">Altura da Papeleira</string>
     <string name="hint_paper_holder_distance">Distância entre papeleira e vaso sanitário</string>
     <string name="hint_sidewalk_slope_identification">Localização do Rebaixamento</string>
-    <string name="hint_slope_width">Largura do Rebaixamento</string>
+    <string name="hint_slope_width">Largura do Rebaixamento (m)</string>
     <string name="hint_inclination_slope">Inclinação Longitudinal do Rebaixamento</string>
     <string name="hint_left_brim_slope">Inclinação Aba Esquerda do Rebaixamento</string>
     <string name="hint_right_brim_slope">Inclinação Aba Direita do Rebaixamento</string>

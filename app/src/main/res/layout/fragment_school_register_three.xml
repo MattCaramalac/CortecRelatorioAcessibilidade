@@ -402,7 +402,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/usual_padding"
             android:hint="@string/hint_conclusion_inspection_date"
-            app:startIconDrawable="@drawable/ic_calendar">
+            app:startIconDrawable="@drawable/ic_calendar"
+            app:helperText="Usado somente em inspeções com mais de 1 dia">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/final_date_inspection_value"

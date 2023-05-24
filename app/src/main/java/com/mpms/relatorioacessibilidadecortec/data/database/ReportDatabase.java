@@ -96,7 +96,7 @@ import java.util.concurrent.Executors;
         SidewalkSlopeEntry.class, RampStairsHandrailEntry.class, RampStairsRailingEntry.class, BlockSpaceEntry.class,
         PlaygroundEntry.class, BlackboardEntry.class, DoorLockEntry.class, RestBoxEntry.class, EquipmentEntry.class,
         CirculationEntry.class, SlopeEntry.class, SingleStepEntry.class, FallProtectionEntry.class, PoolEntry.class, PoolEquipEntry.class,
-        PoolBenchEntry.class, PoolRampEntry.class, PoolStairsEntry.class}, version = 80)
+        PoolBenchEntry.class, PoolRampEntry.class, PoolStairsEntry.class}, version = 81)
 public abstract class ReportDatabase extends RoomDatabase {
 
     public static final int NUMBER_THREADS = 8;
@@ -2404,6 +2404,34 @@ public abstract class ReportDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_80_81 = new Migration(80,81) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE School(cadID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, schoolName TEXT, schoolAddress TEXT, addressComplement TEXT, addressNumber TEXT, " +
+                    "addressNeighborhood TEXT, nameCity TEXT, nameDistrict TEXT, contactPhone1 TEXT, contactName1 TEXT, contactPhone2 TEXT, contactName2 TEXT, respName1 TEXT, respJob1 TEXT, " +
+                    "respName2 TEXT, respJob2 TEXT, nameInspectionTeam TEXT, emailAddress TEXT, hasMorningClasses INTEGER, morningStart TEXT, morningEnd TEXT, hasAfternoonClasses INTEGER, " +
+                    "afternoonStart TEXT, afternoonEnd TEXT, hasEveningClasses INTEGER, eveningStart TEXT, eveningEnd TEXT, workingHoursObs TEXT, hasPreschool INTEGER, preschoolFirstGrade TEXT, " +
+                    "preschoolLastGrade TEXT, hasElementary INTEGER, elementaryFirstGrade TEXT, elementaryLastGrade TEXT, hasMiddleSchool INTEGER, middleFirstGrade TEXT, middleLastGrade TEXT, " +
+                    "hasHighSchool INTEGER, highFirstGrade TEXT, highLastGrade TEXT, hasEja INTEGER, ejaFirstGrade TEXT, ejaLastGrade TEXT, servicesObs TEXT, youngestStudentAge INTEGER, " +
+                    "monthYearYoungest INTEGER, oldestStudentAge INTEGER, monthYearOldest INTEGER, numberStudents INTEGER, numberStudentsPCD INTEGER, studentsPCDDescription TEXT, " +
+                    "numberWorkers INTEGER, numberWorkersPCD INTEGER, workersPCDDescription TEXT, hasWorkersLibras INTEGER, numberWorkersLibras INTEGER, workersLibrasDescriptions TEXT, " +
+                    "initialDateInspection TEXT, finalDateInspection TEXT, registerStudentObs TEXT, updateRegister INTEGER DEFAULT 0, reportSent INTEGER DEFAULT 0)");
+            database.execSQL("INSERT INTO School(cadID, schoolName, schoolAddress, addressComplement, addressNumber, addressNeighborhood, nameCity, nameDistrict, contactPhone1, contactName1, " +
+                    "contactPhone2, contactName2, respName1, nameInspectionTeam, emailAddress, hasMorningClasses, morningStart, morningEnd, hasAfternoonClasses, afternoonStart, afternoonEnd, " +
+                    "hasEveningClasses, eveningStart, eveningEnd, workingHoursObs, hasPreschool, preschoolFirstGrade, preschoolLastGrade, hasElementary, elementaryFirstGrade, elementaryLastGrade, " +
+                    "hasHighSchool, highFirstGrade, highLastGrade, hasEja, ejaFirstGrade, ejaLastGrade, servicesObs, youngestStudentAge, monthYearYoungest, oldestStudentAge, monthYearOldest, " +
+                    "numberStudents, numberStudentsPCD, studentsPCDDescription, numberWorkers, numberWorkersPCD, workersPCDDescription, hasWorkersLibras, numberWorkersLibras, workersLibrasDescriptions, " +
+                    "initialDateInspection, finalDateInspection, registerStudentObs) SELECT cadID, schoolName, schoolAddress, addressComplement, addressNumber, addressNeighborhood, nameCity, " +
+                    "nameDistrict, contactPhone1, contactName1, contactPhone2, contactName2, nameResponsibleVisit, nameInspectionTeam, emailAddress, hasMorningClasses, morningStart, morningEnd, " +
+                    "hasAfternoonClasses, afternoonStart, afternoonEnd, hasEveningClasses, eveningStart, eveningEnd, workingHoursObs, hasPreschool, preschoolFirstGrade, preschoolLastGrade, " +
+                    "hasElementaryMiddle, elementaryMiddleFirstGrade, elementaryMiddleLastGrade,  hasHighSchool, highFirstGrade, highLastGrade, hasEja, ejaFirstGrade, ejaLastGrade, servicesObs, " +
+                    "youngestStudentAge, monthYearYoungest, oldestStudentAge, monthYearOldest, numberStudents, numberStudentsPCD, studentsPCDDescription, numberWorkers, numberWorkersPCD, " +
+                    "workersPCDDescription, hasWorkersLibras, numberWorkersLibras, workersLibrasDescriptions, initialDateInspection, finalDateInspection, registerStudentObs FROM SchoolEntry");
+            database.execSQL("DROP TABLE SchoolEntry");
+            database.execSQL("ALTER TABLE School RENAME TO SchoolEntry");
+        }
+    };
+
 
     public static ReportDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -2423,7 +2451,7 @@ public abstract class ReportDatabase extends RoomDatabase {
                                     MIGRATION_60_61, MIGRATION_61_62, MIGRATION_62_63, MIGRATION_63_64, MIGRATION_64_65, MIGRATION_65_66,
                                     MIGRATION_66_67, MIGRATION_67_68, MIGRATION_68_69, MIGRATION_69_70, MIGRATION_70_71, MIGRATION_71_72,
                                     MIGRATION_72_73, MIGRATION_73_74, MIGRATION_72_74, MIGRATION_74_75, MIGRATION_75_76, MIGRATION_76_77,
-                                    MIGRATION_77_78, MIGRATION_78_79, MIGRATION_79_80).build();
+                                    MIGRATION_77_78, MIGRATION_78_79, MIGRATION_79_80, MIGRATION_80_81).build();
                 }
             }
         }

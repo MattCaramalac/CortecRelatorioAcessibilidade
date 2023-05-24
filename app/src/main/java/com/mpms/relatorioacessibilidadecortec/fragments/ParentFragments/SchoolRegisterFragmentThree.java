@@ -102,7 +102,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
 
         modelFragments.getSaveUpdateSchoolReg().observe(getViewLifecycleOwner(), clickButton -> {
             if (clickButton != null) {
-                if (checkEmptyFieldsFragThree()) {
+                if (checkEmptyFieldsFragThree(bundleFragThree)) {
                     SchoolRegisterThree updateFragThree = updateRegisterThree(bundleFragThree);
                     ViewModelEntry.updateSchoolRegThree(updateFragThree);
                     if (clickButton.getBoolean(UPDATE_CONTINUE)) {
@@ -172,7 +172,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
 //        ViewModels
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
         modelFragments = new ViewModelProvider(requireActivity()).get(ViewModelFragments.class);
-        hasWorkersLibras.setOnCheckedChangeListener(this::librasListener);
+        hasWorkersLibras.setOnCheckedChangeListener(this::radioListener);
 
         addScrollFields();
         allowObsScroll(eText);
@@ -184,38 +184,35 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         eText.add(workersLibrasDescriptionValue);
     }
 
-    private boolean checkEmptyFieldsFragThree() {
+    private boolean checkEmptyFieldsFragThree(Bundle bundle) {
         clearEmptyFieldsFragThreeErrors();
         int i = 0;
-        if (TextUtils.isEmpty(startAgeValue.getText())) {
-            i++;
-            startAgeField.setError(getString(R.string.req_field_error));
-        }
-        if (TextUtils.isEmpty(finalAgeValue.getText())) {
-            i++;
-            finalAgeField.setError(getString(R.string.req_field_error));
-        }
-        if (youngestMonthYearRadio.getCheckedRadioButtonId() == -1 || oldestMonthYearRadio.getCheckedRadioButtonId() == -1) {
+        if (TextUtils.isEmpty(startAgeValue.getText()))
+            bundle.putBoolean(DATA_COMPLETE, false);
+        else if (youngestMonthYearRadio.getCheckedRadioButtonId() == -1) {
             i++;
             studentsAgeError.setVisibility(View.VISIBLE);
         }
-        if (TextUtils.isEmpty(totalStudentsValue.getText())) {
+        if (TextUtils.isEmpty(finalAgeValue.getText()))
+            bundle.putBoolean(DATA_COMPLETE, false);
+        else if (oldestMonthYearRadio.getCheckedRadioButtonId() == -1) {
             i++;
-            totalStudentsField.setError(getString(R.string.req_field_error));
+            studentsAgeError.setVisibility(View.VISIBLE);
         }
-        if (TextUtils.isEmpty(totalStudentsPcdValue.getText())) {
+        if (TextUtils.isEmpty(totalStudentsValue.getText()))
+            bundle.putBoolean(DATA_COMPLETE, false);
+        else if (TextUtils.isEmpty(totalStudentsPcdValue.getText())) {
             i++;
             totalStudentsPcdField.setError(getString(R.string.req_field_error));
-        } else if (TextUtils.isEmpty(studentPcdDescriptionValue.getText()) &&
+        }
+        else if (TextUtils.isEmpty(studentPcdDescriptionValue.getText()) &&
                 !TextUtils.equals(String.valueOf(totalStudentsPcdValue.getText()), "0")) {
             i++;
             studentPcdDescriptionField.setError(getString(R.string.req_field_error));
         }
-        if (TextUtils.isEmpty(totalWorkersValue.getText())) {
-            i++;
-            totalWorkersField.setError(getString(R.string.req_field_error));
-        }
-        if (TextUtils.isEmpty(totalWorkersPcdValue.getText())) {
+        if (TextUtils.isEmpty(totalWorkersValue.getText()))
+            bundle.putBoolean(DATA_COMPLETE, false);
+        else if (TextUtils.isEmpty(totalWorkersPcdValue.getText())) {
             i++;
             totalWorkersPcdField.setError(getString(R.string.req_field_error));
         } else if (TextUtils.isEmpty(workersPcdDescriptionValue.getText()) &&
@@ -223,10 +220,9 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
             i++;
             studentPcdDescriptionField.setError(getString(R.string.req_field_error));
         }
-        if (getCheckedIndex(hasWorkersLibras) == -1) {
-            i++;
-            librasWorkersError.setVisibility(View.VISIBLE);
-        } else if (getCheckedIndex(hasWorkersLibras) == 1) {
+        if (indexRadio(hasWorkersLibras) == -1)
+            bundle.putBoolean(DATA_COMPLETE, false);
+        else if (indexRadio(hasWorkersLibras) == 1) {
             if (TextUtils.isEmpty(totalWorkersLibrasValue.getText())) {
                 i++;
                 totalWorkersLibrasField.setError(getString(R.string.req_field_error));
@@ -236,15 +232,10 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
                 workersLibrasDescriptionField.setError(getString(R.string.req_field_error));
             }
         }
-        if (TextUtils.isEmpty(initialDateInspectionValue.getText())) {
-            i++;
-            initialDateInspectionField.setError(getString(R.string.req_field_error));
-        }
-        return i == 0;
-    }
+        if (TextUtils.isEmpty(initialDateInspectionValue.getText()))
+            bundle.putBoolean(DATA_COMPLETE, false);
 
-    private int getCheckedIndex(RadioGroup radio) {
-        return radio.indexOfChild(radio.findViewById(radio.getCheckedRadioButtonId()));
+        return i == 0;
     }
 
     private void clearEmptyFieldsFragThreeErrors() {
@@ -291,19 +282,6 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         workersLibrasDescriptionValue.setText(school.getWorkersLibrasDescriptions());
         initialDateInspectionValue.setText(school.getInitialDateInspection());
         finalDateInspectionValue.setText(school.getFinalDateInspection());
-    }
-
-    private void librasListener(RadioGroup radio, int checkedID) {
-        int index = getCheckedIndex(radio);
-        if (index == 1) {
-            totalWorkersLibrasField.setVisibility(View.VISIBLE);
-            workersLibrasDescriptionField.setVisibility(View.VISIBLE);
-        } else {
-            totalWorkersLibrasValue.setText(null);
-            workersLibrasDescriptionValue.setText(null);
-            totalWorkersLibrasField.setVisibility(View.GONE);
-            workersLibrasDescriptionField.setVisibility(View.GONE);
-        }
     }
 
     private void showDatePicker(View view) {
@@ -361,7 +339,8 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
     private SchoolRegisterThree updateRegisterThree(Bundle bundle) {
         int youngestStudent, youngestMonthYear, oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents, totalEmployees, totalPcdEmployees,
                 hasLibrasEmployees;
-        Integer totalLibrasEmployees = null, update = 0, reportSent = 0;
+        Integer totalLibrasEmployees = null;
+        int update = 0, reportSent = 0;
         String studentsPcdDescription = null, employeesPcdDescription = null, librasDescriptions = null, initialDateInspection, finalDateInspection = null, registerObs = null;
 
         youngestStudent = Integer.parseInt(String.valueOf(startAgeValue.getText()));
@@ -398,6 +377,15 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
 
     @Override
     public void radioListener(RadioGroup radio, int id) {
-
+        int index = indexRadio(radio);
+        if (index == 1) {
+            totalWorkersLibrasField.setVisibility(View.VISIBLE);
+            workersLibrasDescriptionField.setVisibility(View.VISIBLE);
+        } else {
+            totalWorkersLibrasValue.setText(null);
+            workersLibrasDescriptionValue.setText(null);
+            totalWorkersLibrasField.setVisibility(View.GONE);
+            workersLibrasDescriptionField.setVisibility(View.GONE);
+        }
     }
 }
