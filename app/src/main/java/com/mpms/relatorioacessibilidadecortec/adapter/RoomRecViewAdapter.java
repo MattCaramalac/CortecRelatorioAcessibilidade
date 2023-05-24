@@ -72,25 +72,29 @@ public class RoomRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterface
     }
 
     private String roomLocation(RoomEntry roomEntry) {
+        String local = "";
+        if (roomEntry.getRoomLocation() != null) {
+            local = local.concat(" - " + roomEntry.getRoomLocation());
+        }
         switch (roomEntry.getRoomType()) {
             case 2:
-                return "Biblioteca - "+ roomEntry.getRoomLocation();
+                return "Biblioteca" + local;
             case 3:
-                return "Coordenação - "+ roomEntry.getRoomLocation();
+                return "Coordenação" + local;
             case 4:
-                return "Diretoria - "+ roomEntry.getRoomLocation();
+                return "Diretoria" + local;
             case 5:
-                return "Refeitório - "+ roomEntry.getRoomLocation();
+                return "Refeitório" + local;
             case 6:
-                return "Sala de Aula - "+ roomEntry.getRoomLocation();
+                return "Sala de Aula" + local;
             case 7:
-                return "Sala de Tecnologia - "+ roomEntry.getRoomLocation();
+                return "Sala de Tecnologia" + local;
             case 8:
-                return "Sala de Recursos - "+ roomEntry.getRoomLocation();
+                return "Sala de Recursos" + local;
             case 9:
-                return "Sala dos Professores - "+ roomEntry.getRoomLocation();
+                return "Sala dos Professores" + local;
             case 11:
-                return "Secretaria - "+ roomEntry.getRoomLocation();
+                return "Secretaria" + local;
             case 12:
                 return roomEntry.getRoomLocation();
             default:

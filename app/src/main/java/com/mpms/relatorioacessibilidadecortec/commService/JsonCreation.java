@@ -336,7 +336,7 @@ public class JsonCreation {
                 if (sec == 1)
                     build.append("Secretaria, ");
                 else if (sec > 1)
-                    build.append(sec).append(" salas da Secretaria");
+                    build.append(sec).append(" salas da Secretaria, ");
 
                 if (accessSan == 1)
                     build.append("1 (um) sanitario accessível independente, ");
@@ -573,33 +573,35 @@ public class JsonCreation {
             if (schServices[0] != null && schServices[0].equals(1) && schCounter <= schServQnt) {
                 services.append("Educação Infantil");
                 if (school.getPreschoolFirstGrade() != null && school.getPreschoolLastGrade() != null)
-                    services.append("(níveis ").append(school.getPreschoolFirstGrade()).append(" ao ").append(school.getPreschoolLastGrade()).append(")");
+                    services.append(" (níveis ").append(school.getPreschoolFirstGrade()).append(" ao ").append(school.getPreschoolLastGrade()).append(")");
                 schoolServices(services, schCounter, schServQnt);
                 schCounter++;
             }
             if (schServices[1] != null && schServices[1].equals(1) && schCounter <= schServQnt) {
                 services.append("Ensino Fundamental I");
                 if (school.getElementaryFirstGrade() != null && school.getElementaryLastGrade() != null)
-                    services.append("(do ").append(school.getElementaryFirstGrade()).append("º ao ").append(school.getElementaryLastGrade()).append("º ano)");
+                    services.append(" (do ").append(school.getElementaryFirstGrade()).append("º ao ").append(school.getElementaryLastGrade()).append("º ano)");
                 schoolServices(services, schCounter, schServQnt);
                 schCounter++;
             }
             if (schServices[2] != null && schServices[2].equals(1) && schCounter <= schServQnt) {
                 services.append("Ensino Fundamental II");
                 if (school.getMiddleFirstGrade() != null && school.getMiddleLastGrade() != null)
-                    services.append("(do ").append(school.getMiddleFirstGrade()).append("º ao ").append(school.getMiddleLastGrade()).append("º ano)");
+                    services.append(" (do ").append(school.getMiddleFirstGrade()).append("º ao ").append(school.getMiddleLastGrade()).append("º ano)");
                 schoolServices(services, schCounter, schServQnt);
                 schCounter++;
             }
             if (schServices[3] != null && schServices[3].equals(1) && schCounter <= schServQnt) {
                 services.append("Ensino Médio");
                 if (school.getHighFirstGrade() != null && school.getHighLastGrade() != null)
-                    services.append("(do ").append(school.getHighFirstGrade()).append("º ao ").append(school.getHighLastGrade()).append("º ano)");
+                    services.append(" (do ").append(school.getHighFirstGrade()).append("º ao ").append(school.getHighLastGrade()).append("º ano)");
                 schoolServices(services, schCounter, schServQnt);
                 schCounter++;
             }
             if (schServices[4] != null && schServices[4].equals(1) && schCounter <= schServQnt) {
                 services.append("E.J.A");
+                if (school.getEjaFirstGrade() != null && school.getEjaLastGrade() != null)
+                    services.append(" (níveis ").append(school.getEjaFirstGrade()).append(" ao ").append(school.getEjaLastGrade()).append(")");
                 schoolServices(services, schCounter, schServQnt);
             }
             schoolObj.put("schoolServices", services.toString());

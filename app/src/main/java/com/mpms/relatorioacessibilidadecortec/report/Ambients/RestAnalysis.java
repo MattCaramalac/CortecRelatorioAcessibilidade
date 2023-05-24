@@ -633,305 +633,310 @@ public class RestAnalysis implements StandardMeasurements {
                 restIrr.add("as seguintes observações podem ser feitas sobre o espelho instalado: " + rest.getWallMirrorObs() + ";");
             }
 
-            if (rest.getHasSink() == 0) {
-                check++;
-                restIrr.add("o sanitário não possui lavatório acessível;");
-            } else if (rest.getHasSink() == 1) {
-                int sinkType = rest.getSinkType();
 
-                if (rest.getApproxMeasureA() > sinkFaucetMaxDist) {
+
+            if (rest.getHasSink() != null) {
+                if (rest.getHasSink() == 0) {
                     check++;
-                    restIrr.add("o alcance manual da torneira ultrapassa o valor máximo permitido de " + sinkFaucetMaxDist + " m;");
-                }
+                    restIrr.add("o sanitário não possui lavatório acessível;");
+                } else if (rest.getHasSink() == 1) {
+                    int sinkType = rest.getSinkType();
 
-                if (rest.getApproxMeasureB() < sinkMinHeight) {
-                    check++;
-                    restIrr.add("a altura do lavatório é inferior à " + sinkMinHeight + " m;");
-                } else if (rest.getApproxMeasureB() > sinkMaxHeight) {
-                    check++;
-                    restIrr.add("a altura do lavatório é superior à " + sinkMaxHeight + " m;");
-                }
-
-                if (rest.getApproxMeasureC() < sinkMinUnderSpace) {
-                    check++;
-                    restIrr.add("o espaço livre debaixo do lavatório é menor que " + sinkMinUnderSpace + " m;");
-                }
-
-                if (rest.getApproxMeasureD() < sinkFrontApproxKnee) {
-                    check++;
-                    restIrr.add("o espaço de aproximação frontal do lavatório na altura dos joelhos é inferior à " + sinkFrontApproxKnee + " m;");
-                }
-
-                if (rest.getApproxMeasureE() < sinkFrontApproxFeet) {
-                    check++;
-                    restIrr.add("o espaço de aproximação frontal do lavatório na altura dos pés é inferior à " + sinkFrontApproxFeet + " m;");
-                }
-
-                if (rest.getHasSinkBar() == 0) {
-                    check++;
-                    restIrr.add("o lavatório não possui barras de apoio;");
-                } else if (rest.getHasSinkBar() == 2) {
-                    check++;
-                    restIrr.add("o lavatório possui barras de apoio que estão fora do padrão estipulado em norma;");
-                } else if (rest.getHasSinkBar() == 1) {
-                    if (sinkType == 0) {
-                        if (rest.getHasLeftFrontHorBar() == 0) {
-                            check++;
-                            restIrr.add("o lavatório não possui barra de apoio instalada à esquerda;");
-                        } else {
-                            if (rest.getLeftFrontHorMeasureA() > sinkBarMaxFrontDist) {
-                                check++;
-                                restIrr.add("a distância entre a borda frontal do lavatório até a extremidade da barra esquerda é superior à " + sinkBarMaxFrontDist + " m;");
-                            }
-                            if (rest.getLeftFrontHorMeasureB() < sinkHorBarMinLatDist) {
-                                check++;
-                                restIrr.add("o espaçamento entre o lavatório e a barra esquerda é inferior à " + sinkHorBarMinLatDist + " m;");
-                            }
-                            if (rest.getLeftFrontHorMeasureC() < sinkHorBarMinUpperHeight) {
-                                check++;
-                                restIrr.add("a distância entre o piso e a face superior da barra esquerda é inferior à " + sinkHorBarMinUpperHeight + " m;");
-                            } else if (rest.getLeftFrontHorMeasureC() > sinkHorBarMaxUpperHeight) {
-                                check++;
-                                restIrr.add("a distância entre o piso e a face superior da barra esquerda é superior à " + sinkHorBarMaxUpperHeight + " m;");
-                            }
-                            if (rest.getLeftFrontHorMeasureD() != sinkHorBarLowerHeight) {
-                                check++;
-                                restIrr.add("a distância entre o piso e a face inferior da barra esquerda é diferente de " + sinkHorBarLowerHeight + " m;");
-                            }
-
-                            if (rest.getLeftFrontHorDiam() < minHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra lateral esquerda do lavatório é inferior à " + minHandrailGrip + " mm;");
-                            } else if (rest.getLeftFrontHorDiam() > maxHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra lateral esquerda do lavatório é superior à " + maxHandrailGrip + " mm;");
-                            }
-
-                            if (rest.getLeftFrontHorObs() != null && rest.getLeftFrontHorObs().length() > 0) {
-                                check++;
-                                restIrr.add("as seguintes observações podem ser feitas sobre a barra horizontal esquerda: " + rest.getLeftFrontHorObs() + ";");
-                            }
-                        }
-
-                        if (rest.getHasRightSideVertBar() == 0) {
-                            check++;
-                            restIrr.add("o lavatório não possui barra de apoio instalada à direita;");
-                        } else {
-                            if (rest.getRightSideVertMeasureA() > sinkBarMaxFrontDist) {
-                                check++;
-                                restIrr.add("a distância entre a borda frontal do lavatório até o eixo da barra direita é superior à " + sinkBarMaxFrontDist + " m;");
-                            }
-                            if (rest.getRightSideVertMeasureB() < sinkHorBarMinLatDist) {
-                                check++;
-                                restIrr.add("o espaçamento entre o lavatório e a barra direita é inferior à " + sinkHorBarMinLatDist + " m;");
-                            }
-                            if (rest.getRightSideVertMeasureC() < sinkHorBarMinUpperHeight) {
-                                check++;
-                                restIrr.add("a distância entre o piso e a face superior da barra direita é inferior à " + sinkHorBarMinUpperHeight + " m;");
-                            } else if (rest.getRightSideVertMeasureC() > sinkHorBarMaxUpperHeight) {
-                                check++;
-                                restIrr.add("a distância entre o piso e a face superior da barra direita é superior à " + sinkHorBarMaxUpperHeight + " m;");
-                            }
-                            if (rest.getRightSideVertMeasureD() != sinkHorBarLowerHeight) {
-                                check++;
-                                restIrr.add("a distância entre o piso e a face inferior da barra direita é diferente de " + sinkHorBarLowerHeight + " m;");
-                            }
-
-                            if (rest.getRightSideVertDiam() < minHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra lateral direita do lavatório é inferior à " + minHandrailGrip + " mm;");
-                            } else if (rest.getRightSideVertDiam() > maxHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra lateral direita do lavatório é superior à " + maxHandrailGrip + " mm;");
-                            }
-
-                            if (rest.getRightSideVertObs() != null && rest.getRightSideVertObs().length() > 0) {
-                                check++;
-                                restIrr.add("as seguintes observações podem ser feitas sobre a barra horizontal direita: " + rest.getRightSideVertObs() + ";");
-                            }
-                        }
-                    } else if (sinkType == 1 || sinkType == 3 || sinkType == 4) {
-                        if (rest.getHasLeftFrontHorBar() == 0) {
-                            check++;
-                            restIrr.add("o lavatório não possui barra de apoio vertical frontal instalada;");
-                        } else {
-                            if (rest.getLeftFrontHorMeasureA() > sinkVertBarMaxDistSinkAxis) {
-                                check++;
-                                restIrr.add("a distância do eixo do lavatório/cuba até o eixo da barra vertical frontal é superior à " + sinkVertBarMaxDistSinkAxis + " m;");
-                            }
-                            if (rest.getLeftFrontHorMeasureB() < sinkVertBarMinLength) {
-                                check++;
-                                restIrr.add("o comprimento da barra vertical frontal é inferior à " + sinkVertBarMinLength + " m;");
-                            }
-                            if (rest.getLeftFrontHorMeasureC() != sinkVertBarHeight) {
-                                check++;
-                                restIrr.add("a altura de instalação da barra vertical frontal é diferente de " + sinkVertBarHeight + " m;");
-                            }
-
-                            if (rest.getLeftFrontHorDiam() < minHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra vertical frontal do lavatório é inferior à " + minHandrailGrip + " mm;");
-                            } else if (rest.getLeftFrontHorDiam() > maxHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra vertical frontal do lavatório é superior à " + maxHandrailGrip + " mm;");
-                            }
-
-                            if (rest.getLeftFrontHorDist() < minDistHandrail) {
-                                check++;
-                                restIrr.add("a distância entre a barra vertical frontal e a parede é inferior à " + minDistHandrail + " mm;");
-                            }
-
-                            if (rest.getLeftFrontHorObs() != null && rest.getLeftFrontHorObs().length() > 0) {
-                                check++;
-                                restIrr.add("as seguintes observações podem ser feitas sobre a barra vertical frontal: " + rest.getLeftFrontHorObs() + ";");
-                            }
-                        }
-
-                        if (rest.getHasRightSideVertBar() == 0) {
-                            check++;
-                            restIrr.add("o lavatório não possui barra vertical lateral de apoio instalada;");
-                        } else {
-                            if (rest.getRightSideVertMeasureA() > sinkVertBarMaxDistSinkAxis) {
-                                check++;
-                                restIrr.add("a distância do eixo do lavatório/cuba até o eixo da barra vertical lateral é superior à " + sinkVertBarMaxDistSinkAxis + " m;");
-                            }
-                            if (rest.getRightSideVertMeasureB() > sinkBarMaxFrontDist) {
-                                check++;
-                                restIrr.add("a distância entre a barra vertical lateral e a extremidade frontal do lavatório é superior à " + sinkBarMaxFrontDist + " m;");
-                            }
-                            if (rest.getRightSideVertMeasureC() > sinkVertBarMinLength) {
-                                check++;
-                                restIrr.add("o comprimento da barra vertical lateral é inferior à " + sinkVertBarMinLength + " m;");
-                            }
-                            if (rest.getRightSideVertMeasureD() != sinkVertBarHeight) {
-                                check++;
-                                restIrr.add("a altura de instalação da barra vertical lateral é diferente de " + sinkVertBarHeight + " m;");
-                            }
-
-                            if (rest.getRightSideVertMeasureE() != null && rest.getRightSideVertMeasureE() < minDistHandrail) {
-                                check++;
-                                restIrr.add("a distância entre a barra vertical lateral e outros obstáculos é inferior à " + minDistHandrail + " mm;");
-                            }
-
-                            if (rest.getRightSideVertDiam() < minHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra vertical lateral do lavatório é inferior à " + minHandrailGrip + " mm;");
-                            } else if (rest.getRightSideVertDiam() > maxHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra vertical lateral do lavatório é superior à " + maxHandrailGrip + " mm;");
-                            }
-                            if (rest.getRightSideVertDist() < minDistHandrail) {
-                                check++;
-                                restIrr.add("a distância entre a barra vertical lateral e a parede é inferior à " + minDistHandrail + " mm;");
-                            }
-                            if (rest.getRightSideVertObs() != null && rest.getRightSideVertObs().length() > 0) {
-                                check++;
-                                restIrr.add("as seguintes observações podem ser feitas sobre a barra vertical lateral: " + rest.getRightSideVertObs() + ";");
-                            }
-                        }
-                    } else if (sinkType == 2) {
-                        if (rest.getHasLeftFrontHorBar() == 0) {
-                            check++;
-                            restIrr.add("o lavatório não possui barra de apoio horizontal instalada;");
-                        } else {
-                            if (rest.getLeftFrontHorMeasureA() > sinkBarMaxFrontDist) {
-                                check++;
-                                restIrr.add("a distância entre a borda frontal do lavatório até a extremidade da barra horizontal é superior à "
-                                        + sinkBarMaxFrontDist + " m;");
-                            }
-                            if (rest.getLeftFrontHorMeasureB() < sinkHorBarMinLatDist) {
-                                check++;
-                                restIrr.add("o espaçamento entre o lavatório e a barra horizontal é inferior à " + sinkHorBarMinLatDist + " m;");
-                            }
-                            if (rest.getLeftFrontHorMeasureC() < sinkHorBarMinUpperHeight) {
-                                check++;
-                                restIrr.add("a distância entre o piso e a face superior da barra horizontal é inferior à " + sinkHorBarMinUpperHeight + " m;");
-                            } else if (rest.getLeftFrontHorMeasureC() > sinkHorBarMaxUpperHeight) {
-                                check++;
-                                restIrr.add("a distância entre o piso e a face superior da barra horizontal é superior à " + sinkHorBarMaxUpperHeight + " m;");
-                            }
-                            if (rest.getLeftFrontHorMeasureD() != sinkHorBarLowerHeight) {
-                                check++;
-                                restIrr.add("a distância entre o piso e a face inferior da barra horizontal é diferente de " + sinkHorBarLowerHeight + " m;");
-                            }
-
-                            if (rest.getLeftFrontHorDiam() < minHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra lateral horizontal do lavatório é inferior à " + minHandrailGrip + " mm;");
-                            } else if (rest.getLeftFrontHorDiam() > maxHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra lateral horizontal do lavatório é superior à " + maxHandrailGrip + " mm;");
-                            }
-
-                            if (rest.getLeftFrontHorObs() != null && rest.getLeftFrontHorObs().length() > 0) {
-                                check++;
-                                restIrr.add("as seguintes observações podem ser feitas sobre a barra horizontal horizontal: " + rest.getLeftFrontHorObs() + ";");
-                            }
-                        }
-
-                        if (rest.getHasRightSideVertBar() == 0) {
-                            check++;
-                            restIrr.add("o lavatório não possui barra de apoio vertical instalada;");
-                        } else {
-                            if (rest.getRightSideVertMeasureA() < sinkVertBarMaxDistSinkAxis) {
-                                check++;
-                                restIrr.add("a distância do eixo do lavatório/cuba até o eixo da barra vertical é superior à " + sinkVertBarMaxDistSinkAxis + " m;");
-                            }
-                            if (rest.getRightSideVertMeasureB() < sinkVertBarMinLength) {
-                                check++;
-                                restIrr.add("o comprimento da barra vertical é inferior à " + sinkVertBarMinLength + " m;");
-                            }
-                            if (rest.getRightSideVertMeasureC() != sinkVertBarHeight) {
-                                check++;
-                                restIrr.add("a altura de instalação da barra vertical é diferente de " + sinkVertBarHeight + " m;");
-                            }
-                            if (rest.getRightSideVertMeasureD() > sinkBarMaxFrontDist) {
-                                check++;
-                                restIrr.add("a distância entre a barra vertical e a extremidade frontal do lavatório é superior à " + sinkBarMaxFrontDist + " m;");
-                            }
-                            if (rest.getRightSideVertMeasureE() != null && rest.getRightSideVertMeasureE() < minDistHandrail) {
-                                check++;
-                                restIrr.add("a distância entre a barra vertical e outros obstáculos é inferior à " + minDistHandrail + " mm;");
-                            }
-
-                            if (rest.getRightSideVertDiam() < minHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra vertical do lavatório é inferior à " + minHandrailGrip + " mm;");
-                            } else if (rest.getRightSideVertDiam() > maxHandrailGrip) {
-                                check++;
-                                restIrr.add("a seção transversal da barra vertical do lavatório é superior à " + maxHandrailGrip + " mm;");
-                            }
-                            if (rest.getRightSideVertDist() < minDistHandrail) {
-                                check++;
-                                restIrr.add("a distância entre a barra vertical e a parede é inferior à " + minDistHandrail + " mm;");
-                            }
-                            if (rest.getRightSideVertObs() != null && rest.getRightSideVertObs().length() > 0) {
-                                check++;
-                                restIrr.add("as seguintes observações podem ser feitas sobre a barra vertical lateral: " + rest.getRightSideVertObs() + ";");
-                            }
-                        }
-                    }
-                }
-
-                if (rest.getSinkHasMirror() == 0) {
-                    check++;
-                    restIrr.add("o lavatório não possui espelho instalado;");
-                } else {
-                    if (rest.getSinkMirrorLow() > sinkMirrorMaxLowerHeight) {
+                    if (rest.getApproxMeasureA() > sinkFaucetMaxDist) {
                         check++;
-                        restIrr.add("a altura da base do espelho do lavatório é superior à " + sinkMirrorMaxLowerHeight + " m;");
+                        restIrr.add("o alcance manual da torneira ultrapassa o valor máximo permitido de " + sinkFaucetMaxDist + " m;");
                     }
-                    if (rest.getSinkMirrorHigh() < minUpperHeightWallMirror) {
-                        check++;
-                        restIrr.add("a altura do espelho do lavatório é inferior à " + minUpperHeightWallMirror + " m;");
-                    }
-                }
 
-                if (rest.getSinkObs() != null && rest.getSinkObs().length() > 0) {
-                    check++;
-                    restIrr.add("as seguintes observações podem ser feitas sobre o lavatório: " + rest.getSinkObs() + ";");
+                    if (rest.getApproxMeasureB() < sinkMinHeight) {
+                        check++;
+                        restIrr.add("a altura do lavatório é inferior à " + sinkMinHeight + " m;");
+                    } else if (rest.getApproxMeasureB() > sinkMaxHeight) {
+                        check++;
+                        restIrr.add("a altura do lavatório é superior à " + sinkMaxHeight + " m;");
+                    }
+
+                    if (rest.getApproxMeasureC() < sinkMinUnderSpace) {
+                        check++;
+                        restIrr.add("o espaço livre debaixo do lavatório é menor que " + sinkMinUnderSpace + " m;");
+                    }
+
+                    if (rest.getApproxMeasureD() < sinkFrontApproxKnee) {
+                        check++;
+                        restIrr.add("o espaço de aproximação frontal do lavatório na altura dos joelhos é inferior à " + sinkFrontApproxKnee + " m;");
+                    }
+
+                    if (rest.getApproxMeasureE() < sinkFrontApproxFeet) {
+                        check++;
+                        restIrr.add("o espaço de aproximação frontal do lavatório na altura dos pés é inferior à " + sinkFrontApproxFeet + " m;");
+                    }
+
+                    if (rest.getHasSinkBar() == 0) {
+                        check++;
+                        restIrr.add("o lavatório não possui barras de apoio;");
+                    } else if (rest.getHasSinkBar() == 2) {
+                        check++;
+                        restIrr.add("o lavatório possui barras de apoio que estão fora do padrão estipulado em norma;");
+                    } else if (rest.getHasSinkBar() == 1) {
+                        if (sinkType == 0) {
+                            if (rest.getHasLeftFrontHorBar() == 0) {
+                                check++;
+                                restIrr.add("o lavatório não possui barra de apoio instalada à esquerda;");
+                            } else {
+                                if (rest.getLeftFrontHorMeasureA() > sinkBarMaxFrontDist) {
+                                    check++;
+                                    restIrr.add("a distância entre a borda frontal do lavatório até a extremidade da barra esquerda é superior à " + sinkBarMaxFrontDist + " m;");
+                                }
+                                if (rest.getLeftFrontHorMeasureB() < sinkHorBarMinLatDist) {
+                                    check++;
+                                    restIrr.add("o espaçamento entre o lavatório e a barra esquerda é inferior à " + sinkHorBarMinLatDist + " m;");
+                                }
+                                if (rest.getLeftFrontHorMeasureC() < sinkHorBarMinUpperHeight) {
+                                    check++;
+                                    restIrr.add("a distância entre o piso e a face superior da barra esquerda é inferior à " + sinkHorBarMinUpperHeight + " m;");
+                                } else if (rest.getLeftFrontHorMeasureC() > sinkHorBarMaxUpperHeight) {
+                                    check++;
+                                    restIrr.add("a distância entre o piso e a face superior da barra esquerda é superior à " + sinkHorBarMaxUpperHeight + " m;");
+                                }
+                                if (rest.getLeftFrontHorMeasureD() != sinkHorBarLowerHeight) {
+                                    check++;
+                                    restIrr.add("a distância entre o piso e a face inferior da barra esquerda é diferente de " + sinkHorBarLowerHeight + " m;");
+                                }
+
+                                if (rest.getLeftFrontHorDiam() < minHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra lateral esquerda do lavatório é inferior à " + minHandrailGrip + " mm;");
+                                } else if (rest.getLeftFrontHorDiam() > maxHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra lateral esquerda do lavatório é superior à " + maxHandrailGrip + " mm;");
+                                }
+
+                                if (rest.getLeftFrontHorObs() != null && rest.getLeftFrontHorObs().length() > 0) {
+                                    check++;
+                                    restIrr.add("as seguintes observações podem ser feitas sobre a barra horizontal esquerda: " + rest.getLeftFrontHorObs() + ";");
+                                }
+                            }
+
+                            if (rest.getHasRightSideVertBar() == 0) {
+                                check++;
+                                restIrr.add("o lavatório não possui barra de apoio instalada à direita;");
+                            } else {
+                                if (rest.getRightSideVertMeasureA() > sinkBarMaxFrontDist) {
+                                    check++;
+                                    restIrr.add("a distância entre a borda frontal do lavatório até o eixo da barra direita é superior à " + sinkBarMaxFrontDist + " m;");
+                                }
+                                if (rest.getRightSideVertMeasureB() < sinkHorBarMinLatDist) {
+                                    check++;
+                                    restIrr.add("o espaçamento entre o lavatório e a barra direita é inferior à " + sinkHorBarMinLatDist + " m;");
+                                }
+                                if (rest.getRightSideVertMeasureC() < sinkHorBarMinUpperHeight) {
+                                    check++;
+                                    restIrr.add("a distância entre o piso e a face superior da barra direita é inferior à " + sinkHorBarMinUpperHeight + " m;");
+                                } else if (rest.getRightSideVertMeasureC() > sinkHorBarMaxUpperHeight) {
+                                    check++;
+                                    restIrr.add("a distância entre o piso e a face superior da barra direita é superior à " + sinkHorBarMaxUpperHeight + " m;");
+                                }
+                                if (rest.getRightSideVertMeasureD() != sinkHorBarLowerHeight) {
+                                    check++;
+                                    restIrr.add("a distância entre o piso e a face inferior da barra direita é diferente de " + sinkHorBarLowerHeight + " m;");
+                                }
+
+                                if (rest.getRightSideVertDiam() < minHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra lateral direita do lavatório é inferior à " + minHandrailGrip + " mm;");
+                                } else if (rest.getRightSideVertDiam() > maxHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra lateral direita do lavatório é superior à " + maxHandrailGrip + " mm;");
+                                }
+
+                                if (rest.getRightSideVertObs() != null && rest.getRightSideVertObs().length() > 0) {
+                                    check++;
+                                    restIrr.add("as seguintes observações podem ser feitas sobre a barra horizontal direita: " + rest.getRightSideVertObs() + ";");
+                                }
+                            }
+                        } else if (sinkType == 1 || sinkType == 3 || sinkType == 4) {
+                            if (rest.getHasLeftFrontHorBar() == 0) {
+                                check++;
+                                restIrr.add("o lavatório não possui barra de apoio vertical frontal instalada;");
+                            } else {
+                                if (rest.getLeftFrontHorMeasureA() > sinkVertBarMaxDistSinkAxis) {
+                                    check++;
+                                    restIrr.add("a distância do eixo do lavatório/cuba até o eixo da barra vertical frontal é superior à " + sinkVertBarMaxDistSinkAxis + " m;");
+                                }
+                                if (rest.getLeftFrontHorMeasureB() < sinkVertBarMinLength) {
+                                    check++;
+                                    restIrr.add("o comprimento da barra vertical frontal é inferior à " + sinkVertBarMinLength + " m;");
+                                }
+                                if (rest.getLeftFrontHorMeasureC() != sinkVertBarHeight) {
+                                    check++;
+                                    restIrr.add("a altura de instalação da barra vertical frontal é diferente de " + sinkVertBarHeight + " m;");
+                                }
+
+                                if (rest.getLeftFrontHorDiam() < minHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra vertical frontal do lavatório é inferior à " + minHandrailGrip + " mm;");
+                                } else if (rest.getLeftFrontHorDiam() > maxHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra vertical frontal do lavatório é superior à " + maxHandrailGrip + " mm;");
+                                }
+
+                                if (rest.getLeftFrontHorDist() < minDistHandrail) {
+                                    check++;
+                                    restIrr.add("a distância entre a barra vertical frontal e a parede é inferior à " + minDistHandrail + " mm;");
+                                }
+
+                                if (rest.getLeftFrontHorObs() != null && rest.getLeftFrontHorObs().length() > 0) {
+                                    check++;
+                                    restIrr.add("as seguintes observações podem ser feitas sobre a barra vertical frontal: " + rest.getLeftFrontHorObs() + ";");
+                                }
+                            }
+
+                            if (rest.getHasRightSideVertBar() == 0) {
+                                check++;
+                                restIrr.add("o lavatório não possui barra vertical lateral de apoio instalada;");
+                            } else {
+                                if (rest.getRightSideVertMeasureA() > sinkVertBarMaxDistSinkAxis) {
+                                    check++;
+                                    restIrr.add("a distância do eixo do lavatório/cuba até o eixo da barra vertical lateral é superior à " + sinkVertBarMaxDistSinkAxis + " m;");
+                                }
+                                if (rest.getRightSideVertMeasureB() > sinkBarMaxFrontDist) {
+                                    check++;
+                                    restIrr.add("a distância entre a barra vertical lateral e a extremidade frontal do lavatório é superior à " + sinkBarMaxFrontDist + " m;");
+                                }
+                                if (rest.getRightSideVertMeasureC() > sinkVertBarMinLength) {
+                                    check++;
+                                    restIrr.add("o comprimento da barra vertical lateral é inferior à " + sinkVertBarMinLength + " m;");
+                                }
+                                if (rest.getRightSideVertMeasureD() != sinkVertBarHeight) {
+                                    check++;
+                                    restIrr.add("a altura de instalação da barra vertical lateral é diferente de " + sinkVertBarHeight + " m;");
+                                }
+
+                                if (rest.getRightSideVertMeasureE() != null && rest.getRightSideVertMeasureE() < minDistHandrail) {
+                                    check++;
+                                    restIrr.add("a distância entre a barra vertical lateral e outros obstáculos é inferior à " + minDistHandrail + " mm;");
+                                }
+
+                                if (rest.getRightSideVertDiam() < minHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra vertical lateral do lavatório é inferior à " + minHandrailGrip + " mm;");
+                                } else if (rest.getRightSideVertDiam() > maxHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra vertical lateral do lavatório é superior à " + maxHandrailGrip + " mm;");
+                                }
+                                if (rest.getRightSideVertDist() < minDistHandrail) {
+                                    check++;
+                                    restIrr.add("a distância entre a barra vertical lateral e a parede é inferior à " + minDistHandrail + " mm;");
+                                }
+                                if (rest.getRightSideVertObs() != null && rest.getRightSideVertObs().length() > 0) {
+                                    check++;
+                                    restIrr.add("as seguintes observações podem ser feitas sobre a barra vertical lateral: " + rest.getRightSideVertObs() + ";");
+                                }
+                            }
+                        } else if (sinkType == 2) {
+                            if (rest.getHasLeftFrontHorBar() == 0) {
+                                check++;
+                                restIrr.add("o lavatório não possui barra de apoio horizontal instalada;");
+                            } else {
+                                if (rest.getLeftFrontHorMeasureA() > sinkBarMaxFrontDist) {
+                                    check++;
+                                    restIrr.add("a distância entre a borda frontal do lavatório até a extremidade da barra horizontal é superior à "
+                                            + sinkBarMaxFrontDist + " m;");
+                                }
+                                if (rest.getLeftFrontHorMeasureB() < sinkHorBarMinLatDist) {
+                                    check++;
+                                    restIrr.add("o espaçamento entre o lavatório e a barra horizontal é inferior à " + sinkHorBarMinLatDist + " m;");
+                                }
+                                if (rest.getLeftFrontHorMeasureC() < sinkHorBarMinUpperHeight) {
+                                    check++;
+                                    restIrr.add("a distância entre o piso e a face superior da barra horizontal é inferior à " + sinkHorBarMinUpperHeight + " m;");
+                                } else if (rest.getLeftFrontHorMeasureC() > sinkHorBarMaxUpperHeight) {
+                                    check++;
+                                    restIrr.add("a distância entre o piso e a face superior da barra horizontal é superior à " + sinkHorBarMaxUpperHeight + " m;");
+                                }
+                                if (rest.getLeftFrontHorMeasureD() != sinkHorBarLowerHeight) {
+                                    check++;
+                                    restIrr.add("a distância entre o piso e a face inferior da barra horizontal é diferente de " + sinkHorBarLowerHeight + " m;");
+                                }
+
+                                if (rest.getLeftFrontHorDiam() < minHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra lateral horizontal do lavatório é inferior à " + minHandrailGrip + " mm;");
+                                } else if (rest.getLeftFrontHorDiam() > maxHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra lateral horizontal do lavatório é superior à " + maxHandrailGrip + " mm;");
+                                }
+
+                                if (rest.getLeftFrontHorObs() != null && rest.getLeftFrontHorObs().length() > 0) {
+                                    check++;
+                                    restIrr.add("as seguintes observações podem ser feitas sobre a barra horizontal horizontal: " + rest.getLeftFrontHorObs() + ";");
+                                }
+                            }
+
+                            if (rest.getHasRightSideVertBar() == 0) {
+                                check++;
+                                restIrr.add("o lavatório não possui barra de apoio vertical instalada;");
+                            } else {
+                                if (rest.getRightSideVertMeasureA() < sinkVertBarMaxDistSinkAxis) {
+                                    check++;
+                                    restIrr.add("a distância do eixo do lavatório/cuba até o eixo da barra vertical é superior à " + sinkVertBarMaxDistSinkAxis + " m;");
+                                }
+                                if (rest.getRightSideVertMeasureB() < sinkVertBarMinLength) {
+                                    check++;
+                                    restIrr.add("o comprimento da barra vertical é inferior à " + sinkVertBarMinLength + " m;");
+                                }
+                                if (rest.getRightSideVertMeasureC() != sinkVertBarHeight) {
+                                    check++;
+                                    restIrr.add("a altura de instalação da barra vertical é diferente de " + sinkVertBarHeight + " m;");
+                                }
+                                if (rest.getRightSideVertMeasureD() > sinkBarMaxFrontDist) {
+                                    check++;
+                                    restIrr.add("a distância entre a barra vertical e a extremidade frontal do lavatório é superior à " + sinkBarMaxFrontDist + " m;");
+                                }
+                                if (rest.getRightSideVertMeasureE() != null && rest.getRightSideVertMeasureE() < minDistHandrail) {
+                                    check++;
+                                    restIrr.add("a distância entre a barra vertical e outros obstáculos é inferior à " + minDistHandrail + " mm;");
+                                }
+
+                                if (rest.getRightSideVertDiam() < minHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra vertical do lavatório é inferior à " + minHandrailGrip + " mm;");
+                                } else if (rest.getRightSideVertDiam() > maxHandrailGrip) {
+                                    check++;
+                                    restIrr.add("a seção transversal da barra vertical do lavatório é superior à " + maxHandrailGrip + " mm;");
+                                }
+                                if (rest.getRightSideVertDist() < minDistHandrail) {
+                                    check++;
+                                    restIrr.add("a distância entre a barra vertical e a parede é inferior à " + minDistHandrail + " mm;");
+                                }
+                                if (rest.getRightSideVertObs() != null && rest.getRightSideVertObs().length() > 0) {
+                                    check++;
+                                    restIrr.add("as seguintes observações podem ser feitas sobre a barra vertical lateral: " + rest.getRightSideVertObs() + ";");
+                                }
+                            }
+                        }
+                    }
+
+                    if (rest.getSinkHasMirror() == 0) {
+                        check++;
+                        restIrr.add("o lavatório não possui espelho instalado;");
+                    } else {
+                        if (rest.getSinkMirrorLow() > sinkMirrorMaxLowerHeight) {
+                            check++;
+                            restIrr.add("a altura da base do espelho do lavatório é superior à " + sinkMirrorMaxLowerHeight + " m;");
+                        }
+                        if (rest.getSinkMirrorHigh() < minUpperHeightWallMirror) {
+                            check++;
+                            restIrr.add("a altura do espelho do lavatório é inferior à " + minUpperHeightWallMirror + " m;");
+                        }
+                    }
+
+                    if (rest.getSinkObs() != null && rest.getSinkObs().length() > 0) {
+                        check++;
+                        restIrr.add("as seguintes observações podem ser feitas sobre o lavatório: " + rest.getSinkObs() + ";");
+                    }
                 }
             }
+
 
         } else {
 

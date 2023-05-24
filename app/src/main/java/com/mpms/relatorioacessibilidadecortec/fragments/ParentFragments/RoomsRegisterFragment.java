@@ -321,7 +321,7 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
     private boolean roomNoEmptyFields(Bundle bundle) {
         clearRoomNoEmptyFieldsErrors();
         int i = 0;
-        if (TextUtils.isEmpty(roomLocaleValue.getText())) {
+        if ((bundle.getInt(ROOM_TYPE) == NUM_OTHER || bundle.getInt(ROOM_TYPE) == NUM_CLASS) && TextUtils.isEmpty(roomLocaleValue.getText())) {
             i++;
             roomLocaleField.setError(getString(R.string.req_field_error));
         }
@@ -387,13 +387,14 @@ public class RoomsRegisterFragment extends Fragment implements TagInterface, Scr
     }
 
     private RoomEntry newRoomEntry(Bundle bundle) {
-        String roomLocale, roomDescription = null, vertSignObs = null, looseCarpetObs = null, accessFloorObs = null, roomObs = null, secPcrSpaceObs = null,
+        String roomLocale = null, roomDescription = null, vertSignObs = null, looseCarpetObs = null, accessFloorObs = null, roomObs = null, secPcrSpaceObs = null,
                 intPhoneObs = null, bioClockObs = null, photos = null, tactileSignObs = null;
         Integer isWork = null, libDistShelves = null, libLongCorridor = null, libPcrManeuver = null, libHasPC = null, libAccessPC = null, secHasFixedSeat = null,
                 secHasPcrSpace = null, hasIntPhone = null, hasBioClock = null, hasVertSing = null, hasLooseCarpet = null, accessFloor = null, hasTactileSign = null;
         Double secPcrWidth = null, secPcrDepth = null, intPhoneHeight = null, bioClockHeight = null, tactHeight = null, tactIncl = null;
 
-        roomLocale = String.valueOf(roomLocaleValue.getText());
+        if (!TextUtils.isEmpty(roomLocaleValue.getText()))
+            roomLocale = String.valueOf(roomLocaleValue.getText());
         if (bundle.getInt(ROOM_TYPE) == NUM_OTHER) {
             if (!TextUtils.isEmpty(roomDescValue.getText()))
                 roomDescription = String.valueOf(roomDescValue.getText());

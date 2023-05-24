@@ -97,7 +97,10 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
             String rType = roomTyping(room.getRoomType());
 
             if (check > 0) {
-                AmbientAnalysis.blockRoomList.add(rType + room.getRoomLocation() + ", com as seguintes irregularidades: ");
+                if (room.getRoomLocation() != null)
+                    AmbientAnalysis.blockRoomList.add(rType + " - " +  room.getRoomLocation() + ", com as seguintes irregularidades: ");
+                else
+                    AmbientAnalysis.blockRoomList.add(rType + ", com as seguintes irregularidades: ");
                 AmbientAnalysis.blockRoomIrregular.put(blockRoom, roomIrr);
                 blockRoom++;
             }
@@ -352,23 +355,23 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
     public static String roomTyping(int i) {
         switch (i) {
             case NUM_LIB:
-                return "Biblioteca - ";
+                return "Biblioteca";
             case NUM_COORD:
-                return "Coordenação - ";
+                return "Coordenação";
             case NUM_DIR:
-                return "Diretoria - ";
+                return "Diretoria";
             case NUM_CAFE:
-                return "Refeitório - ";
+                return "Refeitório";
             case NUM_CLASS:
-                return "Sala de Aula - ";
+                return "Sala de Aula";
             case NUM_TECH:
-                return "Sala de Tecnologia -";
+                return "Sala de Tecnologia";
             case NUM_RESOURCE:
-                return "Sala de Recursos - ";
+                return "Sala de Recursos";
             case NUM_TEACHER:
-                return "Sala dos Professores - ";
+                return "Sala dos Professores";
             case NUM_SEC:
-                return "Secretaria - ";
+                return "Secretaria";
             default:
                 return "";
         }

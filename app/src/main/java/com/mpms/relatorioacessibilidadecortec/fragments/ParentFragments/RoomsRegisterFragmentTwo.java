@@ -120,7 +120,8 @@ public class RoomsRegisterFragmentTwo extends Fragment implements CounterInterfa
 //        ViewModel
         modelEntry = new ViewModelEntry(requireActivity().getApplication());
 
-        if (roomTwoBundle.getInt(ROOM_TYPE) == NUM_CAFE || roomTwoBundle.getInt(ROOM_TYPE) == NUM_OTHER) {
+        if (roomTwoBundle.getInt(ROOM_TYPE) == NUM_CAFE || roomTwoBundle.getInt(ROOM_TYPE) == NUM_OTHER
+                || roomTwoBundle.getInt(ROOM_TYPE) == NUM_SEC) {
             counter.setVisibility(View.VISIBLE);
             counterHeader.setVisibility(View.VISIBLE);
             addCounter.setVisibility(View.VISIBLE);
@@ -265,9 +266,9 @@ public class RoomsRegisterFragmentTwo extends Fragment implements CounterInterfa
             if (v == addCounter)
                 fragment = new CounterListFragment();
 
-        fragment.setArguments(roomTwoBundle);
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.show_fragment_selected, fragment).addToBackStack(OTHER_OBJ_LIST).commit();
+            fragment.setArguments(roomTwoBundle);
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.show_fragment_selected, fragment).addToBackStack(OTHER_OBJ_LIST).commit();
 
         }
     }
