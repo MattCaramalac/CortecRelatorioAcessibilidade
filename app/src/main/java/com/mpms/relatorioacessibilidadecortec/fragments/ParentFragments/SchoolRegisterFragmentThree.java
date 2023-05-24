@@ -27,6 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterThree;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
+import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
@@ -42,7 +43,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 
-public class SchoolRegisterFragmentThree extends Fragment implements TagInterface, ScrollEditText {
+public class SchoolRegisterFragmentThree extends Fragment implements TagInterface, ScrollEditText, RadioGroupInterface {
 
     TextInputLayout startAgeField, finalAgeField, totalStudentsField, totalStudentsPcdField, studentPcdDescriptionField,
             totalWorkersField, totalWorkersPcdField, workersPcdDescriptionField, totalWorkersLibrasField, workersLibrasDescriptionField,
@@ -96,23 +97,23 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         instantiateSchoolFragThree(view);
 
 
-        if (bundleFragThree.getInt(SchoolRegisterActivity.SCHOOL_ID) > 0)
-            modelEntry.getEntry(bundleFragThree.getInt(SchoolRegisterActivity.SCHOOL_ID)).observe(getViewLifecycleOwner(), this::gatherSchoolDataFragThree);
+        if (bundleFragThree.getInt(SCHOOL_ID) > 0)
+            modelEntry.getEntry(bundleFragThree.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), this::loadSchoolDataThree);
 
         modelFragments.getSaveUpdateSchoolReg().observe(getViewLifecycleOwner(), clickButton -> {
             if (clickButton != null) {
                 if (checkEmptyFieldsFragThree()) {
                     SchoolRegisterThree updateFragThree = updateRegisterThree(bundleFragThree);
                     ViewModelEntry.updateSchoolRegThree(updateFragThree);
-                    if (clickButton.getBoolean(SchoolRegisterActivity.UPDATE_CONTINUE)) {
-                        bundleFragThree.putBoolean(SchoolRegisterActivity.NEXT_ACTIVITY, true);
+                    if (clickButton.getBoolean(UPDATE_CONTINUE)) {
+                        bundleFragThree.putBoolean(NEXT_ACTIVITY, true);
                         modelFragments.setDataFromFragToActivity(bundleFragThree);
-                        bundleFragThree.putBoolean(SchoolRegisterActivity.NEXT_ACTIVITY, false);
-                    } else if (clickButton.getBoolean(SchoolRegisterActivity.UPDATE_CLOSE)) {
-                        bundleFragThree.putBoolean(SchoolRegisterActivity.UPDATE_CLOSE, false);
-                        bundleFragThree.putBoolean(SchoolRegisterActivity.CLOSE_FRAGMENT, true);
+                        bundleFragThree.putBoolean(NEXT_ACTIVITY, false);
+                    } else if (clickButton.getBoolean(UPDATE_CLOSE)) {
+                        bundleFragThree.putBoolean(UPDATE_CLOSE, false);
+                        bundleFragThree.putBoolean(CLOSE_FRAGMENT, true);
                         modelFragments.setDataFromFragToActivity(bundleFragThree);
-                        bundleFragThree.putBoolean(SchoolRegisterActivity.CLOSE_FRAGMENT, false);
+                        bundleFragThree.putBoolean(CLOSE_FRAGMENT, false);
                     }
                 } else {
                     Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
@@ -264,15 +265,15 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
 
     }
 
-    private void gatherSchoolDataFragThree(SchoolEntry school) {
+    private void loadSchoolDataThree(SchoolEntry school) {
         if (school.getYoungestStudentAge() != null)
             startAgeValue.setText(String.valueOf(school.getYoungestStudentAge()));
         if (school.getMonthYearYoungest() != null)
-            youngestMonthYearRadio.check(youngestMonthYearRadio.getChildAt(school.getMonthYearYoungest()).getId());
+            checkRadioGroup(youngestMonthYearRadio, school.getMonthYearYoungest());
         if (school.getOldestStudentAge() != null)
             finalAgeValue.setText(String.valueOf(school.getOldestStudentAge()));
         if (school.getMonthYearOldest() != null)
-            oldestMonthYearRadio.check(oldestMonthYearRadio.getChildAt(school.getMonthYearOldest()).getId());
+            checkRadioGroup(oldestMonthYearRadio, school.getMonthYearOldest());
         if (school.getNumberStudents() != null)
             totalStudentsValue.setText(String.valueOf(school.getNumberStudents()));
         if (school.getNumberStudentsPCD() != null)
@@ -360,13 +361,13 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
     private SchoolRegisterThree updateRegisterThree(Bundle bundle) {
         int youngestStudent, youngestMonthYear, oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents, totalEmployees, totalPcdEmployees,
                 hasLibrasEmployees;
-        Integer totalLibrasEmployees = null;
+        Integer totalLibrasEmployees = null, update = 0, reportSent = 0;
         String studentsPcdDescription = null, employeesPcdDescription = null, librasDescriptions = null, initialDateInspection, finalDateInspection = null, registerObs = null;
 
         youngestStudent = Integer.parseInt(String.valueOf(startAgeValue.getText()));
-        youngestMonthYear = getCheckedIndex(youngestMonthYearRadio);
+        youngestMonthYear = indexRadio(youngestMonthYearRadio);
         oldestStudent = Integer.parseInt(String.valueOf(finalAgeValue.getText()));
-        oldestMonthYear = getCheckedIndex(oldestMonthYearRadio);
+        oldestMonthYear = indexRadio(oldestMonthYearRadio);
         totalStudents = Integer.parseInt(String.valueOf(totalStudentsValue.getText()));
         totalPcdStudents = Integer.parseInt(String.valueOf(totalStudentsPcdValue.getText()));
         if (!TextUtils.isEmpty(studentPcdDescriptionValue.getText()))
@@ -375,7 +376,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         totalPcdEmployees = Integer.parseInt(String.valueOf(totalWorkersPcdValue.getText()));
         if (!TextUtils.isEmpty(workersPcdDescriptionValue.getText()))
             employeesPcdDescription = String.valueOf(workersPcdDescriptionValue.getText());
-        hasLibrasEmployees = getCheckedIndex(hasWorkersLibras);
+        hasLibrasEmployees = indexRadio(hasWorkersLibras);
         if (hasLibrasEmployees == 1) {
             totalLibrasEmployees = Integer.valueOf(String.valueOf(totalWorkersLibrasValue.getText()));
             librasDescriptions = String.valueOf(workersLibrasDescriptionValue.getText());
@@ -385,10 +386,18 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         initialDateInspection = String.valueOf(initialDateInspectionValue.getText());
         if (!TextUtils.isEmpty(finalDateInspectionValue.getText()))
             finalDateInspection = String.valueOf(finalDateInspectionValue.getText());
+        if (bundle.getBoolean(DATA_COMPLETE))
+            update = 1;
 
-        return new SchoolRegisterThree(bundle.getInt(SCHOOL_ID), youngestStudent, youngestMonthYear,
-                oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents, studentsPcdDescription, totalEmployees,
-                totalPcdEmployees, employeesPcdDescription, hasLibrasEmployees, totalLibrasEmployees, librasDescriptions,
-                initialDateInspection, finalDateInspection, registerObs);
+//        TODO - Adicionar verificador de envio de relatório
+
+        return new SchoolRegisterThree(bundle.getInt(SCHOOL_ID), youngestStudent, youngestMonthYear, oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents,
+                studentsPcdDescription, totalEmployees, totalPcdEmployees, employeesPcdDescription, hasLibrasEmployees, totalLibrasEmployees, librasDescriptions,
+                initialDateInspection, finalDateInspection, registerObs, update, reportSent);
+    }
+
+    @Override
+    public void radioListener(RadioGroup radio, int id) {
+
     }
 }

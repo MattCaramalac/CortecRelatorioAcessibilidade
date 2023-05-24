@@ -254,11 +254,9 @@
                 android:layout_weight="@integer/weight_one">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/ffirst_responsible_value"
+                    android:id="@+id/first_responsible_value"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:maxLength="@integer/max_length_phone" />
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -299,11 +297,9 @@
                 android:layout_weight="@integer/weight_one">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/fsecond_responsible_value"
+                    android:id="@+id/second_responsible_value"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:maxLength="@integer/max_length_phone" />
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

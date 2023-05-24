@@ -69,7 +69,8 @@
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/morning_hours_start_field"
             app:layout_constraintEnd_toStartOf="@id/morning_hours_end_field"
-            app:layout_constraintTop_toTopOf="@+id/morning_hours_start_field" />
+            app:layout_constraintTop_toTopOf="@+id/morning_hours_start_field"
+            android:enabled="false"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -133,7 +134,8 @@
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/afternoon_hours_start_field"
             app:layout_constraintEnd_toStartOf="@id/afternoon_hours_end_field"
-            app:layout_constraintTop_toTopOf="@+id/afternoon_hours_start_field" />
+            app:layout_constraintTop_toTopOf="@+id/afternoon_hours_start_field"
+            android:enabled="false"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -351,6 +353,7 @@
             app:layout_constraintBottom_toBottomOf="@id/checkbox_elementary_classes"
             app:layout_constraintEnd_toStartOf="@id/elementary_levels_text_to"
             android:layout_marginEnd="@dimen/top_margins"
+            app:suffixText="@string/grade_o"
             android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -382,6 +385,7 @@
             app:layout_constraintBottom_toBottomOf="@id/elementary_levels_text_to"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/top_margins"
+            app:suffixText="@string/grade_o"
             android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
