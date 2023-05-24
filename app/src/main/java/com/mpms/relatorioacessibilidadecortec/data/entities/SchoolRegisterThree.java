@@ -24,11 +24,14 @@ public class SchoolRegisterThree {
     private String initialDateInspection;
     private String finalDateInspection;
     private String registerStudentObs;
+    private Integer updateRegister;
+    private Integer reportSent;
 
     public SchoolRegisterThree(Integer cadID, Integer youngestStudentAge, Integer monthYearYoungest, Integer oldestStudentAge, Integer monthYearOldest,
                                Integer numberStudents, Integer numberStudentsPCD, String studentsPCDDescription, Integer numberWorkers,
                                Integer numberWorkersPCD, String workersPCDDescription, Integer hasWorkersLibras, Integer numberWorkersLibras,
-                               String workersLibrasDescription, String initialDateInspection, String finalDateInspection, String registerStudentObs) {
+                               String workersLibrasDescription, String initialDateInspection, String finalDateInspection, String registerStudentObs,
+                               Integer updateRegister, Integer reportSent) {
         this.cadID = cadID;
         this.youngestStudentAge = youngestStudentAge;
         this.monthYearYoungest = monthYearYoungest;
@@ -46,6 +49,8 @@ public class SchoolRegisterThree {
         this.initialDateInspection = initialDateInspection;
         this.finalDateInspection = finalDateInspection;
         this.registerStudentObs = registerStudentObs;
+        this.updateRegister = updateRegister;
+        this.reportSent = reportSent;
     }
 
     public Integer getCadID() {
@@ -182,5 +187,21 @@ public class SchoolRegisterThree {
 
     public void setRegisterStudentObs(String registerStudentObs) {
         this.registerStudentObs = registerStudentObs;
+    }
+
+    public Integer getUpdateRegister() {
+        return updateRegister;
+    }
+
+    public void setUpdateRegister(Integer updateRegister) {
+        this.updateRegister = updateRegister;
+    }
+
+    public Integer getReportSent() {
+        return reportSent;
+    }
+
+    public void setReportSent(Integer reportSent) {
+        this.reportSent = reportSent;
     }
 }

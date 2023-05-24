@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:text="@string/button_return"
         android:textStyle="bold"
-        android:textSize="12sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/save_update_close_register"
         app:layout_constraintTop_toBottomOf="@id/register_scroll_view"
@@ -39,7 +39,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save_update_close_register"
-        android:layout_width="140dp"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/register_scroll_view"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,18 +47,18 @@
         app:layout_constraintEnd_toStartOf="@id/save_update_continue_register"
         android:textColor="@color/black"
         android:backgroundTint="@color/purple_200"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textStyle="bold"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save_update_continue_register"
-        android:layout_width="140dp"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/register_scroll_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/save_update_close_register"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textStyle="bold"/>
 
 

@@ -18,6 +18,7 @@ public interface TagInterface {
     String OPEN_FRAG_THREE = "OPEN_FRAG_THREE";
     String NEXT_ACTIVITY = "NEXT_ACTIVITY";
     String SCHOOL_BUNDLE = "SCHOOL_BUNDLE";
+    String DATA_COMPLETE = "DATA_COMPLETE";
 
     //    Tags defining block info
     String BLOCK_ID = "BLOCK_ID";

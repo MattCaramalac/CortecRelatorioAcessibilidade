@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 public class SchoolRegisterOne {
 
     @PrimaryKey
-    private Integer cadID;
+    private int cadID;
     private String schoolName;
     private String schoolAddress;
     private String addressComplement;
@@ -16,17 +16,20 @@ public class SchoolRegisterOne {
     private String nameCity;
     private String nameDistrict;
     private String contactPhone1;
+    private String contactName1;
     private String contactPhone2;
-    private String nameResponsibleVisit;
+    private String contactName2;
+    private String respName1;
+    private String respJob1;
+    private String respName2;
+    private String respJob2;
     private String nameInspectionTeam;
     private String emailAddress;
-    private String contactName1;
-    private String contactName2;
 
-    public SchoolRegisterOne(Integer schoolID, String schoolName, String schoolAddress, String addressComplement, String addressNumber,
-                             String addressNeighborhood, String nameCity, String nameDistrict, String contactPhone1, String contactPhone2,
-                             String nameResponsibleVisit, String nameInspectionTeam, String emailAddress, String contactName1, String contactName2) {
-        this.cadID = schoolID;
+    public SchoolRegisterOne(int cadID, String schoolName, String schoolAddress, String addressComplement, String addressNumber, String addressNeighborhood,
+                             String nameCity, String nameDistrict, String contactPhone1, String contactName1, String contactPhone2, String contactName2,
+                             String respName1, String respJob1, String respName2, String respJob2, String nameInspectionTeam, String emailAddress) {
+        this.cadID = cadID;
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
         this.addressComplement = addressComplement;
@@ -35,19 +38,22 @@ public class SchoolRegisterOne {
         this.nameCity = nameCity;
         this.nameDistrict = nameDistrict;
         this.contactPhone1 = contactPhone1;
+        this.contactName1 = contactName1;
         this.contactPhone2 = contactPhone2;
-        this.nameResponsibleVisit = nameResponsibleVisit;
+        this.contactName2 = contactName2;
+        this.respName1 = respName1;
+        this.respJob1 = respJob1;
+        this.respName2 = respName2;
+        this.respJob2 = respJob2;
         this.nameInspectionTeam = nameInspectionTeam;
         this.emailAddress = emailAddress;
-        this.contactName1 = contactName1;
-        this.contactName2 = contactName2;
     }
 
-    public Integer getCadID() {
+    public int getCadID() {
         return cadID;
     }
 
-    public void setCadID(Integer cadID) {
+    public void setCadID(int cadID) {
         this.cadID = cadID;
     }
 
@@ -115,6 +121,14 @@ public class SchoolRegisterOne {
         this.contactPhone1 = contactPhone1;
     }
 
+    public String getContactName1() {
+        return contactName1;
+    }
+
+    public void setContactName1(String contactName1) {
+        this.contactName1 = contactName1;
+    }
+
     public String getContactPhone2() {
         return contactPhone2;
     }
@@ -123,12 +137,44 @@ public class SchoolRegisterOne {
         this.contactPhone2 = contactPhone2;
     }
 
-    public String getNameResponsibleVisit() {
-        return nameResponsibleVisit;
+    public String getContactName2() {
+        return contactName2;
     }
 
-    public void setNameResponsibleVisit(String nameResponsibleVisit) {
-        this.nameResponsibleVisit = nameResponsibleVisit;
+    public void setContactName2(String contactName2) {
+        this.contactName2 = contactName2;
+    }
+
+    public String getRespName1() {
+        return respName1;
+    }
+
+    public void setRespName1(String respName1) {
+        this.respName1 = respName1;
+    }
+
+    public String getRespJob1() {
+        return respJob1;
+    }
+
+    public void setRespJob1(String respJob1) {
+        this.respJob1 = respJob1;
+    }
+
+    public String getRespName2() {
+        return respName2;
+    }
+
+    public void setRespName2(String respName2) {
+        this.respName2 = respName2;
+    }
+
+    public String getRespJob2() {
+        return respJob2;
+    }
+
+    public void setRespJob2(String respJob2) {
+        this.respJob2 = respJob2;
     }
 
     public String getNameInspectionTeam() {
@@ -145,21 +191,5 @@ public class SchoolRegisterOne {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
-    }
-
-    public String getContactName1() {
-        return contactName1;
-    }
-
-    public void setContactName1(String contactName1) {
-        this.contactName1 = contactName1;
-    }
-
-    public String getContactName2() {
-        return contactName2;
-    }
-
-    public void setContactName2(String contactName2) {
-        this.contactName2 = contactName2;
     }
 }

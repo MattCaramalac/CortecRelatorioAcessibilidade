@@ -1,5 +1,6 @@
 package com.mpms.relatorioacessibilidadecortec.data.entities;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -18,9 +19,15 @@ public class SchoolEntry implements Serializable {
     private String nameCity;
     private String nameDistrict;
     private String contactPhone1;
+    private String contactName1;
     private String contactPhone2;
-    private String nameResponsibleVisit;
+    private String contactName2;
+    private String respName1;
+    private String respJob1;
+    private String respName2;
+    private String respJob2;
     private String nameInspectionTeam;
+    private String emailAddress;
     private Integer hasMorningClasses;
     private String morningStart;
     private String morningEnd;
@@ -31,17 +38,15 @@ public class SchoolEntry implements Serializable {
     private String eveningStart;
     private String eveningEnd;
     private String workingHoursObs;
-    private Integer hasNursery;
-    private Integer hasDayCare;
-    private Integer hasMaternal;
-    private String maternalFirstGrade;
-    private String maternalLastGrade;
     private Integer hasPreschool;
     private String preschoolFirstGrade;
     private String preschoolLastGrade;
-    private Integer hasElementaryMiddle;
-    private String elementaryMiddleFirstGrade;
-    private String elementaryMiddleLastGrade;
+    private Integer hasElementary;
+    private String elementaryFirstGrade;
+    private String elementaryLastGrade;
+    private Integer hasMiddleSchool;
+    private String middleFirstGrade;
+    private String middleLastGrade;
     private Integer hasHighSchool;
     private String highFirstGrade;
     private String highLastGrade;
@@ -64,22 +69,22 @@ public class SchoolEntry implements Serializable {
     private String workersLibrasDescriptions;
     private String initialDateInspection;
     private String finalDateInspection;
-    private String emailAddress;
-    private String contactName1;
-    private String contactName2;
     private String registerStudentObs;
+    @ColumnInfo(defaultValue = "0")
+    private Integer updateRegister;
+    @ColumnInfo(defaultValue = "0")
+    private Integer reportSent;
 
-    public SchoolEntry(String schoolName, String schoolAddress, String addressComplement, String addressNumber, String addressNeighborhood,
-                       String nameCity, String nameDistrict, String contactPhone1, String contactPhone2, String nameResponsibleVisit,
-                       String nameInspectionTeam, Integer hasMorningClasses, String morningStart, String morningEnd, Integer hasAfternoonClasses,
-                       String afternoonStart, String afternoonEnd, Integer hasEveningClasses, String eveningStart, String eveningEnd, String workingHoursObs,
-                       Integer hasNursery, Integer hasDayCare, Integer hasMaternal, String maternalFirstGrade, String maternalLastGrade, Integer hasPreschool,
-                       String preschoolFirstGrade, String preschoolLastGrade, Integer hasElementaryMiddle, String elementaryMiddleFirstGrade,
-                       String elementaryMiddleLastGrade, Integer hasHighSchool, String highFirstGrade, String highLastGrade, Integer hasEja, String ejaFirstGrade,
+    public SchoolEntry(String schoolName, String schoolAddress, String addressComplement, String addressNumber, String addressNeighborhood, String nameCity, String nameDistrict,
+                       String contactPhone1, String contactName1, String contactPhone2, String contactName2, String respName1, String respJob1, String respName2, String respJob2,
+                       String nameInspectionTeam, String emailAddress, Integer hasMorningClasses, String morningStart, String morningEnd, Integer hasAfternoonClasses,
+                       String afternoonStart, String afternoonEnd, Integer hasEveningClasses, String eveningStart, String eveningEnd, String workingHoursObs, Integer hasPreschool,
+                       String preschoolFirstGrade, String preschoolLastGrade, Integer hasElementary, String elementaryFirstGrade, String elementaryLastGrade, Integer hasMiddleSchool,
+                       String middleFirstGrade, String middleLastGrade, Integer hasHighSchool, String highFirstGrade, String highLastGrade, Integer hasEja, String ejaFirstGrade,
                        String ejaLastGrade, String servicesObs, Integer youngestStudentAge, Integer monthYearYoungest, Integer oldestStudentAge, Integer monthYearOldest,
                        Integer numberStudents, Integer numberStudentsPCD, String studentsPCDDescription, Integer numberWorkers, Integer numberWorkersPCD,
-                       String workersPCDDescription, Integer hasWorkersLibras, Integer numberWorkersLibras, String workersLibrasDescriptions,
-                       String initialDateInspection, String finalDateInspection, String emailAddress, String contactName1, String contactName2, String registerStudentObs) {
+                       String workersPCDDescription, Integer hasWorkersLibras, Integer numberWorkersLibras, String workersLibrasDescriptions, String initialDateInspection,
+                       String finalDateInspection, String registerStudentObs, Integer updateRegister, Integer reportSent) {
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
         this.addressComplement = addressComplement;
@@ -88,9 +93,15 @@ public class SchoolEntry implements Serializable {
         this.nameCity = nameCity;
         this.nameDistrict = nameDistrict;
         this.contactPhone1 = contactPhone1;
+        this.contactName1 = contactName1;
         this.contactPhone2 = contactPhone2;
-        this.nameResponsibleVisit = nameResponsibleVisit;
+        this.contactName2 = contactName2;
+        this.respName1 = respName1;
+        this.respJob1 = respJob1;
+        this.respName2 = respName2;
+        this.respJob2 = respJob2;
         this.nameInspectionTeam = nameInspectionTeam;
+        this.emailAddress = emailAddress;
         this.hasMorningClasses = hasMorningClasses;
         this.morningStart = morningStart;
         this.morningEnd = morningEnd;
@@ -101,17 +112,15 @@ public class SchoolEntry implements Serializable {
         this.eveningStart = eveningStart;
         this.eveningEnd = eveningEnd;
         this.workingHoursObs = workingHoursObs;
-        this.hasNursery = hasNursery;
-        this.hasDayCare = hasDayCare;
-        this.hasMaternal = hasMaternal;
-        this.maternalFirstGrade = maternalFirstGrade;
-        this.maternalLastGrade = maternalLastGrade;
         this.hasPreschool = hasPreschool;
         this.preschoolFirstGrade = preschoolFirstGrade;
         this.preschoolLastGrade = preschoolLastGrade;
-        this.hasElementaryMiddle = hasElementaryMiddle;
-        this.elementaryMiddleFirstGrade = elementaryMiddleFirstGrade;
-        this.elementaryMiddleLastGrade = elementaryMiddleLastGrade;
+        this.hasElementary = hasElementary;
+        this.elementaryFirstGrade = elementaryFirstGrade;
+        this.elementaryLastGrade = elementaryLastGrade;
+        this.hasMiddleSchool = hasMiddleSchool;
+        this.middleFirstGrade = middleFirstGrade;
+        this.middleLastGrade = middleLastGrade;
         this.hasHighSchool = hasHighSchool;
         this.highFirstGrade = highFirstGrade;
         this.highLastGrade = highLastGrade;
@@ -134,10 +143,9 @@ public class SchoolEntry implements Serializable {
         this.workersLibrasDescriptions = workersLibrasDescriptions;
         this.initialDateInspection = initialDateInspection;
         this.finalDateInspection = finalDateInspection;
-        this.emailAddress = emailAddress;
-        this.contactName1 = contactName1;
-        this.contactName2 = contactName2;
         this.registerStudentObs = registerStudentObs;
+        this.updateRegister = updateRegister;
+        this.reportSent = reportSent;
     }
 
     public int getCadID() {
@@ -212,6 +220,14 @@ public class SchoolEntry implements Serializable {
         this.contactPhone1 = contactPhone1;
     }
 
+    public String getContactName1() {
+        return contactName1;
+    }
+
+    public void setContactName1(String contactName1) {
+        this.contactName1 = contactName1;
+    }
+
     public String getContactPhone2() {
         return contactPhone2;
     }
@@ -220,12 +236,44 @@ public class SchoolEntry implements Serializable {
         this.contactPhone2 = contactPhone2;
     }
 
-    public String getNameResponsibleVisit() {
-        return nameResponsibleVisit;
+    public String getContactName2() {
+        return contactName2;
     }
 
-    public void setNameResponsibleVisit(String nameResponsibleVisit) {
-        this.nameResponsibleVisit = nameResponsibleVisit;
+    public void setContactName2(String contactName2) {
+        this.contactName2 = contactName2;
+    }
+
+    public String getRespName1() {
+        return respName1;
+    }
+
+    public void setRespName1(String respName1) {
+        this.respName1 = respName1;
+    }
+
+    public String getRespJob1() {
+        return respJob1;
+    }
+
+    public void setRespJob1(String respJob1) {
+        this.respJob1 = respJob1;
+    }
+
+    public String getRespName2() {
+        return respName2;
+    }
+
+    public void setRespName2(String respName2) {
+        this.respName2 = respName2;
+    }
+
+    public String getRespJob2() {
+        return respJob2;
+    }
+
+    public void setRespJob2(String respJob2) {
+        this.respJob2 = respJob2;
     }
 
     public String getNameInspectionTeam() {
@@ -234,6 +282,14 @@ public class SchoolEntry implements Serializable {
 
     public void setNameInspectionTeam(String nameInspectionTeam) {
         this.nameInspectionTeam = nameInspectionTeam;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public Integer getHasMorningClasses() {
@@ -316,46 +372,6 @@ public class SchoolEntry implements Serializable {
         this.workingHoursObs = workingHoursObs;
     }
 
-    public Integer getHasNursery() {
-        return hasNursery;
-    }
-
-    public void setHasNursery(Integer hasNursery) {
-        this.hasNursery = hasNursery;
-    }
-
-    public Integer getHasDayCare() {
-        return hasDayCare;
-    }
-
-    public void setHasDayCare(Integer hasDayCare) {
-        this.hasDayCare = hasDayCare;
-    }
-
-    public Integer getHasMaternal() {
-        return hasMaternal;
-    }
-
-    public void setHasMaternal(Integer hasMaternal) {
-        this.hasMaternal = hasMaternal;
-    }
-
-    public String getMaternalFirstGrade() {
-        return maternalFirstGrade;
-    }
-
-    public void setMaternalFirstGrade(String maternalFirstGrade) {
-        this.maternalFirstGrade = maternalFirstGrade;
-    }
-
-    public String getMaternalLastGrade() {
-        return maternalLastGrade;
-    }
-
-    public void setMaternalLastGrade(String maternalLastGrade) {
-        this.maternalLastGrade = maternalLastGrade;
-    }
-
     public Integer getHasPreschool() {
         return hasPreschool;
     }
@@ -380,28 +396,52 @@ public class SchoolEntry implements Serializable {
         this.preschoolLastGrade = preschoolLastGrade;
     }
 
-    public Integer getHasElementaryMiddle() {
-        return hasElementaryMiddle;
+    public Integer getHasElementary() {
+        return hasElementary;
     }
 
-    public void setHasElementaryMiddle(Integer hasElementaryMiddle) {
-        this.hasElementaryMiddle = hasElementaryMiddle;
+    public void setHasElementary(Integer hasElementary) {
+        this.hasElementary = hasElementary;
     }
 
-    public String getElementaryMiddleFirstGrade() {
-        return elementaryMiddleFirstGrade;
+    public String getElementaryFirstGrade() {
+        return elementaryFirstGrade;
     }
 
-    public void setElementaryMiddleFirstGrade(String elementaryMiddleFirstGrade) {
-        this.elementaryMiddleFirstGrade = elementaryMiddleFirstGrade;
+    public void setElementaryFirstGrade(String elementaryFirstGrade) {
+        this.elementaryFirstGrade = elementaryFirstGrade;
     }
 
-    public String getElementaryMiddleLastGrade() {
-        return elementaryMiddleLastGrade;
+    public String getElementaryLastGrade() {
+        return elementaryLastGrade;
     }
 
-    public void setElementaryMiddleLastGrade(String elementaryMiddleLastGrade) {
-        this.elementaryMiddleLastGrade = elementaryMiddleLastGrade;
+    public void setElementaryLastGrade(String elementaryLastGrade) {
+        this.elementaryLastGrade = elementaryLastGrade;
+    }
+
+    public Integer getHasMiddleSchool() {
+        return hasMiddleSchool;
+    }
+
+    public void setHasMiddleSchool(Integer hasMiddleSchool) {
+        this.hasMiddleSchool = hasMiddleSchool;
+    }
+
+    public String getMiddleFirstGrade() {
+        return middleFirstGrade;
+    }
+
+    public void setMiddleFirstGrade(String middleFirstGrade) {
+        this.middleFirstGrade = middleFirstGrade;
+    }
+
+    public String getMiddleLastGrade() {
+        return middleLastGrade;
+    }
+
+    public void setMiddleLastGrade(String middleLastGrade) {
+        this.middleLastGrade = middleLastGrade;
     }
 
     public Integer getHasHighSchool() {
@@ -580,35 +620,27 @@ public class SchoolEntry implements Serializable {
         this.finalDateInspection = finalDateInspection;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public String getContactName1() {
-        return contactName1;
-    }
-
-    public void setContactName1(String contactName1) {
-        this.contactName1 = contactName1;
-    }
-
-    public String getContactName2() {
-        return contactName2;
-    }
-
-    public void setContactName2(String contactName2) {
-        this.contactName2 = contactName2;
-    }
-
     public String getRegisterStudentObs() {
         return registerStudentObs;
     }
 
     public void setRegisterStudentObs(String registerStudentObs) {
         this.registerStudentObs = registerStudentObs;
+    }
+
+    public Integer getUpdateRegister() {
+        return updateRegister;
+    }
+
+    public void setUpdateRegister(Integer updateRegister) {
+        this.updateRegister = updateRegister;
+    }
+
+    public Integer getReportSent() {
+        return reportSent;
+    }
+
+    public void setReportSent(Integer reportSent) {
+        this.reportSent = reportSent;
     }
 }

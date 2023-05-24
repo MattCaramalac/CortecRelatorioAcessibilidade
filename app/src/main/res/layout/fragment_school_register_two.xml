@@ -69,7 +69,8 @@
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/morning_hours_start_field"
             app:layout_constraintEnd_toStartOf="@id/morning_hours_end_field"
-            app:layout_constraintTop_toTopOf="@+id/morning_hours_start_field" />
+            app:layout_constraintTop_toTopOf="@+id/morning_hours_start_field"
+            android:enabled="false"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -133,7 +134,8 @@
             android:textSize="@dimen/section_header"
             app:layout_constraintBottom_toBottomOf="@+id/afternoon_hours_start_field"
             app:layout_constraintEnd_toStartOf="@id/afternoon_hours_end_field"
-            app:layout_constraintTop_toTopOf="@+id/afternoon_hours_start_field" />
+            app:layout_constraintTop_toTopOf="@+id/afternoon_hours_start_field"
+            android:enabled="false"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -265,48 +267,28 @@
             android:layout_marginTop="@dimen/usual_padding"/>
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkbox_nursery"
+            android:id="@+id/checkbox_child_education_classes"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:text="@string/checkbox_nursery"
+            android:text="@string/check_box_child_education"
             android:textSize="18sp"
             android:layout_marginTop="@dimen/top_margins"
             app:layout_constraintTop_toBottomOf="@id/school_services_header"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkbox_day_care"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:text="@string/checkbox_daycare"
-            android:textSize="18sp"
-            android:layout_marginTop="@dimen/top_margins"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_nursery"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkbox_maternal_classes"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:text="@string/check_box_maternal"
-            android:textSize="18sp"
-            android:layout_marginTop="@dimen/top_margins"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_day_care"
-            app:layout_constraintStart_toStartOf="parent"/>
-
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/maternal_first_level_field"
+            android:id="@+id/child_education_first_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/checkbox_maternal_classes"
-            app:layout_constraintBottom_toBottomOf="@id/checkbox_maternal_classes"
-            app:layout_constraintEnd_toStartOf="@id/maternal_levels_text_to"
+            app:layout_constraintTop_toTopOf="@id/checkbox_child_education_classes"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_child_education_classes"
+            app:layout_constraintEnd_toStartOf="@id/child_education_levels_text_to"
             android:layout_marginEnd="@dimen/top_margins"
             android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/maternal_first_level_value"
+                android:id="@+id/child_education_first_level_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -315,29 +297,29 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/maternal_levels_text_to"
+            android:id="@+id/child_education_levels_text_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/ao"
             android:textSize="@dimen/section_header"
-            app:layout_constraintBottom_toBottomOf="@+id/maternal_first_level_field"
-            app:layout_constraintEnd_toStartOf="@id/maternal_last_level_field"
-            app:layout_constraintTop_toTopOf="@+id/maternal_first_level_field" />
+            app:layout_constraintBottom_toBottomOf="@+id/child_education_first_level_field"
+            app:layout_constraintEnd_toStartOf="@id/child_education_last_level_field"
+            app:layout_constraintTop_toTopOf="@+id/child_education_first_level_field" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/maternal_last_level_field"
+            android:id="@+id/child_education_last_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/maternal_levels_text_to"
-            app:layout_constraintBottom_toBottomOf="@id/maternal_levels_text_to"
+            app:layout_constraintTop_toTopOf="@id/child_education_levels_text_to"
+            app:layout_constraintBottom_toBottomOf="@id/child_education_levels_text_to"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/top_margins"
             android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/maternal_last_level_value"
+                android:id="@+id/child_education_last_level_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -346,28 +328,36 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkbox_pre_school_classes"
+            android:id="@+id/checkbox_elementary_classes"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:text="@string/check_box_pre_school"
+            android:text="@string/check_box_elementary"
             android:textSize="18sp"
             android:layout_marginTop="@dimen/top_margins"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_maternal_classes"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_child_education_classes"
             app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_elementary_classes"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/elem_school_checkbox_hint"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/pre_school_first_level_field"
+            android:id="@+id/elementary_first_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/checkbox_pre_school_classes"
-            app:layout_constraintBottom_toBottomOf="@id/checkbox_pre_school_classes"
-            app:layout_constraintEnd_toStartOf="@id/pre_school_levels_text_to"
+            app:layout_constraintTop_toTopOf="@id/checkbox_elementary_classes"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_elementary_classes"
+            app:layout_constraintEnd_toStartOf="@id/elementary_levels_text_to"
             android:layout_marginEnd="@dimen/top_margins"
+            app:suffixText="@string/grade_o"
             android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/pre_school_first_level_value"
+                android:id="@+id/elementary_first_level_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -376,29 +366,30 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/pre_school_levels_text_to"
+            android:id="@+id/elementary_levels_text_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/ao"
             android:textSize="@dimen/section_header"
-            app:layout_constraintBottom_toBottomOf="@+id/pre_school_first_level_field"
-            app:layout_constraintEnd_toStartOf="@id/pre_school_last_level_field"
-            app:layout_constraintTop_toTopOf="@+id/pre_school_first_level_field" />
+            app:layout_constraintBottom_toBottomOf="@+id/elementary_first_level_field"
+            app:layout_constraintEnd_toStartOf="@id/elementary_last_level_field"
+            app:layout_constraintTop_toTopOf="@+id/elementary_first_level_field" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/pre_school_last_level_field"
+            android:id="@+id/elementary_last_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/pre_school_levels_text_to"
-            app:layout_constraintBottom_toBottomOf="@id/pre_school_levels_text_to"
+            app:layout_constraintTop_toTopOf="@id/elementary_levels_text_to"
+            app:layout_constraintBottom_toBottomOf="@id/elementary_levels_text_to"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/top_margins"
+            app:suffixText="@string/grade_o"
             android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/pre_school_last_level_value"
+                android:id="@+id/elementary_last_level_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -407,29 +398,36 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkbox_elem_middle_school_classes"
+            android:id="@+id/checkbox_middle_school_classes"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
-            android:text="@string/check_box_elementary_middle"
+            android:text="@string/check_box_middle_school"
             android:textSize="18sp"
             android:layout_marginTop="@dimen/top_margins"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_pre_school_classes"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_elementary_classes"
             app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_middle_school_classes"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/middle_school_checkbox_hint"/>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/elem_middle_school_first_level_field"
+            android:id="@+id/middle_school_first_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/checkbox_elem_middle_school_classes"
-            app:layout_constraintBottom_toBottomOf="@id/checkbox_elem_middle_school_classes"
+            app:layout_constraintTop_toTopOf="@id/checkbox_middle_school_classes"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_middle_school_classes"
             app:layout_constraintEnd_toStartOf="@id/middle_school_levels_text_to"
             android:layout_marginEnd="@dimen/top_margins"
             app:suffixText="@string/grade_o"
             android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/elem_middle_school_first_level_value"
+                android:id="@+id/middle_school_first_level_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -444,13 +442,13 @@
             android:layout_marginEnd="@dimen/top_margins"
             android:text="@string/ao"
             android:textSize="@dimen/section_header"
-            app:layout_constraintBottom_toBottomOf="@+id/elem_middle_school_first_level_field"
-            app:layout_constraintEnd_toStartOf="@id/elem_middle_school_last_level_field"
-            app:layout_constraintTop_toTopOf="@+id/elem_middle_school_first_level_field" />
+            app:layout_constraintBottom_toBottomOf="@+id/middle_school_first_level_field"
+            app:layout_constraintEnd_toStartOf="@id/middle_school_last_level_field"
+            app:layout_constraintTop_toTopOf="@+id/middle_school_first_level_field" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/elem_middle_school_last_level_field"
+            android:id="@+id/middle_school_last_level_field"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/middle_school_levels_text_to"
@@ -461,7 +459,7 @@
             android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/elem_middle_school_last_level_value"
+                android:id="@+id/middle_school_last_level_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -476,7 +474,7 @@
             android:text="@string/check_box_high_school"
             android:textSize="18sp"
             android:layout_marginTop="@dimen/top_margins"
-            app:layout_constraintTop_toBottomOf="@id/checkbox_elem_middle_school_classes"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_middle_school_classes"
             app:layout_constraintStart_toStartOf="parent"
             />
 

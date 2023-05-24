@@ -18,17 +18,15 @@ public class SchoolRegisterTwo {
     private String eveningStart;
     private String eveningEnd;
     private String workingHoursObs;
-    private Integer hasNursery;
-    private Integer hasDayCare;
-    private Integer hasMaternal;
-    private String maternalFirstGrade;
-    private String maternalLastGrade;
     private Integer hasPreschool;
     private String preschoolFirstGrade;
     private String preschoolLastGrade;
-    private Integer hasElementaryMiddle;
-    private String elementaryMiddleFirstGrade;
-    private String elementaryMiddleLastGrade;
+    private Integer hasElementary;
+    private String elementaryFirstGrade;
+    private String elementaryLastGrade;
+    private Integer hasMiddleSchool;
+    private String middleFirstGrade;
+    private String middleLastGrade;
     private Integer hasHighSchool;
     private String highFirstGrade;
     private String highLastGrade;
@@ -37,12 +35,11 @@ public class SchoolRegisterTwo {
     private String ejaLastGrade;
     private String servicesObs;
 
-    public SchoolRegisterTwo(Integer cadID, Integer hasMorningClasses, String morningStart, String morningEnd, Integer hasAfternoonClasses,
-                             String afternoonStart, String afternoonEnd, Integer hasEveningClasses, String eveningStart, String eveningEnd,
-                             String workingHoursObs, Integer hasNursery, Integer hasDayCare, Integer hasMaternal, String maternalFirstGrade,
-                             String maternalLastGrade, Integer hasPreschool, String preschoolFirstGrade, String preschoolLastGrade,
-                             Integer hasElementaryMiddle, String elementaryMiddleFirstGrade, String elementaryMiddleLastGrade, Integer hasHighSchool,
-                             String highFirstGrade, String highLastGrade, Integer hasEja, String ejaFirstGrade, String ejaLastGrade, String servicesObs) {
+    public SchoolRegisterTwo(Integer cadID, Integer hasMorningClasses, String morningStart, String morningEnd, Integer hasAfternoonClasses, String afternoonStart,
+                             String afternoonEnd, Integer hasEveningClasses, String eveningStart, String eveningEnd, String workingHoursObs, Integer hasPreschool,
+                             String preschoolFirstGrade, String preschoolLastGrade, Integer hasElementary, String elementaryFirstGrade, String elementaryLastGrade,
+                             Integer hasMiddleSchool, String middleFirstGrade, String middleLastGrade, Integer hasHighSchool, String highFirstGrade, String highLastGrade,
+                             Integer hasEja, String ejaFirstGrade, String ejaLastGrade, String servicesObs) {
         this.cadID = cadID;
         this.hasMorningClasses = hasMorningClasses;
         this.morningStart = morningStart;
@@ -54,17 +51,15 @@ public class SchoolRegisterTwo {
         this.eveningStart = eveningStart;
         this.eveningEnd = eveningEnd;
         this.workingHoursObs = workingHoursObs;
-        this.hasNursery = hasNursery;
-        this.hasDayCare = hasDayCare;
-        this.hasMaternal = hasMaternal;
-        this.maternalFirstGrade = maternalFirstGrade;
-        this.maternalLastGrade = maternalLastGrade;
         this.hasPreschool = hasPreschool;
         this.preschoolFirstGrade = preschoolFirstGrade;
         this.preschoolLastGrade = preschoolLastGrade;
-        this.hasElementaryMiddle = hasElementaryMiddle;
-        this.elementaryMiddleFirstGrade = elementaryMiddleFirstGrade;
-        this.elementaryMiddleLastGrade = elementaryMiddleLastGrade;
+        this.hasElementary = hasElementary;
+        this.elementaryFirstGrade = elementaryFirstGrade;
+        this.elementaryLastGrade = elementaryLastGrade;
+        this.hasMiddleSchool = hasMiddleSchool;
+        this.middleFirstGrade = middleFirstGrade;
+        this.middleLastGrade = middleLastGrade;
         this.hasHighSchool = hasHighSchool;
         this.highFirstGrade = highFirstGrade;
         this.highLastGrade = highLastGrade;
@@ -162,46 +157,6 @@ public class SchoolRegisterTwo {
         this.workingHoursObs = workingHoursObs;
     }
 
-    public Integer getHasNursery() {
-        return hasNursery;
-    }
-
-    public void setHasNursery(Integer hasNursery) {
-        this.hasNursery = hasNursery;
-    }
-
-    public Integer getHasDayCare() {
-        return hasDayCare;
-    }
-
-    public void setHasDayCare(Integer hasDayCare) {
-        this.hasDayCare = hasDayCare;
-    }
-
-    public Integer getHasMaternal() {
-        return hasMaternal;
-    }
-
-    public void setHasMaternal(Integer hasMaternal) {
-        this.hasMaternal = hasMaternal;
-    }
-
-    public String getMaternalFirstGrade() {
-        return maternalFirstGrade;
-    }
-
-    public void setMaternalFirstGrade(String maternalFirstGrade) {
-        this.maternalFirstGrade = maternalFirstGrade;
-    }
-
-    public String getMaternalLastGrade() {
-        return maternalLastGrade;
-    }
-
-    public void setMaternalLastGrade(String maternalLastGrade) {
-        this.maternalLastGrade = maternalLastGrade;
-    }
-
     public Integer getHasPreschool() {
         return hasPreschool;
     }
@@ -226,28 +181,52 @@ public class SchoolRegisterTwo {
         this.preschoolLastGrade = preschoolLastGrade;
     }
 
-    public Integer getHasElementaryMiddle() {
-        return hasElementaryMiddle;
+    public Integer getHasElementary() {
+        return hasElementary;
     }
 
-    public void setHasElementaryMiddle(Integer hasElementaryMiddle) {
-        this.hasElementaryMiddle = hasElementaryMiddle;
+    public void setHasElementary(Integer hasElementary) {
+        this.hasElementary = hasElementary;
     }
 
-    public String getElementaryMiddleFirstGrade() {
-        return elementaryMiddleFirstGrade;
+    public String getElementaryFirstGrade() {
+        return elementaryFirstGrade;
     }
 
-    public void setElementaryMiddleFirstGrade(String elementaryMiddleFirstGrade) {
-        this.elementaryMiddleFirstGrade = elementaryMiddleFirstGrade;
+    public void setElementaryFirstGrade(String elementaryFirstGrade) {
+        this.elementaryFirstGrade = elementaryFirstGrade;
     }
 
-    public String getElementaryMiddleLastGrade() {
-        return elementaryMiddleLastGrade;
+    public String getElementaryLastGrade() {
+        return elementaryLastGrade;
     }
 
-    public void setElementaryMiddleLastGrade(String elementaryMiddleLastGrade) {
-        this.elementaryMiddleLastGrade = elementaryMiddleLastGrade;
+    public void setElementaryLastGrade(String elementaryLastGrade) {
+        this.elementaryLastGrade = elementaryLastGrade;
+    }
+
+    public Integer getHasMiddleSchool() {
+        return hasMiddleSchool;
+    }
+
+    public void setHasMiddleSchool(Integer hasMiddleSchool) {
+        this.hasMiddleSchool = hasMiddleSchool;
+    }
+
+    public String getMiddleFirstGrade() {
+        return middleFirstGrade;
+    }
+
+    public void setMiddleFirstGrade(String middleFirstGrade) {
+        this.middleFirstGrade = middleFirstGrade;
+    }
+
+    public String getMiddleLastGrade() {
+        return middleLastGrade;
+    }
+
+    public void setMiddleLastGrade(String middleLastGrade) {
+        this.middleLastGrade = middleLastGrade;
     }
 
     public Integer getHasHighSchool() {
