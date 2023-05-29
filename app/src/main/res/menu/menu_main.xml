@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/edit_school"
+        android:title="Editar Cadastro"
+        android:icon="@drawable/ic_edit_24"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/generate_report"
+        android:title="Gerar Relatório"
+        android:icon="@drawable/ic_edit_24"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/delete_button"
+        android:title="Deletar Cadastro"
+        android:icon="@drawable/ic_baseline_delete_24"
+        app:showAsAction="never"/>
+
+
+</menu>

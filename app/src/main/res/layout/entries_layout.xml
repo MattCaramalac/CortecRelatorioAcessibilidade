@@ -5,59 +5,71 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
-    android:minHeight="75dp"
-    android:orientation="vertical"
-    android:baselineAligned="false">
+    android:orientation="horizontal">
 
-    <!--        <LinearLayout-->
-    <!--            android:id="@+id/stackedText"-->
-    <!--            android:layout_width="0dp"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_weight="1"-->
-    <!--            android:minHeight="75dp"-->
-    <!--            android:orientation="vertical"-->
-    <!--            android:background="?android:attr/selectableItemBackground">-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:minHeight="75dp"
+        android:orientation="vertical"
+        android:baselineAligned="false">
 
-<!--    TODO - Corrigir essa versão para garantir um correto wrap no nome OU scroll horizontal texto -->
-    <TextView
-        android:id="@+id/schoolNameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.5"
-        android:gravity="center_vertical"
-        android:textAppearance="?android:textAppearanceMediumInverse"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
-        android:background="?android:attr/selectableItemBackground"
-        android:maxLines="1"/>
+        <TextView
+            android:id="@+id/schoolNameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:textAppearanceMediumInverse"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:background="?android:attr/selectableItemBackground"
+            android:maxLines="1"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:scrollHorizontally="true"/>
 
-    <TextView
-        android:id="@+id/cityNameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="top"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/black"
-        android:background="?android:attr/selectableItemBackground"/>
+        <TextView
+            android:id="@+id/cityNameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:background="?android:attr/selectableItemBackground"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.2"
-        android:gravity="top"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/black"
-        android:background="?android:attr/selectableItemBackground"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:gravity="top"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:background="?android:attr/selectableItemBackground"/>
+
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/report_generated_check"
+        android:layout_width="44dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/green_check"
+        android:visibility="gone"/>
+
+    <ImageButton
+        android:id="@+id/iconStatus"
+        android:layout_width="44dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:layout_weight="0"
+        android:src="@drawable/ic_item_option_24"
+        android:backgroundTint="@color/white"/>
 
 </LinearLayout>
 
-    <!--        <androidx.appcompat.widget.AppCompatImageView-->
-    <!--            android:id="@+id/iconStatus"-->
-    <!--            android:layout_width="44dp"-->
-    <!--            android:layout_height="match_parent"-->
-    <!--            android:layout_gravity="end"-->
-    <!--            android:layout_weight="0"-->
-    <!--            android:src="@mipmap/ic_launcher" />-->
+
 
     <!--</LinearLayout>-->
