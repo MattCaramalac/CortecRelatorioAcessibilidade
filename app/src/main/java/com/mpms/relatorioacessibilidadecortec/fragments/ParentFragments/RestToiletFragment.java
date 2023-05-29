@@ -528,6 +528,10 @@ public class RestToiletFragment extends Fragment implements TagInterface, Scroll
                 i++;
                 doucheActHeightField.setError(getText(R.string.req_field_error));
             }
+            if (TextUtils.isEmpty(douchePressHeightValue.getText())) {
+                i++;
+                douchePressHeightField.setError(getText(R.string.req_field_error));
+            }
         }
 
         return i == 0;

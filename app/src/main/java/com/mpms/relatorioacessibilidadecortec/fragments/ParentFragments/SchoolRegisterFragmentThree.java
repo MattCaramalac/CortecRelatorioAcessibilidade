@@ -337,32 +337,44 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
     }
 
     private SchoolRegisterThree updateRegisterThree(Bundle bundle) {
-        int youngestStudent, youngestMonthYear, oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents, totalEmployees, totalPcdEmployees,
-                hasLibrasEmployees;
-        Integer totalLibrasEmployees = null;
+        Integer totalLibrasEmployees = null, youngestStudent = null, youngestMonthYear = null, oldestStudent = null, oldestMonthYear = null, totalStudents = null,
+                totalPcdStudents = null, totalEmployees = null, totalPcdEmployees = null, hasLibrasEmployees = null;
         int update = 0, reportSent = 0;
-        String studentsPcdDescription = null, employeesPcdDescription = null, librasDescriptions = null, initialDateInspection, finalDateInspection = null, registerObs = null;
+        String studentsPcdDescription = null, employeesPcdDescription = null, librasDescriptions = null, initialDateInspection = null, finalDateInspection = null,
+                registerObs = null;
 
-        youngestStudent = Integer.parseInt(String.valueOf(startAgeValue.getText()));
-        youngestMonthYear = indexRadio(youngestMonthYearRadio);
-        oldestStudent = Integer.parseInt(String.valueOf(finalAgeValue.getText()));
-        oldestMonthYear = indexRadio(oldestMonthYearRadio);
-        totalStudents = Integer.parseInt(String.valueOf(totalStudentsValue.getText()));
-        totalPcdStudents = Integer.parseInt(String.valueOf(totalStudentsPcdValue.getText()));
+        if (!TextUtils.isEmpty(startAgeValue.getText()))
+            youngestStudent = Integer.parseInt(String.valueOf(startAgeValue.getText()));
+        if (indexRadio(youngestMonthYearRadio) != -1)
+            youngestMonthYear = indexRadio(youngestMonthYearRadio);
+        if (!TextUtils.isEmpty(finalAgeValue.getText()))
+            oldestStudent = Integer.parseInt(String.valueOf(finalAgeValue.getText()));
+        if (indexRadio(oldestMonthYearRadio) != -1)
+            oldestMonthYear = indexRadio(oldestMonthYearRadio);
+        if (!TextUtils.isEmpty(totalStudentsValue.getText()))
+            totalStudents = Integer.parseInt(String.valueOf(totalStudentsValue.getText()));
+        if (!TextUtils.isEmpty(totalStudentsPcdValue.getText()))
+            totalPcdStudents = Integer.parseInt(String.valueOf(totalStudentsPcdValue.getText()));
         if (!TextUtils.isEmpty(studentPcdDescriptionValue.getText()))
             studentsPcdDescription = String.valueOf(studentPcdDescriptionValue.getText());
-        totalEmployees = Integer.parseInt(String.valueOf(totalWorkersValue.getText()));
-        totalPcdEmployees = Integer.parseInt(String.valueOf(totalWorkersPcdValue.getText()));
+        if (!TextUtils.isEmpty(totalWorkersValue.getText()))
+            totalEmployees = Integer.parseInt(String.valueOf(totalWorkersValue.getText()));
+        if (!TextUtils.isEmpty(totalWorkersPcdValue.getText()))
+            totalPcdEmployees = Integer.parseInt(String.valueOf(totalWorkersPcdValue.getText()));
         if (!TextUtils.isEmpty(workersPcdDescriptionValue.getText()))
             employeesPcdDescription = String.valueOf(workersPcdDescriptionValue.getText());
-        hasLibrasEmployees = indexRadio(hasWorkersLibras);
-        if (hasLibrasEmployees == 1) {
-            totalLibrasEmployees = Integer.valueOf(String.valueOf(totalWorkersLibrasValue.getText()));
-            librasDescriptions = String.valueOf(workersLibrasDescriptionValue.getText());
+        if (indexRadio(youngestMonthYearRadio) != -1) {
+            hasLibrasEmployees = indexRadio(hasWorkersLibras);
+            if (hasLibrasEmployees == 1) {
+                totalLibrasEmployees = Integer.valueOf(String.valueOf(totalWorkersLibrasValue.getText()));
+                librasDescriptions = String.valueOf(workersLibrasDescriptionValue.getText());
+            }
         }
+
         if (!TextUtils.isEmpty(studentRegisterObsValue.getText()))
             registerObs = String.valueOf(studentRegisterObsValue.getText());
-        initialDateInspection = String.valueOf(initialDateInspectionValue.getText());
+        if (!TextUtils.isEmpty(initialDateInspectionValue.getText()))
+            initialDateInspection = String.valueOf(initialDateInspectionValue.getText());
         if (!TextUtils.isEmpty(finalDateInspectionValue.getText()))
             finalDateInspection = String.valueOf(finalDateInspectionValue.getText());
         if (bundle.getBoolean(DATA_COMPLETE))

@@ -935,7 +935,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/usual_padding"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/douche_error"
+                app:layout_constraintTop_toBottomOf="@id/douche_pressure_height_field"
                 android:hint="@string/hint_douche_height"
                 android:visibility="gone">
 
