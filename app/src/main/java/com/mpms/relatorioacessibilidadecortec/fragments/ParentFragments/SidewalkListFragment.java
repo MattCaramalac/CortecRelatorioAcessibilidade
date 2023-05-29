@@ -31,6 +31,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class SidewalkListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -93,12 +94,12 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
                             if (actionMode == null)
                                 OnEntryClick(position);
                             else
-                                enableActionMode();
+                                enableActionMode(sidewalkEntryList);
                         }
 
                         @Override
                         public void onItemLongClick(int position) {
-                            enableActionMode();
+                            enableActionMode(sidewalkEntryList);
                         }
                     });
                 });
@@ -120,7 +121,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
         dataView.setVisible(true);
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -149,7 +150,7 @@ public class SidewalkListFragment extends Fragment implements OnEntryClickListen
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        sidewalkAdapter.cancelSelection(recyclerView);
+                        sidewalkAdapter.cancelSelection(recyclerView, entries, sidewalkAdapter);
                     sidewalkAdapter.selectedItems.clear();
                     sidewalkAdapter.notifyDataSetChanged();
                     delClick = 0;

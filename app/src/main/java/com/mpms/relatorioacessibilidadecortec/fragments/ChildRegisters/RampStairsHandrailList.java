@@ -27,6 +27,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class RampStairsHandrailList extends Fragment implements OnEntryClickListener, TagInterface {
@@ -80,7 +81,7 @@ public class RampStairsHandrailList extends Fragment implements OnEntryClickList
 
         modelEntry.getRampStairsHandrails(handListBundle.getInt(FLIGHT_ID)).observe(getViewLifecycleOwner(), handList -> {
             handrailAdapter = new HandrailRecViewAdapter(handList, requireActivity(), this);
-            listCreator(handrailAdapter);
+            listCreator(handrailAdapter, handList);
         });
 
         addHandrail.setOnClickListener(v -> openHandrailFragment());
@@ -114,33 +115,32 @@ public class RampStairsHandrailList extends Fragment implements OnEntryClickList
         handListBundle.putInt(HANDRAIL_ID, 0);
     }
 
-    private void listCreator(HandrailRecViewAdapter adapter) {
-        adapter.setListener(clickListener());
-
+    private <T> void listCreator(HandrailRecViewAdapter adapter, List<T> entries) {
+        adapter.setListener(clickListener(entries));
         recyclerView.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
-    private ListClickListener clickListener() {
+    private <T> ListClickListener clickListener(List<T> entries) {
         return new ListClickListener() {
             @Override
             public void onItemClick(int position) {
                 if (actionMode == null)
                     OnEntryClick(position);
                 else
-                    enableActionMode();
+                    enableActionMode(entries);
             }
 
             @Override
             public void onItemLongClick(int position) {
-                enableActionMode();
+                enableActionMode(entries);
             }
         };
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -169,7 +169,7 @@ public class RampStairsHandrailList extends Fragment implements OnEntryClickList
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        handrailAdapter.cancelSelection(recyclerView);
+                        handrailAdapter.cancelSelection(recyclerView,entries, handrailAdapter);
                     handrailAdapter.selectedItems.clear();
                     handrailAdapter.notifyDataSetChanged();
                     delClick = 0;

@@ -29,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 
+import java.util.List;
 import java.util.Objects;
 
 public class GateObsListFragment extends Fragment implements OnEntryClickListener {
@@ -93,12 +94,12 @@ public class GateObsListFragment extends Fragment implements OnEntryClickListene
                     if (actionMode == null)
                         OnEntryClick(position);
                     else
-                        enableActionMode();
+                        enableActionMode(gateObsList);
                 }
 
                 @Override
                 public void onItemLongClick(int position) {
-                    enableActionMode();
+                    enableActionMode(gateObsList);
                 }
             });
         });
@@ -118,7 +119,7 @@ public class GateObsListFragment extends Fragment implements OnEntryClickListene
         gateObsBundle.putInt(GateObsFragment.GATE_OBS_ID, 0);
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -147,7 +148,7 @@ public class GateObsListFragment extends Fragment implements OnEntryClickListene
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        gateObsAdapter.cancelSelection(recyclerView);
+                        gateObsAdapter.cancelSelection(recyclerView, entries, gateObsAdapter);
                     gateObsAdapter.selectedItems.clear();
                     gateObsAdapter.notifyDataSetChanged();
                     delClick = 0;

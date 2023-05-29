@@ -22,6 +22,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelFragments;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class BlockRegisterActivity extends AppCompatActivity implements OnEntryClickListener, TagInterface {
@@ -73,18 +74,18 @@ public class BlockRegisterActivity extends AppCompatActivity implements OnEntryC
                     if (actionMode == null)
                         OnEntryClick(position);
                     else
-                        enableActionMode();
+                        enableActionMode(blockSpace);
                 }
 
                 @Override
                 public void onItemLongClick(int position) {
-                    enableActionMode();
+                    enableActionMode(blockSpace);
                 }
             });
         });
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = this;
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -113,7 +114,7 @@ public class BlockRegisterActivity extends AppCompatActivity implements OnEntryC
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        blockSpaceAdapter.cancelSelection(recyclerView);
+                        blockSpaceAdapter.cancelSelection(recyclerView, entries, blockSpaceAdapter);
                     blockSpaceAdapter.selectedItems.clear();
                     blockSpaceAdapter.notifyDataSetChanged();
                     delClick = 0;

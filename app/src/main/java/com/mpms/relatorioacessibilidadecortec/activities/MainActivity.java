@@ -21,6 +21,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 
+
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnEntryClickListener {
@@ -58,12 +60,12 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
                     if (actionMode == null)
                         OnEntryClick(position);
                     else
-                        enableActionMode();
+                        enableActionMode(schoolEntries);
                 }
 
                 @Override
                 public void onItemLongClick(int position) {
-                    enableActionMode();
+                    enableActionMode(schoolEntries);
                 }
             });
         });
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
         });
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = this;
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        recyclerViewAdapter.cancelSelection(recyclerView);
+                        recyclerViewAdapter.cancelSelection(recyclerView, entries, recyclerViewAdapter);
                     recyclerViewAdapter.selectedItems.clear();
                     recyclerViewAdapter.notifyDataSetChanged();
                     delClick = 0;

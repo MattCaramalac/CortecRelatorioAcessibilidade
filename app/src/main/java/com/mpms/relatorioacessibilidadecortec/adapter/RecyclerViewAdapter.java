@@ -12,14 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-import com.mpms.relatorioacessibilidadecortec.util.DeleteInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
-import com.mpms.relatorioacessibilidadecortec.util.MainViewHolderInterface;
+import com.mpms.relatorioacessibilidadecortec.util.ViewHolderInterface;
 
 import java.util.List;
 import java.util.Objects;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<MainViewHolderInterface.MainListViewHolder> implements DeleteInterface, MainViewHolderInterface {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderInterface.MainListViewHolder> implements ViewHolderInterface {
 
     private ListClickListener listener;
     private List<SchoolEntry> schoolEntryList;
@@ -35,13 +34,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MainViewHolderInte
 
     @NonNull
     @Override
-    public MainViewHolderInterface.MainListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderInterface.MainListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.entries_layout, parent, false);
-        return new MainViewHolderInterface.MainListViewHolder(view, entryClickListener);
+        return new ViewHolderInterface.MainListViewHolder(view, entryClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MainViewHolderInterface.MainListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderInterface.MainListViewHolder holder, int position) {
         SchoolEntry schoolEntry = schoolEntryList.get(position);
         holder.textInfoOne.setText(schoolEntry.getSchoolName());
         holder.textInfoTwo.setText(schoolEntry.getNameCity());
@@ -52,14 +51,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MainViewHolderInte
 
         holder.itemView.setOnClickListener(v -> {
             if (selectedItems.size() > 0) {
-                toggleSelection(holder, position);
+                toggleSelection(this, position);
             }
             listener.onItemClick(position);
         });
 
         holder.itemView.setOnLongClickListener(v -> {
             if (listener != null) {
-                toggleSelection(holder, position);
+                toggleSelection(this, position);
                 listener.onItemLongClick(position);
             }
             return true;
@@ -77,25 +76,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<MainViewHolderInte
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
             ViewModelEntry.deleteOneSchoolEntry(schoolEntryList.get(selectedItems.keyAt(i)));
-        }
-    }
-
-    @Override
-    public void toggleSelection(MainListViewHolder holder, int position) {
-        if (selectedItems.get(position))
-            selectedItems.delete(position);
-        else
-            selectedItems.put(position, true);
-        notifyItemChanged(position);
-    }
-
-    @Override
-    public void cancelSelection(RecyclerView recyclerView) {
-        int listSize = schoolEntryList.size();
-        for (int i = 0; i < listSize; i++) {
-            MainListViewHolder holder = (MainListViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-            holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
-            notifyItemChanged(i);
         }
     }
 

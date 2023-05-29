@@ -129,7 +129,7 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
         recyclerView.addItemDecoration(dividerItemDecoration);
-        rampStairsAdapter.setListener(listener());
+        rampStairsAdapter.setListener(listener(list));
     }
 
     private void instantiateRampStairsListViews(View v) {
@@ -153,24 +153,24 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
     }
 
-    private ListClickListener listener() {
+    private <T> ListClickListener listener(List<T> entries) {
         return new ListClickListener() {
             @Override
             public void onItemClick(int position) {
                 if (actionMode == null)
                     OnEntryClick(position);
                 else
-                    enableActionMode();
+                    enableActionMode(entries);
             }
 
             @Override
             public void onItemLongClick(int position) {
-                enableActionMode();
+                enableActionMode(entries);
             }
         };
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -199,7 +199,7 @@ public class RampStairsListFragment extends Fragment implements OnEntryClickList
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        rampStairsAdapter.cancelSelection(recyclerView);
+                        rampStairsAdapter.cancelSelection(recyclerView, entries, rampStairsAdapter);
                     rampStairsAdapter.selectedItems.clear();
                     rampStairsAdapter.notifyDataSetChanged();
                     delClick = 0;
