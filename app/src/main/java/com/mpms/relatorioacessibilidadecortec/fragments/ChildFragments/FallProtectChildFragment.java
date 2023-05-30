@@ -112,7 +112,7 @@ public class FallProtectChildFragment extends Fragment implements RadioGroupInte
             tactileContrastRadio.setVisibility(View.GONE);
             tactileContrastHeader.setVisibility(View.GONE);
         } else {
-// Fechar Fragmento
+            getParentFragmentManager().beginTransaction().remove(this).commit();
         }
     }
 
@@ -123,13 +123,20 @@ public class FallProtectChildFragment extends Fragment implements RadioGroupInte
             i++;
             protectSizeField.setError(getString(R.string.req_field_error));
         }
-        if (indexRadio(visualContrastRadio) == -1) {
-            i++;
-            visualContrastError.setVisibility(View.VISIBLE);
-        }
-        if (indexRadio(tactileContrastRadio) == -1) {
-            i++;
-            tactileContrastError.setVisibility(View.VISIBLE);
+        switch (layout) {
+            case 0:
+                if (indexRadio(tactileContrastRadio) == -1) {
+                    i++;
+                    tactileContrastError.setVisibility(View.VISIBLE);
+                }
+            case 1:
+                if (indexRadio(visualContrastRadio) == -1) {
+                    i++;
+                    visualContrastError.setVisibility(View.VISIBLE);
+                }
+                break;
+            default:
+                break;
         }
 
         return i == 0;

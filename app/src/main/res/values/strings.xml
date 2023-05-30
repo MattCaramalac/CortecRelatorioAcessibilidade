@@ -855,7 +855,7 @@
     <string name="header_uneven_slope">O desnível está associado a um talude?</string>
     <string name="header_slope_inclination">A inclinação do talude é maior ou igual a 33,33% ?</string>
     <string name="hint_slope_inclination">Inclinação do Talude (%)</string>
-    <string name="header_has_fall_protection">A circulação possui área de proteção contra quedas?</string>
+    <string name="header_has_fall_protection">A circulação possui proteção contra quedas?</string>
     <string name="header_protect_type_selection">Selecione o tipo de área de proteção encontrada na circulação</string>
     <string name="hint_circ_location">Localização da Circulação</string>
     <string name="header_visual_contrast">A proteção contra quedas possui contraste visual em relação ao piso da área de circulação?</string>
