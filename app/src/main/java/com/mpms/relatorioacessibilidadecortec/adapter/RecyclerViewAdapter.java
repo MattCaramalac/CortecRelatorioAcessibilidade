@@ -2,9 +2,11 @@ package com.mpms.relatorioacessibilidadecortec.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,7 +45,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
     public void onBindViewHolder(@NonNull ViewHolderInterface.MainListViewHolder holder, int position) {
         SchoolEntry schoolEntry = schoolEntryList.get(position);
         holder.textInfoOne.setText(schoolEntry.getSchoolName());
+        textMeasurements(holder.textInfoOne, holder);
         holder.textInfoTwo.setText(schoolEntry.getNameCity());
+        if (schoolEntry.getReportSent() == 1)
+            holder.check.setVisibility(View.VISIBLE);
+
         if (selectedItems.get(position))
             holder.background.setBackgroundColor(Color.rgb(158, 235, 247));
         else
@@ -66,6 +72,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
 
     }
 
+    private void textMeasurements(TextView view, ViewHolderInterface.MainListViewHolder holder) {
+
+        Paint textPaint = view.getPaint();
+        String text = view.getText().toString();
+        int itemWidth = Math.round(textPaint.measureText(text));
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = itemWidth;
+        view.setLayoutParams(params);
+
+        int viewWidth = view.getWidth();
+
+        if (itemWidth > viewWidth) {
+            holder.scroller = new AnimationScroller(view, itemWidth,viewWidth);
+            holder.scroller.startScroll();
+        }
+    }
+
     @Override
     public int getItemCount() {
         return Objects.requireNonNull(schoolEntryList).size();
@@ -83,4 +106,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
     public void setListener(ListClickListener listener) {
         this.listener = listener;
     }
+
+
 }

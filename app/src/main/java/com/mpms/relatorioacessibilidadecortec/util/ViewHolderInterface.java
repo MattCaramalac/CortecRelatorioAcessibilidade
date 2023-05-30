@@ -3,6 +3,11 @@ package com.mpms.relatorioacessibilidadecortec.util;
 import android.graphics.Color;
 import android.util.SparseBooleanArray;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,12 +30,18 @@ public interface ViewHolderInterface {
         public LinearLayout background;
         public TextView textInfoOne;
         public TextView textInfoTwo;
+        public ImageView check;
+        public ImageButton options;
+        public AnimationScroller scroller;
 
         public MainListViewHolder(@NonNull View itemView, OnEntryClickListener entryClickListener) {
             super(itemView);
             background = itemView.findViewById(R.id.main_background);
             textInfoOne = itemView.findViewById(R.id.schoolNameLayout);
+//            scroller = new AnimationScroller(textInfoOne);
             textInfoTwo = itemView.findViewById(R.id.cityNameLayout);
+            check = itemView.findViewById(R.id.report_generated_check);
+            options = itemView.findViewById(R.id.register_options_button);
             this.entryClickListener = entryClickListener;
         }
 
@@ -82,4 +93,49 @@ public interface ViewHolderInterface {
 
     void setListener(ListClickListener listener);
     void deleteItemList();
+
+    public class AnimationScroller {
+        Animation animation;
+        TextView scrollText;
+        long duration = 15000;
+
+        //        TODO - Corrigir o tanto que o texto dá scroll até somente terminar o texto em questão
+        public AnimationScroller(TextView scroll, int itemWidth, int viewWidth) {
+            this.scrollText = scroll;
+            this.animation = new TranslateAnimation(0, viewWidth-itemWidth,
+                    0,  0);
+            this.animation.setStartOffset(1000);
+            this.animation.setInterpolator(new LinearInterpolator());
+            this.animation.setDuration(this.duration);
+            this.animation.setFillAfter(true);
+            this.animation.setRepeatMode(Animation.RESTART);
+            this.animation.setRepeatCount(Animation.INFINITE);
+        }
+
+        public void setDuration(long duration) {
+            this.duration = duration;
+        }
+
+        public void setScrollText(String text) {
+            this.scrollText.setText(text);
+        }
+
+        public void startScroll() {
+            this.scrollText.setSelected(true);
+            this.scrollText.startAnimation(this.animation);
+        }
+
+        public void setAnimationListener() {
+
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                public void onAnimationStart(Animation animation) {
+                }
+                public void onAnimationEnd(Animation animation) {
+                    // This callback function can be used to perform any task at the end of the Animation
+                }
+                public void onAnimationRepeat(Animation animation) {
+                }
+            });
+        }
+    }
 }
