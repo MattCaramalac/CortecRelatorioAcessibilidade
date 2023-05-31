@@ -17,7 +17,6 @@ import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterTwo;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -53,7 +52,8 @@ public class SchoolRegisterFragmentTwo extends Fragment implements ScrollEditTex
     public static SchoolRegisterFragmentTwo newInstance(Bundle bundle) {
         SchoolRegisterFragmentTwo fragmentTwo = new SchoolRegisterFragmentTwo();
         fragmentTwo.setArguments(bundle);
-        SchoolRegisterActivity.provideSchoolID(bundle, bundleFragTwo);
+        bundleFragTwo.putInt(SCHOOL_ID, bundle.getInt(SCHOOL_ID));
+        bundleFragTwo.putBoolean(DATA_COMPLETE, bundle.getBoolean(DATA_COMPLETE));
         return fragmentTwo;
     }
 

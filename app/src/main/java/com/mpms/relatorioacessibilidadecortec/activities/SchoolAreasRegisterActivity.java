@@ -31,7 +31,10 @@ public class SchoolAreasRegisterActivity extends AppCompatActivity implements Ta
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_area_register);
         instantiateBlockViews();
-        areasBundle = getIntent().getBundleExtra(SchoolRegisterActivity.SCHOOL_BUNDLE);
+        if (getIntent().getBundleExtra(SCHOOL_BUNDLE) != null)
+            areasBundle = getIntent().getBundleExtra(SCHOOL_BUNDLE);
+        else
+            areasBundle.putInt(SCHOOL_ID, getIntent().getIntExtra(SCHOOL_ID, 0));
 
         modelEntry.getAreaFromSchool(areasBundle.getInt(SCHOOL_ID), 1).observe(this, extArea -> {
             if (extArea != null)

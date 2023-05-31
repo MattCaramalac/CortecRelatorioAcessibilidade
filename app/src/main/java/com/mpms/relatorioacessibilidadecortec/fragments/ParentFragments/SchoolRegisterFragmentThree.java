@@ -74,7 +74,8 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
     public static SchoolRegisterFragmentThree newInstance(Bundle bundle) {
         SchoolRegisterFragmentThree fragmentThree = new SchoolRegisterFragmentThree();
         fragmentThree.setArguments(bundle);
-        SchoolRegisterActivity.provideSchoolID(bundle, bundleFragThree);
+        bundleFragThree.putInt(SCHOOL_ID, bundle.getInt(SCHOOL_ID));
+        bundleFragThree.putBoolean(DATA_COMPLETE, bundle.getBoolean(DATA_COMPLETE));
         return fragmentThree;
     }
 

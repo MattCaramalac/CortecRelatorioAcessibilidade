@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
@@ -16,24 +17,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
+import com.mpms.relatorioacessibilidadecortec.adapter.OnPopupClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.RecyclerViewAdapter;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
-
+import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import java.util.List;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements OnEntryClickListener {
+public class MainActivity extends AppCompatActivity implements OnEntryClickListener, OnPopupClickListener, TagInterface {
 
-    public static final String UPDATE_REQUEST = "UPDATE_REQUEST";
     private ViewModelEntry viewModelEntry;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private ActionMode actionMode;
 
     int delClick = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
 
         viewModelEntry.getAllEntries().observe(this, schoolEntries -> {
 
-            recyclerViewAdapter = new RecyclerViewAdapter(schoolEntries,MainActivity.this, this);
+            recyclerViewAdapter = new RecyclerViewAdapter(schoolEntries,MainActivity.this, this, this);
             recyclerView.setAdapter(recyclerViewAdapter);
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
             dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(MainActivity.this, R.drawable.abc_list_divider_material)));
@@ -128,10 +130,32 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
     @Override
     public void OnEntryClick(int position) {
         SchoolEntry schoolEntry = viewModelEntry.getAllEntries().getValue().get(position);
-        Intent updateIntent = new Intent(MainActivity.this, SchoolRegisterActivity.class);
-        updateIntent.putExtra(UPDATE_REQUEST, schoolEntry.getCadID());
+        Intent updateIntent;
+        if (schoolEntry.getUpdateRegister() == 0) {
+            updateIntent = new Intent(MainActivity.this, SchoolRegisterActivity.class);
+        } else if (schoolEntry.getUpdateRegister() == 1) {
+            updateIntent = new Intent(MainActivity.this, SchoolAreasRegisterActivity.class);
+        } else {
+            schoolEntry.setUpdateRegister(0);
+            Toast.makeText(getApplicationContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        updateIntent.putExtra(SCHOOL_ID, schoolEntry.getCadID());
         if (actionMode != null)
             actionMode.finish();
         startActivity(updateIntent);
+    }
+
+
+    @Override
+    public void onPopupClickOption(int position, MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.edit_school) {
+            SchoolEntry schoolEntry = viewModelEntry.getAllEntries().getValue().get(position);
+            Intent updateIntent = new Intent(MainActivity.this, SchoolRegisterActivity.class);
+            updateIntent.putExtra(SCHOOL_ID, schoolEntry.getCadID());
+            if (actionMode != null)
+                actionMode.finish();
+            startActivity(updateIntent);
+        }
     }
 }
