@@ -31,7 +31,6 @@
                 android:textAppearance="?android:textAppearanceMediumInverse"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                android:background="?android:attr/selectableItemBackground"
                 android:maxLines="1"
                 android:fadingEdge="horizontal"
                 android:scrollHorizontally="true"/>

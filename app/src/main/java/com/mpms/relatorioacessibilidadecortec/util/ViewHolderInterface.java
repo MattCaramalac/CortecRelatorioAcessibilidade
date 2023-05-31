@@ -1,8 +1,11 @@
 package com.mpms.relatorioacessibilidadecortec.util;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.SparseBooleanArray;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -10,12 +13,20 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mpms.relatorioacessibilidadecortec.R;
+import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
+import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
+import com.mpms.relatorioacessibilidadecortec.adapter.OnPopupClickListener;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
+import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.List;
 
@@ -24,9 +35,10 @@ public interface ViewHolderInterface {
     SparseBooleanArray selectedItems = new SparseBooleanArray();
     int delClick = 0;
 
-    class MainListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MainListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, TagInterface, PopupMenu.OnMenuItemClickListener {
 
         public OnEntryClickListener entryClickListener;
+        public OnPopupClickListener popupListener;
         public LinearLayout background;
         public TextView textInfoOne;
         public TextView textInfoTwo;
@@ -34,20 +46,36 @@ public interface ViewHolderInterface {
         public ImageButton options;
         public AnimationScroller scroller;
 
-        public MainListViewHolder(@NonNull View itemView, OnEntryClickListener entryClickListener) {
+        public MainListViewHolder(@NonNull View itemView, OnEntryClickListener entryClickListener, OnPopupClickListener popupListener) {
             super(itemView);
+
             background = itemView.findViewById(R.id.main_background);
             textInfoOne = itemView.findViewById(R.id.schoolNameLayout);
-//            scroller = new AnimationScroller(textInfoOne);
             textInfoTwo = itemView.findViewById(R.id.cityNameLayout);
             check = itemView.findViewById(R.id.report_generated_check);
             options = itemView.findViewById(R.id.register_options_button);
+            options.setOnClickListener(this::imgClick);
             this.entryClickListener = entryClickListener;
+            this.popupListener = popupListener;
         }
 
         @Override
         public void onClick(View v) {
             entryClickListener.OnEntryClick(getAdapterPosition());
+        }
+
+        public void imgClick (View v) {
+            PopupMenu menu = new PopupMenu(v.getContext(), v);
+            menu.inflate(R.menu.menu_main);
+            menu.setOnMenuItemClickListener(this);
+            menu.show();
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            int position = getAdapterPosition();
+            popupListener.onPopupClickOption(position, item);
+            return false;
         }
     }
 
@@ -72,8 +100,6 @@ public interface ViewHolderInterface {
         }
     }
 
-
-
     default <G extends RecyclerView.ViewHolder> void toggleSelection(RecyclerView.Adapter<G> adapter, int position) {
         if (selectedItems.get(position))
             selectedItems.delete(position);
@@ -82,6 +108,7 @@ public interface ViewHolderInterface {
         adapter.notifyItemChanged(position);
 
     }
+
     default <T, G extends RecyclerView.ViewHolder> void cancelSelection(RecyclerView recyclerView, List<T> entryList, RecyclerView.Adapter<G> adapter) {
         int listSize = entryList.size();
         for (int i = 0; i < listSize; i++) {

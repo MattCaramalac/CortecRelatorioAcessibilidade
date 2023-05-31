@@ -26,11 +26,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
     private List<SchoolEntry> schoolEntryList;
     private Context context;
     private OnEntryClickListener entryClickListener;
+    private OnPopupClickListener popupListener;
 
-    public RecyclerViewAdapter(List<SchoolEntry> schoolEntryList, Context context, OnEntryClickListener entryClickListener) {
+    public RecyclerViewAdapter(List<SchoolEntry> schoolEntryList, Context context, OnEntryClickListener entryClickListener, OnPopupClickListener popupListener) {
         this.schoolEntryList = schoolEntryList;
         this.context = context;
         this.entryClickListener = entryClickListener;
+        this.popupListener = popupListener;
     }
 
 
@@ -38,7 +40,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
     @Override
     public ViewHolderInterface.MainListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.entries_layout, parent, false);
-        return new ViewHolderInterface.MainListViewHolder(view, entryClickListener);
+        return new ViewHolderInterface.MainListViewHolder(view, entryClickListener, popupListener);
     }
 
     @Override
@@ -106,6 +108,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
     public void setListener(ListClickListener listener) {
         this.listener = listener;
     }
-
 
 }
