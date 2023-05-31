@@ -1,100 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/block_register_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/usual_padding"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:padding="@dimen/usual_padding">
 
     <TextView
         android:id="@+id/block_identifier_header"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textStyle="bold"
+        android:layout_alignParentTop="true"
         android:gravity="center"
-        android:text="@string/header_block_space_register"/>
+        android:text="@string/header_block_space_register"
+        android:textSize="25sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/save_and_quit"
         android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/block_identifier_header"
-        android:layout_marginTop="45dp"
         android:layout_centerInParent="true"
-        app:icon="@drawable/ic_baseline_save_50"
+        android:layout_marginTop="30dp"
         android:text="@string/label_save_quit_button"
         android:textSize="25sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        app:icon="@drawable/ic_baseline_save_50" />
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_blocks"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="100dp"
         android:layout_below="@id/save_and_quit"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="@color/purple_200"
-        app:icon="@drawable/ic_baseline_school_100"
-        app:iconTint="@color/dark_grey"
-        android:text="@string/button_label_block"
-        android:textColor="@color/dark_grey"
-        android:textStyle="bold"
-        android:textAllCaps="true"
-        android:textSize="35sp"/>
+        android:layout_marginTop="40dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_external_areas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="100dp"
-        android:layout_below="@id/add_blocks"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="@color/purple_200"
-        app:icon="@drawable/ic_baseline_nature_people_100"
-        app:iconTint="@color/dark_grey"
-        android:text="@string/button_label_ext_area"
-        android:textColor="@color/dark_grey"
-        android:textStyle="bold"
-        android:textAllCaps="true"
-        android:textSize="35sp"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_blocks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_200"
+                android:minHeight="100dp"
+                android:text="@string/button_label_block"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_grey"
+                android:textSize="33sp"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_baseline_school_100"
+                app:iconSize="75dp"
+                app:iconTint="@color/dark_grey"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_support_area"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="100dp"
-        android:layout_below="@id/add_external_areas"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="@color/purple_200"
-        app:icon="@drawable/ic_playground_svgrepo_com"
-        app:iconTint="@color/dark_grey"
-        android:text="@string/button_label_sup_area"
-        android:textColor="@color/dark_grey"
-        android:textStyle="bold"
-        android:textAllCaps="true"
-        android:textSize="35sp"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_circulation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="100dp"
-        android:layout_below="@id/add_support_area"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="@color/purple_200"
-        app:icon="@drawable/ic_baseline_follow_the_signs_100"
-        app:iconTint="@color/dark_grey"
-        android:text="CIRCULAÇÕES"
-        android:textColor="@color/dark_grey"
-        android:textStyle="bold"
-        android:textAllCaps="true"
-        android:textSize="35sp"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_external_areas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/purple_200"
+                android:minHeight="100dp"
+                android:text="@string/button_label_ext_area"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_grey"
+                android:textSize="33sp"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_baseline_nature_people_100"
+                app:iconSize="75dp"
+                app:iconTint="@color/dark_grey"
+                app:layout_constraintTop_toBottomOf="@id/add_blocks" />
 
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_support_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/purple_200"
+                android:minHeight="100dp"
+                android:text="@string/button_label_sup_area"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_grey"
+                android:textSize="33sp"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_playground_svgrepo_com"
+                app:iconSize="75dp"
+                app:iconTint="@color/dark_grey"
+                app:layout_constraintTop_toBottomOf="@id/add_external_areas" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_circulation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/purple_200"
+                android:minHeight="100dp"
+                android:text="CIRCULAÇÕES"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_grey"
+                android:textSize="33sp"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_baseline_follow_the_signs_100"
+                app:iconSize="75dp"
+                app:iconTint="@color/dark_grey"
+                app:layout_constraintTop_toBottomOf="@id/add_support_area" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
