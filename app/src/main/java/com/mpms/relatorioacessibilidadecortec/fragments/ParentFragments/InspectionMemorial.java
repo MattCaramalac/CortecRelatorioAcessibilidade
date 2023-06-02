@@ -484,22 +484,6 @@ public class InspectionMemorial extends Fragment implements TagInterface {
         ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
-//        getParentFragmentManager().setFragmentResultListener(MEMORIAL, this, (key,bundle) -> {
-//            dataView.setVisible(bundle.getBoolean(VISIBLE_MEMORIAL));
-//            if (!bundle.getBoolean(VISIBLE_MEMORIAL)) {
-//                dropdownMenuLocations.setVisibility(View.GONE);
-//                saveAndClose.setVisibility(View.GONE);
-//                if (bundle.getBoolean(CIRCULATION)) {
-//                    String header = setHeaderText(bundle);
-//                    registerHeader.setText(header);
-//                    dataView.setHeaderTitle(header);
-//                }
-//            } else {
-//                dropdownMenuLocations.setVisibility(View.VISIBLE);
-//                saveAndClose.setVisibility(View.VISIBLE);
-//            }
-//        });
-
         modelEntry.getEntry(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), entry -> school = entry);
 
         modelEntry.getAllBlocksSchool(fragInspection.getInt(SCHOOL_ID)).observe(getViewLifecycleOwner(), blocks -> {

@@ -86,7 +86,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
             else if (!upText.error)
                 sendEmailIntent(Uri.parse("placeholder"), address, this);
             else {
-                showProgress(false);
+//                showProgress(false);
                 Toast.makeText(getApplicationContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
             }
         }
@@ -330,7 +330,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
     }
 
     public static void callFunction(HashMap<String, String> tData, JsonCreation jCreate, Context context) {
-        showProgress(true);
+//        showProgress(true);
         address = new String[]{jCreate.getSchool().getEmailAddress()};
         InspectionActivity.tData = tData;
         List<String> blockList = jCreate.ambListCreator();
@@ -362,7 +362,7 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         sender.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         sender.setType("message/rfc822");
         InspectionActivity.endRegister = 1;
-        showProgress(false);
+//        showProgress(false);
         context.startActivity(Intent.createChooser(sender, "Escolha o App desejado"));
     }
 
@@ -380,9 +380,9 @@ public class InspectionActivity extends AppCompatActivity implements InspectionM
         }
     }
 
-    public static void showProgress(boolean show) {
-        circBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-    }
+//    public static void showProgress(boolean show) {
+//        circBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+//    }
 }
 
 
