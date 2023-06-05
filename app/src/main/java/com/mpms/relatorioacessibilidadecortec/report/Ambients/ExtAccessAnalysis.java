@@ -314,16 +314,16 @@ public class ExtAccessAnalysis implements StandardMeasurements {
                     }
                 }
 
-                if (access.getGateHasStairs() == 1) {
+
+                if (access.getGateHasStairs() != null && access.getGateHasStairs() == 1) {
                     List<String> stAnalysis = StairsAnalysis.stairsVerification(access.getExternalAccessID(), rStGate, rStFlight, rStRail, rStHandrail);
                     if (stAnalysis.size() > 0) {
                         check++;
                         extIrregular.addAll(stAnalysis);
                     }
-
                 }
 
-                if (access.getGateHasRamps() == 1) {
+                if (access.getGateHasRamps() != null && access.getGateHasRamps() == 1) {
                     List<String> rampAnalysis = RampAnalysis.rampVerification(access.getExternalAccessID(), rStGate, rStFlight, rStRail, rStHandrail);
                     if (rampAnalysis.size() > 0) {
                         extIrregular.addAll(rampAnalysis);

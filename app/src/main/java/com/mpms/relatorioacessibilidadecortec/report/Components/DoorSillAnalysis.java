@@ -7,7 +7,7 @@ public class DoorSillAnalysis implements StandardMeasurements {
 
     public static String doorSillVerification(DoorEntry door) {
         String irrDoorSill = null;
-        if (door.getDoorSillType() > 0 && door.getDoorSillType() < 4) {
+        if (door.getDoorSillType() != null && door.getDoorSillType() > 0 && door.getDoorSillType() < 4) {
             if (door.getDoorSillType() == 1) {
                 if (door.getHasSillIncl() == 0) {
                     irrDoorSill = "o desnível da soleira não é vencido por rampa";
