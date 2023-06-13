@@ -18,7 +18,7 @@ public class CounterAnalysis implements StandardMeasurements {
             for (CounterEntry counter : cList) {
                 irregularCounter = false;
                 String analysis = null;
-                if (counter.getRoomID() == roomID)
+                if (counter.getRoomID() != null && counter.getRoomID() == roomID)
                     analysis = counterText(counter);
                 if (analysis != null && analysis.length() > 0)
                     counterList.add(analysis);
@@ -35,7 +35,7 @@ public class CounterAnalysis implements StandardMeasurements {
             for (CounterEntry counter : cList) {
                 irregularCounter = false;
                 String analysis = null;
-                if (counter.getCircID() == circID)
+                if (counter.getCircID() != null && counter.getCircID() == circID)
                     analysis = counterText(counter);
                 if (analysis != null && analysis.length() > 0)
                     counterList.add(analysis);

@@ -18,7 +18,7 @@ public class FreeSpaceAnalysis implements StandardMeasurements {
             for (FreeSpaceEntry space : sList) {
                 irregularSpace = false;
                 String analysis = null;
-                if (space.getRoomID() == roomID)
+                if (space.getRoomID() != null && space.getRoomID() == roomID)
                     analysis = spaceText(space);
                 if (analysis != null && analysis.length() > 0)
                     spaceList.add(analysis);
@@ -35,7 +35,7 @@ public class FreeSpaceAnalysis implements StandardMeasurements {
             for (FreeSpaceEntry space : sList) {
                 irregularSpace = false;
                 String analysis = null;
-                if (space.getRestID() == restID)
+                if (space.getRestID() != null && space.getRestID() == restID)
                     analysis = spaceText(space);
                 if (analysis != null && analysis.length() > 0)
                     spaceList.add(analysis);
@@ -52,7 +52,7 @@ public class FreeSpaceAnalysis implements StandardMeasurements {
             for (FreeSpaceEntry space : sList) {
                 irregularSpace = false;
                 String analysis = null;
-                if (space.getCircID() == circID)
+                if (space.getCircID() != null && space.getCircID() == circID)
                     analysis = spaceText(space);
                 if (analysis != null && analysis.length() > 0)
                     spaceList.add(analysis);

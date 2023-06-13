@@ -18,7 +18,7 @@ public class SwitchAnalysis implements StandardMeasurements {
             for (SwitchEntry swEntry : swList) {
                 irregularSwitch = false;
                 String analysis = null;
-                if (swEntry.getRoomID() == roomID)
+                if (swEntry.getRoomID() != null && swEntry.getRoomID() == roomID)
                     analysis = swText(swEntry);
                 if (analysis != null && analysis.length() > 0)
                     swListing.add(analysis);
@@ -36,7 +36,7 @@ public class SwitchAnalysis implements StandardMeasurements {
             for (SwitchEntry swEntry : swList) {
                 irregularSwitch = false;
                 String analysis = null;
-                if (swEntry.getCircID() == circID)
+                if (swEntry.getCircID() != null && swEntry.getCircID() == circID)
                     analysis = swText(swEntry);
                 if (analysis != null && analysis.length() > 0)
                     swListing.add(analysis);

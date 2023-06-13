@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxAccOneUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxAccTwoUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestBoxFirstUpdate;
@@ -85,5 +86,12 @@ public interface RestBoxDao {
 
     @Update(entity = RestBoxEntry.class)
     void updateBoxSink(RestBoxSinkUpdate... sinkUpdate);
+
+    //    Listenable
+    @Query("SELECT * FROM RestBoxEntry WHERE restID IN (:restID)")
+    ListenableFuture<List<RestBoxEntry>> getListAllBoxes(List<Integer> restID);
+
+    @Query("SELECT boxID FROM RestBoxEntry WHERE restID IN (:restID)")
+    ListenableFuture<List<Integer>> getListAllBoxesID(List<Integer> restID);
 
 }

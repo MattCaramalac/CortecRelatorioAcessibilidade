@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PoolBenchEntry;
 
 import java.util.List;
@@ -33,4 +34,8 @@ public interface PoolBenchDao {
 
     @Query("DELETE FROM PoolBenchEntry WHERE poolID == :poolID")
     void deleteAllPoolBenches(int poolID);
+
+    //    Listenable
+    @Query("SELECT * FROM PoolBenchEntry WHERE poolID IN (:poolList)")
+    ListenableFuture<List<PoolBenchEntry>> getListAllPoolBenches(List<Integer> poolList);
 }

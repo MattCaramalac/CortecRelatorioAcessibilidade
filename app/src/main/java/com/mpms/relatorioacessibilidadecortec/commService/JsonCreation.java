@@ -51,57 +51,73 @@ import java.util.List;
 public class JsonCreation {
 
     private final SchoolEntry school;
-    private final int qntBlocks;
-    private final boolean hasHelpSpace;
-    private final int extPark;
-    private final int intPark;
+    //    Blocks
     private final List<BlockSpaceEntry> blockList;
-    private final List<RoomEntry> roomList;
+    private final int qntBlocks;
+    //    External Area
     private final List<ExternalAccess> extList;
-    private final List<PlaygroundEntry> playList;
-    private final List<ParkingLotEntry> parkList;
-    private final List<ParkingLotElderlyEntry> elderList;
-    private final List<ParkingLotPCDEntry> pcdList;
-    private final List<RestroomEntry> restList;
-    private final List<SidewalkEntry> sideList;
-    private final List<WaterFountainEntry> fountList;
-    private final List<RampStairsEntry> roomStRaList;
-    private final List<RampStairsEntry> sideStRaList;
-    private final List<RampStairsEntry> extStRaList;
-    private final List<RampStairsEntry> parkStRaList;
-    private final List<BlackboardEntry> boardList;
-    private final List<CounterEntry> counterList;
-    private final List<DoorEntry> doorList;
-    private final List<FreeSpaceEntry> freeList;
-    private final List<SwitchEntry> switchList;
-    private final List<TableEntry> tableList;
-    private final List<WindowEntry> windowList;
-    private final List<DoorLockEntry> doorLockList;
     private final List<DoorLockEntry> gateLockList;
     private final List<GateObsEntry> gateObsList;
     private final List<PayPhoneEntry> extPhoneList;
+    private final List<RampStairsEntry> extStRaList;
+    private final List<RampStairsFlightEntry> extFlightList;
+    private final List<RampStairsRailingEntry> extRailList;
+    private final List<RampStairsHandrailEntry> extHandList;
+//    Sidewalk
+    private final List<SidewalkEntry> sideList;
     private final List<PayPhoneEntry> sidePhoneList;
     private final List<SidewalkSlopeEntry> slopeList;
-    private final List<RampStairsFlightEntry> roomFlightList;
+//    TODO - adicionar as rampas e escadas/degraus simplificados nas calçadas
+    private final List<RampStairsEntry> sideStRaList;
     private final List<RampStairsFlightEntry> sideFlightList;
-    private final List<RampStairsFlightEntry> extFlightList;
-    private final List<RampStairsFlightEntry> parkFlightList;
-    private final List<RampStairsRailingEntry> roomRailList;
     private final List<RampStairsRailingEntry> sideRailList;
-    private final List<RampStairsRailingEntry> extRailList;
-    private final List<RampStairsRailingEntry> parkRailList;
-    private final List<RampStairsHandrailEntry> roomHandList;
     private final List<RampStairsHandrailEntry> sideHandList;
-    private final List<RampStairsHandrailEntry> extHandList;
-    private final List<RampStairsHandrailEntry> parkHandList;
-    private final List<WaterFountainEntry> roomWater;
+    //    Help Area
+    private final boolean hasHelpSpace;
+    private final List<PlaygroundEntry> playList;
 
+    private final List<PoolEntry> pList;
+    private final List<PoolRampEntry> poolRampList;
+    private final List<PoolStairsEntry> poolStairsList;
+    private final List<PoolBenchEntry> poolBenchList;
+    private final List<PoolEquipEntry> poolEquipList;
+    //    Parking Lots
+    private final int extPark;
+    private final int intPark;
+    private final List<ParkingLotEntry> parkList;
+    private final List<RampStairsEntry> parkStRaList;
+    private final List<RampStairsFlightEntry> parkFlightList;
+    private final List<RampStairsRailingEntry> parkRailList;
+    private final List<RampStairsHandrailEntry> parkHandList;
+    private final List<ParkingLotElderlyEntry> parkElderList;
+    private final List<ParkingLotPCDEntry> parkPcdList;
+    //    School Blocks
+    private final List<WaterFountainEntry> fountList;
+
+    private final List<RoomEntry> roomList;
+    private final List<BlackboardEntry> roomBoardList;
+    private final List<CounterEntry> roomCounterList;
+    private final List<DoorEntry> roomDoorList;
+    private final List<DoorLockEntry> doorLockList;
+    private final List<FreeSpaceEntry> roomFrSpList;
+    private final List<SwitchEntry> roomSwitchList;
+    private final List<TableEntry> roomTableList;
+    private final List<WindowEntry> roomWindowList;
+    private final List<WaterFountainEntry> roomWater;
+    private final List<EquipmentEntry> roomEquipList;
+    private final List<SingleStepEntry> roomStepList;
+    private final List<SlopeEntry> roomSlopeList;
+    private final List<RampStairsEntry> roomStRaList;
+    private final List<RampStairsFlightEntry> roomFlightList;
+    private final List<RampStairsRailingEntry> roomRailList;
+    private final List<RampStairsHandrailEntry> roomHandList;
+    //Restrooms
+    private final List<RestroomEntry> restList;
     private final List<DoorEntry> restDoorList;
     private final List<FreeSpaceEntry> restFrSpaceList;
     private final List<RestBoxEntry> boxList;
     private final List<DoorEntry> boxDoorList;
-    private final List<EquipmentEntry> equipList;
-
+    //    Circulations
     private final List<CirculationEntry> circList;
     private final List<DoorEntry> circDoorList;
     private final List<DoorLockEntry> circLockList;
@@ -120,81 +136,80 @@ public class JsonCreation {
     private final List<RampStairsFlightEntry> circFlightList;
     private final List<RampStairsRailingEntry> circRailList;
     private final List<RampStairsHandrailEntry> circHandList;
-    private final List<PoolEntry> pList;
-    private final List<PoolRampEntry> poolRampList;
-    private final List<PoolStairsEntry> poolStairsList;
-    private final List<PoolBenchEntry> poolBenchList;
-    private final List<PoolEquipEntry> poolEquipList;
 
-    public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blockList, List<RoomEntry> roomList, List<ExternalAccess> extList, List<ParkingLotEntry> parkList,
-                        List<PlaygroundEntry> playList, List<RestroomEntry> restList, List<SidewalkEntry> sideList, List<WaterFountainEntry> fountList,
-                        List<RampStairsEntry> roomStRaList, List<RampStairsEntry> sideStRaList, List<RampStairsEntry> extStRaList, List<RampStairsEntry> parkStRaList,
-                        List<BlackboardEntry> boardList, List<CounterEntry> counterList, List<DoorEntry> doorList, List<FreeSpaceEntry> freeList, List<SwitchEntry> switchList,
-                        List<TableEntry> tableList, List<WindowEntry> windowList, List<DoorLockEntry> doorLockList, List<DoorLockEntry> gateLockList, List<GateObsEntry> gateObsList,
-                        List<PayPhoneEntry> extPhoneList, List<PayPhoneEntry> sidePhoneList, List<SidewalkSlopeEntry> slopeList, List<RampStairsFlightEntry> roomFlightList,
-                        List<RampStairsFlightEntry> sideFlightList, List<RampStairsFlightEntry> extFlightList, List<RampStairsFlightEntry> parkFlightList,
-                        List<RampStairsRailingEntry> roomRailList, List<RampStairsRailingEntry> sideRailList, List<RampStairsRailingEntry> extRailList,
-                        List<RampStairsRailingEntry> parkRailList, List<RampStairsHandrailEntry> roomHandList, List<RampStairsHandrailEntry> sideHandList,
-                        List<RampStairsHandrailEntry> extHandList, List<RampStairsHandrailEntry> parkHandList, int qntBlocks, boolean hasHelpSpace, int extPark, int intPark,
-                        List<ParkingLotElderlyEntry> elderList, List<ParkingLotPCDEntry> pcdList, List<WaterFountainEntry> roomWater, List<DoorEntry> restDoorList,
-                        List<FreeSpaceEntry> restFrSpaceList, List<RestBoxEntry> boxList, List<DoorEntry> boxDoorList, List<EquipmentEntry> equipList,
-                        List<CirculationEntry> circList, List<DoorEntry> circDoorList, List<DoorLockEntry> circLockList, List<SwitchEntry> circSwitchList,
-                        List<WindowEntry> circWindowList, List<TableEntry> circTableList, List<BlackboardEntry> circBoardList, List<FreeSpaceEntry> circFreeSpList,
-                        List<SingleStepEntry> circStepList, List<SlopeEntry> circSlopeList, List<WaterFountainEntry> circFountainList, List<EquipmentEntry> circEquipList,
-                        List<CounterEntry> circCounterList, List<FallProtectionEntry> circProtectList, List<RampStairsEntry> circRampStairsList,
-                        List<RampStairsFlightEntry> circFlightList, List<RampStairsRailingEntry> circRailList, List<RampStairsHandrailEntry> circHandList,
-                        List<PoolEntry> pList, List<PoolRampEntry> poolRampList, List<PoolStairsEntry> poolStairsList, List<PoolBenchEntry> poolBenchList,
-                        List<PoolEquipEntry> poolEquipList) {
+    public JsonCreation(SchoolEntry school, List<BlockSpaceEntry> blockList, int qntBlocks, List<ExternalAccess> extList, List<DoorLockEntry> gateLockList,
+                        List<GateObsEntry> gateObsList, List<PayPhoneEntry> extPhoneList, List<RampStairsEntry> extStRaList, List<RampStairsFlightEntry> extFlightList,
+                        List<RampStairsRailingEntry> extRailList, List<RampStairsHandrailEntry> extHandList, List<SidewalkEntry> sideList, List<PayPhoneEntry> sidePhoneList,
+                        List<SidewalkSlopeEntry> slopeList, boolean hasHelpSpace, List<PlaygroundEntry> playList, List<PoolEntry> pList, List<PoolRampEntry> poolRampList,
+                        List<PoolStairsEntry> poolStairsList, List<PoolBenchEntry> poolBenchList, List<PoolEquipEntry> poolEquipList, int extPark, int intPark,
+                        List<ParkingLotEntry> parkList, List<RampStairsEntry> parkStRaList, List<RampStairsFlightEntry> parkFlightList,
+                        List<RampStairsRailingEntry> parkRailList, List<RampStairsHandrailEntry> parkHandList, List<ParkingLotElderlyEntry> parkElderList,
+                        List<ParkingLotPCDEntry> parkPcdList, List<WaterFountainEntry> fountList, List<RoomEntry> roomList, List<BlackboardEntry> roomBoardList,
+                        List<CounterEntry> roomCounterList, List<DoorEntry> roomDoorList, List<DoorLockEntry> doorLockList, List<FreeSpaceEntry> roomFrSpList,
+                        List<SwitchEntry> roomSwitchList, List<TableEntry> roomTableList, List<WindowEntry> roomWindowList, List<WaterFountainEntry> roomWater,
+                        List<EquipmentEntry> roomEquipList, List<SingleStepEntry> roomStepList, List<SlopeEntry> roomSlopeList, List<RampStairsEntry> roomStRaList,
+                        List<RampStairsFlightEntry> roomFlightList, List<RampStairsRailingEntry> roomRailList, List<RampStairsHandrailEntry> roomHandList,
+                        List<RestroomEntry> restList, List<DoorEntry> restDoorList, List<FreeSpaceEntry> restFrSpaceList, List<RestBoxEntry> boxList,
+                        List<DoorEntry> boxDoorList, List<CirculationEntry> circList, List<DoorEntry> circDoorList, List<DoorLockEntry> circLockList,
+                        List<SwitchEntry> circSwitchList, List<WindowEntry> circWindowList, List<TableEntry> circTableList, List<BlackboardEntry> circBoardList,
+                        List<FreeSpaceEntry> circFreeSpList, List<SingleStepEntry> circStepList, List<SlopeEntry> circSlopeList, List<WaterFountainEntry> circFountainList,
+                        List<EquipmentEntry> circEquipList, List<CounterEntry> circCounterList, List<FallProtectionEntry> circProtectList,
+                        List<RampStairsEntry> circRampStairsList, List<RampStairsFlightEntry> circFlightList, List<RampStairsRailingEntry> circRailList,
+                        List<RampStairsHandrailEntry> circHandList, List<RampStairsEntry> sideStRaList, List<RampStairsFlightEntry> sideFlightList,
+                        List<RampStairsRailingEntry> sideRailList, List<RampStairsHandrailEntry> sideHandList) {
         this.school = school;
         this.blockList = blockList;
-        this.roomList = roomList;
+        this.qntBlocks = qntBlocks;
         this.extList = extList;
-        this.parkList = parkList;
-        this.playList = playList;
-        this.restList = restList;
-        this.sideList = sideList;
-        this.fountList = fountList;
-        this.roomStRaList = roomStRaList;
-        this.sideStRaList = sideStRaList;
-        this.extStRaList = extStRaList;
-        this.parkStRaList = parkStRaList;
-        this.boardList = boardList;
-        this.counterList = counterList;
-        this.doorList = doorList;
-        this.freeList = freeList;
-        this.switchList = switchList;
-        this.tableList = tableList;
-        this.windowList = windowList;
-        this.doorLockList = doorLockList;
         this.gateLockList = gateLockList;
         this.gateObsList = gateObsList;
         this.extPhoneList = extPhoneList;
+        this.extStRaList = extStRaList;
+        this.extFlightList = extFlightList;
+        this.extRailList = extRailList;
+        this.extHandList = extHandList;
+        this.sideList = sideList;
         this.sidePhoneList = sidePhoneList;
         this.slopeList = slopeList;
-        this.roomFlightList = roomFlightList;
-        this.sideFlightList = sideFlightList;
-        this.extFlightList = extFlightList;
-        this.parkFlightList = parkFlightList;
-        this.roomRailList = roomRailList;
-        this.sideRailList = sideRailList;
-        this.extRailList = extRailList;
-        this.parkRailList = parkRailList;
-        this.roomHandList = roomHandList;
-        this.sideHandList = sideHandList;
-        this.extHandList = extHandList;
-        this.parkHandList = parkHandList;
-        this.qntBlocks = qntBlocks;
         this.hasHelpSpace = hasHelpSpace;
+        this.playList = playList;
+        this.pList = pList;
+        this.poolRampList = poolRampList;
+        this.poolStairsList = poolStairsList;
+        this.poolBenchList = poolBenchList;
+        this.poolEquipList = poolEquipList;
         this.extPark = extPark;
         this.intPark = intPark;
-        this.elderList = elderList;
-        this.pcdList = pcdList;
+        this.parkList = parkList;
+        this.parkStRaList = parkStRaList;
+        this.parkFlightList = parkFlightList;
+        this.parkRailList = parkRailList;
+        this.parkHandList = parkHandList;
+        this.parkElderList = parkElderList;
+        this.parkPcdList = parkPcdList;
+        this.fountList = fountList;
+        this.roomList = roomList;
+        this.roomBoardList = roomBoardList;
+        this.roomCounterList = roomCounterList;
+        this.roomDoorList = roomDoorList;
+        this.doorLockList = doorLockList;
+        this.roomFrSpList = roomFrSpList;
+        this.roomSwitchList = roomSwitchList;
+        this.roomTableList = roomTableList;
+        this.roomWindowList = roomWindowList;
         this.roomWater = roomWater;
+        this.roomEquipList = roomEquipList;
+        this.roomStepList = roomStepList;
+        this.roomSlopeList = roomSlopeList;
+        this.roomStRaList = roomStRaList;
+        this.roomFlightList = roomFlightList;
+        this.roomRailList = roomRailList;
+        this.roomHandList = roomHandList;
+        this.restList = restList;
         this.restDoorList = restDoorList;
         this.restFrSpaceList = restFrSpaceList;
         this.boxList = boxList;
         this.boxDoorList = boxDoorList;
-        this.equipList = equipList;
         this.circList = circList;
         this.circDoorList = circDoorList;
         this.circLockList = circLockList;
@@ -213,11 +228,10 @@ public class JsonCreation {
         this.circFlightList = circFlightList;
         this.circRailList = circRailList;
         this.circHandList = circHandList;
-        this.pList = pList;
-        this.poolRampList = poolRampList;
-        this.poolStairsList = poolStairsList;
-        this.poolBenchList = poolBenchList;
-        this.poolEquipList = poolEquipList;
+        this.sideStRaList = sideStRaList;
+        this.sideFlightList = sideFlightList;
+        this.sideRailList = sideRailList;
+        this.sideHandList = sideHandList;
     }
 
     public List<String> ambListCreator() {
@@ -800,32 +814,32 @@ public class JsonCreation {
         return parkStRaList;
     }
 
-    public List<BlackboardEntry> getBoardList() {
-        return boardList;
+    public List<BlackboardEntry> getRoomBoardList() {
+        return roomBoardList;
     }
 
-    public List<CounterEntry> getCounterList() {
-        return counterList;
+    public List<CounterEntry> getRoomCounterList() {
+        return roomCounterList;
     }
 
-    public List<DoorEntry> getDoorList() {
-        return doorList;
+    public List<DoorEntry> getRoomDoorList() {
+        return roomDoorList;
     }
 
-    public List<FreeSpaceEntry> getFreeList() {
-        return freeList;
+    public List<FreeSpaceEntry> getRoomFrSpList() {
+        return roomFrSpList;
     }
 
-    public List<SwitchEntry> getSwitchList() {
-        return switchList;
+    public List<SwitchEntry> getRoomSwitchList() {
+        return roomSwitchList;
     }
 
-    public List<TableEntry> getTableList() {
-        return tableList;
+    public List<TableEntry> getRoomTableList() {
+        return roomTableList;
     }
 
-    public List<WindowEntry> getWindowList() {
-        return windowList;
+    public List<WindowEntry> getRoomWindowList() {
+        return roomWindowList;
     }
 
     public List<DoorLockEntry> getDoorLockList() {
@@ -900,12 +914,12 @@ public class JsonCreation {
         return parkHandList;
     }
 
-    public List<ParkingLotElderlyEntry> getElderList() {
-        return elderList;
+    public List<ParkingLotElderlyEntry> getParkElderList() {
+        return parkElderList;
     }
 
-    public List<ParkingLotPCDEntry> getPcdList() {
-        return pcdList;
+    public List<ParkingLotPCDEntry> getParkPcdList() {
+        return parkPcdList;
     }
 
     public List<WaterFountainEntry> getRoomWater() {
@@ -928,8 +942,8 @@ public class JsonCreation {
         return boxDoorList;
     }
 
-    public List<EquipmentEntry> getEquipList() {
-        return equipList;
+    public List<EquipmentEntry> getRoomEquipList() {
+        return roomEquipList;
     }
 
     public List<CirculationEntry> getCircList() {
@@ -1022,5 +1036,13 @@ public class JsonCreation {
 
     public List<PoolEquipEntry> getPoolEquipList() {
         return poolEquipList;
+    }
+
+    public List<SingleStepEntry> getRoomStepList() {
+        return roomStepList;
+    }
+
+    public List<SlopeEntry> getRoomSlopeList() {
+        return roomSlopeList;
     }
 }

@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsEntry;
 
 import java.util.List;
@@ -51,4 +52,29 @@ public interface RampStairsEntryDao {
 
     @Update
     void updateRampStairs(RampStairsEntry entry);
+
+    //    Listenable
+    @Query("SELECT * FROM RampStairsEntry WHERE roomID IN (:roomID)")
+    ListenableFuture<List<RampStairsEntry>> getListAllRampStRoom(List<Integer> roomID);
+
+    @Query("SELECT * FROM RampStairsEntry WHERE extAccessID IN (:extID)")
+    ListenableFuture<List<RampStairsEntry>> getListAllRampStExt(List<Integer> extID);
+
+    @Query("SELECT * FROM RampStairsEntry WHERE circID IN (:circID)")
+    ListenableFuture<List<RampStairsEntry>> getListAllRampStCirc(List<Integer> circID);
+
+    @Query("SELECT rampStairsID FROM RampStairsEntry WHERE roomID IN (:roomID)")
+    ListenableFuture<List<Integer>> getListAllRampStIDRoom(List<Integer> roomID);
+
+    @Query("SELECT rampStairsID FROM RampStairsEntry WHERE extAccessID IN (:extID)")
+    ListenableFuture<List<Integer>> getListAllRampStIDExt(List<Integer> extID);
+
+    @Query("SELECT rampStairsID FROM RampStairsEntry WHERE circID IN (:circID)")
+    ListenableFuture<List<Integer>> getListAllRampStIDCirc(List<Integer> circID);
+
+    @Query("SELECT * FROM RampStairsEntry WHERE parkingID IN (:parkID)")
+    ListenableFuture<List<RampStairsEntry>> getListAllRampStPark(List<Integer> parkID);
+
+    @Query("SELECT rampStairsID FROM RampStairsEntry WHERE parkingID IN (:parkID)")
+    ListenableFuture<List<Integer>> getListAllRampStParkID(List<Integer> parkID);
 }

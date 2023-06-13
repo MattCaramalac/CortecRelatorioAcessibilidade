@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PayPhoneEntry;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 public interface PayPhoneDao {
 
     @Insert
-    void insertPayPhone (PayPhoneEntry payPhone);
+    void insertPayPhone(PayPhoneEntry payPhone);
 
     @Query("SELECT * FROM PayPhoneEntry WHERE extAccessID == :externalAccessID ORDER BY payPhoneID DESC")
     LiveData<List<PayPhoneEntry>> getPhonesExtAccess(int externalAccessID);
@@ -32,7 +33,7 @@ public interface PayPhoneDao {
     LiveData<List<PayPhoneEntry>> getAllPhonesSidewalk(List<Integer> sidewalkID);
 
     @Update
-    void updatePayPhone (PayPhoneEntry payPhone);
+    void updatePayPhone(PayPhoneEntry payPhone);
 
     @Query("DELETE FROM PayPhoneEntry WHERE payPhoneID == :payPhoneID")
     void deletePayPhoneEntry(int payPhoneID);
@@ -42,4 +43,11 @@ public interface PayPhoneDao {
 
     @Query("DELETE FROM PayPhoneEntry WHERE sidewalkID == :sidewalkID")
     void deleteAllPayPhonesSidewalk(int sidewalkID);
+
+    //    Listenable
+    @Query("SELECT * FROM PayPhoneEntry WHERE extAccessID IN (:externalAccessID)")
+    ListenableFuture<List<PayPhoneEntry>> getListAllPhonesExtAccess(List<Integer> externalAccessID);
+
+    @Query("SELECT * FROM PayPhoneEntry WHERE sidewalkID IN (:sidewalkID)")
+    ListenableFuture<List<PayPhoneEntry>> getListAllPhonesSidewalk(List<Integer> sidewalkID);
 }

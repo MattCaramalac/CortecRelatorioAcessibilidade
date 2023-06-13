@@ -1,32 +1,25 @@
 package com.mpms.relatorioacessibilidadecortec.util;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.MainActivity;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnPopupClickListener;
-import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
-import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 
 import java.util.List;
 
@@ -40,6 +33,7 @@ public interface ViewHolderInterface {
         public OnEntryClickListener entryClickListener;
         public OnPopupClickListener popupListener;
         public LinearLayout background;
+        public HorizontalScrollView scrollText;
         public TextView textInfoOne;
         public TextView textInfoTwo;
         public ImageView check;
@@ -50,6 +44,7 @@ public interface ViewHolderInterface {
             super(itemView);
 
             background = itemView.findViewById(R.id.main_background);
+            scrollText = itemView.findViewById(R.id.scroll_school_name);
             textInfoOne = itemView.findViewById(R.id.schoolNameLayout);
             textInfoTwo = itemView.findViewById(R.id.cityNameLayout);
             check = itemView.findViewById(R.id.report_generated_check);
@@ -121,7 +116,7 @@ public interface ViewHolderInterface {
     void setListener(ListClickListener listener);
     void deleteItemList();
 
-    public class AnimationScroller {
+    class AnimationScroller {
         Animation animation;
         TextView scrollText;
         long duration = 15000;

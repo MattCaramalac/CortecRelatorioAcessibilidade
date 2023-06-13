@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.database.ReportDatabase;
 import com.mpms.relatorioacessibilidadecortec.data.database.ReportRepository;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
@@ -1299,6 +1300,7 @@ public class ViewModelEntry extends AndroidViewModel {
         return allCirculations;
     }
 
+
     public static LiveData<List<CirculationEntry>> getAllCircList(int schoolID) {
         return repository.getAllCirculations(schoolID);
     }
@@ -1589,4 +1591,307 @@ public class ViewModelEntry extends AndroidViewModel {
     public void deleteAllPoolEquips(int poolID) {
         ReportDatabase.dbWriteExecutor.execute(() -> repository.deleteAllPoolEquips(poolID));
     }
+
+    //    Listenable
+    public ListenableFuture<List<BlockSpaceEntry>> getListAllBlocks(int schoolID) {
+        return repository.getListAllBlocks(schoolID);
+    }
+
+    public ListenableFuture<List<RoomEntry>> getListAllRoomsSchool(List<Integer> blockID) {
+        return repository.getListAllRoomsSchool(blockID);
+    }
+
+    public ListenableFuture<List<ExternalAccess>> getListAllExtAccess(List<Integer> blockID) {
+        return repository.getListAllExtAccess(blockID);
+    }
+
+    public ListenableFuture<List<ParkingLotEntry>> getListAllParkingLots(List<Integer> blockID) {
+        return repository.getListAllParkingLots(blockID);
+    }
+
+    public ListenableFuture<List<PlaygroundEntry>> getListAllPlaygrounds(List<Integer> blockID) {
+        return repository.getListAllPlaygrounds(blockID);
+    }
+
+    public ListenableFuture<List<RestroomEntry>> getListAllRestEntries(List<Integer> blockID) {
+        return repository.getListAllRestEntries(blockID);
+    }
+
+    public ListenableFuture<List<SidewalkEntry>> getListAllSidewalks(List<Integer> blockID) {
+        return repository.getListAllSidewalks(blockID);
+    }
+
+    public ListenableFuture<List<WaterFountainEntry>> getListAllFountains(List<Integer> blockID) {
+        return repository.getListAllFountains(blockID);
+    }
+
+    public ListenableFuture<List<PoolEntry>> getListAllPools(List<Integer> blockID) {
+        return repository.getListAllPools(blockID);
+    }
+
+    public ListenableFuture<List<BlackboardEntry>> getListAllBlackboards(List<Integer> roomID) {
+        return repository.getListAllBlackboards(roomID);
+    }
+
+    public ListenableFuture<List<CounterEntry>> getListAllCounters(List<Integer> roomID) {
+        return repository.getListAllCounters(roomID);
+    }
+
+    public ListenableFuture<List<DoorEntry>> getListAllDoors(List<Integer> roomID) {
+        return repository.getListAllDoors(roomID);
+    }
+
+    public ListenableFuture<List<EquipmentEntry>> getListAllEquipments(List<Integer> roomID) {
+        return repository.getListAllEquipments(roomID);
+    }
+
+    public ListenableFuture<List<FreeSpaceEntry>> getListAllFreeSpaces(List<Integer> roomID) {
+        return repository.getListAllFreeSpaces(roomID);
+    }
+
+    public ListenableFuture<List<RampStairsEntry>> getListAllRampStRoom(List<Integer> roomID) {
+        return repository.getListAllRampStRoom(roomID);
+    }
+
+    public ListenableFuture<List<SwitchEntry>> getListAllRoomsSwitches(List<Integer> roomID) {
+        return repository.getListAllRoomsSwitches(roomID);
+    }
+
+    public ListenableFuture<List<TableEntry>> getListAllRoomsTables(List<Integer> roomID) {
+        return repository.getListAllRoomsTables(roomID);
+    }
+
+    public ListenableFuture<List<WindowEntry>> getListAllRoomsWindows(List<Integer> roomID) {
+        return repository.getListAllRoomsWindows(roomID);
+    }
+
+    public ListenableFuture<List<WaterFountainEntry>> getListAllRoomWaterFountains(List<Integer> roomID) {
+        return repository.getListAllRoomWaterFountains(roomID);
+    }
+
+    public ListenableFuture<List<SingleStepEntry>> getListRoomAllSteps(List<Integer> roomID) {
+        return repository.getListRoomAllSteps(roomID);
+    }
+
+    public ListenableFuture<List<SlopeEntry>> getListRoomAllSlopes(List<Integer> roomID) {
+        return repository.getListRoomAllSlopes(roomID);
+    }
+
+    public ListenableFuture<List<DoorLockEntry>> getListAllLocksFromDoor(List<Integer> doorID) {
+        return repository.getListAllLocksFromDoor(doorID);
+    }
+
+    //    Test
+    public ListenableFuture<List<CirculationEntry>> getListAllCirculation(int schoolID) {
+        return repository.getListAllCirculation(schoolID);
+    }
+
+    public ListenableFuture<List<RampStairsFlightEntry>> getListAllFlights(List<Integer> rampStairsID) {
+        return repository.getListAllFlights(rampStairsID);
+    }
+
+    public ListenableFuture<List<RampStairsHandrailEntry>> getListAllHandrails(List<Integer> flightID) {
+        return repository.getListAllHandrails(flightID);
+    }
+
+    public ListenableFuture<List<RampStairsRailingEntry>> getListAllRailings(List<Integer> flightID) {
+        return repository.getListAllRailings(flightID);
+    }
+
+    public ListenableFuture<List<DoorLockEntry>> getListAllLocksFromGates(List<Integer> extID) {
+        return repository.getListAllLocksFromGates(extID);
+    }
+
+    public ListenableFuture<List<GateObsEntry>> getListAllObs(List<Integer> extID) {
+        return repository.getListAllObs(extID);
+    }
+
+    public ListenableFuture<List<PayPhoneEntry>> getListAllPhonesExtAccess(List<Integer> externalAccessID) {
+        return repository.getListAllPhonesExtAccess(externalAccessID);
+    }
+
+    public ListenableFuture<List<RampStairsEntry>> getListAllRampStExt(List<Integer> extID) {
+        return repository.getListAllRampStExt(extID);
+    }
+
+    public ListenableFuture<List<ParkingLotElderlyEntry>> getListAllElderVacancies(List<Integer> parkingLotID) {
+        return repository.getListAllElderVacancies(parkingLotID);
+    }
+
+    public ListenableFuture<List<ParkingLotPCDEntry>> getListAllPcdVacancies(List<Integer> parkingLotID) {
+        return repository.getListAllPcdVacancies(parkingLotID);
+    }
+
+    public ListenableFuture<List<DoorEntry>> getListAllRestDoors(List<Integer> restID) {
+        return repository.getListAllRestDoors(restID);
+    }
+
+    public ListenableFuture<List<FreeSpaceEntry>> getListAllRestFreeSpaces(List<Integer> restID) {
+        return repository.getListAllRestFreeSpaces(restID);
+    }
+
+    public ListenableFuture<List<RestBoxEntry>> getListAllBoxes(List<Integer> restID) {
+        return repository.getListAllBoxes(restID);
+    }
+
+    public ListenableFuture<List<DoorEntry>> getListAllBoxDoors(List<Integer> boxID) {
+        return repository.getListAllBoxDoors(boxID);
+    }
+
+    public ListenableFuture<List<SidewalkSlopeEntry>> getListAllSideSlopes(List<Integer> sidewalkID) {
+        return repository.getListAllSideSlopes(sidewalkID);
+    }
+
+    public ListenableFuture<List<PayPhoneEntry>> getListAllPhonesSidewalk(List<Integer> sidewalkID) {
+        return repository.getListAllPhonesSidewalk(sidewalkID);
+    }
+
+    public ListenableFuture<List<PoolBenchEntry>> getListAllPoolBenches(List<Integer> poolList) {
+        return repository.getListAllPoolBenches(poolList);
+    }
+
+    public ListenableFuture<List<PoolEquipEntry>> getListAllPoolEquips(List<Integer> poolList) {
+        return repository.getListAllPoolEquips(poolList);
+    }
+
+    public ListenableFuture<List<PoolRampEntry>> getListAllPoolRamps(List<Integer> poolList) {
+        return repository.getListAllPoolRamps(poolList);
+    }
+
+    public ListenableFuture<List<PoolStairsEntry>> getListAllPoolStairs(List<Integer> poolList) {
+        return repository.getListAllPoolStairs(poolList);
+    }
+
+    public ListenableFuture<List<DoorEntry>> getListAllCircDoors(List<Integer> circID) {
+        return repository.getListAllCircDoors(circID);
+    }
+
+    public ListenableFuture<List<SwitchEntry>> getListAllCircSwitches(List<Integer> circID) {
+        return repository.getListAllCircSwitches(circID);
+    }
+
+    public ListenableFuture<List<WindowEntry>> getListAllCircWindows(List<Integer> circID) {
+        return repository.getListAllCircWindows(circID);
+    }
+
+    public ListenableFuture<List<TableEntry>> getListAllCircTables(List<Integer> circID) {
+        return repository.getListAllCircTables(circID);
+    }
+
+    public ListenableFuture<List<BlackboardEntry>> getListAllCircBlackboards(List<Integer> circID) {
+        return repository.getListAllCircBlackboards(circID);
+    }
+
+    public ListenableFuture<List<FreeSpaceEntry>> getListAllCircFreeSpaces(List<Integer> circID) {
+        return repository.getListAllCircFreeSpaces(circID);
+    }
+
+    public ListenableFuture<List<SingleStepEntry>> getListAllStepsCirc(List<Integer> circID) {
+        return repository.getListAllStepsCirc(circID);
+    }
+
+    public ListenableFuture<List<SlopeEntry>> getListCircAllSlopes(List<Integer> circID) {
+        return repository.getListCircAllSlopes(circID);
+    }
+
+    public ListenableFuture<List<WaterFountainEntry>> getListAllCircWaterFountains(List<Integer> circID) {
+        return repository.getListAllCircWaterFountains(circID);
+    }
+
+    public ListenableFuture<List<EquipmentEntry>> getListAllCircEquipments(List<Integer> circID) {
+        return repository.getListAllCircEquipments(circID);
+    }
+
+    public ListenableFuture<List<CounterEntry>> getListAllCircCounters(List<Integer> circID) {
+        return repository.getListAllCircCounters(circID);
+    }
+
+    public ListenableFuture<List<FallProtectionEntry>> getListAllFallProtection(List<Integer> circID) {
+        return repository.getListAllFallProtection(circID);
+    }
+
+    public ListenableFuture<List<RampStairsEntry>> getListAllRampStCirc(List<Integer> circID) {
+        return repository.getListAllRampStCirc(circID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllCircID(int schoolID) {
+        return repository.getListAllCircID(schoolID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllBlocksID(int schoolID) {
+        return repository.getListAllBlocksID(schoolID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllRoomsID(List<Integer> blockID) {
+        return repository.getListAllRoomsID(blockID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllDoorsID(List<Integer> roomID) {
+        return repository.getListAllDoorsID(roomID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllRestDoorsID(List<Integer> restID) {
+        return repository.getListAllRestDoorsID(restID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllBoxDoorsID(List<Integer> boxID) {
+        return repository.getListAllBoxDoorsID(boxID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllCircDoorsID(List<Integer> circID) {
+        return repository.getListAllCircDoorsID(circID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllRampStIDRoom(List<Integer> roomID) {
+        return repository.getListAllRampStIDRoom(roomID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllRampStIDExt(List<Integer> extID) {
+        return repository.getListAllRampStIDExt(extID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllRampStIDCirc(List<Integer> circID) {
+        return repository.getListAllRampStIDCirc(circID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllFlightsID(List<Integer> rampStairsID) {
+        return repository.getListAllFlightsID(rampStairsID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllExtAccessID(List<Integer> blockID) {
+        return repository.getListAllExtAccessID(blockID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllSidewalksID(List<Integer> blockID) {
+        return repository.getListAllSidewalksID(blockID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllParkingLotID(List<Integer> blockID) {
+        return repository.getListAllParkingLotID(blockID);
+    }
+
+    public ListenableFuture<List<RampStairsEntry>> getListAllRampStPark(List<Integer> parkID) {
+        return repository.getListAllRampStPark(parkID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllRampStParkID(List<Integer> parkID) {
+        return repository.getListAllRampStParkID(parkID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllRestID(List<Integer> blockID) {
+        return repository.getListAllRestID(blockID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllBoxesID(List<Integer> restID) {
+        return repository.getListAllBoxesID(restID);
+    }
+
+    public ListenableFuture<List<Integer>> getListAllPoolsID(List<Integer> blockID) {
+        return repository.getListAllPoolsID(blockID);
+    }
+
+    public ListenableFuture<SchoolEntry> getListenableSchool(int cadID) {
+        return repository.getListenableSchool(cadID);
+    }
+
 }

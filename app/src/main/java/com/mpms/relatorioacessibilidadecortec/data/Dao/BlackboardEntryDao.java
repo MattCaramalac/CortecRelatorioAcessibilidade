@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlackboardEntry;
 
 import java.util.List;
@@ -32,11 +33,18 @@ public interface BlackboardEntryDao {
     LiveData<BlackboardEntry> getOneBlackboard(int blackboardID);
 
     @Update
-    void updateBlackboard (BlackboardEntry blackboard);
+    void updateBlackboard(BlackboardEntry blackboard);
 
     @Query("DELETE FROM BlackboardEntry WHERE boardID == :blackboardID")
     void deleteBlackboard(int blackboardID);
 
     @Query("DELETE FROM blackboardEntry WHERE roomID == :roomID")
     void deleteAllBlackboardsFromRoom(int roomID);
+
+    //Listenable
+    @Query("SELECT * FROM BlackboardEntry WHERE roomID IN (:roomID)")
+    ListenableFuture<List<BlackboardEntry>> getListAllBlackboards(List<Integer> roomID);
+
+    @Query("SELECT * FROM BlackboardEntry WHERE roomID IN (:circID)")
+    ListenableFuture<List<BlackboardEntry>> getListAllCircBlackboards(List<Integer> circID);
 }

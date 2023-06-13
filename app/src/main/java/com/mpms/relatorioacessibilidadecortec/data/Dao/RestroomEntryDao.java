@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessEntranceUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdate;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RestAccessUpdateTwo;
@@ -80,9 +81,6 @@ public interface RestroomEntryDao {
     @Query("SELECT * FROM RestroomEntry WHERE restroomID == (SELECT MAX(restroomID) from RestroomEntry)")
     LiveData<RestroomEntry> getLastRestroomEntry();
 
-    @Update
-    void updateRestroomEntry(RestroomEntry RestroomEntry);
-
     @Update(entity = RestroomEntry.class)
     void updateRestroomData(RestColFirstUpdate... restColFirstUpdates);
 
@@ -109,4 +107,11 @@ public interface RestroomEntryDao {
 
     @Query("DELETE FROM RestroomEntry WHERE restroomID == :restroomID")
     void deleteOneRestroomEntry(int restroomID);
+
+    //    Listenable
+    @Query("SELECT * FROM RestroomEntry WHERE blockID IN (:blockID)")
+    ListenableFuture<List<RestroomEntry>> getListAllRestEntries(List<Integer> blockID);
+
+    @Query("SELECT restroomID FROM RestroomEntry WHERE blockID IN (:blockID)")
+    ListenableFuture<List<Integer>> getListAllRestID(List<Integer> blockID);
 }

@@ -12,6 +12,8 @@ import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsFlightEntr
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsHandrailEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
+import com.mpms.relatorioacessibilidadecortec.data.entities.SlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.TableEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
@@ -23,6 +25,8 @@ import com.mpms.relatorioacessibilidadecortec.report.Components.DoorAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.EquipmentAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.FreeSpaceAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.RampAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Components.SingleStepAnalysis;
+import com.mpms.relatorioacessibilidadecortec.report.Components.SlopeAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.StairsAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.SwitchAnalysis;
 import com.mpms.relatorioacessibilidadecortec.report.Components.TableAnalysis;
@@ -41,7 +45,8 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
                                         List<SwitchEntry> switchList, List<WindowEntry> winList, List<TableEntry> tableList, List<BlackboardEntry> bList,
                                         List<FreeSpaceEntry> fsList, List<RampStairsEntry> rStRoom, List<RampStairsFlightEntry> rStFlight,
                                         List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList,
-                                        List<WaterFountainEntry> waterList, List<EquipmentEntry> equipList) {
+                                        List<WaterFountainEntry> waterList, List<EquipmentEntry> equipList, List<SingleStepEntry> stepList,
+                                        List <SlopeEntry> slopeList) {
 
         int helpRoom = 0;
 
@@ -54,7 +59,7 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
                 List<String> roomIrr = new ArrayList<>();
                 if (room.getBlockID() == blockID) {
                     roomIrr = checkRoomIrregularities(room, doorList, doorLockList, switchList, winList, tableList, bList, fsList, rStRoom,
-                            rStFlight, rStRail, rStHandrail, counterList, waterList, equipList);
+                            rStFlight, rStRail, rStHandrail, counterList, waterList, equipList, stepList, slopeList);
                 }
 
                 String rType = roomTyping(room.getRoomType());
@@ -81,7 +86,8 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
                                              List<SwitchEntry> switchList, List<WindowEntry> winList, List<TableEntry> tableList, List<BlackboardEntry> bList,
                                              List<FreeSpaceEntry> fsList, List<RampStairsEntry> rStRoom, List<RampStairsFlightEntry> rStFlight,
                                              List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList,
-                                             List<WaterFountainEntry> waterList, List<EquipmentEntry> equipList) {
+                                             List<WaterFountainEntry> waterList, List<EquipmentEntry> equipList, List<SingleStepEntry> stepList,
+                                             List <SlopeEntry> slopeList) {
 
         int blockRoom = 0;
 
@@ -92,7 +98,7 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
             RoomEntry room = roomList.get(i);
             if (room.getBlockID() == blockID)
                 roomIrr = checkRoomIrregularities(room, doorList, doorLockList, switchList, winList, tableList, bList, fsList, rStRoom,
-                        rStFlight, rStRail, rStHandrail, counterList, waterList, equipList);
+                        rStFlight, rStRail, rStHandrail, counterList, waterList, equipList, stepList, slopeList);
 
             String rType = roomTyping(room.getRoomType());
 
@@ -111,7 +117,8 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
                                                        List<SwitchEntry> switchList, List<WindowEntry> winList, List<TableEntry> tableList, List<BlackboardEntry> bList,
                                                        List<FreeSpaceEntry> fsList, List<RampStairsEntry> rStRoom, List<RampStairsFlightEntry> rStFlight,
                                                        List<RampStairsRailingEntry> rStRail, List<RampStairsHandrailEntry> rStHandrail, List<CounterEntry> counterList,
-                                                       List<WaterFountainEntry> waterList, List<EquipmentEntry> equipList) {
+                                                       List<WaterFountainEntry> waterList, List<EquipmentEntry> equipList, List<SingleStepEntry> stepList,
+                                                       List <SlopeEntry> slopeList) {
         List<String> roomIrr = new ArrayList<>();
         if (room.getRoomType() != NUM_OTHER || (room.getRoomType() == NUM_OTHER && room.getIsWorkRoom() == 0)) {
             if (room.getRoomHasVertSing() == 0) {
@@ -247,6 +254,22 @@ public class RoomAnalysis implements StandardMeasurements, TagInterface {
                 if (equipError.size() > 0) {
                     check++;
                     roomIrr.addAll(equipError);
+                }
+            }
+
+            if (slopeList.size() > 0) {
+                List<String> slopeError = SlopeAnalysis.roomSlopeList(room.getRoomID(), slopeList);
+                if (slopeError.size() > 0) {
+                    check++;
+                    roomIrr.addAll(slopeError);
+                }
+            }
+
+            if (stepList.size() > 0) {
+                List<String> stepError = SingleStepAnalysis.roomStepList(room.getRoomID(), stepList);
+                if (stepError.size() > 0) {
+                    check++;
+                    roomIrr.addAll(stepError);
                 }
             }
 

@@ -18,7 +18,7 @@ public class TableAnalysis implements StandardMeasurements {
             for (TableEntry table : tableList) {
                 irregularTable = false;
                 String analysis = null;
-                if (table.getRoomID() == roomID)
+                if (table.getRoomID() != null && table.getRoomID() == roomID)
                     analysis = tableText(table);
                 if (analysis != null && analysis.length() > 0)
                     tableListing.add(analysis);
@@ -35,7 +35,7 @@ public class TableAnalysis implements StandardMeasurements {
             for (TableEntry table : tableList) {
                 irregularTable = false;
                 String analysis = null;
-                if (table.getCircID() == circID)
+                if (table.getCircID() != null && table.getCircID() == circID)
                     analysis = tableText(table);
                 if (analysis != null && analysis.length() > 0)
                     tableListing.add(analysis);

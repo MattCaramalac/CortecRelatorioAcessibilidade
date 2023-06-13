@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.EquipmentEntry;
 
 import java.util.List;
@@ -32,11 +33,18 @@ public interface EquipEntryDao {
     LiveData<EquipmentEntry> getSpecificEquipment(int equipID);
 
     @Update
-    void updateEquipment (EquipmentEntry equip);
+    void updateEquipment(EquipmentEntry equip);
 
     @Query("DELETE FROM EquipmentEntry WHERE equipID == :equipID")
     void deleteEquipment(int equipID);
 
     @Query("DELETE FROM EquipmentEntry WHERE roomID == :roomID")
     void deleteAllEquipsFromRoom(int roomID);
+
+    //    Test
+    @Query("SELECT * FROM EquipmentEntry WHERE roomID IN (:roomID)")
+    ListenableFuture<List<EquipmentEntry>> getListAllEquipments(List<Integer> roomID);
+
+    @Query("SELECT * FROM EquipmentEntry WHERE circID IN (:circID)")
+    ListenableFuture<List<EquipmentEntry>> getListAllCircEquipments(List<Integer> circID);
 }

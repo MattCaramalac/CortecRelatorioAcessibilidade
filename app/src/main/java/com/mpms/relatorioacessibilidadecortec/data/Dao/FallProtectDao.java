@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FallProtectionEntry;
 
 import java.util.List;
@@ -29,11 +30,15 @@ public interface FallProtectDao {
     LiveData<FallProtectionEntry> getLastFallProtection();
 
     @Update
-    void updateFallProtection (FallProtectionEntry protect);
+    void updateFallProtection(FallProtectionEntry protect);
 
     @Query("DELETE FROM FallProtectionEntry WHERE protectID == :protectID")
     void deleteFallProtection(int protectID);
 
     @Query("DELETE FROM FallProtectionEntry WHERE circID == :circID")
     void deleteAllFallProtectCirc(int circID);
+
+    //    Listenable
+    @Query("SELECT * FROM FallProtectionEntry WHERE circID IN (:circID)")
+    ListenableFuture<List<FallProtectionEntry>> getListAllFallProtection(List<Integer> circID);
 }

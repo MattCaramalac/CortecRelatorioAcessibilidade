@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.commService.JsonCreation;
 
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +35,8 @@ public class TextUpdate {
     static final String INSPECT_OBJ = "a seguir:";
     static final String IRREGULARITIES = "estrutura física/conservação da construção:";
 
-    public File path;
+    public File filePath;
+    public File createdFile;
     public String fName;
     public String fileName;
     public boolean error = false;
@@ -61,8 +63,28 @@ public class TextUpdate {
         } catch (IOException | OpenXML4JRuntimeException | XmlException e) {
             LOGGER.error(e);
             error = true;
+            return false;
         }
         return true;
+    }
+
+    public void fillDocFields(HashMap<String, String> variable, Uri uri, Context ctx) {
+        try {
+            doc = new XWPFDocument(ctx.getAssets().open("template.docx"));
+            changeParagraphs(doc.getParagraphs(), variable);
+            alterTable(doc.getTablesIterator(), variable);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                outStream = new FileOutputStream(fileName);
+            } else {
+                ParcelFileDescriptor parFile = ctx.getContentResolver().openFileDescriptor(uri, "w");
+                outStream = new FileOutputStream(parFile.getFileDescriptor());
+            }
+            doc.write(outStream);
+            doc.close();
+            outStream.close();
+        } catch (IOException | OpenXML4JRuntimeException | XmlException e) {
+            LOGGER.error(e);
+        }
     }
 
     public void setJsonCreation(JsonCreation jCreate, List<String> blockContent) {
@@ -71,12 +93,12 @@ public class TextUpdate {
     }
 
     public String newFileName() {
-        path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        if (!path.exists()) {
-            path.mkdirs();
+        filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        if (!filePath.exists()) {
+            filePath.mkdirs();
         }
         fName = "Report";
-        File file = new File(path + "/" + fName + ".docx");
+        File file = new File(filePath + "/" + fName + ".docx");
         int fileNo = 0;
         String newName = "";
 
@@ -84,15 +106,16 @@ public class TextUpdate {
             while (file.exists()) {
                 fileNo++;
                 fName = "Report" + fileNo;
-                file = new File(path + "/" + fName + ".docx");
-                newName = path + "/" + fName + ".docx";
+                file = new File(filePath + "/" + fName + ".docx");
+                newName = filePath + "/" + fName + ".docx";
                 fileName = newName;
             }
         } else if (!file.exists()) {
-            newName = path + "/" + fName + ".docx";
+            newName = filePath + "/" + fName + ".docx";
             fileName = newName;
         }
 
+        createdFile = new File(fileName);
         return newName;
     }
 

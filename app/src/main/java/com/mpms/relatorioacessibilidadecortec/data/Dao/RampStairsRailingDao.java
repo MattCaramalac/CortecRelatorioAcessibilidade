@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RampStairsRailingEntry;
 
 import java.util.List;
@@ -36,4 +37,8 @@ public interface RampStairsRailingDao {
 
     @Update
     void updateRampStairsRailing(RampStairsRailingEntry railingEntry);
+
+    //    Listenable
+    @Query("SELECT * FROM RampStairsRailingEntry WHERE flightID IN (:flightID)")
+    ListenableFuture<List<RampStairsRailingEntry>> getListAllRailings(List<Integer> flightID);
 }

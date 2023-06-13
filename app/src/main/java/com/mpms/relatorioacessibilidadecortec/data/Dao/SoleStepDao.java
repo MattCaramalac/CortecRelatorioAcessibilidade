@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SingleStepEntry;
 
 import java.util.List;
@@ -25,15 +26,25 @@ public interface SoleStepDao {
     @Query("SELECT * FROM SingleStepEntry WHERE roomID == :roomID")
     LiveData<List<SingleStepEntry>> getAllRoomSingleSteps(int roomID);
 
+    @Query("SELECT * FROM SingleStepEntry WHERE roomID IN (:roomID)")
+    LiveData<List<SingleStepEntry>> getAllRoomSingleSteps(List<Integer> roomID);
+
     @Query("SELECT * FROM SingleStepEntry WHERE stepID == :stepID")
     LiveData<SingleStepEntry> getOneSoleStep(int stepID);
 
     @Update
-    void updateSoleStep (SingleStepEntry soleStep);
+    void updateSoleStep(SingleStepEntry soleStep);
 
     @Query("DELETE FROM SingleStepEntry WHERE stepID == :stepID")
     void deleteSoleStep(int stepID);
 
     @Query("DELETE FROM SingleStepEntry WHERE circID == :circID")
     void deleteAllSoleSteps(int circID);
+
+    //    Listenable
+    @Query("SELECT * FROM SingleStepEntry WHERE roomID IN (:roomID)")
+    ListenableFuture<List<SingleStepEntry>> getListRoomAllSteps(List<Integer> roomID);
+
+    @Query("SELECT * FROM SingleStepEntry WHERE circID IN (:circID)")
+    ListenableFuture<List<SingleStepEntry>> getListCircAllSteps(List<Integer> circID);
 }

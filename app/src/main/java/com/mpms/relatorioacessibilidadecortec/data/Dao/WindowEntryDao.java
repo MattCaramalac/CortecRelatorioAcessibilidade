@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WindowEntry;
 
 import java.util.List;
@@ -39,4 +40,11 @@ public interface WindowEntryDao {
 
     @Query("DELETE FROM WindowEntry WHERE roomID == :roomID")
     void deleteAllWindowsFromRoom(int roomID);
+
+    //    Listenable
+    @Query("SELECT * FROM WindowEntry WHERE roomID IN (:roomID)")
+    ListenableFuture<List<WindowEntry>> getListAllRoomsWindows(List<Integer> roomID);
+
+    @Query("SELECT * FROM WindowEntry WHERE circID IN (:circID)")
+    ListenableFuture<List<WindowEntry>> getListAllCircWindows(List<Integer> circID);
 }

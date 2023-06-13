@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEntryOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PoolEntryTwo;
@@ -44,4 +45,11 @@ public interface PoolDao {
 
     @Query("DELETE FROM PoolEntry WHERE blockID == :blockID")
     void deleteAllPools(int blockID);
+
+    //    Listenable
+    @Query("SELECT * FROM PoolEntry WHERE blockID IN (:blockID)")
+    ListenableFuture<List<PoolEntry>> getListAllPools(List<Integer> blockID);
+
+    @Query("SELECT poolID FROM PoolEntry WHERE blockID IN (:blockID)")
+    ListenableFuture<List<Integer>> getListAllPoolsID(List<Integer> blockID);
 }

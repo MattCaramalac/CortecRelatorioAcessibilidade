@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialThree;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialTwo;
@@ -48,4 +49,11 @@ public interface ExternalAccessDao {
 
     @Query("DELETE FROM ExternalAccess WHERE blockID == :blockID")
     void deleteAllExternalAccessesFromSchool(int blockID);
+
+    //    Listenable
+    @Query("SELECT * FROM ExternalAccess WHERE blockID IN (:blockID)")
+    ListenableFuture<List<ExternalAccess>> getListAllExtAccess(List<Integer> blockID);
+
+    @Query("SELECT externalAccessID FROM ExternalAccess WHERE blockID IN (:blockID)")
+    ListenableFuture<List<Integer>> getListAllExtAccessID(List<Integer> blockID);
 }
