@@ -74,7 +74,8 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
     public static SchoolRegisterFragmentThree newInstance(Bundle bundle) {
         SchoolRegisterFragmentThree fragmentThree = new SchoolRegisterFragmentThree();
         fragmentThree.setArguments(bundle);
-        SchoolRegisterActivity.provideSchoolID(bundle, bundleFragThree);
+        bundleFragThree.putInt(SCHOOL_ID, bundle.getInt(SCHOOL_ID));
+        bundleFragThree.putBoolean(DATA_COMPLETE, bundle.getBoolean(DATA_COMPLETE));
         return fragmentThree;
     }
 
@@ -139,7 +140,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         workersLibrasDescriptionField = v.findViewById(R.id.libras_workers_obs_field);
         initialDateInspectionField = v.findViewById(R.id.initial_date_inspection_field);
         finalDateInspectionField = v.findViewById(R.id.final_date_inspection_field);
-        studentRegisterObsField  = v.findViewById(R.id.students_register_obs_field);
+        studentRegisterObsField = v.findViewById(R.id.students_register_obs_field);
 //        TextInputEditText
         startAgeValue = v.findViewById(R.id.students_newest_age_value);
         finalAgeValue = v.findViewById(R.id.students_oldest_age_value);
@@ -204,8 +205,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         else if (TextUtils.isEmpty(totalStudentsPcdValue.getText())) {
             i++;
             totalStudentsPcdField.setError(getString(R.string.req_field_error));
-        }
-        else if (TextUtils.isEmpty(studentPcdDescriptionValue.getText()) &&
+        } else if (TextUtils.isEmpty(studentPcdDescriptionValue.getText()) &&
                 !TextUtils.equals(String.valueOf(totalStudentsPcdValue.getText()), "0")) {
             i++;
             studentPcdDescriptionField.setError(getString(R.string.req_field_error));
@@ -300,7 +300,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
                         setSelection(MaterialDatePicker.todayInUtcMilliseconds()).setTitleText(R.string.date_picker_start_inspection).build();
             }
             initialDate.show(requireActivity().getSupportFragmentManager(), "DATE_PICKER");
-            initialDate.addOnPositiveButtonClickListener(selection -> initialDateInspectionValue.setText(longToStringConverter(selection+offset)));
+            initialDate.addOnPositiveButtonClickListener(selection -> initialDateInspectionValue.setText(longToStringConverter(selection + offset)));
         } else if (view == finalDateInspectionValue) {
             if (!TextUtils.isEmpty(initialDateInspectionValue.getText())) {
                 long startInspection = stringToLongConverter(String.valueOf(initialDateInspectionValue.getText()));
@@ -313,7 +313,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
                         setSelection(MaterialDatePicker.todayInUtcMilliseconds()).setTitleText(R.string.date_picker_end_inspection).build();
             }
             finalDate.show(requireActivity().getSupportFragmentManager(), "DATE_PICKER");
-            finalDate.addOnPositiveButtonClickListener(selection -> finalDateInspectionValue.setText(longToStringConverter(selection+offset)));
+            finalDate.addOnPositiveButtonClickListener(selection -> finalDateInspectionValue.setText(longToStringConverter(selection + offset)));
         }
     }
 

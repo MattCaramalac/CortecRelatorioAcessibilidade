@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SwitchEntry;
 
 import java.util.List;
@@ -39,4 +40,11 @@ public interface SwitchEntryDao {
 
     @Query("DELETE FROM SwitchEntry WHERE roomID == :roomID")
     void deleteAllSwitchesFromRoom(int roomID);
+
+//    Listenable
+    @Query("SELECT * FROM SwitchEntry WHERE roomID IN (:roomID)")
+    ListenableFuture<List<SwitchEntry>> getListAllSwitchesRooms(List<Integer> roomID);
+
+    @Query("SELECT * FROM SwitchEntry WHERE circID IN (:circID)")
+    ListenableFuture<List<SwitchEntry>> getListAllSwitchesCirc(List<Integer> circID);
 }

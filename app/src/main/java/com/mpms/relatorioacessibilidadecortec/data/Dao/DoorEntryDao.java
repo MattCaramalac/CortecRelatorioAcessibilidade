@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorEntry;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public interface DoorEntryDao {
     LiveData<List<DoorEntry>> getAllCircDoors(List<Integer> circID);
 
     @Update
-    void updateDoor (DoorEntry door);
+    void updateDoor(DoorEntry door);
 
     @Query("DELETE FROM DoorEntry WHERE doorID == :doorID")
     void deleteDoor(int doorID);
@@ -57,4 +58,29 @@ public interface DoorEntryDao {
 
     @Query("DELETE FROM DoorEntry WHERE roomID == :roomID")
     void deleteAllDoorsFromRoom(int roomID);
+
+    //    Listenable
+    @Query("SELECT * FROM DoorEntry WHERE roomID IN (:roomID)")
+    ListenableFuture<List<DoorEntry>> getListAllDoors(List<Integer> roomID);
+
+    @Query("SELECT * FROM DoorEntry WHERE restID IN (:restID)")
+    ListenableFuture<List<DoorEntry>> getListAllRestDoors(List<Integer> restID);
+
+    @Query("SELECT * FROM DoorEntry WHERE boxID IN (:boxID)")
+    ListenableFuture<List<DoorEntry>> getListAllBoxDoors(List<Integer> boxID);
+
+    @Query("SELECT * FROM DoorEntry WHERE restID IN (:circID)")
+    ListenableFuture<List<DoorEntry>> getListAllCircDoors(List<Integer> circID);
+
+    @Query("SELECT doorID FROM DoorEntry WHERE roomID IN (:roomID)")
+    ListenableFuture<List<Integer>> getListAllDoorsID(List<Integer> roomID);
+
+    @Query("SELECT doorID FROM DoorEntry WHERE restID IN (:restID)")
+    ListenableFuture<List<Integer>> getListAllRestDoorsID(List<Integer> restID);
+
+    @Query("SELECT doorID FROM DoorEntry WHERE boxID IN (:boxID)")
+    ListenableFuture<List<Integer>> getListAllBoxDoorsID(List<Integer> boxID);
+
+    @Query("SELECT doorID FROM DoorEntry WHERE restID IN (:circID)")
+    ListenableFuture<List<Integer>> getListAllCircDoorsID(List<Integer> circID);
 }

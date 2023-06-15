@@ -25,26 +25,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="@dimen/usual_padding"/>
 
-    <!--    TODO - Retirar para colocar no MainActivity depois, quando o envio for feito daquela tela -->
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_indicator"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:indeterminate="true"
-        app:trackCornerRadius="@dimen/usual_padding"
-        android:visibility="gone"/>
-    <!--        android:id="@+id/progress_bar"-->
-    <!--        style="@android:style/Widget.Material.ProgressBar.Large"-->
-    <!--        android:layout_width="100dp"-->
-    <!--        android:layout_height="100dp"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        android:visibility="gone"/>-->
-
 </androidx.constraintlayout.widget.ConstraintLayout>

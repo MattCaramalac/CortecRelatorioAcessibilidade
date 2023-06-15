@@ -44,7 +44,7 @@
         </activity>
         
         <provider
-            android:authorities="${applicationId}.provider"
+            android:authorities="com.whygraphics.multilineradiogroup.provider"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -52,6 +52,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>
+        <!--            android:authorities="${applicationId}.provider"-->
+
 
     </application>
 

@@ -28,6 +28,7 @@ import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 public class CirculationListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -85,12 +86,12 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
                     if (actionMode == null)
                         OnEntryClick(position);
                     else
-                        enableActionMode();
+                        enableActionMode(circList);
                 }
 
                 @Override
                 public void onItemLongClick(int position) {
-                    enableActionMode();
+                    enableActionMode(circList);
                 }
             });
         });
@@ -111,7 +112,7 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
         circListBundle.putBoolean(RECENT_ENTRY, false);
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -140,7 +141,7 @@ public class CirculationListFragment extends Fragment implements OnEntryClickLis
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        circAdapter.cancelSelection(recyclerView);
+                        circAdapter.cancelSelection(recyclerView, entries, circAdapter);
                     circAdapter.selectedItems.clear();
                     circAdapter.notifyDataSetChanged();
                     delClick = 0;

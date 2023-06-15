@@ -175,12 +175,12 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX) && !doorBundle.getBoolean(FROM_COLLECTIVE) && doorBundle.getInt(CIRC_ID) == 0)
-            RoomsRegisterFragment.roomModelFragments.setNewChildRegID(null);
-    }
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX) && !doorBundle.getBoolean(FROM_COLLECTIVE) && doorBundle.getInt(CIRC_ID) == 0)
+//            RoomsRegisterFragment.roomModelFragments.setNewChildRegID(null);
+//    }
 
     private void instantiateDoorViews(View view) {
 //        TextInputLayout

@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotElderlyEntry;
 
 import java.util.List;
@@ -30,4 +31,8 @@ public interface ParkingLotElderlyDao {
 
     @Query("DELETE FROM ParkingLotElderlyEntry WHERE parkElderID == :parkElderID")
     void deleteOneElderlyParkingLot(int parkElderID);
+
+    //    Listenable
+    @Query("SELECT * FROM ParkingLotElderlyEntry WHERE parkID IN (:parkingLotID)")
+    ListenableFuture<List<ParkingLotElderlyEntry>> getListAllElderVacancies(List<Integer> parkingLotID);
 }

@@ -29,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class PlaygroundListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -88,12 +89,12 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
                             if (actionMode == null)
                                 OnEntryClick(position);
                             else
-                                enableActionMode();
+                                enableActionMode(playList);
                         }
 
                         @Override
                         public void onItemLongClick(int position) {
-                            enableActionMode();
+                            enableActionMode(playList);
                         }
                     });
                 });
@@ -115,7 +116,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
         dataView.setVisible(true);
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -144,7 +145,7 @@ public class PlaygroundListFragment extends Fragment implements OnEntryClickList
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        playAdapter.cancelSelection(recyclerView);
+                        playAdapter.cancelSelection(recyclerView, entries, playAdapter);
                     playAdapter.selectedItems.clear();
                     playAdapter.notifyDataSetChanged();
                     delClick = 0;

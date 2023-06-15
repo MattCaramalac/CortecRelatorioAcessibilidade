@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.BlockSpaceEntry;
 
 import java.util.List;
@@ -36,13 +37,20 @@ public interface BlockSpaceDao {
     LiveData<BlockSpaceEntry> getLastBlockSpace(int schoolID, int blockSpaceType);
 
     @Update
-    void updateBlockSpace (BlockSpaceEntry blockSpace);
+    void updateBlockSpace(BlockSpaceEntry blockSpace);
 
     @Query("DELETE FROM BlockSpaceEntry WHERE blockSpaceID == :blockSpaceID")
     void deleteBlockSpace(int blockSpaceID);
 
     @Query("DELETE FROM BlockSpaceEntry WHERE schoolID == :schoolID")
     void deleteAllBlockSpacesSchool(int schoolID);
+
+    //    Listenable
+    @Query("SELECT * FROM BlockSpaceEntry WHERE schoolID == :schoolID ORDER BY blockSpaceType ASC")
+    ListenableFuture<List<BlockSpaceEntry>> getListAllBlocks(int schoolID);
+
+    @Query("SELECT blockSpaceID FROM BlockSpaceEntry WHERE schoolID == :schoolID ORDER BY blockSpaceType ASC")
+    ListenableFuture<List<Integer>> getListAllBlocksID(int schoolID);
 
 
 }

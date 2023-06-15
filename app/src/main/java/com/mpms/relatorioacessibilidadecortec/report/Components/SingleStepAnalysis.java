@@ -18,7 +18,26 @@ public class SingleStepAnalysis implements StandardMeasurements {
             for (SingleStepEntry step : sList) {
                 irregularStep = false;
                 String analysis = null;
-                if (step.getCircID() == circID)
+                if (step.getCircID() != null && step.getCircID() == circID)
+                    analysis = stepText(step);
+                if (analysis != null && analysis.length() > 0) {
+                    String analysis2 = analysis.trim();
+                    slopeList.add(analysis2.concat(";"));
+                }
+            }
+        }
+        return slopeList;
+    }
+
+    public static List<String> roomStepList (int roomID, List<SingleStepEntry> sList) {
+
+        List<String> slopeList = new ArrayList<>();
+
+        if (sList.size() > 0) {
+            for (SingleStepEntry step : sList) {
+                irregularStep = false;
+                String analysis = null;
+                if (step.getRoomID() != null && step.getRoomID() == roomID)
                     analysis = stepText(step);
                 if (analysis != null && analysis.length() > 0) {
                     String analysis2 = analysis.trim();

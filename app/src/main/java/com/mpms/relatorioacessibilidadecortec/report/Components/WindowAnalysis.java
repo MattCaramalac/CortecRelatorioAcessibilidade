@@ -17,7 +17,7 @@ public class WindowAnalysis implements StandardMeasurements {
         for (WindowEntry window : winList) {
             irregularWindow = false;
             String analysis = null;
-            if (window.getRoomID() == roomID)
+            if (window.getRoomID() != null && window.getRoomID() == roomID)
                 analysis = winText(window);
             if (analysis != null && analysis.length() > 0)
                 winListing.add(analysis);
@@ -32,7 +32,7 @@ public class WindowAnalysis implements StandardMeasurements {
         for (WindowEntry window : winList) {
             irregularWindow = false;
             String analysis = null;
-            if (window.getCircID() == circID)
+            if (window.getCircID() != null && window.getCircID() == circID)
                 analysis = winText(window);
             if (analysis != null && analysis.length() > 0)
                 winListing.add(analysis);

@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.FreeSpaceEntry;
 
 import java.util.List;
@@ -45,4 +46,14 @@ public interface FreeSpaceEntryDao {
 
     @Query("DELETE FROM FreeSpaceEntry WHERE roomID == :roomID")
     void deleteAllFreeSpaceFromRoom(int roomID);
+
+    //    Listenable
+    @Query("SELECT * FROM FreeSpaceEntry WHERE roomID IN (:roomID)")
+    ListenableFuture<List<FreeSpaceEntry>> getListAllFreeSpaces(List<Integer> roomID);
+
+    @Query("SELECT * FROM FreeSpaceEntry WHERE restID IN (:restID)")
+    ListenableFuture<List<FreeSpaceEntry>> getListAllRestFreeSpaces(List<Integer> restID);
+
+    @Query("SELECT * FROM FreeSpaceEntry WHERE circID IN (:circID)")
+    ListenableFuture<List<FreeSpaceEntry>> getListAllCircFreeSpaces(List<Integer> circID);
 }

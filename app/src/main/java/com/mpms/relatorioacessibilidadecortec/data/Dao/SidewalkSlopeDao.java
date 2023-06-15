@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 
 import java.util.List;
@@ -33,4 +34,8 @@ public interface SidewalkSlopeDao {
 
     @Query("DELETE FROM SidewalkSlopeEntry WHERE sidewalkID == :sidewalkID")
     void deleteAllSidewalkSlopesFromSidewalk(int sidewalkID);
+
+    //    Listenable
+    @Query("SELECT * FROM SidewalkSlopeEntry WHERE sidewalkID IN (:sidewalkID)")
+    ListenableFuture<List<SidewalkSlopeEntry>> getListAllSideSlopes(List<Integer> sidewalkID);
 }

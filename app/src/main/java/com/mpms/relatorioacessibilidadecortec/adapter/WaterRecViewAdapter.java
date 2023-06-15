@@ -12,13 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-import com.mpms.relatorioacessibilidadecortec.util.DeleteInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.ViewHolderInterface;
 
 import java.util.List;
 
-public class WaterRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterface.ListViewHolder> implements DeleteInterface, ViewHolderInterface {
+public class WaterRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterface.ListViewHolder> implements ViewHolderInterface {
 
     private ListClickListener listener;
     private List<WaterFountainEntry> waterList;
@@ -50,14 +49,14 @@ public class WaterRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
 
         holder.itemView.setOnClickListener(v -> {
             if (selectedItems.size() > 0) {
-                toggleSelection(holder, position);
+                toggleSelection(this, position);
             }
             listener.onItemClick(position);
         });
 
         holder.itemView.setOnLongClickListener(v -> {
             if (listener != null) {
-                toggleSelection(holder, position);
+                toggleSelection(this, position);
                 listener.onItemLongClick(position);
             }
             return true;
@@ -89,25 +88,6 @@ public class WaterRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
             ViewModelEntry.deleteOneWaterFountain(waterList.get(selectedItems.keyAt(i)).getWaterFountainID());
-        }
-    }
-
-    @Override
-    public void toggleSelection(ListViewHolder holder, int position) {
-        if (selectedItems.get(position))
-            selectedItems.delete(position);
-        else
-            selectedItems.put(position, true);
-        notifyItemChanged(position);
-    }
-
-    @Override
-    public void cancelSelection(RecyclerView recyclerView) {
-        int listSize = waterList.size();
-        for (int i = 0; i < listSize; i++) {
-            ListViewHolder holder = (ListViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-            holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
-            notifyItemChanged(i);
         }
     }
 

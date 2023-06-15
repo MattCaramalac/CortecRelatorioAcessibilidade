@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkEntryTwo;
@@ -44,4 +45,12 @@ public interface SidewalkEntryDao {
 
     @Query("DELETE FROM SidewalkEntry WHERE blockID == :blockID")
     void deleteAllSidewalksFromSchool(int blockID);
+
+    //    Listenable
+    @Query("SELECT * FROM SidewalkEntry WHERE blockID IN (:blockID)")
+    ListenableFuture<List<SidewalkEntry>> getListAllSidewalks(List<Integer> blockID);
+
+    @Query("SELECT sidewalkID FROM SidewalkEntry WHERE blockID IN (:blockID)")
+    ListenableFuture<List<Integer>> getListAllSidewalksID(List<Integer> blockID);
+
 }

@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.RoomEntry;
 
 import java.util.List;
@@ -36,5 +37,12 @@ public interface RoomEntryDao {
 
     @Query("DELETE FROM RoomEntry WHERE roomID == :roomID")
     void deleteOneRoom(int roomID);
+
+    //    Listenable
+    @Query("SELECT * FROM RoomEntry WHERE blockID IN (:blockID) ORDER BY roomID DESC")
+    ListenableFuture<List<RoomEntry>> getListAllRoomsSchool(List<Integer> blockID);
+
+    @Query("SELECT roomID FROM RoomEntry WHERE blockID IN (:blockID) ORDER BY roomID DESC")
+    ListenableFuture<List<Integer>> getListAllRoomsID(List<Integer> blockID);
 
 }

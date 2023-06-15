@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterThree;
@@ -49,4 +50,13 @@ public interface SchoolEntryDao {
 
     @Query("DELETE FROM SchoolEntry")
     void deleteAll();
+
+    @Query("UPDATE SchoolEntry SET reportSent = 1 WHERE cadID == :schoolID")
+    void updateReportSent(int schoolID);
+
+    //    Listenable
+    @Query("SELECT * FROM SchoolEntry WHERE cadID == :cadID")
+    ListenableFuture<SchoolEntry> getListenableSchool(int cadID);
+
+
 }

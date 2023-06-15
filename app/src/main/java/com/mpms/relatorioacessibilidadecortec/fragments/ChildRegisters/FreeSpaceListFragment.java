@@ -106,27 +106,27 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
         recyclerView.addItemDecoration(dividerItemDecoration);
-        fSpaceAdapter.setListener(listener());
+        fSpaceAdapter.setListener(listener(list));
     }
 
-    private ListClickListener listener() {
+    private <T> ListClickListener listener(List<T> entries) {
         return new ListClickListener() {
             @Override
             public void onItemClick(int position) {
                 if (actionMode == null)
                     OnEntryClick(position);
                 else
-                    enableActionMode();
+                    enableActionMode(entries);
             }
 
             @Override
             public void onItemLongClick(int position) {
-                enableActionMode();
+                enableActionMode(entries);
             }
         };
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -155,7 +155,7 @@ public class FreeSpaceListFragment extends Fragment implements OnEntryClickListe
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        fSpaceAdapter.cancelSelection(recyclerView);
+                        fSpaceAdapter.cancelSelection(recyclerView, entries, fSpaceAdapter);
                     fSpaceAdapter.selectedItems.clear();
                     fSpaceAdapter.notifyDataSetChanged();
                     delClick = 0;

@@ -98,7 +98,7 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
         switchListBundle.putInt(SWITCH_ID, 0);
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -127,7 +127,7 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        switchAdapter.cancelSelection(recyclerView);
+                        switchAdapter.cancelSelection(recyclerView, entries, switchAdapter);
                     switchAdapter.selectedItems.clear();
                     switchAdapter.notifyDataSetChanged();
                     delClick = 0;
@@ -145,19 +145,19 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
         }
     }
 
-    private ListClickListener clickListener() {
+    private <T> ListClickListener clickListener(List<T> entries) {
         return new ListClickListener() {
             @Override
             public void onItemClick(int position) {
                 if (actionMode == null)
                     OnEntryClick(position);
                 else
-                    enableActionMode();
+                    enableActionMode(entries);
             }
 
             @Override
             public void onItemLongClick(int position) {
-                enableActionMode();
+                enableActionMode(entries);
             }
         };
     }
@@ -168,7 +168,7 @@ public class SwitchListFragment extends Fragment implements OnEntryClickListener
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
         recyclerView.addItemDecoration(dividerItemDecoration);
-        switchAdapter.setListener(clickListener());
+        switchAdapter.setListener(clickListener(list));
 
     }
 

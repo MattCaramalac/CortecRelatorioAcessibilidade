@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.WaterFountainEntry;
 
 import java.util.List;
@@ -46,5 +47,14 @@ public interface WaterFountainDao {
     @Query("DELETE FROM WaterFountainEntry WHERE blockID == :blockID")
     void deleteAllFountainsFromSchool(int blockID);
 
+    //    Listenable
+    @Query("SELECT * FROM WaterFountainEntry WHERE blockID IN (:blockID) AND roomID IS NULL")
+    ListenableFuture<List<WaterFountainEntry>> getListAllWaterFountains(List<Integer> blockID);
+
+    @Query("SELECT * FROM WaterFountainEntry WHERE roomID IN (:roomID)")
+    ListenableFuture<List<WaterFountainEntry>> getListAllRoomWaterFountains(List<Integer> roomID);
+
+    @Query("SELECT * FROM WaterFountainEntry WHERE circID IN (:circID) AND roomID IS NULL")
+    ListenableFuture<List<WaterFountainEntry>> getListAllCircWaterFountains(List<Integer> circID);
 
 }

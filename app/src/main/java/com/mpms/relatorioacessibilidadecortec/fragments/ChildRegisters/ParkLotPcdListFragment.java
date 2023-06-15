@@ -29,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ParkLotPcdListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -93,12 +94,12 @@ public class ParkLotPcdListFragment extends Fragment implements OnEntryClickList
                             if (actionMode == null)
                                 OnEntryClick(position);
                             else
-                                enableActionMode();
+                                enableActionMode(pcdList);
                         }
 
                         @Override
                         public void onItemLongClick(int position) {
-                            enableActionMode();
+                            enableActionMode(pcdList);
                         }
                     });
                 });
@@ -144,7 +145,7 @@ public class ParkLotPcdListFragment extends Fragment implements OnEntryClickList
 
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -173,7 +174,7 @@ public class ParkLotPcdListFragment extends Fragment implements OnEntryClickList
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        pcdAdapter.cancelSelection(recyclerView);
+                        pcdAdapter.cancelSelection(recyclerView, entries, pcdAdapter);
                     pcdAdapter.selectedItems.clear();
                     pcdAdapter.notifyDataSetChanged();
                     delClick = 0;

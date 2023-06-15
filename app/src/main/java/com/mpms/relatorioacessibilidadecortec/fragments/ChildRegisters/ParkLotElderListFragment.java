@@ -29,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ParkLotElderListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -90,12 +91,12 @@ public class ParkLotElderListFragment extends Fragment implements OnEntryClickLi
                             if (actionMode == null)
                                 OnEntryClick(position);
                             else
-                                enableActionMode();
+                                enableActionMode(elderList);
                         }
 
                         @Override
                         public void onItemLongClick(int position) {
-                            enableActionMode();
+                            enableActionMode(elderList);
                         }
                     });
                 });
@@ -108,7 +109,7 @@ public class ParkLotElderListFragment extends Fragment implements OnEntryClickLi
         elderBundle.putInt(ELDER_ID, 0);
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -137,7 +138,7 @@ public class ParkLotElderListFragment extends Fragment implements OnEntryClickLi
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        elderAdapter.cancelSelection(recyclerView);
+                        elderAdapter.cancelSelection(recyclerView, entries, elderAdapter);
                     elderAdapter.selectedItems.clear();
                     elderAdapter.notifyDataSetChanged();
                     delClick = 0;

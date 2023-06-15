@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotEntry;
 
 import java.util.List;
@@ -39,4 +40,11 @@ public interface ParkingLotEntryDao {
 
     @Query("DELETE FROM ParkingLotEntry WHERE blockID == :blockID")
     void deleteAllParkingLots(int blockID);
+
+    //    Listenable
+    @Query("SELECT * FROM ParkingLotEntry WHERE blockID IN (:blockID)")
+    ListenableFuture<List<ParkingLotEntry>> getListAllParkingLots(List<Integer> blockID);
+
+    @Query("SELECT parkingID FROM ParkingLotEntry WHERE blockID IN (:blockID)")
+    ListenableFuture<List<Integer>> getListAllParkingLotID(List<Integer> blockID);
 }

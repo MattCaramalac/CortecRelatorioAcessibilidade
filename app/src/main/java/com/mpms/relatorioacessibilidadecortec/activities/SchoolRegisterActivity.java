@@ -41,10 +41,7 @@ public class SchoolRegisterActivity extends AppCompatActivity implements TagInte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_school_register);
 
-        if (getIntent().hasExtra(MainActivity.UPDATE_REQUEST))
-            schoolBundle.putInt(SCHOOL_ID, getIntent().getIntExtra(MainActivity.UPDATE_REQUEST, 0));
-        else
-            schoolBundle.putInt(SCHOOL_ID, 0);
+        schoolBundle.putInt(SCHOOL_ID, getIntent().getIntExtra(SCHOOL_ID, 0));
 
         instantiateSchoolRegisterActivity();
 
@@ -65,21 +62,22 @@ public class SchoolRegisterActivity extends AppCompatActivity implements TagInte
             if (schoolReg.getBoolean(CLOSE_FRAGMENT)) {
                 modelFragments.setSaveUpdateSchoolReg(null);
                 finish();
-            }
-            else {
-                if (schoolReg.getBoolean(OPEN_FRAG_TWO)){
+            } else {
+                if (schoolReg.getBoolean(OPEN_FRAG_TWO)) {
+                    schoolBundle.putBoolean(DATA_COMPLETE, schoolReg.getBoolean(DATA_COMPLETE));
                     schoolBundle.putBoolean(RECENT_ENTRY, true);
                     if (schoolReg.getInt(SCHOOL_ID) != 0)
                         schoolBundle.putInt(SCHOOL_ID, schoolReg.getInt(SCHOOL_ID));
                     modelFragments.setSaveUpdateSchoolReg(null);
                     setSecondFragment(schoolBundle);
                     manager.beginTransaction().replace(R.id.show_register_school_fragment, fragmentTwo).addToBackStack(null).commit();
-                    scroll.smoothScrollTo(0,0); //dá scroll depois pelo menos, porém muito "rápido"
+                    scroll.smoothScrollTo(0, 0); //dá scroll depois pelo menos, porém muito "rápido"
                 } else if (schoolReg.getBoolean(OPEN_FRAG_THREE)) {
+                    schoolBundle.putBoolean(DATA_COMPLETE, schoolReg.getBoolean(DATA_COMPLETE));
                     modelFragments.setSaveUpdateSchoolReg(null);
                     setThirdFragment(schoolBundle);
                     manager.beginTransaction().replace(R.id.show_register_school_fragment, fragmentThree).addToBackStack(null).commit();
-                    scroll.smoothScrollTo(0,0);
+                    scroll.smoothScrollTo(0, 0);
                 } else if (schoolReg.getBoolean(NEXT_ACTIVITY)) {
                     modelFragments.setSaveUpdateSchoolReg(null);
                     Intent blockSpaceIntent = new Intent(this, SchoolAreasRegisterActivity.class);
@@ -113,12 +111,6 @@ public class SchoolRegisterActivity extends AppCompatActivity implements TagInte
             finish();
     }
 
-    public static void provideSchoolID(Bundle bundle, Bundle bundleFrag) {
-        if (bundle != null) {
-            bundleFrag.putInt(SCHOOL_ID, bundle.getInt(SCHOOL_ID));
-        }
-    }
-
     private void instantiateSchoolRegisterActivity() {
 //        MaterialButtons
         saveUpdateCloseButton = findViewById(R.id.save_update_close_register);
@@ -132,7 +124,7 @@ public class SchoolRegisterActivity extends AppCompatActivity implements TagInte
 //        FragmentManager
         manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.show_register_school_fragment, fragmentOne).commit();
-        scroll.scrollTo(0,0);
+        scroll.scrollTo(0, 0);
 //        Listener
         saveUpdateCloseButton.setOnClickListener(this::buttonListener);
         saveUpdateContinueButton.setOnClickListener(this::buttonListener);
@@ -174,8 +166,7 @@ public class SchoolRegisterActivity extends AppCompatActivity implements TagInte
                 schoolRegFragment.putBoolean(SAVE_CONTINUE, false);
             }
             modelFragments.setSaveUpdateSchoolReg(schoolRegFragment);
-        }
-        else if (view == saveUpdateContinueButton) {
+        } else if (view == saveUpdateContinueButton) {
             if (schoolBundle.getInt(SCHOOL_ID) != 0) {
                 schoolRegFragment.putBoolean(UPDATE_CLOSE, false);
                 schoolRegFragment.putBoolean(UPDATE_CONTINUE, true);
@@ -184,8 +175,7 @@ public class SchoolRegisterActivity extends AppCompatActivity implements TagInte
                 schoolRegFragment.putBoolean(SAVE_CONTINUE, true);
             }
             modelFragments.setSaveUpdateSchoolReg(schoolRegFragment);
-        }
-        else {
+        } else {
             if (firstSchFragOnScreen())
                 cancelClick();
             else

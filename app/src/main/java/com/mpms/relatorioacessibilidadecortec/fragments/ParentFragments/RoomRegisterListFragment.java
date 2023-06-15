@@ -29,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class RoomRegisterListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -98,12 +99,12 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
                             if (actionMode == null)
                                 OnEntryClick(position);
                             else
-                                enableActionMode();
+                                enableActionMode(rooms);
                         }
 
                         @Override
                         public void onItemLongClick(int position) {
-                            enableActionMode();
+                            enableActionMode(rooms);
                         }
                     });
                 });
@@ -143,7 +144,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
         dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -172,7 +173,7 @@ public class RoomRegisterListFragment extends Fragment implements OnEntryClickLi
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        roomAdapter.cancelSelection(recyclerView);
+                        roomAdapter.cancelSelection(recyclerView, entries, roomAdapter);
                     roomAdapter.selectedItems.clear();
                     roomAdapter.notifyDataSetChanged();
                     delClick = 0;

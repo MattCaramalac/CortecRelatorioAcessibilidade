@@ -30,6 +30,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -94,12 +95,12 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
                             if (actionMode == null)
                                 OnEntryClick(position);
                             else
-                                enableActionMode();
+                                enableActionMode(sideSlopeList);
                         }
 
                         @Override
                         public void onItemLongClick(int position) {
-                            enableActionMode();
+                            enableActionMode(sideSlopeList);
                         }
                     });
                 });
@@ -136,7 +137,7 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -165,7 +166,7 @@ public class SidewalkSlopeListFragment extends Fragment implements OnEntryClickL
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        sideSlopeAdapter.cancelSelection(recyclerView);
+                        sideSlopeAdapter.cancelSelection(recyclerView, entries, sideSlopeAdapter);
                     sideSlopeAdapter.selectedItems.clear();
                     sideSlopeAdapter.notifyDataSetChanged();
                     delClick = 0;

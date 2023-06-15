@@ -18,7 +18,7 @@ public class BlackboardAnalysis implements StandardMeasurements {
             for (BlackboardEntry board : bList) {
                 irregularBoard = false;
                 String analysis = null;
-                if (board.getRoomID() == roomID)
+                if (board.getRoomID() != null && board.getRoomID() == roomID)
                     analysis = boardText(board);
                 if (analysis != null && analysis.length() > 0)
                     boardList.add(analysis);
@@ -35,7 +35,7 @@ public class BlackboardAnalysis implements StandardMeasurements {
             for (BlackboardEntry board : bList) {
                 irregularBoard = false;
                 String analysis = null;
-                if (board.getCircID() == circID)
+                if (board.getCircID() != null && board.getCircID() == circID)
                     analysis = boardText(board);
                 if (analysis != null && analysis.length() > 0)
                     boardList.add(analysis);

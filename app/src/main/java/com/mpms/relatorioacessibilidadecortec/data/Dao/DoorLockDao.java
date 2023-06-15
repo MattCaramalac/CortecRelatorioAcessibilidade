@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.DoorLockEntry;
 
 import java.util.List;
@@ -42,5 +43,12 @@ public interface DoorLockDao {
 
     @Query("DELETE FROM DoorLockEntry WHERE doorID == :doorID")
     void deleteAllDoorLocksFromDoor(int doorID);
+
+    //    Listenable
+    @Query("SELECT * FROM DoorLockEntry WHERE doorID IN (:doorID)")
+    ListenableFuture<List<DoorLockEntry>> getListAllLocksFromDoor(List<Integer> doorID);
+
+    @Query("SELECT * FROM DoorLockEntry WHERE extAccessID IN (:extID)")
+    ListenableFuture<List<DoorLockEntry>> getListAllLocksFromGates(List<Integer> extID);
 }
 

@@ -29,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class RampStairsFlightListFrag extends Fragment implements OnEntryClickListener, TagInterface {
@@ -85,7 +86,7 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
                     dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
                     recyclerView.addItemDecoration(dividerItemDecoration);
 
-                    flightAdapter.setListener(listener());
+                    flightAdapter.setListener(listener(flightList));
                 });
 
         addFlights.setOnClickListener(v -> {
@@ -139,24 +140,24 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
         modelEntry = new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication()).create(ViewModelEntry.class);
     }
 
-    private ListClickListener listener() {
+    private <T> ListClickListener listener(List<T> entries) {
         return new ListClickListener() {
             @Override
             public void onItemClick(int position) {
                 if (actionMode == null)
                     OnEntryClick(position);
                 else
-                    enableActionMode();
+                    enableActionMode(entries);
             }
 
             @Override
             public void onItemLongClick(int position) {
-                enableActionMode();
+                enableActionMode(entries);
             }
         };
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -185,7 +186,7 @@ public class RampStairsFlightListFrag extends Fragment implements OnEntryClickLi
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        flightAdapter.cancelSelection(recyclerView);
+                        flightAdapter.cancelSelection(recyclerView, entries, flightAdapter);
                     flightAdapter.selectedItems.clear();
                     flightAdapter.notifyDataSetChanged();
                     delClick = 0;

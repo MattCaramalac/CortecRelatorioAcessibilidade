@@ -33,7 +33,10 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/school_name_value"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:maxLines="@integer/weight_one"
+                android:scrollHorizontally="true"
+                android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,7 +53,10 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/school_address_value"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:maxLines="@integer/weight_one"
+                android:scrollHorizontally="true"
+                android:inputType="text"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,7 +190,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/first_telephone_name_value"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:maxLines="@integer/weight_one"
+                    android:scrollHorizontally="true"
+                    android:inputType="text"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -229,7 +238,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/second_telephone_name_value"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:maxLines="@integer/weight_one"
+                    android:scrollHorizontally="true"
+                    android:inputType="text"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -256,7 +268,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/first_responsible_value"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:maxLines="@integer/weight_one"
+                    android:scrollHorizontally="true"
+                    android:inputType="text"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -272,7 +287,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/first_job_description_value"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:maxLines="@integer/weight_one"
+                    android:scrollHorizontally="true"
+                    android:inputType="text"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -299,7 +317,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/second_responsible_value"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:maxLines="@integer/weight_one"
+                    android:scrollHorizontally="true"
+                    android:inputType="text"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -315,7 +336,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/second_job_description_value"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:maxLines="@integer/weight_one"
+                    android:scrollHorizontally="true"
+                    android:inputType="text"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

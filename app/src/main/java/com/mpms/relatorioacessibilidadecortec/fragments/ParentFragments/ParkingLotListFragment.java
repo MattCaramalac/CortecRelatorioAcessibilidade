@@ -29,6 +29,7 @@ import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ParkingLotListFragment extends Fragment implements OnEntryClickListener, TagInterface {
@@ -80,13 +81,13 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
             modelEntry.getParkingLotFromSide(parkListBundle.getInt(BLOCK_ID), parkListBundle.getInt(AMBIENT_ID))
                     .observe(getViewLifecycleOwner(), parkingLot -> {
                         parkingAdapter = new ParkingRecViewAdapter(parkingLot, requireActivity(), this);
-                        listCreator(parkingAdapter);
+                        listCreator(parkingAdapter, parkingLot);
                     });
         else
             modelEntry.getParkingLotsFromBlocks(parkListBundle.getInt(BLOCK_ID))
                     .observe(getViewLifecycleOwner(), parkingLot -> {
                         parkingAdapter = new ParkingRecViewAdapter(parkingLot, requireActivity(), this);
-                        listCreator(parkingAdapter);
+                        listCreator(parkingAdapter, parkingLot);
                     });
 
         addParkingLot.setOnClickListener(v -> openParkingLotFragment());
@@ -129,8 +130,8 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
         dataView = new ViewModelProvider(requireActivity()).get(InspectionViewModel.class);
     }
 
-    private void listCreator(ParkingRecViewAdapter adapter) {
-        adapter.setListener(clickListener());
+    private <T> void listCreator(ParkingRecViewAdapter adapter, List<T> entries) {
+        adapter.setListener(clickListener(entries));
 
         recyclerView.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -138,24 +139,24 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
 
-    private ListClickListener clickListener() {
+    private <T> ListClickListener clickListener(List<T> entries) {
         return new ListClickListener() {
             @Override
             public void onItemClick(int position) {
                 if (actionMode == null)
                     OnEntryClick(position);
                 else
-                    enableActionMode();
+                    enableActionMode(entries);
             }
 
             @Override
             public void onItemLongClick(int position) {
-                enableActionMode();
+                enableActionMode(entries);
             }
         };
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -184,7 +185,7 @@ public class ParkingLotListFragment extends Fragment implements OnEntryClickList
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        parkingAdapter.cancelSelection(recyclerView);
+                        parkingAdapter.cancelSelection(recyclerView, entries, parkingAdapter);
                     parkingAdapter.selectedItems.clear();
                     parkingAdapter.notifyDataSetChanged();
                     delClick = 0;

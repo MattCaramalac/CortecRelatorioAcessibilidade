@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.CirculationEntry;
 
 import java.util.List;
@@ -39,4 +40,14 @@ public interface CirculationDao {
 
     @Query("DELETE FROM CirculationEntry WHERE schoolID == :schoolID")
     void deleteAllCirculations(int schoolID);
+
+//    Listenable
+
+    @Query("SELECT * FROM CirculationEntry WHERE schoolID == :schoolID ORDER BY circID DESC")
+    ListenableFuture<List<CirculationEntry>> getListAllCirculation(int schoolID);
+
+    @Query("SELECT circID FROM CirculationEntry WHERE schoolID == :schoolID ORDER BY circID DESC")
+    ListenableFuture<List<Integer>> getListAllCircID(int schoolID);
+
+
 }

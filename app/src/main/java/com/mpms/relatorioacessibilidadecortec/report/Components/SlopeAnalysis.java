@@ -18,7 +18,26 @@ public class SlopeAnalysis implements StandardMeasurements {
             for (SlopeEntry slope : sList) {
                 irregularSlope = false;
                 String analysis = null;
-                if (slope.getCircID() == circID)
+                if (slope.getCircID() != null && slope.getCircID() == circID)
+                    analysis = slopeText(slope);
+                if (analysis != null && analysis.length() > 0) {
+                    String analysis2 = analysis.trim();
+                    slopeList.add(analysis2.concat(";"));
+                }
+            }
+        }
+        return slopeList;
+    }
+
+    public static List<String> roomSlopeList (int roomID, List<SlopeEntry> sList) {
+
+        List<String> slopeList = new ArrayList<>();
+
+        if (sList.size() > 0) {
+            for (SlopeEntry slope : sList) {
+                irregularSlope = false;
+                String analysis = null;
+                if (slope.getRoomID() != null && slope.getRoomID() == roomID)
                     analysis = slopeText(slope);
                 if (analysis != null && analysis.length() > 0) {
                     String analysis2 = analysis.trim();

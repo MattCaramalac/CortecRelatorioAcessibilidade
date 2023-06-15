@@ -12,13 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-import com.mpms.relatorioacessibilidadecortec.util.DeleteInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.ViewHolderInterface;
 
 import java.util.List;
 
-public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterface.ListViewHolder> implements DeleteInterface, ViewHolderInterface {
+public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterface.ListViewHolder> implements ViewHolderInterface {
 
     private List<ExternalAccess> extAccessList;
     private Context context;
@@ -56,14 +55,14 @@ public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfa
 
             holder.itemView.setOnClickListener(v -> {
                 if (selectedItems.size() > 0) {
-                    toggleSelection(holder, position);
+                    toggleSelection(this, position);
                 }
                 listener.onItemClick(position);
             });
 
             holder.itemView.setOnLongClickListener(v -> {
                 if (listener != null) {
-                    toggleSelection(holder, position);
+                    toggleSelection(this, position);
                     listener.onItemLongClick(position);
                 }
                 return true;
@@ -85,26 +84,6 @@ public class ExtAccRecViewAdapter extends RecyclerView.Adapter<ViewHolderInterfa
 
     public String extAccessNumber(int i) {
         return "Entrada Externa nº "+i;
-    }
-
-    @Override
-    public void toggleSelection(ListViewHolder holder, int position) {
-        if (selectedItems.get(position)) {
-            selectedItems.delete(position);
-        } else {
-            selectedItems.put(position, true);
-        }
-        notifyItemChanged(position);
-    }
-
-    @Override
-    public void cancelSelection(RecyclerView recyclerView) {
-        int listSize = extAccessList.size();
-        for (int i = 0; i < listSize; i++) {
-            ListViewHolder holder = (ListViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-            holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
-            notifyItemChanged(i);
-        }
     }
 
     @Override

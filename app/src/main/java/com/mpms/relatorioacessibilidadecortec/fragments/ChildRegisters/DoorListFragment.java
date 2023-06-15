@@ -98,19 +98,19 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
         doorListBundle.putInt(DOOR_ID, 0);
     }
 
-    private ListClickListener clickListener() {
+    private <T> ListClickListener clickListener(List<T> entries) {
         return new ListClickListener() {
             @Override
             public void onItemClick(int position) {
                 if (actionMode == null)
                     OnEntryClick(position);
                 else
-                    enableActionMode();
+                    enableActionMode(entries);
             }
 
             @Override
             public void onItemLongClick(int position) {
-                enableActionMode();
+                enableActionMode(entries);
             }
         };
     }
@@ -121,10 +121,10 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
         recyclerView.addItemDecoration(dividerItemDecoration);
-        doorAdapter.setListener(clickListener());
+        doorAdapter.setListener(clickListener(list));
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -153,7 +153,7 @@ public class DoorListFragment extends Fragment implements OnEntryClickListener, 
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        doorAdapter.cancelSelection(recyclerView);
+                        doorAdapter.cancelSelection(recyclerView, entries, doorAdapter);
                     doorAdapter.selectedItems.clear();
                     doorAdapter.notifyDataSetChanged();
                     delClick = 0;

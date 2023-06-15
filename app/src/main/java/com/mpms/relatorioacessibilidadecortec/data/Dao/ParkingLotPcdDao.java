@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ParkingLotPCDEntry;
 
 import java.util.List;
@@ -30,5 +31,9 @@ public interface ParkingLotPcdDao {
 
     @Query("DELETE FROM ParkingLotPCDEntry WHERE parkPcdID == :parkingLotID")
     void deleteOnePcdParkingLot(int parkingLotID);
+
+    //    Listenable
+    @Query("SELECT * FROM ParkingLotPCDEntry WHERE parkID IN (:parkingLotID)")
+    ListenableFuture<List<ParkingLotPCDEntry>> getListAllPcdVacancies(List<Integer> parkingLotID);
 
 }

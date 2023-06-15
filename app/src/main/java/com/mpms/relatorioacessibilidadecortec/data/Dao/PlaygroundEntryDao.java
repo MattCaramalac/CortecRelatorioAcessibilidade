@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PlaygroundEntry;
 
 import java.util.List;
@@ -33,4 +34,8 @@ public interface PlaygroundEntryDao {
 
     @Query("DELETE FROM PlaygroundEntry WHERE blockID == :blockID")
     void deleteAllPlaygroundsFromBlock(int blockID);
+
+    //    Listenable
+    @Query("SELECT * FROM PlaygroundEntry WHERE blockID IN (:blockID)")
+    ListenableFuture<List<PlaygroundEntry>> getListAllPlaygrounds(List<Integer> blockID);
 }

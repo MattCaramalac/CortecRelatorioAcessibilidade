@@ -102,27 +102,27 @@ public class PoolBenchListFragment extends Fragment implements OnEntryClickListe
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireActivity(), R.drawable.abc_list_divider_material)));
         recyclerView.addItemDecoration(dividerItemDecoration);
-        benchAdapter.setListener(clickListener());
+        benchAdapter.setListener(clickListener(list));
     }
 
-    private ListClickListener clickListener() {
+    private <T> ListClickListener clickListener(List<T> entries) {
         return new ListClickListener() {
             @Override
             public void onItemClick(int position) {
                 if (actionMode == null)
                     OnEntryClick(position);
                 else
-                    enableActionMode();
+                    enableActionMode(entries);
             }
 
             @Override
             public void onItemLongClick(int position) {
-                enableActionMode();
+                enableActionMode(entries);
             }
         };
     }
 
-    private void enableActionMode() {
+    private <T> void enableActionMode(List<T> entries) {
         if (actionMode == null) {
             AppCompatActivity activity = (AppCompatActivity) requireActivity();
             actionMode = activity.startSupportActionMode(new ActionMode.Callback() {
@@ -151,7 +151,7 @@ public class PoolBenchListFragment extends Fragment implements OnEntryClickListe
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
                     if (delClick == 0)
-                        benchAdapter.cancelSelection(recyclerView);
+                        benchAdapter.cancelSelection(recyclerView, entries, benchAdapter);
                     benchAdapter.selectedItems.clear();
                     benchAdapter.notifyDataSetChanged();
                     delClick = 0;

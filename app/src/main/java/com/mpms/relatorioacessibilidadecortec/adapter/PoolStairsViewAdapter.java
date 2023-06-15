@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.data.entities.PoolStairsEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
-import com.mpms.relatorioacessibilidadecortec.util.DeleteInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ListClickListener;
 import com.mpms.relatorioacessibilidadecortec.util.ViewHolderInterface;
 
@@ -20,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class PoolStairsViewAdapter extends RecyclerView.Adapter<ViewHolderInterface.ListViewHolder> implements DeleteInterface, ViewHolderInterface {
+public class PoolStairsViewAdapter extends RecyclerView.Adapter<ViewHolderInterface.ListViewHolder> implements ViewHolderInterface {
 
     private ListClickListener listener;
     private List<PoolStairsEntry> poolStairsList;
@@ -54,14 +53,14 @@ public class PoolStairsViewAdapter extends RecyclerView.Adapter<ViewHolderInterf
 
             holder.itemView.setOnClickListener(v -> {
                 if (selectedItems.size() > 0) {
-                    toggleSelection(holder, position);
+                    toggleSelection(this, position);
                 }
                 listener.onItemClick(position);
             });
 
             holder.itemView.setOnLongClickListener(v -> {
                 if (listener != null) {
-                    toggleSelection(holder, position);
+                    toggleSelection(this, position);
                     listener.onItemLongClick(position);
                 }
                 return true;
@@ -87,25 +86,6 @@ public class PoolStairsViewAdapter extends RecyclerView.Adapter<ViewHolderInterf
         int listSize = selectedItems.size();
         for (int i = 0; i < listSize; i++) {
             ViewModelEntry.deletePoolStairs(poolStairsList.get(selectedItems.keyAt(i)).getPoolID());
-        }
-    }
-
-    @Override
-    public void toggleSelection(ListViewHolder holder, int position) {
-        if (selectedItems.get(position))
-            selectedItems.delete(position);
-        else
-            selectedItems.put(position, true);
-        notifyItemChanged(position);
-    }
-
-    @Override
-    public void cancelSelection(RecyclerView recyclerView) {
-        int listSize = poolStairsList.size();
-        for (int i = 0; i < listSize; i++) {
-            ListViewHolder holder = (ListViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-            holder.background.setBackgroundColor(Color.rgb(255, 255, 255));
-            notifyItemChanged(i);
         }
     }
 
