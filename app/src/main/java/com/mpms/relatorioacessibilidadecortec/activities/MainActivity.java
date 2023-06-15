@@ -1035,10 +1035,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
                 upText.setJsonCreation(jCreate, blockList);
                 upText.newFileName();
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-                    ListenableFuture<?> future = service.submit(() -> {
-                        handler.post(() -> upText.fillDocFields(tData, fileUri, getApplicationContext()));
-                    });
-
+                    ListenableFuture<?> future = service.submit(() -> upText.fillDocFields(tData, fileUri, getApplication()));
                     Futures.addCallback(future, sendReport, service);
                 } else {
                     filePath = upText.filePath;
@@ -1126,10 +1123,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
 
         fillCreatedDocxFile = registerForActivityResult(new CreateDocumentDaex(), result -> {
             fileUri = result;
-            ListenableFuture<?> future = service.submit(() -> {
-                handler.post(() -> upText.fillDocFields(tData, fileUri, getApplicationContext()));
-            });
-
+            ListenableFuture<?> future = service.submit(() -> upText.fillDocFields(tData, fileUri, getApplicationContext()));
             Futures.addCallback(future, sendReport, service);
         });
 

@@ -22,7 +22,6 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.SchoolRegisterActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolEntry;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SchoolRegisterThree;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
@@ -59,6 +58,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
     ArrayList<TextInputEditText> eText = new ArrayList<>();
 
     int defaultColor;
+    int sentReport = 0;
 
     static Bundle bundleFragThree = new Bundle();
 
@@ -282,6 +282,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         workersLibrasDescriptionValue.setText(school.getWorkersLibrasDescriptions());
         initialDateInspectionValue.setText(school.getInitialDateInspection());
         finalDateInspectionValue.setText(school.getFinalDateInspection());
+        sentReport = school.getReportSent();
     }
 
     private void showDatePicker(View view) {
@@ -339,7 +340,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
     private SchoolRegisterThree updateRegisterThree(Bundle bundle) {
         Integer totalLibrasEmployees = null, youngestStudent = null, youngestMonthYear = null, oldestStudent = null, oldestMonthYear = null, totalStudents = null,
                 totalPcdStudents = null, totalEmployees = null, totalPcdEmployees = null, hasLibrasEmployees = null;
-        int update = 0, reportSent = 0;
+        int update = 0;
         String studentsPcdDescription = null, employeesPcdDescription = null, librasDescriptions = null, initialDateInspection = null, finalDateInspection = null,
                 registerObs = null;
 
@@ -380,11 +381,10 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
         if (bundle.getBoolean(DATA_COMPLETE))
             update = 1;
 
-//        TODO - Adicionar verificador de envio de relatório
 
         return new SchoolRegisterThree(bundle.getInt(SCHOOL_ID), youngestStudent, youngestMonthYear, oldestStudent, oldestMonthYear, totalStudents, totalPcdStudents,
                 studentsPcdDescription, totalEmployees, totalPcdEmployees, employeesPcdDescription, hasLibrasEmployees, totalLibrasEmployees, librasDescriptions,
-                initialDateInspection, finalDateInspection, registerObs, update, reportSent);
+                initialDateInspection, finalDateInspection, registerObs, update, sentReport);
     }
 
     @Override
