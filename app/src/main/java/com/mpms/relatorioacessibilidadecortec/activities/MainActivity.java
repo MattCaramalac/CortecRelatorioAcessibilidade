@@ -1079,6 +1079,10 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
         public void onFailure(Throwable t) {
             Log.e("Callback Report", t.toString(), t);
             showProgress(false);
+            blockDataQueries.clear();
+            intParkQnt = 0;
+            extParkQnt = 0;
+            schoolID = 0;
             Toast.makeText(getApplicationContext(), getString(R.string.unexpected_error), Toast.LENGTH_SHORT).show();
         }
     };
@@ -1143,6 +1147,7 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
     @Override
     protected void onRestart() {
         if (endRegister == 1) {
+            ViewModelEntry.updateReportSent(schoolID);
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
