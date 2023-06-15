@@ -1,6 +1,10 @@
 package com.mpms.relatorioacessibilidadecortec.util;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Color;
+import android.os.Handler;
 import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +42,8 @@ public interface ViewHolderInterface {
         public TextView textInfoTwo;
         public ImageView check;
         public ImageButton options;
-        public AnimationScroller scroller;
+//        public AnimationScroller scroller;
+        public ObjectScroller obScroller;
 
         public MainListViewHolder(@NonNull View itemView, OnEntryClickListener entryClickListener, OnPopupClickListener popupListener) {
             super(itemView);
@@ -113,51 +118,58 @@ public interface ViewHolderInterface {
         }
     }
 
+
+
     void setListener(ListClickListener listener);
     void deleteItemList();
 
-    class AnimationScroller {
-        Animation animation;
+    class ObjectScroller {
+        ObjectAnimator animator;
         TextView scrollText;
-        long duration = 15000;
+        long duration = 7500;
+        long delay = 2500;
 
-        //        TODO - Corrigir o tanto que o texto dá scroll até somente terminar o texto em questão
-        public AnimationScroller(TextView scroll, int itemWidth, int viewWidth) {
+        public ObjectScroller(TextView scroll, int itemWidth, int viewWidth) {
             this.scrollText = scroll;
-            this.animation = new TranslateAnimation(0, viewWidth-itemWidth,
-                    0,  0);
-            this.animation.setStartOffset(1000);
-            this.animation.setInterpolator(new LinearInterpolator());
-            this.animation.setDuration(this.duration);
-            this.animation.setFillAfter(true);
-            this.animation.setRepeatMode(Animation.RESTART);
-            this.animation.setRepeatCount(Animation.INFINITE);
+            animator = ObjectAnimator.ofFloat(scrollText, "translationX", viewWidth-(itemWidth + 50));
+            animator.setStartDelay(delay);
+            animator.setInterpolator(new LinearInterpolator());
+            animator.setDuration(duration);
+            animator.setRepeatMode(ValueAnimator.RESTART);
+            animator.setRepeatCount(ValueAnimator.INFINITE);
         }
 
-        public void setDuration(long duration) {
-            this.duration = duration;
+        public void startObjectScroll() {
+            animator.addListener(new DelayAnimation(delay));
+            animator.start();
+        }
+    }
+
+    class DelayAnimation implements Animator.AnimatorListener {
+        private long delayMillis;
+
+        public DelayAnimation(long delayMillis) {
+            this.delayMillis = delayMillis;
         }
 
-        public void setScrollText(String text) {
-            this.scrollText.setText(text);
+        @Override
+        public void onAnimationStart(Animator animation) {
         }
 
-        public void startScroll() {
-            this.scrollText.setSelected(true);
-            this.scrollText.startAnimation(this.animation);
+        @Override
+        public void onAnimationEnd(Animator animation) {
+
         }
 
-        public void setAnimationListener() {
+        @Override
+        public void onAnimationCancel(Animator animation) {
 
-            animation.setAnimationListener(new Animation.AnimationListener() {
-                public void onAnimationStart(Animation animation) {
-                }
-                public void onAnimationEnd(Animation animation) {
-                    // This callback function can be used to perform any task at the end of the Animation
-                }
-                public void onAnimationRepeat(Animation animation) {
-                }
-            });
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+            animation.pause();
+            new Handler().postDelayed(animation::resume, delayMillis);
         }
     }
 }

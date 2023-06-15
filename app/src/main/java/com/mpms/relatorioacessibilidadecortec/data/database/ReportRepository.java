@@ -1169,6 +1169,10 @@ public class ReportRepository {
         ReportDatabase.dbWriteExecutor.execute(schoolEntryDao::deleteAll);
     }
 
+    public void updateReportSent(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> schoolEntryDao.updateReportSent(schoolID));
+    }
+
     public void insertBlackboard(BlackboardEntry blackboard) {
         ReportDatabase.dbWriteExecutor.execute(() -> blackboardEntryDao.insertBlackboard(blackboard));
     }

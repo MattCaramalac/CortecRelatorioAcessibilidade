@@ -51,7 +51,12 @@ public interface SchoolEntryDao {
     @Query("DELETE FROM SchoolEntry")
     void deleteAll();
 
+    @Query("UPDATE SchoolEntry SET reportSent = 1 WHERE cadID == :schoolID")
+    void updateReportSent(int schoolID);
+
     //    Listenable
     @Query("SELECT * FROM SchoolEntry WHERE cadID == :cadID")
     ListenableFuture<SchoolEntry> getListenableSchool(int cadID);
+
+
 }

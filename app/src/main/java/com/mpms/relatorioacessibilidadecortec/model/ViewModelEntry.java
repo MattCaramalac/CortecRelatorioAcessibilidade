@@ -153,6 +153,10 @@ public class ViewModelEntry extends AndroidViewModel {
         repository.deleteAllEntries();
     }
 
+    public static void updateReportSent(int schoolID) {
+        ReportDatabase.dbWriteExecutor.execute(() -> repository.updateReportSent(schoolID));
+    }
+
     public static void insertWaterFountain(WaterFountainEntry waterFountainEntry) {
         repository.insertWaterFountain(waterFountainEntry);
     }

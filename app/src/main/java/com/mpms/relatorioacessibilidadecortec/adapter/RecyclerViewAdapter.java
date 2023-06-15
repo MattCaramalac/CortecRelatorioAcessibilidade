@@ -6,7 +6,7 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.ViewTreeObserver;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,7 +47,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
     public void onBindViewHolder(@NonNull ViewHolderInterface.MainListViewHolder holder, int position) {
         SchoolEntry schoolEntry = schoolEntryList.get(position);
         holder.textInfoOne.setText(schoolEntry.getSchoolName());
-        textMeasurements(holder.textInfoOne, holder);
         holder.textInfoTwo.setText(schoolEntry.getNameCity());
         if (schoolEntry.getReportSent() == 1)
             holder.check.setVisibility(View.VISIBLE);
@@ -72,23 +71,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
             return true;
         });
 
-    }
+        this.beforeDraw(holder.textInfoOne, () -> {
+            Paint textPaint = holder.textInfoOne.getPaint();
+            String text = holder.textInfoOne.getText().toString();
+            int itemWidth = Math.round(textPaint.measureText(text));
 
-    private void textMeasurements(TextView view, ViewHolderInterface.MainListViewHolder holder) {
+            int viewWidth = holder.scrollText.getWidth();
 
-        Paint textPaint = view.getPaint();
-        String text = view.getText().toString();
-        int itemWidth = Math.round(textPaint.measureText(text));
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.width = itemWidth;
-        view.setLayoutParams(params);
+            if (itemWidth > viewWidth) {
+                holder.obScroller = new ObjectScroller(holder.textInfoOne, itemWidth,viewWidth);
+                holder.obScroller.startObjectScroll();
+            }
+        });
 
-        int viewWidth = view.getWidth();
-
-        if (itemWidth > viewWidth) {
-            holder.scroller = new AnimationScroller(view, itemWidth,viewWidth);
-            holder.scroller.startScroll();
-        }
     }
 
     @Override
@@ -107,6 +102,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<ViewHolderInterfac
     @Override
     public void setListener(ListClickListener listener) {
         this.listener = listener;
+    }
+
+    public void beforeDraw(View view, Runnable runnable) {
+        ViewTreeObserver.OnPreDrawListener preDraw = new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                view.getViewTreeObserver().removeOnPreDrawListener(this);
+                runnable.run();
+                return true;
+            }
+        };
+        view.getViewTreeObserver().addOnPreDrawListener(preDraw);
     }
 
 }
