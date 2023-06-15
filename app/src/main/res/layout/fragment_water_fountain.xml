@@ -186,7 +186,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:textStyle="bold"
             android:layout_marginStart="@dimen/top_margins"
-            android:text="@string/label_button_cancel"
+            android:text="@string/label_back_button"
             />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

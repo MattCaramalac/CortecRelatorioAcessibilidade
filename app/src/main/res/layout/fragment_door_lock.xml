@@ -19,7 +19,7 @@
         android:id="@+id/door_lock_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
         app:layout_constraintTop_toBottomOf="@id/door_lock_register_header"
         android:layout_marginTop="@dimen/usual_padding">
 

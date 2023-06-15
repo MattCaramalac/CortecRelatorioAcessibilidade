@@ -20,7 +20,7 @@
         android:id="@+id/counter_scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="@dimen/scroll_dimens_big"
+        app:layout_constraintHeight_percent="@dimen/scroll_dimens_medium"
         android:layout_below="@id/counter_register_header"
         android:layout_marginTop="@dimen/usual_padding"
         app:layout_constraintTop_toBottomOf="@id/counter_register_header">
@@ -188,7 +188,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/top_margins"
-        android:text="@string/label_button_cancel"
+        android:text="@string/label_back_button"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/save_counter_button"
         app:layout_constraintStart_toStartOf="parent" />
