@@ -45,6 +45,6 @@ public interface BlackboardEntryDao {
     @Query("SELECT * FROM BlackboardEntry WHERE roomID IN (:roomID)")
     ListenableFuture<List<BlackboardEntry>> getListAllBlackboards(List<Integer> roomID);
 
-    @Query("SELECT * FROM BlackboardEntry WHERE roomID IN (:circID)")
+    @Query("SELECT * FROM BlackboardEntry WHERE circID IN (:circID)")
     ListenableFuture<List<BlackboardEntry>> getListAllCircBlackboards(List<Integer> circID);
 }

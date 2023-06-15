@@ -50,7 +50,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             horHandleLengthValue, horHandleFrameDistValue, horHandleDiamValue, horHandleDoorDistValue, horHandleObsValue, winInfHeightValue, winSupHeightValue,
             winWidthValue, winObsValue, doorSillObsValue, doorObsValue, photoValue;
     TextView doorTypeHeader, doorTypeError, hasPictHeader, hasPictError, opDirHeader, opDirError, handleTypeError, doorLockError, horHandleError, doorWinHeader, doorWinError,
-             addDoorLockHeader, doorSillError, labelDoorLock;
+             addDoorLockHeader, doorSillError, labelDoorLock, horHandleHeader;
     RadioGroup doorTypeRadio, hasPictRadio, doorOpRadio, doorHandleTypeRadio, hasDoorLockRadio, hasHorHandleRadio, hasWindowRadio, doorSillRadio;
     MultiLineRadioGroup doorSillMultiRadio;
     MaterialButton addDoorLockButton, saveDoorButton, cancelDoorButton;
@@ -175,13 +175,6 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         }
     }
 
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        if (!doorBundle.getBoolean(FROM_REST) && !doorBundle.getBoolean(FROM_BOX) && !doorBundle.getBoolean(FROM_COLLECTIVE) && doorBundle.getInt(CIRC_ID) == 0)
-//            RoomsRegisterFragment.roomModelFragments.setNewChildRegID(null);
-//    }
-
     private void instantiateDoorViews(View view) {
 //        TextInputLayout
         doorLocaleField = view.findViewById(R.id.door_placement_field);
@@ -201,7 +194,6 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         winSupHeightField = view.findViewById(R.id.door_window_sup_height_field);
         winWidthField = view.findViewById(R.id.door_window_width_field);
         winObsField = view.findViewById(R.id.door_window_obs_field);
-
         doorSillObsField = view.findViewById(R.id.door_sill_obs_field);
         doorObsField = view.findViewById(R.id.door_obs_field);
         photoField = view.findViewById(R.id.door_photos_field);
@@ -223,7 +215,6 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         winSupHeightValue = view.findViewById(R.id.door_window_sup_height_value);
         winWidthValue = view.findViewById(R.id.door_window_width_value);
         winObsValue = view.findViewById(R.id.door_window_obs_value);
-
         doorSillObsValue = view.findViewById(R.id.door_sill_obs_value);
         doorObsValue = view.findViewById(R.id.door_obs_value);
         photoValue = view.findViewById(R.id.door_photos_value);
@@ -234,12 +225,12 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         hasPictError = view.findViewById(R.id.door_sia_error);
         opDirHeader = view.findViewById(R.id.door_opening_direction_header);
         opDirError = view.findViewById(R.id.door_opening_direction_error);
+        horHandleHeader = view.findViewById(R.id.label_hor_handle);
         horHandleError = view.findViewById(R.id.door_horizontal_handle_error);
         doorWinHeader = view.findViewById(R.id.label_door_has_window);
         doorWinError = view.findViewById(R.id.door_has_window_error);
         handleTypeError = view.findViewById(R.id.door_handle_type_error);
         doorLockError = view.findViewById(R.id.door_lock_error);
-
         addDoorLockHeader = view.findViewById(R.id.label_door_lock_register);
         doorSillError = view.findViewById(R.id.door_sill_type_error);
         labelDoorLock = view.findViewById(R.id.label_door_locks);
@@ -252,7 +243,6 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         doorSillRadio = view.findViewById(R.id.door_sill_radio);
         doorHandleTypeRadio = view.findViewById(R.id.door_handle_type_radio);
         hasDoorLockRadio = view.findViewById(R.id.door_lock_radio);
-
 //        MultilineRadioGroup
         doorSillMultiRadio = view.findViewById(R.id.door_sill_multiradio);
 //        MaterialButton
@@ -298,8 +288,10 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             doorOpRadio.setVisibility(View.GONE);
             doorOpObsField.setVisibility(View.GONE);
             doorSillRadio.setVisibility(View.GONE);
+            horHandleHeader.setVisibility(View.GONE);
+            hasHorHandleRadio.setVisibility(View.GONE);
+            horHandleObsField.setVisibility(View.GONE);
             addDoorLockButton.setOnClickListener(v -> doorButtonClickListener(doorBundle, v));
-
         }
     }
 
@@ -368,7 +360,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
                             Toast.makeText(getContext(), getString(R.string.register_created_message), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(getContext(), getString(R.string.register_updated_message), Toast.LENGTH_SHORT).show();
-                            requireActivity().getSupportFragmentManager().popBackStack(ROOM_OBJ_LIST, 0);
+                            requireActivity().getSupportFragmentManager().popBackStackImmediate();
                         }
                     } else
                         Toast.makeText(getContext(), getString(R.string.empty_fields), Toast.LENGTH_SHORT).show();
@@ -472,33 +464,32 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             handleHeightField.setError(getString(R.string.req_field_error));
         }
 
-        if (indexRadio(hasHorHandleRadio) == -1) {
-            i++;
-            horHandleError.setVisibility(View.VISIBLE);
-        } else if (indexRadio(hasHorHandleRadio) == 1) {
-            if (TextUtils.isEmpty(horHandleHeightValue.getText())) {
-                i++;
-                horHandleHeightField.setError(getString(R.string.req_field_error));
-            }
-            if (TextUtils.isEmpty(horHandleLengthValue.getText())) {
-                i++;
-                horHandleLengthField.setError(getString(R.string.req_field_error));
-            }
-            if (TextUtils.isEmpty(horHandleFrameDistValue.getText())) {
-                i++;
-                horHandleFrameDistField.setError(getString(R.string.req_field_error));
-            }
-            if (TextUtils.isEmpty(horHandleDiamValue.getText())) {
-                i++;
-                horHandleDiamField.setError(getString(R.string.req_field_error));
-            }
-            if (TextUtils.isEmpty(horHandleDoorDistValue.getText())) {
-                i++;
-                horHandleDoorDistField.setError(getString(R.string.req_field_error));
-            }
-        }
-
         if (doorBundle.getBoolean(FROM_REST) || doorBundle.getBoolean(FROM_BOX)) {
+            if (indexRadio(hasHorHandleRadio) == -1) {
+                i++;
+                horHandleError.setVisibility(View.VISIBLE);
+            } else if (indexRadio(hasHorHandleRadio) == 1) {
+                if (TextUtils.isEmpty(horHandleHeightValue.getText())) {
+                    i++;
+                    horHandleHeightField.setError(getString(R.string.req_field_error));
+                }
+                if (TextUtils.isEmpty(horHandleLengthValue.getText())) {
+                    i++;
+                    horHandleLengthField.setError(getString(R.string.req_field_error));
+                }
+                if (TextUtils.isEmpty(horHandleFrameDistValue.getText())) {
+                    i++;
+                    horHandleFrameDistField.setError(getString(R.string.req_field_error));
+                }
+                if (TextUtils.isEmpty(horHandleDiamValue.getText())) {
+                    i++;
+                    horHandleDiamField.setError(getString(R.string.req_field_error));
+                }
+                if (TextUtils.isEmpty(horHandleDoorDistValue.getText())) {
+                    i++;
+                    horHandleDoorDistField.setError(getString(R.string.req_field_error));
+                }
+            }
             if (indexRadio(hasPictRadio) == -1) {
                 i++;
                 hasPictError.setVisibility(View.VISIBLE);
@@ -597,23 +588,7 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             handleObsValue.setText(door.getDoorHandleObs());
         if (door.getDoorHasLocks() != null && door.getDoorHasLocks() > -1)
             checkRadioGroup(hasDoorLockRadio, door.getDoorHasLocks());
-        if (door.getDoorHasHorBar() != null && door.getDoorHasHorBar() > -1) {
-            checkRadioGroup(hasHorHandleRadio, door.getDoorHasHorBar());
-            if (door.getDoorHasHorBar() == 1) {
-                if (door.getHorBarHeight() != null)
-                    horHandleHeightValue.setText(String.valueOf(door.getHorBarHeight()));
-                if (door.getHorBarLength() != null)
-                    horHandleLengthValue.setText(String.valueOf(door.getHorBarLength()));
-                if (door.getHorBarFrameDist() != null)
-                    horHandleFrameDistValue.setText(String.valueOf(door.getHorBarFrameDist()));
-                if (door.getHorBarDiam() != null)
-                    horHandleDiamValue.setText(String.valueOf(door.getHorBarDiam()));
-                if (door.getHorBarDoorDist() != null)
-                    horHandleDoorDistValue.setText(String.valueOf(door.getHorBarDoorDist()));
-            }
-        }
-        if (door.getHorBarObs() != null)
-            horHandleObsValue.setText(door.getHorBarObs());
+
 
         if (door.getDoorHasWindow() != null && door.getDoorHasWindow() > -1) {
             checkRadioGroup(hasWindowRadio, door.getDoorHasWindow());
@@ -629,13 +604,36 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         if (door.getDoorWinObs() != null)
             winObsValue.setText(door.getDoorWinObs());
 
-        if ((doorBundle.getBoolean(FROM_REST) || doorBundle.getBoolean(FROM_BOX)) && door.getDoorSillType() != null && door.getDoorSillType() > -1) {
-            checkRadioGroup(doorSillRadio, door.getDoorSillType());
-        } else if (door.getDoorSillType() != null && door.getDoorSillType() > -1) {
+        if (doorBundle.getBoolean(FROM_REST) || doorBundle.getBoolean(FROM_BOX)) {
+            if (door.getDoorHasHorBar() != null && door.getDoorHasHorBar() > -1) {
+                checkRadioGroup(hasHorHandleRadio, door.getDoorHasHorBar());
+                if (door.getDoorHasHorBar() == 1) {
+                    if (door.getHorBarHeight() != null)
+                        horHandleHeightValue.setText(String.valueOf(door.getHorBarHeight()));
+                    if (door.getHorBarLength() != null)
+                        horHandleLengthValue.setText(String.valueOf(door.getHorBarLength()));
+                    if (door.getHorBarFrameDist() != null)
+                        horHandleFrameDistValue.setText(String.valueOf(door.getHorBarFrameDist()));
+                    if (door.getHorBarDiam() != null)
+                        horHandleDiamValue.setText(String.valueOf(door.getHorBarDiam()));
+                    if (door.getHorBarDoorDist() != null)
+                        horHandleDoorDistValue.setText(String.valueOf(door.getHorBarDoorDist()));
+                }
+            }
+            if (door.getHorBarObs() != null)
+                horHandleObsValue.setText(door.getHorBarObs());
+
+            if (door.getDoorSillType() != null && door.getDoorSillType() > -1)
+                checkRadioGroup(doorSillRadio, door.getDoorSillType());
+
+        }
+
+        if (door.getDoorSillType() != null && door.getDoorSillType() > -1) {
             doorSillMultiRadio.checkAt(door.getDoorSillType());
             if (door.getDoorSillType() > 0)
                 getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, doorBundle);
         }
+
         if (door.getDoorSillObs() != null)
             doorSillObsValue.setText(door.getDoorSillObs());
         if (door.getDoorObs() != null)
@@ -676,26 +674,6 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
         if (!TextUtils.isEmpty(handleObsValue.getText()))
             handleObs = String.valueOf(handleObsValue.getText());
 
-        if (indexRadio(hasHorHandleRadio) != -1) {
-            hasHorBar = indexRadio(hasHorHandleRadio);
-            if (hasHorBar == 1) {
-                if (!TextUtils.isEmpty(horHandleHeightValue.getText()))
-                    horBarHeight = Double.parseDouble(String.valueOf(horHandleHeightValue.getText()));
-                if (!TextUtils.isEmpty(horHandleLengthValue.getText()))
-                    horBarLength = Double.parseDouble(String.valueOf(horHandleLengthValue.getText()));
-                if (!TextUtils.isEmpty(horHandleFrameDistValue.getText()))
-                    horBarFrameDist = Double.parseDouble(String.valueOf(horHandleFrameDistValue.getText()));
-                if (!TextUtils.isEmpty(horHandleDiamValue.getText()))
-                    horBarDiam = Double.parseDouble(String.valueOf(horHandleDiamValue.getText()));
-                if (!TextUtils.isEmpty(horHandleDoorDistValue.getText()))
-                    horBarDoorDist = Double.parseDouble(String.valueOf(horHandleDoorDistValue.getText()));
-            }
-        }
-        if (!TextUtils.isEmpty(horHandleObsValue.getText()))
-            horBarObs = String.valueOf(horHandleObsValue.getText());
-
-
-
         if (!TextUtils.isEmpty(doorSillObsValue.getText()))
             doorSillObs = String.valueOf(doorSillObsValue.getText());
         if (!TextUtils.isEmpty(doorObsValue.getText()))
@@ -704,6 +682,23 @@ public class DoorFragment extends Fragment implements TagInterface, ScrollEditTe
             photos = String.valueOf(photoValue.getText());
 
         if (doorBundle.getBoolean(FROM_REST) || doorBundle.getBoolean(FROM_BOX)) {
+            if (indexRadio(hasHorHandleRadio) != -1) {
+                hasHorBar = indexRadio(hasHorHandleRadio);
+                if (hasHorBar == 1) {
+                    if (!TextUtils.isEmpty(horHandleHeightValue.getText()))
+                        horBarHeight = Double.parseDouble(String.valueOf(horHandleHeightValue.getText()));
+                    if (!TextUtils.isEmpty(horHandleLengthValue.getText()))
+                        horBarLength = Double.parseDouble(String.valueOf(horHandleLengthValue.getText()));
+                    if (!TextUtils.isEmpty(horHandleFrameDistValue.getText()))
+                        horBarFrameDist = Double.parseDouble(String.valueOf(horHandleFrameDistValue.getText()));
+                    if (!TextUtils.isEmpty(horHandleDiamValue.getText()))
+                        horBarDiam = Double.parseDouble(String.valueOf(horHandleDiamValue.getText()));
+                    if (!TextUtils.isEmpty(horHandleDoorDistValue.getText()))
+                        horBarDoorDist = Double.parseDouble(String.valueOf(horHandleDoorDistValue.getText()));
+                }
+            }
+            if (!TextUtils.isEmpty(horHandleObsValue.getText()))
+                horBarObs = String.valueOf(horHandleObsValue.getText());
             if (indexRadio(hasPictRadio) != -1)
                 hasPict = indexRadio(hasPictRadio);
             if (!TextUtils.isEmpty(pictObsValue.getText()))

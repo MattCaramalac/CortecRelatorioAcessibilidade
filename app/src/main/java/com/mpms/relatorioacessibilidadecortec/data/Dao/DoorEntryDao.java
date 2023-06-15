@@ -69,7 +69,7 @@ public interface DoorEntryDao {
     @Query("SELECT * FROM DoorEntry WHERE boxID IN (:boxID)")
     ListenableFuture<List<DoorEntry>> getListAllBoxDoors(List<Integer> boxID);
 
-    @Query("SELECT * FROM DoorEntry WHERE restID IN (:circID)")
+    @Query("SELECT * FROM DoorEntry WHERE circID IN (:circID)")
     ListenableFuture<List<DoorEntry>> getListAllCircDoors(List<Integer> circID);
 
     @Query("SELECT doorID FROM DoorEntry WHERE roomID IN (:roomID)")
@@ -81,6 +81,6 @@ public interface DoorEntryDao {
     @Query("SELECT doorID FROM DoorEntry WHERE boxID IN (:boxID)")
     ListenableFuture<List<Integer>> getListAllBoxDoorsID(List<Integer> boxID);
 
-    @Query("SELECT doorID FROM DoorEntry WHERE restID IN (:circID)")
+    @Query("SELECT doorID FROM DoorEntry WHERE circID IN (:circID)")
     ListenableFuture<List<Integer>> getListAllCircDoorsID(List<Integer> circID);
 }

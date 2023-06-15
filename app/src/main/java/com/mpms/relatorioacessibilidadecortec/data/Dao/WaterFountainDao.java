@@ -54,7 +54,7 @@ public interface WaterFountainDao {
     @Query("SELECT * FROM WaterFountainEntry WHERE roomID IN (:roomID)")
     ListenableFuture<List<WaterFountainEntry>> getListAllRoomWaterFountains(List<Integer> roomID);
 
-    @Query("SELECT * FROM WaterFountainEntry WHERE circID IN (:circID) AND roomID IS NULL")
+    @Query("SELECT * FROM WaterFountainEntry WHERE circID IN (:circID)")
     ListenableFuture<List<WaterFountainEntry>> getListAllCircWaterFountains(List<Integer> circID);
 
 }
