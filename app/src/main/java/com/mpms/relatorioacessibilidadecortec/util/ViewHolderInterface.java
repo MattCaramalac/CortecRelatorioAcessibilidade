@@ -8,9 +8,7 @@ import android.os.Handler;
 import android.util.SparseBooleanArray;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -126,11 +124,15 @@ public interface ViewHolderInterface {
     class ObjectScroller {
         ObjectAnimator animator;
         TextView scrollText;
+        int viewWidth;
+        int itemWidth;
         long duration = 7500;
         long delay = 2500;
 
         public ObjectScroller(TextView scroll, int itemWidth, int viewWidth) {
             this.scrollText = scroll;
+            this.itemWidth = itemWidth;
+            this.viewWidth = viewWidth;
             animator = ObjectAnimator.ofFloat(scrollText, "translationX", viewWidth-(itemWidth + 50));
             animator.setStartDelay(delay);
             animator.setInterpolator(new LinearInterpolator());
@@ -141,6 +143,13 @@ public interface ViewHolderInterface {
 
         public void startObjectScroll() {
             animator.addListener(new DelayAnimation(delay));
+            animator.addUpdateListener(animation -> {
+                float value = (float) animation.getAnimatedValue();
+                if (value < viewWidth-(itemWidth + 49)) {
+                    animation.pause();
+                    new Handler().postDelayed(animation::resume, delay);
+                }
+            });
             animator.start();
         }
     }
