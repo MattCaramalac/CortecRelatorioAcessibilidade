@@ -13,7 +13,6 @@ import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -39,6 +38,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.GenReportDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnEntryClickListener;
 import com.mpms.relatorioacessibilidadecortec.adapter.OnPopupClickListener;
@@ -241,29 +241,6 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
         @Override
         public ListenableFuture<List<BlockSpaceEntry>> apply(SchoolEntry input) throws Exception {
             ListenableFuture<List<BlockSpaceEntry>> blocks = modelEntry.getListAllBlocks(input.getCadID());
-            blockList = blocks.get();
-            for (int k = blockCounter; k < blockList.size(); k++) {
-                if (blockList.get(k).getBlockSpaceType() == 0)
-                    blockQnt++;
-                else if (blockList.get(k).getBlockSpaceType() == 2)
-                    hasHelpSpace = true;
-            }
-            blockCounter = blockList.size();
-            return blocks;
-        }
-    };
-
-    AsyncFunction<Integer, List<Integer>> asyncFunBlockID = new AsyncFunction<Integer, List<Integer>>() {
-        @Override
-        public ListenableFuture<List<Integer>> apply(Integer input) throws Exception {
-            return modelEntry.getListAllBlocksID(schoolID);
-        }
-    };
-
-    AsyncCallable<List<BlockSpaceEntry>> asyncBlocks = new AsyncCallable<List<BlockSpaceEntry>>() {
-        @Override
-        public ListenableFuture<List<BlockSpaceEntry>> call() throws Exception {
-            ListenableFuture<List<BlockSpaceEntry>> blocks = modelEntry.getListAllBlocks(schoolID);
             blockList = blocks.get();
             for (int k = blockCounter; k < blockList.size(); k++) {
                 if (blockList.get(k).getBlockSpaceType() == 0)
@@ -1144,9 +1121,15 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
             ViewModelEntry.updateReportSent(schoolID);
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            endRegister = 0;
             startActivity(intent);
         } else
             endRegister = 0;
+
+        blockDataQueries.clear();
+        intParkQnt = 0;
+        extParkQnt = 0;
+        schoolID = 0;
 
         super.onRestart();
     }
@@ -1286,8 +1269,12 @@ public class MainActivity extends AppCompatActivity implements OnEntryClickListe
         }
     }
 
-    public static void showProgress(boolean show) {
-        circBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+    public void showProgress(boolean show) {
+        if (show)
+            GenReportDialog.showProgressDialog(getSupportFragmentManager());
+        else
+            GenReportDialog.closeDialog(getSupportFragmentManager());
+
     }
 
 

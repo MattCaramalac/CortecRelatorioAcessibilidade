@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Dialogs.DialogClass.GenReportDialog">
+
+    <TextView
+        android:id="@+id/first_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gerando Relatório"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"/>
+
+    <TextView
+        android:id="@+id/second_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Por favor, aguarde"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/first_text"
+        android:layout_marginTop="@dimen/usual_padding"/>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorSize="80dp"
+        app:trackThickness="8dp"
+        android:indeterminate="true"
+        android:layout_below="@id/second_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:trackCornerRadius="@dimen/usual_padding"/>
+
+</RelativeLayout>
