@@ -209,7 +209,8 @@ public class RampStairsFragment extends Fragment implements TagInterface {
     }
 
     public void loadRampStairsData(RampStairsEntry rampStairs) {
-        rampStairsLocValue.setText(rampStairs.getRampStairsLocation());
+        if (rampStairs.getRampStairsLocation() != null)
+            rampStairsLocValue.setText(rampStairs.getRampStairsLocation());
         if (rampStairs.getRampStairsPhoto() != null)
             photoValue.setText(rampStairs.getRampStairsPhoto());
     }

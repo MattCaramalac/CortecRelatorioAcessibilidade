@@ -245,13 +245,17 @@ public class PayPhoneFragment extends Fragment implements TagInterface, ScrollEd
     }
 
     private void loadPayPhoneData(PayPhoneEntry payPhone) {
-        payphoneRefValue.setText(payPhone.getPhoneRefPoint());
+        if (payPhone.getPhoneRefPoint() != null)
+            payphoneRefValue.setText(payPhone.getPhoneRefPoint());
         keyboardHeightValue.setText(String.valueOf(payPhone.getPhoneKeyboardHeight()));
         phoneHeightValue.setText(String.valueOf(payPhone.getPhoneHeight()));
         checkRadioGroup(payphoneTactileFloorRadio, payPhone.getHasTactileFloor());
         if (payPhone.getHasTactileFloor() == 1) {
-            checkRadioGroup(payphoneTactileColorRadio, payPhone.getRightColorTactileFloor());
-            tactFloorDistValue.setText(String.valueOf(payPhone.getTactFloorDist()));
+            if (payPhone.getRightColorTactileFloor() != null)
+                checkRadioGroup(payphoneTactileColorRadio, payPhone.getRightColorTactileFloor());
+            if (payPhone.getTactFloorDist() != null)
+                tactFloorDistValue.setText(String.valueOf(payPhone.getTactFloorDist()));
+            if (payPhone.getTactFloorWidth() != null)
             phoneTactileFloorWidthValue.setText(String.valueOf(payPhone.getTactFloorWidth()));
             if (payPhone.getTactFloorObs() != null)
                 tactileFloorObsValue.setText(payPhone.getTactFloorObs());

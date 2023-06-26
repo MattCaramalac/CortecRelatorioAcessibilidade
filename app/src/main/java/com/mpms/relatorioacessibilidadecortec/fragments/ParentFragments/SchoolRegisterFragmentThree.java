@@ -274,14 +274,19 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
             totalWorkersValue.setText(String.valueOf(school.getNumberWorkers()));
         if (school.getNumberWorkersPCD() != null)
             totalWorkersPcdValue.setText(String.valueOf(school.getNumberWorkersPCD()));
-        workersPcdDescriptionValue.setText(school.getWorkersPCDDescription());
+        if (school.getWorkersPCDDescription() != null)
+            workersPcdDescriptionValue.setText(school.getWorkersPCDDescription());
         if (school.getHasWorkersLibras() != null)
-            hasWorkersLibras.check(hasWorkersLibras.getChildAt(school.getHasWorkersLibras()).getId());
+            checkRadioGroup(hasWorkersLibras, school.getHasWorkersLibras());
+//            hasWorkersLibras.check(hasWorkersLibras.getChildAt().getId());
         if (school.getNumberWorkersLibras() != null)
             totalWorkersLibrasValue.setText(String.valueOf(school.getNumberWorkersLibras()));
-        workersLibrasDescriptionValue.setText(school.getWorkersLibrasDescriptions());
-        initialDateInspectionValue.setText(school.getInitialDateInspection());
-        finalDateInspectionValue.setText(school.getFinalDateInspection());
+        if (school.getWorkersLibrasDescriptions() != null)
+            workersLibrasDescriptionValue.setText(school.getWorkersLibrasDescriptions());
+        if (school.getInitialDateInspection() != null)
+            initialDateInspectionValue.setText(school.getInitialDateInspection());
+        if (school.getFinalDateInspection() != null)
+            finalDateInspectionValue.setText(school.getFinalDateInspection());
         sentReport = school.getReportSent();
     }
 
@@ -364,7 +369,7 @@ public class SchoolRegisterFragmentThree extends Fragment implements TagInterfac
             totalPcdEmployees = Integer.parseInt(String.valueOf(totalWorkersPcdValue.getText()));
         if (!TextUtils.isEmpty(workersPcdDescriptionValue.getText()))
             employeesPcdDescription = String.valueOf(workersPcdDescriptionValue.getText());
-        if (indexRadio(youngestMonthYearRadio) != -1) {
+        if (indexRadio(hasWorkersLibras) != -1) {
             hasLibrasEmployees = indexRadio(hasWorkersLibras);
             if (hasLibrasEmployees == 1) {
                 totalLibrasEmployees = Integer.valueOf(String.valueOf(totalWorkersLibrasValue.getText()));

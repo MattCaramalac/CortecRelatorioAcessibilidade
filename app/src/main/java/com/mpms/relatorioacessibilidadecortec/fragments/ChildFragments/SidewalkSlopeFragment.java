@@ -18,13 +18,11 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.SidewalkSlopeEntry;
 import com.mpms.relatorioacessibilidadecortec.model.ViewModelEntry;
 import com.mpms.relatorioacessibilidadecortec.util.RadioGroupInterface;
 import com.mpms.relatorioacessibilidadecortec.util.ScrollEditText;
 import com.mpms.relatorioacessibilidadecortec.util.TagInterface;
-import com.whygraphics.multilineradiogroup.MultiLineRadioGroup;
 
 import java.util.ArrayList;
 
@@ -331,7 +329,8 @@ public class SidewalkSlopeFragment extends Fragment implements TagInterface, Scr
     }
 
     private void loadSlopeData(SidewalkSlopeEntry sideSlope) {
-        slopeLocaleValue.setText(sideSlope.getSlopeLocation());
+        if (sideSlope.getSlopeLocation() != null)
+            slopeLocaleValue.setText(sideSlope.getSlopeLocation());
         slopeWidthValue.setText(String.valueOf(sideSlope.getSlopeWidth()));
         longCounter = sideSlope.getLongMeasureQnt();
         switch (longCounter) {

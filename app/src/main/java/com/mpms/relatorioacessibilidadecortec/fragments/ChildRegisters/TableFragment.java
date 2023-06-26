@@ -144,7 +144,7 @@ public class TableFragment extends Fragment implements TagInterface, ScrollEditT
         supHeightValue.setText(String.valueOf(tableEntry.getSuperiorBorderHeight()));
         infHeightValue.setText(String.valueOf(tableEntry.getInferiorBorderHeight()));
         tableWidthValue.setText(String.valueOf(tableEntry.getTableWidth()));
-        frontalApproxValue.setText(String.valueOf(tableEntry.getTableWidth()));
+        frontalApproxValue.setText(String.valueOf(tableEntry.getTableFrontalApprox()));
         freeWidthValue.setText(String.valueOf(tableEntry.getTableFreeWidth()));
         if (tableEntry.getTableObs() != null)
             obsValue.setText(tableEntry.getTableObs());

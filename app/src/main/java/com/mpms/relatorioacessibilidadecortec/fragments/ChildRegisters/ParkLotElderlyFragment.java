@@ -200,22 +200,28 @@ public class ParkLotElderlyFragment extends Fragment implements TagInterface, Sc
     }
 
     private void loadElderlyLotData(ParkingLotElderlyEntry elderlyEntry) {
-        elderVacLocalValue.setText(String.valueOf(elderlyEntry.getElderVacLocation()));
+        if (elderlyEntry.getElderVacLocation()  != null)
+            elderVacLocalValue.setText(elderlyEntry.getElderVacLocation());
         checkRadioGroup(hasVerticalSign, elderlyEntry.getHasElderlyVertSign());
         if (elderlyEntry.getHasElderlyVertSign() == 1) {
+            if (elderlyEntry.getElderlyVertSignLength() != null)
             elderVertSignLengthValue.setText(String.valueOf(elderlyEntry.getElderlyVertSignLength()));
+            if (elderlyEntry.getElderlyVertSingWidth() != null)
             elderVertSignWidthValue.setText(String.valueOf(elderlyEntry.getElderlyVertSingWidth()));
         }
-        verticalSignObsValue.setText(elderlyEntry.getElderlyVertSignObs());
+        if (elderlyEntry.getElderlyVertSignObs() != null)
+            verticalSignObsValue.setText(elderlyEntry.getElderlyVertSignObs());
         elderVacancyLengthValue.setText(String.valueOf(elderlyEntry.getElderlyVacancyLength()));
         elderVacancyWidthValue.setText(String.valueOf(elderlyEntry.getElderlyVacancyWidth()));
         elderVacancyLimitWidthValue.setText(String.valueOf(elderlyEntry.getElderlyVacancyLimiterWidth()));
-        elderVacancyObsValue.setText(elderlyEntry.getElderlyVacancyObs());
+        if (elderlyEntry.getElderlyVacancyObs() != null)
+            elderVacancyObsValue.setText(elderlyEntry.getElderlyVacancyObs());
         checkRadioGroup(hasFloorSign, elderlyEntry.getHasElderlyFloorIndicator());
         if (elderlyEntry.getHasElderlyFloorIndicator() == 1) {
             elderFloorSignWidthValue.setText(String.valueOf(elderlyEntry.getFloorIndicatorHeight()));
         }
-        elderFloorSignObsValue.setText(elderlyEntry.getFloorIndicatorObs());
+        if (elderlyEntry.getFloorIndicatorObs() != null)
+            elderFloorSignObsValue.setText(elderlyEntry.getFloorIndicatorObs());
         if (elderlyEntry.getParkElderPhoto() != null)
             photoValue.setText(elderlyEntry.getParkElderPhoto());
     }

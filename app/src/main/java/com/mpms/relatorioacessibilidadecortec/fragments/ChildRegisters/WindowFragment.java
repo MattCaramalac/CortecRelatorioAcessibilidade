@@ -158,7 +158,8 @@ public class WindowFragment extends Fragment implements TagInterface, ScrollEdit
     }
 
     private void loadWindowData(WindowEntry window) {
-        winLocationValue.setText(window.getWindowLocation());
+        if (window.getWindowLocation() != null)
+            winLocationValue.setText(window.getWindowLocation());
         windowQnt = window.getWinQnt();
         switch (windowQnt) {
             case 3:

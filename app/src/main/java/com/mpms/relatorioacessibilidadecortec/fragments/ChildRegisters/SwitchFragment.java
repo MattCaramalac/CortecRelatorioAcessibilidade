@@ -131,9 +131,12 @@ public class SwitchFragment extends Fragment implements TagInterface, ScrollEdit
     }
 
     private void loadSwitchData(SwitchEntry switchEntry) {
-        switchLocaleValue.setText(switchEntry.getSwitchLocation());
-        switchTypeValue.setText(switchEntry.getSwitchType());
-        switchHeightValue.setText(String.valueOf(switchEntry.getSwitchHeight()));
+        if (switchEntry.getSwitchLocation() != null)
+            switchLocaleValue.setText(switchEntry.getSwitchLocation());
+        if (switchEntry.getSwitchType() != null)
+            switchTypeValue.setText(switchEntry.getSwitchType());
+        if (switchEntry.getSwitchHeight() != null)
+            switchHeightValue.setText(String.valueOf(switchEntry.getSwitchHeight()));
         if (switchEntry.getSwitchObs() != null) {
             switchObsValue.setText(switchEntry.getSwitchObs());
         }

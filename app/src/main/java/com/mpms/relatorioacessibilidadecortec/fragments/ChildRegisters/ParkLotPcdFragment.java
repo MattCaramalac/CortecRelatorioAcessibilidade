@@ -216,14 +216,18 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
     }
 
     private void loadPcdLotData(ParkingLotPCDEntry pcdEntry) {
-        vacancyLocalValue.setText(pcdEntry.getPcdVacancyLocal());
+        if (pcdEntry.getPcdVacancyLocal() != null)
+            vacancyLocalValue.setText(pcdEntry.getPcdVacancyLocal());
         vacPositionRadio.checkAt(pcdEntry.getVacancyPosition());
         checkRadioGroup(hasVerticalSign, pcdEntry.getHasVisualPcdVertSign());
         if (pcdEntry.getHasVisualPcdVertSign() == 1) {
-            pcdVertLengthValue.setText(String.valueOf(pcdEntry.getVertPcdSignLength()));
-            pcdVertWidthValue.setText(String.valueOf(pcdEntry.getVertPcdSignWidth()));
+            if (pcdEntry.getVertPcdSignLength() != null)
+                pcdVertLengthValue.setText(String.valueOf(pcdEntry.getVertPcdSignLength()));
+            if (pcdEntry.getVertPcdSignWidth() != null)
+                pcdVertWidthValue.setText(String.valueOf(pcdEntry.getVertPcdSignWidth()));
         }
-        pcdVertSignObsValue.setText(pcdEntry.getVertPcdSignObs());
+        if (pcdEntry.getVertPcdSignObs() != null)
+            pcdVertSignObsValue.setText(pcdEntry.getVertPcdSignObs());
         pcdVacancyLengthValue.setText(String.valueOf(pcdEntry.getPcdVacancyLength()));
         pcdVacancyWidthValue.setText(String.valueOf(pcdEntry.getPcdVacancyWidth()));
         pcdVacLimiterWidthValue.setText(String.valueOf(pcdEntry.getPcdVacancyLimitWidth()));
@@ -232,11 +236,15 @@ public class ParkLotPcdFragment extends Fragment implements TagInterface, Scroll
             safetyZoneWidthValue.setText(String.valueOf(pcdEntry.getSecurityZoneWidth()));
        checkRadioGroup(hasSiaPcd, pcdEntry.getHasPcdSia());
         if (pcdEntry.getHasPcdSia() == 1) {
-            siaLengthValue.setText(String.valueOf(pcdEntry.getPcdSiaLength()));
-            siaWidthValue.setText(String.valueOf(pcdEntry.getPcdSiaWidth()));
+            if (pcdEntry.getPcdSiaLength() != null)
+                siaLengthValue.setText(String.valueOf(pcdEntry.getPcdSiaLength()));
+            if (pcdEntry.getPcdSiaWidth() != null)
+                siaWidthValue.setText(String.valueOf(pcdEntry.getPcdSiaWidth()));
         }
-        siaObsValue.setText(pcdEntry.getPcdSiaObs());
-        pcdVacancyObsValue.setText(pcdEntry.getPcdVacancyObs());
+        if (pcdEntry.getPcdSiaObs() != null)
+            siaObsValue.setText(pcdEntry.getPcdSiaObs());
+        if (pcdEntry.getPcdVacancyObs() != null)
+            pcdVacancyObsValue.setText(pcdEntry.getPcdVacancyObs());
         if (pcdEntry.getPcdPhoto() != null)
             photoValue.setText(pcdEntry.getPcdPhoto());
     }

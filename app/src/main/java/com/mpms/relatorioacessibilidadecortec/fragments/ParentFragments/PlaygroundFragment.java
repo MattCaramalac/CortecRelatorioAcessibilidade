@@ -108,7 +108,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
 
         savePlay.setOnClickListener(v -> {
             if (gateSillRadio.getCheckedRadioButtonIndex() > 0) {
-                getChildFragmentManager().setFragmentResult(InspectionActivity.GATHER_CHILD_DATA, childData);
+                getChildFragmentManager().setFragmentResult(GATHER_CHILD_DATA, childData);
             } else {
                 if (checkEmptyPlayFields()) {
                     PlaygroundEntry newPlayEntry = newPlayground(playBundle);
@@ -128,7 +128,7 @@ public class PlaygroundFragment extends Fragment implements TagInterface, Scroll
 
         cancelPlay.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStackImmediate());
 
-        getChildFragmentManager().setFragmentResultListener(InspectionActivity.CHILD_DATA_LISTENER, this, (key, bundle) -> {
+        getChildFragmentManager().setFragmentResultListener(CHILD_DATA_LISTENER, this, (key, bundle) -> {
             if (checkEmptyPlayFields()) {
                 bundle.putInt(BLOCK_ID, playBundle.getInt(BLOCK_ID));
                 PlaygroundEntry newPlayEntry = newPlayground(bundle);

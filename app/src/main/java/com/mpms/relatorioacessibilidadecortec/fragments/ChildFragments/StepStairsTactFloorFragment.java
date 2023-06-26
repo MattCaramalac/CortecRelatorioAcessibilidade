@@ -84,7 +84,6 @@ public class StepStairsTactFloorFragment extends Fragment implements TagInterfac
     private void loadTactFloorData(SingleStepEntry step) {
         if (step.getHasLowTact() != null) {
             checkRadioGroup(lowTactRadio, step.getHasLowTact());
-            int i = step.getHasLowTact();
             if (step.getHasLowTact() == 1) {
                 if (step.getLowTactDist() != null)
                     lowDistValue.setText(String.valueOf(step.getLowTactDist()));

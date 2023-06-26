@@ -21,7 +21,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mpms.relatorioacessibilidadecortec.Dialogs.DialogClass.CancelEntryDialog;
 import com.mpms.relatorioacessibilidadecortec.R;
-import com.mpms.relatorioacessibilidadecortec.activities.InspectionActivity;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExtAccessSocialOne;
 import com.mpms.relatorioacessibilidadecortec.data.entities.ExternalAccess;
 import com.mpms.relatorioacessibilidadecortec.data.parcels.VehicleExtAccParcel;
@@ -219,15 +218,18 @@ public class ExternalAccessFragment extends Fragment implements TagInterface, Sc
     }
 
     private void loadExtAccessInfo(ExternalAccess extAccess) {
-        entranceLocationValue.setText(extAccess.getAccessLocation());
-        entranceTypeRadio.check(entranceTypeRadio.getChildAt(extAccess.getEntranceType()).getId());
-        accessFloorRadio.check(accessFloorRadio.getChildAt(extAccess.getFloorIsAccessible()).getId());
+        if (extAccess.getAccessLocation() != null)
+            entranceLocationValue.setText(extAccess.getAccessLocation());
+        if (extAccess.getEntranceType() != null)
+            entranceTypeRadio.check(entranceTypeRadio.getChildAt(extAccess.getEntranceType()).getId());
+        if (extAccess.getFloorIsAccessible() != null)
+            accessFloorRadio.check(accessFloorRadio.getChildAt(extAccess.getFloorIsAccessible()).getId());
         if (extAccess.getAccessibleFloorObs() != null)
             accessFloorObsValue.setText(extAccess.getAccessibleFloorObs());
         if (extAccess.getExtAccPhotos() != null)
             photoValue.setText(extAccess.getExtAccPhotos());
 
-        getChildFragmentManager().setFragmentResult(InspectionActivity.LOAD_CHILD_DATA, extBundle);
+        getChildFragmentManager().setFragmentResult(LOAD_CHILD_DATA, extBundle);
     }
 
     private int getRadioCheckIndex(RadioGroup radio) {
